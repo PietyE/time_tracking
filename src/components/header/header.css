@@ -1,0 +1,35 @@
+.header_container {
+  height: 70px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px 0 rgba(218, 219, 219, 0.5);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header_wrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 1212px;
+  padding: 0 15px;
+}
+
+.header_section_container {
+  flex: 1;
+  display: flex;
+}
+
+.header_section_logo_container {
+  justify-content: flex-start;
+}
+
+.header_section_nav_container {
+  justify-content: center;
+}
+
+.header_section_profile_container {
+  justify-content: flex-end;
+}

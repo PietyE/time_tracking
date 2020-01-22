@@ -1,0 +1,26 @@
+.nav_section_container {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav_item {
+  margin: 0 2px;
+}
+
+.nav_item_link {
+  color: #222222;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  transition: all 0.3s;
+}
+
+.nav_item_link:hover {
+  color: #249c98;
+  text-decoration: none;
+  transition: all 0.3s;
+}

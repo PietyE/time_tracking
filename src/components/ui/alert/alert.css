@@ -1,0 +1,33 @@
+.container {
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  z-index: 9999;
+  width: 30%;
+  height: auto;
+  max-width: 350px;
+  animation: move 1s 1 ease-in-out;
+  outline: none;
+}
+
+.end_animation {
+  animation: opacityAn 0.5s 1 ease-in-out;
+}
+
+@keyframes move {
+  from {
+    right: -31%;
+  }
+  to {
+    right: 5px;
+  }
+}
+
+@keyframes opacityAn {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

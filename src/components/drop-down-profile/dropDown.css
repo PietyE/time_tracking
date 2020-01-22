@@ -1,0 +1,141 @@
+.drop_down_container {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  width: 250px;
+  height: 300px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px;
+  opacity: 1;
+  overflow: hidden;
+  border-top-right-radius: 3px;
+  animation: open 0.5s 1 ease-in-out;
+}
+
+.drop_down_header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.drop_down_logout_bnt_container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.drop_down_header_name {
+  font-size: 1.4rem;
+  width: 60%;
+  animation: name 0.5s 1 ease-in-out;
+  text-align: left;
+  position: absolute;
+  left: 70px;
+}
+
+.drop_down_logout_bnt {
+  border: none;
+  outline: none;
+  background-color: none;
+  width: 100%;
+  animation: button 0.5s 1 ease-in-out;
+}
+
+.header_line {
+  width: 100%;
+}
+
+.anim_back {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  opacity: 0.6;
+  border-top-right-radius: 3px;
+  top: 0;
+  padding: 0;
+  animation: close 0.35s 1 ease-in-out;
+}
+.anim_back .drop_down_header_name {
+  display: none;
+}
+
+@keyframes open {
+  from {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0.6;
+    border-top-right-radius: 3px;
+    top: 0;
+    padding: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    width: 250px;
+    height: 300px;
+    border-radius: 3px;
+    opacity: 1;
+    top: -15px;
+    padding: 15px;
+  }
+}
+
+@keyframes close {
+  from {
+    width: 250px;
+    height: 300px;
+    border-radius: 3px;
+    opacity: 1;
+    top: -15px;
+    padding: 15px;
+  }
+  to {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    border-top-right-radius: 3px;
+    top: 0;
+    padding: 0;
+  }
+}
+
+@keyframes button {
+  from {
+    width: 2px;
+    height: 2px;
+    opacity: 0.6;
+  }
+  to {
+    width: 100%;
+    height: auto;
+    opacity: 1;
+  }
+}
+
+@keyframes name {
+  from {
+    left: 170px;
+    font-size: 0.4rem;
+  }
+  to {
+    left: 70px;
+    font-size: 1.4rem;
+  }
+}
