@@ -24,12 +24,118 @@
 
 .header_section_logo_container {
   justify-content: flex-start;
+  order: 1;
 }
 
 .header_section_nav_container {
   justify-content: center;
+  order: 2;
 }
 
 .header_section_profile_container {
   justify-content: flex-end;
+  order: 3;
+}
+
+.nav_section_container {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobile_open_btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border: none;
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
+  background-color: #fff;
+  align-items: stretch;
+  cursor: pointer;
+  display: none;
+}
+
+.mobile_open_btn_two {
+  position: absolute;
+  top: 20px;
+  left: 15px;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.mobile_btn_line {
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  width: 100%;
+  height: 2px;
+}
+
+.nav_item {
+  margin: 0 2px;
+}
+
+.nav_item_link {
+  color: #222222;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  transition: all 0.3s;
+}
+
+.nav_item_link:hover {
+  color: #249c98;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+@media screen and (max-device-width: 900px) {
+  .header_section_logo_container {
+    order: 2;
+  }
+  .header_section_nav_container {
+    order: 1;
+    justify-content: flex-start;
+  }
+  .nav_section_container {
+    width: 40%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(218, 219, 219, 0.5);
+    padding-top: 80px;
+    opacity: 1;
+  }
+
+  .nav_item_link {
+    font-size: 2rem;
+    line-height: 4rem;
+  }
+
+  .open_menu {
+    transform: translateX(0);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .mobile_open_btn {
+    display: flex;
+  }
+
+  .open_menu .mobile_open_btn_two {
+    transition: all 0.3s ease-in-out;
+    left: 85%;
+  }
 }

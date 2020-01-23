@@ -7,13 +7,10 @@ import SpinnerStyled from "components/ui/spinner";
 
 import "styles/App.css";
 
-const Auth = lazy(() => import("./auth"));
-const Main = lazy(() => import("./main/Main"));
+const Auth = lazy(() => import("./AuthScreen"));
+const MainScreen = lazy(() => import("./MainScreen"));
 
-// import Auth from "components/auth";
-// import Main from "components/main/Main";
-
-class RouteComponent extends PureComponent {
+class RootRouteComponent extends PureComponent {
   constructor(props) {
     super(props);
     props.bootstrap();
@@ -25,7 +22,7 @@ class RouteComponent extends PureComponent {
           <Suspense fallback={<SpinnerStyled />}>
             <Switch>
               <Route path="/auth" component={Auth} />
-              <Route path="/" component={Main} />
+              <Route path="/" component={MainScreen} />
             </Switch>
           </Suspense>
         </div>
@@ -38,4 +35,4 @@ const actions = {
   bootstrap
 };
 
-export default connect(null, actions)(RouteComponent);
+export default connect(null, actions)(RootRouteComponent);

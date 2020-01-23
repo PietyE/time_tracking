@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
 import AlertStyled from "components/ui/alert";
-import RouteComponent from "components/RouteComponent";
+import RootRouteComponent from "screens/RootRouteComponent";
 
 class App extends PureComponent {
   render() {
@@ -10,7 +10,7 @@ class App extends PureComponent {
     return (
       <>
         {isShownAlert && <AlertStyled />}
-        <RouteComponent />
+        <RootRouteComponent />
       </>
     );
   }

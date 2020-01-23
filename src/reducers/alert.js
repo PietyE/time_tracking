@@ -1,7 +1,8 @@
 import {
   SHOW_ALERT,
   HIDE_ALERT,
-  START_SHOW_ALERT
+  START_SHOW_ALERT,
+  SET_MESSAGE
 } from "constants/actions-constant";
 import { WARNING_ALERT } from "constants/alert-constant";
 
@@ -15,7 +16,7 @@ const initial_state = {
 
 export const alert = (state = initial_state, action) => {
   switch (action.type) {
-    case SHOW_ALERT:
+    case SET_MESSAGE:
       return { ...state, ...action.payload };
     case START_SHOW_ALERT:
       return { ...state, isShownAlert: true };

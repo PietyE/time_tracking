@@ -2,19 +2,20 @@ import React, { memo } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
-import TimeReport from "components/time-report";
+import TimeReportScreen from "./TimeReportScreen";
 
-import { logOut } from "actions/users.js";
 import Header from "components/header";
+import BlogScreen from "./BlogScreen";
 
-function Main({ isOauth }) {
+function MainScreen({ isOauth }) {
   if (!isOauth) {
     return <Redirect to="/auth" />;
   }
   return (
     <>
       <Header />
-      <Route path="/timereport" component={TimeReport} exact />
+      <Route path="/timereport" component={TimeReportScreen} exct />
+      <Route path="/blog" component={BlogScreen} exct />
     </>
   );
 }
@@ -23,8 +24,4 @@ const mapStateToProps = state => ({
   isOauth: state.users.isOauth
 });
 
-const actions = {
-  logOut
-};
-
-export default connect(mapStateToProps, actions)(memo(Main));
+export default connect(mapStateToProps)(memo(MainScreen));

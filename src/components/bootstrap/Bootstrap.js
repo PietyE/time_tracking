@@ -18,7 +18,6 @@ class Bootstrap extends Component {
     const { isOauth } = this.props;
     if (isOauth) {
       return null;
-      //return <Redirect to="/" />;
     } else {
       return <Redirect to="/auth" />;
     }

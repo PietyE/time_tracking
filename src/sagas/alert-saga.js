@@ -1,9 +1,17 @@
-import { put, delay, takeEvery, select } from "redux-saga/effects";
+import {
+  put,
+  delay,
+  select,
+  actionChannel,
+  take,
+  call
+} from "redux-saga/effects";
 
-import { startShowAlert, hideAlert } from "actions/alert";
+import { startShowAlert, hideAlert, setMessage } from "actions/alert";
 import { SHOW_ALERT } from "constants/actions-constant";
 
-export function* showAlert() {
+export function* showAlert(data) {
+  yield put(setMessage(data));
   const delayMS = yield select(state => state.alert.delay);
   yield put(startShowAlert());
   yield delay(delayMS);
@@ -11,5 +19,9 @@ export function* showAlert() {
 }
 
 export function* watchshowAlert() {
-  yield takeEvery(SHOW_ALERT, showAlert);
+  const requestChan = yield actionChannel(SHOW_ALERT);
+  while (true) {
+    const { payload } = yield take(requestChan);
+    yield call(showAlert, payload);
+  }
 }
