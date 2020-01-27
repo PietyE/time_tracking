@@ -1,9 +1,44 @@
+.header_profile_container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.header_profile_btn {
+  border: none;
+  outline: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f3f3;
+  cursor: pointer;
+  position: absolute;
+  left: 85%;
+  top: -20px;
+}
+
+.header_profile_btn.bnt_open {
+  position: absolute;
+  z-index: 1;
+  left: 15px;
+  top: -20px;
+  transition: left 0.5s ease-in-out;
+}
+
 .drop_down_container {
   position: absolute;
-  top: -15px;
+  top: -25px;
   right: 0;
-  width: 250px;
-  height: 300px;
+  width: 320px;
+  height: 40vh;
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 400;
@@ -13,10 +48,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 15px;
+  padding: 0 15px 15px;
   opacity: 1;
   overflow: hidden;
-  border-top-right-radius: 3px;
   animation: open 0.5s 1 ease-in-out;
 }
 
@@ -26,6 +60,14 @@
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
+  padding-left: 60px;
+  padding-top: 10px;
+  overflow: hidden;
+}
+
+.drop_down_header_name {
+  font-size: 1.4rem;
+  animation: name 0.7s 1 ease-in-out;
 }
 
 .drop_down_logout_bnt_container {
@@ -38,19 +80,10 @@
   justify-content: flex-end;
 }
 
-.drop_down_header_name {
-  font-size: 1.4rem;
-  width: 60%;
-  animation: name 0.5s 1 ease-in-out;
-  text-align: left;
-  position: absolute;
-  left: 70px;
-}
-
 .drop_down_logout_bnt {
   border: none;
   outline: none;
-  background-color: none;
+  background-color: unset;
   width: 100%;
   animation: button 0.5s 1 ease-in-out;
 }
@@ -62,13 +95,12 @@
 .anim_back {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   opacity: 0.6;
-  border-top-right-radius: 3px;
   top: 0;
   padding: 0;
   animation: close 0.35s 1 ease-in-out;
 }
+
 .anim_back .drop_down_header_name {
   display: none;
 }
@@ -77,9 +109,7 @@
   from {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     opacity: 0.6;
-    border-top-right-radius: 3px;
     top: 0;
     padding: 0;
   }
@@ -87,12 +117,12 @@
     opacity: 1;
   }
   to {
-    width: 250px;
-    height: 300px;
+    top: -25px;
+    right: 0;
+    width: 320px;
+    height: 40vh;
     border-radius: 3px;
     opacity: 1;
-    top: -15px;
-    padding: 15px;
   }
 }
 
@@ -108,9 +138,7 @@
   to {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     opacity: 1;
-    border-top-right-radius: 3px;
     top: 0;
     padding: 0;
   }
@@ -131,11 +159,29 @@
 
 @keyframes name {
   from {
-    left: 170px;
-    font-size: 0.4rem;
+    font-size: 0rem;
   }
   to {
-    left: 70px;
     font-size: 1.4rem;
+  }
+}
+
+
+@media screen and (max-device-width: 900px) {
+  .header_profile_btn {
+    width: 70px;
+    height: 70px;
+    left: 65%;
+    top: -35px;
+  }
+  .header_profile_btn.bnt_open {
+    position: absolute;
+    z-index: 1;
+    left: -110px;
+    top: -35px;
+    transition: left 0.5s ease-in-out;
+  }
+  .drop_down_header {
+    padding-left: 90px;
   }
 }

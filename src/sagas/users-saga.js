@@ -1,4 +1,4 @@
-import { takeEvery, put, call, take } from "redux-saga/effects";
+import { put, call, takeEvery } from "redux-saga/effects";
 
 // import { fetchApi } from "utils/fetchApi";
 import { setUsersOauthData, cleanUserOauthData } from "actions/users";
@@ -37,7 +37,7 @@ function* bootstrap() {
   }
 }
 
-function* logIn(data) {
+function* logIn({ payload: data }) {
   try {
     if (typeof data === "object" && data) {
       if (data.error) {
@@ -70,7 +70,6 @@ function* logOut() {
   try {
     yield put(cleanUserOauthData());
     yield call([localStorage, "clear"]);
-    console.log("logOut");
   } catch (error) {
     yield put(
       showAler({
@@ -83,23 +82,7 @@ function* logOut() {
 }
 
 export function* watchGetUserAsync() {
-  while (true) {
-    yield take(BOOTSTRAP);
-    const isAuth = yield call(bootstrap);
-
-    if (isAuth) {
-      yield take(LOG_OUT);
-
-      yield call(logOut);
-    } else {
-      const { payload } = yield take(LOG_IN);
-
-      const access_token = yield call(logIn, payload);
-      if (access_token) {
-        yield take(LOG_OUT);
-
-        yield call(logOut);
-      }
-    }
-  }
+  yield takeEvery(BOOTSTRAP, bootstrap);
+  yield takeEvery(LOG_IN, logIn);
+  yield takeEvery(LOG_OUT, logOut);
 }

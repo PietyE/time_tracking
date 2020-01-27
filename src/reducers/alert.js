@@ -1,5 +1,4 @@
 import {
-  SHOW_ALERT,
   HIDE_ALERT,
   START_SHOW_ALERT,
   SET_MESSAGE

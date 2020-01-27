@@ -1,3 +1,3 @@
-import HeaderNav from "./HeaderNav";
+import HeaderNav from "./HeaderNav.jsx";
 
 export default HeaderNav;

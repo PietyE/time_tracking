@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import "./header.css";
 import logo from "images/Logo2.svg";
 import HeaderNav from "components/header-nav";
-import HeadrePropfileSection from "components/headre-profile-section";
+import HeaderProfileSection from "components/header-profile-section";
 
 const Header = () => {
   console.log("render Header");
@@ -11,13 +11,13 @@ const Header = () => {
     <div className="header_container">
       <div className="header_wrap">
         <div className="header_section_container header_section_logo_container">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className={'company_logo'}/>
         </div>
         <div className="header_section_container header_section_nav_container">
           <HeaderNav />
         </div>
         <div className="header_section_container header_section_profile_container">
-          <HeadrePropfileSection />
+          <HeaderProfileSection />
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+
 import userIcon from "images/user-icon.svg";
+import { getUserAvatarUrl } from "selectors/user";
 
 import "./avatar.css";
 
@@ -31,13 +33,8 @@ function ProfileAvatar({ profileFoto, className }) {
   );
 }
 
-const mapStateToProps = state => {
-  const {
-    users: { googleOAuthData }
-  } = state;
-  return {
-    profileFoto: googleOAuthData.imageUrl
-  };
-};
+const mapStateToProps = state => ({
+  profileFoto: getUserAvatarUrl(state)
+});
 
 export default connect(mapStateToProps)(ProfileAvatar);

@@ -1,29 +1,47 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import "./headerNav.css";
 
 function HeaderNav() {
   const [isOpenMenu, setstateMenu] = useState(false);
+  
   const activeTabStale = {
     color: "#249c98"
   };
-  const handlerOpneMenu = () => {
+  
+  const handlerOpenMenu = () => {
     setstateMenu(!isOpenMenu);
+    document.addEventListener("click", callbackEventListener);
   };
+
+  const callbackEventListener = () => {
+    setstateMenu(false);
+    document.removeEventListener("click", callbackEventListener);
+  };
+
+  useEffect(() => {
+    const _clear = () => {
+      document.removeEventListener("click", callbackEventListener);
+    }
+    return () => {
+      _clear()
+    };
+  }, []);
+
   const classWhenOpenMenu = isOpenMenu ? "open_menu" : "";
   return (
     <>
-      <button className="mobile_open_btn" onClick={handlerOpneMenu}>
-        <span className="mobile_btn_line"></span>
+      <button
+        className={`mobile_open_btn ${classWhenOpenMenu}`}
+        onClick={handlerOpenMenu}
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
       <ul className={`nav_section_container ${classWhenOpenMenu}`}>
-        <button
-          className="mobile_open_btn mobile_open_btn_two"
-          onClick={handlerOpneMenu}
-        >
-          <span className="mobile_btn_line"></span>
-        </button>
         <li className="nav_item">
           <NavLink
             to="/blog"
