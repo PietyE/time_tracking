@@ -4,21 +4,27 @@ import { NavLink } from "react-router-dom";
 import "./headerNav.css";
 
 function HeaderNav() {
-  const [isOpenMenu, setstateMenu] = useState(false);
+  const [isOpenMenu, setStateMenu] = useState(false);
   
   const activeTabStale = {
     color: "#249c98"
   };
   
   const handlerOpenMenu = () => {
-    setstateMenu(!isOpenMenu);
-    document.addEventListener("click", callbackEventListener);
+    setStateMenu(!isOpenMenu);
+  
   };
 
   const callbackEventListener = () => {
-    setstateMenu(false);
+    setStateMenu(false);
     document.removeEventListener("click", callbackEventListener);
   };
+  
+  useEffect(() => {
+    if(isOpenMenu) {
+      document.addEventListener("click", callbackEventListener);
+    }
+  }, [isOpenMenu]);
 
   useEffect(() => {
     const _clear = () => {

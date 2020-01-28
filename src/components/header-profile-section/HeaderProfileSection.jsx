@@ -30,7 +30,6 @@ function HeaderProfileSection({userName, logOut}) {
   const btnClass = isOpen ? 'bnt_open' : ''
   return (
     <div className="header_profile_container">
-      <div className={`list_item_container`}>
         <button
           className={`header_profile_btn ${btnClass}`}
           onClick={handlerDropDown}
@@ -52,7 +51,6 @@ function HeaderProfileSection({userName, logOut}) {
             </Button>
           </div>
         </div>)}
-      </div>
     </div>
   );
 }

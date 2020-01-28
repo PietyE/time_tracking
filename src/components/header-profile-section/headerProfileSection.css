@@ -19,18 +19,17 @@
   align-items: center;
   justify-content: center;
   background-color: #f3f3f3;
-  cursor: pointer;
-  position: absolute;
-  left: 85%;
+  right: 0px;
   top: -20px;
 }
 
 .header_profile_btn.bnt_open {
   position: absolute;
   z-index: 1;
-  left: 15px;
+  left: unset;
+  right: 270px;
   top: -20px;
-  transition: left 0.5s ease-in-out;
+  transition: right 0.5s ease-in-out;
 }
 
 .drop_down_container {
@@ -62,7 +61,6 @@
   overflow: hidden;
   padding-left: 60px;
   padding-top: 10px;
-  overflow: hidden;
 }
 
 .drop_down_header_name {
@@ -159,7 +157,7 @@
 
 @keyframes name {
   from {
-    font-size: 0rem;
+    font-size: 0;
   }
   to {
     font-size: 1.4rem;
@@ -167,21 +165,41 @@
 }
 
 
-@media screen and (max-device-width: 900px) {
-  .header_profile_btn {
-    width: 70px;
-    height: 70px;
-    left: 65%;
-    top: -35px;
+@keyframes open420 {
+  from {
+    height: 40px;
+    opacity: 0.6;
+    top: 0;
+    padding: 0;
   }
-  .header_profile_btn.bnt_open {
-    position: absolute;
-    z-index: 1;
-    left: -110px;
-    top: -35px;
-    transition: left 0.5s ease-in-out;
+  20% {
+    opacity: 1;
   }
-  .drop_down_header {
-    padding-left: 90px;
+  to {
+    top: -25px;
+    right: -15px;
+    /*width: 320px;*/
+    height: 98vh;
+    border-radius: 3px;
+    opacity: 1;
   }
 }
+@media screen and (max-device-width: 900px) {
+
+
+}
+
+@media screen and (max-device-width: 420px) {
+  .drop_down_container {
+    height: 98vh;
+    right: -15px;
+    animation: open420 0.5s 1 ease-in-out;
+  }
+
+  .header_profile_btn.bnt_open {
+    right: 245px;
+  }
+
+
+}
+
