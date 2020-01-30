@@ -17,7 +17,7 @@ class RootRouteComponent extends PureComponent {
   }
   render() {
     return (
-      <Router>
+      <Router basename='time-tracker'>
         <div className="App">
           <Suspense fallback={<SpinnerStyled />}>
             <Switch>

@@ -37,7 +37,7 @@
   top: -25px;
   right: 0;
   width: 320px;
-  height: 40vh;
+  height: 70vh;
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 400;
@@ -118,7 +118,7 @@
     top: -25px;
     right: 0;
     width: 320px;
-    height: 40vh;
+    height: 70vh;
     border-radius: 3px;
     opacity: 1;
   }
@@ -179,19 +179,15 @@
     top: -25px;
     right: -15px;
     /*width: 320px;*/
-    height: 98vh;
+    height: 70vh;
     border-radius: 3px;
     opacity: 1;
   }
 }
-@media screen and (max-device-width: 900px) {
-
-
-}
 
 @media screen and (max-device-width: 420px) {
   .drop_down_container {
-    height: 98vh;
+    height: 70vh;
     right: -15px;
     animation: open420 0.5s 1 ease-in-out;
   }
