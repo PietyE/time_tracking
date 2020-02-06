@@ -4,32 +4,38 @@ import {
   CLEAN_USER_OAUTH_DATA,
   LOG_IN,
   LOG_OUT,
-  BOOTSTRAP
-} from "constants/actions-constant";
+  BOOTSTRAP,
+  SET_AUTH_STATUS,
+} from 'constants/actions-constant'
 
 export const setUsersOauthData = payload => ({
   type: SET_USER_OAUTH_DATA,
-  payload
-});
+  payload,
+})
 
 export const shownAlert = payload => ({
   type: SHOW_ALERT,
-  payload
-});
+  payload,
+})
 
 export const cleanUserOauthData = () => ({
-  type: CLEAN_USER_OAUTH_DATA
-});
+  type: CLEAN_USER_OAUTH_DATA,
+})
 
 export const bootstrap = () => ({
-  type: BOOTSTRAP
-});
+  type: BOOTSTRAP,
+})
 
 export const logIn = payload => ({
   type: LOG_IN,
-  payload
-});
+  payload,
+})
 
 export const logOut = () => ({
-  type: LOG_OUT
-});
+  type: LOG_OUT,
+})
+
+export const setAuthStatus = payload => ({
+  type: SET_AUTH_STATUS,
+  payload,
+})

@@ -1,3 +1,3 @@
-import SpinnerStyled from "./SpinnerStyled";
+import SpinnerStyled from './SpinnerStyled'
 
-export default SpinnerStyled;
+export default SpinnerStyled

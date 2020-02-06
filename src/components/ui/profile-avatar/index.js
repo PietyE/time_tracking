@@ -1,3 +1,3 @@
-import ProfileAvatar from "./ProfileAvatar";
+import ProfileAvatar from './ProfileAvatar'
 
-export default ProfileAvatar;
+export default ProfileAvatar

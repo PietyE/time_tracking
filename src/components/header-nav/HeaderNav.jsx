@@ -1,52 +1,47 @@
-import React, { memo, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { memo, useEffect, useState, useCallback } from 'react'
+import { NavLink } from 'react-router-dom'
 
-import "./headerNav.css";
+import ButtonHeaderNav from './components/ButtonHeaderNav'
+import './headerNav.css'
 
 function HeaderNav() {
-  const [isOpenMenu, setStateMenu] = useState(false);
-  
-  const activeTabStale = {
-    color: "#249c98"
-  };
-  
-  const handlerOpenMenu = () => {
-    setStateMenu(!isOpenMenu);
-  
-  };
+  const [isOpenMenu, setStateMenu] = useState(false)
 
-  const callbackEventListener = () => {
-    setStateMenu(false);
-    document.removeEventListener("click", callbackEventListener);
-  };
-  
+  const activeTabStale = {
+    color: '#249c98',
+  }
+
+  const handlerOpenMenu = () => {
+    setStateMenu(!isOpenMenu)
+  }
+
+  const callbackEventListener = useCallback(() => {
+    setStateMenu(false)
+    document.removeEventListener('click', callbackEventListener)
+  }, [])
+
   useEffect(() => {
-    if(isOpenMenu) {
-      document.addEventListener("click", callbackEventListener);
+    if (isOpenMenu) {
+      document.addEventListener('click', callbackEventListener)
     }
-  }, [isOpenMenu]);
+  }, [isOpenMenu, callbackEventListener])
 
   useEffect(() => {
     const _clear = () => {
-      document.removeEventListener("click", callbackEventListener);
+      document.removeEventListener('click', callbackEventListener)
     }
     return () => {
       _clear()
-    };
-  }, []);
+    }
+  }, [callbackEventListener])
 
-  const classWhenOpenMenu = isOpenMenu ? "open_menu" : "";
+  const classWhenOpenMenu = isOpenMenu ? 'open_menu' : ''
   return (
     <>
-      <button
-        className={`mobile_open_btn ${classWhenOpenMenu}`}
-        onClick={handlerOpenMenu}
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <ButtonHeaderNav
+        handlerOpenMenu={handlerOpenMenu}
+        classWhenOpenMenu={classWhenOpenMenu}
+      />
       <ul className={`nav_section_container ${classWhenOpenMenu}`}>
         <li className="nav_item">
           <NavLink
@@ -86,7 +81,7 @@ function HeaderNav() {
         </li>
       </ul>
     </>
-  );
+  )
 }
 
-export default memo(HeaderNav);
+export default memo(HeaderNav)

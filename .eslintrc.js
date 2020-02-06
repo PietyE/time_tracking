@@ -8,7 +8,7 @@ module.exports = {
   ecmaFeatures: {
     jsx: true
   },
-  plugins: ["react"],
+  plugins: ["react", "react-hooks"],
   extends: ["eslint:recommended", "plugin:react/recommended"],
   rules: {
     "react/display-name": [0, { ignoreTranspilerName: 1 }],
@@ -16,7 +16,9 @@ module.exports = {
     "no-use-before-define": "off",
     // "react/jsx-filename-extension": "on",
     // "react/prop-types": "on",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   globals: {
     fetch: false

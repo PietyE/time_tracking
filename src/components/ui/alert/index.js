@@ -1,3 +1,3 @@
-import AlertStyled from "./AlertStyled";
+import AlertStyled from './AlertStyled'
 
-export default AlertStyled;
+export default AlertStyled

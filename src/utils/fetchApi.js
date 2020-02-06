@@ -1,40 +1,44 @@
-import axios from "axios";
+import axios from 'axios'
+
+import { BASE_URL } from 'constants/url-constant'
+import { getTokenKeyFromLocalStorage } from './common'
 
 export const fetchApi = async ({
   url,
   body = null,
-  method = "get",
+  method = 'get',
   customHeaders,
   authenticated = true,
   ...rest
 }) => {
   let headers = {
-    "Content-Type": "application/json"
-  };
+    'Content-Type': 'application/json',
+  }
 
-  const URL = url; //`${BASE_URL}/${url}`
-  const data = body;
+  //const URL = `${BASE_URL}/${url}`;
+  const URL = `/${url}`
+  const data = body
 
-  // if (authenticated) {
-  //   const token = await AsyncStorage.getItem('userToken')
-  //   if (token) {
-  //     headers['Authorization'] = `Bearer ${token}`
-  //   }
-  // }
+  if (authenticated) {
+    const token = getTokenKeyFromLocalStorage()
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+  }
 
   if (customHeaders) {
-    headers = { ...headers, ...customHeaders };
+    headers = { ...headers, ...customHeaders }
   }
   const options = {
     url: URL,
     method,
     headers,
     data,
-    timeout: 10000,
-    ...rest
-  };
+    // timeout: 10000,
+    ...rest,
+  }
 
-  const response = await axios(options);
+  const response = await axios(options)
 
-  return response;
-};
+  return response
+}

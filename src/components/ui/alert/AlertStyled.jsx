@@ -1,40 +1,40 @@
-import React, {useEffect} from "react";
-import {connect} from "react-redux";
-import {Alert} from "react-bootstrap";
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
-import {hideAlert} from 'actions/alert';
+import { hideAlert } from 'actions/alert'
 import {
   getAlertDelaySelector,
   getAlertIsShownAlertSelector,
   getAlertMessageSelector,
   getAlertTitleSelector,
-  getAlertTypeSelector
-} from 'selectors/alert';
+  getAlertTypeSelector,
+} from 'selectors/alert'
 
-import "./alert.css";
+import './alert.css'
 
 function AlertStyled({
-                       type,
-                       message,
-                       title,
-                       delay,
-                       hideAlert,
-                       isShownAlert,
-                       dismissible = true
-                     }) {
+  type,
+  message,
+  title,
+  delay,
+  hideAlert,
+  isShownAlert,
+  dismissible = true,
+}) {
   const interval = setInterval(() => {
     if (isShownAlert) {
-      document.getElementById("alert").classList.add("end_animation");
+      document.getElementById('alert').classList.add('end_animation')
     }
-    clearInterval(interval);
-  }, delay - 400);
-  
+    clearInterval(interval)
+  }, delay - 400)
+
   useEffect(() => {
     return () => {
-      clearInterval(interval);
-    };
-  }, [interval]);
-  
+      clearInterval(interval)
+    }
+  }, [interval])
+
   return (
     <Alert
       variant={type}
@@ -46,7 +46,7 @@ function AlertStyled({
       <Alert.Heading>{title}</Alert.Heading>
       <p>{message}</p>
     </Alert>
-  );
+  )
 }
 
 const mapStateToProps = state => ({
@@ -54,9 +54,9 @@ const mapStateToProps = state => ({
   title: getAlertTitleSelector(state),
   message: getAlertMessageSelector(state),
   delay: getAlertDelaySelector(state),
-  isShownAlert: getAlertIsShownAlertSelector(state)
+  isShownAlert: getAlertIsShownAlertSelector(state),
 })
 
-const actions = {hideAlert};
+const actions = { hideAlert }
 
-export default connect(mapStateToProps, actions)(AlertStyled);
+export default connect(mapStateToProps, actions)(AlertStyled)

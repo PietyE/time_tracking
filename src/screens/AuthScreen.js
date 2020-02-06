@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
-import Auth from "components/auth";
+import Auth from 'components/auth'
 
-const AuthScreen = () => <Auth />;
+const AuthScreen = () => <Auth />
 
-export default AuthScreen;
+export default AuthScreen

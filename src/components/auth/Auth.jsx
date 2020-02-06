@@ -1,17 +1,18 @@
-import React, { memo } from "react";
-import { connect } from "react-redux";
-import GoogleLogin from "react-google-login";
-import { Redirect } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import React, { memo } from 'react'
+import { connect } from 'react-redux'
+import GoogleLogin from 'react-google-login'
+import { Redirect } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
-import { logIn } from "actions/users";
-import Logo from "components/ui/logo";
-import { CLIENT_ID } from "constants/auth-constant";
-import styles from "./styles.module.css";
-import googleIcon from "images/google-icon.svg";
+import { logIn } from 'actions/users'
+import { getUserAuthStatus } from 'selectors/user'
+import Logo from 'components/ui/logo'
+import { CLIENT_ID } from 'constants/auth-constant'
+import styles from './styles.module.css'
+import googleIcon from 'images/google-icon.svg'
 
 function Auth(props) {
-  const { logIn, isOauth } = props;
+  const { logIn, isAuth } = props
 
   const GoogleButton = renderProps => (
     <Button
@@ -22,10 +23,12 @@ function Auth(props) {
       <img src={googleIcon} alt="google icon" className={styles.logo} />
       <span className={styles.text_button}>Log in with google</span>
     </Button>
-  );
-  if (isOauth) {
-    return <Redirect to="/" />;
+  )
+
+  if (isAuth) {
+    return <Redirect to="/" />
   }
+
   return (
     <div className={styles.container}>
       <span className={styles.logo_container}>
@@ -38,19 +41,19 @@ function Auth(props) {
           render={GoogleButton}
           onSuccess={logIn}
           onFailure={logIn}
-          cookiePolicy={"single_host_origin"}
+          cookiePolicy={'single_host_origin'}
         />
       </div>
     </div>
-  );
+  )
 }
 
 const mapStateToProps = state => ({
-  isOauth: state.users.isOauth
-});
+  isAuth: getUserAuthStatus(state),
+})
 
 const actions = {
-  logIn
-};
+  logIn,
+}
 
-export default connect(mapStateToProps, actions)(memo(Auth));
+export default connect(mapStateToProps, actions)(memo(Auth))

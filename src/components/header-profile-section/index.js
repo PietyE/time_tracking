@@ -1,3 +1,3 @@
-import HeaderProfileSection from "./HeaderProfileSection";
+import HeaderProfileSection from './HeaderProfileSection'
 
-export default HeaderProfileSection;
+export default HeaderProfileSection

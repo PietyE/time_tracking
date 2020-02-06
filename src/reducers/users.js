@@ -1,21 +1,23 @@
 import {
   SET_USER_OAUTH_DATA,
-  CLEAN_USER_OAUTH_DATA
-} from "constants/actions-constant";
+  CLEAN_USER_OAUTH_DATA,
+  SET_AUTH_STATUS,
+} from 'constants/actions-constant'
 
 const initial_state = {
-  googleOAuthData: {},
-  isOauth: false,
-  isFetchingUsers: false
-};
+  isAuth: true,
+  isFetchingUsers: false,
+}
 
-export const users = (state = initial_state, action) => {
+export const profile = (state = initial_state, action) => {
   switch (action.type) {
     case SET_USER_OAUTH_DATA:
-      return { ...state, googleOAuthData: action.payload, isOauth: true };
+      return { ...state, ...action.payload }
     case CLEAN_USER_OAUTH_DATA:
-      return { ...state, googleOAuthData: {}, isOauth: false };
+      return initial_state
+    case SET_AUTH_STATUS:
+      return { ...state, isAuth: action.payload }
     default:
-      return state;
+      return state
   }
-};
+}

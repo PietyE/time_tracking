@@ -1,8 +1,8 @@
-import { all } from "redux-saga/effects";
+import { all } from 'redux-saga/effects'
 
-import { watchGetUserAsync } from "./users-saga";
-import { watchshowAlert } from "./alert-saga";
+import { watchGetUserAsync } from './users-saga'
+import { watchshowAlert } from './alert-saga'
 
 export function* rootSaga() {
-  yield all([watchGetUserAsync(), watchshowAlert()]);
+  yield all([watchGetUserAsync(), watchshowAlert()])
 }

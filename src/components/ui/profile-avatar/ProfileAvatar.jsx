@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
-import userIcon from "images/user-icon.svg";
-import { getUserAvatarUrl } from "selectors/user";
+import userIcon from 'images/user-icon.svg'
+import { getUserAvatarUrl } from 'selectors/user'
 
-import "./avatar.css";
+import './avatar.css'
 
 function ProfileAvatar({ profileFoto, className }) {
-  const defaultClassName = `header_profile_avatar ${className}`;
-  const [isError, setStateError] = useState(false);
+  const defaultClassName = `header_profile_avatar ${className}`
+  const [isError, setStateError] = useState(false)
 
   const handlerLoad = () => {
     if (isError) {
-      setStateError(false);
+      setStateError(false)
     }
-  };
+  }
 
   const handleImgError = error => {
-    setStateError(true);
-  };
+    setStateError(true)
+  }
 
   return (
     <img
@@ -30,11 +30,11 @@ function ProfileAvatar({ profileFoto, className }) {
       onError={handleImgError}
       onLoad={handlerLoad}
     />
-  );
+  )
 }
 
 const mapStateToProps = state => ({
-  profileFoto: getUserAvatarUrl(state)
-});
+  profileFoto: getUserAvatarUrl(state),
+})
 
-export default connect(mapStateToProps)(ProfileAvatar);
+export default connect(mapStateToProps)(ProfileAvatar)

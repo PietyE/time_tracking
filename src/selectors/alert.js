@@ -1,6 +1,6 @@
-const getAlertData = state => state.alert;
+const getAlertData = state => state.alert
 
-const getAlertTypeSelector = state => getAlertData(state).type;
+const getAlertTypeSelector = state => getAlertData(state).type
 
 const getAlertTitleSelector = state => getAlertData(state).title
 
@@ -11,9 +11,9 @@ const getAlertDelaySelector = state => getAlertData(state).delay
 const getAlertIsShownAlertSelector = state => getAlertData(state).isShownAlert
 
 export {
-    getAlertTypeSelector,
-    getAlertTitleSelector,
-    getAlertDelaySelector,
-    getAlertIsShownAlertSelector,
-    getAlertMessageSelector
+  getAlertTypeSelector,
+  getAlertTitleSelector,
+  getAlertDelaySelector,
+  getAlertIsShownAlertSelector,
+  getAlertMessageSelector,
 }

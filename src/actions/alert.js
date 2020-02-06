@@ -2,8 +2,8 @@ import {
   SHOW_ALERT,
   HIDE_ALERT,
   START_SHOW_ALERT,
-  SET_MESSAGE
-} from "constants/actions-constant";
+  SET_MESSAGE,
+} from 'constants/actions-constant'
 
 /**
  * Action to manually create aler message
@@ -18,18 +18,18 @@ import {
 
 export const showAler = payload => ({
   type: SHOW_ALERT,
-  payload
-});
+  payload,
+})
 
 export const setMessage = payload => ({
   type: SET_MESSAGE,
-  payload
-});
+  payload,
+})
 
 export const startShowAlert = () => ({
-  type: START_SHOW_ALERT
-});
+  type: START_SHOW_ALERT,
+})
 
 export const hideAlert = () => ({
-  type: HIDE_ALERT
-});
+  type: HIDE_ALERT,
+})

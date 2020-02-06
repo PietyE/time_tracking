@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
-import Blog from "components/blog";
+import Blog from 'components/blog'
 
-const BlogScreen = () => <Blog />;
+const BlogScreen = () => <Blog />
 
-export default BlogScreen;
+export default BlogScreen
