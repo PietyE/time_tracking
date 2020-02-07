@@ -15,8 +15,8 @@ export const fetchApi = async ({
     'Content-Type': 'application/json',
   }
 
-  //const URL = `${BASE_URL}/${url}`;
-  const URL = `/${url}`
+  const URL = `${BASE_URL}/${url}`;
+  // const URL = `/${url}`
   const data = body
 
   if (authenticated) {
