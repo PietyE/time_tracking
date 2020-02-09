@@ -1,7 +1,7 @@
 variables:
 - group: DOKKU_DEV_FRONT_VARIABLES
 - name: DOKKU_PROJECT_NAME
-  value: time-tracking-fontend
+  value: time-tracking-frontend
 
 trigger:
 - dev
