@@ -619,10 +619,10 @@ def deploy(ctx, env, branch=None, force=False):
 
 @task
 def setup_server(ctx, env):
-    # check_server_connection(ctx, env)
-    # install_dokku(ctx, env)
-    # add_key_to_dokku(ctx, env)  # use this command only once
-    # create_project(ctx, env)
+    check_server_connection(ctx, env)
+    install_dokku(ctx, env)
+    add_key_to_dokku(ctx, env)  # use this command only once
+    create_project(ctx, env)
 
     # postgres
     # install_postgres_plugin(ctx, env)
@@ -634,7 +634,7 @@ def setup_server(ctx, env):
     # create_redis_service(ctx, env)
     # link_redis_service(ctx, env)
 
-    # create_env_variables(ctx, env)
+    create_env_variables(ctx, env)
     #
     # # git
     add_remote_branch(ctx, env)
@@ -643,4 +643,4 @@ def setup_server(ctx, env):
     deploy(ctx, env)
 
     # letsencrypt
-    # install_letsencrypt_plugin(ctx, env)
+    install_letsencrypt_plugin(ctx, env)
