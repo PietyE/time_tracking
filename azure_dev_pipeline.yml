@@ -19,5 +19,6 @@ steps:
 - script: |
     git remote add dokku dokku@$DOKKU_SERVER:$DOKKU_PROJECT_NAME
     git remote -v
-    git push dokku HEAD:master --force
+    ls -la /home/vsts/work/_temp/
+    git push dokku dev:master --force
   displayName: 'Deploy to Dokku'
