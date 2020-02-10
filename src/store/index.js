@@ -4,8 +4,9 @@ import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from 'sagas/rootSaga.js'
 import { profile } from 'reducers/users'
 import { alert } from 'reducers/alert'
+import { error } from 'reducers/error'
 
-const rootReducer = combineReducers({ profile, alert })
+const rootReducer = combineReducers({ profile, alert, error })
 
 const sagaMiddleware = createSagaMiddleware()
 

@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+import store from 'store'
 import { BASE_URL } from 'constants/url-constant'
 import { getTokenKeyFromLocalStorage } from './common'
+import { setErrorData } from 'actions/error'
 
 export const fetchApi = async ({
   url,
@@ -11,34 +13,48 @@ export const fetchApi = async ({
   authenticated = true,
   ...rest
 }) => {
-  let headers = {
-    'Content-Type': 'application/json',
-  }
-
-  //const URL = `${BASE_URL}/${url}`;
-  const URL = `/${url}`
-  const data = body
-
-  if (authenticated) {
-    const token = getTokenKeyFromLocalStorage()
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
+  try {
+    let headers = {
+      'Content-Type': 'application/json',
     }
-  }
 
-  if (customHeaders) {
-    headers = { ...headers, ...customHeaders }
-  }
-  const options = {
-    url: URL,
-    method,
-    headers,
-    data,
-    // timeout: 10000,
-    ...rest,
-  }
+    const URL = `${BASE_URL}/${url}`
 
-  const response = await axios(options)
+    const data = body
 
-  return response
+    if (authenticated) {
+      const token = getTokenKeyFromLocalStorage()
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+    }
+
+    if (customHeaders) {
+      headers = { ...headers, ...customHeaders }
+    }
+    const options = {
+      url: URL,
+      method,
+      headers,
+      data,
+      ...rest,
+    }
+
+    const response = await axios(options)
+
+    return response
+  } catch (error) {
+    const { response } = error
+
+    const { data, status, statusText } = response
+    const { detail } = data
+    const errorData = {
+      status,
+      statusText,
+      detail: typeof data === 'object' ? detail : '',
+    }
+
+    store.dispatch(setErrorData(errorData))
+    return response
+  }
 }

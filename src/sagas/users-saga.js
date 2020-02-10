@@ -6,8 +6,8 @@ import {
   setAuthStatus,
 } from 'actions/users'
 import { showAler } from 'actions/alert'
-import { LOG_IN, LOG_OUT, BOOTSTRAP } from 'constants/actions-constant'
 import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { LOG_IN, LOG_OUT, BOOTSTRAP } from 'constants/actions-constant'
 
 function* bootstrap() {
   try {
@@ -33,7 +33,12 @@ function* bootstrap() {
         const URL = `users/${id}/`
 
         const response = yield call([Api, 'users'], URL)
-        const { data: usersDataFromServer } = response
+
+        const { data: usersDataFromServer, status } = response
+
+        if (status !== 200) {
+          return
+        }
 
         yield put(setUsersOauthData({ ...usersDataFromServer, ...googleData }))
         yield put(setAuthStatus(true))
@@ -42,14 +47,7 @@ function* bootstrap() {
     }
     yield put(setAuthStatus(false))
   } catch (error) {
-    yield put(setAuthStatus(false))
-    yield put(
-      showAler({
-        type: DANGER_ALERT,
-        message: 'Something went wrong',
-        delay: 5000,
-      })
-    )
+    //yield put(setAuthStatus(false))
   }
 }
 
@@ -107,14 +105,6 @@ function* logOut() {
   try {
     const url = 'users/auth/logout/'
     yield call([Api, 'logout'], url)
-  } catch (error) {
-    yield put(
-      showAler({
-        type: DANGER_ALERT,
-        message: 'Something went wrong',
-        delay: 3000,
-      })
-    )
   } finally {
     yield put(cleanUserOauthData())
     yield put(setAuthStatus(false))

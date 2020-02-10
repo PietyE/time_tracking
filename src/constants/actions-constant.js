@@ -11,3 +11,7 @@ export const SHOW_ALERT = 'SHOW_ALERT'
 export const HIDE_ALERT = 'HIDE_ALERT'
 export const START_SHOW_ALERT = 'START_SHOW_ALERT'
 export const SET_MESSAGE = 'SET_MESSAGE'
+
+/** Error Action */
+export const SET_ERROR_DATA = 'SET_ERROR_DATA'
+export const CLEAN_ERROR_DATA = 'CLEAN_ERROR_DATA'
