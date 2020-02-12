@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://timetracking.vilmate.com.ua/api/v1'
+export const BASE_URL = 'https://dev-api-timetracking.vilmate.com/api/v1'

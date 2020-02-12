@@ -644,3 +644,8 @@ def setup_server(ctx, env):
 
     # letsencrypt
     install_letsencrypt_plugin(ctx, env)
+
+    print(
+        f'!!!IMPORTANT!!!\n'
+        f'After setup is finished visit site by IP and complete setup by clicking some buttons'
+    )
