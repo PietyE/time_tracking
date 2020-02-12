@@ -1,4 +1,4 @@
-.container {
+.auth-container {
   background-image: url(../../images/background.png);
   background-color: rgba(0, 0, 0, 0.3);
   background-attachment: fixed;
@@ -13,44 +13,33 @@
   padding-top: 70px;
 }
 
-.logo_container {
-  margin-bottom: 80px;
-}
-
-.title {
-  color: #fff;
-  font-size: 24px;
-  margin-bottom: 30px;
-}
-
-.button_wrap {
-  width: 90%;
-  max-width: 429px;
-  height: 30%;
-  background-color: #fff;
+.auth-google-btn-container {
+  width: 100%;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
 }
 
-.google_button {
+.auth-google_button {
   height: 40px;
-  width: 70%;
+  width: 20%;
+  min-width: 200px;
+  max-width: 250px;
   border-radius: 5px;
-  background-color: #ffffff;
+  border: 1px solid #827d7d;
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 6px 0 rgba(145, 147, 153, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
 }
 
-.google_button:hover {
+.auth-google_button:hover {
   background-color: #f9f9f9;
 }
 
-.text_button {
+.auth-text_button {
   color: #414141;
   font-family: Montserrat;
   font-size: 12px;
@@ -58,6 +47,6 @@
   line-height: 12px;
 }
 
-.logo {
+.auth-logo {
   margin-right: 1rem;
 }

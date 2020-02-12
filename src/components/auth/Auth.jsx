@@ -8,20 +8,21 @@ import { logIn } from 'actions/users'
 import { getUserAuthStatus } from 'selectors/user'
 import Logo from 'components/ui/logo'
 import { CLIENT_ID } from 'constants/auth-constant'
-import styles from './styles.module.css'
 import googleIcon from 'images/google-icon.svg'
+
+import './styles.css'
 
 function Auth(props) {
   const { logIn, isAuth } = props
 
   const GoogleButton = renderProps => (
     <Button
-      className={styles.google_button}
+      className="auth-google_button"
       variant="outline-primary"
       onClick={renderProps.onClick}
     >
-      <img src={googleIcon} alt="google icon" className={styles.logo} />
-      <span className={styles.text_button}>Log in with google</span>
+      <img src={googleIcon} alt="google icon" className="auth-logo" />
+      <span className="auth-text_button">Log in with google</span>
     </Button>
   )
 
@@ -30,12 +31,11 @@ function Auth(props) {
   }
 
   return (
-    <div className={styles.container}>
-      <span className={styles.logo_container}>
+    <div className="auth-container">
+      <span className="logo_container">
         <Logo />
       </span>
-      <p className={styles.title}>Log in to your account</p>
-      <div className={styles.button_wrap}>
+      <div className="auth-google-btn-container">
         <GoogleLogin
           clientId={CLIENT_ID}
           render={GoogleButton}
