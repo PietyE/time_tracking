@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import ButtonHeaderNav from './components/ButtonHeaderNav'
-import './headerNav.css'
 
 function HeaderNav() {
   const [isOpenMenu, setStateMenu] = useState(false)

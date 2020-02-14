@@ -5,6 +5,8 @@ import AlertStyled from 'components/ui/alert'
 import RootRouteComponent from 'screens/RootRouteComponent'
 import { getAlertIsShownAlertSelector } from 'selectors/alert'
 
+import '../styles/App.css'
+
 const App = ({ isShownAlert }) => {
   return (
     <>

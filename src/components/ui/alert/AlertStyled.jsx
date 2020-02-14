@@ -39,7 +39,7 @@ function AlertStyled({
     <Alert
       variant={type}
       dismissible={dismissible}
-      className="container"
+      className="alert_container"
       id="alert"
       onClose={hideAlert}
     >
