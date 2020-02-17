@@ -51,7 +51,7 @@ function HeaderNav() {
             BLOG
           </NavLink>
         </li>
-        <li className="nav_item">
+        {/* <li className="nav_item">
           <NavLink
             to="/wiki"
             className="nav_item_link"
@@ -59,14 +59,14 @@ function HeaderNav() {
           >
             WIKI
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav_item">
           <NavLink
-            to="/vacation"
+            to="/projects"
             className="nav_item_link"
             activeStyle={activeTabStale}
           >
-            VACATION
+            PROJECTS
           </NavLink>
         </li>
         <li className="nav_item">

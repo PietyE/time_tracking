@@ -15,6 +15,7 @@
   height: 50px;
   display: flex;
   align-items: center;
+  min-width: 0;
 }
 
 .table_header_container .table_cell {
@@ -23,6 +24,18 @@
 
 .table_cell.name {
   flex: 1.6;
+}
+
+.table_cell.sort {
+  cursor: pointer;
+}
+
+.table_cell.name > span {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
 }
 
 .table_body_container {
@@ -36,7 +49,6 @@
   border-radius: 5px;
   border: 1px solid rgb(237, 237, 237);
   margin-bottom: 10px;
-  position: relative;
   overflow: hidden;
 }
 
@@ -48,6 +60,15 @@
 
 .table_body_item_row {
   background-color: unset;
+}
+
+.table_body_item_row.common {
+  cursor: pointer;
+}
+
+.table_body_item_row.common:hover {
+  background-color: rgba(0, 140, 129, 0.1);
+  transition: all 0.3s;
 }
 
 .table_body_item_row.more_project {
