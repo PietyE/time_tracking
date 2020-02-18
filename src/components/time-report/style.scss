@@ -9,8 +9,35 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
+    .time_report_header_btn_section {
+      display: flex;
+      justify-content: flex-start;
+      .time_report_header_select_month {
+        margin-right: 20px;
+      }
+      .export_btn {
+        height: 40px;
+        width: 140px;
+        border-radius: 5px;
+        background-color: #009c98;
+        color: #fff;
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        .export_icon_container {
+          margin-right: 10px;
+          line-height: 18px;
+        }
+        .export_btn_text {
+          color: #ffffff;
+          font-family: Montserrat;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 18px;
+        }
+      }
+    }
   }
-
   .project_select_container {
     position: relative;
     .project_select_title {
@@ -58,6 +85,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
     .time_report_day_header {
       display: flex;
       justify-content: space-between;
@@ -65,7 +93,7 @@
       width: 100%;
       margin-bottom: 10px;
       .time_report_day_title {
-        color: #414141;
+        color: #7e7e82;
         font-family: Montserrat, sans-serif;
         font-size: 16px;
         font-weight: 600;
@@ -82,6 +110,21 @@
         font-size: 20px;
         line-height: 27px;
         cursor: pointer;
+        .add_icon {
+          color: #d5d5d5;
+          transition: 0.3s;
+          &.create_icon {
+            transform: rotate(45deg);
+          }
+          &.delete_icon {
+            transform: rotate(90deg);
+          }
+        }
+        &:hover {
+          .add_icon {
+            color: #968c8c;
+          }
+        }
       }
     }
     .time_report_day_row_create {
@@ -107,6 +150,10 @@
         width: 120px;
         border-radius: 5px;
         background-color: #5a5145;
+        .pencil_icon {
+          color: #fff;
+          font-size: 22px;
+        }
       }
     }
     .time_report_day_row {

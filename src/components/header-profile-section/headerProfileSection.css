@@ -30,6 +30,7 @@
   right: 270px;
   top: -20px;
   transition: right 0.5s ease-in-out;
+  z-index: 1000;
 }
 
 .drop_down_container {
