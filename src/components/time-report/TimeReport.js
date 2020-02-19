@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, memo } from 'react'
+import { connect } from 'react-redux'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
+
+import { changeSelectedDate, addTimeReport } from 'actions/timereports'
+import { getSelectedDate, getTimeReports } from 'selectors/timereports'
 import './style.scss'
 
 const projects = [
@@ -17,34 +21,40 @@ const projects = [
   { companyName: 'Rule', id: 493 },
 ]
 
-function TimeReport() {
-  const data = new Date()
+function TimeReport({
+  selectedDate,
+  changeSelectedDate,
+  reports,
+  addTimeReport,
+}) {
+  const todayDate = new Date()
 
-  const selectedDate = {
-    month: data.getMonth(),
-    year: data.getFullYear(),
+  const initialDate = {
+    month: todayDate.getMonth(),
+    year: todayDate.getFullYear(),
   }
-  const [currentData, setCurrentData] = useState(selectedDate)
 
   const getDaysInMonth = date =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 
-  const renderDaysArray = []
-
-  let daySize = getDaysInMonth(new Date(currentData.year, currentData.month))
+  let daySize = getDaysInMonth(new Date(selectedDate.year, selectedDate.month))
 
   if (
-    currentData.year === data.getFullYear() &&
-    currentData.month === data.getMonth()
+    selectedDate.year === todayDate.getFullYear() &&
+    selectedDate.month === todayDate.getMonth()
   ) {
-    daySize = data.getDate()
+    daySize = todayDate.getDate()
   }
+
+  const renderDaysArray = []
 
   for (let i = 0; i < daySize; i++) {
     renderDaysArray.push(i)
   }
 
-  console.log('currentData', daySize)
+  useEffect(() => {
+    changeSelectedDate(initialDate)
+  }, [])
 
   return (
     <div className="time_report_container container">
@@ -52,8 +62,8 @@ function TimeReport() {
         <ProjectSelect menuList={projects} />
         <div className="time_report_header_btn_section">
           <SelectMonth
-            selectedDate={currentData}
-            setNewData={setCurrentData}
+            selectedDate={selectedDate}
+            setNewData={changeSelectedDate}
             extraClassNameContainer="time_report_header_select_month"
           />
           <button className="export_btn">
@@ -66,12 +76,18 @@ function TimeReport() {
       </div>
       <div className="time_report_body_container">
         {renderDaysArray.map((item, index) => {
+          const numberOfDay = daySize - index
+          const dataOfDay = reports.filter(
+            report => numberOfDay === new Date(report.date).getDate()
+          )
           return (
             <Day
               key={index}
               isRenderCreateForm={!index}
-              dayReport={daySize - index}
-              currentData={currentData}
+              numberOfDay={numberOfDay}
+              selectedDate={selectedDate}
+              descriptions={dataOfDay}
+              addTimeReport={addTimeReport}
             />
           )
         })}
@@ -80,4 +96,11 @@ function TimeReport() {
   )
 }
 
-export default TimeReport
+const mapStateToProps = state => ({
+  selectedDate: getSelectedDate(state),
+  reports: getTimeReports(state),
+})
+
+const actions = { changeSelectedDate, addTimeReport }
+
+export default connect(mapStateToProps, actions)(memo(TimeReport))

@@ -15,9 +15,16 @@ import { monthsNamesLong, monthsNamesShort } from 'constants/months'
 import './style.scss'
 
 function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
+  const todayDate = new Date()
+  const year = todayDate.getFullYear()
+  const month = todayDate.getMonth()
+
   const selectMonthRef = useRef()
-  const [currentMonth, setCurrentMonth] = useState(selectedDate.month)
-  const [currentYear, setCurrentYear] = useState(selectedDate.year)
+
+  const [currentMonth, setCurrentMonth] = useState(selectedDate.month || month)
+
+  const [currentYear, setCurrentYear] = useState(selectedDate.year || year)
+
   const [isOpenPicker, setIsOpenPicker] = useState(false)
 
   const handlerSelectMonth = e => {
@@ -67,10 +74,6 @@ function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
   const handlerOpenPicker = () => {
     setIsOpenPicker(!isOpenPicker)
   }
-
-  const data = new Date()
-  const year = data.getFullYear()
-  const month = data.getMonth()
 
   const longMonthName = monthsNamesLong[currentMonth]
 

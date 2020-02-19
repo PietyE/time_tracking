@@ -5,8 +5,9 @@ import { rootSaga } from 'sagas/rootSaga.js'
 import { profile } from 'reducers/users'
 import { alert } from 'reducers/alert'
 import { error } from 'reducers/error'
+import { timereports } from 'reducers/timereport'
 
-const rootReducer = combineReducers({ profile, alert, error })
+const rootReducer = combineReducers({ profile, alert, error, timereports })
 
 const sagaMiddleware = createSagaMiddleware()
 
