@@ -15,3 +15,11 @@ export const SET_MESSAGE = 'SET_MESSAGE'
 /** Error Action */
 export const SET_ERROR_DATA = 'SET_ERROR_DATA'
 export const CLEAN_ERROR_DATA = 'CLEAN_ERROR_DATA'
+
+/** Timereports Action */
+export const CHANGE_SELECTED_DATE = 'CHANGE_SELECTED_DATE'
+export const SET_SELECTED_DATE = 'SET_SELECTED_DATE'
+export const SET_TIME_REPORTS = 'SET_TIME_REPORTS'
+export const ADD_TIME_REPORT = 'ADD_TIME_REPORT'
+export const EDIT_TIME_REPORT = 'EDIT_TIME_REPORT'
+export const DELETE_TIME_REPORT = 'DELETE_TIME_REPORT'

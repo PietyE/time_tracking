@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 
 import TimeReportScreen from './TimeReportScreen'
+import BlogScreen from './BlogScreen'
+import ProjectsScreen from './ProjectsScreen'
 
 import Header from 'components/header'
-import BlogScreen from './BlogScreen'
 import { getUserAuthStatus } from 'selectors/user'
 
 function MainScreen({ isAuth }) {
@@ -15,6 +16,7 @@ function MainScreen({ isAuth }) {
   return (
     <>
       <Header />
+      <Route path="/projects" component={ProjectsScreen} exct />
       <Route path="/timereport" component={TimeReportScreen} exct />
       <Route path="/blog" component={BlogScreen} exct />
     </>

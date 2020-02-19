@@ -22,7 +22,7 @@ function Auth(props) {
       onClick={renderProps.onClick}
     >
       <img src={googleIcon} alt="google icon" className="auth-logo" />
-      <span className="auth-text_button">Log in with google</span>
+      <span className="auth-text_button">Sign in with google</span>
     </Button>
   )
 
@@ -31,20 +31,18 @@ function Auth(props) {
   }
 
   return (
-    <div className="auth-container">
-      <span className="logo_container">
-        <Logo />
-      </span>
-      <div className="auth-google-btn-container">
-        <GoogleLogin
-          clientId={CLIENT_ID}
-          render={GoogleButton}
-          onSuccess={logIn}
-          onFailure={logIn}
-          cookiePolicy={'single_host_origin'}
-        />
+    <>
+      <div className="auth-container">
+        <span className="logo_container"></span>
       </div>
-    </div>
+      <GoogleLogin
+        clientId={CLIENT_ID}
+        render={GoogleButton}
+        onSuccess={logIn}
+        onFailure={logIn}
+        cookiePolicy={'single_host_origin'}
+      />
+    </>
   )
 }
 

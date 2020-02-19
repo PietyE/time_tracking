@@ -30,6 +30,7 @@
   right: 270px;
   top: -20px;
   transition: right 0.5s ease-in-out;
+  z-index: 1000;
 }
 
 .drop_down_container {
@@ -51,6 +52,7 @@
   opacity: 1;
   overflow: hidden;
   animation: open 0.5s 1 ease-in-out;
+  z-index: 999;
 }
 
 .drop_down_header {
@@ -164,7 +166,6 @@
   }
 }
 
-
 @keyframes open420 {
   from {
     height: 40px;
@@ -195,7 +196,4 @@
   .header_profile_btn.bnt_open {
     right: 245px;
   }
-
-
 }
-

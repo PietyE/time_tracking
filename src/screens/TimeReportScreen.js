@@ -1,7 +1,8 @@
 import React from 'react'
+import TimeReport from 'components/time-report'
 
 function TimeReportScreen() {
-  return <div>Time Report Screen</div>
+  return <TimeReport />
 }
 
 export default TimeReportScreen
