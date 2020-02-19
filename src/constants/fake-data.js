@@ -14,7 +14,7 @@ export const timereports = [
     id: getId(),
     date: 1581976801000,
     text:
-      'Add new different states of logged in users and made changes in Statistics screen f logged in users and made changes',
+      'Add new different states of logged in users and made changes in Statistics screen f logged in users and made changes Add new different states of logged in users and made changes in Statistics screen f logged in users and made changes Add new different states of logged in users and made changes in Statistics screen f logged in users and made changes',
     duration: 180,
   },
   {

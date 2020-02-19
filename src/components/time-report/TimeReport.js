@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React, { useEffect, memo, useState } from 'react'
 import { connect } from 'react-redux'
 
 import ProjectSelect from './components/ProjectSelect'
@@ -27,6 +27,8 @@ function TimeReport({
   reports,
   addTimeReport,
 }) {
+  const [showEmpty, setShowEmpty] = useState(true)
+
   const todayDate = new Date()
 
   const initialDate = {
@@ -74,6 +76,16 @@ function TimeReport({
           </button>
         </div>
       </div>
+      <div className="time_repord_checkbox">
+        <label>
+          <input
+            type="checkbox"
+            onChange={() => setShowEmpty(!showEmpty)}
+            value={showEmpty}
+          />
+          <span>Hide Empty Days</span>
+        </label>
+      </div>
       <div className="time_report_body_container">
         {renderDaysArray.map((item, index) => {
           const numberOfDay = daySize - index
@@ -83,11 +95,11 @@ function TimeReport({
           return (
             <Day
               key={index}
-              isRenderCreateForm={!index}
               numberOfDay={numberOfDay}
               selectedDate={selectedDate}
               descriptions={dataOfDay}
               addTimeReport={addTimeReport}
+              showEmpty={showEmpty}
             />
           )
         })}
