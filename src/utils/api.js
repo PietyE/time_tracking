@@ -27,6 +27,12 @@ class Api {
       method: 'post',
     })
   }
+
+  developerProjects = url => {
+    return fetchApi({
+      url,
+    })
+  }
 }
 
 export default new Api()

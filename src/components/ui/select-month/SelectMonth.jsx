@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCaretLeft,

@@ -19,10 +19,15 @@ function Day({
     today.getFullYear() === selectedDate.year
 
   const [isCreate, setIsCreate] = useState(false)
+  const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
 
   const handlerAddDayReport = e => {
     e.preventDefault()
-    setIsCreate(!isCreate)
+    if (isCreate) {
+      setClassNameForEndAnimation('close')
+      return
+    }
+    setIsCreate(true)
   }
 
   const dayTitle = new Date(
@@ -38,9 +43,16 @@ function Day({
     0
   )
 
+  const handlerEndAnimation = () => {
+    if (classNameForEndAnimation) {
+      setClassNameForEndAnimation('')
+      setIsCreate(false)
+    }
+  }
+
   useEffect(() => {
     setIsCreate(isOpenCreate)
-  }, [isOpenCreate])
+  }, [selectedDate, isOpenCreate])
 
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null
@@ -59,6 +71,11 @@ function Day({
           addTimeReport={addTimeReport}
           numberOfDay={numberOfDay}
           selectedDate={selectedDate}
+          setIsCreate={setIsCreate}
+          isCreate={isCreate}
+          isOpenCreate={isOpenCreate}
+          extraClassName={classNameForEndAnimation}
+          handlerEndAnimation={handlerEndAnimation}
         />
       )}
       {descriptions.map(({ text, duration, id }) => (
@@ -68,22 +85,5 @@ function Day({
     </div>
   )
 }
-
-// function areEqual(prevProps, nextProps) {
-//   if (prevProps.selectedDate.year !== nextProps.selectedDate.year) {
-//     return false
-//   }
-//   if (prevProps.selectedDate.month !== nextProps.selectedDate.month) {
-//     return false
-//   }
-//   if (
-//     JSON.stringify(prevProps.descriptions) ===
-//     JSON.stringify(nextProps.descriptions)
-//   ) {
-//     return true
-//   }
-
-//   return false
-// }
 
 export default memo(Day)

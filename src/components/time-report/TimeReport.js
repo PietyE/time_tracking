@@ -1,4 +1,5 @@
 import React, { useEffect, memo, useState } from 'react'
+
 import { connect } from 'react-redux'
 
 import ProjectSelect from './components/ProjectSelect'
@@ -8,24 +9,15 @@ import SelectMonth from 'components/ui/select-month'
 
 import { changeSelectedDate, addTimeReport } from 'actions/timereports'
 import { getSelectedDate, getTimeReports } from 'selectors/timereports'
+import { getDeveloperProjectNames } from 'selectors/developer-projects'
 import './style.scss'
-
-const projects = [
-  { companyName: 'Trialhead', id: 187 },
-  { companyName: 'Fundedbyme', id: 534 },
-  { companyName: 'Voicera', id: 123 },
-  { companyName: 'Homer', id: 987 },
-  { companyName: 'iSalon', id: 125 },
-  { companyName: 'Relation Desk', id: 923 },
-  { companyName: 'Becocapital', id: 523 },
-  { companyName: 'Rule', id: 493 },
-]
 
 function TimeReport({
   selectedDate,
   changeSelectedDate,
   reports,
   addTimeReport,
+  projects,
 }) {
   const [showEmpty, setShowEmpty] = useState(true)
 
@@ -111,6 +103,7 @@ function TimeReport({
 const mapStateToProps = state => ({
   selectedDate: getSelectedDate(state),
   reports: getTimeReports(state),
+  projects: getDeveloperProjectNames(state),
 })
 
 const actions = { changeSelectedDate, addTimeReport }
