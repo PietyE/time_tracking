@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 import './style.scss'
 
-function Select({ extraClassContainer = '', listItems = [], title = '' }) {
+function Select({
+  extraClassContainer = '',
+  listItems = [],
+  title = '',
+  onSelected,
+}) {
   const [_title, setTitle] = useState(title)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
@@ -26,7 +31,20 @@ function Select({ extraClassContainer = '', listItems = [], title = '' }) {
     e.preventDefault()
     const name = e.target.dataset.name
     setTitle(name)
+    onSelected(name)
   }
+
+  const callbackEventListener = useCallback(() => {
+    setClassNameOpen('select_close')
+    document.removeEventListener('click', callbackEventListener)
+  }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('click', callbackEventListener)
+    }
+  }, [isOpen, callbackEventListener])
+
   return (
     <div
       className={`select_container ${extraClassContainer}`}

@@ -51,15 +51,6 @@ function HeaderNav() {
             BLOG
           </NavLink>
         </li>
-        {/* <li className="nav_item">
-          <NavLink
-            to="/wiki"
-            className="nav_item_link"
-            activeStyle={activeTabStale}
-          >
-            WIKI
-          </NavLink>
-        </li> */}
         <li className="nav_item">
           <NavLink
             to="/projects"

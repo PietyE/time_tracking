@@ -8,16 +8,11 @@ import FooterDay from './FooterDay'
 function Day({
   numberOfDay,
   selectedDate,
-  descriptions,
+  descriptions = [],
   addTimeReport,
   showEmpty,
+  isOpenCreate,
 }) {
-  const today = new Date()
-  const isOpenCreate =
-    today.getDate() === numberOfDay &&
-    today.getMonth() === selectedDate.month &&
-    today.getFullYear() === selectedDate.year
-
   const [isCreate, setIsCreate] = useState(false)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
 
@@ -57,7 +52,6 @@ function Day({
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null
   }
-
   return (
     <div className="time_report_day_container">
       <HeaderDay
@@ -65,6 +59,7 @@ function Day({
         isCreate={isCreate}
         dayTitle={dayTitle}
         todayStr={todayStr}
+        classNameForEndAnimation={classNameForEndAnimation}
       />
       {isCreate && (
         <CreateReportForm
@@ -79,11 +74,26 @@ function Day({
         />
       )}
       {descriptions.map(({ text, duration, id }) => (
-        <ReportItem key={id} text={text} hours={duration / 60} />
+        <ReportItem key={id} text={text} hours={duration / 60} id={id} />
       ))}
       <FooterDay sumHours={sumHours} />
     </div>
   )
 }
 
-export default memo(Day)
+const shouldComponentUpdate = (prevProps, nextProps) => {
+  if (
+    JSON.stringify(prevProps.descriptions) !==
+      JSON.stringify(nextProps.descriptions) ||
+    prevProps.numberOfDay !== nextProps.numberOfDay ||
+    prevProps.selectedDate.year !== nextProps.selectedDate.year ||
+    prevProps.selectedDate.month !== nextProps.selectedDate.month ||
+    prevProps.showEmpty !== nextProps.showEmpty ||
+    prevProps.isOpenCreate !== nextProps.isOpenCreate
+  ) {
+    return false
+  }
+  return true
+}
+
+export default memo(Day, shouldComponentUpdate)

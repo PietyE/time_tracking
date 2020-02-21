@@ -1,7 +1,7 @@
 import { select, call, takeEvery, put } from 'redux-saga/effects'
 
 import { SET_ERROR_DATA } from 'constants/actions-constant'
-import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { DANGER_ALERT } from 'constants/alert-constant'
 import { cleanErrorData } from 'actions/error'
 import { showAler } from 'actions/alert'
 import { setAuthStatus } from 'actions/users'

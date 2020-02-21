@@ -1,4 +1,4 @@
-import React, { useEffect, memo, useState } from 'react'
+import React, { memo, useState } from 'react'
 
 import { connect } from 'react-redux'
 
@@ -8,25 +8,26 @@ import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 
 import { changeSelectedDate, addTimeReport } from 'actions/timereports'
-import { getSelectedDate, getTimeReports } from 'selectors/timereports'
-import { getDeveloperProjectNames } from 'selectors/developer-projects'
+import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
+import {
+  getSelectedDate,
+  getTimeReports,
+  getIsFetchingReport,
+} from 'selectors/timereports'
+import Spinner from 'components/ui/spinner'
+
 import './style.scss'
 
 function TimeReport({
   selectedDate,
   changeSelectedDate,
-  reports,
+  reports = [],
   addTimeReport,
-  projects,
+  isFetchingReports,
 }) {
   const [showEmpty, setShowEmpty] = useState(true)
 
   const todayDate = new Date()
-
-  const initialDate = {
-    month: todayDate.getMonth(),
-    year: todayDate.getFullYear(),
-  }
 
   const getDaysInMonth = date =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -46,66 +47,85 @@ function TimeReport({
     renderDaysArray.push(i)
   }
 
-  useEffect(() => {
-    changeSelectedDate(initialDate)
-  }, [])
-
   return (
-    <div className="time_report_container container">
-      <div className="time_report_header">
-        <ProjectSelect menuList={projects} />
-        <div className="time_report_header_btn_section">
-          <SelectMonth
-            selectedDate={selectedDate}
-            setNewData={changeSelectedDate}
-            extraClassNameContainer="time_report_header_select_month"
-          />
-          <button className="export_btn">
-            <span className="export_icon_container">
-              <DownloadIcon />
-            </span>
-            <span className="export_btn_text">Export</span>
-          </button>
+    <>
+      {isFetchingReports && <Spinner />}
+      <div
+        className={
+          isFetchingReports
+            ? 'time_report_container container fetching'
+            : 'time_report_container container'
+        }
+      >
+        <div className="time_report_header">
+          <ProjectSelect />
+          <div className="time_report_header_btn_section">
+            <SelectMonth
+              selectedDate={selectedDate}
+              setNewData={changeSelectedDate}
+              extraClassNameContainer="time_report_header_select_month"
+            />
+            <button className="export_btn">
+              <span className="export_icon_container">
+                <DownloadIcon />
+              </span>
+              <span className="export_btn_text">Export</span>
+            </button>
+          </div>
+        </div>
+        <div className="time_repord_checkbox">
+          <label>
+            <input
+              type="checkbox"
+              onChange={() => setShowEmpty(!showEmpty)}
+              value={showEmpty}
+            />
+            <span>Hide Empty Days</span>
+          </label>
+        </div>
+        <div className="time_report_body_container">
+          {!!reports.length ? (
+            renderDaysArray.map((item, index) => {
+              const numberOfDay = daySize - index
+              const dataOfDay = reports.filter(
+                report => numberOfDay === new Date(report.date).getDate()
+              )
+              const isOpenCreate =
+                todayDate.getDate() === numberOfDay &&
+                todayDate.getMonth() === selectedDate.month &&
+                todayDate.getFullYear() === selectedDate.year
+              return (
+                <Day
+                  key={index}
+                  numberOfDay={numberOfDay}
+                  selectedDate={selectedDate}
+                  descriptions={dataOfDay}
+                  addTimeReport={addTimeReport}
+                  showEmpty={showEmpty}
+                  isOpenCreate={isOpenCreate}
+                />
+              )
+            })
+          ) : (
+            <div>Please, choose your project...</div>
+          )}
         </div>
       </div>
-      <div className="time_repord_checkbox">
-        <label>
-          <input
-            type="checkbox"
-            onChange={() => setShowEmpty(!showEmpty)}
-            value={showEmpty}
-          />
-          <span>Hide Empty Days</span>
-        </label>
-      </div>
-      <div className="time_report_body_container">
-        {renderDaysArray.map((item, index) => {
-          const numberOfDay = daySize - index
-          const dataOfDay = reports.filter(
-            report => numberOfDay === new Date(report.date).getDate()
-          )
-          return (
-            <Day
-              key={index}
-              numberOfDay={numberOfDay}
-              selectedDate={selectedDate}
-              descriptions={dataOfDay}
-              addTimeReport={addTimeReport}
-              showEmpty={showEmpty}
-            />
-          )
-        })}
-      </div>
-    </div>
+    </>
   )
 }
 
 const mapStateToProps = state => ({
   selectedDate: getSelectedDate(state),
   reports: getTimeReports(state),
-  projects: getDeveloperProjectNames(state),
+  isFetchingReports: getIsFetchingReport(state),
 })
 
-const actions = { changeSelectedDate, addTimeReport }
+const actions = {
+  changeSelectedDate,
+  addTimeReport,
+  getDeveloperProjects,
+  selectProject,
+}
 
-export default connect(mapStateToProps, actions)(memo(TimeReport))
+export default memo(connect(mapStateToProps, actions)(TimeReport))

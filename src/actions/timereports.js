@@ -1,5 +1,5 @@
 import {
-  SET_SELECTED_DATE,
+  SET_IS_FETCHING_REPORTS,
   CHANGE_SELECTED_DATE,
   SET_TIME_REPORTS,
   DELETE_TIME_REPORT,
@@ -12,8 +12,8 @@ export const changeSelectedDate = payload => ({
   payload,
 })
 
-export const setSelectedDate = payload => ({
-  type: SET_SELECTED_DATE,
+export const setIsFetchingReports = payload => ({
+  type: SET_IS_FETCHING_REPORTS,
   payload,
 })
 
@@ -34,4 +34,5 @@ export const editTimeReport = payload => ({
 
 export const deleteTimeReport = payload => ({
   type: DELETE_TIME_REPORT,
+  payload,
 })

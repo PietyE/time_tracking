@@ -6,7 +6,7 @@ import {
   setAuthStatus,
 } from 'actions/users'
 import { showAler } from 'actions/alert'
-import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT } from 'constants/alert-constant'
 import { LOG_IN, LOG_OUT, BOOTSTRAP } from 'constants/actions-constant'
 
 function* bootstrap() {
