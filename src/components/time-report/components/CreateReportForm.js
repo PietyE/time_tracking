@@ -19,9 +19,7 @@ function CreateReportForm({
     const takeTime = _hour ? +_hour * 60 + +min : +min
 
     addTimeReport({
-      date: Date.parse(
-        `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`
-      ),
+      date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
       description: text,
       tookHours: takeTime,
     })

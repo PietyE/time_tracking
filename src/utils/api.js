@@ -47,6 +47,13 @@ class Api {
       body,
     })
   }
+
+  deleteWorkItem = url => {
+    return fetchApi({
+      url,
+      method: 'delete',
+    })
+  }
 }
 
 export default new Api()

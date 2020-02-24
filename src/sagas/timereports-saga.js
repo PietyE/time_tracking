@@ -1,4 +1,4 @@
-import { select, call, takeEvery, put, delay } from 'redux-saga/effects'
+import { select, call, takeEvery, put } from 'redux-saga/effects'
 
 import Api from 'utils/api'
 
@@ -29,8 +29,11 @@ export function* workerTimeReports() {
       state => state.timereports
     )
 
-    const URL_WORK_ITEMS = `work_items/?developer_project=${selectedProject}&year=${selectedDate['year']}&month=${selectedDate['month']}`
     if (selectedProject) {
+      const { developer_project_id } = selectedProject
+      const { year, month } = selectedDate
+      const URL_WORK_ITEMS = `work_items/?developer_project=${developer_project_id}&year=${year}&month=${1 +
+        month}`
       yield put(setIsFetchingReports(true))
       // GET_DATA_FROM_SERVER! to do
       const { data } = yield call([Api, 'getWorkItems'], URL_WORK_ITEMS)
@@ -51,40 +54,36 @@ export function* addTimeReport({ payload }) {
   const { reports } = yield select(state => state.timereports)
   const newTimereport = [...reports.items]
 
-  var date = new Date(payload.date) // Date 2011-05-09T06:08:45.178Z
-  var year = date.getFullYear()
-  var month = ('0' + (date.getMonth() + 1)).slice(-2)
-  var day = ('0' + date.getDate()).slice(-2)
-
-  console.log(`${year}-${month}-${day}`) // 2011-05-09
-
   const body = {
-    id: selectedProject,
-    developer_project: '4893c4e3-c6e1-45b1-bebd-aa2fb6f8880f',
+    id: selectedProject.id,
+    developer_project: selectedProject.developer_project_id,
     title: payload.description,
     duration: payload.tookHours,
-    date: `${year}-${month}-${day}`,
+    date: payload.date,
   }
 
-  console.log('payload.date', payload.date)
-
   const { data } = yield call([Api, 'addWorkItem'], URL_WORK_ITEMS, body)
-  console.log('data create', data)
-  // newTimereport.push({
-  //   id: getId(),
-  //   text: payload.description,
-  //   duration: payload.tookHours,
-  //   date: payload.date,
-  // })
 
-  //yield put(setTimeReports(newTimereport))
+  newTimereport.push({
+    id: data.id,
+    title: data.title,
+    duration: data.duration,
+    date: data.date,
+  })
+
+  yield put(setTimeReports({ items: newTimereport }))
 }
 
 export function* deleteTimeReport({ payload: id }) {
-  const { reports } = yield select(state => state.timereports)
-  const newTimereport = reports.filter(item => item.id !== id)
-
-  yield put(setTimeReports(newTimereport))
+  const URL = `work_items/${id}`
+  const {
+    reports: { items },
+  } = yield select(state => state.timereports)
+  const newTimereport = items.filter(item => item.id !== id)
+  const { status } = yield call([Api, 'deleteWorkItem'], URL)
+  if (status === 204) {
+    yield put(setTimeReports({ items: newTimereport }))
+  }
 }
 
 export function* watchTimereports() {

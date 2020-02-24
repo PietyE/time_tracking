@@ -4,7 +4,6 @@ import HeaderDay from './HeaderDay'
 import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
 import FooterDay from './FooterDay'
-import { parseMinToHoursAndMin } from 'utils/common'
 
 function Day({
   numberOfDay,

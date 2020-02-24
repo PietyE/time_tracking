@@ -10,6 +10,7 @@ function Select({
   title = '',
   onSelected,
   valueKey,
+  idKey,
 }) {
   const [_title, setTitle] = useState(title)
   const [isOpen, setIsOpen] = useState(false)
@@ -30,10 +31,7 @@ function Select({
   }
   const handlerClickItem = e => {
     e.preventDefault()
-    const value = e.target.dataset.value
-    const id = e.target.dataset.id
-    setTitle(value)
-    onSelected({ developer_project_id: id })
+    setTitle(e.target.dataset.value)
   }
 
   const callbackEventListener = useCallback(() => {
@@ -46,8 +44,6 @@ function Select({
       document.addEventListener('click', callbackEventListener)
     }
   }, [isOpen, callbackEventListener])
-
-  console.log('listItems', listItems)
 
   return (
     <div
@@ -72,11 +68,13 @@ function Select({
         >
           {listItems.map(item => (
             <span
-              key={item['id']}
+              key={item[idKey]}
               className="select_list_item"
               data-value={item[valueKey]}
-              data-id={item['developer_project_id']}
-              onClick={handlerClickItem}
+              onClick={e => {
+                handlerClickItem(e)
+                onSelected(item)
+              }}
             >
               {item[valueKey]}
             </span>

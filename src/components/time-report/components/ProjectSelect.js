@@ -19,10 +19,9 @@ function ProjectSelect({ projects = [], selectProject, getDeveloperProjects }) {
       <Select
         title="choose you project..."
         listItems={listItems}
-        onSelected={({ developer_project_id }) => {
-          selectProject(developer_project_id)
-        }}
+        onSelected={selectProject}
         valueKey="name"
+        idKey="developer_project_id"
       />
     </div>
   )

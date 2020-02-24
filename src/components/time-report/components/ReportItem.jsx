@@ -63,7 +63,7 @@ function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
         onClick={handlerClickOpenLongText}
         contentEditable={isEditingText}
       >
-        {text}
+        {<a href={text}>{text}</a>}
       </span>
       <span className="time_report_day_hours">
         {parseMinToHoursAndMin(hours)}
