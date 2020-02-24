@@ -1,13 +1,12 @@
 import React, { useState, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import InputMask from 'react-input-mask'
 
 function CreateReportForm({
   addTimeReport,
   numberOfDay,
   selectedDate,
-  setIsCreate,
-  isOpenCreate,
   handlerEndAnimation,
   extraClassName,
 }) {
@@ -16,13 +15,15 @@ function CreateReportForm({
 
   const handlerClickAddButton = () => {
     if (!text && !hours) return
+    const [_hour, min] = hours.split(':')
+    const takeTime = _hour ? +_hour * 60 + +min : +min
 
     addTimeReport({
       date: Date.parse(
         `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`
       ),
       description: text,
-      tookHours: +hours,
+      tookHours: takeTime,
     })
     setText('')
     setHours('')
@@ -33,8 +34,8 @@ function CreateReportForm({
   }
 
   const handlerChangeHours = e => {
-    if (isNaN(+e.target.value)) return
-    setHours(e.target.value.trim())
+    const value = e.target.value
+    setHours(value)
   }
 
   return (
@@ -50,14 +51,13 @@ function CreateReportForm({
         value={text}
         onChange={handlerChangeText}
       />
-      <input
-        type="text"
-        name="hours"
+      <InputMask
         placeholder="HH"
+        maskPlaceholder="0"
         className="hours_input input"
         value={hours}
         onChange={handlerChangeHours}
-        maxLength={2}
+        mask="99:99"
       />
       <button className="create_btn" onClick={handlerClickAddButton}>
         <FontAwesomeIcon

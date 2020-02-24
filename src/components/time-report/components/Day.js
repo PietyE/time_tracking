@@ -4,6 +4,7 @@ import HeaderDay from './HeaderDay'
 import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
 import FooterDay from './FooterDay'
+import { parseMinToHoursAndMin } from 'utils/common'
 
 function Day({
   numberOfDay,
@@ -15,6 +16,7 @@ function Day({
 }) {
   const [isCreate, setIsCreate] = useState(false)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
+  const [editObj, setEditObj] = useState({ text: '', hours: '' })
 
   const handlerAddDayReport = e => {
     e.preventDefault()
@@ -34,7 +36,7 @@ function Day({
   const todayStr = isOpenCreate ? '(today)' : ''
 
   const sumHours = descriptions.reduce(
-    (sum, item) => (sum = sum + item.duration / 60),
+    (sum, item) => (sum = sum + item.duration),
     0
   )
 
@@ -43,6 +45,10 @@ function Day({
       setClassNameForEndAnimation('')
       setIsCreate(false)
     }
+  }
+
+  const editingItemRow = (text, hours) => {
+    setEditObj({ text, hours })
   }
 
   useEffect(() => {
@@ -71,10 +77,18 @@ function Day({
           isOpenCreate={isOpenCreate}
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
+          editingTextValue={editObj.text}
+          editingHoursValue={editObj.hours}
         />
       )}
-      {descriptions.map(({ text, duration, id }) => (
-        <ReportItem key={id} text={text} hours={duration / 60} id={id} />
+      {descriptions.map(({ title, duration, id }) => (
+        <ReportItem
+          key={id}
+          text={title}
+          hours={duration}
+          id={id}
+          editingItemRow={editingItemRow}
+        />
       ))}
       <FooterDay sumHours={sumHours} />
     </div>

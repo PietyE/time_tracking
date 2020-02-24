@@ -6,17 +6,23 @@ import { getDeveloperProjectNames } from 'selectors/developer-projects'
 import Select from 'components/ui/select'
 
 function ProjectSelect({ projects = [], selectProject, getDeveloperProjects }) {
-  const menuListOnlyName = projects.map(item => item.name)
-
+  const listItems = projects.map(item => ({
+    ...item.project,
+    developer_project_id: item.id,
+  }))
   useEffect(() => {
     getDeveloperProjects()
   }, [getDeveloperProjects])
+
   return (
     <div className="project_select_container">
       <Select
         title="choose you project..."
-        listItems={menuListOnlyName}
-        onSelected={selectProject}
+        listItems={listItems}
+        onSelected={({ developer_project_id }) => {
+          selectProject(developer_project_id)
+        }}
+        valueKey="name"
       />
     </div>
   )

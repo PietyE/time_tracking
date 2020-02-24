@@ -10,20 +10,25 @@ import {
 
 import Modal from 'components/ui/modal'
 import { deleteTimeReport } from 'actions/timereports'
+import { parseMinToHoursAndMin } from 'utils/common'
 
-function ReportItem({ text, hours, deleteTimeReport, id }) {
-  const [isOpen, setIsOpen] = useState(false)
+function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
+  const [isOpenLongText, setIsOpenLongText] = useState(false)
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
+  const [isEditingText, setIsEditingText] = useState(false)
 
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
-  const handlerClickOpen = e => {
-    setIsOpen(!isOpen)
+  const handlerClickOpenLongText = e => {
+    setIsOpenLongText(!isOpenLongText)
   }
 
   const handlerOpenMenu = e => {
     e.stopPropagation()
     setIsOpenMenu(!isOpenMenu)
+    if (isOpenMenu) {
+      setIsEditingText(false)
+    }
   }
 
   const handlerClickDelete = e => {
@@ -31,10 +36,20 @@ function ReportItem({ text, hours, deleteTimeReport, id }) {
     setIsDeleteRequest(!isDeleteRequest)
   }
 
-  const classNameIsOpen = isOpen ? 'full' : 'short'
+  const handlerClickEdit = e => {
+    setIsOpenLongText(true)
+    editingItemRow(text, hours)
+    setIsEditingText(true)
+  }
+
+  const classNameIsOpen = isOpenLongText ? 'full' : 'short'
+  const activeClassNameContainerForDeletting = isDeleteRequest ? 'active' : ''
+  const activeClassNameContainerForEditting = isEditingText ? 'editing' : ''
 
   return (
-    <div className={`time_report_day_row ${classNameIsOpen}`}>
+    <div
+      className={`time_report_day_row ${classNameIsOpen} ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
+    >
       {isDeleteRequest && (
         <Modal
           title={'Are you sure that you want to delete this report?'}
@@ -43,10 +58,16 @@ function ReportItem({ text, hours, deleteTimeReport, id }) {
           id={id}
         />
       )}
-      <span className="time_report_day_description" onClick={handlerClickOpen}>
+      <span
+        className="time_report_day_description"
+        onClick={handlerClickOpenLongText}
+        contentEditable={isEditingText}
+      >
         {text}
       </span>
-      <span className="time_report_day_hours">{`${hours}:00`}</span>
+      <span className="time_report_day_hours">
+        {parseMinToHoursAndMin(hours)}
+      </span>
       <div className="time_report_day_edit">
         <button onClick={handlerOpenMenu}>
           <FontAwesomeIcon
@@ -62,24 +83,16 @@ function ReportItem({ text, hours, deleteTimeReport, id }) {
         >
           <button>
             <FontAwesomeIcon
+              onClick={handlerClickEdit}
               icon={faPencilAlt}
-              color="#414141"
               className="icon pencil_icon"
             />
           </button>
           <button onClick={handlerClickDelete}>
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              color="#414141"
-              className="icon pencil_icon"
-            />
+            <FontAwesomeIcon icon={faTrashAlt} className="icon pencil_icon" />
           </button>
           <button onClick={handlerOpenMenu}>
-            <FontAwesomeIcon
-              icon={faTimes}
-              color="#414141"
-              className="icon times_icon"
-            />
+            <FontAwesomeIcon icon={faTimes} className="icon times_icon" />
           </button>
         </div>
       </div>

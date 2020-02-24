@@ -33,6 +33,20 @@ class Api {
       url,
     })
   }
+
+  getWorkItems = url => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  addWorkItem = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
 }
 
 export default new Api()

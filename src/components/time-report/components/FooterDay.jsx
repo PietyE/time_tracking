@@ -1,9 +1,10 @@
 import React, { memo } from 'react'
+import { parseMinToHoursAndMin } from 'utils/common'
 
-function FooterDay({ sumHours = '00' }) {
+function FooterDay({ sumHours }) {
   return (
     <div className="time_report_day_footer">
-      <span>{`Daily Total: ${sumHours}:00`}</span>
+      <span>{parseMinToHoursAndMin(sumHours)}</span>
     </div>
   )
 }

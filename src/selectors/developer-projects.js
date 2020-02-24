@@ -3,9 +3,7 @@ import { createSelector } from 'reselect'
 //const getSelectedDate = state => state.timereports.selectedDate
 
 const getDeveloperProjectsNamesSelector = state => {
-  const projects = state.developerProjects.items.map(project => {
-    return project.project
-  })
+  const projects = state.developerProjects.items
   return projects
 }
 

@@ -21,7 +21,7 @@ import './style.scss'
 function TimeReport({
   selectedDate,
   changeSelectedDate,
-  reports = [],
+  reports,
   addTimeReport,
   isFetchingReports,
 }) {
@@ -84,7 +84,7 @@ function TimeReport({
           </label>
         </div>
         <div className="time_report_body_container">
-          {!!reports.length ? (
+          {!!reports ? (
             renderDaysArray.map((item, index) => {
               const numberOfDay = daySize - index
               const dataOfDay = reports.filter(
