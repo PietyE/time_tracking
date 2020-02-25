@@ -1,36 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
-
-import { Button } from 'react-bootstrap'
 
 import './style.scss'
 
-function Modal({ title, onClickClose, onClickYes, id }) {
+function Modal({ children }) {
+  const element = document.getElementById('modal')
+
   const ModalComponent = () => {
-    const handlerClickYes = e => {
-      e.stopPropagation()
-      onClickYes(id)
-    }
-    return (
-      <div className="modal_container" onClick={onClickClose}>
-        <div className="overlay">
-          <h5 className="title">{title}</h5>
-          <div className="button_container">
-            <Button onClick={handlerClickYes}>
-              <span>Yes</span>
-            </Button>
-            <Button onClick={onClickClose}>
-              <span>No</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
+    element.classList.add('active')
+    useEffect(() => {
+      return () => {
+        element.classList.remove('active')
+      }
+    }, [])
+    return <div className="modal_container">{children}</div>
   }
-  return ReactDOM.createPortal(
-    <ModalComponent />,
-    document.getElementById('modal')
-  )
+
+  return ReactDOM.createPortal(<ModalComponent />, element)
 }
 
 export default Modal

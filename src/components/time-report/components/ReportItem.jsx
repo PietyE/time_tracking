@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -8,14 +8,17 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import Modal from 'components/ui/modal'
-import { deleteTimeReport } from 'actions/timereports'
+import { deleteTimeReport, editTimeReport } from 'actions/timereports'
 import { parseMinToHoursAndMin } from 'utils/common'
+import DeleteModal from './DeleteModal'
+import EditingModal from './EditingModal'
 
-function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
+function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
+  const reportItemContainerRef = useRef()
   const [isOpenLongText, setIsOpenLongText] = useState(false)
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [isEditingText, setIsEditingText] = useState(false)
+  const [modalCoords, setModalCoords] = useState({})
 
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
@@ -26,20 +29,22 @@ function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
   const handlerOpenMenu = e => {
     e.stopPropagation()
     setIsOpenMenu(!isOpenMenu)
-    if (isOpenMenu) {
-      setIsEditingText(false)
-    }
   }
 
-  const handlerClickDelete = e => {
+  const handlerClickOpenDeleteModal = e => {
     e.stopPropagation()
     setIsDeleteRequest(!isDeleteRequest)
   }
 
-  const handlerClickEdit = e => {
-    setIsOpenLongText(true)
-    editingItemRow(text, hours)
-    setIsEditingText(true)
+  const handlerClickDelete = e => {
+    deleteTimeReport(id)
+    setIsDeleteRequest(false)
+  }
+
+  const handlerClickOpenEditModal = e => {
+    setIsEditingText(!isEditingText)
+    setModalCoords(reportItemContainerRef.current.getBoundingClientRect())
+    setIsOpenMenu(false)
   }
 
   const classNameIsOpen = isOpenLongText ? 'full' : 'short'
@@ -48,22 +53,28 @@ function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
 
   return (
     <div
+      ref={reportItemContainerRef}
       className={`time_report_day_row ${classNameIsOpen} ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
     >
-      {isDeleteRequest && (
-        <Modal
-          title={'Are you sure that you want to delete this report?'}
-          onClickClose={handlerClickDelete}
-          onClickYes={deleteTimeReport}
+      {isEditingText && (
+        <EditingModal
           id={id}
+          handlerClickOpenEditModal={handlerClickOpenEditModal}
+          modalCoords={modalCoords}
+          editTimeReport={editTimeReport}
+        />
+      )}
+      {isDeleteRequest && (
+        <DeleteModal
+          handlerClickOpenDeleteModal={handlerClickOpenDeleteModal}
+          handlerClickDelete={handlerClickDelete}
         />
       )}
       <span
         className="time_report_day_description"
         onClick={handlerClickOpenLongText}
-        contentEditable={isEditingText}
       >
-        {<a href={text}>{text}</a>}
+        {text}
       </span>
       <span className="time_report_day_hours">
         {parseMinToHoursAndMin(hours)}
@@ -81,14 +92,10 @@ function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
             isOpenMenu ? 'time_report_day_menu open' : 'time_report_day_menu'
           }
         >
-          <button>
-            <FontAwesomeIcon
-              onClick={handlerClickEdit}
-              icon={faPencilAlt}
-              className="icon pencil_icon"
-            />
+          <button onClick={handlerClickOpenEditModal}>
+            <FontAwesomeIcon icon={faPencilAlt} className="icon pencil_icon" />
           </button>
-          <button onClick={handlerClickDelete}>
+          <button onClick={handlerClickOpenDeleteModal}>
             <FontAwesomeIcon icon={faTrashAlt} className="icon pencil_icon" />
           </button>
           <button onClick={handlerOpenMenu}>
@@ -102,6 +109,7 @@ function ReportItem({ text, hours, deleteTimeReport, id, editingItemRow }) {
 
 const actions = {
   deleteTimeReport,
+  editTimeReport,
 }
 
 export default memo(connect(null, actions)(ReportItem))

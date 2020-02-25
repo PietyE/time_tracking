@@ -15,7 +15,6 @@ function Day({
 }) {
   const [isCreate, setIsCreate] = useState(false)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
-  const [editObj, setEditObj] = useState({ text: '', hours: '' })
 
   const handlerAddDayReport = e => {
     e.preventDefault()
@@ -46,10 +45,6 @@ function Day({
     }
   }
 
-  const editingItemRow = (text, hours) => {
-    setEditObj({ text, hours })
-  }
-
   useEffect(() => {
     setIsCreate(isOpenCreate)
   }, [selectedDate, isOpenCreate])
@@ -76,18 +71,10 @@ function Day({
           isOpenCreate={isOpenCreate}
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
-          editingTextValue={editObj.text}
-          editingHoursValue={editObj.hours}
         />
       )}
       {descriptions.map(({ title, duration, id }) => (
-        <ReportItem
-          key={id}
-          text={title}
-          hours={duration}
-          id={id}
-          editingItemRow={editingItemRow}
-        />
+        <ReportItem key={id} text={title} hours={duration} id={id} />
       ))}
       <FooterDay sumHours={sumHours} />
     </div>

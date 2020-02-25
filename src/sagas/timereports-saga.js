@@ -8,6 +8,7 @@ import {
   SELECT_PROJECT,
   GET_DEVELOPER_PROJECTS,
   DELETE_TIME_REPORT,
+  EDIT_TIME_REPORT,
 } from 'constants/actions-constant'
 import { PAGE_SIZE } from 'constants/url-constant'
 import { setTimeReports, setIsFetchingReports } from 'actions/timereports'
@@ -86,9 +87,26 @@ export function* deleteTimeReport({ payload: id }) {
   }
 }
 
+export function* editTimeReport({ payload }) {
+  const {
+    reports: { items = [] },
+  } = yield select(state => state.timereports)
+  const newItems = [...items]
+  const { id, ...body } = payload
+  const URL = `work_items/${id}`
+  const { data } = yield call([Api, 'editWorkItem'], URL, body)
+
+  if (data) {
+    const indexEdited = newItems.findIndex(item => item.id === data.id)
+    newItems.splice(indexEdited, 1, data)
+    yield put(setTimeReports({ items: newItems }))
+  }
+}
+
 export function* watchTimereports() {
   yield takeEvery(GET_DEVELOPER_PROJECTS, getDeveloperProjects)
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)
   yield takeEvery(DELETE_TIME_REPORT, deleteTimeReport)
+  yield takeEvery(EDIT_TIME_REPORT, editTimeReport)
   yield takeEvery([SELECT_PROJECT, CHANGE_SELECTED_DATE], workerTimeReports)
 }

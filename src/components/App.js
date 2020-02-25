@@ -9,10 +9,10 @@ import '../styles/App.css'
 
 const App = ({ isShownAlert }) => {
   return (
-    <>
+    <div className="app">
       {isShownAlert && <AlertStyled />}
       <RootRouteComponent />
-    </>
+    </div>
   )
 }
 

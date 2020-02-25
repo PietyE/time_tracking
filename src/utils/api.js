@@ -54,6 +54,14 @@ class Api {
       method: 'delete',
     })
   }
+
+  editWorkItem = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'patch',
+      body,
+    })
+  }
 }
 
 export default new Api()

@@ -344,6 +344,89 @@
   transition: opacity 200ms;
 }
 
+.delete_modal_overlay {
+  width: 80%;
+  max-width: 350px;
+  height: 20vh;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.5);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px;
+  .delete_modal_title {
+    text-align: center;
+  }
+  .delete_modal_button_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    button {
+      width: 40%;
+    }
+  }
+}
+
+.edit_modal_overlay {
+  padding: 10px 20px 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 96%;
+  max-width: 1212px;
+  min-height: 60px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  background-color: #eefcfc;
+  position: absolute;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
+
+  animation: openEditMpdal 0.4s 1 ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    width: 7px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+    background-color: #009c98;
+  }
+  .edit_modal_textarea {
+    border-radius: 5px;
+    background-color: #eefcfc;
+    resize: none;
+    padding: 5px;
+    border: 1px solid #2863637a;
+    flex: 1;
+    margin-right: 15px;
+  }
+  .hours_input {
+    width: 65px;
+    border-radius: 5px;
+    background-color: #eefcfc;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #2863637a;
+    align-self: stretch;
+    margin-right: 15px;
+  }
+  .edit_modal_button_container {
+    align-self: stretch;
+    flex: 0.3;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    button {
+      width: 45%;
+    }
+  }
+}
+
 @keyframes openMenu {
   from {
     opacity: 0;
@@ -372,5 +455,14 @@
     height: 0;
     opacity: 0;
     margin-bottom: 0;
+  }
+}
+
+@keyframes openEditMpdal {
+  from {
+    //height: 60px;
+  }
+  to {
+    //height: 120px;
   }
 }

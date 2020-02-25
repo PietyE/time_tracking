@@ -3,6 +3,7 @@ import {
   SET_TIME_REPORTS,
   SELECT_PROJECT,
   SET_IS_FETCHING_REPORTS,
+  EDIT_TIME_REPORT,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
