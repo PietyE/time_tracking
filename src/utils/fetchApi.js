@@ -41,16 +41,16 @@ export const fetchApi = async ({
     }
 
     const response = await axios(options)
-
     return response
   } catch (error) {
-    const { response } = error
+    const { response = {}, message: error_message } = error
 
-    const { data, status, statusText } = response
-    const { detail } = data
+    const { data = {}, status, statusText } = response
+    const { detail, title } = data
+
     const errorData = {
       status,
-      statusText,
+      messages: error_message || statusText || (title && title[0]),
       detail: typeof data === 'object' ? detail : '',
     }
 

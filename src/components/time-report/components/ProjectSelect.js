@@ -15,15 +15,14 @@ function ProjectSelect({ projects = [], selectProject, getDeveloperProjects }) {
   }, [getDeveloperProjects])
 
   return (
-    <div className="project_select_container">
-      <Select
-        title="choose you project..."
-        listItems={listItems}
-        onSelected={selectProject}
-        valueKey="name"
-        idKey="developer_project_id"
-      />
-    </div>
+    <Select
+      title="choose you project..."
+      listItems={listItems}
+      onSelected={selectProject}
+      valueKey="name"
+      idKey="developer_project_id"
+      extraClassContainer={'project_select'}
+    />
   )
 }
 

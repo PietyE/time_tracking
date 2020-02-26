@@ -39,6 +39,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    .time_report_header_select_section {
+      display: flex;
+    }
     .time_report_header_btn_section {
       display: flex;
       justify-content: flex-start;
@@ -80,47 +83,8 @@
       margin-right: 10px;
     }
   }
-  .project_select_container {
-    position: relative;
-    .project_select_title {
-      color: #5d5143;
-      font-family: Montserrat, sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      line-height: 40px;
-      cursor: pointer;
-      &:hover {
-        color: #009c98;
-      }
-    }
-    .project_select_menu {
-      height: 325px;
-      max-height: 325px;
-      width: 245px;
-      border-radius: 5px;
-      background-color: #ffffff;
-      box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.3);
-      padding: 20px;
-      position: absolute;
-      top: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      overflow: hidden;
-      animation: openMenu 0.3s 1 ease-in-out;
-      z-index: 999;
-      li {
-        text-align: left;
-        margin-bottom: 18px;
-        a {
-          color: #414141;
-          font-family: Montserrat, sans-serif;
-          font-size: 16px;
-          font-weight: 500;
-          line-height: 19px;
-        }
-      }
-    }
+  .project_select {
+    margin-right: 20px;
   }
 
   .time_report_day_container {
@@ -231,7 +195,7 @@
         box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
       }
       &.editing {
-        box-shadow: 0 0 5px 2px rgb(232, 181, 37);
+        //box-shadow: 0 0 5px 2px rgb(232, 181, 37);
       }
       &.full {
         .time_report_day_description {
@@ -375,18 +339,18 @@
   align-items: center;
   justify-content: flex-start;
   width: 96%;
-  max-width: 1212px;
+  max-width: 1160px;
   min-height: 60px;
+  height: auto;
   border: 1px solid #dedede;
   border-radius: 5px;
   background-color: #eefcfc;
-  position: absolute;
+  position: fixed;
   margin-bottom: 15px;
   overflow: hidden;
-  box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
-
+  box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
   animation: openEditMpdal 0.4s 1 ease;
-
+  z-index: 1000;
   &::before {
     content: '';
     position: absolute;
@@ -399,26 +363,29 @@
   .edit_modal_textarea {
     border-radius: 5px;
     background-color: #eefcfc;
-    resize: none;
+    //resize: none;
     padding: 5px;
-    border: 1px solid #2863637a;
+    border: 1px solid #28636321;
     flex: 1;
     margin-right: 15px;
+    align-self: stretch;
+    height: auto;
+    min-height: 40px;
+    max-height: 80px;
   }
   .hours_input {
     width: 65px;
     border-radius: 5px;
     background-color: #eefcfc;
-    resize: none;
     padding: 10px;
-    border: 1px solid #2863637a;
-    align-self: stretch;
+    border: 1px solid #28636321;
     margin-right: 15px;
+    height: 40px;
   }
   .edit_modal_button_container {
-    align-self: stretch;
     flex: 0.3;
     display: flex;
+    height: 40px;
     justify-content: space-between;
     align-items: stretch;
     button {
@@ -460,9 +427,11 @@
 
 @keyframes openEditMpdal {
   from {
+    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0);
     //height: 60px;
   }
   to {
-    //height: 120px;
+    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
+    //height: 102px;
   }
 }

@@ -2,14 +2,14 @@
   position: relative;
 }
 #modal:not(.active) ~ #root {
-  transition: 400ms filter ease-in-out, 800ms opacity ease-out;
+  transition: 300ms filter ease-in-out, 400ms opacity ease-out;
   filter: blur(0);
   opacity: 1;
 }
 #modal ~ #root {
   filter: blur(2px);
   opacity: 0.5;
-  transition: 300ms filter ease-in-out, 800ms opacity ease-out;
+  transition: 200ms filter ease-in-out, 200ms opacity ease-out;
 }
 
 .modal_container {

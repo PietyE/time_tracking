@@ -62,6 +62,7 @@ function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
           handlerClickOpenEditModal={handlerClickOpenEditModal}
           modalCoords={modalCoords}
           editTimeReport={editTimeReport}
+          reportItemContainerRef={reportItemContainerRef}
         />
       )}
       {isDeleteRequest && (

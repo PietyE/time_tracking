@@ -5,6 +5,7 @@ export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 export const BOOTSTRAP = 'BOOTSTRAP'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
+export const SET_FETCHING_PROFILE_STATUS = 'SET_FETCHING_PROFILE_STATUS'
 
 /** Alert Action Constant*/
 export const SHOW_ALERT = 'SHOW_ALERT'
@@ -28,3 +29,6 @@ export const SET_IS_FETCHING_REPORTS = 'SET_IS_FETCHING_REPORTS'
 /** Developer Projects */
 export const SET_DEVELOPER_PROJECTS = 'SET_DEVELOPER_PROJECTS'
 export const GET_DEVELOPER_PROJECTS = 'GET_DEVELOPER_PROJECTS'
+
+/** Processing to locations */
+export const LOCATION_PROCESSING = 'LOCATION_PROCESSING'

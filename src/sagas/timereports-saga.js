@@ -1,7 +1,7 @@
 import { select, call, takeEvery, put } from 'redux-saga/effects'
 
 import Api from 'utils/api'
-
+import { SUCCES_ALERT } from 'constants/alert-constant'
 import {
   CHANGE_SELECTED_DATE,
   ADD_TIME_REPORT,
@@ -13,10 +13,7 @@ import {
 import { PAGE_SIZE } from 'constants/url-constant'
 import { setTimeReports, setIsFetchingReports } from 'actions/timereports'
 import { setDeveloperProjects } from 'actions/developer-projects'
-
-/** Fake Data */
-import { timereports, getId } from 'constants/fake-data'
-/** Fake Data */
+import { showAler } from 'actions/alert'
 
 export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `developer-projects/?page_size=${PAGE_SIZE}`
@@ -88,18 +85,29 @@ export function* deleteTimeReport({ payload: id }) {
 }
 
 export function* editTimeReport({ payload }) {
-  const {
-    reports: { items = [] },
-  } = yield select(state => state.timereports)
-  const newItems = [...items]
-  const { id, ...body } = payload
-  const URL = `work_items/${id}`
-  const { data } = yield call([Api, 'editWorkItem'], URL, body)
+  try {
+    const {
+      reports: { items = [] },
+    } = yield select(state => state.timereports)
+    const newItems = [...items]
+    const { id, ...body } = payload
+    const URL = `work_items/${id}`
+    const { data } = yield call([Api, 'editWorkItem'], URL, body)
 
-  if (data) {
-    const indexEdited = newItems.findIndex(item => item.id === data.id)
-    newItems.splice(indexEdited, 1, data)
-    yield put(setTimeReports({ items: newItems }))
+    if (data) {
+      const indexEdited = newItems.findIndex(item => item.id === data.id)
+      newItems.splice(indexEdited, 1, data)
+      yield put(setTimeReports({ items: newItems }))
+      yield put(
+        showAler({
+          type: SUCCES_ALERT,
+          message: 'The report has been edited!',
+          delay: 5000,
+        })
+      )
+    }
+  } catch (error) {
+    console.dir(error)
   }
 }
 

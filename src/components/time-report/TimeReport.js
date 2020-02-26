@@ -1,11 +1,11 @@
 import React, { memo, useState } from 'react'
-
 import { connect } from 'react-redux'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
+import DeveloperSelect from './components/DeveloperSelect'
 
 import { changeSelectedDate, addTimeReport } from 'actions/timereports'
 import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
@@ -58,7 +58,10 @@ function TimeReport({
         }
       >
         <div className="time_report_header">
-          <ProjectSelect />
+          <div className="time_report_header_select_section">
+            <ProjectSelect />
+            <DeveloperSelect />
+          </div>
           <div className="time_report_header_btn_section">
             <SelectMonth
               selectedDate={selectedDate}

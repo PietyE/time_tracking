@@ -1,6 +1,8 @@
 import React, { memo, useEffect, useState, useCallback } from 'react'
+import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-
+import { getRoleUser } from 'selectors/user'
+import { DEVELOPER } from 'constants/role-constant'
 import ButtonHeaderNav from './components/ButtonHeaderNav'
 
 function HeaderNav() {
@@ -73,5 +75,7 @@ function HeaderNav() {
     </>
   )
 }
+
+const mapStateToProps = state => ({ roleUser: getRoleUser(state) })
 
 export default memo(HeaderNav)

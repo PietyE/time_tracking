@@ -20,8 +20,20 @@ export function* errorHandler() {
           delay: 5000,
         })
       )
+      yield put(cleanErrorData())
       break
     case 404:
+      yield put(
+        showAler({
+          type: DANGER_ALERT,
+          title: 'Page not found',
+          message: 'This is not the page you were looking for.',
+          delay: 5000,
+        })
+      )
+      yield put(cleanErrorData())
+      break
+    case 500:
       yield put(
         showAler({
           type: DANGER_ALERT,
@@ -35,12 +47,12 @@ export function* errorHandler() {
       yield put(
         showAler({
           type: DANGER_ALERT,
-          message: 'Something went wrong',
+          message: detail || messages || 'Something went wrong',
           delay: 5000,
         })
       )
+      yield put(cleanErrorData())
   }
-  yield put(cleanErrorData())
 }
 
 export function* watchErrorAlert() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import InputMask from 'react-input-mask'
@@ -10,10 +10,17 @@ import { getTimeReportForEdit } from 'selectors/timereports'
 function EditingModal({
   handlerClickOpenEditModal,
   edittingReport,
-  modalCoords,
   editTimeReport,
+  reportItemContainerRef,
 }) {
+  const [modalCoords, setModalCoords] = useState(
+    reportItemContainerRef.current.getBoundingClientRect()
+  )
   const { title, duration, developer_project, date, id } = edittingReport
+
+  const getCoordsRefElement = useCallback(() => {
+    setModalCoords(reportItemContainerRef.current.getBoundingClientRect())
+  }, [reportItemContainerRef])
 
   const handlerSubmit = e => {
     e.preventDefault()
@@ -30,11 +37,18 @@ function EditingModal({
     handlerClickOpenEditModal(false)
   }
 
+  useEffect(() => {
+    document.addEventListener('scroll', getCoordsRefElement)
+    return () => {
+      document.removeEventListener('scroll', getCoordsRefElement)
+    }
+  }, [reportItemContainerRef, getCoordsRefElement])
+
   return (
     <Modal>
       <div
         className="edit_modal_overlay"
-        style={{ top: modalCoords.top + 'px' }}
+        style={{ top: modalCoords.top + 'px', left: modalCoords.left + 'px' }}
       >
         <form
           style={{ display: 'contents' }}
@@ -55,11 +69,11 @@ function EditingModal({
             name="duration"
           />
           <div className="edit_modal_button_container">
-            <Button onClick={handlerClickOpenEditModal}>
-              <span>Cancel</span>
-            </Button>
             <Button type="submit">
               <span>Save</span>
+            </Button>
+            <Button onClick={handlerClickOpenEditModal}>
+              <span>Cancel</span>
             </Button>
           </div>
         </form>

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Alert } from 'react-bootstrap'
 
@@ -35,7 +36,7 @@ function AlertStyled({
     }
   }, [interval])
 
-  return (
+  const AlertComponent = () => (
     <Alert
       variant={type}
       dismissible={dismissible}
@@ -46,6 +47,11 @@ function AlertStyled({
       <Alert.Heading>{title}</Alert.Heading>
       <p>{message}</p>
     </Alert>
+  )
+
+  return ReactDOM.createPortal(
+    <AlertComponent />,
+    document.getElementById('alert')
   )
 }
 

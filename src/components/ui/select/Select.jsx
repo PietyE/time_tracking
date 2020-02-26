@@ -45,9 +45,11 @@ function Select({
     }
   }, [isOpen, callbackEventListener])
 
+  const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
+
   return (
     <div
-      className={`select_container ${extraClassContainer}`}
+      className={`select_container ${extraClassContainer} ${classNameContainerOpen}`}
       onClick={handlerClickOpen}
     >
       <div className="select_title_container">
