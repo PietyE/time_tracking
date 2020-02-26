@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
 }
 
@@ -7,3 +7,45 @@
   max-width: 1212px;
   padding: 0 15px;
 }
+
+.error_page {
+  background: url(../images/500.png) center no-repeat,
+    url(../images/6os.gif) left center no-repeat,
+    url(../images/6os.gif) right center no-repeat rgb(237, 243, 249);
+  background-size: auto;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 10vh;
+  max-width: 100%;
+  padding: 10vh 15%;
+}
+
+.error_page h1 {
+  text-align: center;
+}
+
+/* .oversize::before {
+  content: '';
+  background-image: url(../images/6os.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  width: 300px;
+  height: 100vh;
+  width: 300px;
+}
+
+.oversize::after {
+  content: '';
+  background-image: url(../images/6os.gif);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  height: 100vh;
+  width: 300px;
+} */

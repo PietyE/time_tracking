@@ -1,27 +1,50 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 
-import { showAler } from 'actions/alert'
-import { Button } from 'react-bootstrap'
+import { Button, Alert } from 'react-bootstrap'
 
-const Blog = ({ showAler }) => {
-  const [count, setCount] = useState(0)
-  const test = () => {
-    showAler({
-      title: `Test ${count}`,
-      delay: 2000,
-      message: 'It is a test sagas work',
-    })
-    setCount(count + 1)
+import './style.scss'
+
+const Blog = () => {
+  const [showOpen, setShowOpen] = useState(false)
+
+  const [className, setClassName] = useState('')
+
+  const handlerClickOpenButton = () => {
+    if (showOpen) {
+      setClassName('end')
+      return
+    }
+    setShowOpen(true)
   }
+
   return (
     <div>
       <h2>Blog</h2>
-      <Button onClick={test}>Press Me to Message</Button>
+      <Button onClick={handlerClickOpenButton}>Press Me to Message</Button>
+      {showOpen && (
+        <div
+          onAnimationStart={() => {
+            console.log('onAnimationStart')
+          }}
+          onAnimationEnd={() => {
+            if (className) {
+              setClassName('')
+              setShowOpen(false)
+            }
+          }}
+          className={`shlapa ${className}`}
+        >
+          <Alert variant="primary" dismissible onClose={handlerClickOpenButton}>
+            <Alert.Heading>Animated alert message</Alert.Heading>
+            <p>
+              This alert message is being transitioned in and out of the DOM.
+            </p>
+            <Button onClick={handlerClickOpenButton}>Close</Button>
+          </Alert>
+        </div>
+      )}
     </div>
   )
 }
 
-const actions = { showAler }
-
-export default connect(null, actions)(Blog)
+export default Blog

@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap'
 
 import { logIn } from 'actions/users'
 import { getUserAuthStatus } from 'selectors/user'
-import Logo from 'components/ui/logo'
 import { CLIENT_ID } from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
 

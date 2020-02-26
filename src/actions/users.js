@@ -6,6 +6,7 @@ import {
   LOG_OUT,
   BOOTSTRAP,
   SET_AUTH_STATUS,
+  SET_FETCHING_PROFILE_STATUS,
 } from 'constants/actions-constant'
 
 export const setUsersOauthData = payload => ({
@@ -37,5 +38,10 @@ export const logOut = () => ({
 
 export const setAuthStatus = payload => ({
   type: SET_AUTH_STATUS,
+  payload,
+})
+
+export const setFetchingProfileStatus = payload => ({
+  type: SET_FETCHING_PROFILE_STATUS,
   payload,
 })

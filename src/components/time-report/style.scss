@@ -1,14 +1,47 @@
+@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount;
+  text-align: justify;
+  // margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: -2px;
+    bottom: 0;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
+
 .time_report_container {
   display: flex;
   flex: 1;
   padding-top: 40px;
   flex-direction: column;
+  &.fetching {
+    filter: blur(1px);
+  }
   .time_report_header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    .time_report_header_select_section {
+      display: flex;
+    }
     .time_report_header_btn_section {
       display: flex;
       justify-content: flex-start;
@@ -24,6 +57,7 @@
         display: flex;
         align-items: baseline;
         justify-content: center;
+        border: unset;
         .export_icon_container {
           margin-right: 10px;
           line-height: 18px;
@@ -49,47 +83,8 @@
       margin-right: 10px;
     }
   }
-  .project_select_container {
-    position: relative;
-    .project_select_title {
-      color: #5d5143;
-      font-family: Montserrat, sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      line-height: 40px;
-      cursor: pointer;
-      &:hover {
-        color: #009c98;
-      }
-    }
-    .project_select_menu {
-      height: 325px;
-      max-height: 325px;
-      width: 245px;
-      border-radius: 5px;
-      background-color: #ffffff;
-      box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.3);
-      padding: 20px;
-      position: absolute;
-      top: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      overflow: hidden;
-      animation: openMenu 0.3s 1 ease-in-out;
-      z-index: 999;
-      li {
-        text-align: left;
-        margin-bottom: 18px;
-        a {
-          color: #414141;
-          font-family: Montserrat, sans-serif;
-          font-size: 16px;
-          font-weight: 500;
-          line-height: 19px;
-        }
-      }
-    }
+  .project_select {
+    margin-right: 20px;
   }
 
   .time_report_day_container {
@@ -123,6 +118,7 @@
         align-items: center;
         font-size: 20px;
         line-height: 27px;
+        background-color: unset;
         cursor: pointer;
         .add_icon {
           color: #d5d5d5;
@@ -149,8 +145,10 @@
       animation: createTimeReport 0.3s 1 ease;
       height: 60px;
       &.close {
-        animation: createTimeReportClose 0.3s 1 ease-out;
-        height: 0px;
+        height: 0;
+        opacity: 0;
+        margin-bottom: 0;
+        animation: createTimeReportClose 0.3s 1 ease;
       }
       .input {
         border: 1px solid #d5d5d5;
@@ -158,7 +156,7 @@
         background-color: #ffffff;
         padding: 0 24px;
         margin-right: 15px;
-        color: #919191;
+        color: #414141;
         font-family: Montserrat, sans-serif;
         font-size: 18px;
         font-weight: 500;
@@ -191,14 +189,18 @@
       border-radius: 5px;
       background-color: #eefcfc;
       position: relative;
-      cursor: pointer;
       margin-bottom: 15px;
       overflow: hidden;
+      &.active {
+        box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
+      }
+      &.editing {
+        //box-shadow: 0 0 5px 2px rgb(232, 181, 37);
+      }
       &.full {
         .time_report_day_description {
           transition: max-height 0.4s;
           max-height: 60vh;
-          overflow: scroll;
         }
       }
       &::before {
@@ -215,19 +217,18 @@
         font-family: Montserrat, sans-serif;
         font-size: 16px;
         line-height: 19px;
-        flex: 0.8;
+        flex: 0.9;
         text-align: left;
         height: auto;
         overflow: hidden;
         transition: 0.4s;
         max-height: 38px;
-      }
-
-      .time_report_day_edit {
-        flex: 0.2;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+        cursor: pointer;
+        @include multiLineEllipsis(
+          $lineHeight: 1.25em,
+          $lineCount: 2,
+          $bgColor: #eefcfc
+        );
       }
       .time_report_day_hours {
         color: #414141;
@@ -236,11 +237,45 @@
         line-height: 19px;
         margin-right: 20px;
       }
-      .icon {
-        cursor: pointer;
-      }
-      .pencil_icon {
-        margin-right: 20px;
+      .time_report_day_edit {
+        width: 50px;
+        padding: 5px 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-right: -15px;
+        position: relative;
+        button {
+          border: unset;
+          background-color: unset;
+          width: 100%;
+          font-size: 18px;
+        }
+        .time_report_day_menu {
+          position: absolute;
+          width: 100px;
+          height: 50px;
+          background-color: #eefcfc;
+          z-index: 9;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          right: -140px;
+          transition: 0.4s;
+          &.open {
+            right: 0;
+            transition: 0.4s;
+            button:hover {
+              .icon {
+                color: #868686;
+                transition: 0.3s;
+              }
+            }
+          }
+          .icon {
+            color: #414141;
+          }
+        }
       }
     }
     .time_report_day_footer {
@@ -254,6 +289,107 @@
       font-size: 16px;
       font-weight: 500;
       line-height: 19px;
+    }
+  }
+}
+
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.delete_modal_overlay {
+  width: 80%;
+  max-width: 350px;
+  height: 20vh;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.5);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px;
+  .delete_modal_title {
+    text-align: center;
+  }
+  .delete_modal_button_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    button {
+      width: 40%;
+    }
+  }
+}
+
+.edit_modal_overlay {
+  padding: 10px 20px 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 96%;
+  max-width: 1160px;
+  min-height: 60px;
+  height: auto;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  background-color: #eefcfc;
+  position: fixed;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
+  animation: openEditMpdal 0.4s 1 ease;
+  z-index: 1000;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    width: 7px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+    background-color: #009c98;
+  }
+  .edit_modal_textarea {
+    border-radius: 5px;
+    background-color: #eefcfc;
+    //resize: none;
+    padding: 5px;
+    border: 1px solid #28636321;
+    flex: 1;
+    margin-right: 15px;
+    align-self: stretch;
+    height: auto;
+    min-height: 40px;
+    max-height: 80px;
+  }
+  .hours_input {
+    width: 65px;
+    border-radius: 5px;
+    background-color: #eefcfc;
+    padding: 10px;
+    border: 1px solid #28636321;
+    margin-right: 15px;
+    height: 40px;
+  }
+  .edit_modal_button_container {
+    flex: 0.3;
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    align-items: stretch;
+    button {
+      width: 45%;
     }
   }
 }
@@ -279,8 +415,23 @@
 @keyframes createTimeReportClose {
   from {
     height: 60px;
+    opacity: 1;
+    margin-bottom: 15px;
   }
   to {
-    height: 0px;
+    height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes openEditMpdal {
+  from {
+    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0);
+    //height: 60px;
+  }
+  to {
+    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
+    //height: 102px;
   }
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCaretLeft,
@@ -97,7 +96,7 @@ function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
     return className
   }
 
-  const checkIsParentNode = (parent, child) => {
+  const checkIsParentNode = useCallback((parent, child) => {
     let res = false
     if (!child) {
       return res
@@ -112,14 +111,17 @@ function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
       res = checkIsParentNode(parent, child.parentElement)
     }
     return res
-  }
-
-  const callbackEventListener = useCallback(event => {
-    const isParent = checkIsParentNode(selectMonthRef.current, event.target)
-    if (isParent) return
-    setIsOpenPicker(false)
-    document.removeEventListener('click', callbackEventListener)
   }, [])
+
+  const callbackEventListener = useCallback(
+    event => {
+      const isParent = checkIsParentNode(selectMonthRef.current, event.target)
+      if (isParent) return
+      setIsOpenPicker(false)
+      document.removeEventListener('click', callbackEventListener)
+    },
+    [checkIsParentNode]
+  )
 
   useEffect(() => {
     if (isOpenPicker) {

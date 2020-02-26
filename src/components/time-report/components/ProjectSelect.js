@@ -1,43 +1,35 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Scrollbar from 'react-scrollbars-custom'
+import React, { useEffect, memo } from 'react'
+import { connect } from 'react-redux'
 
-function ProjectSelect({ menuList = [] }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedСompany, setSelectedСompany] = useState(
-    menuList[0].companyName
-  )
-  const handleSelectedItem = e => {
-    setSelectedСompany(e.target.textContent)
-    setIsOpen(false)
-  }
-  const handleOnClick = () => {
-    setIsOpen(!isOpen)
-  }
+import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
+import { getDeveloperProjectNames } from 'selectors/developer-projects'
+import Select from 'components/ui/select'
+
+function ProjectSelect({ projects = [], selectProject, getDeveloperProjects }) {
+  const listItems = projects.map(item => ({
+    ...item.project,
+    developer_project_id: item.id,
+  }))
+  useEffect(() => {
+    getDeveloperProjects()
+  }, [getDeveloperProjects])
+
   return (
-    <div className="project_select_container">
-      <span className="project_select_title" onClick={handleOnClick}>
-        {selectedСompany}
-      </span>
-
-      {isOpen && (
-        <ul className="project_select_menu">
-          <Scrollbar>
-            {menuList.map(item => (
-              <li key={item.id}>
-                <Link
-                  to={`/timereport/?id=${item.id}`}
-                  onClick={handleSelectedItem}
-                >
-                  {item.companyName}
-                </Link>
-              </li>
-            ))}
-          </Scrollbar>
-        </ul>
-      )}
-    </div>
+    <Select
+      title="choose you project..."
+      listItems={listItems}
+      onSelected={selectProject}
+      valueKey="name"
+      idKey="developer_project_id"
+      extraClassContainer={'project_select'}
+    />
   )
 }
 
-export default ProjectSelect
+const mapStateToProps = state => ({
+  projects: getDeveloperProjectNames(state),
+})
+
+const actions = { getDeveloperProjects, selectProject }
+
+export default memo(connect(mapStateToProps, actions)(ProjectSelect))

@@ -1,34 +1,116 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useRef } from 'react'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTimes,
+  faPencilAlt,
+  faEllipsisV,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons'
 
-function ReportItem({ text, hours }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const handlerClickOpen = e => {
-    setIsOpen(!isOpen)
+import { deleteTimeReport, editTimeReport } from 'actions/timereports'
+import { parseMinToHoursAndMin } from 'utils/common'
+import DeleteModal from './DeleteModal'
+import EditingModal from './EditingModal'
+
+function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
+  const reportItemContainerRef = useRef()
+  const [isOpenLongText, setIsOpenLongText] = useState(false)
+  const [isDeleteRequest, setIsDeleteRequest] = useState(false)
+  const [isEditingText, setIsEditingText] = useState(false)
+  const [modalCoords, setModalCoords] = useState({})
+
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
+
+  const handlerClickOpenLongText = e => {
+    setIsOpenLongText(!isOpenLongText)
   }
-  const classNameIsOpen = isOpen ? 'full' : 'short'
+
+  const handlerOpenMenu = e => {
+    e.stopPropagation()
+    setIsOpenMenu(!isOpenMenu)
+  }
+
+  const handlerClickOpenDeleteModal = e => {
+    e.stopPropagation()
+    setIsDeleteRequest(!isDeleteRequest)
+  }
+
+  const handlerClickDelete = e => {
+    deleteTimeReport(id)
+    setIsDeleteRequest(false)
+  }
+
+  const handlerClickOpenEditModal = e => {
+    setIsEditingText(!isEditingText)
+    setModalCoords(reportItemContainerRef.current.getBoundingClientRect())
+    setIsOpenMenu(false)
+  }
+
+  const classNameIsOpen = isOpenLongText ? 'full' : 'short'
+  const activeClassNameContainerForDeletting = isDeleteRequest ? 'active' : ''
+  const activeClassNameContainerForEditting = isEditingText ? 'editing' : ''
+
   return (
     <div
-      className={`time_report_day_row ${classNameIsOpen}`}
-      onClick={handlerClickOpen}
+      ref={reportItemContainerRef}
+      className={`time_report_day_row ${classNameIsOpen} ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
     >
-      <span className="time_report_day_description">{text}</span>
+      {isEditingText && (
+        <EditingModal
+          id={id}
+          handlerClickOpenEditModal={handlerClickOpenEditModal}
+          modalCoords={modalCoords}
+          editTimeReport={editTimeReport}
+          reportItemContainerRef={reportItemContainerRef}
+        />
+      )}
+      {isDeleteRequest && (
+        <DeleteModal
+          handlerClickOpenDeleteModal={handlerClickOpenDeleteModal}
+          handlerClickDelete={handlerClickDelete}
+        />
+      )}
+      <span
+        className="time_report_day_description"
+        onClick={handlerClickOpenLongText}
+      >
+        {text}
+      </span>
+      <span className="time_report_day_hours">
+        {parseMinToHoursAndMin(hours)}
+      </span>
       <div className="time_report_day_edit">
-        <span className="time_report_day_hours">{`${hours}:00`}</span>
-        <FontAwesomeIcon
-          icon={faPencilAlt}
-          color="#414141"
-          className="icon pencil_icon"
-        />
-        <FontAwesomeIcon
-          icon={faTimes}
-          color="#414141"
-          className="icon times_icon"
-        />
+        <button onClick={handlerOpenMenu}>
+          <FontAwesomeIcon
+            icon={faEllipsisV}
+            color="#414141"
+            className="icon times_icon"
+          />
+        </button>
+        <div
+          className={
+            isOpenMenu ? 'time_report_day_menu open' : 'time_report_day_menu'
+          }
+        >
+          <button onClick={handlerClickOpenEditModal}>
+            <FontAwesomeIcon icon={faPencilAlt} className="icon pencil_icon" />
+          </button>
+          <button onClick={handlerClickOpenDeleteModal}>
+            <FontAwesomeIcon icon={faTrashAlt} className="icon pencil_icon" />
+          </button>
+          <button onClick={handlerOpenMenu}>
+            <FontAwesomeIcon icon={faTimes} className="icon times_icon" />
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
-export default memo(ReportItem)
+const actions = {
+  deleteTimeReport,
+  editTimeReport,
+}
+
+export default memo(connect(null, actions)(ReportItem))

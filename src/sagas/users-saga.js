@@ -1,16 +1,19 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
 import Api from 'utils/api'
+import { isEmpty } from 'lodash'
 import {
   setUsersOauthData,
   cleanUserOauthData,
   setAuthStatus,
+  setFetchingProfileStatus,
 } from 'actions/users'
 import { showAler } from 'actions/alert'
-import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT } from 'constants/alert-constant'
 import { LOG_IN, LOG_OUT, BOOTSTRAP } from 'constants/actions-constant'
 
 function* bootstrap() {
   try {
+    yield put(setFetchingProfileStatus(true))
     const user_auth_data = yield call(
       [localStorage, 'getItem'],
       'user_auth_data'
@@ -34,6 +37,11 @@ function* bootstrap() {
 
         const response = yield call([Api, 'users'], URL)
 
+        if (isEmpty(response)) {
+          yield put(setAuthStatus(false))
+          return false
+        }
+
         const { data: usersDataFromServer, status } = response
 
         if (status !== 200) {
@@ -45,9 +53,11 @@ function* bootstrap() {
         return true
       }
     }
+
     yield put(setAuthStatus(false))
   } catch (error) {
-    //yield put(setAuthStatus(false))
+  } finally {
+    yield put(setFetchingProfileStatus(false))
   }
 }
 

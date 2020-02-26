@@ -27,6 +27,41 @@ class Api {
       method: 'post',
     })
   }
+
+  developerProjects = url => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getWorkItems = url => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  addWorkItem = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  deleteWorkItem = url => {
+    return fetchApi({
+      url,
+      method: 'delete',
+    })
+  }
+
+  editWorkItem = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'patch',
+      body,
+    })
+  }
 }
 
 export default new Api()
