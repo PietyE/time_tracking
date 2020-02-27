@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { bootstrap } from 'actions/users'
+
 import { getFetchingProfileStatus } from 'selectors/user'
 
 import SpinnerStyled from 'components/ui/spinner'

@@ -9,6 +9,10 @@ const getIsFetchingReport = state => state.timereports.isFetchingReports
 const getTimeReportForEdit = (state, id) =>
   state.timereports.reports.items.find(report => report.id === id)
 
+const getSelectedProject = state => state.timereports.selectedProject
+
+const getSelecredDeveloper = state => state.timereports.selectedDeveloper
+
 const getTimeReports = createSelector(
   getTimeReportsSelector,
   reports => reports
@@ -19,4 +23,6 @@ export {
   getTimeReports,
   getIsFetchingReport,
   getTimeReportForEdit,
+  getSelectedProject,
+  getSelecredDeveloper,
 }

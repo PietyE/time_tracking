@@ -8,6 +8,12 @@ export const getRoleUser = state => state.profile.role
 
 export const getFetchingProfileStatus = state => state.profile.isFetchingUsers
 
+export const getProfileId = state => state.profile.id
+
+export const getProfileName = state => state.profile.name
+
+export const getProfileEmail = state => state.profile.email
+
 export const getUserAvatarUrl = createSelector(
   getUserAvatarUrlSelector,
   imageUrl => imageUrl

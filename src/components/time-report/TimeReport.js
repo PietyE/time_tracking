@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import ProjectSelect from './components/ProjectSelect'
@@ -8,7 +8,7 @@ import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
 
 import { changeSelectedDate, addTimeReport } from 'actions/timereports'
-import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
+import { selectProject } from 'actions/developer-projects'
 import {
   getSelectedDate,
   getTimeReports,
@@ -127,7 +127,6 @@ const mapStateToProps = state => ({
 const actions = {
   changeSelectedDate,
   addTimeReport,
-  getDeveloperProjects,
   selectProject,
 }
 

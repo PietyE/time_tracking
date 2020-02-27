@@ -29,6 +29,9 @@
       line-height: 1.5;
       white-space: nowrap;
       overflow: hidden;
+      &.select_title_text_input {
+        border: none;
+      }
     }
     .select_title_icon {
       color: #414141;
@@ -59,17 +62,41 @@
       animation: closeSelect 0.3s 1 ease-out;
       opacity: 0;
     }
-    .select_list_item {
-      color: #414141;
-      font-family: Montserrat;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 2.5;
-      white-space: nowrap;
-      overflow: hidden;
-      &:hover {
-        color: #309c98;
-        transition: 0.3s;
+    .select_list_item_container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+      .select_list_item {
+        color: #414141;
+        font-family: Montserrat;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 2.5;
+        white-space: nowrap;
+        overflow: hidden;
+        &.choise {
+          font-weight: 900;
+        }
+        &:hover {
+          color: #309c98;
+          transition: 0.3s;
+        }
+        .highlight {
+          background-color: yellowgreen;
+        }
+      }
+      .select_clear_btn {
+        border: none;
+        background: url(../../../images/clear.svg) center 13px no-repeat
+          rgba(255, 255, 255, 0.5);
+        background-size: 7px;
+        width: 15%;
+        height: 100%;
+        transition: 0.3s ease-out;
+        position: absolute;
+        right: -10px;
       }
     }
   }

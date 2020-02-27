@@ -7,9 +7,9 @@ const getDeveloperProjectsNamesSelector = state => {
   return projects
 }
 
-const getDeveloperProjectNames = createSelector(
+const getProjectsSelector = createSelector(
   getDeveloperProjectsNamesSelector,
   projects => projects
 )
 
-export { getDeveloperProjectNames }
+export { getProjectsSelector }

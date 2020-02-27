@@ -9,16 +9,33 @@ import {
   GET_DEVELOPER_PROJECTS,
   DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
+  GET_PROJECTS,
+  GET_DEVELOPERS,
 } from 'constants/actions-constant'
 import { PAGE_SIZE } from 'constants/url-constant'
 import { setTimeReports, setIsFetchingReports } from 'actions/timereports'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
+import { setDevelopers } from 'actions/developers'
 
 export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `developer-projects/?page_size=${PAGE_SIZE}`
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
   yield put(setDeveloperProjects(data))
+}
+
+export function* getProjects() {
+  const URL_PROJECT = `projects/`
+  const { data } = yield call([Api, 'developerProjects'], URL_PROJECT)
+  yield put(setDeveloperProjects({ items: data }))
+  yield call(getDevelopers)
+}
+
+export function* getDevelopers() {
+  const URL_USERS = `users/`
+  const { data } = yield call([Api, 'developerProjects'], URL_USERS)
+  console.log('data', data)
+  yield put(setDevelopers(data))
 }
 
 export function* workerTimeReports() {
@@ -33,9 +50,8 @@ export function* workerTimeReports() {
       const URL_WORK_ITEMS = `work_items/?developer_project=${developer_project_id}&year=${year}&month=${1 +
         month}`
       yield put(setIsFetchingReports(true))
-      // GET_DATA_FROM_SERVER! to do
+
       const { data } = yield call([Api, 'getWorkItems'], URL_WORK_ITEMS)
-      // yield delay(1000)
 
       yield put(setTimeReports(data))
       yield put(setIsFetchingReports(false))
@@ -113,6 +129,8 @@ export function* editTimeReport({ payload }) {
 
 export function* watchTimereports() {
   yield takeEvery(GET_DEVELOPER_PROJECTS, getDeveloperProjects)
+  yield takeEvery(GET_PROJECTS, getProjects)
+  yield takeEvery(GET_DEVELOPERS, getDevelopers)
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)
   yield takeEvery(DELETE_TIME_REPORT, deleteTimeReport)
   yield takeEvery(EDIT_TIME_REPORT, editTimeReport)

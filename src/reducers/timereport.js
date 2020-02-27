@@ -3,6 +3,8 @@ import {
   SET_TIME_REPORTS,
   SELECT_PROJECT,
   SET_IS_FETCHING_REPORTS,
+  SELECT_DEVELOPERS,
+  CLEAR_SELECTED_PROJECT,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -25,6 +27,14 @@ export const timereports = (state = initialState, action) => {
       return { ...state, reports: action.payload }
     case SELECT_PROJECT:
       return { ...state, selectedProject: action.payload }
+    case CLEAR_SELECTED_PROJECT:
+      return {
+        ...state,
+        selectedProject: initialState.selectedProject,
+        reports: [],
+      }
+    case SELECT_DEVELOPERS:
+      return { ...state, selectedDeveloper: action.payload }
     case SET_IS_FETCHING_REPORTS:
       return { ...state, isFetchingReports: action.payload }
     default:
