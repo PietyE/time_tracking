@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
+import Select from 'components/ui/select'
+import SelectMonth from 'components/ui/select-month'
 
 import './style.css'
 
@@ -9,25 +11,22 @@ const fakeData = [
   {
     name: 'Dasha Lukinova',
     rate: 12,
+    projectSalary: 2000,
     projects: [
       {
         projectName: 'GetCompliant',
-        projectSalary: 1000,
         hours: 3,
       },
       {
         projectName: 'Mebex',
-        projectSalary: 1222,
         hours: 43,
       },
       {
         projectName: 'JobCast',
-        projectSalary: 1456,
         hours: 89,
       },
       {
         projectName: 'BankId',
-        projectSalary: 890,
         hours: 30,
       },
     ],
@@ -35,10 +34,10 @@ const fakeData = [
   {
     name: 'Viktor Vovk',
     rate: 16,
+    projectSalary: 3000,
     projects: [
       {
         projectName: 'JobCast',
-        projectSalary: 2000,
         hours: 47,
       },
     ],
@@ -48,17 +47,23 @@ const fakeData = [
 function ProjectsReport() {
   return (
     <div className="container">
+      <div className="project_report_header_container">
+        <div className="project_report_header_choice">
+          <Select title="choose you project..." />
+          <Select title="choose you developer..." />
+        </div>
+        <SelectMonth />
+      </div>
       <TableHeader />
       <div className="table_body_container">
         {fakeData.map(user => {
-          const { name, projects, rate } = user
+          const { name, projects, rate, projectSalary } = user
           const allProjectsName = projects
             .map(project => project.projectName)
             .join(', ')
 
           const projectSum = projects.reduce(
             (sum, project) => ({
-              projectSalary: sum.projectSalary + project.projectSalary,
               hours: sum.hours + project.hours,
             }),
             { projectSalary: 0, hours: 0 }
@@ -74,6 +79,7 @@ function ProjectsReport() {
               projects={projects}
               name={name}
               rate={rate}
+              projectSalary={projectSalary}
               key={name}
             />
           )
@@ -88,6 +94,7 @@ const RenderUser = ({
   commonProjectsInfo = {},
   projects = [],
   rate = 0,
+  projectSalary = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -99,6 +106,7 @@ const RenderUser = ({
     <div className="table_body_item">
       <TableRow
         project={commonProjectsInfo}
+        projectSalary={projectSalary}
         name={name}
         rate={rate}
         onClick={handlerOpenMoreProject}

@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Button } from 'react-bootstrap'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
@@ -68,12 +69,12 @@ function TimeReport({
               setNewData={changeSelectedDate}
               extraClassNameContainer="time_report_header_select_month"
             />
-            <button className="export_btn">
+            <Button className="export_btn">
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
               <span className="export_btn_text">Export</span>
-            </button>
+            </Button>
           </div>
         </div>
         <div className="time_repord_checkbox">

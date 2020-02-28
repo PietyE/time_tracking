@@ -107,3 +107,16 @@
   transform: rotate(-180deg);
   transition: all 0.3s;
 }
+
+.project_report_header_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.project_report_header_choice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

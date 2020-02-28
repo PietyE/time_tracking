@@ -13,7 +13,11 @@ import { monthsNamesLong, monthsNamesShort } from 'constants/months'
 
 import './style.scss'
 
-function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
+function SelectMonth({
+  selectedDate = {},
+  setNewData,
+  extraClassNameContainer,
+}) {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
   const month = todayDate.getMonth()
@@ -77,9 +81,9 @@ function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
   const longMonthName = monthsNamesLong[currentMonth]
 
   const longMonthNameText =
-    selectedDate.year === year
-      ? longMonthName
-      : `${longMonthName}, ${selectedDate.year}`
+    selectedDate.year && selectedDate.year !== year
+      ? `${longMonthName}, ${selectedDate.year}`
+      : longMonthName
 
   const dissabledNextYearButton = currentYear === year
   const disabledNextMonthButton =
@@ -134,7 +138,9 @@ function SelectMonth({ selectedDate, setNewData, extraClassNameContainer }) {
 
   return (
     <div
-      className={`select_month_container ${extraClassNameContainer}`}
+      className={`select_month_container ${
+        isOpenPicker ? 'open' : ''
+      } ${extraClassNameContainer}`}
       ref={selectMonthRef}
     >
       <button

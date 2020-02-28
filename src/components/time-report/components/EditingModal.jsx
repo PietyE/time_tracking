@@ -13,14 +13,7 @@ function EditingModal({
   editTimeReport,
   reportItemContainerRef,
 }) {
-  const [modalCoords, setModalCoords] = useState(
-    reportItemContainerRef.current.getBoundingClientRect()
-  )
   const { title, duration, developer_project, date, id } = edittingReport
-
-  const getCoordsRefElement = useCallback(() => {
-    setModalCoords(reportItemContainerRef.current.getBoundingClientRect())
-  }, [reportItemContainerRef])
 
   const handlerSubmit = e => {
     e.preventDefault()
@@ -37,19 +30,9 @@ function EditingModal({
     handlerClickOpenEditModal(false)
   }
 
-  useEffect(() => {
-    document.addEventListener('scroll', getCoordsRefElement)
-    return () => {
-      document.removeEventListener('scroll', getCoordsRefElement)
-    }
-  }, [reportItemContainerRef, getCoordsRefElement])
-
   return (
     <Modal>
-      <div
-        className="edit_modal_overlay"
-        style={{ top: modalCoords.top + 'px', left: modalCoords.left + 'px' }}
-      >
+      <div id="edit_modal_overlay" className="edit_modal_overlay">
         <form
           style={{ display: 'contents' }}
           onSubmit={handlerSubmit}

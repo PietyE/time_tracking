@@ -44,7 +44,7 @@ function Select({
   }
   const handlerClickItem = e => {
     e.preventDefault()
-    setTitle(e.target.dataset.value)
+    setTitle(e.currentTarget.dataset.value)
   }
 
   const handlerChangeSearchValue = e => {
@@ -122,7 +122,7 @@ function Select({
                 }
                 data-value={item[valueKey]}
                 onClick={e => {
-                  if (_title !== e.target.dataset.value) {
+                  if (_title !== e.currentTarget.dataset.value) {
                     handlerClickItem(e)
                     onSelected(item)
                   }

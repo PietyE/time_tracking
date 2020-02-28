@@ -58,6 +58,11 @@
         align-items: baseline;
         justify-content: center;
         border: unset;
+        transition: 0.3s ease-out;
+        &:hover {
+          background-color: #3bbbb7;
+          transition: 0.3s ease-in;
+        }
         .export_icon_container {
           margin-right: 10px;
           line-height: 18px;
@@ -160,6 +165,11 @@
         font-family: Montserrat, sans-serif;
         font-size: 18px;
         font-weight: 500;
+        transition: 0.3s ease-out;
+        &:focus {
+          border-color: #97aabd;
+          transition: 0.3s ease-in;
+        }
       }
       .description_input {
         flex: 1;
@@ -172,6 +182,11 @@
         border: unset;
         border-radius: 5px;
         background-color: #5a5145;
+        transition: 0.3s ease-out;
+        &:hover {
+          background-color: #726b62;
+          transition: 0.3s ease-in;
+        }
         .pencil_icon {
           color: #fff;
           font-size: 22px;
@@ -346,6 +361,9 @@
   border-radius: 5px;
   background-color: #eefcfc;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
   margin-bottom: 15px;
   overflow: hidden;
   box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);

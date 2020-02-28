@@ -7,8 +7,9 @@ export default function TableRow({
   name,
   rate,
   onClick,
+  projectSalary,
 }) {
-  const { projectName, projectSalary, hours } = project
+  const { projectName, hours } = project
   const total = rate * hours
   const totalUSD = projectSalary + total
   const toPay = totalUSD * 24
@@ -34,15 +35,25 @@ export default function TableRow({
       </span>
       <span className="table_cell name">
         <span>
-          {extraClass === 'common' ? projectName : <Link>{projectName}</Link>}
+          {extraClass === 'common' ? (
+            projectName
+          ) : (
+            <Link to="projects">{projectName}</Link>
+          )}
         </span>
       </span>
-      <span className="table_cell">{usdFormat.format(projectSalary)}</span>
+      <span className="table_cell">
+        {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
+      </span>
       <span className="table_cell">{usdFormat.format(rate)}</span>
       <span className="table_cell">{hours} h</span>
       <span className="table_cell">{usdFormat.format(total)}</span>
-      <span className="table_cell">{usdFormat.format(totalUSD)}</span>
-      <span className="table_cell">{UAHFormat.format(toPay)}</span>
+      <span className="table_cell">
+        {extraClass === 'common' ? usdFormat.format(totalUSD) : ''}
+      </span>
+      <span className="table_cell">
+        {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
+      </span>
       <span className="table_cell">{UAHFormat.format(coast)}</span>
     </div>
   )
