@@ -45,10 +45,6 @@ export default function TableRow({
                 search: `?developer_project=${developer_project_id}&year=${
                   selectedDate.year
                 }&month=${selectedDate.month + 1}`,
-                state: {
-                  developer_project: developer_project_id,
-                  selectedDate: selectedDate,
-                },
               }}
             >
               {projectName}
