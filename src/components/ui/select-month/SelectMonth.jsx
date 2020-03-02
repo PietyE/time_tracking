@@ -136,6 +136,11 @@ function SelectMonth({
     }
   }, [callbackEventListener, isOpenPicker])
 
+  useEffect(() => {
+    setCurrentYear(selectedDate.year)
+    setCurrentMonth(selectedDate.month)
+  }, [selectedDate])
+
   return (
     <div
       className={`select_month_container ${

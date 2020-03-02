@@ -3,7 +3,7 @@ import { select, call, takeEvery, put } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { SUCCES_ALERT } from 'constants/alert-constant'
 import {
-  CHANGE_SELECTED_DATE,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
   ADD_TIME_REPORT,
   SELECT_PROJECT,
   GET_DEVELOPER_PROJECTS,
@@ -12,22 +12,25 @@ import {
   GET_PROJECTS,
   GET_DEVELOPERS,
 } from 'constants/actions-constant'
-import { PAGE_SIZE } from 'constants/url-constant'
 import { setTimeReports, setIsFetchingReports } from 'actions/timereports'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
 export function* getDeveloperProjects() {
-  const URL_DEVELOPER_PROJECT = `developer-projects/?page_size=${PAGE_SIZE}`
+  const URL_DEVELOPER_PROJECT = `developer-projects/`
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-  yield put(setDeveloperProjects(data))
+  const restructureData = data.map(item => ({
+    ...item.project,
+    developer_project_id: item.id,
+  }))
+  yield put(setDeveloperProjects(restructureData))
 }
 
 export function* getProjects() {
   const URL_PROJECT = `projects/`
   const { data } = yield call([Api, 'developerProjects'], URL_PROJECT)
-  yield put(setDeveloperProjects({ items: data }))
+  yield put(setDeveloperProjects(data))
   yield call(getDevelopers)
 }
 
@@ -43,12 +46,12 @@ export function* workerTimeReports() {
     const { selectedProject, selectedDate } = yield select(
       state => state.timereports
     )
-
     if (selectedProject) {
       const { developer_project_id } = selectedProject
       const { year, month } = selectedDate
-      const URL_WORK_ITEMS = `work_items/?developer_project=${developer_project_id}&year=${year}&month=${1 +
+      const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${1 +
         month}`
+      const URL_WORK_ITEMS = `work_items/${searchString}`
       yield put(setIsFetchingReports(true))
 
       const { data } = yield call([Api, 'getWorkItems'], URL_WORK_ITEMS)
@@ -134,5 +137,8 @@ export function* watchTimereports() {
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)
   yield takeEvery(DELETE_TIME_REPORT, deleteTimeReport)
   yield takeEvery(EDIT_TIME_REPORT, editTimeReport)
-  yield takeEvery([SELECT_PROJECT, CHANGE_SELECTED_DATE], workerTimeReports)
+  yield takeEvery(
+    [SELECT_PROJECT, CHANGE_SELECTED_DATE_TIME_REPORT],
+    workerTimeReports
+  )
 }

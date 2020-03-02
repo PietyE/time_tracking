@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const getSelectedDate = state => state.timereports.selectedDate
+const getSelectedDateTimeReport = state => state.timereports.selectedDate
 
 const getTimeReportsSelector = state => state.timereports.reports.items
 
@@ -19,7 +19,7 @@ const getTimeReports = createSelector(
 )
 
 export {
-  getSelectedDate,
+  getSelectedDateTimeReport,
   getTimeReports,
   getIsFetchingReport,
   getTimeReportForEdit,

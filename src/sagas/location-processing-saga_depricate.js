@@ -2,7 +2,7 @@ import { put, call, takeEvery } from 'redux-saga/effects'
 
 import { LOCATION_PROCESSING } from 'constants/actions-constant'
 
-import { changeSelectedDate } from 'actions/timereports'
+import { changeSelectedDateTimeReport } from 'actions/timereports'
 import { selectProject } from 'actions/developer-projects'
 
 function* processingWorker({ payload }) {
@@ -29,10 +29,10 @@ function* processingWorker({ payload }) {
       case 'timereport':
         const { developer_project, year, month } = parseQuery(search)
         if (year && month && month < 13 && month > 0) {
-          yield put(changeSelectedDate({ year, month: month - 1 }))
+          yield put(changeSelectedDateTimeReport({ year, month: month - 1 }))
         }
         if (developer_project) {
-          yield put(selectProject({ developer_project_id: developer_project }))
+          //yield put(selectProject({ developer_project_id: developer_project }))
         }
         break
 

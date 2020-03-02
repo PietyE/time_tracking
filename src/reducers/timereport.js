@@ -1,5 +1,5 @@
 import {
-  CHANGE_SELECTED_DATE,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
   SET_TIME_REPORTS,
   SELECT_PROJECT,
   SET_IS_FETCHING_REPORTS,
@@ -21,7 +21,7 @@ const initialState = {
 }
 export const timereports = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_SELECTED_DATE:
+    case CHANGE_SELECTED_DATE_TIME_REPORT:
       return { ...state, selectedDate: action.payload }
     case SET_TIME_REPORTS:
       return { ...state, reports: action.payload }

@@ -8,8 +8,9 @@ export default function TableRow({
   rate,
   onClick,
   projectSalary,
+  selectedDate = {},
 }) {
-  const { projectName, hours } = project
+  const { projectName, hours, developer_project_id } = project
   const total = rate * hours
   const totalUSD = projectSalary + total
   const toPay = totalUSD * 24
@@ -38,7 +39,20 @@ export default function TableRow({
           {extraClass === 'common' ? (
             projectName
           ) : (
-            <Link to="projects">{projectName}</Link>
+            <Link
+              to={{
+                pathname: '/timereport',
+                search: `?developer_project=${developer_project_id}&year=${
+                  selectedDate.year
+                }&month=${selectedDate.month + 1}`,
+                state: {
+                  developer_project: developer_project_id,
+                  selectedDate: selectedDate,
+                },
+              }}
+            >
+              {projectName}
+            </Link>
           )}
         </span>
       </span>

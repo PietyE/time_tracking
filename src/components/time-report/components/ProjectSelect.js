@@ -1,34 +1,18 @@
 import React, { memo } from 'react'
 import { connect } from 'react-redux'
 
-import { selectProject, clearSelectedProject } from 'actions/developer-projects'
-import { getProjectsSelector } from 'selectors/developer-projects'
-import { getSelectedProject } from 'selectors/timereports'
 import Select from 'components/ui/select'
 
 function ProjectSelect({
-  projects = [],
+  projectList,
   selectProject,
   selectedProject,
   clearSelectedProject,
 }) {
-  const listItems = projects.map(item => {
-    if (!item.project) {
-      return {
-        ...item,
-        developer_project_id: item.id,
-      }
-    }
-    return {
-      ...item.project,
-      developer_project_id: item.id,
-    }
-  })
-
   return (
     <Select
       title="choose you project..."
-      listItems={listItems}
+      listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
       idKey="developer_project_id"
@@ -39,11 +23,4 @@ function ProjectSelect({
   )
 }
 
-const mapStateToProps = state => ({
-  projects: getProjectsSelector(state),
-  selectedProject: getSelectedProject(state),
-})
-
-const actions = { selectProject, clearSelectedProject }
-
-export default memo(connect(mapStateToProps, actions)(ProjectSelect))
+export default memo(ProjectSelect)

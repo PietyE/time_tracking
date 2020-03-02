@@ -8,6 +8,7 @@ import { error } from 'reducers/error'
 import { timereports } from 'reducers/timereport'
 import { developerProjects } from 'reducers/developer-projects'
 import { developers } from 'reducers/developers'
+import { projectsReport } from 'reducers/projects-report'
 
 const rootReducer = combineReducers({
   profile,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   timereports,
   developerProjects,
   developers,
+  projectsReport,
 })
 
 const sagaMiddleware = createSagaMiddleware()

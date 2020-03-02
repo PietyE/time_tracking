@@ -59,7 +59,7 @@ function HeaderNav() {
             className="nav_item_link"
             activeStyle={activeTabStale}
           >
-            PROJECTS
+            PROJECTS REPORT
           </NavLink>
         </li>
         <li className="nav_item">

@@ -1,14 +1,14 @@
 import {
   SET_IS_FETCHING_REPORTS,
-  CHANGE_SELECTED_DATE,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
   SET_TIME_REPORTS,
   DELETE_TIME_REPORT,
   ADD_TIME_REPORT,
   EDIT_TIME_REPORT,
 } from 'constants/actions-constant'
 
-export const changeSelectedDate = payload => ({
-  type: CHANGE_SELECTED_DATE,
+export const changeSelectedDateTimeReport = payload => ({
+  type: CHANGE_SELECTED_DATE_TIME_REPORT,
   payload,
 })
 
