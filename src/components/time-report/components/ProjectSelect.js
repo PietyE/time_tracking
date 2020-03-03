@@ -1,35 +1,25 @@
-import React, { useEffect, memo } from 'react'
-import { connect } from 'react-redux'
+import React, { memo } from 'react'
 
-import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
-import { getDeveloperProjectNames } from 'selectors/developer-projects'
 import Select from 'components/ui/select'
 
-function ProjectSelect({ projects = [], selectProject, getDeveloperProjects }) {
-  const listItems = projects.map(item => ({
-    ...item.project,
-    developer_project_id: item.id,
-  }))
-  useEffect(() => {
-    getDeveloperProjects()
-  }, [getDeveloperProjects])
-
+function ProjectSelect({
+  projectList,
+  selectProject,
+  selectedProject,
+  clearSelectedProject,
+}) {
   return (
     <Select
       title="choose you project..."
-      listItems={listItems}
+      listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
       idKey="developer_project_id"
       extraClassContainer={'project_select'}
+      initialChoice={selectedProject}
+      onClear={clearSelectedProject}
     />
   )
 }
 
-const mapStateToProps = state => ({
-  projects: getDeveloperProjectNames(state),
-})
-
-const actions = { getDeveloperProjects, selectProject }
-
-export default memo(connect(mapStateToProps, actions)(ProjectSelect))
+export default memo(ProjectSelect)

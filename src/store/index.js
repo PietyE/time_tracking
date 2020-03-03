@@ -2,11 +2,13 @@ import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
 import { rootSaga } from 'sagas/rootSaga.js'
-import { profile } from 'reducers/users'
+import { profile } from 'reducers/profile'
 import { alert } from 'reducers/alert'
 import { error } from 'reducers/error'
 import { timereports } from 'reducers/timereport'
 import { developerProjects } from 'reducers/developer-projects'
+import { developers } from 'reducers/developers'
+import { projectsReport } from 'reducers/projects-report'
 
 const rootReducer = combineReducers({
   profile,
@@ -14,6 +16,8 @@ const rootReducer = combineReducers({
   error,
   timereports,
   developerProjects,
+  developers,
+  projectsReport,
 })
 
 const sagaMiddleware = createSagaMiddleware()

@@ -8,7 +8,7 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { deleteTimeReport, editTimeReport } from 'actions/timereports'
+import { deleteTimeReport, editTimeReport } from 'actions/times-report'
 import { parseMinToHoursAndMin } from 'utils/common'
 import DeleteModal from './DeleteModal'
 import EditingModal from './EditingModal'

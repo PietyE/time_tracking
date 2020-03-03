@@ -1,15 +1,12 @@
 import { createSelector } from 'reselect'
 
-//const getSelectedDate = state => state.timereports.selectedDate
-
-const getDeveloperProjectsNamesSelector = state => {
-  const projects = state.developerProjects.items
-  return projects
+const getDeveloperProjectsListSelector = state => {
+  return state.developerProjects
 }
 
-const getDeveloperProjectNames = createSelector(
-  getDeveloperProjectsNamesSelector,
+const getProjectsSelector = createSelector(
+  getDeveloperProjectsListSelector,
   projects => projects
 )
 
-export { getDeveloperProjectNames }
+export { getProjectsSelector }

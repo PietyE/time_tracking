@@ -1,31 +1,51 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Button } from 'react-bootstrap'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
-
-import { changeSelectedDate, addTimeReport } from 'actions/timereports'
-import { getDeveloperProjects, selectProject } from 'actions/developer-projects'
 import {
-  getSelectedDate,
+  changeSelectedDateTimeReport,
+  addTimeReport,
+  resetSelectedDate,
+  selectProject,
+  clearSelectedProject,
+} from 'actions/times-report'
+import {
+  getSelectedDateTimeReport,
   getTimeReports,
   getIsFetchingReport,
+  getSelectedProject,
 } from 'selectors/timereports'
+import { getProjectsSelector } from 'selectors/developer-projects'
 import Spinner from 'components/ui/spinner'
-
 import './style.scss'
+import { getRoleUser } from 'selectors/user'
+import { DEVELOPER } from 'constants/role-constant'
 
-function TimeReport({
-  selectedDate,
-  changeSelectedDate,
-  reports,
-  addTimeReport,
-  isFetchingReports,
-}) {
+function TimeReport(props) {
+  const {
+    changeSelectedDateTimeReport,
+    addTimeReport,
+    selectProject,
+    clearSelectedProject,
+    resetSelectedDate,
+    /////////
+    selectedDate = {},
+    reports,
+    isFetchingReports,
+    roleUser,
+    projects = [],
+    selectedProject = {},
+  } = props
+
   const [showEmpty, setShowEmpty] = useState(true)
+
+  const { state: routeState } = useLocation()
 
   const todayDate = new Date()
 
@@ -47,6 +67,45 @@ function TimeReport({
     renderDaysArray.push(i)
   }
 
+  const bootstrapWidthRouteState = () => {
+    if (routeState) {
+      const {
+        selectedDate: routeDate,
+        developer_project_id: route_developer_project_id,
+      } = routeState
+
+      const { year: routeYear, month: routeMonth } = routeDate
+
+      const { year: selectedYear, month: selectedMonth } = selectedDate
+
+      const {
+        developer_project_id: selectedDeveloper_project_id,
+      } = selectedProject
+
+      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+        changeSelectedDateTimeReport({
+          year: Number(routeYear),
+          month: Number(routeMonth) - 1,
+        })
+      }
+
+      if (route_developer_project_id !== selectedDeveloper_project_id) {
+        const newSelectedProject = projects.find(
+          project => project.developer_project_id === route_developer_project_id
+        )
+        selectProject(newSelectedProject)
+      }
+    }
+  }
+
+  useEffect(() => {
+    bootstrapWidthRouteState()
+    return () => {
+      clearSelectedProject()
+      resetSelectedDate()
+    }
+  }, [])
+
   return (
     <>
       {isFetchingReports && <Spinner />}
@@ -59,21 +118,26 @@ function TimeReport({
       >
         <div className="time_report_header">
           <div className="time_report_header_select_section">
-            <ProjectSelect />
-            <DeveloperSelect />
+            <ProjectSelect
+              projectList={projects}
+              clearSelectedProject={clearSelectedProject}
+              selectProject={selectProject}
+              selectedProject={selectedProject}
+            />
+            {roleUser !== DEVELOPER && <DeveloperSelect />}
           </div>
           <div className="time_report_header_btn_section">
             <SelectMonth
               selectedDate={selectedDate}
-              setNewData={changeSelectedDate}
+              setNewData={changeSelectedDateTimeReport}
               extraClassNameContainer="time_report_header_select_month"
             />
-            <button className="export_btn">
+            <Button className="export_btn">
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
               <span className="export_btn_text">Export</span>
-            </button>
+            </Button>
           </div>
         </div>
         <div className="time_repord_checkbox">
@@ -119,16 +183,20 @@ function TimeReport({
 }
 
 const mapStateToProps = state => ({
-  selectedDate: getSelectedDate(state),
+  selectedDate: getSelectedDateTimeReport(state),
   reports: getTimeReports(state),
   isFetchingReports: getIsFetchingReport(state),
+  roleUser: getRoleUser(state),
+  projects: getProjectsSelector(state),
+  selectedProject: getSelectedProject(state),
 })
 
 const actions = {
-  changeSelectedDate,
+  changeSelectedDateTimeReport,
   addTimeReport,
-  getDeveloperProjects,
   selectProject,
+  clearSelectedProject,
+  resetSelectedDate,
 }
 
-export default memo(connect(mapStateToProps, actions)(TimeReport))
+export default connect(mapStateToProps, actions)(memo(TimeReport))

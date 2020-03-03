@@ -26,7 +26,7 @@ function Auth(props) {
   )
 
   if (isAuth) {
-    return <Redirect to="/" />
+    return <Redirect to="/timereport" />
   }
 
   return (

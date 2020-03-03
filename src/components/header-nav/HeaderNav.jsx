@@ -1,8 +1,6 @@
 import React, { memo, useEffect, useState, useCallback } from 'react'
-import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { getRoleUser } from 'selectors/user'
-import { DEVELOPER } from 'constants/role-constant'
+
 import ButtonHeaderNav from './components/ButtonHeaderNav'
 
 function HeaderNav() {
@@ -37,6 +35,7 @@ function HeaderNav() {
   }, [callbackEventListener])
 
   const classWhenOpenMenu = isOpenMenu ? 'open_menu' : ''
+
   return (
     <>
       <ButtonHeaderNav
@@ -46,25 +45,16 @@ function HeaderNav() {
       <ul className={`nav_section_container ${classWhenOpenMenu}`}>
         <li className="nav_item">
           <NavLink
-            to="/blog"
-            className="nav_item_link"
-            activeStyle={activeTabStale}
-          >
-            BLOG
-          </NavLink>
-        </li>
-        <li className="nav_item">
-          <NavLink
             to="/projects"
             className="nav_item_link"
             activeStyle={activeTabStale}
           >
-            PROJECTS
+            PROJECTS REPORT
           </NavLink>
         </li>
         <li className="nav_item">
           <NavLink
-            to="/timereport"
+            to={`/timereport`}
             className="nav_item_link"
             activeStyle={activeTabStale}
           >
@@ -75,7 +65,5 @@ function HeaderNav() {
     </>
   )
 }
-
-const mapStateToProps = state => ({ roleUser: getRoleUser(state) })
 
 export default memo(HeaderNav)

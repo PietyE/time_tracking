@@ -22,3 +22,12 @@ export const parseMinToHoursAndMin = min => {
 
   return `${strHours}:${strMin}`
 }
+
+export const getUrlParams = search => {
+  let newStr = search
+  let hashes = newStr.slice(newStr.indexOf('?') + 1).split('&')
+  return hashes.reduce((params, hash) => {
+    let [key, val] = hash.split('=')
+    return Object.assign(params, { [key]: decodeURIComponent(val) })
+  }, {})
+}
