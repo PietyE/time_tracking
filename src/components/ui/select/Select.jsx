@@ -67,8 +67,8 @@ function Select({
   }, [isOpen, callbackEventListener])
 
   useEffect(() => {
-    if (initialChoice && initialChoice.name) {
-      setTitle(initialChoice.name)
+    if (initialChoice && initialChoice[valueKey]) {
+      setTitle(initialChoice[valueKey])
     }
   }, [initialChoice])
 

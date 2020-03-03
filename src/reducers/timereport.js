@@ -5,6 +5,7 @@ import {
   SET_IS_FETCHING_REPORTS,
   SELECT_DEVELOPERS,
   CLEAR_SELECTED_PROJECT,
+  RESET_SELECTED_DATE,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -15,7 +16,7 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   reports: [],
-  selectedProject: null,
+  selectedProject: {},
   selectedDeveloper: null,
   isFetchingReports: false,
 }
@@ -37,6 +38,8 @@ export const timereports = (state = initialState, action) => {
       return { ...state, selectedDeveloper: action.payload }
     case SET_IS_FETCHING_REPORTS:
       return { ...state, isFetchingReports: action.payload }
+    case RESET_SELECTED_DATE:
+      return { ...state, selectedDate: initialState.selectedDate }
     default:
       return state
   }

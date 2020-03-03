@@ -67,6 +67,7 @@
   }
   .select_month_wrap {
     display: flex;
+    width: 100%;
     position: absolute;
     top: 110%;
     flex-direction: column;
@@ -75,14 +76,15 @@
     border-radius: 5px;
     z-index: 999;
     overflow: hidden;
+    border: 1px solid #e8e8e8;
     .select_year {
       flex: 1;
       width: 100%;
-      background-color: rgb(240, 240, 240);
       display: flex;
       justify-content: space-between;
       align-items: stretch;
       margin-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
       .current_year {
         display: flex;
         justify-content: center;
@@ -97,9 +99,8 @@
         align-items: center;
         border: unset;
         outline: unset;
-        background-color: rgb(240, 240, 240);
         .icon_button {
-          color: #b3b3b3;
+          color: #515151;
           font-size: 24px;
         }
         &.disabled {
@@ -118,7 +119,6 @@
       }
     }
     .month_list_container {
-      width: 200px;
       height: auto;
       display: flex;
       flex-wrap: wrap;

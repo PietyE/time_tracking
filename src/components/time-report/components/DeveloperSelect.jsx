@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React, { memo } from 'react'
 import { connect } from 'react-redux'
 
 import { getDevelopersSelector } from 'selectors/developers'

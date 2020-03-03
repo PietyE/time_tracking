@@ -38,7 +38,8 @@
   top: -25px;
   right: 0;
   width: 320px;
-  height: 70vh;
+  height: auto;
+  max-height: 70vh;
   margin-bottom: 24px;
   font-size: 14px;
   font-weight: 400;
@@ -108,7 +109,7 @@
 @keyframes open {
   from {
     width: 40px;
-    height: 40px;
+
     opacity: 0.6;
     top: 0;
     padding: 0;
@@ -120,7 +121,8 @@
     top: -25px;
     right: 0;
     width: 320px;
-    height: 70vh;
+
+    max-height: 70vh;
     border-radius: 3px;
     opacity: 1;
   }
@@ -168,7 +170,6 @@
 
 @keyframes open420 {
   from {
-    height: 40px;
     opacity: 0.6;
     top: 0;
     padding: 0;
@@ -179,8 +180,7 @@
   to {
     top: -25px;
     right: -15px;
-    /*width: 320px;*/
-    height: 70vh;
+    max-height: 70vh;
     border-radius: 3px;
     opacity: 1;
   }

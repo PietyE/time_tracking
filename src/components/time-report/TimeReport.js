@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 
@@ -8,12 +8,13 @@ import Day from './components/Day'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
-import { getUrlParams } from 'utils/common'
 import {
   changeSelectedDateTimeReport,
   addTimeReport,
-} from 'actions/timereports'
-import { selectProject, clearSelectedProject } from 'actions/developer-projects'
+  resetSelectedDate,
+  selectProject,
+  clearSelectedProject,
+} from 'actions/times-report'
 import {
   getSelectedDateTimeReport,
   getTimeReports,
@@ -26,22 +27,25 @@ import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { DEVELOPER } from 'constants/role-constant'
 
-function TimeReport({
-  selectedDate,
-  changeSelectedDateTimeReport,
-  reports,
-  addTimeReport,
-  isFetchingReports,
-  roleUser,
-  projects,
-  selectProject,
-  clearSelectedProject,
-  selectedProject = {},
-}) {
+function TimeReport(props) {
+  const {
+    changeSelectedDateTimeReport,
+    addTimeReport,
+    selectProject,
+    clearSelectedProject,
+    resetSelectedDate,
+    /////////
+    selectedDate = {},
+    reports,
+    isFetchingReports,
+    roleUser,
+    projects = [],
+    selectedProject = {},
+  } = props
+
   const [showEmpty, setShowEmpty] = useState(true)
 
-  const searchString = useLocation().search
-  const history = useHistory()
+  const { state: routeState } = useLocation()
 
   const todayDate = new Date()
 
@@ -63,48 +67,44 @@ function TimeReport({
     renderDaysArray.push(i)
   }
 
-  const bootstrapSearchParams = searchString => {
-    const { year, month, developer_project } = getUrlParams(searchString)
-    if (year && month && developer_project && projects) {
-      changeSelectedDateTimeReport({
-        year: Number(year),
-        month: Number(month) - 1,
-      })
+  const bootstrapWidthRouteState = () => {
+    if (routeState) {
+      const {
+        selectedDate: routeDate,
+        developer_project_id: route_developer_project_id,
+      } = routeState
 
-      const selectedProject = projects.find(
-        project => project.developer_project_id === developer_project
-      )
+      const { year: routeYear, month: routeMonth } = routeDate
 
-      if (selectedProject) {
-        selectProject(selectedProject)
+      const { year: selectedYear, month: selectedMonth } = selectedDate
+
+      const {
+        developer_project_id: selectedDeveloper_project_id,
+      } = selectedProject
+
+      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+        changeSelectedDateTimeReport({
+          year: Number(routeYear),
+          month: Number(routeMonth) - 1,
+        })
+      }
+
+      if (route_developer_project_id !== selectedDeveloper_project_id) {
+        const newSelectedProject = projects.find(
+          project => project.developer_project_id === route_developer_project_id
+        )
+        selectProject(newSelectedProject)
       }
     }
   }
 
   useEffect(() => {
-    const { year, month } = selectedDate
-    if (
-      year &&
-      month !== undefined &&
-      month !== null &&
-      selectedProject &&
-      selectedProject.developer_project_id
-    ) {
-      history.push({
-        pathname: '/timereport',
-        search: `?developer_project=${
-          selectedProject.developer_project_id
-        }&year=${year}&month=${month + 1}`,
-      })
-    }
-  }, [selectedDate, selectedProject])
-
-  useEffect(() => {
-    bootstrapSearchParams(searchString)
+    bootstrapWidthRouteState()
     return () => {
       clearSelectedProject()
+      resetSelectedDate()
     }
-  }, [projects])
+  }, [])
 
   return (
     <>
@@ -196,6 +196,7 @@ const actions = {
   addTimeReport,
   selectProject,
   clearSelectedProject,
+  resetSelectedDate,
 }
 
-export default memo(connect(mapStateToProps, actions)(TimeReport))
+export default connect(mapStateToProps, actions)(memo(TimeReport))

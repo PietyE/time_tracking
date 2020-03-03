@@ -1,5 +1,5 @@
 import { select, call, takeEvery, put } from 'redux-saga/effects'
-
+import { isEmpty } from 'lodash'
 import Api from 'utils/api'
 import { SUCCES_ALERT } from 'constants/alert-constant'
 import {
@@ -12,7 +12,7 @@ import {
   GET_PROJECTS,
   GET_DEVELOPERS,
 } from 'constants/actions-constant'
-import { setTimeReports, setIsFetchingReports } from 'actions/timereports'
+import { setTimeReports, setIsFetchingReports } from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
@@ -46,7 +46,7 @@ export function* workerTimeReports() {
     const { selectedProject, selectedDate } = yield select(
       state => state.timereports
     )
-    if (selectedProject) {
+    if (!isEmpty(selectedProject)) {
       const { developer_project_id } = selectedProject
       const { year, month } = selectedDate
       const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${1 +

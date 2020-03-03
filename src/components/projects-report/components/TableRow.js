@@ -42,9 +42,10 @@ export default function TableRow({
             <Link
               to={{
                 pathname: '/timereport',
-                search: `?developer_project=${developer_project_id}&year=${
-                  selectedDate.year
-                }&month=${selectedDate.month + 1}`,
+                state: {
+                  developer_project_id,
+                  selectedDate,
+                },
               }}
             >
               {projectName}

@@ -1,12 +1,11 @@
 import React, { memo, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
 import { getProjects, getDeveloperProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import TimeReportScreen from './TimeReportScreen'
-import BlogScreen from './BlogScreen'
 import ProjectsScreen from './ProjectsScreen'
 
 import Header from 'components/header'
@@ -50,9 +49,11 @@ function MainScreen({
   return (
     <>
       <Header />
-      <Route path="/projects" component={ProjectsScreen} exct />
-      <Route path="/timereport" component={TimeReportScreen} exct />
-      <Route path="/blog" component={BlogScreen} exct />
+      <Switch>
+        <Route path="/projects" component={ProjectsScreen} exct />
+        <Route path="/timereport" component={TimeReportScreen} exct />
+        <Redirect from="/" to="/timereport" />
+      </Switch>
     </>
   )
 }
