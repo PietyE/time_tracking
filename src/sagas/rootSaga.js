@@ -4,7 +4,6 @@ import { watchGetUserAsync } from './users-saga'
 import { watchshowAlert } from './alert-saga'
 import { watchErrorAlert } from './error-saga'
 import { watchTimereports } from './timereports-saga'
-//import { processingWatcher } from './location-processing-saga_depricate'
 
 export function* rootSaga() {
   yield all([
@@ -12,6 +11,5 @@ export function* rootSaga() {
     watchshowAlert(),
     watchErrorAlert(),
     watchTimereports(),
-    //processingWatcher(),
   ])
 }

@@ -50,7 +50,7 @@ export function* workerTimeReports() {
       const { developer_project_id } = selectedProject
       const { year, month } = selectedDate
       const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${1 +
-        month}`
+        month}/`
       const URL_WORK_ITEMS = `work_items/${searchString}`
       yield put(setIsFetchingReports(true))
 
@@ -92,7 +92,7 @@ export function* addTimeReport({ payload }) {
 }
 
 export function* deleteTimeReport({ payload: id }) {
-  const URL = `work_items/${id}`
+  const URL = `work_items/${id}/`
   const {
     reports: { items },
   } = yield select(state => state.timereports)
@@ -110,7 +110,7 @@ export function* editTimeReport({ payload }) {
     } = yield select(state => state.timereports)
     const newItems = [...items]
     const { id, ...body } = payload
-    const URL = `work_items/${id}`
+    const URL = `work_items/${id}/`
     const { data } = yield call([Api, 'editWorkItem'], URL, body)
 
     if (data) {
