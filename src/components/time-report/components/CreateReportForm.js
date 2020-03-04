@@ -49,21 +49,23 @@ function CreateReportForm({
         value={text}
         onChange={handlerChangeText}
       />
-      <InputMask
-        placeholder="HH"
-        maskPlaceholder="0"
-        className="hours_input input"
-        value={hours}
-        onChange={handlerChangeHours}
-        mask="99:99"
-      />
-      <button className="create_btn" onClick={handlerClickAddButton}>
-        <FontAwesomeIcon
-          icon={faCheck}
-          color="#414141"
-          className="icon pencil_icon"
+      <div className="time_report_day_row_create_right">
+        <InputMask
+          placeholder="HH"
+          maskPlaceholder="0"
+          className="hours_input input"
+          value={hours}
+          onChange={handlerChangeHours}
+          mask="99:99"
         />
-      </button>
+        <button className="create_btn" onClick={handlerClickAddButton}>
+          <FontAwesomeIcon
+            icon={faCheck}
+            color="#414141"
+            className="icon pencil_icon"
+          />
+        </button>
+      </div>
     </div>
   )
 }

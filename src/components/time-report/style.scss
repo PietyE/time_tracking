@@ -74,12 +74,31 @@
           font-weight: 500;
           line-height: 18px;
         }
+        @media screen and (max-device-width: 390px) {
+          width: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .export_btn_text {
+            display: none;
+          }
+          .export_icon_container {
+            margin-right: unset;
+          }
+        }
       }
     }
   }
+  .time_report_total_container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
   .time_repord_checkbox {
     align-self: flex-end;
-    margin-bottom: 20px;
+    order: 2;
     label {
       display: flex;
       align-items: center;
@@ -149,11 +168,15 @@
       margin-bottom: 15px;
       animation: createTimeReport 0.3s 1 ease;
       height: 60px;
+
       &.close {
         height: 0;
         opacity: 0;
         margin-bottom: 0;
         animation: createTimeReportClose 0.3s 1 ease;
+      }
+      .time_report_day_row_create_right {
+        display: contents;
       }
       .input {
         border: 1px solid #d5d5d5;
@@ -235,7 +258,6 @@
         flex: 0.9;
         text-align: left;
         height: auto;
-        overflow: hidden;
         transition: 0.4s;
         max-height: 38px;
         cursor: pointer;
@@ -369,6 +391,12 @@
   box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
   animation: openEditMpdal 0.4s 1 ease;
   z-index: 1000;
+  form {
+    display: contents;
+    .edit_modal_input_wrap {
+      display: contents;
+    }
+  }
   &::before {
     content: '';
     position: absolute;
@@ -451,5 +479,72 @@
   to {
     // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
     //height: 102px;
+  }
+}
+
+@media screen and (max-device-width: 610px) {
+  .time_report_container {
+    .time_report_header {
+      flex-wrap: wrap;
+      .time_report_header_select_section {
+        margin-bottom: 10px;
+      }
+      .time_report_header_btn_section {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+    .time_report_day_container {
+      .time_report_day_row_create {
+        flex-wrap: wrap;
+        height: auto;
+        animation: unset;
+        &.close {
+          height: 0;
+          opacity: 0;
+          margin-bottom: 0;
+          animation: createTimeReportCloseMobile 0.3s 1 ease;
+        }
+        .input {
+          margin-right: unset;
+          margin-bottom: 10px;
+          height: 60px;
+        }
+        .time_report_day_row_create_right {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          height: 60px;
+        }
+      }
+    }
+  }
+  .edit_modal_overlay {
+    top: 30%;
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      .edit_modal_input_wrap {
+        margin-bottom: 10px;
+        display: flex;
+        width: 100%;
+      }
+      .edit_modal_button_container {
+        width: 100%;
+        flex: unset;
+      }
+    }
+  }
+  @keyframes createTimeReportCloseMobile {
+    from {
+      opacity: 1;
+      margin-bottom: 15px;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+      margin-bottom: 0;
+    }
   }
 }

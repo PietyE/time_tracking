@@ -58,6 +58,7 @@
     align-items: flex-start;
     padding: 10px;
     box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.3);
+    z-index: 2;
     &.select_close {
       animation: closeSelect 0.3s 1 ease-out;
       opacity: 0;
