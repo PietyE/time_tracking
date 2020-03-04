@@ -12,6 +12,7 @@ import { deleteTimeReport, editTimeReport } from 'actions/times-report'
 import { parseMinToHoursAndMin } from 'utils/common'
 import DeleteModal from './DeleteModal'
 import EditingModal from './EditingModal'
+import Linking from 'components/common/linking'
 
 function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
   const reportItemContainerRef = useRef()
@@ -75,7 +76,7 @@ function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
         className="time_report_day_description"
         onClick={handlerClickOpenLongText}
       >
-        {text}
+        <Linking text={text}>{text}</Linking>
       </span>
       <span className="time_report_day_hours">
         {parseMinToHoursAndMin(hours)}
@@ -93,13 +94,19 @@ function ReportItem({ text, hours, deleteTimeReport, id, editTimeReport }) {
             isOpenMenu ? 'time_report_day_menu open' : 'time_report_day_menu'
           }
         >
-          <button onClick={handlerClickOpenEditModal}>
+          <button
+            onClick={handlerClickOpenEditModal}
+            className="button edit_button"
+          >
             <FontAwesomeIcon icon={faPencilAlt} className="icon pencil_icon" />
           </button>
-          <button onClick={handlerClickOpenDeleteModal}>
-            <FontAwesomeIcon icon={faTrashAlt} className="icon pencil_icon" />
+          <button
+            onClick={handlerClickOpenDeleteModal}
+            className="button delete_button"
+          >
+            <FontAwesomeIcon icon={faTrashAlt} className="icon trash_icon" />
           </button>
-          <button onClick={handlerOpenMenu}>
+          <button onClick={handlerOpenMenu} className="button close_button">
             <FontAwesomeIcon icon={faTimes} className="icon times_icon" />
           </button>
         </div>
