@@ -26,6 +26,7 @@ import Spinner from 'components/ui/spinner'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { DEVELOPER } from 'constants/role-constant'
+import { parseMinToHoursAndMin } from 'utils/common'
 
 function TimeReport(props) {
   const {
@@ -66,6 +67,12 @@ function TimeReport(props) {
   for (let i = 0; i < daySize; i++) {
     renderDaysArray.push(i)
   }
+
+  const totalHours = reports
+    ? reports.reduce((res, item) => {
+        return res + item.duration
+      }, 0)
+    : 0
 
   const bootstrapWidthRouteState = () => {
     if (routeState) {
@@ -140,18 +147,23 @@ function TimeReport(props) {
             </Button>
           </div>
         </div>
-        <div className="time_repord_checkbox">
-          <label>
-            <input
-              type="checkbox"
-              onChange={() => setShowEmpty(!showEmpty)}
-              value={showEmpty}
-            />
-            <span>Hide Empty Days</span>
-          </label>
+        <div className="time_report_total_container">
+          <div className="time_repord_checkbox">
+            <label>
+              <input
+                type="checkbox"
+                onChange={() => setShowEmpty(!showEmpty)}
+                value={showEmpty}
+              />
+              <span>Hide Empty Days</span>
+            </label>
+          </div>
+          <div className="time_report_total_hours">
+            <span>Total hours: {parseMinToHoursAndMin(totalHours)}</span>
+          </div>
         </div>
         <div className="time_report_body_container">
-          {!!reports ? (
+          {reports ? (
             renderDaysArray.map((item, index) => {
               const numberOfDay = daySize - index
               const dataOfDay = reports.filter(

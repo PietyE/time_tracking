@@ -33,24 +33,23 @@ function EditingModal({
   return (
     <Modal>
       <div id="edit_modal_overlay" className="edit_modal_overlay">
-        <form
-          style={{ display: 'contents' }}
-          onSubmit={handlerSubmit}
-          id="edit_form"
-        >
-          <textarea
-            className="edit_modal_textarea"
-            defaultValue={title}
-            name="title"
-          />
-          <InputMask
-            placeholder="HH"
-            maskPlaceholder="0"
-            className="hours_input"
-            mask="99:99"
-            defaultValue={parseMinToHoursAndMin(duration)}
-            name="duration"
-          />
+        <form onSubmit={handlerSubmit} id="edit_form">
+          <div className="edit_modal_input_wrap">
+            <textarea
+              className="edit_modal_textarea"
+              defaultValue={title}
+              name="title"
+            />
+            <InputMask
+              placeholder="HH"
+              maskPlaceholder="0"
+              className="hours_input"
+              mask="99:99"
+              defaultValue={parseMinToHoursAndMin(duration)}
+              name="duration"
+            />
+          </div>
+
           <div className="edit_modal_button_container">
             <Button type="submit">
               <span>Save</span>

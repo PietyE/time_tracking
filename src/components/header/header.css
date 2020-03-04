@@ -139,6 +139,10 @@
     cursor: pointer;
   }
 
+  .mobile_open_btn.open_menu {
+    z-index: 1000;
+  }
+
   .mobile_open_btn span {
     display: block;
     position: absolute;
@@ -203,7 +207,7 @@
   }
 }
 
-@media screen and (max-device-width: 420px) {
+@media screen and (max-device-width: 560px) {
   .header_container {
     height: 70px;
   }

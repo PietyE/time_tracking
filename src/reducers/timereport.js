@@ -15,7 +15,9 @@ const initialState = {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
   },
-  reports: [],
+  reports: {
+    items: null,
+  },
   selectedProject: {},
   selectedDeveloper: null,
   isFetchingReports: false,
