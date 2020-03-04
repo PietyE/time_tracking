@@ -50,7 +50,7 @@ export function* workerTimeReports() {
       const { developer_project_id } = selectedProject
       const { year, month } = selectedDate
       const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${1 +
-        month}/`
+        month}`
       const URL_WORK_ITEMS = `work_items/${searchString}`
       yield put(setIsFetchingReports(true))
 
@@ -63,9 +63,7 @@ export function* workerTimeReports() {
 }
 
 export function* addTimeReport({ payload }) {
-  const { selectedProject, selectedDate } = yield select(
-    state => state.timereports
-  )
+  const { selectedProject } = yield select(state => state.timereports)
 
   const URL_WORK_ITEMS = `work_items/`
   const { reports } = yield select(state => state.timereports)
