@@ -30,7 +30,6 @@ function ReportItem({
     developer_project,
     date,
   } = editableText
-  const containerRef = useRef()
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [isEditingText, setIsEditingText] = useState(false)
 
@@ -122,7 +121,6 @@ function ReportItem({
     <div
       className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
       data-id={id}
-      ref={containerRef}
       tabIndex={0}
     >
       {isDeleteRequest && (
