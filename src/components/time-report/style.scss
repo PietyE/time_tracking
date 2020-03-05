@@ -1,29 +1,29 @@
-@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
-  overflow: hidden;
-  position: relative;
-  line-height: $lineHeight;
-  max-height: $lineHeight * $lineCount;
-  //text-align: justify;
-  // margin-right: -1em;
-  padding-right: 1em;
-  &:before {
-    content: '\2B07';
-    position: absolute;
-    right: -2px;
-    bottom: -2px;
-    font-size: 14px;
-    letter-spacing: 1.5px;
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    width: 1em;
-    height: 1em;
-    margin-top: 0.2em;
-    background: $bgColor;
-  }
-}
+// @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
+//   overflow: hidden;
+//   position: relative;
+//   line-height: $lineHeight;
+//   max-height: $lineHeight * $lineCount;
+//   //text-align: justify;
+//   // margin-right: -1em;
+//   padding-right: 1em;
+//   &:before {
+//     content: '...';
+//     position: absolute;
+//     right: -2px;
+//     bottom: -2px;
+//     font-size: 14px;
+//     letter-spacing: 1.5px;
+//   }
+//   &:after {
+//     content: '';
+//     position: absolute;
+//     right: 0;
+//     width: 1em;
+//     height: 1em;
+//     margin-top: 0.2em;
+//     background: $bgColor;
+//   }
+// }
 
 .time_report_container {
   display: flex;
@@ -227,7 +227,7 @@
       }
     }
     .time_report_day_row {
-      padding: 10px 20px 10px 30px;
+      padding: 10px 5px 10px 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -241,6 +241,9 @@
       overflow: hidden;
       &.active {
         box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
+      }
+      &.editing {
+        box-shadow: 0 0 5px 2px rgba(201, 198, 12, 0.5);
       }
       &.full {
         .time_report_day_description {
@@ -267,28 +270,33 @@
         height: auto;
         transition: 0.4s;
         max-height: 38px;
-        cursor: pointer;
-        @include multiLineEllipsis(
-          $lineHeight: 1.25em,
-          $lineCount: 2,
-          $bgColor: #eefcfc
-        );
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: text;
+        word-break: break-word;
+        &.textarea {
+          border: none;
+          background-color: inherit;
+          resize: none;
+        }
       }
       .time_report_day_hours {
         color: #414141;
         font-family: Montserrat, sans-serif;
         font-size: 16px;
         line-height: 19px;
-        margin-right: 20px;
+        &.hours_input {
+          width: 47px;
+          background-color: inherit;
+          border: none;
+        }
       }
       .time_report_day_edit {
-        width: 50px;
-        padding: 5px 0;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        margin-right: -15px;
         position: relative;
+        height: 100%;
         &:hover {
           svg {
             color: slategray;
@@ -301,30 +309,24 @@
           font-size: 18px;
         }
         .time_report_day_menu {
-          position: absolute;
-          width: 1px;
-          min-height: 60px;
           background-color: #eefcfc;
-          z-index: 9;
           display: flex;
           align-items: stretch;
           justify-content: space-around;
-          right: -10px;
           transition: 0.3s ease-out;
+          height: 100%;
           .button {
-            background-color: lightgreen;
+            padding: 5px 10px;
+            height: 100%;
             &.edit_button {
-              background-color: lightsalmon;
-            }
-            &.delete_button {
-              background-color: tomato;
+              margin-right: 15px;
             }
             .icon {
-              color: #fff;
+              color: #414141;
             }
           }
           &.open {
-            right: -5px;
+            right: -6px;
             width: 180px;
             transition: 0.3s ease-in;
             .button:hover {
@@ -429,7 +431,7 @@
   .edit_modal_textarea {
     border-radius: 5px;
     background-color: #eefcfc;
-    //resize: none;
+    resize: vertical;
     padding: 5px;
     border: 1px solid #28636321;
     flex: 1;
@@ -437,7 +439,17 @@
     align-self: stretch;
     height: auto;
     min-height: 40px;
-    max-height: 80px;
+    max-height: 120px;
+    font-size: 14px;
+    line-height: 1.5;
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 3px;
+      height: 3px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
   }
   .hours_input {
     width: 65px;

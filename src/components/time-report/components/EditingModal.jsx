@@ -8,10 +8,10 @@ import Modal from 'components/ui/modal'
 import { getTimeReportForEdit } from 'selectors/timereports'
 
 function EditingModal({
-  handlerClickOpenEditModal,
+  handlerClickCloseEditModal,
+  setIsOpenMenu,
   edittingReport,
   editTimeReport,
-  reportItemContainerRef,
 }) {
   const { title, duration, developer_project, date, id } = edittingReport
 
@@ -27,7 +27,8 @@ function EditingModal({
       date,
       id,
     })
-    handlerClickOpenEditModal(false)
+    handlerClickCloseEditModal()
+    setIsOpenMenu(false)
   }
 
   return (
@@ -54,7 +55,7 @@ function EditingModal({
             <Button type="submit">
               <span>Save</span>
             </Button>
-            <Button onClick={handlerClickOpenEditModal}>
+            <Button onClick={handlerClickCloseEditModal}>
               <span>Cancel</span>
             </Button>
           </div>

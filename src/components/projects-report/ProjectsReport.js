@@ -14,29 +14,6 @@ import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
 const fakeData = [
   {
-    name: 'Dasha Lukinova',
-    rate: 12,
-    projectSalary: 2000,
-    projects: [
-      {
-        projectName: 'GetCompliant',
-        hours: 3,
-      },
-      {
-        projectName: 'Mebex',
-        hours: 43,
-      },
-      {
-        projectName: 'JobCast',
-        hours: 89,
-      },
-      {
-        projectName: 'BankId',
-        hours: 30,
-      },
-    ],
-  },
-  {
     name: 'Viktor Vovk',
     rate: 16,
     projectSalary: 3000,
@@ -89,37 +66,41 @@ function ProjectsReport({
           setNewData={changeSelectedDateProjectsReport}
         />
       </div>
-      <TableHeader />
-      <div className="table_body_container">
-        {fakeData.map(user => {
-          const { name, projects, rate, projectSalary } = user
-          const allProjectsName = projects
-            .map(project => project.projectName)
-            .join(', ')
+      <div className="table_container">
+        <div className="table_scroll">
+          <TableHeader />
+          <div className="table_body_container">
+            {fakeData.map(user => {
+              const { name, projects, rate, projectSalary } = user
+              const allProjectsName = projects
+                .map(project => project.projectName)
+                .join(', ')
 
-          const projectSum = projects.reduce(
-            (sum, project) => ({
-              hours: sum.hours + project.hours,
-            }),
-            { projectSalary: 0, hours: 0 }
-          )
+              const projectSum = projects.reduce(
+                (sum, project) => ({
+                  hours: sum.hours + project.hours,
+                }),
+                { projectSalary: 0, hours: 0 }
+              )
 
-          const commonProjectsInfo = {
-            projectName: allProjectsName,
-            ...projectSum,
-          }
-          return (
-            <RenderUser
-              commonProjectsInfo={commonProjectsInfo}
-              projects={projects}
-              name={name}
-              rate={rate}
-              projectSalary={projectSalary}
-              key={name}
-              selectedDate={selectedDate}
-            />
-          )
-        })}
+              const commonProjectsInfo = {
+                projectName: allProjectsName,
+                ...projectSum,
+              }
+              return (
+                <RenderUser
+                  commonProjectsInfo={commonProjectsInfo}
+                  projects={projects}
+                  name={name}
+                  rate={rate}
+                  projectSalary={projectSalary}
+                  key={name}
+                  selectedDate={selectedDate}
+                />
+              )
+            })}
+          </div>
+        </div>
       </div>
     </div>
   )

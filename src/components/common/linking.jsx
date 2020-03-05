@@ -1,8 +1,8 @@
-import React, { Children } from 'react'
+import React from 'react'
 
-function Linking({ children, text }) {
-  const REGEXP_FOR_LINK = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/gi
+const REGEXP_FOR_LINK = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/gi
 
+function Linking({ text }) {
   const result = text.split(/\s/)
   const arrString = []
   let index = 0
@@ -23,9 +23,9 @@ function Linking({ children, text }) {
   return (
     <>
       {arrString.map(item => {
-        if (REGEXP_FOR_LINK.test(item)) {
+        if (item.search(REGEXP_FOR_LINK) !== -1) {
           return (
-            <a href={item} target="_blank" key={item}>
+            <a href={item} target="_blank" rel="noopener noreferrer" key={item}>
               {item}{' '}
             </a>
           )

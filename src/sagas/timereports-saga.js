@@ -86,7 +86,7 @@ export function* addTimeReport({ payload }) {
     return
   }
 
-  newTimereport.push({
+  newTimereport.unshift({
     id: data.id,
     title: data.title,
     duration: data.duration,
@@ -105,6 +105,13 @@ export function* deleteTimeReport({ payload: id }) {
   const { status } = yield call([Api, 'deleteWorkItem'], URL)
   if (status === 204) {
     yield put(setTimeReports({ items: newTimereport }))
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'The report has been deleted!',
+        delay: 5000,
+      })
+    )
   }
 }
 
