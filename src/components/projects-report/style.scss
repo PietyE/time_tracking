@@ -1,5 +1,12 @@
 .project_report_container {
   padding-top: 40px;
+  .table_container {
+    overflow-x: scroll;
+
+    .table_scroll {
+      min-width: 900px;
+    }
+  }
   .table_header_container,
   .table_body_container,
   .table_body_item,

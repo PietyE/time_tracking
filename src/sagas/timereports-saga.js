@@ -37,7 +37,6 @@ export function* getProjects() {
 export function* getDevelopers() {
   const URL_USERS = `users/`
   const { data } = yield call([Api, 'developerProjects'], URL_USERS)
-  console.log('data', data)
   yield put(setDevelopers(data))
 }
 
@@ -77,9 +76,17 @@ export function* addTimeReport({ payload }) {
     date: payload.date,
   }
 
-  const { data } = yield call([Api, 'addWorkItem'], URL_WORK_ITEMS, body)
+  const { data, status } = yield call(
+    [Api, 'addWorkItem'],
+    URL_WORK_ITEMS,
+    body
+  )
 
-  newTimereport.push({
+  if (status >= 400) {
+    return
+  }
+
+  newTimereport.unshift({
     id: data.id,
     title: data.title,
     duration: data.duration,
@@ -98,6 +105,13 @@ export function* deleteTimeReport({ payload: id }) {
   const { status } = yield call([Api, 'deleteWorkItem'], URL)
   if (status === 204) {
     yield put(setTimeReports({ items: newTimereport }))
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'The report has been deleted!',
+        delay: 5000,
+      })
+    )
   }
 }
 
@@ -109,7 +123,11 @@ export function* editTimeReport({ payload }) {
     const newItems = [...items]
     const { id, ...body } = payload
     const URL = `work_items/${id}/`
-    const { data } = yield call([Api, 'editWorkItem'], URL, body)
+    const { data, status } = yield call([Api, 'editWorkItem'], URL, body)
+
+    if (status >= 400) {
+      return
+    }
 
     if (data) {
       const indexEdited = newItems.findIndex(item => item.id === data.id)

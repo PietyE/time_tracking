@@ -44,6 +44,7 @@ export function* errorHandler() {
       )
       break
     default:
+      console.log(detail, messages)
       yield put(
         showAler({
           type: DANGER_ALERT,

@@ -65,7 +65,9 @@ export default function TableRow({
       <span className="table_cell">
         {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
       </span>
-      <span className="table_cell">{UAHFormat.format(coast)}</span>
+      <span className="table_cell">
+        {extraClass === 'common' ? UAHFormat.format(coast) : ''}
+      </span>
     </div>
   )
 }
