@@ -8,6 +8,7 @@ import {
   RESET_SELECTED_DATE,
   SELECT_PROJECT,
   CLEAR_SELECTED_PROJECT,
+  SET_EDIT_MODE,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateTimeReport = payload => ({
@@ -51,4 +52,9 @@ export const clearSelectedProject = () => ({
 
 export const resetSelectedDate = () => ({
   type: RESET_SELECTED_DATE,
+})
+
+export const setEditMode = payload => ({
+  type: SET_EDIT_MODE,
+  payload,
 })

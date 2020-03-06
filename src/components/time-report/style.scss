@@ -1,30 +1,3 @@
-// @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
-//   overflow: hidden;
-//   position: relative;
-//   line-height: $lineHeight;
-//   max-height: $lineHeight * $lineCount;
-//   //text-align: justify;
-//   // margin-right: -1em;
-//   padding-right: 1em;
-//   &:before {
-//     content: '...';
-//     position: absolute;
-//     right: -2px;
-//     bottom: -2px;
-//     font-size: 14px;
-//     letter-spacing: 1.5px;
-//   }
-//   &:after {
-//     content: '';
-//     position: absolute;
-//     right: 0;
-//     width: 1em;
-//     height: 1em;
-//     margin-top: 0.2em;
-//     background: $bgColor;
-//   }
-// }
-
 .time_report_container {
   display: flex;
   flex: 1;
@@ -129,6 +102,7 @@
     box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
     border-radius: 5px;
     padding: 10px;
+
     .time_report_day_header {
       display: flex;
       justify-content: space-between;
@@ -204,9 +178,26 @@
           transition: 0.3s ease-in;
         }
       }
-      .description_input {
+      .description_input_container {
         flex: 1;
+        margin-right: 15px;
+        position: relative;
+        .description_input {
+          width: 100%;
+          height: 100%;
+          padding-right: 50px;
+        }
+
+        .left_size {
+          position: absolute;
+          top: 5px;
+          //transform: translateY(-50%);
+          right: 10px;
+          color: rgb(190, 6, 6);
+          font-size: 12px;
+        }
       }
+
       .hours_input {
         width: 120px;
       }
@@ -264,31 +255,45 @@
         color: #414141;
         font-family: Montserrat, sans-serif;
         font-size: 16px;
-        line-height: 19px;
+        line-height: 1.5;
         flex: 0.9;
         text-align: left;
         height: auto;
         transition: 0.4s;
-        max-height: 38px;
+        //max-height: 38px;
         overflow: hidden;
         text-overflow: ellipsis;
         cursor: text;
         word-break: break-word;
         &.textarea {
           border: none;
+          border-bottom: 2px solid #009c98;
           background-color: inherit;
           resize: none;
+          font-size: 16px;
+          line-height: 1.5;
+          padding: 0 5px;
+          margin-left: -5px;
+          margin-bottom: -2px;
         }
       }
       .time_report_day_hours {
+        width: 60px;
         color: #414141;
         font-family: Montserrat, sans-serif;
         font-size: 16px;
-        line-height: 19px;
+        line-height: 1.5;
+        text-align: center;
         &.hours_input {
-          width: 47px;
           background-color: inherit;
           border: none;
+          border-bottom: 2px solid #009c98;
+          font-size: 16px;
+          line-height: 1.5;
+          padding: 0 5px;
+          margin-right: 6px;
+          margin-bottom: -2px;
+          text-align: center;
         }
       }
       .time_report_day_edit {
@@ -318,6 +323,11 @@
           .button {
             padding: 5px 10px;
             height: 100%;
+            &:hover {
+              .icon {
+                color: #969595;
+              }
+            }
             &.edit_button {
               margin-right: 15px;
             }
@@ -388,88 +398,6 @@
     justify-content: space-around;
     button {
       width: 40%;
-    }
-  }
-}
-
-.edit_modal_overlay {
-  padding: 10px 20px 10px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 96%;
-  max-width: 1160px;
-  min-height: 60px;
-  height: auto;
-  border: 1px solid #dedede;
-  border-radius: 5px;
-  background-color: #eefcfc;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%);
-  margin-bottom: 15px;
-  overflow: hidden;
-  box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
-  animation: openEditMpdal 0.4s 1 ease;
-  z-index: 1000;
-  form {
-    display: contents;
-    .edit_modal_input_wrap {
-      display: contents;
-    }
-  }
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0px;
-    width: 7px;
-    height: 100%;
-    border-radius: 4px 0 0 4px;
-    background-color: #009c98;
-  }
-  .edit_modal_textarea {
-    border-radius: 5px;
-    background-color: #eefcfc;
-    resize: vertical;
-    padding: 5px;
-    border: 1px solid #28636321;
-    flex: 1;
-    margin-right: 15px;
-    align-self: stretch;
-    height: auto;
-    min-height: 40px;
-    max-height: 120px;
-    font-size: 14px;
-    line-height: 1.5;
-    ::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 3px;
-      height: 3px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-  }
-  .hours_input {
-    width: 65px;
-    border-radius: 5px;
-    background-color: #eefcfc;
-    padding: 10px;
-    border: 1px solid #28636321;
-    margin-right: 15px;
-    height: 40px;
-  }
-  .edit_modal_button_container {
-    flex: 0.3;
-    display: flex;
-    height: 40px;
-    justify-content: space-between;
-    align-items: stretch;
-    button {
-      width: 45%;
-      display: flex;
-      justify-content: center;
     }
   }
 }
