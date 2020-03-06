@@ -12,7 +12,11 @@ import {
   GET_PROJECTS,
   GET_DEVELOPERS,
 } from 'constants/actions-constant'
-import { setTimeReports, setIsFetchingReports } from 'actions/times-report'
+import {
+  setTimeReports,
+  setIsFetchingReports,
+  setEditMode,
+} from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
@@ -42,7 +46,7 @@ export function* getDevelopers() {
 
 export function* workerTimeReports() {
   try {
-    const { selectedProject, selectedDate } = yield select(
+    const { selectedProject, selectedDate, idEditingWorkItem } = yield select(
       state => state.timereports
     )
     if (!isEmpty(selectedProject)) {
@@ -56,6 +60,10 @@ export function* workerTimeReports() {
       const { data } = yield call([Api, 'getWorkItems'], URL_WORK_ITEMS)
 
       yield put(setTimeReports(data))
+      if (idEditingWorkItem) {
+        yield put(setEditMode(null))
+      }
+
       yield put(setIsFetchingReports(false))
     }
   } catch (error) {}

@@ -6,6 +6,7 @@ import {
   SELECT_DEVELOPERS,
   CLEAR_SELECTED_PROJECT,
   RESET_SELECTED_DATE,
+  SET_EDIT_MODE,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -20,6 +21,7 @@ const initialState = {
   },
   selectedProject: {},
   selectedDeveloper: null,
+  idEditingWorkItem: null,
   isFetchingReports: false,
 }
 export const timereports = (state = initialState, action) => {
@@ -42,6 +44,8 @@ export const timereports = (state = initialState, action) => {
       return { ...state, isFetchingReports: action.payload }
     case RESET_SELECTED_DATE:
       return { ...state, selectedDate: initialState.selectedDate }
+    case SET_EDIT_MODE:
+      return { ...state, idEditingWorkItem: action.payload }
     default:
       return state
   }

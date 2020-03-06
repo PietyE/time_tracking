@@ -1,7 +1,10 @@
 import React, { useState, memo } from 'react'
+import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
+
+import { setEditMode } from 'actions/times-report'
 
 function CreateReportForm({
   addTimeReport,
@@ -9,12 +12,16 @@ function CreateReportForm({
   selectedDate,
   handlerEndAnimation,
   extraClassName,
+  setEditMode,
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
+  const [leftSize, setLeftSize] = useState(1000)
+
+  const MAX_SIZE = 1000
 
   const handlerClickAddButton = () => {
-    if (!text && !hours) return
+    if (!text) return
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
 
@@ -29,6 +36,8 @@ function CreateReportForm({
 
   const handlerChangeText = e => {
     setText(e.target.value)
+    const size = e.target.value.split('').length
+    setLeftSize(MAX_SIZE - size)
   }
 
   const handlerChangeHours = e => {
@@ -36,19 +45,29 @@ function CreateReportForm({
     setHours(value)
   }
 
+  const handlerFocus = e => {
+    setEditMode(null)
+  }
+
   return (
     <div
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
-      <input
-        type="text"
-        name="description"
-        placeholder="What did you work on?"
-        className="description_input input"
-        value={text}
-        onChange={handlerChangeText}
-      />
+      <div className="description_input_container">
+        <input
+          type="text"
+          name="description"
+          placeholder="What did you work on?"
+          className="description_input input"
+          value={text}
+          onChange={handlerChangeText}
+          onFocus={handlerFocus}
+          maxLength={1000}
+        />
+        {leftSize < 50 && <span className="left_size">{leftSize}</span>}
+      </div>
+
       <div className="time_report_day_row_create_right">
         <InputMask
           placeholder="HH"
@@ -57,6 +76,7 @@ function CreateReportForm({
           value={hours}
           onChange={handlerChangeHours}
           mask="99:99"
+          onFocus={handlerFocus}
         />
         <button className="create_btn" onClick={handlerClickAddButton}>
           <FontAwesomeIcon
@@ -70,4 +90,8 @@ function CreateReportForm({
   )
 }
 
-export default memo(CreateReportForm)
+const actions = {
+  setEditMode,
+}
+
+export default connect(null, actions)(memo(CreateReportForm))

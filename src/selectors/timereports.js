@@ -18,6 +18,8 @@ const getTimeReports = createSelector(
   reports => reports
 )
 
+const getIdEditingWorkItem = state => state.timereports.idEditingWorkItem
+
 export {
   getSelectedDateTimeReport,
   getTimeReports,
@@ -25,4 +27,5 @@ export {
   getTimeReportForEdit,
   getSelectedProject,
   getSelecredDeveloper,
+  getIdEditingWorkItem,
 }
