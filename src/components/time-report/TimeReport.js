@@ -105,16 +105,6 @@ function TimeReport(props) {
     }
   }
 
-  const sum = text => {
-    return text.trim().split('').length
-  }
-
-  console.log(
-    sum(
-      'Your privacy is important to Apple so we’ve developed a Privacy Policy that covers how we collect,  '
-    )
-  )
-
   useEffect(() => {
     bootstrapWidthRouteState()
     return () => {

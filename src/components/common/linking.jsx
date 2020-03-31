@@ -25,7 +25,14 @@ function Linking({ text }) {
       {arrString.map(item => {
         if (item.search(REGEXP_FOR_LINK) !== -1) {
           return (
-            <a href={item} target="_blank" rel="noopener noreferrer" key={item}>
+            <a
+              href={item}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={Math.random(2)
+                .toString(16)
+                .substring(2)}
+            >
               {item}{' '}
             </a>
           )
