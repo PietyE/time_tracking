@@ -4,17 +4,29 @@ import { Link } from 'react-router-dom'
 export default function TableRow({
   project,
   extraClass = '',
-  name,
+  name: userName,
   rate,
   onClick,
   projectSalary,
   selectedDate = {},
+  total_expenses = '',
+  total_overtimes = '',
+  total_salary = '',
+  is_full_time = false,
+  totalHoursOvertime,
 }) {
-  const { projectName, hours, developer_project_id } = project
-  const total = rate * hours
-  const totalUSD = projectSalary + total
-  const toPay = totalUSD * 24
-  const coast = '2000'
+  const {
+    working_time: hours,
+    id: developer_project_id,
+    total,
+    name: projectName,
+  } = project
+
+  const toPay = total_salary * 24 // change this shit
+
+  const roundHours = (hours) => {
+    return parseFloat(hours.toFixed(2))
+  }
 
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
@@ -29,12 +41,15 @@ export default function TableRow({
     minimumFractionDigits: 0,
   })
 
+  const hoursString =
+    roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
+
   return (
     <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
       <span className="table_cell name">
-        <span> {name}</span>
+        <span> {userName}</span>
       </span>
-      <span className="table_cell name">
+      <span className="table_cell project_name">
         <span>
           {extraClass === 'common' ? (
             projectName
@@ -57,16 +72,20 @@ export default function TableRow({
         {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
       </span>
       <span className="table_cell">{usdFormat.format(rate)}</span>
-      <span className="table_cell">{hours} h</span>
-      <span className="table_cell">{usdFormat.format(total)}</span>
       <span className="table_cell">
-        {extraClass === 'common' ? usdFormat.format(totalUSD) : ''}
+        {is_full_time ? 'fulltime' : `${hoursString} h`}
+      </span>
+      <span className="table_cell">
+        {usdFormat.format(total_overtimes || total)}
+      </span>
+      <span className="table_cell">
+        {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
       </span>
       <span className="table_cell">
         {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
       </span>
       <span className="table_cell">
-        {extraClass === 'common' ? UAHFormat.format(coast) : ''}
+        {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
       </span>
     </div>
   )

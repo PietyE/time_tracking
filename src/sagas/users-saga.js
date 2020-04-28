@@ -56,6 +56,7 @@ function* bootstrap() {
 
     yield put(setAuthStatus(false))
   } catch (error) {
+    //to do
   } finally {
     yield put(setFetchingProfileStatus(false))
   }
@@ -122,8 +123,11 @@ function* logOut() {
   }
 }
 
+//function* getUserRate() {}
+
 export function* watchGetUserAsync() {
   yield takeEvery(BOOTSTRAP, bootstrap)
   yield takeEvery(LOG_IN, logIn)
   yield takeEvery(LOG_OUT, logOut)
+  //yield takeEvery(GET_USER_RATE, getUserRate)
 }

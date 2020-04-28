@@ -8,13 +8,14 @@ function ProjectSelect({
   selectedProject,
   clearSelectedProject,
 }) {
+  console.log('projectList', projectList)
   return (
     <Select
       title="choose you project..."
       listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
-      idKey="developer_project_id"
+      idKey="id"
       extraClassContainer={'project_select'}
       initialChoice={selectedProject}
       onClear={clearSelectedProject}

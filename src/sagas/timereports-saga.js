@@ -24,7 +24,7 @@ import { setDevelopers } from 'actions/developers'
 export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `developer-projects/`
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-  const restructureData = data.map(item => ({
+  const restructureData = data.map((item) => ({
     ...item.project,
     developer_project_id: item.id,
   }))
@@ -47,13 +47,14 @@ export function* getDevelopers() {
 export function* workerTimeReports() {
   try {
     const { selectedProject, selectedDate, idEditingWorkItem } = yield select(
-      state => state.timereports
+      (state) => state.timereports
     )
     if (!isEmpty(selectedProject)) {
       const { developer_project_id } = selectedProject
       const { year, month } = selectedDate
-      const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${1 +
-        month}`
+      const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${
+        1 + month
+      }`
       const URL_WORK_ITEMS = `work_items/${searchString}`
       yield put(setIsFetchingReports(true))
 
@@ -70,10 +71,10 @@ export function* workerTimeReports() {
 }
 
 export function* addTimeReport({ payload }) {
-  const { selectedProject } = yield select(state => state.timereports)
+  const { selectedProject } = yield select((state) => state.timereports)
 
   const URL_WORK_ITEMS = `work_items/`
-  const { reports } = yield select(state => state.timereports)
+  const { reports } = yield select((state) => state.timereports)
   const newTimereport = [...reports.items]
 
   const body = {
@@ -108,8 +109,8 @@ export function* deleteTimeReport({ payload: id }) {
   const URL = `work_items/${id}/`
   const {
     reports: { items },
-  } = yield select(state => state.timereports)
-  const newTimereport = items.filter(item => item.id !== id)
+  } = yield select((state) => state.timereports)
+  const newTimereport = items.filter((item) => item.id !== id)
   const { status } = yield call([Api, 'deleteWorkItem'], URL)
   if (status === 204) {
     yield put(setTimeReports({ items: newTimereport }))
@@ -127,7 +128,7 @@ export function* editTimeReport({ payload }) {
   try {
     const {
       reports: { items = [] },
-    } = yield select(state => state.timereports)
+    } = yield select((state) => state.timereports)
     const newItems = [...items]
     const { id, ...body } = payload
     const URL = `work_items/${id}/`
@@ -138,7 +139,7 @@ export function* editTimeReport({ payload }) {
     }
 
     if (data) {
-      const indexEdited = newItems.findIndex(item => item.id === data.id)
+      const indexEdited = newItems.findIndex((item) => item.id === data.id)
       newItems.splice(indexEdited, 1, data)
       yield put(setTimeReports({ items: newItems }))
       yield put(

@@ -21,7 +21,7 @@ function Select({
   const [classNameOpen, setClassNameOpen] = useState('')
   const [searchValue, setSearchValue] = useState('')
 
-  const handlerClickOpen = e => {
+  const handlerClickOpen = (e) => {
     if (isOpen) {
       setClassNameOpen('select_close')
       return
@@ -29,7 +29,7 @@ function Select({
     setIsOpen(true)
   }
 
-  const handlerClickClear = e => {
+  const handlerClickClear = (e) => {
     e.preventDefault()
     e.stopPropagation()
     setTitle(title)
@@ -42,16 +42,16 @@ function Select({
       setIsOpen(false)
     }
   }
-  const handlerClickItem = e => {
+  const handlerClickItem = (e) => {
     e.preventDefault()
     setTitle(e.currentTarget.dataset.value)
   }
 
-  const handlerChangeSearchValue = e => {
+  const handlerChangeSearchValue = (e) => {
     setSearchValue(e.target.value)
   }
 
-  const callbackEventListener = useCallback(e => {
+  const callbackEventListener = useCallback((e) => {
     if (e.target.classList.contains('select_clear_btn')) {
       return
     }
@@ -74,7 +74,7 @@ function Select({
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
-  const searchedListItems = listItems.filter(item => {
+  const searchedListItems = listItems.filter((item) => {
     if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
       return true
     }
@@ -112,7 +112,7 @@ function Select({
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
-          {searchedListItems.map(item => (
+          {searchedListItems.map((item) => (
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
@@ -121,7 +121,7 @@ function Select({
                     : 'select_list_item'
                 }
                 data-value={item[valueKey]}
-                onClick={e => {
+                onClick={(e) => {
                   if (_title !== e.currentTarget.dataset.value) {
                     handlerClickItem(e)
                     onSelected(item)

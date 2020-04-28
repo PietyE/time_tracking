@@ -50,7 +50,7 @@ function TimeReport(props) {
 
   const todayDate = new Date()
 
-  const getDaysInMonth = date =>
+  const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 
   let daySize = getDaysInMonth(new Date(selectedDate.year, selectedDate.month))
@@ -92,13 +92,14 @@ function TimeReport(props) {
       if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
         changeSelectedDateTimeReport({
           year: Number(routeYear),
-          month: Number(routeMonth) - 1,
+          month: Number(routeMonth),
         })
       }
 
       if (route_developer_project_id !== selectedDeveloper_project_id) {
         const newSelectedProject = projects.find(
-          project => project.developer_project_id === route_developer_project_id
+          (project) =>
+            project.developer_project_id === route_developer_project_id
         )
         selectProject(newSelectedProject)
       }
@@ -170,7 +171,7 @@ function TimeReport(props) {
             renderDaysArray.map((item, index) => {
               const numberOfDay = daySize - index
               const dataOfDay = reports.filter(
-                report => numberOfDay === new Date(report.date).getDate()
+                (report) => numberOfDay === new Date(report.date).getDate()
               )
               const isOpenCreate =
                 todayDate.getDate() === numberOfDay &&
@@ -197,7 +198,7 @@ function TimeReport(props) {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedDate: getSelectedDateTimeReport(state),
   reports: getTimeReports(state),
   isFetchingReports: getIsFetchingReport(state),
