@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-
+import _ from 'lodash'
 import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
 import Select from 'components/ui/select'
@@ -9,7 +9,10 @@ import SelectMonth from 'components/ui/select-month'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
-import { getSelectedMonthSelector } from 'selectors/projects-report'
+import {
+  getSelectedMonthSelector,
+  getSelectDeveloperInProjectReportSelector,
+} from 'selectors/projects-report'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
 import {
@@ -19,7 +22,12 @@ import {
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
   clearSelectedProjectInProjectReports,
+  getDevelopersProjectInProjectReport,
 } from 'actions/projects-report'
+import {
+  getProjectInTimeReportSelector,
+  getSelectedProjectSelector,
+} from 'reducers/projects-report'
 import { getDevProjectConsolidateProjectReportsSelector } from 'selectors/projects-report'
 
 function ProjectsReport({
@@ -28,14 +36,18 @@ function ProjectsReport({
   changeSelectedDateProjectsReport,
   getDeveloperConsolidateProjectReport,
   projectsReports,
-  developersList,
+  developersList = [],
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
   clearSelectedProjectInProjectReports,
-  projectList,
+  projectList = [],
+  selectedDeveloper = {},
+  getDevelopersProjectInProjectReport,
+  selectedProject = {},
 }) {
   useEffect(() => {
+    getDevelopersProjectInProjectReport()
     getDeveloperConsolidateProjectReport()
   }, [])
 
@@ -53,8 +65,9 @@ function ProjectsReport({
               isSearch={true}
               onSelected={setSelectedProjectInProjectReports}
               onClear={clearSelectedProjectInProjectReports}
+              disabled={!_.isEmpty(selectedDeveloper)}
+              initialChoice={selectedProject}
             />
-
             <Select
               title="choose developer..."
               extraClassContainer="developer_select_container"
@@ -62,9 +75,10 @@ function ProjectsReport({
               valueKey="name"
               idKey="id"
               isSearch={true}
-              // initialChoice={chosenDeveloper}
               onSelected={setSelectedDeveloper}
               onClear={clearDeveloperSelected}
+              disabled={!_.isEmpty(selectedProject)}
+              initialChoice={selectedDeveloper}
             />
           </div>
         )}
@@ -105,6 +119,7 @@ function ProjectsReport({
                   rate={current_rate}
                   projectSalary={current_salary}
                   key={id}
+                  userId={id}
                   selectedDate={selectedDate}
                   total_expenses={total_expenses}
                   total_overtimes={total_overtimes}
@@ -129,6 +144,7 @@ const RenderUser = ({
   total_expenses,
   total_overtimes,
   total_salary,
+  userId,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -166,6 +182,7 @@ const RenderUser = ({
             key={project.id}
             selectedDate={selectedDate}
             is_full_time={project.is_full_time}
+            userId={userId}
           />
         )
       })}
@@ -178,7 +195,9 @@ const mapStateToProps = (state) => ({
   selectedDate: getSelectedMonthSelector(state),
   projectsReports: getDevProjectConsolidateProjectReportsSelector(state),
   developersList: getDevelopersSelector(state),
-  projectList: getProjectsSelector(state),
+  projectList: getProjectInTimeReportSelector(state),
+  selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
+  selectedProject: getSelectedProjectSelector(state),
 })
 
 const actions = {
@@ -188,6 +207,7 @@ const actions = {
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
   clearSelectedProjectInProjectReports,
+  getDevelopersProjectInProjectReport,
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

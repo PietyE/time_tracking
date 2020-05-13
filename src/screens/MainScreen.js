@@ -20,24 +20,22 @@ import {
 function MainScreen({
   isAuth,
   roleUser,
-  getProjects,
   getDeveloperProjects,
   selectDevelopers,
   profileName,
   profileId,
-  getProfileEmail,
+  profileEmail,
 }) {
   useEffect(() => {
     if (isAuth) {
-      if (roleUser === DEVELOPER) {
-        getDeveloperProjects()
-      } else {
-        getProjects()
+      if (roleUser !== DEVELOPER) {
         selectDevelopers({
           id: profileId,
           name: profileName,
-          email: getProfileEmail,
+          email: profileEmail,
         })
+      } else {
+        getDeveloperProjects()
       }
     }
   }, [])
@@ -64,12 +62,12 @@ const actions = {
   selectDevelopers,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuth: getUserAuthStatus(state),
   roleUser: getRoleUser(state),
   profileId: getProfileId(state),
   profileName: getProfileName(state),
-  getProfileEmail: getProfileEmail(state),
+  profileEmail: getProfileEmail(state),
 })
 
 export default connect(mapStateToProps, actions)(memo(MainScreen))

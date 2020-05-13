@@ -11,24 +11,47 @@ import {
   EDIT_TIME_REPORT,
   GET_PROJECTS,
   GET_DEVELOPERS,
+  SELECT_DEVELOPERS,
 } from 'constants/actions-constant'
+import { DEVELOPER } from 'constants/role-constant'
 import {
   setTimeReports,
   setIsFetchingReports,
   setEditMode,
+  selectProject,
 } from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
-export function* getDeveloperProjects() {
-  const URL_DEVELOPER_PROJECT = `developer-projects/`
+export function* getDeveloperProjects({ payload, projectIdForSelect = null }) {
+  const { role } = yield select((state) => state.profile)
+  const { id } = yield select((state) => state.timereports.selectedDeveloper)
+  const URL_DEVELOPER_PROJECT =
+    role === DEVELOPER
+      ? `developer-projects/`
+      : `developer-projects/?user_id=${id}`
+
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
+
   const restructureData = data.map((item) => ({
     ...item.project,
     developer_project_id: item.id,
   }))
+
   yield put(setDeveloperProjects(restructureData))
+  if (role !== DEVELOPER) {
+    yield call(getDevelopers)
+    if (projectIdForSelect) {
+      const { developerProjects } = yield select((state) => state)
+      if (developerProjects.length) {
+        const routeProject = developerProjects.find(
+          (project) => projectIdForSelect === project.developer_project_id
+        )
+        yield put(selectProject(routeProject))
+      }
+    }
+  }
 }
 
 export function* getProjects() {
@@ -156,7 +179,10 @@ export function* editTimeReport({ payload }) {
 }
 
 export function* watchTimereports() {
-  yield takeEvery(GET_DEVELOPER_PROJECTS, getDeveloperProjects)
+  yield takeEvery(
+    [GET_DEVELOPER_PROJECTS, SELECT_DEVELOPERS],
+    getDeveloperProjects
+  )
   yield takeEvery(GET_PROJECTS, getProjects)
   yield takeEvery(GET_DEVELOPERS, getDevelopers)
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)

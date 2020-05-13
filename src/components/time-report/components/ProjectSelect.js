@@ -8,7 +8,6 @@ function ProjectSelect({
   selectedProject,
   clearSelectedProject,
 }) {
-  console.log('projectList', projectList)
   return (
     <Select
       title="choose you project..."

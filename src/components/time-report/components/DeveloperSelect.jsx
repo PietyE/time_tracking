@@ -1,10 +1,6 @@
 import React, { memo } from 'react'
 import { connect } from 'react-redux'
 
-import { getDevelopersSelector } from 'selectors/developers'
-
-import { getSelecredDeveloper } from 'selectors/timereports'
-
 import { selectDevelopers } from 'actions/developers'
 
 import Select from 'components/ui/select'
@@ -28,11 +24,6 @@ function DeveloperSelect({
   )
 }
 
-const mapStateToProps = state => ({
-  developersList: getDevelopersSelector(state),
-  selectedDeveloper: getSelecredDeveloper(state),
-})
-
 const actions = { selectDevelopers }
 
-export default memo(connect(mapStateToProps, actions)(DeveloperSelect))
+export default memo(connect(null, actions)(DeveloperSelect))

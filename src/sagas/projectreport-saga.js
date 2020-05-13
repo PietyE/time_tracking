@@ -8,10 +8,14 @@ import {
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
+  GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
 } from 'constants/actions-constant'
-import { setDeveloperConsolidateProjectReport } from 'actions/projects-report'
+import {
+  setDeveloperConsolidateProjectReport,
+  setDevelopersProjectInProjectReport,
+} from 'actions/projects-report'
 
-export function* getDeveloperConsolidateProgectReport({ payload = {} }) {
+export function* getDeveloperConsolidateProjectReport({ payload = {} }) {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
@@ -37,6 +41,14 @@ export function* getDeveloperConsolidateProgectReport({ payload = {} }) {
   }
 }
 
+export function* getDeveloperProjects() {
+  const URL_DEVELOPER_PROJECT = `projects/`
+
+  const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
+
+  yield put(setDevelopersProjectInProjectReport(data))
+}
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -47,6 +59,10 @@ export function* watchDeveloperProjects() {
       SET_SELECTED_PROJECT_PROJECTREPORTS,
       CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
     ],
-    getDeveloperConsolidateProgectReport
+    getDeveloperConsolidateProjectReport
+  )
+  yield takeEvery(
+    [GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT],
+    getDeveloperProjects
   )
 }

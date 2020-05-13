@@ -2,6 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
+import _ from 'lodash'
+
+import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
 
@@ -15,11 +18,14 @@ function Select({
   initialChoice = null,
   onClear,
   isSearch = false,
+  disabled,
 }) {
   const [_title, setTitle] = useState(title)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
   const [searchValue, setSearchValue] = useState('')
+
+  const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
     if (isOpen) {
@@ -61,6 +67,17 @@ function Select({
   }, [])
 
   useEffect(() => {
+    if (
+      prevList &&
+      listItems &&
+      prevList.length &&
+      !_.isEqual(prevList, listItems)
+    ) {
+      setTitle(title)
+    }
+  }, [listItems])
+
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener('click', callbackEventListener)
     }
@@ -83,11 +100,13 @@ function Select({
 
   return (
     <div
-      className={`select_container ${extraClassContainer} ${classNameContainerOpen}`}
-      onClick={handlerClickOpen}
+      className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
+        disabled ? 'disabled' : ''
+      }`}
+      onClick={disabled ? null : handlerClickOpen}
     >
       <div className="select_title_container">
-        {isSearch && isOpen ? (
+        {isSearch && isOpen && !disabled ? (
           <input
             className="select_title_text select_title_text_input"
             placeholder={_title}
@@ -107,7 +126,7 @@ function Select({
           }
         />
       </div>
-      {isOpen && (
+      {isOpen && !disabled && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}

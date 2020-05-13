@@ -39,7 +39,12 @@ export const timereports = (state = initialState, action) => {
         reports: [],
       }
     case SELECT_DEVELOPERS:
-      return { ...state, selectedDeveloper: action.payload }
+      return {
+        ...state,
+        selectedDeveloper: action.payload,
+        selectedProject: initialState.selectedProject,
+        reports: [],
+      }
     case SET_IS_FETCHING_REPORTS:
       return { ...state, isFetchingReports: action.payload }
     case RESET_SELECTED_DATE:

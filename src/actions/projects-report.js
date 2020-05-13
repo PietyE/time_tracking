@@ -6,6 +6,8 @@ import {
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
+  GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -39,4 +41,13 @@ export const setSelectedProjectInProjectReports = (payload) => ({
 
 export const clearSelectedProjectInProjectReports = () => ({
   type: CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
+})
+
+export const getDevelopersProjectInProjectReport = () => ({
+  type: GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+})
+
+export const setDevelopersProjectInProjectReport = (payload) => ({
+  type: SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  payload,
 })

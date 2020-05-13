@@ -14,6 +14,7 @@ export default function TableRow({
   total_salary = '',
   is_full_time = false,
   totalHoursOvertime,
+  userId,
 }) {
   const {
     working_time: hours,
@@ -44,6 +45,12 @@ export default function TableRow({
   const hoursString =
     roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
+  let stateDataForLink = {
+    userId,
+    developer_project_id,
+    selectedDate,
+  }
+
   return (
     <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
       <span className="table_cell name">
@@ -57,10 +64,7 @@ export default function TableRow({
             <Link
               to={{
                 pathname: '/timereport',
-                state: {
-                  developer_project_id,
-                  selectedDate,
-                },
+                state: stateDataForLink,
               }}
             >
               {projectName}

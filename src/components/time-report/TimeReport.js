@@ -8,6 +8,7 @@ import Day from './components/Day'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
+import Spinner from 'components/ui/spinner'
 import {
   changeSelectedDateTimeReport,
   addTimeReport,
@@ -15,18 +16,20 @@ import {
   selectProject,
   clearSelectedProject,
 } from 'actions/times-report'
+import { selectDevelopers } from 'actions/developers'
 import {
   getSelectedDateTimeReport,
   getTimeReports,
   getIsFetchingReport,
   getSelectedProject,
+  getSelecredDeveloper,
 } from 'selectors/timereports'
 import { getProjectsSelector } from 'selectors/developer-projects'
-import Spinner from 'components/ui/spinner'
-import './style.scss'
 import { getRoleUser } from 'selectors/user'
+import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
+import './style.scss'
 
 function TimeReport(props) {
   const {
@@ -42,6 +45,9 @@ function TimeReport(props) {
     roleUser,
     projects = [],
     selectedProject = {},
+    developersList = [],
+    selectedDeveloper,
+    selectDevelopers,
   } = props
 
   const [showEmpty, setShowEmpty] = useState(true)
@@ -79,6 +85,7 @@ function TimeReport(props) {
       const {
         selectedDate: routeDate,
         developer_project_id: route_developer_project_id,
+        userId: route_user_id,
       } = routeState
 
       const { year: routeYear, month: routeMonth } = routeDate
@@ -94,6 +101,23 @@ function TimeReport(props) {
           year: Number(routeYear),
           month: Number(routeMonth),
         })
+      }
+
+      if (roleUser !== DEVELOPER) {
+        const developerData = developersList.find(
+          (dev) => dev.id === route_user_id
+        )
+        if (developerData) {
+          selectDevelopers(
+            {
+              id: developerData.id,
+              name: developerData.name,
+              email: developerData.email,
+            },
+            route_developer_project_id
+          )
+        }
+        return
       }
 
       if (route_developer_project_id !== selectedDeveloper_project_id) {
@@ -126,13 +150,18 @@ function TimeReport(props) {
       >
         <div className="time_report_header">
           <div className="time_report_header_select_section">
+            {roleUser !== DEVELOPER && (
+              <DeveloperSelect
+                developersList={developersList}
+                selectedDeveloper={selectedDeveloper}
+              />
+            )}
             <ProjectSelect
               projectList={projects}
               clearSelectedProject={clearSelectedProject}
               selectProject={selectProject}
               selectedProject={selectedProject}
             />
-            {roleUser !== DEVELOPER && <DeveloperSelect />}
           </div>
           <div className="time_report_header_btn_section">
             <SelectMonth
@@ -205,6 +234,8 @@ const mapStateToProps = (state) => ({
   roleUser: getRoleUser(state),
   projects: getProjectsSelector(state),
   selectedProject: getSelectedProject(state),
+  developersList: getDevelopersSelector(state),
+  selectedDeveloper: getSelecredDeveloper(state),
 })
 
 const actions = {
@@ -213,6 +244,7 @@ const actions = {
   selectProject,
   clearSelectedProject,
   resetSelectedDate,
+  selectDevelopers,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))
