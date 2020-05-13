@@ -26,11 +26,13 @@ import { setDevelopers } from 'actions/developers'
 
 export function* getDeveloperProjects({ payload, projectIdForSelect = null }) {
   const { role } = yield select((state) => state.profile)
-  const { id } = yield select((state) => state.timereports.selectedDeveloper)
-  const URL_DEVELOPER_PROJECT =
-    role === DEVELOPER
-      ? `developer-projects/`
-      : `developer-projects/?user_id=${id}`
+
+  let URL_DEVELOPER_PROJECT = `developer-projects/`
+
+  if (role !== DEVELOPER) {
+    const { id } = yield select((state) => state.timereports.selectedDeveloper)
+    URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
+  }
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
 
