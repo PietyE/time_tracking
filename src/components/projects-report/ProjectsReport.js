@@ -47,7 +47,10 @@ function ProjectsReport({
   selectedProject = {},
 }) {
   useEffect(() => {
-    getDevelopersProjectInProjectReport()
+    if (roleUser !== DEVELOPER) {
+      getDevelopersProjectInProjectReport()
+    }
+
     getDeveloperConsolidateProjectReport()
   }, [])
 
