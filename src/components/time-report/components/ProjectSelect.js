@@ -14,7 +14,7 @@ function ProjectSelect({
       listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
-      idKey="developer_project_id"
+      idKey="id"
       extraClassContainer={'project_select'}
       initialChoice={selectedProject}
       onClear={clearSelectedProject}

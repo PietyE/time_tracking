@@ -5,7 +5,7 @@ class Api {
    *  @param token -- string
    *
    */
-  users = url =>
+  users = (url) =>
     fetchApi({
       url,
     })
@@ -21,20 +21,20 @@ class Api {
     })
   }
 
-  logout = url => {
+  logout = (url) => {
     return fetchApi({
       url,
       method: 'post',
     })
   }
 
-  developerProjects = url => {
+  developerProjects = (url) => {
     return fetchApi({
       url,
     })
   }
 
-  getWorkItems = url => {
+  getWorkItems = (url) => {
     return fetchApi({
       url,
     })
@@ -48,7 +48,7 @@ class Api {
     })
   }
 
-  deleteWorkItem = url => {
+  deleteWorkItem = (url) => {
     return fetchApi({
       url,
       method: 'delete',
@@ -60,6 +60,13 @@ class Api {
       url,
       method: 'patch',
       body,
+    })
+  }
+
+  consolidateReportApi = (url) => {
+    return fetchApi({
+      url,
+      method: 'get',
     })
   }
 }

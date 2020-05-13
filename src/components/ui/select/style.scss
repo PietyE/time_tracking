@@ -15,6 +15,17 @@
     box-shadow: 0px 0px 10px 0px rgba(158, 167, 171, 0.3);
     transition: 0.2s ease-in;
   }
+  &.disabled {
+    cursor: not-allowed;
+    .select_title_container {
+      .select_title_text {
+        color: #e8e8e8;
+      }
+      .select_title_icon {
+        color: #e8e8e8;
+      }
+    }
+  }
   .select_title_container {
     flex: 1;
     display: flex;

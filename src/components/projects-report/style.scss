@@ -6,6 +6,9 @@
     .table_scroll {
       min-width: 900px;
     }
+    .table_body_item:nth-child(even) {
+      background-color: rgb(218, 233, 240);
+    }
   }
   .table_header_container,
   .table_body_container,
@@ -32,14 +35,19 @@
   }
 
   .table_cell.name {
-    flex: 1.6;
+    flex: 1.5;
+  }
+
+  .table_cell.project_name {
+    flex: 1.7;
   }
 
   .table_cell.sort {
     cursor: pointer;
   }
 
-  .table_cell.name > span {
+  .table_cell.name > span,
+  .table_cell.project_name > span {
     width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -48,8 +56,8 @@
   }
 
   .table_body_container {
-    background-color: white;
     flex-direction: column;
+    background-color: white;
   }
 
   .table_body_item {

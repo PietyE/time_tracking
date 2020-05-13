@@ -14,7 +14,11 @@
     margin-bottom: 20px;
     .time_report_header_select_section {
       display: flex;
+      .developer_select {
+        margin-right: 20px;
+      }
     }
+
     .time_report_header_btn_section {
       display: flex;
       justify-content: flex-start;

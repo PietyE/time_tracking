@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-
+import _ from 'lodash'
 import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
 import Select from 'components/ui/select'
@@ -8,43 +8,52 @@ import SelectMonth from 'components/ui/select-month'
 
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
-import { getSelectedMonthSelector } from 'selectors/projects-report'
+import { getDevelopersSelector } from 'selectors/developers'
+import {
+  getSelectedMonthSelector,
+  getSelectDeveloperInProjectReportSelector,
+} from 'selectors/projects-report'
+import { getProjectsSelector } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
-import { changeSelectedDateProjectsReport } from 'actions/projects-report'
-
-const fakeData = [
-  {
-    name: 'Viktor Vovk',
-    rate: 16,
-    projectSalary: 3000,
-    projects: [
-      {
-        developer_project_id: '4893c4e3-c6e1-45b1-bebd-aa2fb6f8880f',
-        id: '1ef5df7d-9ecc-4a13-8b47-74b3bdef4073',
-        projectName: 'Vilmate Time Tracking',
-        hours: 55,
-      },
-      {
-        developer_project_id: 'b866062f-c029-4138-b0a1-2a7c4cbb6c77',
-        id: 'cccd86e0-c865-4a85-90b3-1d107835449e',
-        projectName: 'JobCast',
-        hours: 45,
-      },
-      {
-        developer_project_id: '1173fdd7-0cea-4c73-b978-51f3f9b5fcce',
-        id: '93fb5705-bb17-4245-a3d9-75fcd927e1e6',
-        projectName: 'Betting Service',
-        hours: 60,
-      },
-    ],
-  },
-]
+import {
+  changeSelectedDateProjectsReport,
+  getDeveloperConsolidateProjectReport,
+  setSelectedDeveloper,
+  clearDeveloperSelected,
+  setSelectedProjectInProjectReports,
+  clearSelectedProjectInProjectReports,
+  getDevelopersProjectInProjectReport,
+} from 'actions/projects-report'
+import {
+  getProjectInTimeReportSelector,
+  getSelectedProjectSelector,
+} from 'reducers/projects-report'
+import { getDevProjectConsolidateProjectReportsSelector } from 'selectors/projects-report'
 
 function ProjectsReport({
   roleUser,
   selectedDate,
   changeSelectedDateProjectsReport,
+  getDeveloperConsolidateProjectReport,
+  projectsReports,
+  developersList = [],
+  setSelectedDeveloper,
+  clearDeveloperSelected,
+  setSelectedProjectInProjectReports,
+  clearSelectedProjectInProjectReports,
+  projectList = [],
+  selectedDeveloper = {},
+  getDevelopersProjectInProjectReport,
+  selectedProject = {},
 }) {
+  useEffect(() => {
+    if (roleUser !== DEVELOPER) {
+      getDevelopersProjectInProjectReport()
+    }
+
+    getDeveloperConsolidateProjectReport()
+  }, [])
+
   return (
     <div className="container project_report_container">
       <div className="project_report_header_container">
@@ -53,11 +62,26 @@ function ProjectsReport({
             <Select
               title="choose you project..."
               extraClassContainer="project_select_container"
+              listItems={projectList}
+              valueKey="name"
+              idKey="id"
+              isSearch={true}
+              onSelected={setSelectedProjectInProjectReports}
+              onClear={clearSelectedProjectInProjectReports}
+              disabled={!_.isEmpty(selectedDeveloper)}
+              initialChoice={selectedProject}
             />
-
             <Select
               title="choose developer..."
               extraClassContainer="developer_select_container"
+              listItems={developersList}
+              valueKey="name"
+              idKey="id"
+              isSearch={true}
+              onSelected={setSelectedDeveloper}
+              onClear={clearDeveloperSelected}
+              disabled={!_.isEmpty(selectedProject)}
+              initialChoice={selectedDeveloper}
             />
           </div>
         )}
@@ -70,32 +94,39 @@ function ProjectsReport({
         <div className="table_scroll">
           <TableHeader />
           <div className="table_body_container">
-            {fakeData.map(user => {
-              const { name, projects, rate, projectSalary } = user
-              const allProjectsName = projects
-                .map(project => project.projectName)
+            {projectsReports.map((user) => {
+              const {
+                name,
+                developer_projects,
+                current_rate,
+                current_salary,
+                id,
+                total_expenses,
+                total_overtimes,
+                total: total_salary,
+              } = user
+
+              const allProjectsName = developer_projects
+                .map((project) => project.name)
                 .join(', ')
 
-              const projectSum = projects.reduce(
-                (sum, project) => ({
-                  hours: sum.hours + project.hours,
-                }),
-                { projectSalary: 0, hours: 0 }
-              )
-
               const commonProjectsInfo = {
-                projectName: allProjectsName,
-                ...projectSum,
+                name: allProjectsName,
               }
+
               return (
                 <RenderUser
                   commonProjectsInfo={commonProjectsInfo}
-                  projects={projects}
+                  projects={developer_projects}
                   name={name}
-                  rate={rate}
-                  projectSalary={projectSalary}
-                  key={name}
+                  rate={current_rate}
+                  projectSalary={current_salary}
+                  key={id}
+                  userId={id}
                   selectedDate={selectedDate}
+                  total_expenses={total_expenses}
+                  total_overtimes={total_overtimes}
+                  total_salary={total_salary}
                 />
               )
             })}
@@ -113,12 +144,23 @@ const RenderUser = ({
   rate = 0,
   projectSalary = 0,
   selectedDate = {},
+  total_expenses,
+  total_overtimes,
+  total_salary,
+  userId,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handlerOpenMoreProject = () => {
     setIsOpen(!isOpen)
   }
+
+  const totalHoursOvertime = projects.reduce((sum, project) => {
+    if (!project.is_full_time) {
+      return (sum = sum + project.working_time)
+    }
+    return sum
+  }, 0)
 
   return (
     <div className="table_body_item">
@@ -129,15 +171,21 @@ const RenderUser = ({
         rate={rate}
         onClick={handlerOpenMoreProject}
         extraClass={'common'}
+        total_expenses={total_expenses}
+        total_overtimes={total_overtimes}
+        total_salary={total_salary}
+        totalHoursOvertime={totalHoursOvertime}
       />
-      {projects.map(project => {
+      {projects.map((project) => {
         return (
           <TableRow
             project={project}
             extraClass={isOpen ? 'more_project open' : 'more_project'}
             rate={rate}
-            key={name + project.projectName}
+            key={project.id}
             selectedDate={selectedDate}
+            is_full_time={project.is_full_time}
+            userId={userId}
           />
         )
       })}
@@ -145,13 +193,24 @@ const RenderUser = ({
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   roleUser: getRoleUser(state),
   selectedDate: getSelectedMonthSelector(state),
+  projectsReports: getDevProjectConsolidateProjectReportsSelector(state),
+  developersList: getDevelopersSelector(state),
+  projectList: getProjectInTimeReportSelector(state),
+  selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
+  selectedProject: getSelectedProjectSelector(state),
 })
 
 const actions = {
   changeSelectedDateProjectsReport,
+  getDeveloperConsolidateProjectReport,
+  setSelectedDeveloper,
+  clearDeveloperSelected,
+  setSelectedProjectInProjectReports,
+  clearSelectedProjectInProjectReports,
+  getDevelopersProjectInProjectReport,
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)
