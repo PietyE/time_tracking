@@ -9,39 +9,40 @@ import {
   SELECT_PROJECT,
   CLEAR_SELECTED_PROJECT,
   SET_EDIT_MODE,
+  GET_TIME_REPORT_CSV,
 } from 'constants/actions-constant'
 
-export const changeSelectedDateTimeReport = payload => ({
+export const changeSelectedDateTimeReport = (payload) => ({
   type: CHANGE_SELECTED_DATE_TIME_REPORT,
   payload,
 })
 
-export const setIsFetchingReports = payload => ({
+export const setIsFetchingReports = (payload) => ({
   type: SET_IS_FETCHING_REPORTS,
   payload,
 })
 
-export const setTimeReports = payload => ({
+export const setTimeReports = (payload) => ({
   type: SET_TIME_REPORTS,
   payload,
 })
 
-export const addTimeReport = payload => ({
+export const addTimeReport = (payload) => ({
   type: ADD_TIME_REPORT,
   payload,
 })
 
-export const editTimeReport = payload => ({
+export const editTimeReport = (payload) => ({
   type: EDIT_TIME_REPORT,
   payload,
 })
 
-export const deleteTimeReport = payload => ({
+export const deleteTimeReport = (payload) => ({
   type: DELETE_TIME_REPORT,
   payload,
 })
 
-export const selectProject = payload => ({
+export const selectProject = (payload) => ({
   type: SELECT_PROJECT,
   payload,
 })
@@ -54,7 +55,11 @@ export const resetSelectedDate = () => ({
   type: RESET_SELECTED_DATE,
 })
 
-export const setEditMode = payload => ({
+export const setEditMode = (payload) => ({
   type: SET_EDIT_MODE,
   payload,
+})
+
+export const getTimeReportCsv = () => ({
+  type: GET_TIME_REPORT_CSV,
 })

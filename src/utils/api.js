@@ -69,6 +69,12 @@ class Api {
       method: 'get',
     })
   }
+
+  exportCsv = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
 
 export default new Api()

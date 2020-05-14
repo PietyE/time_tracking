@@ -15,6 +15,7 @@ import {
   resetSelectedDate,
   selectProject,
   clearSelectedProject,
+  getTimeReportCsv,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
 import {
@@ -48,6 +49,7 @@ function TimeReport(props) {
     developersList = [],
     selectedDeveloper,
     selectDevelopers,
+    getTimeReportCsv,
   } = props
 
   const [showEmpty, setShowEmpty] = useState(true)
@@ -130,6 +132,13 @@ function TimeReport(props) {
     }
   }
 
+  const handlerExportCsv = () => {
+    if (!reports || reports.length === 0) {
+      return
+    }
+    getTimeReportCsv()
+  }
+
   useEffect(() => {
     bootstrapWidthRouteState()
     return () => {
@@ -169,7 +178,7 @@ function TimeReport(props) {
               setNewData={changeSelectedDateTimeReport}
               extraClassNameContainer="time_report_header_select_month"
             />
-            <Button className="export_btn">
+            <Button className="export_btn" onClick={handlerExportCsv}>
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
@@ -245,6 +254,7 @@ const actions = {
   clearSelectedProject,
   resetSelectedDate,
   selectDevelopers,
+  getTimeReportCsv,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

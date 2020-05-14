@@ -12,6 +12,7 @@ import {
   GET_PROJECTS,
   GET_DEVELOPERS,
   SELECT_DEVELOPERS,
+  GET_TIME_REPORT_CSV,
 } from 'constants/actions-constant'
 import { DEVELOPER } from 'constants/role-constant'
 import {
@@ -180,6 +181,15 @@ export function* editTimeReport({ payload }) {
   }
 }
 
+export function* downloadCSV() {
+  const { selectedDate, selectedProject } = yield select(
+    (state) => state.timereports
+  )
+  const URL = `developer-projects/${selectedProject.developer_project_id}/export-csv/${selectedDate.year}/${selectedDate.month}/`
+  const res = yield call([Api, 'exportCsv'], URL)
+  console.log('res', res)
+}
+
 export function* watchTimereports() {
   yield takeEvery(
     [GET_DEVELOPER_PROJECTS, SELECT_DEVELOPERS],
@@ -194,4 +204,5 @@ export function* watchTimereports() {
     [SELECT_PROJECT, CHANGE_SELECTED_DATE_TIME_REPORT],
     workerTimeReports
   )
+  yield takeEvery(GET_TIME_REPORT_CSV, downloadCSV)
 }
