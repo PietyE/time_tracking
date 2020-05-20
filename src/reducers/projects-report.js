@@ -6,6 +6,7 @@ import {
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  SET_EDIT_USER_ID,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -20,6 +21,7 @@ const initialState = {
   selectedDeveloper: {},
   isFetchingReports: false,
   developerProjectInProjectReport: [],
+  editingUserId: '',
 }
 export const projectsReport = (state = initialState, action) => {
   switch (action.type) {
@@ -40,8 +42,8 @@ export const projectsReport = (state = initialState, action) => {
       }
     case SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT:
       return { ...state, developerProjectInProjectReport: action.payload }
-    // case SET_IS_FETCHING_REPORTS:
-    //   return { ...state, isFetchingReports: action.payload }
+    case SET_EDIT_USER_ID:
+      return { ...state, editingUserId: action.payload }
     default:
       return state
   }
@@ -52,3 +54,6 @@ export const getProjectInTimeReportSelector = (state) =>
 
 export const getSelectedProjectSelector = (state) =>
   state.projectsReport.selectedProject
+
+export const getEditingUserIdSelector = (state) =>
+  state.projectsReport.editingUserId

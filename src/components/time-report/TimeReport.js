@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
+import _ from 'lodash'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
@@ -140,11 +141,17 @@ function TimeReport(props) {
   }
 
   useEffect(() => {
-    bootstrapWidthRouteState()
-    return () => {
-      clearSelectedProject()
-      resetSelectedDate()
+    if (projects.length && _.isEmpty(selectedProject) && !routeState) {
+      selectProject(projects[0])
     }
+  }, [projects])
+
+  useEffect(() => {
+    bootstrapWidthRouteState()
+    // return () => {
+    //   clearSelectedProject()
+    //   resetSelectedDate()
+    // }
   }, [])
 
   return (

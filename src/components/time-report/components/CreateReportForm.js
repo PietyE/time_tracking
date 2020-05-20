@@ -34,18 +34,18 @@ function CreateReportForm({
     setHours('')
   }
 
-  const handlerChangeText = e => {
+  const handlerChangeText = (e) => {
     setText(e.target.value)
     const size = e.target.value.split('').length
     setLeftSize(MAX_SIZE - size)
   }
 
-  const handlerChangeHours = e => {
+  const handlerChangeHours = (e) => {
     const value = e.target.value
     setHours(value)
   }
 
-  const handlerFocus = e => {
+  const handlerFocus = (e) => {
     setEditMode(null)
   }
 
@@ -75,7 +75,7 @@ function CreateReportForm({
           className="hours_input input"
           value={hours}
           onChange={handlerChangeHours}
-          mask="99:99"
+          mask="9:99"
           onFocus={handlerFocus}
         />
         <button className="create_btn" onClick={handlerClickAddButton}>

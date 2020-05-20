@@ -1,11 +1,7 @@
 import React, { memo, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faTimes,
-  //faPencilAlt,
-  faCheck,
-} from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import TextareaAutosize from 'react-textarea-autosize'
 import InputMask from 'react-input-mask'
@@ -41,29 +37,29 @@ function ReportItem({
   } = editableText
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
 
-  const handlerClickOpenDeleteModal = e => {
+  const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
     setIsDeleteRequest(!isDeleteRequest)
     setEditMode(null)
   }
 
-  const handlerClickDelete = e => {
+  const handlerClickDelete = (e) => {
     e.stopPropagation()
     deleteTimeReport(id)
     setIsDeleteRequest(false)
   }
 
-  const handlerClickEditMode = e => {
+  const handlerClickEditMode = (e) => {
     e.preventDefault()
     e.stopPropagation()
     setEditMode(id)
   }
 
-  const handlerCancelEditMode = e => {
+  const handlerCancelEditMode = (e) => {
     setEditMode(null)
   }
 
-  const handlerSubmit = e => {
+  const handlerSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const [_hour, min] = e.target.duration.value.split(':')
@@ -105,7 +101,7 @@ function ReportItem({
             className="time_report_day_description textarea"
             defaultValue={text}
             autoFocus
-            onFocus={e => {
+            onFocus={(e) => {
               const temp_value = e.target.value
               e.target.value = ''
               e.target.value = temp_value
@@ -116,7 +112,7 @@ function ReportItem({
             placeholder="HH"
             maskPlaceholder="0"
             className="hours_input time_report_day_hours"
-            mask="99:99"
+            mask="9:99"
             defaultValue={parseMinToHoursAndMin(hours)}
             name="duration"
           />

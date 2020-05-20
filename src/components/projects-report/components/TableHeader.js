@@ -5,21 +5,17 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 export default function TableHeader() {
   return (
     <div className="table_header_container">
-      <div className="table_cell name sort">
-        <span>
-          Name <FontAwesomeIcon icon={faChevronDown} />
-        </span>
+      <div className="table_cell name">
+        <span>Name</span>
       </div>
-      <div className="table_cell name sort">
-        <span>
-          Projects <FontAwesomeIcon icon={faChevronDown} />
-        </span>
+      <div className="table_cell project_name">
+        <span>Projects</span>
       </div>
-      <div className="table_cell">Salary</div>
-      <div className="table_cell">Rate</div>
-      <div className="table_cell">Hours</div>
-      <div className="table_cell">Total</div>
-      <div className="table_cell">Total USD</div>
+      <div className="table_cell salary">Salary</div>
+      <div className="table_cell rate">Rate</div>
+      <div className="table_cell hours">Hours</div>
+      <div className="table_cell total">Total</div>
+      <div className="table_cell total">Total USD</div>
       <div className="table_cell">To pay</div>
       <div className="table_cell">Costs</div>
     </div>

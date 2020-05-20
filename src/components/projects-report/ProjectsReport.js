@@ -23,10 +23,12 @@ import {
   setSelectedProjectInProjectReports,
   clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
+  setEditUserId,
 } from 'actions/projects-report'
 import {
   getProjectInTimeReportSelector,
   getSelectedProjectSelector,
+  getEditingUserIdSelector,
 } from 'reducers/projects-report'
 import { getDevProjectConsolidateProjectReportsSelector } from 'selectors/projects-report'
 
@@ -45,6 +47,8 @@ function ProjectsReport({
   selectedDeveloper = {},
   getDevelopersProjectInProjectReport,
   selectedProject = {},
+  setEditUserId,
+  editingUserId,
 }) {
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
@@ -127,6 +131,9 @@ function ProjectsReport({
                   total_expenses={total_expenses}
                   total_overtimes={total_overtimes}
                   total_salary={total_salary}
+                  roleUser={roleUser}
+                  setEditUserId={setEditUserId}
+                  editingUserId={editingUserId}
                 />
               )
             })}
@@ -148,6 +155,9 @@ const RenderUser = ({
   total_overtimes,
   total_salary,
   userId,
+  roleUser,
+  setEditUserId,
+  editingUserId,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -175,6 +185,10 @@ const RenderUser = ({
         total_overtimes={total_overtimes}
         total_salary={total_salary}
         totalHoursOvertime={totalHoursOvertime}
+        roleUser={roleUser}
+        userId={userId}
+        setEditUserId={setEditUserId}
+        editingUserId={editingUserId}
       />
       {projects.map((project) => {
         return (
@@ -201,6 +215,7 @@ const mapStateToProps = (state) => ({
   projectList: getProjectInTimeReportSelector(state),
   selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
   selectedProject: getSelectedProjectSelector(state),
+  editingUserId: getEditingUserIdSelector(state),
 })
 
 const actions = {
@@ -211,6 +226,7 @@ const actions = {
   setSelectedProjectInProjectReports,
   clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
+  setEditUserId,
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

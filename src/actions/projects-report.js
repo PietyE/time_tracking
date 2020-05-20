@@ -8,6 +8,7 @@ import {
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  SET_EDIT_USER_ID,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -49,5 +50,10 @@ export const getDevelopersProjectInProjectReport = () => ({
 
 export const setDevelopersProjectInProjectReport = (payload) => ({
   type: SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  payload,
+})
+
+export const setEditUserId = (payload) => ({
+  type: SET_EDIT_USER_ID,
   payload,
 })

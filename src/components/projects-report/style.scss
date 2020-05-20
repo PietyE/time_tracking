@@ -36,23 +36,36 @@
 
   .table_cell.name {
     flex: 1.5;
+    .edit_button {
+      &:hover {
+        color: blue;
+        transition: all 0.3s;
+      }
+    }
   }
 
   .table_cell.project_name {
-    flex: 1.7;
+    flex: 1.8;
+  }
+  .table_cell.salary,
+  .table_cell.rate,
+  .table_cell.hours,
+  .table_cell.total {
+    flex: 0.7;
   }
 
   .table_cell.sort {
     cursor: pointer;
   }
 
-  .table_cell.name > span,
-  .table_cell.project_name > span {
-    width: 100%;
+  .table_cell.name > span.name_text,
+  .table_cell.project_name > span.name_text {
+    //width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
     display: block;
     overflow: hidden;
+    padding-left: 20px;
   }
 
   .table_body_container {

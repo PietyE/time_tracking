@@ -1,5 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+
+import { DEVELOPER } from 'constants/role-constant'
 
 export default function TableRow({
   project,
@@ -15,6 +19,9 @@ export default function TableRow({
   is_full_time = false,
   totalHoursOvertime,
   userId,
+  roleUser,
+  setEditUserId,
+  editingUserId = '',
 }) {
   const {
     working_time: hours,
@@ -42,6 +49,12 @@ export default function TableRow({
     minimumFractionDigits: 0,
   })
 
+  const handlerEditClick = (e) => {
+    e.stopPropagation()
+    const userID = e.currentTarget.dataset.userid
+    setEditUserId(userID)
+  }
+
   const hoursString =
     roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
@@ -54,7 +67,16 @@ export default function TableRow({
   return (
     <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
       <span className="table_cell name">
-        <span> {userName}</span>
+        {roleUser !== DEVELOPER && extraClass === 'common' && (
+          <span
+            className="edit_button"
+            onClick={handlerEditClick}
+            data-userid={userId}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+          </span>
+        )}
+        <span className="name_text">{userName}</span>
       </span>
       <span className="table_cell project_name">
         <span>
@@ -72,17 +94,17 @@ export default function TableRow({
           )}
         </span>
       </span>
-      <span className="table_cell">
+      <span className="table_cell salary">
         {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
       </span>
-      <span className="table_cell">{usdFormat.format(rate)}</span>
-      <span className="table_cell">
+      <span className="table_cell rate">{usdFormat.format(rate)}</span>
+      <span className="table_cell hours">
         {is_full_time ? 'fulltime' : `${hoursString} h`}
       </span>
-      <span className="table_cell">
+      <span className="table_cell total">
         {usdFormat.format(total_overtimes || total)}
       </span>
-      <span className="table_cell">
+      <span className="table_cell total">
         {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
       </span>
       <span className="table_cell">
