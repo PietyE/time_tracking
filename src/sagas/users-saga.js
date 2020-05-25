@@ -9,7 +9,12 @@ import {
 } from 'actions/users'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
-import { LOG_IN, LOG_OUT, BOOTSTRAP } from 'constants/actions-constant'
+import {
+  LOG_IN,
+  LOG_OUT,
+  BOOTSTRAP,
+  SET_NEW_SALARY,
+} from 'constants/actions-constant'
 
 function* bootstrap() {
   try {
@@ -123,11 +128,15 @@ function* logOut() {
   }
 }
 
-//function* getUserRate() {}
+function* setUserSalary({ payload }) {
+  const URL = 'users/salary/'
+  const res = yield call([Api, 'saveNewSalary'], URL, payload)
+  console.log('res', res)
+}
 
 export function* watchGetUserAsync() {
   yield takeEvery(BOOTSTRAP, bootstrap)
   yield takeEvery(LOG_IN, logIn)
   yield takeEvery(LOG_OUT, logOut)
-  //yield takeEvery(GET_USER_RATE, getUserRate)
+  yield takeEvery(SET_NEW_SALARY, setUserSalary)
 }

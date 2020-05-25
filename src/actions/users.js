@@ -7,6 +7,8 @@ import {
   BOOTSTRAP,
   SET_AUTH_STATUS,
   SET_FETCHING_PROFILE_STATUS,
+  SET_NEW_RATE,
+  SET_NEW_SALARY,
 } from 'constants/actions-constant'
 
 export const setUsersOauthData = (payload) => ({
@@ -43,5 +45,10 @@ export const setAuthStatus = (payload) => ({
 
 export const setFetchingProfileStatus = (payload) => ({
   type: SET_FETCHING_PROFILE_STATUS,
+  payload,
+})
+
+export const setNewSalary = (payload) => ({
+  type: SET_NEW_SALARY,
   payload,
 })

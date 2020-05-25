@@ -16,7 +16,12 @@ const initialState = {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
   },
-  reports: [],
+  reports: {
+    users: [],
+    total_uah: '',
+    total_usd: '',
+    exchange_rate: '',
+  },
   selectedProject: {},
   selectedDeveloper: {},
   isFetchingReports: false,
@@ -57,3 +62,19 @@ export const getSelectedProjectSelector = (state) =>
 
 export const getEditingUserIdSelector = (state) =>
   state.projectsReport.editingUserId
+
+export const getEditingUser = (state) => {
+  const editingUserId = state.projectsReport.editingUserId
+  return state.projectsReport.reports.users.find(
+    (report) => report.id === editingUserId
+  )
+}
+
+export const getSelectedMonthSelector = (state) =>
+  state.projectsReport.selectedDate
+
+export const getDevProjectConsolidateProjectReportsSelector = (state) =>
+  state.projectsReport.reports
+
+export const getSelectDeveloperInProjectReportSelector = (state) =>
+  state.projectsReport.selectedDeveloper

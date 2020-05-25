@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faComments } from '@fortawesome/free-solid-svg-icons'
+import { Overlay, Popover } from 'react-bootstrap'
 
 import { DEVELOPER } from 'constants/role-constant'
 
@@ -21,7 +22,7 @@ export default function TableRow({
   userId,
   roleUser,
   setEditUserId,
-  editingUserId = '',
+  setIsOpenEdit,
 }) {
   const {
     working_time: hours,
@@ -29,6 +30,10 @@ export default function TableRow({
     total,
     name: projectName,
   } = project
+
+  const popoverRef = useRef(null)
+  const [showPopoverComment, setShowPopoverComment] = useState(false)
+  const [popoverTarget, setPopoverTarget] = useState(null)
 
   const toPay = total_salary * 24 // change this shit
 
@@ -53,6 +58,13 @@ export default function TableRow({
     e.stopPropagation()
     const userID = e.currentTarget.dataset.userid
     setEditUserId(userID)
+    setIsOpenEdit(true)
+  }
+
+  const handleShowPopover = (e) => {
+    e.stopPropagation()
+    setShowPopoverComment(!showPopoverComment)
+    setPopoverTarget(e.target)
   }
 
   const hoursString =
@@ -65,54 +77,97 @@ export default function TableRow({
   }
 
   return (
-    <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
-      <span className="table_cell name">
-        {roleUser !== DEVELOPER && extraClass === 'common' && (
-          <span
-            className="edit_button"
-            onClick={handlerEditClick}
-            data-userid={userId}
-          >
-            <FontAwesomeIcon icon={faEdit} />
+    <>
+      <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
+        <span className="table_cell name">
+          {roleUser !== DEVELOPER && extraClass === 'common' && (
+            <span
+              className="edit_button"
+              onClick={handlerEditClick}
+              data-userid={userId}
+            >
+              <FontAwesomeIcon icon={faEdit} />
+            </span>
+          )}
+          <span className="name_text">{userName}</span>
+        </span>
+        <span className="table_cell project_name">
+          <span>
+            {extraClass === 'common' ? (
+              projectName
+            ) : (
+              <Link
+                to={{
+                  pathname: '/timereport',
+                  state: stateDataForLink,
+                }}
+              >
+                {projectName}
+              </Link>
+            )}
+          </span>
+        </span>
+        <span className="table_cell salary">
+          {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
+        </span>
+        <span className="table_cell rate">{usdFormat.format(rate)}</span>
+        <span className="table_cell hours">
+          {is_full_time ? 'fulltime' : `${hoursString} h`}
+        </span>
+        <span className="table_cell total">
+          {usdFormat.format(total_overtimes || total)}
+        </span>
+        <span className="table_cell total">
+          {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
+        </span>
+        <span className="table_cell">
+          {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
+        </span>
+        <span className="table_cell coast">
+          {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
+        </span>
+        {roleUser !== DEVELOPER && (
+          <span className="table_cell comment">
+            {extraClass === 'common' ? (
+              <span
+                className="comment_text"
+                onClick={handleShowPopover}
+                ref={popoverRef}
+              >
+                <FontAwesomeIcon icon={faComments} />
+                <Overlay
+                  show={showPopoverComment}
+                  target={popoverTarget}
+                  placement="left"
+                  container={popoverRef.current}
+                  containerPadding={20}
+                >
+                  <Popover id="popover-basic">
+                    <Popover.Title as="h3">Comment</Popover.Title>
+                    <Popover.Content>
+                      {
+                        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia'
+                      }
+                    </Popover.Content>
+                  </Popover>
+                </Overlay>
+              </span>
+            ) : (
+              ''
+            )}
           </span>
         )}
-        <span className="name_text">{userName}</span>
-      </span>
-      <span className="table_cell project_name">
-        <span>
-          {extraClass === 'common' ? (
-            projectName
-          ) : (
-            <Link
-              to={{
-                pathname: '/timereport',
-                state: stateDataForLink,
-              }}
-            >
-              {projectName}
-            </Link>
-          )}
-        </span>
-      </span>
-      <span className="table_cell salary">
-        {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
-      </span>
-      <span className="table_cell rate">{usdFormat.format(rate)}</span>
-      <span className="table_cell hours">
-        {is_full_time ? 'fulltime' : `${hoursString} h`}
-      </span>
-      <span className="table_cell total">
-        {usdFormat.format(total_overtimes || total)}
-      </span>
-      <span className="table_cell total">
-        {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
-      </span>
-      <span className="table_cell">
-        {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
-      </span>
-      <span className="table_cell">
-        {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
-      </span>
-    </div>
+      </div>
+    </>
   )
 }
+
+/**
+ * 
+ *     <span>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
+                laudantium ea odio cum veniam nulla molestias, laborum natus
+                quos hic nemo veritatis. Commodi accusantium error dolore.
+                Accusamus maxime debitis perferendis.
+              </span>
+ */

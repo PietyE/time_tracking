@@ -75,6 +75,14 @@ class Api {
       url,
     })
   }
+
+  saveNewSalary = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
 }
 
 export default new Api()

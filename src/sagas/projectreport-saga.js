@@ -15,7 +15,7 @@ import {
   setDevelopersProjectInProjectReport,
 } from 'actions/projects-report'
 
-export function* getDeveloperConsolidateProjectReport({ payload = {} }) {
+export function* getDeveloperConsolidateProjectReport(action) {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
@@ -24,18 +24,31 @@ export function* getDeveloperConsolidateProjectReport({ payload = {} }) {
     (state) => state.projectsReport.selectedDeveloper
   )
 
-  const { name = '' } = yield select(
+  const { id = '' } = yield select(
     (state) => state.projectsReport.selectedProject
   )
 
-  const searchParam = `${email} ${name}`
-  const URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
+  const searchDeveloperParam = `${email}` || ''
+
+  const searchProjectParam = `${id}` || ''
+
+  console.log('searchProjectParam', searchProjectParam)
+
+  let URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
     month + 1
-  }/?search=${searchParam}`
+  }/?search=${searchDeveloperParam}`
+
+  if (searchProjectParam) {
+    URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
+      month + 1
+    }/?project_id=${searchProjectParam}`
+  }
+
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_DEVELOPER_PROJECT
   )
+
   if (data) {
     yield put(setDeveloperConsolidateProjectReport(data))
   }

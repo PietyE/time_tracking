@@ -6,6 +6,8 @@ export const LOG_OUT = 'LOG_OUT'
 export const BOOTSTRAP = 'BOOTSTRAP'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
 export const SET_FETCHING_PROFILE_STATUS = 'SET_FETCHING_PROFILE_STATUS'
+export const SET_NEW_RATE = 'SET_NEW_RATE'
+export const SET_NEW_SALARY = 'SET_NEW_SALARY'
 
 /** Alert Action Constant*/
 export const SHOW_ALERT = 'SHOW_ALERT'
