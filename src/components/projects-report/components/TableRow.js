@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faComments } from '@fortawesome/free-solid-svg-icons'
-import { Overlay, Popover } from 'react-bootstrap'
+import { Overlay, Popover, OverlayTrigger } from 'react-bootstrap'
 
 import { DEVELOPER } from 'constants/role-constant'
 
@@ -129,19 +129,12 @@ export default function TableRow({
         {roleUser !== DEVELOPER && (
           <span className="table_cell comment">
             {extraClass === 'common' ? (
-              <span
-                className="comment_text"
-                onClick={handleShowPopover}
-                ref={popoverRef}
-              >
-                <FontAwesomeIcon icon={faComments} />
-                <Overlay
-                  show={showPopoverComment}
-                  target={popoverTarget}
-                  placement="left"
-                  container={popoverRef.current}
-                  containerPadding={20}
-                >
+              <OverlayTrigger
+                placement="left"
+                containerPadding={20}
+                trigger="hover"
+                key={userId}
+                overlay={
                   <Popover id="popover-basic">
                     <Popover.Title as="h3">Comment</Popover.Title>
                     <Popover.Content>
@@ -150,8 +143,10 @@ export default function TableRow({
                       }
                     </Popover.Content>
                   </Popover>
-                </Overlay>
-              </span>
+                }
+              >
+                <FontAwesomeIcon icon={faComments} />
+              </OverlayTrigger>
             ) : (
               ''
             )}

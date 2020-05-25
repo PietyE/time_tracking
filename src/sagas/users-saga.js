@@ -8,13 +8,15 @@ import {
   setFetchingProfileStatus,
 } from 'actions/users'
 import { showAler } from 'actions/alert'
-import { WARNING_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
   LOG_IN,
   LOG_OUT,
   BOOTSTRAP,
   SET_NEW_SALARY,
+  SET_NEW_RATE,
 } from 'constants/actions-constant'
+import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
 
 function* bootstrap() {
   try {
@@ -129,9 +131,52 @@ function* logOut() {
 }
 
 function* setUserSalary({ payload }) {
-  const URL = 'users/salary/'
-  const res = yield call([Api, 'saveNewSalary'], URL, payload)
-  console.log('res', res)
+  try {
+    const URL = 'users/salary/'
+    yield call([Api, 'saveNewSalary'], URL, payload)
+
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Salary has been changed',
+        delay: 5000,
+      })
+    )
+    yield put(getDeveloperConsolidateProjectReport())
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setUserRate({ payload }) {
+  try {
+    const URL = 'users/rate/'
+    yield call([Api, 'saveNewRate'], URL, payload)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Rate has been changed',
+        delay: 5000,
+      })
+    )
+    yield put(getDeveloperConsolidateProjectReport())
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
 }
 
 export function* watchGetUserAsync() {
@@ -139,4 +184,5 @@ export function* watchGetUserAsync() {
   yield takeEvery(LOG_IN, logIn)
   yield takeEvery(LOG_OUT, logOut)
   yield takeEvery(SET_NEW_SALARY, setUserSalary)
+  yield takeEvery(SET_NEW_RATE, setUserRate)
 }

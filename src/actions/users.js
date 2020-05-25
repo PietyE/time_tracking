@@ -52,3 +52,8 @@ export const setNewSalary = (payload) => ({
   type: SET_NEW_SALARY,
   payload,
 })
+
+export const setNewRate = (payload) => ({
+  type: SET_NEW_RATE,
+  payload,
+})

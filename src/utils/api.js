@@ -83,6 +83,14 @@ class Api {
       body,
     })
   }
+
+  saveNewRate = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
 }
 
 export default new Api()

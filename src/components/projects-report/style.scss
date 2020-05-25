@@ -199,10 +199,11 @@
     justify-content: start;
     margin-bottom: 15px;
     flex: 1;
+    height: 40;
     h5 {
       margin-right: 10px;
       text-align: left;
-      width: 20%;
+      width: 30%;
     }
   }
   .input_container {
@@ -210,23 +211,43 @@
     position: relative;
     width: 60%;
     display: flex;
-    justify-content: start;
-    .edit_user_modal_input {
-      outline: none;
-      border: none;
-      border-bottom: 1px solid black;
-      width: 100px;
+    span {
       position: relative;
-      &:focus {
-        border-bottom: 2px solid cornflowerblue;
-        transition: 0.3s;
+      .edit_user_modal_input {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid black;
+        width: 100px;
+        padding-right: 43px;
+        &:focus {
+          border-bottom: 2px solid cornflowerblue;
+          transition: 0.3s;
+        }
       }
-      .save_button {
+      .input_buttons_container {
         position: absolute;
         top: 0;
         right: 0;
+        .save_button {
+          margin-right: 10px;
+          color: green;
+          transition: 0.3;
+          &:hover svg {
+            transform: scale(1.05);
+            transition: 0.3;
+          }
+        }
+        .cancel_button {
+          color: red;
+          transition: 0.3;
+          &:hover svg {
+            transform: scale(1.1);
+            transition: 0.3;
+          }
+        }
       }
     }
+
     .text_area_comment {
       width: 100%;
       text-align: left;
