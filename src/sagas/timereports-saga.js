@@ -2,6 +2,7 @@ import { select, call, takeEvery, put } from 'redux-saga/effects'
 import { isEmpty } from 'lodash'
 import Api from 'utils/api'
 import { SUCCES_ALERT } from 'constants/alert-constant'
+import { saveAs } from 'file-saver'
 import {
   CHANGE_SELECTED_DATE_TIME_REPORT,
   ADD_TIME_REPORT,
@@ -182,12 +183,18 @@ export function* editTimeReport({ payload }) {
 }
 
 export function* downloadCSV() {
-  const { selectedDate, selectedProject } = yield select(
-    (state) => state.timereports
-  )
-  const URL = `developer-projects/${selectedProject.developer_project_id}/export-excel/${selectedDate.year}/${selectedDate.month}/`
-  const res = yield call([Api, 'exportCsv'], URL)
-  console.log('res', res)
+  try {
+    const { selectedDate, selectedProject } = yield select(
+      (state) => state.timereports
+    )
+    const URL = `developer-projects/${selectedProject.developer_project_id}/export-excel/${selectedDate.year}/${selectedDate.month}/`
+    const res = yield call([Api, 'exportCsv'], URL)
+    if (res && res.data instanceof Blob) {
+      saveAs(res.data, 'time-report.xls')
+    }
+  } catch (error) {
+    //to do
+  }
 }
 
 export function* watchTimereports() {

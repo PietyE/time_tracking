@@ -73,6 +73,7 @@ class Api {
   exportCsv = (url) => {
     return fetchApi({
       url,
+      responseType: 'blob',
     })
   }
 

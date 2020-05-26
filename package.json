@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
+    "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
