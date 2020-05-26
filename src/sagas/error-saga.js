@@ -7,7 +7,7 @@ import { showAler } from 'actions/alert'
 import { setAuthStatus } from 'actions/users'
 
 export function* errorHandler() {
-  const { status, messages, detail } = yield select(state => state.error)
+  const { status, messages, detail } = yield select((state) => state.error)
 
   switch (status) {
     case 401:
@@ -44,7 +44,7 @@ export function* errorHandler() {
       )
       break
     default:
-      console.log(detail, messages)
+      // console.log(detail, messages)
       yield put(
         showAler({
           type: DANGER_ALERT,

@@ -24,7 +24,7 @@ const Blog = () => {
       {showOpen && (
         <div
           onAnimationStart={() => {
-            console.log('onAnimationStart')
+            //console.log('onAnimationStart')
           }}
           onAnimationEnd={() => {
             if (className) {

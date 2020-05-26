@@ -178,7 +178,7 @@ export function* editTimeReport({ payload }) {
       )
     }
   } catch (error) {
-    console.dir(error)
+    //console.dir(error)
   }
 }
 
