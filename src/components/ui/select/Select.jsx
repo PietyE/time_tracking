@@ -67,17 +67,6 @@ function Select({
   }, [])
 
   useEffect(() => {
-    if (
-      prevList &&
-      listItems &&
-      prevList.length &&
-      !_.isEqual(prevList, listItems)
-    ) {
-      setTitle(title)
-    }
-  }, [listItems])
-
-  useEffect(() => {
     if (isOpen) {
       document.addEventListener('click', callbackEventListener)
     }
@@ -88,6 +77,17 @@ function Select({
       setTitle(initialChoice[valueKey])
     }
   }, [initialChoice])
+
+  useEffect(() => {
+    if (
+      prevList &&
+      listItems &&
+      prevList.length &&
+      !_.isEqualWith(listItems, prevList, (i1, i2) => i1['id'] === i2['id'])
+    ) {
+      setTitle(title)
+    }
+  }, [listItems])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
@@ -173,3 +173,7 @@ function Select({
 }
 
 export default Select
+
+// '[{"id":"cccd86e0-c865-4a85-90b3-1d107835449e","name":"JobCast","logo":null},{"id":"93fb5705-bb17-4245-a3d9-75fcd927e1e6","name":"Betting Service","logo":null},{"id":"1ef5df7d-9ecc-4a13-8b47-74b3bdef4073","name":"Vilmate Time Tracking","logo":"https://fra1.digitaloceanspaces.com/timetracking/dev-time-tracking/project/1ef5df7d-9ecc-4a13-8b47-74b3bdef4073/dcbcb8ca-5472-40fb-b5ba-dabc63d24d2e.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=FVCVA4LVCQ4BPGA4227O%2F20200526%2Ffra1%2Fs3%2Faws4_request&X-Amz-Date=20200526T091255Z&X-Amz-Expires=604799&X-Amz-SignedHeaders=host&X-Amz-Signature=18f9944342c8be893eaa92404aecae3327991fc1c749c4f375866ad9104d4308"},{"id":"a386372c-b96d-41cc-9791-702b8ec3802b","name":"HelpMed","logo":null},{"id":"559a4afd-441c-45bd-9eca-52c4494ce8a5","name":"Info De Rue","logo":null}]'
+
+// '[{"id":"cccd86e0-c865-4a85-90b3-1d107835449e","name":"JobCast","logo":null},{"id":"93fb5705-bb17-4245-a3d9-75fcd927e1e6","name":"Betting Service","logo":null},{"id":"1ef5df7d-9ecc-4a13-8b47-74b3bdef4073","name":"Vilmate Time Tracking","logo":"https://fra1.digitaloceanspaces.com/timetracking/dev-time-tracking/project/1ef5df7d-9ecc-4a13-8b47-74b3bdef4073/dcbcb8ca-5472-40fb-b5ba-dabc63d24d2e.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=FVCVA4LVCQ4BPGA4227O%2F20200526%2Ffra1%2Fs3%2Faws4_request&X-Amz-Date=20200526T091248Z&X-Amz-Expires=604799&X-Amz-SignedHeaders=host&X-Amz-Signature=c8bf38e362f3c4dba85c4a7952bf6f0d68054eb141a2c6b7f36fc0d82c6d083b"},{"id":"a386372c-b96d-41cc-9791-702b8ec3802b","name":"HelpMed","logo":null},{"id":"559a4afd-441c-45bd-9eca-52c4494ce8a5","name":"Info De Rue","logo":null}]'

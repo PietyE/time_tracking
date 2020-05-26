@@ -32,8 +32,6 @@ export function* getDeveloperConsolidateProjectReport(action) {
 
   const searchProjectParam = `${id}` || ''
 
-  console.log('searchProjectParam', searchProjectParam)
-
   let URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
     month + 1
   }/?search=${searchDeveloperParam}`

@@ -209,6 +209,7 @@ const RenderUser = ({
             selectedDate={selectedDate}
             is_full_time={project.is_full_time}
             userId={userId}
+            roleUser={roleUser}
           />
         )
       })}

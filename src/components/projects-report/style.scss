@@ -181,7 +181,7 @@
 }
 .edit-user-modal-container {
   background-color: #fff;
-  width: 60%;
+  //width: 40%;
   height: auto;
   padding: 30px 20px;
   box-shadow: 0px 0px 10px 0px rgba(158, 167, 171, 0.3);
@@ -203,13 +203,13 @@
     h5 {
       margin-right: 10px;
       text-align: left;
-      width: 30%;
+      width: 35%;
     }
   }
   .input_container {
     justify-content: start;
     position: relative;
-    width: 60%;
+    width: 100%;
     display: flex;
     span {
       position: relative;

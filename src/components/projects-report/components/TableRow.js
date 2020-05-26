@@ -31,10 +31,6 @@ export default function TableRow({
     name: projectName,
   } = project
 
-  const popoverRef = useRef(null)
-  const [showPopoverComment, setShowPopoverComment] = useState(false)
-  const [popoverTarget, setPopoverTarget] = useState(null)
-
   const toPay = total_salary * 24 // change this shit
 
   const roundHours = (hours) => {
@@ -59,12 +55,6 @@ export default function TableRow({
     const userID = e.currentTarget.dataset.userid
     setEditUserId(userID)
     setIsOpenEdit(true)
-  }
-
-  const handleShowPopover = (e) => {
-    e.stopPropagation()
-    setShowPopoverComment(!showPopoverComment)
-    setPopoverTarget(e.target)
   }
 
   const hoursString =
@@ -127,7 +117,7 @@ export default function TableRow({
           {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
         </span>
         {roleUser !== DEVELOPER && (
-          <span className="table_cell comment">
+          <span className="table_cell comment1">
             {extraClass === 'common' ? (
               <OverlayTrigger
                 placement="left"
