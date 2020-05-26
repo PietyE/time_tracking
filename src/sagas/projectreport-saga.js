@@ -1,6 +1,7 @@
 import { call, takeEvery, put, select } from 'redux-saga/effects'
 import Api from 'utils/api'
-
+import { showAler } from 'actions/alert'
+import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
   GET_DEV_CONSOLIDATE_PROJECT_REPORT,
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
@@ -9,6 +10,7 @@ import {
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  SET_EXCHANGE_RATES,
 } from 'constants/actions-constant'
 import {
   setDeveloperConsolidateProjectReport,
@@ -60,6 +62,30 @@ export function* getDeveloperProjects() {
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
+function* setExchangeRate({ payload }) {
+  try {
+    const URL = 'exchange_rates/'
+    yield call([Api, 'saveExchangeRate'], URL, payload)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Exchange Rate has been saved',
+        delay: 5000,
+      })
+    )
+    yield call(getDeveloperConsolidateProjectReport)
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -76,4 +102,5 @@ export function* watchDeveloperProjects() {
     [GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT],
     getDeveloperProjects
   )
+  yield takeEvery(SET_EXCHANGE_RATES, setExchangeRate)
 }

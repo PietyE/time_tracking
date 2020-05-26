@@ -15,6 +15,10 @@ import {
   BOOTSTRAP,
   SET_NEW_SALARY,
   SET_NEW_RATE,
+  SET_NEW_COST,
+  SET_NEW_COMMENT,
+  SET_EDITED_COMMENT,
+  SET_PROCESSED_STATUS,
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
 
@@ -142,7 +146,7 @@ function* setUserSalary({ payload }) {
         delay: 5000,
       })
     )
-    yield put(getDeveloperConsolidateProjectReport())
+    yield call(getDeveloperConsolidateProjectReport)
   } catch (error) {
     yield put(
       showAler({
@@ -166,6 +170,97 @@ function* setUserRate({ payload }) {
         delay: 5000,
       })
     )
+    yield call(getDeveloperConsolidateProjectReport)
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setUserCost({ payload }) {
+  try {
+    const URL = 'expenses/'
+    yield call([Api, 'saveNewCost'], URL, payload)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Cost has been changed',
+        delay: 5000,
+      })
+    )
+    yield call(getDeveloperConsolidateProjectReport)
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setUserComment({ payload }) {
+  try {
+    const URL = 'comments/'
+    yield call([Api, 'saveNewComments'], URL, payload)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Comment has been created',
+        delay: 5000,
+      })
+    )
+    yield call(getDeveloperConsolidateProjectReport)
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setEditedComment({ payload }) {
+  try {
+    const { commentId, ...data } = payload
+    const URL = `comments/${commentId}`
+    yield call([Api, 'saveEditedComments'], URL, data)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Comment has been edited',
+        delay: 5000,
+      })
+    )
+    yield call(getDeveloperConsolidateProjectReport)
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setProcessedStatus({ payload }) {
+  try {
+    const { userId, month, year } = payload
+    const URL = `users/${userId}/toggle-processed-status/${year}/${month + 1}/`
+    yield call([Api, 'toggleProcessedStatus'], URL)
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -185,4 +280,8 @@ export function* watchGetUserAsync() {
   yield takeEvery(LOG_OUT, logOut)
   yield takeEvery(SET_NEW_SALARY, setUserSalary)
   yield takeEvery(SET_NEW_RATE, setUserRate)
+  yield takeEvery(SET_NEW_COST, setUserCost)
+  yield takeEvery(SET_NEW_COMMENT, setUserComment)
+  yield takeEvery(SET_EDITED_COMMENT, setEditedComment)
+  yield takeEvery(SET_PROCESSED_STATUS, setProcessedStatus)
 }

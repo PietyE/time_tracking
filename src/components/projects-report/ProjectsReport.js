@@ -6,6 +6,7 @@ import TableHeader from './components/TableHeader'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
+import TotalValue from './components/TotalValue'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
@@ -19,7 +20,9 @@ import {
   clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
+  setExchangeRates,
 } from 'actions/projects-report'
+import { setProcessedStatus } from 'actions/users'
 import {
   getProjectInTimeReportSelector,
   getSelectedProjectSelector,
@@ -45,10 +48,17 @@ function ProjectsReport({
   getDevelopersProjectInProjectReport,
   selectedProject = {},
   setEditUserId,
+  setExchangeRates,
+  setProcessedStatus,
 }) {
-  const { users } = projectsReports
+  const { users, total_usd, total_uah, exchange_rate } = projectsReports
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
+
+  const handlerCloseModalEdit = () => {
+    setEditUserId('')
+    setIsOpenEdit(false)
+  }
 
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
@@ -56,11 +66,6 @@ function ProjectsReport({
     }
     getDeveloperConsolidateProjectReport()
   }, [])
-
-  const handlerCloseModalEdit = () => {
-    setEditUserId('')
-    setIsOpenEdit(false)
-  }
 
   return (
     <div className="container project_report_container">
@@ -101,6 +106,15 @@ function ProjectsReport({
           setNewData={changeSelectedDateProjectsReport}
         />
       </div>
+      {roleUser !== DEVELOPER && (
+        <TotalValue
+          totalUsd={total_usd}
+          totalUah={total_uah}
+          setExchangeRates={setExchangeRates}
+          prevExchangeRate={exchange_rate}
+          selectedDate={selectedDate}
+        />
+      )}
       <div className="table_container">
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
@@ -115,6 +129,9 @@ function ProjectsReport({
                 total_expenses,
                 total_overtimes,
                 total: total_salary,
+                comments,
+                total_uah,
+                is_processed,
               } = user
 
               const allProjectsName = developer_projects
@@ -124,6 +141,8 @@ function ProjectsReport({
               const commonProjectsInfo = {
                 name: allProjectsName,
               }
+
+              const comment = comments[0] ? comments[0].text : ''
 
               return (
                 <RenderUser
@@ -141,6 +160,10 @@ function ProjectsReport({
                   roleUser={roleUser}
                   setEditUserId={setEditUserId}
                   setIsOpenEdit={setIsOpenEdit}
+                  comment={comment}
+                  total_uah={total_uah}
+                  is_processed={is_processed}
+                  setProcessedStatus={setProcessedStatus}
                 />
               )
             })}
@@ -165,11 +188,18 @@ const RenderUser = ({
   roleUser,
   setEditUserId,
   setIsOpenEdit,
+  comment,
+  total_uah,
+  is_processed,
+  setProcessedStatus,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const handlerOpenMoreProject = (e) => {
-    e.preventDefault()
+    if (e.target.type === 'checkbox') {
+      // setProcessedStatus({ userId, ...selectedDate })
+      return
+    }
     e.stopPropagation()
     setIsOpen(!isOpen)
   }
@@ -198,6 +228,11 @@ const RenderUser = ({
         userId={userId}
         setEditUserId={setEditUserId}
         setIsOpenEdit={setIsOpenEdit}
+        comment={comment}
+        total_uah={total_uah}
+        is_processed={is_processed}
+        setProcessedStatus={setProcessedStatus}
+        selectedDate={selectedDate}
       />
       {projects.map((project) => {
         return (
@@ -237,6 +272,8 @@ const actions = {
   clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
+  setExchangeRates,
+  setProcessedStatus,
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

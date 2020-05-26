@@ -9,7 +9,13 @@ import {
   getEditingUser,
   getSelectedMonthSelector,
 } from 'reducers/projects-report'
-import { setNewSalary, setNewRate } from 'actions/users'
+import {
+  setNewSalary,
+  setNewRate,
+  setNewCost,
+  setNewComment,
+  setEditedComment,
+} from 'actions/users'
 import ModalRow from './ModalRow'
 import ModalTitle from './ModalTitle'
 import ModalInput from './ModalInput'
@@ -21,20 +27,38 @@ const EditUserModal = (props) => {
     selectedDate = {},
     setNewSalary,
     setNewRate,
+    setNewCost,
+    setNewComment,
+    setEditedComment,
   } = props
+
+  const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
+
+  const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
 
   const [newSalary, setNewSalaryLocal] = useState(+editingUser.current_salary)
   const [newRate, setNewRateLocal] = useState(+editingUser.current_rate)
-  const [newCoast, setNewCoast] = useState('')
-  const [comment, setComment] = useState(editingUser.comment)
+  const [newCoast, setNewCoastLocal] = useState(+editingUser.total_expenses)
+  const [comment, setCommentLocal] = useState(_comment)
 
-  const handlerClose = (e) => {
+  const handlerCloseEditModal = (e) => {
     e.stopPropagation()
     handlerCloseModalEdit()
   }
 
   const handlerChangeSalary = (e) => {
     setNewSalaryLocal(e.target.value)
+  }
+
+  const handlerOnClickSaveNewSalary = () => {
+    const data = {
+      user: editingUser.id,
+      date_start: new Date(selectedDate.year, selectedDate.month + 1)
+        .toISOString()
+        .slice(0, 10),
+      salary: newSalary,
+    }
+    setNewSalary(data)
   }
 
   const handleCancelEditSalary = () => {
@@ -61,18 +85,53 @@ const EditUserModal = (props) => {
   }
 
   const handlerChangeCoast = (e) => {
-    setNewCoast(e.target.value)
+    setNewCoastLocal(e.target.value)
   }
 
-  const handlerOnClickSaveNewSalary = (e) => {
+  const handleSaveCost = () => {
     const data = {
       user: editingUser.id,
-      date_start: new Date(selectedDate.year, selectedDate.month + 1)
+      date: new Date(selectedDate.year, selectedDate.month + 1)
         .toISOString()
         .slice(0, 10),
-      salary: newSalary,
+      amount: newCoast,
     }
-    setNewSalary(data)
+    setNewCost(data)
+  }
+
+  const handleCancelEditCost = () => {
+    setNewCoastLocal(+editingUser.total_expenses)
+  }
+
+  const handleChangeInputCommnent = (e) => {
+    setCommentLocal(e.target.value)
+  }
+
+  const handleSaveNewComment = () => {
+    const data = {
+      user: editingUser.id,
+      date: new Date(selectedDate.year, selectedDate.month + 1)
+        .toISOString()
+        .slice(0, 10),
+      text: comment,
+    }
+    setNewComment(data)
+  }
+
+  const handleSaveEditedComment = () => {
+    const data = {
+      user: editingUser.id,
+      date: new Date(selectedDate.year, selectedDate.month + 1)
+        .toISOString()
+        .slice(0, 10),
+      text: comment,
+      commentId: commentId,
+    }
+    setEditedComment(data)
+  }
+
+  const handleCancelEditComment = () => {
+    setCommentLocal(_comment)
   }
 
   return (
@@ -80,7 +139,7 @@ const EditUserModal = (props) => {
       <div className="edit-user-modal-container">
         <span
           className="edit-user-modal-close-button-container"
-          onClick={handlerClose}
+          onClick={handlerCloseEditModal}
         >
           <FontAwesomeIcon icon={faTimes} />
         </span>
@@ -116,42 +175,50 @@ const EditUserModal = (props) => {
             handleSaveChange={handlerOnClickSaveNewRate}
             handleCancelChanged={handleCancelEditRate}
           />
-          {/* <span className="input_container">
-            <input
-              className="edit_user_modal_input"
-              type="text"
-              value={this.state.newRate}
-              onChange={this.handlerChangeRate}
-            />
-            {+this.state.newRate !== +editingUser.current_rate && (
-              <span className="save_button">
-                <FontAwesomeIcon icon={faSave} />
-              </span>
-            )}
-          </span> */}
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Coast (грн): `} />
-          {/* <span className="input_container">
-            <input
-              className="edit_user_modal_input"
-              type="text"
-              value={this.state.newCoast}
-              onChange={this.handlerChangeRate}
-            />
-            {+this.state.newCoast !== +editingUser.coast && (
-              <span className="save_button">
-                <FontAwesomeIcon icon={faSave} />
-              </span>
-            )}
-          </span> */}
+          <ModalTitle title={`Cost (грн): `} />
+          <ModalInput
+            value={newCoast}
+            prevValue={editingUser.total_expenses}
+            handleChangeInput={handlerChangeCoast}
+            handleSaveChange={handleSaveCost}
+            handleCancelChanged={handleCancelEditCost}
+          />
         </ModalRow>
         <ModalRow>
           <span className="input_container">
             <Form className="text_area_comment">
               <Form.Group controlId="exampleForm.ControlTextarea1">
-                <Form.Label className="comment-title">Comment:</Form.Label>
-                <Form.Control as="textarea" rows="3" />
+                <div className="comment_title_container">
+                  <span className="comment_title_text">Comment: </span>
+                  {comment !== _comment && (
+                    <div>
+                      <span
+                        className="comment_button save"
+                        onClick={
+                          commentId
+                            ? handleSaveEditedComment
+                            : handleSaveNewComment
+                        }
+                      >
+                        Save
+                      </span>
+                      <span
+                        className="comment_button cancel"
+                        onClick={handleCancelEditComment}
+                      >
+                        Cancel
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <Form.Control
+                  as="textarea"
+                  rows="3"
+                  onChange={handleChangeInputCommnent}
+                  value={comment}
+                />
               </Form.Group>
             </Form>
           </span>
@@ -170,6 +237,9 @@ const mapStateToProps = (state) => ({
 const actions = {
   setNewSalary,
   setNewRate,
+  setNewCost,
+  setNewComment,
+  setEditedComment,
 }
 
 export default connect(mapStateToProps, actions)(EditUserModal)

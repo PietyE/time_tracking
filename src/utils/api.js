@@ -91,6 +91,45 @@ class Api {
       body,
     })
   }
+
+  saveNewCost = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveNewComments = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveEditedComments = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'patch',
+      body,
+    })
+  }
+
+  saveExchangeRate = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  toggleProcessedStatus = (url) => {
+    return fetchApi({
+      url,
+      method: 'post',
+    })
+  }
 }
 
 export default new Api()

@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faComments } from '@fortawesome/free-solid-svg-icons'
-import { Overlay, Popover, OverlayTrigger } from 'react-bootstrap'
+import { Form, Popover, OverlayTrigger } from 'react-bootstrap'
 
 import { DEVELOPER } from 'constants/role-constant'
 
@@ -23,6 +23,10 @@ export default function TableRow({
   roleUser,
   setEditUserId,
   setIsOpenEdit,
+  comment,
+  total_uah,
+  is_processed,
+  setProcessedStatus,
 }) {
   const {
     working_time: hours,
@@ -31,7 +35,7 @@ export default function TableRow({
     name: projectName,
   } = project
 
-  const toPay = total_salary * 24 // change this shit
+  const [isProcessed, setIsProcessed] = useState(false)
 
   const roundHours = (hours) => {
     return parseFloat(hours.toFixed(2))
@@ -65,6 +69,15 @@ export default function TableRow({
     developer_project_id,
     selectedDate,
   }
+
+  const handlerChangeProcessedStatusInput = (e) => {
+    e.stopPropagation()
+    setProcessedStatus({ userId, ...selectedDate })
+  }
+
+  useEffect(() => {
+    setIsProcessed(is_processed)
+  }, [is_processed])
 
   return (
     <>
@@ -111,48 +124,45 @@ export default function TableRow({
           {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
         </span>
         <span className="table_cell">
-          {extraClass === 'common' ? UAHFormat.format(toPay) : ''}
+          {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
         </span>
         <span className="table_cell coast">
           {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
         </span>
         {roleUser !== DEVELOPER && (
-          <span className="table_cell comment1">
-            {extraClass === 'common' ? (
-              <OverlayTrigger
-                placement="left"
-                containerPadding={20}
-                trigger="hover"
-                key={userId}
-                overlay={
-                  <Popover id="popover-basic">
-                    <Popover.Title as="h3">Comment</Popover.Title>
-                    <Popover.Content>
-                      {
-                        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia'
-                      }
-                    </Popover.Content>
-                  </Popover>
-                }
-              >
-                <FontAwesomeIcon icon={faComments} />
-              </OverlayTrigger>
-            ) : (
-              ''
-            )}
-          </span>
+          <>
+            <span className="table_cell comment">
+              {extraClass === 'common' && comment ? (
+                <OverlayTrigger
+                  placement="left"
+                  containerPadding={20}
+                  trigger="hover"
+                  key={userId}
+                  overlay={
+                    <Popover id="popover-basic">
+                      <Popover.Title as="h3">Comment</Popover.Title>
+                      <Popover.Content>{comment}</Popover.Content>
+                    </Popover>
+                  }
+                >
+                  <FontAwesomeIcon icon={faComments} />
+                </OverlayTrigger>
+              ) : (
+                ''
+              )}
+            </span>
+            <span className="table_cell ready">
+              {extraClass === 'common' && (
+                <input
+                  type="checkbox"
+                  checked={isProcessed}
+                  onChange={handlerChangeProcessedStatusInput}
+                />
+              )}
+            </span>
+          </>
         )}
       </div>
     </>
   )
 }
-
-/**
- * 
- *     <span>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia
-                laudantium ea odio cum veniam nulla molestias, laborum natus
-                quos hic nemo veritatis. Commodi accusantium error dolore.
-                Accusamus maxime debitis perferendis.
-              </span>
- */
