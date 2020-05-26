@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { InputGroup, FormControl, Button } from 'react-bootstrap'
+import { InputGroup, Button } from 'react-bootstrap'
 import InputMask from 'react-input-mask'
 
 const TotalValue = (props) => {

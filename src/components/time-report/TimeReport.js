@@ -39,8 +39,6 @@ function TimeReport(props) {
     addTimeReport,
     selectProject,
     clearSelectedProject,
-    resetSelectedDate,
-    /////////
     selectedDate = {},
     reports,
     isFetchingReports,

@@ -1,6 +1,5 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+
 import { DEVELOPER } from 'constants/role-constant'
 
 export default function TableHeader({ roleUser }) {
