@@ -136,7 +136,7 @@ export default function TableRow({
                 <OverlayTrigger
                   placement="left"
                   containerPadding={20}
-                  trigger="hover"
+                  trigger={['focus', 'hover']}
                   key={userId}
                   overlay={
                     <Popover id="popover-basic">

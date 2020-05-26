@@ -197,9 +197,9 @@ const RenderUser = ({
 
   const handlerOpenMoreProject = (e) => {
     if (e.target.type === 'checkbox') {
-      // setProcessedStatus({ userId, ...selectedDate })
       return
     }
+    e.preventDefault()
     e.stopPropagation()
     setIsOpen(!isOpen)
   }
