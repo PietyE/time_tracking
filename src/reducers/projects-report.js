@@ -6,6 +6,7 @@ import {
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
+  SET_EDIT_USER_ID,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -15,11 +16,17 @@ const initialState = {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
   },
-  reports: [],
+  reports: {
+    users: [],
+    total_uah: '',
+    total_usd: '',
+    exchange_rate: '',
+  },
   selectedProject: {},
   selectedDeveloper: {},
   isFetchingReports: false,
   developerProjectInProjectReport: [],
+  editingUserId: '',
 }
 export const projectsReport = (state = initialState, action) => {
   switch (action.type) {
@@ -40,8 +47,8 @@ export const projectsReport = (state = initialState, action) => {
       }
     case SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT:
       return { ...state, developerProjectInProjectReport: action.payload }
-    // case SET_IS_FETCHING_REPORTS:
-    //   return { ...state, isFetchingReports: action.payload }
+    case SET_EDIT_USER_ID:
+      return { ...state, editingUserId: action.payload }
     default:
       return state
   }
@@ -52,3 +59,22 @@ export const getProjectInTimeReportSelector = (state) =>
 
 export const getSelectedProjectSelector = (state) =>
   state.projectsReport.selectedProject
+
+export const getEditingUserIdSelector = (state) =>
+  state.projectsReport.editingUserId
+
+export const getEditingUser = (state) => {
+  const editingUserId = state.projectsReport.editingUserId
+  return state.projectsReport.reports.users.find(
+    (report) => report.id === editingUserId
+  )
+}
+
+export const getSelectedMonthSelector = (state) =>
+  state.projectsReport.selectedDate
+
+export const getDevProjectConsolidateProjectReportsSelector = (state) =>
+  state.projectsReport.reports
+
+export const getSelectDeveloperInProjectReportSelector = (state) =>
+  state.projectsReport.selectedDeveloper

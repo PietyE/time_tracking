@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
+import _ from 'lodash'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
@@ -15,6 +16,7 @@ import {
   resetSelectedDate,
   selectProject,
   clearSelectedProject,
+  getTimeReportCsv,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
 import {
@@ -37,8 +39,6 @@ function TimeReport(props) {
     addTimeReport,
     selectProject,
     clearSelectedProject,
-    resetSelectedDate,
-    /////////
     selectedDate = {},
     reports,
     isFetchingReports,
@@ -48,6 +48,7 @@ function TimeReport(props) {
     developersList = [],
     selectedDeveloper,
     selectDevelopers,
+    getTimeReportCsv,
   } = props
 
   const [showEmpty, setShowEmpty] = useState(true)
@@ -130,12 +131,25 @@ function TimeReport(props) {
     }
   }
 
+  const handlerExportCsv = () => {
+    if (!reports || reports.length === 0) {
+      return
+    }
+    getTimeReportCsv()
+  }
+
+  useEffect(() => {
+    if (projects.length && _.isEmpty(selectedProject) && !routeState) {
+      selectProject(projects[0])
+    }
+  }, [projects])
+
   useEffect(() => {
     bootstrapWidthRouteState()
-    return () => {
-      clearSelectedProject()
-      resetSelectedDate()
-    }
+    // return () => {
+    //   clearSelectedProject()
+    //   resetSelectedDate()
+    // }
   }, [])
 
   return (
@@ -169,7 +183,7 @@ function TimeReport(props) {
               setNewData={changeSelectedDateTimeReport}
               extraClassNameContainer="time_report_header_select_month"
             />
-            <Button className="export_btn">
+            <Button className="export_btn" onClick={handlerExportCsv}>
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
@@ -245,6 +259,7 @@ const actions = {
   clearSelectedProject,
   resetSelectedDate,
   selectDevelopers,
+  getTimeReportCsv,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

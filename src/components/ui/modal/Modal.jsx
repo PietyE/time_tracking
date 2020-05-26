@@ -7,7 +7,6 @@ function Modal({ children }) {
   const element = document.getElementById('modal')
 
   const ModalComponent = () => {
-    // element.classList.add('active')
     useEffect(() => {
       element.classList.add('active')
       return () => {

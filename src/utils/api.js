@@ -69,6 +69,68 @@ class Api {
       method: 'get',
     })
   }
+
+  exportCsv = (url) => {
+    return fetchApi({
+      url,
+      responseType: 'blob',
+    })
+  }
+
+  saveNewSalary = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveNewRate = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveNewCost = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveNewComments = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  saveEditedComments = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'patch',
+      body,
+    })
+  }
+
+  saveExchangeRate = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+  toggleProcessedStatus = (url) => {
+    return fetchApi({
+      url,
+      method: 'post',
+    })
+  }
 }
 
 export default new Api()
