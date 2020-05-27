@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap'
+import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export const ModalInput = ({ prevValue, handleSaveChange }) => {
   const [isEdit, setIsEdit] = useState(false)
@@ -42,29 +41,25 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
       </div>
       <div className="edit_user_modal_button_container">
         {!isEdit ? (
-          <Button
-            variant="warning"
-            onClick={handleClickEditButton}
-            className="edit_user_button"
-          >
-            Edit
-          </Button>
+          <button onClick={handleClickEditButton} className="edit_user_button">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
         ) : (
           <>
-            <Button
+            <button
               variant={'success'}
               onClick={handleClickSave}
               className="edit_user_button save"
             >
-              Save
-            </Button>
-            <Button
+              <FontAwesomeIcon icon={faCheck} />
+            </button>
+            <button
               variant="secondary"
               onClick={handlerClickCancelButton}
               className="edit_user_button cancel"
             >
-              Cancel
-            </Button>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
           </>
         )}
       </div>

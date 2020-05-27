@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { InputGroup, Button } from 'react-bootstrap'
-import InputMask from 'react-input-mask'
+import { InputGroup } from 'react-bootstrap'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
+import ModalTitle from './ModalTitle'
+import ModalRow from './ModalRow'
 
 const TotalValue = (props) => {
   const {
@@ -57,55 +61,49 @@ const TotalValue = (props) => {
 
   return (
     <div className="project_reports_total_container">
-      <div className="project_reports_exchange_container">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>Exchange rate</InputGroup.Text>
-          </InputGroup.Prepend>
+      <ModalRow>
+        <ModalTitle title="Exchange rate: " />
+
+        {!isEdit ? (
+          <span className="project_reports_exchange_input">
+            {newExchangeRate || ''}
+          </span>
+        ) : (
+          <input
+            className="project_reports_exchange_input"
+            value={newExchangeRate || ''}
+            onChange={handleChangeExchengeRateInput}
+          />
+        )}
+        <div className="edit_user_modal_button_container">
           {!isEdit ? (
-            <span className="project_reports_exchange_input">
-              {newExchangeRate || ''}
-            </span>
+            <button
+              onClick={handleClickEditButton}
+              className="edit_user_button"
+            >
+              <FontAwesomeIcon icon={faEdit} />
+            </button>
           ) : (
-            <input
-              className="project_reports_exchange_input"
-              value={newExchangeRate || ''}
-              onChange={handleChangeExchengeRateInput}
-            />
-          )}
-          <InputGroup.Append>
-            {!isEdit ? (
-              <Button
-                variant="warning"
-                onClick={handleClickEditButton}
-                className="exchange_button"
+            <>
+              <button
+                onClick={handleSaveExchangeRate}
+                disabled={
+                  prevExchangeRate === newExchangeRate || !newExchangeRate
+                }
+                className="edit_user_button save"
               >
-                Edit
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant={'success'}
-                  onClick={handleSaveExchangeRate}
-                  disabled={
-                    prevExchangeRate === newExchangeRate || !newExchangeRate
-                  }
-                  className="exchange_button"
-                >
-                  Save
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={handleClickCancel}
-                  className="exchange_button"
-                >
-                  Cancel
-                </Button>
-              </>
-            )}
-          </InputGroup.Append>
-        </InputGroup>
-      </div>
+                <FontAwesomeIcon icon={faCheck} />
+              </button>
+              <button
+                onClick={handleClickCancel}
+                className="edit_user_button cancel"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </>
+          )}
+        </div>
+      </ModalRow>
       {totalUsd && totalUah && (
         <div className="project_reports_total_values_container">
           <span className="project_reports_total_value usd">

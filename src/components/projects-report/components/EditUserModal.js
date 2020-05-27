@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { Form, FormControl, InputGroup, Button } from 'react-bootstrap'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import {
   getEditingUserIdSelector,
@@ -172,42 +171,36 @@ const EditUserModal = (props) => {
             handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
           />
         </ModalRow>
-        <ModalRow>
-          <span className="input_container">
-            <Form className="text_area_comment">
-              <Form.Group controlId="exampleForm.ControlTextarea1">
-                <div className="comment_title_container">
-                  <ModalTitle title={`Comment:`} />
-                  {comment !== _comment && (
-                    <div>
-                      <span
-                        className="comment_button save"
-                        onClick={
-                          commentId
-                            ? handleSaveEditedComment
-                            : handleSaveNewComment
-                        }
-                      >
-                        Save
-                      </span>
-                      <span
-                        className="comment_button cancel"
-                        onClick={handleCancelEditComment}
-                      >
-                        Cancel
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <Form.Control
-                  as="textarea"
-                  rows="3"
-                  onChange={handleChangeInputCommnent}
-                  value={comment}
-                />
-              </Form.Group>
-            </Form>
-          </span>
+        <ModalRow direction={'column'}>
+          <div className="comment_title_container">
+            <ModalTitle title={`Comment:`} />
+            {comment !== _comment && (
+              <div className="edit_user_modal_button_container">
+                <button
+                  variant={'success'}
+                  onClick={
+                    commentId ? handleSaveEditedComment : handleSaveNewComment
+                  }
+                  className="edit_user_button save"
+                >
+                  <FontAwesomeIcon icon={faCheck} />
+                </button>
+                <button
+                  variant="secondary"
+                  onClick={handleCancelEditComment}
+                  className="edit_user_button cancel"
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            )}
+          </div>
+          <textarea
+            rows="3"
+            onChange={handleChangeInputCommnent}
+            value={comment}
+            className="edit_user_comment_textarea"
+          />
         </ModalRow>
       </div>
     </div>
