@@ -187,7 +187,9 @@ export function* downloadCSV() {
     const { selectedDate, selectedProject } = yield select(
       (state) => state.timereports
     )
-    const URL = `developer-projects/${selectedProject.developer_project_id}/export-excel/${selectedDate.year}/${selectedDate.month}/`
+    const URL = `developer-projects/${
+      selectedProject.developer_project_id
+    }/export-excel/${selectedDate.year}/${selectedDate.month + 1}/`
     const res = yield call([Api, 'exportCsv'], URL)
     if (res && res.data instanceof Blob) {
       saveAs(res.data, 'time-report.xls')
