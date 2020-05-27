@@ -58,18 +58,21 @@ const TotalValue = (props) => {
   return (
     <div className="project_reports_total_container">
       <div className="project_reports_exchange_container">
-        <InputGroup className="mb-3">
+        <InputGroup>
           <InputGroup.Prepend>
-            <InputGroup.Text id="basic-addon1">Exchange rate</InputGroup.Text>
+            <InputGroup.Text>Exchange rate</InputGroup.Text>
           </InputGroup.Prepend>
-          <InputMask
-            maskPlaceholder="_"
-            className="project_reports_exchange_input"
-            mask="99.99"
-            value={newExchangeRate || ''}
-            name="duration"
-            onChange={handleChangeExchengeRateInput}
-          />
+          {!isEdit ? (
+            <span className="project_reports_exchange_input">
+              {newExchangeRate || ''}
+            </span>
+          ) : (
+            <input
+              className="project_reports_exchange_input"
+              value={newExchangeRate || ''}
+              onChange={handleChangeExchengeRateInput}
+            />
+          )}
           <InputGroup.Append>
             {!isEdit ? (
               <Button
@@ -92,7 +95,7 @@ const TotalValue = (props) => {
                   Save
                 </Button>
                 <Button
-                  variant="light"
+                  variant="secondary"
                   onClick={handleClickCancel}
                   className="exchange_button"
                 >
