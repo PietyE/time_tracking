@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { Form } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
 import {
   getEditingUserIdSelector,
@@ -15,6 +15,7 @@ import {
   setNewCost,
   setNewComment,
   setEditedComment,
+  setEditedCost,
 } from 'actions/users'
 import ModalRow from './ModalRow'
 import ModalTitle from './ModalTitle'
@@ -30,15 +31,17 @@ const EditUserModal = (props) => {
     setNewCost,
     setNewComment,
     setEditedComment,
+    setEditedCost,
   } = props
 
   const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
 
   const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
 
-  const [newSalary, setNewSalaryLocal] = useState(+editingUser.current_salary)
-  const [newRate, setNewRateLocal] = useState(+editingUser.current_rate)
-  const [newCoast, setNewCoastLocal] = useState(+editingUser.total_expenses)
+  const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
+
+  const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
+
   const [comment, setCommentLocal] = useState(_comment)
 
   const handlerCloseEditModal = (e) => {
@@ -46,11 +49,7 @@ const EditUserModal = (props) => {
     handlerCloseModalEdit()
   }
 
-  const handlerChangeSalary = (e) => {
-    setNewSalaryLocal(e.target.value)
-  }
-
-  const handlerOnClickSaveNewSalary = () => {
+  const handlerOnClickSaveNewSalary = (newSalary) => {
     const data = {
       user: editingUser.id,
       date_start: new Date(selectedDate.year, selectedDate.month + 1)
@@ -61,15 +60,7 @@ const EditUserModal = (props) => {
     setNewSalary(data)
   }
 
-  const handleCancelEditSalary = () => {
-    setNewSalaryLocal(+editingUser.current_salary)
-  }
-
-  const handlerChangeRate = (e) => {
-    setNewRateLocal(e.target.value)
-  }
-
-  const handlerOnClickSaveNewRate = () => {
+  const handlerOnClickSaveNewRate = (newRate) => {
     const data = {
       user: editingUser.id,
       date_start: new Date(selectedDate.year, selectedDate.month + 1)
@@ -80,15 +71,7 @@ const EditUserModal = (props) => {
     setNewRate(data)
   }
 
-  const handleCancelEditRate = () => {
-    setNewRateLocal(+editingUser.current_rate)
-  }
-
-  const handlerChangeCoast = (e) => {
-    setNewCoastLocal(e.target.value)
-  }
-
-  const handleSaveCost = () => {
+  const handleSaveCost = (newCoast) => {
     const data = {
       user: editingUser.id,
       date: new Date(selectedDate.year, selectedDate.month + 1)
@@ -99,8 +82,16 @@ const EditUserModal = (props) => {
     setNewCost(data)
   }
 
-  const handleCancelEditCost = () => {
-    setNewCoastLocal(+editingUser.total_expenses)
+  const handleEditCost = (newCoast) => {
+    const data = {
+      user: editingUser.id,
+      date: new Date(selectedDate.year, selectedDate.month + 1)
+        .toISOString()
+        .slice(0, 10),
+      amount: newCoast,
+      expenseId: expenseId,
+    }
+    setEditedCost(data)
   }
 
   const handleChangeInputCommnent = (e) => {
@@ -135,55 +126,50 @@ const EditUserModal = (props) => {
   }
 
   return (
-    <div className={'edit-user-modal-overlap'}>
-      <div className="edit-user-modal-container">
+    <div className={'edit_user_modal_overlap'}>
+      <div className="edit_user_modal_container">
         <span
-          className="edit-user-modal-close-button-container"
+          className="edit_user_modal_close_button_container"
           onClick={handlerCloseEditModal}
         >
           <FontAwesomeIcon icon={faTimes} />
         </span>
         <ModalRow>
           <ModalTitle title={`Employee:  `} />
-          <span>{` ${editingUser.name} (${editingUser.email})`}</span>
+          <div className="edit_user_modal_title_value_container">
+            <span className="edit_user_modal_title_value_text">{`${editingUser.name} (${editingUser.email})`}</span>
+          </div>
         </ModalRow>
         <ModalRow>
           <ModalTitle title={`Selected Date: `} />
-          <span>
-            {new Date(
-              selectedDate.year,
-              selectedDate.month
-            ).toLocaleDateString()}
-          </span>
+          <div className="edit_user_modal_title_value_container">
+            <span className="edit_user_modal_title_value_text">
+              {new Date(
+                selectedDate.year,
+                selectedDate.month
+              ).toLocaleDateString()}
+            </span>
+          </div>
         </ModalRow>
         <ModalRow>
           <ModalTitle title={`Salary ($): `} />
           <ModalInput
-            value={newSalary}
             prevValue={editingUser.current_salary}
-            handleChangeInput={handlerChangeSalary}
             handleSaveChange={handlerOnClickSaveNewSalary}
-            handleCancelChanged={handleCancelEditSalary}
           />
         </ModalRow>
         <ModalRow>
           <ModalTitle title={`Rate ($): `} />
           <ModalInput
-            value={newRate}
             prevValue={editingUser.current_rate}
-            handleChangeInput={handlerChangeRate}
             handleSaveChange={handlerOnClickSaveNewRate}
-            handleCancelChanged={handleCancelEditRate}
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Cost (грн): `} />
+          <ModalTitle title={`Cost (UAH): `} />
           <ModalInput
-            value={newCoast}
-            prevValue={editingUser.total_expenses}
-            handleChangeInput={handlerChangeCoast}
-            handleSaveChange={handleSaveCost}
-            handleCancelChanged={handleCancelEditCost}
+            prevValue={_expense}
+            handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
           />
         </ModalRow>
         <ModalRow>
@@ -191,7 +177,7 @@ const EditUserModal = (props) => {
             <Form className="text_area_comment">
               <Form.Group controlId="exampleForm.ControlTextarea1">
                 <div className="comment_title_container">
-                  <span className="comment_title_text">Comment: </span>
+                  <ModalTitle title={`Comment:`} />
                   {comment !== _comment && (
                     <div>
                       <span
@@ -240,6 +226,7 @@ const actions = {
   setNewCost,
   setNewComment,
   setEditedComment,
+  setEditedCost,
 }
 
 export default connect(mapStateToProps, actions)(EditUserModal)

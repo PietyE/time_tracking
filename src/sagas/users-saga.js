@@ -19,6 +19,7 @@ import {
   SET_NEW_COMMENT,
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
+  SET_EDITED_COST,
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
 
@@ -190,7 +191,32 @@ function* setUserCost({ payload }) {
     yield put(
       showAler({
         type: SUCCES_ALERT,
-        message: 'Cost has been changed',
+        message: 'Cost has been create',
+        delay: 5000,
+      })
+    )
+    yield put(getDeveloperConsolidateProjectReport())
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+function* setEditedCost({ payload }) {
+  try {
+    const { expenseId, ...data } = payload
+    const URL = `expenses/${expenseId}`
+    yield call([Api, 'saveEditedCost'], URL, data)
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Cost has been edited',
         delay: 5000,
       })
     )
@@ -281,6 +307,7 @@ export function* watchGetUserAsync() {
   yield takeEvery(SET_NEW_SALARY, setUserSalary)
   yield takeEvery(SET_NEW_RATE, setUserRate)
   yield takeEvery(SET_NEW_COST, setUserCost)
+  yield takeEvery(SET_EDITED_COST, setEditedCost)
   yield takeEvery(SET_NEW_COMMENT, setUserComment)
   yield takeEvery(SET_EDITED_COMMENT, setEditedComment)
   yield takeEvery(SET_PROCESSED_STATUS, setProcessedStatus)

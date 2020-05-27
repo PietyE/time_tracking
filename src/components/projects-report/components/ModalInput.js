@@ -1,35 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { Button } from 'react-bootstrap'
 
-export const ModalInput = ({
-  value,
-  handleChangeInput,
-  prevValue,
-  handleCancelChanged,
-  handleSaveChange,
-}) => {
+export const ModalInput = ({ prevValue, handleSaveChange }) => {
+  const [isEdit, setIsEdit] = useState(false)
+
+  const [value, setIsvalue] = useState(+prevValue)
+
+  const handleChangeValue = (event) => {
+    setIsvalue(event.target.value)
+  }
+
+  const handleClickEditButton = () => {
+    setIsEdit(true)
+  }
+
+  const handlerClickCancelButton = () => {
+    setIsvalue(+prevValue)
+    setIsEdit(false)
+  }
+
+  const handleClickSave = () => {
+    Number(value) !== Number(prevValue) && handleSaveChange(value)
+    setIsEdit(false)
+  }
+
   return (
-    <span className="input_container">
-      <span>
-        <input
-          className="edit_user_modal_input"
-          type="text"
-          value={value}
-          onChange={handleChangeInput}
-        />
-        {+value !== +prevValue && (
-          <span className="input_buttons_container">
-            <span className="save_button" onClick={handleSaveChange}>
-              <FontAwesomeIcon icon={faCheck} />
-            </span>
-            <span className="cancel_button" onClick={handleCancelChanged}>
-              <FontAwesomeIcon icon={faTimes} />
-            </span>
-          </span>
+    <>
+      <div className="edit_user_modal_title_value_container">
+        {isEdit ? (
+          <input
+            type="text"
+            className="edit_user_modal_input"
+            value={value}
+            onChange={handleChangeValue}
+          />
+        ) : (
+          <span className="edit_user_modal_input">{value}</span>
         )}
-      </span>
-    </span>
+      </div>
+      <div className="edit_user_modal_button_container">
+        {!isEdit ? (
+          <Button
+            variant="warning"
+            onClick={handleClickEditButton}
+            className="edit_user_button"
+          >
+            Edit
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant={'primary'}
+              onClick={handleClickSave}
+              className="edit_user_button save"
+            >
+              Save
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={handlerClickCancelButton}
+              className="edit_user_button cancel"
+            >
+              Cancel
+            </Button>
+          </>
+        )}
+      </div>
+    </>
   )
 }
 

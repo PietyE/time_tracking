@@ -101,6 +101,14 @@ class Api {
     })
   }
 
+  saveEditedCost = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'patch',
+      body,
+    })
+  }
+
   saveNewComments = (url, body) => {
     return fetchApi({
       url,
