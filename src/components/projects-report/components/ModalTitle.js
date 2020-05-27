@@ -1,5 +1,9 @@
 import React from 'react'
 
 export default function ModalTitle({ title }) {
-  return <h5>{title}</h5>
+  return (
+    <div className="edit_user_modal_title_container">
+      <span className="edit_user_modal_title_text">{title}</span>
+    </div>
+  )
 }

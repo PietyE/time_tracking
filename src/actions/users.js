@@ -10,6 +10,7 @@ import {
   SET_NEW_RATE,
   SET_NEW_SALARY,
   SET_NEW_COST,
+  SET_EDITED_COST,
   SET_NEW_COMMENT,
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
@@ -64,6 +65,11 @@ export const setNewRate = (payload) => ({
 
 export const setNewCost = (payload) => ({
   type: SET_NEW_COST,
+  payload,
+})
+
+export const setEditedCost = (payload) => ({
+  type: SET_EDITED_COST,
   payload,
 })
 
