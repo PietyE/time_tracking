@@ -146,7 +146,7 @@ function* setUserSalary({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getDeveloperConsolidateProjectReport)
+    yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -170,7 +170,7 @@ function* setUserRate({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getDeveloperConsolidateProjectReport)
+    yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -194,7 +194,7 @@ function* setUserCost({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getDeveloperConsolidateProjectReport)
+    yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -218,7 +218,7 @@ function* setUserComment({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getDeveloperConsolidateProjectReport)
+    yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -243,7 +243,7 @@ function* setEditedComment({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getDeveloperConsolidateProjectReport)
+    yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
