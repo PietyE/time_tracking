@@ -52,7 +52,7 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
         ) : (
           <>
             <Button
-              variant={'primary'}
+              variant={'success'}
               onClick={handleClickSave}
               className="edit_user_button save"
             >
