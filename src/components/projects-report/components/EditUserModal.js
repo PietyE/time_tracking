@@ -138,7 +138,7 @@ const EditUserModal = (props) => {
         <ModalRow>
           <ModalTitle title={`Employee:  `} />
           <div className="edit_user_modal_title_value_container">
-            <span className="edit_user_modal_title_value_text">{`${editingUser.name} (${editingUser.email})`}</span>
+            <span className="edit_user_modal_title_value_text bold">{`${editingUser.name} (${editingUser.email})`}</span>
           </div>
         </ModalRow>
         <ModalRow>

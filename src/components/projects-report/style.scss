@@ -238,6 +238,9 @@
       position: relative;
       left: -1px;
       flex-basis: 40%;
+      &.bold {
+        font-weight: bold;
+      }
     }
     .edit_user_modal_input {
       outline: none;
@@ -298,12 +301,13 @@
 
 .edit_user_modal_container {
   background-color: #fff;
-  width: 60%;
+  width: 50%;
+  min-width: fit-content;
   height: auto;
   padding: 30px 20px;
   box-shadow: 0px 0px 10px 5px rgba(158, 167, 171, 0.9);
   position: relative;
-
+  overflow: hidden;
   .edit_user_modal_close_button_container {
     cursor: pointer;
     padding: 5px;
@@ -323,6 +327,7 @@
   flex-basis: 35%;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+
   .edit_user_modal_title_text {
     font-size: 1rem;
     font-weight: 400;
