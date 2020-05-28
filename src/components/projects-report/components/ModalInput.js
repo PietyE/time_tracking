@@ -8,7 +8,8 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
   const [value, setIsvalue] = useState(+prevValue)
 
   const handleChangeValue = (event) => {
-    setIsvalue(event.target.value)
+    const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '')
+    setIsvalue(filteredStr)
   }
 
   const handleClickEditButton = () => {

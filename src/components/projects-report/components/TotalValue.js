@@ -29,8 +29,9 @@ const TotalValue = (props) => {
     setIsEdit(false)
   }
 
-  const handleChangeExchengeRateInput = (e) => {
-    setNewExchengeRate(e.target.value)
+  const handleChangeExchengeRateInput = (event) => {
+    const filteredStr = event.target.value.replace(/[^0-9\\.]/gi, '')
+    setNewExchengeRate(filteredStr)
   }
 
   const handleClickEditButton = () => {

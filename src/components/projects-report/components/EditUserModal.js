@@ -20,6 +20,8 @@ import ModalRow from './ModalRow'
 import ModalTitle from './ModalTitle'
 import ModalInput from './ModalInput'
 
+import Modal from 'components/ui/modal'
+
 const EditUserModal = (props) => {
   const {
     handlerCloseModalEdit,
@@ -125,7 +127,7 @@ const EditUserModal = (props) => {
   }
 
   return (
-    <div className={'edit_user_modal_overlap'}>
+    <Modal>
       <div className="edit_user_modal_container">
         <span
           className="edit_user_modal_close_button_container"
@@ -203,7 +205,7 @@ const EditUserModal = (props) => {
           />
         </ModalRow>
       </div>
-    </div>
+    </Modal>
   )
 }
 
