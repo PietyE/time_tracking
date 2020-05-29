@@ -99,11 +99,12 @@ function Select({
   })
 
   return (
-    <div
+    <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
       onClick={disabled ? null : handlerClickOpen}
+      tabIndex={1}
     >
       <div className="select_title_container">
         {isSearch && isOpen && !disabled ? (
@@ -168,7 +169,7 @@ function Select({
           ))}
         </div>
       )}
-    </div>
+    </button>
   )
 }
 

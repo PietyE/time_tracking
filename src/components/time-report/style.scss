@@ -32,11 +32,12 @@
         background-color: #009c98;
         color: #fff;
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: center;
         border: unset;
         transition: 0.3s ease-out;
-        &:hover {
+        &:hover,
+        &:focus {
           background-color: #3bbbb7;
           transition: 0.3s ease-in;
         }
@@ -147,6 +148,11 @@
             color: #968c8c;
           }
         }
+        &:focus {
+          .add_icon {
+            color: #968c8c;
+          }
+        }
       }
     }
 
@@ -214,6 +220,9 @@
         &:hover {
           background-color: #726b62;
           transition: 0.3s ease-in;
+        }
+        &:focus {
+          filter: brightness(1.5);
         }
         .pencil_icon {
           color: #fff;
@@ -332,6 +341,11 @@
                 color: #969595;
               }
             }
+            &:focus {
+              .icon {
+                color: #969595;
+              }
+            }
             &.edit_button {
               margin-right: 15px;
             }
@@ -437,32 +451,39 @@
   }
 }
 
-@keyframes openEditMpdal {
-  from {
-    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0);
-    //height: 60px;
-  }
-  to {
-    // box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.6);
-    //height: 102px;
+@media screen and (max-device-width: 830px) {
+  .time_report_container {
+    .time_report_header {
+      align-items: normal;
+      .time_report_header_select_section {
+        margin-bottom: 10px;
+        flex: 0.5;
+        flex-wrap: wrap;
+
+        .developer_select {
+          margin-bottom: 10px;
+        }
+      }
+      .time_report_header_btn_section {
+        flex: 0.3;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-end;
+        flex-direction: column;
+        .time_report_header_select_month {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-device-width: 610px) {
   .time_report_container {
-    .time_report_header {
-      flex-wrap: wrap;
-      .time_report_header_select_section {
-        margin-bottom: 10px;
-      }
-      .time_report_header_btn_section {
-        width: 100%;
-        justify-content: space-between;
-      }
-    }
     .time_report_day_container {
       .time_report_day_row_create {
-        flex-wrap: wrap;
+        //flex-wrap: wrap;
         height: auto;
         animation: unset;
         &.close {
@@ -471,16 +492,24 @@
           margin-bottom: 0;
           animation: createTimeReportCloseMobile 0.3s 1 ease;
         }
-        .input {
-          margin-right: unset;
-          margin-bottom: 10px;
-          height: 60px;
+        .description_input_container {
+          margin-right: 10px;
+          //flex: 1;
+          .input {
+            margin-right: unset;
+            // margin-bottom: 10px;
+            height: 40px;
+            font-size: 14px;
+          }
         }
         .time_report_day_row_create_right {
-          width: 100%;
+          //width: 100%;
           display: flex;
-          justify-content: space-between;
-          height: 60px;
+          justify-content: flex-end;
+          height: 40px;
+          .input {
+            font-size: 14px;
+          }
         }
       }
     }
@@ -511,6 +540,78 @@
       height: 0;
       opacity: 0;
       margin-bottom: 0;
+    }
+  }
+}
+
+@media screen and (max-device-width: 560px) {
+  .time_report_container {
+    .time_report_day_container {
+      .time_report_day_row_create {
+        flex-wrap: wrap;
+        height: auto;
+        animation: unset;
+        &.close {
+          height: 0;
+          opacity: 0;
+          margin-bottom: 0;
+        }
+        .description_input_container {
+          margin-right: 0;
+          flex: 1;
+          .input {
+            margin-right: unset;
+            margin-bottom: 15px;
+            height: 40px;
+            font-size: 14px;
+          }
+        }
+        .time_report_day_row_create_right {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+          height: 40px;
+          .input {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-device-width: 450px) {
+  .time_report_container {
+    .time_report_header {
+      flex-direction: column;
+      align-items: baseline;
+      .time_report_header_select_section {
+        margin-bottom: 10px;
+        flex: 1;
+        flex-wrap: wrap;
+        order: 2;
+        .developer_select {
+          margin-bottom: 10px;
+        }
+      }
+      .time_report_header_btn_section {
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: row;
+        .time_report_header_select_month {
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .time_report_day_container {
+      .time_report_day_row_create {
+        .time_report_day_row_create_right {
+          justify-content: space-between;
+        }
+      }
     }
   }
 }

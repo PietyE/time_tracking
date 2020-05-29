@@ -16,7 +16,7 @@ export default function TableHeader({ roleUser }) {
       <div className="table_cell hours">Hours</div>
       <div className="table_cell total">Total</div>
       <div className="table_cell total">Total USD</div>
-      <div className="table_cell">To pay</div>
+      <div className="table_cell to_pay">To pay</div>
       <div className="table_cell coast">Costs</div>
       {roleUser !== DEVELOPER && (
         <>

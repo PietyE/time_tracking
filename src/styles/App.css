@@ -28,28 +28,3 @@ body {
 .error_page h1 {
   text-align: center;
 }
-
-/* .oversize::before {
-  content: '';
-  background-image: url(../images/6os.gif);
-  background-repeat: no-repeat;
-  background-position: center;
-  position: absolute;
-  left: 0;
-  z-index: 2;
-  width: 300px;
-  height: 100vh;
-  width: 300px;
-}
-
-.oversize::after {
-  content: '';
-  background-image: url(../images/6os.gif);
-  background-repeat: no-repeat;
-  background-position: center;
-  position: absolute;
-  right: 0;
-  z-index: 2;
-  height: 100vh;
-  width: 300px;
-} */

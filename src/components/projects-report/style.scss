@@ -86,14 +86,17 @@
   }
 
   .table_cell.project_name {
-    flex: 1.7;
+    flex: 1.8;
   }
   .table_cell.salary,
   .table_cell.rate,
   .table_cell.hours,
-  .table_cell.total,
-  .table_cell.coast {
+  .table_cell.total {
     flex: 0.7;
+  }
+
+  .table_cell.coast {
+    flex: 0.8;
   }
 
   .table_cell.ready {
@@ -101,12 +104,12 @@
     justify-content: center;
   }
 
-  .table_cell.sort {
-    cursor: pointer;
+  .table_cell.to_pay {
+    flex: 1.2;
   }
 
   .table_cell.comment {
-    flex: 1;
+    flex: 0.7;
     justify-content: center;
     .comment_text:hover {
       color: cornflowerblue;
@@ -369,5 +372,99 @@
   &:hover {
     filter: brightness(0.85);
     transition: 0.3s;
+  }
+}
+
+@media screen and (max-device-width: 940px) {
+  .project_report_container {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-device-width: 690px) {
+  .project_report_container {
+    .project_report_header_container {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
+      .project_report_header_choice {
+        margin-bottom: 15px;
+      }
+    }
+    .project_reports_total_container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+@media screen and (max-device-width: 560px) {
+  #modal {
+    .edit_user_modal_container {
+      span,
+      input,
+      textarea {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media screen and (max-device-width: 505px) {
+  #modal {
+    .edit_user_modal_container {
+      .edit_user_modal_title_value_container {
+        .edit_user_modal_title_value_text.bold {
+          display: flex;
+          flex-direction: column;
+          white-space: normal;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-device-width: 385px) {
+  #modal {
+    .edit_user_modal_container {
+      span,
+      input,
+      textarea {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-device-width: 450px) {
+  .project_report_container {
+    .project_reports_total_values_container {
+      flex-direction: column;
+      display: flex;
+      align-items: flex-start;
+      .usd {
+        margin-bottom: 15px;
+      }
+      span {
+        font-size: 14px;
+      }
+    }
+    .project_report_header_container {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
+      .project_report_header_choice {
+        margin-bottom: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        .project_select_container {
+          margin-bottom: 15px;
+        }
+      }
+    }
+    .project_reports_total_container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }

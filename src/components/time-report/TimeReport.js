@@ -183,12 +183,12 @@ function TimeReport(props) {
               setNewData={changeSelectedDateTimeReport}
               extraClassNameContainer="time_report_header_select_month"
             />
-            <Button className="export_btn" onClick={handlerExportCsv}>
+            <button className="export_btn" onClick={handlerExportCsv}>
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
               <span className="export_btn_text">Export</span>
-            </Button>
+            </button>
           </div>
         </div>
         <div className="time_report_total_container">
