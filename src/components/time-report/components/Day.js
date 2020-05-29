@@ -13,10 +13,10 @@ function Day({
   showEmpty,
   isOpenCreate,
 }) {
-  const [isCreate, setIsCreate] = useState(false)
+  const [isCreate, setIsCreate] = useState(true)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
 
-  const handlerAddDayReport = e => {
+  const handlerAddDayReport = (e) => {
     e.preventDefault()
     if (isCreate) {
       setClassNameForEndAnimation('close')
@@ -45,9 +45,9 @@ function Day({
     }
   }
 
-  useEffect(() => {
-    setIsCreate(isOpenCreate)
-  }, [selectedDate, isOpenCreate])
+  // useEffect(() => {
+  //   setIsCreate(isOpenCreate)
+  // }, [selectedDate, isOpenCreate])
 
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null
