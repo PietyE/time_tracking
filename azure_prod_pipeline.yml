@@ -1,7 +1,7 @@
 variables:
 - group: DOKKU_PROD_FRONT_VARIABLES
 - name: DOKKU_PROJECT_NAME
-  value: timetracking-front
+  value: time-tracking-frontend
 
 trigger:
 - master
