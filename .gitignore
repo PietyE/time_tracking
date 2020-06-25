@@ -25,6 +25,7 @@ yarn-error.log*
 /.env/
 /.idea/
 /.ssh/
+/venv
 
 package-lock.json
 yarn.lock
