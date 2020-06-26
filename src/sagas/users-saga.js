@@ -89,7 +89,9 @@ function* logIn({ payload: googleData }) {
 
       const { data, status } = response
       const { user, token } = data
-
+      if (status !== 200) {
+        throw new Error()
+      }
       const userObjforState = {
         ...user,
         name: googleData.profileObj.name,
