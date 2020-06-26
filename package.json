@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
+    "env-cmd": "^10.1.0",
     "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
@@ -38,7 +39,9 @@
     "start": "react-scripts start",
     "build": "react-scripts --max_old_space_size=256 build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:dev": "env-cmd -f .env.development react-scripts start",
+    "start:prod": "env-cmd -f .env.production react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
