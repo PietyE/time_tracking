@@ -10,27 +10,27 @@ from invoke import task
 DEV_SERVER_IP = "134.209.240.110"
 TEST_SERVER_IP = None
 STAGE_SERVER_IP = None
-PROD_SERVER_IP = None
+PROD_SERVER_IP = "157.230.98.201"
 
 # =====    SSH Paths    =====
 # absolute path on your local machine
 DEV_SERVER_SSH_KEY_PATH = ".ssh/TimeTrackingFrontend.pem"
 TEST_SERVER_SSH_KEY_PATH = None
 STAGE_SERVER_SSH_KEY_PATH = None
-PROD_SERVER_SSH_KEY_PATH = None
+PROD_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\id_rsa"
 
 # =====   HOST USERs   =====
 DEV_SERVER_HOST_USER = "root"
 TEST_SERVER_HOST_USER = None
 STAGE_SERVER_HOST_USER = None
-PROD_SERVER_HOST_USER = None
+PROD_SERVER_HOST_USER = "root"
 
 CONFIG = {
     "dev": {
         "ip": DEV_SERVER_IP,
         "ssh_key_path": DEV_SERVER_SSH_KEY_PATH,
         "host_user": DEV_SERVER_HOST_USER,
-        "project_name": "time-tracking-frontend",
+        "project_name": "timetracking-front",
         "env_variables": {
             "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
             "NPM_CONFIG_PRODUCTION": "true",
@@ -44,7 +44,22 @@ CONFIG = {
     },
     "test": {},
     "stage": {},
-    "prod": {},
+    "prod": {
+    "ip": PROD_SERVER_IP,
+        "ssh_key_path": PROD_SERVER_SSH_KEY_PATH,
+        "host_user": PROD_SERVER_HOST_USER,
+        "project_name": "time-tracking-frontend",
+        "env_variables": {
+            "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
+            "NPM_CONFIG_PRODUCTION": "true",
+            "YARN_PRODUCTION": "true",
+            "NODE_OPTIONS": '"--max_old_space_size=2048"'
+        },
+        "remote_branch_name": "master",
+        "local_branch_name": "master",
+        # http://mikebian.co/sending-dokku-container-logs-to-papertrail
+        "domain": "internal.vilmate.com",
+    },
 }
 
 
@@ -165,6 +180,71 @@ def create_project(ctx, env, client):
         stdin, stdout, stderr = client.exec_command(f"sudo dokku apps:create {project_name}")
         display_message(stdout)
         display_message(stderr)
+
+
+@task
+@check_env_config
+@ssh_connection
+def create_nginx_conf_files(ctx, env, client):
+    config = CONFIG[env]
+    project_name = config.get("project_name")
+    if not project_name:
+        print('"project_name" should be set in config')
+
+    print(f"Sniffing dirrectory /home/dokku/{project_name}/ ...")
+
+    stdin, stdout, stderr = client.exec_command(f"ls -la /home/dokku/{project_name}/")
+    stdout = list(stdout)
+    stderr = list(stderr)
+    conf_dir_exists = any(map(lambda x: "nginx.conf.d" in x, stdout))
+    if not stderr and not conf_dir_exists:
+        print(f"Creating directory /home/dokku/{project_name}/nginx.conf.d/")
+        stdin, stdout, stderr = client.exec_command(
+            f"sudo mkdir /home/dokku/{project_name}/nginx.conf.d/"
+        )
+        display_message(stdout)
+        display_message(stderr)
+    else:
+        print(f"Directory /home/dokku/{project_name}/nginx.conf.d/ already exists")
+
+    # upload.conf
+    print("Processing upload.conf ...")
+
+    data_to_write = ["client_max_body_size 50M;"]
+
+    stdin, stdout, stderr = client.exec_command(
+        f"cat /home/dokku/{project_name}/nginx.conf.d/upload.conf"
+    )
+
+    need_create_file = any(map(lambda x: "No such file or directory" in x, list(stderr)))
+
+    if need_create_file:
+        print("Creating file")
+        command = f'echo "client_max_body_size 50M;" > /home/dokku/{project_name}/nginx.conf.d/upload.conf'
+        stdin, stdout, stderr = client.exec_command(f"sudo bash -c '{command}'")
+        display_message(stdout)
+        display_message(stderr)
+    else:
+        stdout = list(stdout)
+        need_to_be_written = []
+        for data in data_to_write:
+            if not any(map(lambda x: x.strip() in data, stdout)):
+                need_to_be_written.append(data)
+
+        if need_to_be_written:
+            data = "\n".join(need_to_be_written)
+
+        if need_to_be_written:
+            data = "\n".join(need_to_be_written)
+            print(f"Writing \n{data}\n to timeout.conf ...")
+            command = f'echo "{data}" >> /home/dokku/{project_name}/nginx.conf.d/upload.conf'
+            stdin, stdout, stderr = client.exec_command(f"sudo bash -c '{command}'")
+            display_message(stdout)
+            display_message(stderr)
+        else:
+            print("All data is up to date")
+
+    print("File upload.conf processing compete")
 
 
 @task
@@ -646,8 +726,9 @@ def deploy(ctx, env, branch=None, force=False):
 def setup_server(ctx, env):
     check_server_connection(ctx, env)
     install_dokku(ctx, env)
-    add_key_to_dokku(ctx, env)  # use this command only once
+    # add_key_to_dokku(ctx, env)  # use this command only once
     create_project(ctx, env)
+    create_nginx_conf_files(ctx, env)
 
     # postgres
     # install_postgres_plugin(ctx, env)
