@@ -1,1 +1,1 @@
-export const getDevelopersSelector = state => state.developers.items
+export const getDevelopersSelector = (state) => state.developers.developersList
