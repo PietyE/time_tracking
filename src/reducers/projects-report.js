@@ -22,8 +22,18 @@ const initialState = {
     total_usd: '',
     exchange_rate: '',
   },
-  selectedProject: {},
-  selectedDeveloper: {},
+  selectedProject: {
+    email: "",
+    id: "",
+    name: "All Projects",
+    role: null
+  },
+  selectedDeveloper: {
+    email: "",
+    id: "",
+    name: "All Developers",
+    role: null
+  },
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   editingUserId: '',

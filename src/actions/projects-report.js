@@ -49,7 +49,7 @@ export const getDevelopersProjectInProjectReport = () => ({
   type: GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
 })
 
-export const setDevelopersProjectInProjectReport = (payload) => ({
+export const setDevelopersProjectInProjectReport = (payload) => (console.log('payload', payload),{
   type: SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   payload,
 })

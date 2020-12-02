@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 
@@ -28,24 +28,16 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
 
   return (
     <>
-      <div className="edit_user_modal_title_value_container">
-        {isEdit ? (
-          <input
-            type="text"
-            className="edit_user_modal_input"
-            value={value}
-            onChange={handleChangeValue}
-          />
-        ) : (
-          <span className="edit_user_modal_input">{value}</span>
-        )}
+      <div onClick={handleClickEditButton} className="edit_user_modal_title_value_container">
+        <input
+          type="text"
+          className="edit_user_modal_input"
+          value={value}
+          onChange={handleChangeValue}
+        />
       </div>
       <div className="edit_user_modal_button_container">
-        {!isEdit ? (
-          <button onClick={handleClickEditButton} className="edit_user_button">
-            <FontAwesomeIcon icon={faEdit} />
-          </button>
-        ) : (
+        {!isEdit ? null : (
           <>
             <button
               variant={'success'}
