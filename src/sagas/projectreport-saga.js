@@ -58,7 +58,7 @@ export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `projects/`
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-
+  console.log('data',data)
   yield put(setDevelopersProjectInProjectReport(data))
 }
 

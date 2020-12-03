@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import _ from 'lodash'
 import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
@@ -10,7 +10,7 @@ import TotalValue from './components/TotalValue'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
-import { DEVELOPER } from 'constants/role-constant'
+import { DEVELOPER, PM } from 'constants/role-constant'
 import {
   changeSelectedDateProjectsReport,
   getDeveloperConsolidateProjectReport,
@@ -31,7 +31,8 @@ import {
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
 } from 'reducers/projects-report'
-
+import { getDevelopersList } from '../../selectors/developers'
+import { getProjectsList } from '../../selectors/developer-projects'
 function ProjectsReport({
   roleUser,
   selectedDate,
@@ -54,7 +55,8 @@ function ProjectsReport({
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
-
+  const allDevelopers = useSelector(getDevelopersList)
+  const allProjects = useSelector(getProjectsList)
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
@@ -66,37 +68,38 @@ function ProjectsReport({
     }
     getDeveloperConsolidateProjectReport()
   }, [])
-
   return (
     <div className="container project_report_container">
       {isOpenEdit && (
         <EditUserModal handlerCloseModalEdit={handlerCloseModalEdit} />
       )}
       <div className="project_report_header_container">
-        {roleUser !== DEVELOPER && (
+        {roleUser !== DEVELOPER && roleUser !== PM && (
           <div className="project_report_header_choice">
             <Select
               title="choose you project..."
               extraClassContainer="project_select_container"
-              listItems={projectList}
+              listItems={allProjects}
               valueKey="name"
               idKey="id"
               isSearch={true}
               onSelected={setSelectedProjectInProjectReports}
-              onClear={clearSelectedProjectInProjectReports}
-              disabled={!_.isEmpty(selectedDeveloper)}
+              // onClear={clearSelectedProjectInProjectReports}
+              // disabled={!_.isEmpty(selectedDeveloper)}
+              disabled={selectedDeveloper.name !== 'All Developers' ? true : false }
               initialChoice={selectedProject}
             />
             <Select
               title="choose developer..."
               extraClassContainer="developer_select_container"
-              listItems={developersList}
+              listItems={allDevelopers}
               valueKey="name"
               idKey="id"
               isSearch={true}
               onSelected={setSelectedDeveloper}
-              onClear={clearDeveloperSelected}
-              disabled={!_.isEmpty(selectedProject)}
+              // disabled={!_.isEmpty(selectedProject)}
+              // onClear={clearDeveloperSelected}
+              disabled={selectedProject.name !== 'All Projects' ? true : false }
               initialChoice={selectedDeveloper}
             />
           </div>
@@ -106,7 +109,7 @@ function ProjectsReport({
           setNewData={changeSelectedDateProjectsReport}
         />
       </div>
-      {roleUser !== DEVELOPER && (
+      {roleUser !== DEVELOPER && roleUser !== PM && (
         <TotalValue
           totalUsd={total_usd}
           totalUah={total_uah}
@@ -233,6 +236,7 @@ const RenderUser = ({
         is_processed={is_processed}
         setProcessedStatus={setProcessedStatus}
         selectedDate={selectedDate}
+        isOpen={isOpen}
       />
       {projects.map((project) => {
         return (
