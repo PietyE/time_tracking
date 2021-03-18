@@ -191,8 +191,9 @@ export function* downloadCSV() {
       selectedProject.developer_project_id
     }/export-excel/${selectedDate.year}/${selectedDate.month + 1}/`
     const res = yield call([Api, 'exportCsv'], URL)
+    const fileName = res.headers['content-disposition'].split('"')[1]
     if (res && res.data instanceof Blob) {
-      saveAs(res.data, 'time-report.xls')
+      saveAs(res.data, fileName)
     }
   } catch (error) {
     //to do
