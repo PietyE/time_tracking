@@ -213,7 +213,7 @@ function* setUserCost({ payload }) {
 function* setEditedCost({ payload }) {
   try {
     const { expenseId, ...data } = payload
-    const URL = `expenses/${expenseId}`
+    const URL = `expenses/${expenseId}/`
     yield call([Api, 'saveEditedCost'], URL, data)
     yield put(
       showAler({
