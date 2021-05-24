@@ -72,7 +72,11 @@ export default function TableRow({
 
   const handlerChangeProcessedStatusInput = (e) => {
     e.stopPropagation()
-    setProcessedStatus({ userId, ...selectedDate })
+    setProcessedStatus({
+      id: userId,
+      month: selectedDate.month + 1,
+      year: selectedDate.year,
+    })
   }
 
   useEffect(() => {

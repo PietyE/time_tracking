@@ -1,5 +1,6 @@
 import { put, call, takeEvery } from 'redux-saga/effects'
 import Api from 'utils/api'
+import api, { users } from 'api'
 import { isEmpty } from 'lodash'
 import {
   setUsersOauthData,
@@ -38,16 +39,15 @@ function* bootstrap() {
         key: access_token,
         expiration_timestamp: expires_at,
         user: id,
-        date_create,
         ...googleData
       } = data_user
 
       const nowTime = Math.floor(new Date().getTime() / 1000)
 
       if (access_token && expires_at && nowTime < expires_at) {
-        const URL = `users/${id}/`
+        yield call([api, 'setToken'], access_token)
 
-        const response = yield call([Api, 'users'], URL)
+        const response = yield call([users, 'one'], id)
 
         if (isEmpty(response)) {
           yield put(setAuthStatus(false))
@@ -76,8 +76,6 @@ function* bootstrap() {
 
 function* logIn({ payload: googleData }) {
   try {
-    const url = 'users/auth/social/google/authorize/'
-
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
         throw new Error(googleData.error)
@@ -85,7 +83,9 @@ function* logIn({ payload: googleData }) {
 
       const google_token = googleData.tokenId
 
-      const response = yield call([Api, 'login'], url, google_token)
+      const response = yield call([users, 'googleAuth'], {
+        token: google_token,
+      })
 
       const { data, status } = response
       const { user, token } = data
@@ -110,6 +110,7 @@ function* logIn({ payload: googleData }) {
       const authData = JSON.stringify(userObjforLocalStorage)
 
       yield call([localStorage, 'setItem'], 'user_auth_data', authData)
+      yield call([api, 'setToken'], authData.key)
     } else {
       throw new Error()
     }
@@ -128,8 +129,7 @@ function* logIn({ payload: googleData }) {
 
 function* logOut() {
   try {
-    const url = 'users/auth/logout/'
-    yield call([Api, 'logout'], url)
+    yield call([users, 'logOut'])
   } finally {
     yield put(cleanUserOauthData())
     yield put(setAuthStatus(false))
@@ -139,8 +139,7 @@ function* logOut() {
 
 function* setUserSalary({ payload }) {
   try {
-    const URL = 'users/salary/'
-    yield call([Api, 'saveNewSalary'], URL, payload)
+    yield call([users, 'createUserSalary'], payload)
 
     yield put(
       showAler({
@@ -164,8 +163,7 @@ function* setUserSalary({ payload }) {
 
 function* setUserRate({ payload }) {
   try {
-    const URL = 'users/rate/'
-    yield call([Api, 'saveNewRate'], URL, payload)
+    yield call([users, 'createUserRate'], payload)
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -186,6 +184,23 @@ function* setUserRate({ payload }) {
   }
 }
 
+function* setProcessedStatus({ payload }) {
+  try {
+    yield call([users, 'toggleProcessedStatus'], payload)
+    yield put(getDeveloperConsolidateProjectReport())
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+/////////// ref
 function* setUserCost({ payload }) {
   try {
     const URL = 'expenses/'
@@ -271,24 +286,6 @@ function* setEditedComment({ payload }) {
         delay: 5000,
       })
     )
-    yield put(getDeveloperConsolidateProjectReport())
-  } catch (error) {
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      })
-    )
-  }
-}
-
-function* setProcessedStatus({ payload }) {
-  try {
-    const { userId, month, year } = payload
-    const URL = `users/${userId}/toggle-processed-status/${year}/${month + 1}/`
-    yield call([Api, 'toggleProcessedStatus'], URL)
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
