@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faComments } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faChevronDown, faChevronUp, faComments } from '@fortawesome/free-solid-svg-icons'
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
-import { DEVELOPER } from 'constants/role-constant'
+import { DEVELOPER, PM } from 'constants/role-constant'
 
 export default function TableRow({
   project,
@@ -27,6 +27,7 @@ export default function TableRow({
   total_uah,
   is_processed,
   setProcessedStatus,
+  isOpen
 }) {
   const {
     working_time: hours,
@@ -85,15 +86,16 @@ export default function TableRow({
 
   return (
     <>
-      <div className={`table_body_item_row ${extraClass}`} onClick={onClick}>
+      <div className={`table_body_item_row ${extraClass}`}>
+        <div className='table_body_item_row' data-userid={userId} onClick={roleUser !== DEVELOPER && roleUser !== PM && extraClass === 'common' ?  handlerEditClick : null}>
         <span className="table_cell name">
-          {roleUser !== DEVELOPER && extraClass === 'common' && (
+          {roleUser !== DEVELOPER&& roleUser !== PM && extraClass === 'common' && (
             <span
               className="edit_button"
-              onClick={handlerEditClick}
+              onClick={onClick}
               data-userid={userId}
             >
-              <FontAwesomeIcon icon={faEdit} />
+              <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
             </span>
           )}
           <span className="name_text">{userName}</span>
@@ -133,7 +135,7 @@ export default function TableRow({
         <span className="table_cell coast">
           {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
         </span>
-        {roleUser !== DEVELOPER && (
+        {roleUser !== DEVELOPER && roleUser !== PM && (
           <>
             <span className="table_cell comment">
               {extraClass === 'common' && comment ? (
@@ -166,6 +168,7 @@ export default function TableRow({
             </span>
           </>
         )}
+        </div>
       </div>
     </>
   )

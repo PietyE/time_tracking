@@ -64,27 +64,15 @@ const TotalValue = (props) => {
     <div className="project_reports_total_container">
       <ModalRow>
         <ModalTitle title="Exchange rate: " />
-
-        {!isEdit ? (
-          <span className="project_reports_exchange_input">
-            {newExchangeRate || ''}
-          </span>
-        ) : (
+        <div onClick={handleClickEditButton}>
           <input
             className="project_reports_exchange_input"
             value={newExchangeRate || ''}
             onChange={handleChangeExchengeRateInput}
           />
-        )}
+        </div>
         <div className="edit_user_modal_button_container">
-          {!isEdit ? (
-            <button
-              onClick={handleClickEditButton}
-              className="edit_user_button"
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-          ) : (
+          {!isEdit ? null : (
             <>
               <button
                 onClick={handleSaveExchangeRate}
