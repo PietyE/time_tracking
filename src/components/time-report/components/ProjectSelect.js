@@ -10,7 +10,7 @@ function ProjectSelect({
 }) {
   return (
     <Select
-      title="choose you project..."
+      title="choose your project..."
       listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
