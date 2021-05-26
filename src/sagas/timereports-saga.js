@@ -1,5 +1,5 @@
 import { select, call, takeEvery, put } from 'redux-saga/effects'
-import { isEmpty } from 'lodash'
+import { isEmpty, cloneDeep } from 'lodash'
 import Api from 'utils/api'
 import { SUCCES_ALERT } from 'constants/alert-constant'
 import { saveAs } from 'file-saver'
@@ -156,7 +156,7 @@ export function* editTimeReport({ payload }) {
     const {
       reports: { items = [] },
     } = yield select((state) => state.timereports)
-    const newItems = [...items]
+    const newItems = cloneDeep(items)
     const { id, ...body } = payload
     const URL = `work_items/${id}/`
     const { data, status } = yield call([Api, 'editWorkItem'], URL, body)
@@ -166,9 +166,16 @@ export function* editTimeReport({ payload }) {
     }
 
     if (data) {
-      const indexEdited = newItems.findIndex((item) => item.id === data.id)
-      newItems.splice(indexEdited, 1, data)
-      yield put(setTimeReports({ items: newItems }))
+      if (
+        items.some((i) => i.developer_project !== payload.developer_project)
+      ) {
+        yield call(workerTimeReports)
+      } else {
+        const indexEdited = newItems.findIndex((item) => item.id === data.id)
+        newItems.splice(indexEdited, 1, data)
+        yield put(setTimeReports({ items: newItems }))
+      }
+
       yield put(
         showAler({
           type: SUCCES_ALERT,

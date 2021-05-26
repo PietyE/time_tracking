@@ -1,29 +1,31 @@
 import { createSelector } from 'reselect'
 
-const getDeveloperProjectsListSelector = state => {
-  console.log('state',state)
+const getDeveloperProjectsListSelector = (state) => {
   return state.developerProjects
 }
-const getAllProjectListSelector = state => {
+const getAllProjectListSelector = (state) => {
   return state.projectsReport.developerProjectInProjectReport
 }
 
 export const getProjectsSelector = createSelector(
   getDeveloperProjectsListSelector,
-  projects => projects
+  (projects) => projects
 )
 
-export const getProjectsList = createSelector([getAllProjectListSelector],(projectsList) => {
-  let newProjectsList = [
-    {
-      id: "",
-      logo: "",
-      name: "All Projects",
-      developer_project_id: null
-    }
-  ]
-  projectsList.forEach(project => {
-    newProjectsList.push(project)
-  })
-  return newProjectsList;
-})
+export const getProjectsList = createSelector(
+  [getAllProjectListSelector],
+  (projectsList) => {
+    let newProjectsList = [
+      {
+        id: '',
+        logo: '',
+        name: 'All Projects',
+        developer_project_id: null,
+      },
+    ]
+    projectsList.forEach((project) => {
+      newProjectsList.push(project)
+    })
+    return newProjectsList
+  }
+)

@@ -1,7 +1,6 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
 import _ from 'lodash'
 
 import ProjectSelect from './components/ProjectSelect'
@@ -93,9 +92,8 @@ function TimeReport(props) {
 
       const { year: selectedYear, month: selectedMonth } = selectedDate
 
-      const {
-        developer_project_id: selectedDeveloper_project_id,
-      } = selectedProject
+      const { developer_project_id: selectedDeveloper_project_id } =
+        selectedProject
 
       if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
         changeSelectedDateTimeReport({
@@ -132,7 +130,7 @@ function TimeReport(props) {
   }
 
   const handlerExportCsv = () => {
-    if (!reports || reports.length === 0) {
+    if (!reports || reports?.length === 0) {
       return
     }
     getTimeReportCsv()
