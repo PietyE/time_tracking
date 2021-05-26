@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect } from 'react'
+import React, { useState, memo } from 'react'
 
 import HeaderDay from './HeaderDay'
 import CreateReportForm from './CreateReportForm'
@@ -44,10 +44,6 @@ function Day({
       setIsCreate(false)
     }
   }
-
-  // useEffect(() => {
-  //   setIsCreate(isOpenCreate)
-  // }, [selectedDate, isOpenCreate])
 
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null

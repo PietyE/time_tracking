@@ -1,10 +1,12 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
+import { FaExchangeAlt } from 'react-icons/fa'
 import TextareaAutosize from 'react-textarea-autosize'
 import InputMask from 'react-input-mask'
+import ChangeProjectModal from './ChangeProjectModal'
 
 import {
   deleteTimeReport,
@@ -36,6 +38,7 @@ function ReportItem({
     date,
   } = editableText
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
+  const [showModalChangeProject, setShowModalChangeProject] = useState(false)
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -55,7 +58,7 @@ function ReportItem({
     setEditMode(id)
   }
 
-  const handlerCancelEditMode = (e) => {
+  const handlerCancelEditMode = () => {
     setEditMode(null)
   }
 
@@ -77,7 +80,12 @@ function ReportItem({
     setEditMode(null)
   }
 
-  const activeClassNameContainerForDeletting = isDeleteRequest ? 'active' : ''
+  const hanldeClickToggleShowModalChangeProject = useCallback(() => {
+    setShowModalChangeProject((prev) => !prev)
+  }, [setShowModalChangeProject])
+
+  const activeClassNameContainerForDeletting =
+    isDeleteRequest || showModalChangeProject ? 'active' : ''
   const activeClassNameContainerForEditting =
     idEditingWorkItem === id ? 'editing' : ''
 
@@ -85,6 +93,12 @@ function ReportItem({
     <div
       className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
     >
+      {showModalChangeProject && (
+        <ChangeProjectModal
+          onClickClose={hanldeClickToggleShowModalChangeProject}
+          editableWorkItem={editableText}
+        />
+      )}
       {isDeleteRequest && (
         <DeleteModal
           handlerClickOpenDeleteModal={handlerClickOpenDeleteModal}
@@ -130,6 +144,16 @@ function ReportItem({
 
       <div className="time_report_day_edit">
         <div className={'time_report_day_menu'}>
+          {idEditingWorkItem !== id && (
+            <button
+              onClick={hanldeClickToggleShowModalChangeProject}
+              className="button change_project_button"
+              type={'button'}
+              form="edit_form"
+            >
+              <FaExchangeAlt className="icon" />
+            </button>
+          )}
           <button
             onClick={
               idEditingWorkItem === id ? () => null : handlerClickEditMode
