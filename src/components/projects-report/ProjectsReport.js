@@ -77,7 +77,7 @@ function ProjectsReport({
         {roleUser !== DEVELOPER && roleUser !== PM && (
           <div className="project_report_header_choice">
             <Select
-              title="choose you project..."
+              title="choose your project..."
               extraClassContainer="project_select_container"
               listItems={allProjects}
               valueKey="name"
