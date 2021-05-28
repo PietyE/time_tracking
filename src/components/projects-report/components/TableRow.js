@@ -62,6 +62,24 @@ export default function TableRow({
     setIsOpenEdit(true)
   }
 
+  const handleTableRowClick = (event) => {
+    if (extraClass !== 'common') {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    if (roleUser !== DEVELOPER && roleUser !== PM) {
+      handlerEditClick(event);
+      return;
+    }
+    if (roleUser === DEVELOPER || roleUser === PM) {
+      if (onClick && (onClick instanceof Function)) {
+        onClick(event);
+      }
+    }
+
+  };
+
   const hoursString =
     roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
@@ -87,9 +105,9 @@ export default function TableRow({
   return (
     <>
       <div className={`table_body_item_row ${extraClass}`}>
-        <div className='table_body_item_row' data-userid={userId} onClick={roleUser !== DEVELOPER && roleUser !== PM && extraClass === 'common' ?  handlerEditClick : null}>
+        <div className='table_body_item_row' data-userid={userId} onClick={handleTableRowClick}>
         <span className="table_cell name">
-          {roleUser !== DEVELOPER&& roleUser !== PM && extraClass === 'common' && (
+          {extraClass === 'common' && (
             <span
               className="edit_button"
               onClick={onClick}
