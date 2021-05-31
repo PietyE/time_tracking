@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faChevronDown, faChevronUp, faComments } from '@fortawesome/free-solid-svg-icons'
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
-import { DEVELOPER, PM } from 'constants/role-constant'
+import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
 
 export default function TableRow({
   project,
@@ -68,7 +68,7 @@ export default function TableRow({
       event.stopPropagation();
       return;
     }
-    if (roleUser !== DEVELOPER && roleUser !== PM) {
+    if (roleUser === ADMIN || roleUser === ACCOUNTANT) {
       handlerEditClick(event);
       return;
     }
