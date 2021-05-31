@@ -25,14 +25,17 @@ function Day({
     setIsCreate(true)
   }
 
-  const dayTitle = new Date(
+  const day = new Date(
     selectedDate.year,
     selectedDate.month,
     numberOfDay
-  ).toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' })
+  )
+  const dayOfWeek = day.getDay();
 
-  const todayStr = isOpenCreate ? '(today)' : ''
+  const dayTitle = day.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' });
 
+  const todayStr = isOpenCreate ? '(today)' : '';
+  const weekEndClassName = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-danger' : '';
   const sumHours = descriptions.reduce(
     (sum, item) => (sum = sum + item.duration),
     0
@@ -56,6 +59,7 @@ function Day({
         dayTitle={dayTitle}
         todayStr={todayStr}
         classNameForEndAnimation={classNameForEndAnimation}
+        weekEndClassName={weekEndClassName}
       />
       {isCreate && (
         <CreateReportForm
