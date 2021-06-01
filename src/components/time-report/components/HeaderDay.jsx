@@ -8,10 +8,11 @@ function HeaderDay({
   dayTitle,
   todayStr,
   classNameForEndAnimation,
+  weekEndClassName
 }) {
   return (
     <div className="time_report_day_header">
-      <span className="time_report_day_title">{`${dayTitle}th ${todayStr}`}</span>
+      <span className={`time_report_day_title ${weekEndClassName}`}>{`${dayTitle}th ${todayStr}`}</span>
       <button className="time_report_day_addbtn" onClick={handlerAddDayReport}>
         <FontAwesomeIcon
           icon={faPlus}
