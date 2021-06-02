@@ -29,7 +29,6 @@ export default function TableRow({
   setProcessedStatus,
   isOpen
 }) {
-  console.dir(comment);
   const {
     working_time: hours,
     id: developer_project_id,
@@ -106,7 +105,7 @@ export default function TableRow({
   return (
     <>
       <div className={`table_body_item_row ${extraClass}`}>
-        <div className='table_body_item_row' data-userid={userId} onClick={handleTableRowClick}>
+        <div className="table_body_item_row" data-userid={userId} onClick={handleTableRowClick}>
         <span className="table_cell name">
           {extraClass === 'common' && (
             <span
@@ -138,23 +137,23 @@ export default function TableRow({
 
           {roleUser !== PM && (
             <>
-              <span className='table_cell salary'>
+              <span className="table_cell salary">
                 {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
               </span>
-              <span className='table_cell rate'>{usdFormat.format(rate)}</span>
-              <span className='table_cell hours'>
+              <span className="table_cell rate">{usdFormat.format(rate)}</span>
+              <span className="table_cell hours">
                 {is_full_time ? 'fulltime' : `${hoursString} h`}
               </span>
-              <span className='table_cell total'>
+              <span className="table_cell total">
                 {usdFormat.format(total_overtimes || total)}
               </span>
-              <span className='table_cell total'>
+              <span className="table_cell total">
                 {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
               </span>
-              <span className='table_cell to_pay'>
+              <span className="table_cell to_pay">
                 {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
               </span>
-              <span className='table_cell coast'>
+              <span className="table_cell coast">
                 {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
               </span>
             </>)}
