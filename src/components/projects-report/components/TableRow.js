@@ -29,6 +29,7 @@ export default function TableRow({
   setProcessedStatus,
   isOpen
 }) {
+  console.dir(comment);
   const {
     working_time: hours,
     id: developer_project_id,
