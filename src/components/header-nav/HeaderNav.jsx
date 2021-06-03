@@ -61,6 +61,15 @@ function HeaderNav() {
             TIMEREPORT
           </NavLink>
         </li>
+        <li className="nav_item">
+          <NavLink
+            to="/management"
+            className="nav_item_link"
+            activeStyle={activeTabStale}
+          >
+            PROJECTS MANAGEMENT
+          </NavLink>
+        </li>
       </ul>
     </>
   )

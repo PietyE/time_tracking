@@ -16,6 +16,7 @@ import {
   getProfileName,
   getProfileEmail,
 } from 'selectors/user'
+import ProjectManagementScreen from './ProjectManagementScreen'
 
 function MainScreen({
   isAuth,
@@ -50,6 +51,7 @@ function MainScreen({
       <Switch>
         <Route path="/projects" component={ProjectsScreen} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
+        <Route path="/management" component={ProjectManagementScreen} exct />
         <Redirect from="/" to="/timereport" />
       </Switch>
     </>
