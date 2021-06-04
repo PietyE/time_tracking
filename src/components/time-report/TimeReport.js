@@ -140,6 +140,10 @@ function TimeReport(props) {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
       selectProject(projects[0])
     }
+    if (!projects.length) {
+      selectProject({})
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects])
 
   useEffect(() => {
@@ -148,7 +152,7 @@ function TimeReport(props) {
     //   clearSelectedProject()
     //   resetSelectedDate()
     // }
-  }, [])
+  }, [bootstrapWidthRouteState])
 
   return (
     <>
@@ -227,6 +231,7 @@ function TimeReport(props) {
                   addTimeReport={addTimeReport}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
+                  isOneProject={projects.length > 1}
                 />
               )
             })

@@ -8,18 +8,20 @@ import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
 
-function Select({
-  extraClassContainer = '',
-  listItems = [],
-  title = '',
-  onSelected,
-  valueKey,
-  idKey,
-  initialChoice = null,
-  onClear,
-  isSearch = false,
-  disabled,
-}) {
+function Select(props) {
+  const {
+    extraClassContainer = '',
+    listItems = [],
+    title = '',
+    onSelected,
+    valueKey,
+    idKey,
+    initialChoice = null,
+    onClear,
+    isSearch = false,
+    disabled,
+  } = props
+
   const [_title, setTitle] = useState(title)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
@@ -48,6 +50,7 @@ function Select({
       setIsOpen(false)
     }
   }
+
   const handlerClickItem = (e) => {
     e.preventDefault()
     setTitle(e.currentTarget.dataset.value)
@@ -86,10 +89,14 @@ function Select({
       !_.isEqualWith(listItems, prevList, (i1, i2) => i1['id'] === i2['id'])
     ) {
       setTitle(title)
+    } else if (!listItems.length) {
+      setTitle('List is empty')
     }
   }, [listItems])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
+
+  const classNameDisabled = !listItems.length ? 'disabled' : ''
 
   const searchedListItems = listItems.filter((item) => {
     if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
@@ -105,6 +112,7 @@ function Select({
       }`}
       onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
+      //disabled={!listItems.length}
     >
       <div className="select_title_container">
         {isSearch && isOpen && !disabled ? (
@@ -116,7 +124,9 @@ function Select({
             value={searchValue}
           />
         ) : (
-          <span className="select_title_text">{_title}</span>
+          <span className={`select_title_text ${classNameDisabled}`}>
+            {_title}
+          </span>
         )}
         <FontAwesomeIcon
           icon={faCaretDown}

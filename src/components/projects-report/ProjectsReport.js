@@ -70,6 +70,7 @@ function ProjectsReport({
     }
     getDeveloperConsolidateProjectReport()
   }, [])
+
   return (
     <div className="container project_report_container">
       {isOpenEdit && (
@@ -88,7 +89,9 @@ function ProjectsReport({
               onSelected={setSelectedProjectInProjectReports}
               // onClear={clearSelectedProjectInProjectReports}
               // disabled={!_.isEmpty(selectedDeveloper)}
-              disabled={selectedDeveloper.name !== 'All Developers' ? true : false }
+              disabled={
+                selectedDeveloper.name !== 'All Developers' ? true : false
+              }
               initialChoice={selectedProject}
 
             />
@@ -102,7 +105,7 @@ function ProjectsReport({
               onSelected={setSelectedDeveloper}
               // disabled={!_.isEmpty(selectedProject)}
               // onClear={clearDeveloperSelected}
-              disabled={selectedProject.name !== 'All Projects' ? true : false }
+              disabled={selectedProject.name !== 'All Projects' ? true : false}
               initialChoice={selectedDeveloper}
             />
           </div>
