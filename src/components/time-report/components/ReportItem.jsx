@@ -30,6 +30,7 @@ function ReportItem({
   editableText,
   idEditingWorkItem,
   setEditMode,
+  isOneProject,
 }) {
   const {
     title: oldTitle,
@@ -144,7 +145,7 @@ function ReportItem({
 
       <div className="time_report_day_edit">
         <div className={'time_report_day_menu'}>
-          {idEditingWorkItem !== id && (
+          {idEditingWorkItem !== id && isOneProject && (
             <button
               onClick={hanldeClickToggleShowModalChangeProject}
               className="button change_project_button"

@@ -12,6 +12,7 @@ function Day({
   addTimeReport,
   showEmpty,
   isOpenCreate,
+  isOneProject,
 }) {
   const [isCreate, setIsCreate] = useState(true)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
@@ -25,17 +26,18 @@ function Day({
     setIsCreate(true)
   }
 
-  const day = new Date(
-    selectedDate.year,
-    selectedDate.month,
-    numberOfDay
-  )
-  const dayOfWeek = day.getDay();
+  const day = new Date(selectedDate.year, selectedDate.month, numberOfDay)
+  const dayOfWeek = day.getDay()
 
-  const dayTitle = day.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' });
+  const dayTitle = day.toLocaleDateString('en', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
 
-  const todayStr = isOpenCreate ? '(today)' : '';
-  const weekEndClassName = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-danger' : '';
+  const todayStr = isOpenCreate ? '(today)' : ''
+  const weekEndClassName =
+    dayOfWeek === 0 || dayOfWeek === 6 ? 'text-danger' : ''
   const sumHours = descriptions.reduce(
     (sum, item) => (sum = sum + item.duration),
     0
@@ -74,7 +76,13 @@ function Day({
         />
       )}
       {descriptions.map(({ title, duration, id }) => (
-        <ReportItem key={id} text={title} hours={duration} id={id} />
+        <ReportItem
+          key={id}
+          text={title}
+          hours={duration}
+          id={id}
+          isOneProject={isOneProject}
+        />
       ))}
       <FooterDay sumHours={sumHours} />
     </div>

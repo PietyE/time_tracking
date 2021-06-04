@@ -17,7 +17,7 @@ import {
   setDevelopersProjectInProjectReport,
 } from 'actions/projects-report'
 
-export function* getDeveloperConsolidateProjectReport(action) {
+export function* getDeveloperConsolidateProjectReport() {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
@@ -58,7 +58,6 @@ export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `projects/`
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-  console.log('data',data)
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
