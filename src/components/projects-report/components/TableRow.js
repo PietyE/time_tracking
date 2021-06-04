@@ -142,26 +142,40 @@ export default function TableRow({
               )}
             </span>
           </span>
-          <span className="table_cell salary">
-            {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
-          </span>
-          <span className="table_cell rate">{usdFormat.format(rate)}</span>
-          <span className="table_cell hours">
-            {is_full_time ? 'fulltime' : `${hoursString} h`}
-          </span>
-          <span className="table_cell total">
-            {usdFormat.format(total_overtimes || total)}
-          </span>
-          <span className="table_cell total">
-            {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
-          </span>
-          <span className="table_cell to_pay">
-            {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
-          </span>
-          <span className="table_cell coast">
-            {extraClass === 'common' ? UAHFormat.format(total_expenses) : ''}
-          </span>
-          {roleUser !== DEVELOPER && roleUser !== PM && (
+
+          {roleUser !== PM && (
+            <>
+              <span className="table_cell salary">
+                {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
+              </span>
+              <span className="table_cell rate">{usdFormat.format(rate)}</span>
+              <span className="table_cell hours">
+                {is_full_time ? 'fulltime' : `${hoursString} h`}
+              </span>
+              <span className="table_cell total">
+                {usdFormat.format(total_overtimes || total)}
+              </span>
+              <span className="table_cell total">
+                {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
+              </span>
+              <span className="table_cell to_pay">
+                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
+              </span>
+              <span className="table_cell coast">
+                {extraClass === 'common'
+                  ? UAHFormat.format(total_expenses)
+                  : ''}
+              </span>
+            </>
+          )}
+
+          {roleUser === PM && (
+            <span className="table_cell hours">
+              {is_full_time ? 'fulltime' : `${hoursString} h`}
+            </span>
+          )}
+
+          {roleUser !== DEVELOPER && (
             <>
               <span className="table_cell comment">
                 {extraClass === 'common' && comment ? (

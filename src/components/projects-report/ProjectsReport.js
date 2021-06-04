@@ -54,6 +54,8 @@ function ProjectsReport({
 }) {
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
 
+  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
@@ -91,6 +93,7 @@ function ProjectsReport({
                 selectedDeveloper.name !== 'All Developers' ? true : false
               }
               initialChoice={selectedProject}
+
             />
             <Select
               title="choose developer..."
@@ -121,7 +124,7 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
-      <div className="table_container">
+      <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
@@ -149,6 +152,8 @@ function ProjectsReport({
               }
 
               const comment = comments[0] ? comments[0].text : ''
+
+
 
               return (
                 <RenderUser
