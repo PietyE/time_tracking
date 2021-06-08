@@ -25,6 +25,29 @@ const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
 const CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY = 'below'
 const CLASS_NAME_CONTAINER_DAY_CSS_SELECTOR = '.time_report_day_container'
 
+const addClassNameBelowDayContainer = (_day) => {
+  document
+    .querySelectorAll(CLASS_NAME_CONTAINER_DAY_CSS_SELECTOR)
+    .forEach((n) => {
+      if (n.classList.contains(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)) {
+        n.classList.remove(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
+      }
+      if (n.dataset.day === _day) {
+        n.classList.add(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
+      }
+    })
+}
+
+const removeClassNameBelowDayContainer = () => {
+  document
+    .querySelectorAll(CLASS_NAME_CONTAINER_DAY_CSS_SELECTOR)
+    .forEach((n) => {
+      if (n.classList.contains(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)) {
+        n.classList.remove(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
+      }
+    })
+}
+
 function ReportItem({
   text,
   hours,
@@ -123,7 +146,11 @@ function ReportItem({
       moveAt(event.pageX, event.pageY)
 
       const belowNodeDay = (node) => {
-        if (!node) return null
+        if (!node) {
+          _day = null
+          removeClassNameBelowDayContainer()
+          return
+        }
         if (node.dataset.day) {
           _day = node.dataset.day
           return
@@ -135,16 +162,7 @@ function ReportItem({
 
       belowNodeDay(document.elementFromPoint(coord.left, coord.top))
 
-      document
-        .querySelectorAll(CLASS_NAME_CONTAINER_DAY_CSS_SELECTOR)
-        .forEach((n) => {
-          if (n.classList.contains(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)) {
-            n.classList.remove(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
-          }
-          if (n.dataset.day === _day) {
-            n.classList.add(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
-          }
-        })
+      addClassNameBelowDayContainer(_day)
     }
 
     document.addEventListener('mousemove', onMouseMove)
@@ -154,14 +172,8 @@ function ReportItem({
       dragingWorkItem.onmouseup = null
       dragingWorkItem.remove()
       currentWorkItem.classList.remove(CLASS_NAME_SHADOW_WORK_ITEM)
-      document
-        .querySelectorAll(CLASS_NAME_CONTAINER_DAY_CSS_SELECTOR)
-        .forEach((n) => {
-          if (n.classList.contains(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)) {
-            n.classList.remove(CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY)
-          }
-        })
-      if (new Date(date).getDate() !== Number(_day)) {
+      removeClassNameBelowDayContainer()
+      if (_day && new Date(date).getDate() !== Number(_day)) {
         const newDate = new Date(new Date(date).setDate(_day))
         editTimeReport({
           ...editableText,
