@@ -166,10 +166,27 @@ function ReportItem({
     }
 
     document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('touchmove', onMouseMove)
 
     dragingWorkItem.onmouseup = function () {
       document.removeEventListener('mousemove', onMouseMove)
       dragingWorkItem.onmouseup = null
+      dragingWorkItem.remove()
+      currentWorkItem.classList.remove(CLASS_NAME_SHADOW_WORK_ITEM)
+      removeClassNameBelowDayContainer()
+      if (_day && new Date(date).getDate() !== Number(_day)) {
+        const newDate = new Date(new Date(date).setDate(_day))
+        editTimeReport({
+          ...editableText,
+          date: `${newDate.getFullYear()}-${
+            newDate.getMonth() + 1
+          }-${newDate.getDate()}`,
+        })
+      }
+    }
+    dragingWorkItem.touchend = function () {
+      document.removeEventListener('touchmove', onMouseMove)
+      dragingWorkItem.touchend = null
       dragingWorkItem.remove()
       currentWorkItem.classList.remove(CLASS_NAME_SHADOW_WORK_ITEM)
       removeClassNameBelowDayContainer()
@@ -191,7 +208,11 @@ function ReportItem({
       ref={containerRef}
       onDragStart={() => false}
     >
-      <span className="drag_button" onMouseDown={handleDragAndDrop}></span>
+      <span
+        className="drag_button"
+        onMouseDown={handleDragAndDrop}
+        touchstart={handleDragAndDrop}
+      ></span>
       {showModalChangeProject && (
         <ChangeProjectModal
           onClickClose={hanldeClickToggleShowModalChangeProject}
