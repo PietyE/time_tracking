@@ -78,7 +78,6 @@ function* bootstrap() {
 }
 
 function* logIn({ payload: googleData }) {
-  console.dir(arguments);
   try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
@@ -136,7 +135,6 @@ function* handleLoginWithCreds(userData) {
   const {payload, callback} = userData;
   try {
       const response = yield call([users, 'logInWithCredentials'], payload)
-    console.dir(response);
 
       const { data, status } = response
       const { user, token } = data
