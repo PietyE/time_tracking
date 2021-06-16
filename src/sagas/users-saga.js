@@ -1,4 +1,4 @@
-import { put, call, takeEvery } from 'redux-saga/effects'
+import { put, call, takeEvery, select } from 'redux-saga/effects'
 import Api from 'utils/api'
 import api, { users } from 'api'
 import { isEmpty } from 'lodash'
@@ -26,6 +26,7 @@ import {
   UNSET_AUTH_IN_PROGRESS,
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
+import { getAuthInProgressSelector } from '../reducers/profile'
 
 function* bootstrap() {
   try {
@@ -131,6 +132,10 @@ function* logIn({ payload: googleData }) {
 }
 
 function* handleLoginWithCreds(userData) {
+  const isAuthInProgress = yield select(getAuthInProgressSelector);
+  if(isAuthInProgress) {
+    return;
+  }
   yield put(setAuthInProgress());
   const {payload, callback} = userData;
   try {

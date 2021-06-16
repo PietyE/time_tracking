@@ -2,15 +2,19 @@ import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logInWithCredentials } from '../../actions/users'
+import { getAuthInProgressSelector } from '../../reducers/profile'
 
 function SignInWithLogin(props) {
   // eslint-disable-next-line react/prop-types
   const { onClickClose, show } = props
   const dispatch = useDispatch();
-
+  const isAuthInProgress = useSelector(getAuthInProgressSelector);
   const onSubmit = (values, { setSubmitting }) => {
+    if(isAuthInProgress) {
+      return;
+    }
     setSubmitting(true);
    dispatch(logInWithCredentials(values, setSubmitting));
   }

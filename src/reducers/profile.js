@@ -29,3 +29,5 @@ export const profile = (state = initial_state, action) => {
       return state
   }
 }
+
+export const getAuthInProgressSelector = (state) => state.profile.authInProgress;
