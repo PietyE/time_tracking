@@ -1,7 +1,10 @@
 /**User Action Constant */
 export const SET_USER_OAUTH_DATA = 'SET_USER_OAUTH_DATA'
 export const CLEAN_USER_OAUTH_DATA = 'CLEAN_USER_OAUTH_DATA'
+export const SET_AUTH_IN_PROGRESS = '@@profile/SET_AUTH_IN_PROGRESS'
+export const UNSET_AUTH_IN_PROGRESS = '@@profile/UNSET_AUTH_IN_PROGRESS'
 export const LOG_IN = 'LOG_IN'
+export const LOG_IN_WITH_CREDENTIALS = '@@profile/LOG_IN_WITH_CREDENTIALS'
 export const LOG_OUT = 'LOG_OUT'
 export const BOOTSTRAP = 'BOOTSTRAP'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
