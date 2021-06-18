@@ -5,6 +5,9 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
 
 import { setEditMode } from 'actions/times-report'
+import { showAler } from '../../../actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
+import { error } from '../../../reducers/error'
 
 function CreateReportForm({
   addTimeReport,
@@ -13,17 +16,31 @@ function CreateReportForm({
   handlerEndAnimation,
   extraClassName,
   setEditMode,
+  showAler
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
+  const [borderInputClassName, setBorderInputClassName] = useState('');
 
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = () => {
-    if (!text) return
+    if (!text) {
+      setBorderInputClassName('border-danger');
+      showAler({
+        type: DANGER_ALERT,
+        title: 'Task name can not be empty',
+        message: error.message || 'Task name can not be empty',
+        delay: 5000,
+      })
+      return;
+    }
+
+    setBorderInputClassName('');
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
+
 
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
@@ -35,6 +52,10 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
+    console.dir(e.target.value);
+    if (e.target.value) {
+      setBorderInputClassName('');
+    }
     setText(e.target.value)
     const size = e.target.value.split('').length
     setLeftSize(MAX_SIZE - size)
@@ -48,7 +69,7 @@ function CreateReportForm({
   const handlerFocus = (e) => {
     setEditMode(null)
   }
-
+console.dir(borderInputClassName);
   return (
     <div
       className={`time_report_day_row_create ${extraClassName}`}
@@ -59,7 +80,7 @@ function CreateReportForm({
           type="text"
           name="description"
           placeholder="What did you work on?"
-          className="description_input input"
+          className={`description_input input ${borderInputClassName}`}
           value={text}
           onChange={handlerChangeText}
           onFocus={handlerFocus}
@@ -92,6 +113,7 @@ function CreateReportForm({
 
 const actions = {
   setEditMode,
+  showAler
 }
 
 export default connect(null, actions)(memo(CreateReportForm))
