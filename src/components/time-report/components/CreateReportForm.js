@@ -52,7 +52,6 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
-    console.dir(e.target.value);
     if (e.target.value) {
       setBorderInputClassName('');
     }
@@ -69,7 +68,6 @@ function CreateReportForm({
   const handlerFocus = (e) => {
     setEditMode(null)
   }
-console.dir(borderInputClassName);
   return (
     <div
       className={`time_report_day_row_create ${extraClassName}`}
