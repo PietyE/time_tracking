@@ -22,10 +22,23 @@ function CreateReportForm({
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
   const [borderInputClassName, setBorderInputClassName] = useState('');
+  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('');
 
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = () => {
+
+    if (!text && ! hours) {
+      setBorderInputClassName('border-danger');
+      setBorderInputHoursClassName('border-danger');
+      showAler({
+        type: DANGER_ALERT,
+        title: 'Fields can not be empty',
+        message: error.message || 'Fields can not be empty',
+        delay: 5000,
+      })
+      return;
+    }
     if (!text) {
       setBorderInputClassName('border-danger');
       showAler({
@@ -36,6 +49,17 @@ function CreateReportForm({
       })
       return;
     }
+    if (!hours || hours === '0:00') {
+      setBorderInputHoursClassName('border-danger');
+      showAler({
+        type: DANGER_ALERT,
+        title: 'Field of time can not be empty',
+        message: error.message || 'Field of time can not be empty',
+        delay: 5000,
+      })
+      return;
+    }
+
 
     setBorderInputClassName('');
     const [_hour, min] = hours.split(':')
@@ -52,7 +76,6 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
-    console.dir(e.target.value);
     if (e.target.value) {
       setBorderInputClassName('');
     }
@@ -63,13 +86,15 @@ function CreateReportForm({
 
   const handlerChangeHours = (e) => {
     const value = e.target.value
+    if (value) {
+      setBorderInputHoursClassName('');
+    }
     setHours(value)
   }
 
   const handlerFocus = (e) => {
     setEditMode(null)
   }
-console.dir(borderInputClassName);
   return (
     <div
       className={`time_report_day_row_create ${extraClassName}`}
@@ -93,7 +118,7 @@ console.dir(borderInputClassName);
         <InputMask
           placeholder="HH"
           maskPlaceholder="0"
-          className="hours_input input"
+          className={`hours_input input ${borderInputHoursClassName}`}
           value={hours}
           onChange={handlerChangeHours}
           mask="9:99"
