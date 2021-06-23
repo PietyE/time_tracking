@@ -61,6 +61,9 @@ export default function TableRow({
   })
 
   const handlerEditClick = (e) => {
+    if (e.target.type === 'checkbox') {
+      return
+    }
     e.stopPropagation()
     const userID = e.currentTarget.dataset.userid
     setEditUserId(userID)
