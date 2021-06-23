@@ -16,55 +16,63 @@ function CreateReportForm({
   handlerEndAnimation,
   extraClassName,
   setEditMode,
-  showAler
+  showAler,
+  sumHours,
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
-  const [borderInputClassName, setBorderInputClassName] = useState('');
-  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('');
+  const [borderInputClassName, setBorderInputClassName] = useState('')
+  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = () => {
-
-    if (!text && ! hours) {
-      setBorderInputClassName('border-danger');
-      setBorderInputHoursClassName('border-danger');
+    const [_hour, min] = hours.split(':')
+    const takeTime = _hour ? +_hour * 60 + +min : +min
+    if (!text && !hours) {
+      setBorderInputClassName('border-danger')
+      setBorderInputHoursClassName('border-danger')
       showAler({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
         message: error.message || 'Fields can not be empty',
         delay: 5000,
       })
-      return;
+      return
     }
     if (!text) {
-      setBorderInputClassName('border-danger');
+      setBorderInputClassName('border-danger')
       showAler({
         type: DANGER_ALERT,
         title: 'Task name can not be empty',
         message: error.message || 'Task name can not be empty',
         delay: 5000,
       })
-      return;
+      return
     }
     if (!hours || hours === '0:00') {
-      setBorderInputHoursClassName('border-danger');
+      setBorderInputHoursClassName('border-danger')
       showAler({
         type: DANGER_ALERT,
         title: 'Field of time can not be empty',
         message: error.message || 'Field of time can not be empty',
         delay: 5000,
       })
-      return;
+      return
+    }
+    if (sumHours + takeTime > 1440) {
+      setBorderInputHoursClassName('border-danger')
+      showAler({
+        type: DANGER_ALERT,
+        title: 'Time limit exceeded',
+        message: error.message || 'You can not log more than 24 hours per day',
+        delay: 5000,
+      })
+      return
     }
 
-
-    setBorderInputClassName('');
-    const [_hour, min] = hours.split(':')
-    const takeTime = _hour ? +_hour * 60 + +min : +min
-
+    setBorderInputClassName('')
 
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
@@ -77,7 +85,7 @@ function CreateReportForm({
 
   const handlerChangeText = (e) => {
     if (e.target.value) {
-      setBorderInputClassName('');
+      setBorderInputClassName('')
     }
     setText(e.target.value)
     const size = e.target.value.split('').length
@@ -87,12 +95,12 @@ function CreateReportForm({
   const handlerChangeHours = (e) => {
     const value = e.target.value
     if (value) {
-      setBorderInputHoursClassName('');
+      setBorderInputHoursClassName('')
     }
     setHours(value)
   }
 
-  const handlerFocus = (e) => {
+  const handlerFocus = () => {
     setEditMode(null)
   }
   return (
@@ -138,7 +146,7 @@ function CreateReportForm({
 
 const actions = {
   setEditMode,
-  showAler
+  showAler,
 }
 
 export default connect(null, actions)(memo(CreateReportForm))

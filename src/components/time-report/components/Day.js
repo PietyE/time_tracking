@@ -73,6 +73,7 @@ function Day({
           isOpenCreate={isOpenCreate}
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
+          sumHours={sumHours}
         />
       )}
       {descriptions.map(({ title, duration, id }) => (
