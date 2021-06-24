@@ -1,11 +1,12 @@
-import { put, call, takeEvery } from 'redux-saga/effects'
+import { put, call, takeEvery, select } from 'redux-saga/effects'
 import Api from 'utils/api'
+import api, { users } from 'api'
 import { isEmpty } from 'lodash'
 import {
   setUsersOauthData,
   cleanUserOauthData,
   setAuthStatus,
-  setFetchingProfileStatus,
+  setFetchingProfileStatus, setAuthInProgress, unsetAuthInProgress,
 } from 'actions/users'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
@@ -20,8 +21,12 @@ import {
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
   SET_EDITED_COST,
+  LOG_IN_WITH_CREDENTIALS,
+  SET_AUTH_IN_PROGRESS,
+  UNSET_AUTH_IN_PROGRESS,
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
+import { getAuthInProgressSelector } from '../reducers/profile'
 
 function* bootstrap() {
   try {
@@ -38,16 +43,15 @@ function* bootstrap() {
         key: access_token,
         expiration_timestamp: expires_at,
         user: id,
-        date_create,
         ...googleData
       } = data_user
 
       const nowTime = Math.floor(new Date().getTime() / 1000)
 
       if (access_token && expires_at && nowTime < expires_at) {
-        const URL = `users/${id}/`
+        yield call([api, 'setToken'], access_token)
 
-        const response = yield call([Api, 'users'], URL)
+        const response = yield call([users, 'one'], id)
 
         if (isEmpty(response)) {
           yield put(setAuthStatus(false))
@@ -76,8 +80,6 @@ function* bootstrap() {
 
 function* logIn({ payload: googleData }) {
   try {
-    const url = 'users/auth/social/google/authorize/'
-
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
         throw new Error(googleData.error)
@@ -85,7 +87,9 @@ function* logIn({ payload: googleData }) {
 
       const google_token = googleData.tokenId
 
-      const response = yield call([Api, 'login'], url, google_token)
+      const response = yield call([users, 'googleAuth'], {
+        token: google_token,
+      })
 
       const { data, status } = response
       const { user, token } = data
@@ -110,6 +114,7 @@ function* logIn({ payload: googleData }) {
       const authData = JSON.stringify(userObjforLocalStorage)
 
       yield call([localStorage, 'setItem'], 'user_auth_data', authData)
+      yield call([api, 'setToken'], authData.key)
     } else {
       throw new Error()
     }
@@ -126,10 +131,58 @@ function* logIn({ payload: googleData }) {
   }
 }
 
+function* handleLoginWithCreds(userData) {
+  const isAuthInProgress = yield select(getAuthInProgressSelector);
+  if(isAuthInProgress) {
+    return;
+  }
+  yield put(setAuthInProgress());
+  const {payload, callback} = userData;
+  try {
+      const response = yield call([users, 'logInWithCredentials'], payload)
+
+      const { data, status } = response
+      const { user, token } = data
+      if (status !== 200) {
+        throw new Error()
+      }
+      const userObjforState = {
+        ...user,
+      }
+
+      const userObjforLocalStorage = {
+        ...token,
+        name: user.name,
+      }
+
+      yield put(setUsersOauthData(userObjforState))
+      yield put(setAuthStatus(true))
+
+
+      const authData = JSON.stringify(userObjforLocalStorage)
+
+      yield call([localStorage, 'setItem'], 'user_auth_data', authData)
+      yield call([api, 'setToken'], authData.key)
+
+  } catch (error) {
+    callback(false);
+    yield put(setAuthStatus(false))
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  } finally {
+    yield put (unsetAuthInProgress())
+  }
+}
+
 function* logOut() {
   try {
-    const url = 'users/auth/logout/'
-    yield call([Api, 'logout'], url)
+    yield call([users, 'logOut'])
   } finally {
     yield put(cleanUserOauthData())
     yield put(setAuthStatus(false))
@@ -139,8 +192,7 @@ function* logOut() {
 
 function* setUserSalary({ payload }) {
   try {
-    const URL = 'users/salary/'
-    yield call([Api, 'saveNewSalary'], URL, payload)
+    yield call([users, 'createUserSalary'], payload)
 
     yield put(
       showAler({
@@ -164,8 +216,7 @@ function* setUserSalary({ payload }) {
 
 function* setUserRate({ payload }) {
   try {
-    const URL = 'users/rate/'
-    yield call([Api, 'saveNewRate'], URL, payload)
+    yield call([users, 'createUserRate'], payload)
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -186,6 +237,23 @@ function* setUserRate({ payload }) {
   }
 }
 
+function* setProcessedStatus({ payload }) {
+  try {
+    yield call([users, 'toggleProcessedStatus'], payload)
+    yield put(getDeveloperConsolidateProjectReport())
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
+/////////// ref
 function* setUserCost({ payload }) {
   try {
     const URL = 'expenses/'
@@ -213,7 +281,7 @@ function* setUserCost({ payload }) {
 function* setEditedCost({ payload }) {
   try {
     const { expenseId, ...data } = payload
-    const URL = `expenses/${expenseId}`
+    const URL = `expenses/${expenseId}/`
     yield call([Api, 'saveEditedCost'], URL, data)
     yield put(
       showAler({
@@ -284,28 +352,11 @@ function* setEditedComment({ payload }) {
   }
 }
 
-function* setProcessedStatus({ payload }) {
-  try {
-    const { userId, month, year } = payload
-    const URL = `users/${userId}/toggle-processed-status/${year}/${month + 1}/`
-    yield call([Api, 'toggleProcessedStatus'], URL)
-    yield put(getDeveloperConsolidateProjectReport())
-  } catch (error) {
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      })
-    )
-  }
-}
-
 export function* watchGetUserAsync() {
   yield takeEvery(BOOTSTRAP, bootstrap)
   yield takeEvery(LOG_IN, logIn)
   yield takeEvery(LOG_OUT, logOut)
+  yield takeEvery(LOG_IN_WITH_CREDENTIALS, handleLoginWithCreds)
   yield takeEvery(SET_NEW_SALARY, setUserSalary)
   yield takeEvery(SET_NEW_RATE, setUserRate)
   yield takeEvery(SET_NEW_COST, setUserCost)
@@ -313,4 +364,6 @@ export function* watchGetUserAsync() {
   yield takeEvery(SET_NEW_COMMENT, setUserComment)
   yield takeEvery(SET_EDITED_COMMENT, setEditedComment)
   yield takeEvery(SET_PROCESSED_STATUS, setProcessedStatus)
+  yield takeEvery(SET_AUTH_IN_PROGRESS, setAuthInProgress)
+  yield takeEvery(UNSET_AUTH_IN_PROGRESS, unsetAuthInProgress)
 }

@@ -54,6 +54,8 @@ function ProjectsReport({
 }) {
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
 
+  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
@@ -68,6 +70,7 @@ function ProjectsReport({
     }
     getDeveloperConsolidateProjectReport()
   }, [])
+
   return (
     <div className="container project_report_container">
       {isOpenEdit && (
@@ -77,7 +80,7 @@ function ProjectsReport({
         {roleUser !== DEVELOPER && roleUser !== PM && (
           <div className="project_report_header_choice">
             <Select
-              title="choose you project..."
+              title="choose your project..."
               extraClassContainer="project_select_container"
               listItems={allProjects}
               valueKey="name"
@@ -86,8 +89,11 @@ function ProjectsReport({
               onSelected={setSelectedProjectInProjectReports}
               // onClear={clearSelectedProjectInProjectReports}
               // disabled={!_.isEmpty(selectedDeveloper)}
-              disabled={selectedDeveloper.name !== 'All Developers' ? true : false }
+              disabled={
+                selectedDeveloper.name !== 'All Developers' ? true : false
+              }
               initialChoice={selectedProject}
+
             />
             <Select
               title="choose developer..."
@@ -99,7 +105,7 @@ function ProjectsReport({
               onSelected={setSelectedDeveloper}
               // disabled={!_.isEmpty(selectedProject)}
               // onClear={clearDeveloperSelected}
-              disabled={selectedProject.name !== 'All Projects' ? true : false }
+              disabled={selectedProject.name !== 'All Projects' ? true : false}
               initialChoice={selectedDeveloper}
             />
           </div>
@@ -118,7 +124,7 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
-      <div className="table_container">
+      <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
@@ -146,6 +152,8 @@ function ProjectsReport({
               }
 
               const comment = comments[0] ? comments[0].text : ''
+
+
 
               return (
                 <RenderUser

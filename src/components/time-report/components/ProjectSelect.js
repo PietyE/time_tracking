@@ -2,15 +2,13 @@ import React, { memo } from 'react'
 
 import Select from 'components/ui/select'
 
-function ProjectSelect({
-  projectList,
-  selectProject,
-  selectedProject,
-  clearSelectedProject,
-}) {
+function ProjectSelect(props) {
+  const { projectList, selectProject, selectedProject, clearSelectedProject } =
+    props
+
   return (
     <Select
-      title="choose you project..."
+      title="choose your project..."
       listItems={projectList}
       onSelected={selectProject}
       valueKey="name"
@@ -18,6 +16,7 @@ function ProjectSelect({
       extraClassContainer={'project_select'}
       initialChoice={selectedProject}
       onClear={clearSelectedProject}
+      disabled={!projectList?.length}
     />
   )
 }

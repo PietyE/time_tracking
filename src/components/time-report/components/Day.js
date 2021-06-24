@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect } from 'react'
+import React, { useState, memo } from 'react'
 
 import HeaderDay from './HeaderDay'
 import CreateReportForm from './CreateReportForm'
@@ -12,6 +12,7 @@ function Day({
   addTimeReport,
   showEmpty,
   isOpenCreate,
+  isOneProject,
 }) {
   const [isCreate, setIsCreate] = useState(true)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
@@ -25,14 +26,18 @@ function Day({
     setIsCreate(true)
   }
 
-  const dayTitle = new Date(
-    selectedDate.year,
-    selectedDate.month,
-    numberOfDay
-  ).toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' })
+  const day = new Date(selectedDate?.year, selectedDate?.month, numberOfDay)
+  const dayOfWeek = day.getDay()
+
+  const dayTitle = day.toLocaleDateString('en', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  })
 
   const todayStr = isOpenCreate ? '(today)' : ''
-
+  const weekEndClassName =
+    dayOfWeek === 0 || dayOfWeek === 6 ? 'text-danger' : ''
   const sumHours = descriptions.reduce(
     (sum, item) => (sum = sum + item.duration),
     0
@@ -45,21 +50,18 @@ function Day({
     }
   }
 
-  // useEffect(() => {
-  //   setIsCreate(isOpenCreate)
-  // }, [selectedDate, isOpenCreate])
-
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null
   }
   return (
-    <div className="time_report_day_container">
+    <div className="time_report_day_container" data-day={numberOfDay}>
       <HeaderDay
         handlerAddDayReport={handlerAddDayReport}
         isCreate={isCreate}
         dayTitle={dayTitle}
         todayStr={todayStr}
         classNameForEndAnimation={classNameForEndAnimation}
+        weekEndClassName={weekEndClassName}
       />
       {isCreate && (
         <CreateReportForm
@@ -71,10 +73,17 @@ function Day({
           isOpenCreate={isOpenCreate}
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
+          sumHours={sumHours}
         />
       )}
       {descriptions.map(({ title, duration, id }) => (
-        <ReportItem key={id} text={title} hours={duration} id={id} />
+        <ReportItem
+          key={id}
+          text={title}
+          hours={duration}
+          id={id}
+          isOneProject={isOneProject}
+        />
       ))}
       <FooterDay sumHours={sumHours} />
     </div>

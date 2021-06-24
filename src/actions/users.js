@@ -14,6 +14,7 @@ import {
   SET_NEW_COMMENT,
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
+  LOG_IN_WITH_CREDENTIALS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS,
 } from 'constants/actions-constant'
 
 export const setUsersOauthData = (payload) => ({
@@ -34,9 +35,23 @@ export const bootstrap = () => ({
   type: BOOTSTRAP,
 })
 
+export const setAuthInProgress = () => ({
+  type: SET_AUTH_IN_PROGRESS,
+})
+
+export const unsetAuthInProgress = () => ({
+  type: UNSET_AUTH_IN_PROGRESS,
+})
+
 export const logIn = (payload) => ({
   type: LOG_IN,
   payload,
+})
+
+export const logInWithCredentials = (payload, callback) => ({
+  type: LOG_IN_WITH_CREDENTIALS,
+  payload,
+  callback
 })
 
 export const logOut = () => ({
