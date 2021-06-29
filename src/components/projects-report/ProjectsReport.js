@@ -34,7 +34,6 @@ import {
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
-import { getIsFetchingReport } from '../../selectors/timereports'
 
 function ProjectsReport({
   roleUser,
@@ -54,7 +53,7 @@ function ProjectsReport({
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
-  // isFetchingReports
+  isFetchingReports
 }) {
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
 
@@ -63,7 +62,6 @@ function ProjectsReport({
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
-  const isFetchingReports = useSelector(getIsFetchingProjectsReport)
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
@@ -75,7 +73,6 @@ function ProjectsReport({
     }
     getDeveloperConsolidateProjectReport()
   }, [])
-console.dir(isFetchingReports)
   return (
     <>
       {isFetchingReports && <Spinner />}
@@ -182,6 +179,7 @@ console.dir(isFetchingReports)
                   total_uah={total_uah}
                   is_processed={is_processed}
                   setProcessedStatus={setProcessedStatus}
+                  isFetchingReports={isFetchingReports}
                 />
               )
             })}
@@ -211,6 +209,7 @@ const RenderUser = ({
   total_uah,
   is_processed,
   setProcessedStatus,
+  isFetchingReports
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -253,6 +252,7 @@ const RenderUser = ({
         setProcessedStatus={setProcessedStatus}
         selectedDate={selectedDate}
         isOpen={isOpen}
+        isFetchingReports={isFetchingReports}
       />
       {projects.map((project) => {
         return (
@@ -281,7 +281,7 @@ const mapStateToProps = (state) => ({
   selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
   selectedProject: getSelectedProjectSelector(state),
   editingUserId: getEditingUserIdSelector(state),
-  // isFetchingReports: getIsFetchingReport(state),
+  isFetchingReports: getIsFetchingProjectsReport(state),
 })
 
 const actions = {

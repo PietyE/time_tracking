@@ -33,6 +33,7 @@ export default function TableRow({
   is_processed,
   setProcessedStatus,
   isOpen,
+  isFetchingReports
 }) {
   const {
     working_time: hours,
@@ -97,6 +98,9 @@ export default function TableRow({
   }
 
   const handlerChangeProcessedStatusInput = (e) => {
+    if (isFetchingReports) {
+      return;
+    }
     e.stopPropagation()
     setProcessedStatus({
       id: userId,
