@@ -139,6 +139,13 @@ class Api {
       method: 'post',
     })
   }
+
+  getCurrenciesList = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
+
 
 export default new Api()

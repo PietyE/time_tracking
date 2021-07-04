@@ -16,6 +16,7 @@ import {
   getProfileName,
   getProfileEmail,
 } from 'selectors/user'
+import { getCurrenciesList } from '../actions/currency'
 
 function MainScreen({
   isAuth,
@@ -25,6 +26,7 @@ function MainScreen({
   profileName,
   profileId,
   profileEmail,
+  getCurrenciesList
 }) {
   useEffect(() => {
     if (isAuth) {
@@ -34,8 +36,11 @@ function MainScreen({
           name: profileName,
           email: profileEmail,
         })
+        getCurrenciesList()
+
       } else {
         getDeveloperProjects()
+
       }
     }
   }, [])
@@ -60,6 +65,7 @@ const actions = {
   getProjects,
   getDeveloperProjects,
   selectDevelopers,
+  getCurrenciesList
 }
 
 const mapStateToProps = (state) => ({
