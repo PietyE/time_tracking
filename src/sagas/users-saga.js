@@ -187,6 +187,7 @@ function* logOut() {
     yield put(cleanUserOauthData())
     yield put(setAuthStatus(false))
     yield call([localStorage, 'clear'])
+    yield call([api, 'deleteToken'])
   }
 }
 
