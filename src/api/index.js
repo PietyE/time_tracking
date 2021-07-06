@@ -34,6 +34,9 @@ class Client {
   setToken(token) {
     this.token = token
   }
+  deleteToken() {
+    delete this.token
+  }
 }
 
 const api = new Client(_baseURL)
