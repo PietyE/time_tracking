@@ -34,6 +34,7 @@ import {
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
+
 function ProjectsReport({
   roleUser,
   selectedDate,

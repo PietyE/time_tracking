@@ -52,6 +52,9 @@ function SelectMonth({
   const handlerSelectPrevMonth = (e) => {
     e.preventDefault()
     if (currentMonth === 0) {
+    if(currentYear === 2010){
+       return
+    }
       setCurrentMonth(11)
       setNewData({ month: 11, year: currentYear - 1 })
       setCurrentYear(currentYear - 1)
