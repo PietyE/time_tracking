@@ -145,6 +145,12 @@ class Api {
       url,
     })
   }
+
+  getRatesList = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
 
 
