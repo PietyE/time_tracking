@@ -52,11 +52,17 @@ export const projectsReport = (state = initialState, action) => {
     case SET_PROCESSED_STATUS:
       return { ...state, isFetchingReports: true }
     case SET_SELECTED_DEVELOPER:
-      return { ...state, selectedDeveloper: action.payload }
+      return {
+        ...state,
+        isFetchingReports: true,
+        selectedDeveloper: action.payload }
     case CLEAR_SELECTED_DEVELOPER:
       return { ...state, selectedDeveloper: initialState.selectedDeveloper }
     case SET_SELECTED_PROJECT_PROJECTREPORTS:
-      return { ...state, selectedProject: action.payload }
+      return {
+        ...state,
+        isFetchingReports: true,
+        selectedProject: action.payload }
     case CLEAR_SELECTED_PROJECT_PROJECTREPORTS:
       return {
         ...state,

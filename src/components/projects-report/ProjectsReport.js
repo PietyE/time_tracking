@@ -34,6 +34,7 @@ import {
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
+import { getIsFetchingReport } from '../../selectors/timereports'
 
 function ProjectsReport({
   roleUser,
@@ -187,7 +188,7 @@ function ProjectsReport({
         </div>
       </div>
     </div>
-      </>
+    </>
   )
 }
 

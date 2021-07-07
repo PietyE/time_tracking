@@ -62,6 +62,7 @@ export default function TableRow({
   })
 
   const handlerEditClick = (e) => {
+
     if (e.target.type === 'checkbox') {
       return
     }
