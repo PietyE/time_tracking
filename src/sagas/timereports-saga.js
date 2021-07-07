@@ -98,6 +98,8 @@ export function* workerTimeReports() {
 }
 
 export function* addTimeReport({ payload }) {
+  yield put(setIsFetchingReports(true))
+
   const { selectedProject } = yield select((state) => state.timereports)
 
   const URL_WORK_ITEMS = `work_items/`
@@ -130,15 +132,21 @@ export function* addTimeReport({ payload }) {
   })
 
   yield put(setTimeReports({ items: newTimereport }))
+  yield put(setIsFetchingReports(false))
+
 }
 
 export function* deleteTimeReport({ payload: id }) {
+  yield put(setIsFetchingReports(true))
+
   const URL = `work_items/${id}/`
   const {
     reports: { items },
   } = yield select((state) => state.timereports)
   const newTimereport = items.filter((item) => item.id !== id)
   const { status } = yield call([Api, 'deleteWorkItem'], URL)
+  yield put(setIsFetchingReports(false))
+
   if (status === 204) {
     yield put(setTimeReports({ items: newTimereport }))
     yield put(
@@ -152,6 +160,8 @@ export function* deleteTimeReport({ payload: id }) {
 }
 
 export function* editTimeReport({ payload }) {
+  yield put(setIsFetchingReports(true))
+
   try {
     const {
       reports: { items = [] },
@@ -175,6 +185,7 @@ export function* editTimeReport({ payload }) {
         newItems.splice(indexEdited, 1, data)
         yield put(setTimeReports({ items: newItems }))
       }
+      yield put(setIsFetchingReports(false))
 
       yield put(
         showAler({

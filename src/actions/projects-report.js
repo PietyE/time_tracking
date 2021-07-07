@@ -10,6 +10,7 @@ import {
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EDIT_USER_ID,
   SET_EXCHANGE_RATES,
+  SET_IS_FETCHING_PROJECT_REPORTS,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -61,5 +62,10 @@ export const setEditUserId = (payload) => ({
 
 export const setExchangeRates = (payload) => ({
   type: SET_EXCHANGE_RATES,
+  payload,
+})
+
+export const setIsFetchingReports = (payload) => ({
+  type: SET_IS_FETCHING_PROJECT_REPORTS,
   payload,
 })
