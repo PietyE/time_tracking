@@ -3,10 +3,6 @@ import Api from 'utils/api'
 import {
   GET_CURRENCIES_LIST,
   GET_RATES_LIST,
-  SET_ERROR_CURRENCIES_LIST,
-  SET_ERROR_RATES_LIST,
-  SET_SUCCESS_CURRENCIES_LIST,
-  SET_SUCCESS_RATES_LIST,
 } from 'constants/actions-constant'
 import {
   setErrorCurrenciesList,
@@ -17,7 +13,7 @@ import {
 import { currencyListMapper, ratesListMapper } from '../utils/currencyApiResponseMapper'
 
 
-export function* getCurrenciesList() {
+export function* handleGetCurrenciesList() {
   try {
     const URL_CURRENCIES_LIST = 'currencies/'
     const response = yield call([Api, 'getCurrenciesList'], URL_CURRENCIES_LIST)
@@ -28,7 +24,7 @@ export function* getCurrenciesList() {
   }
 }
 
-export function* getRatesList() {
+export function* handleGetRatesList() {
   try {
     const URL_RATES_LIST = 'exchange_rates/'
     const response = yield call([Api, 'getRatesList'], URL_RATES_LIST)
@@ -41,11 +37,7 @@ export function* getRatesList() {
 }
 
 export function* watchCurrencies() {
-  yield takeEvery(GET_CURRENCIES_LIST, getCurrenciesList)
-  yield takeEvery(SET_SUCCESS_CURRENCIES_LIST, setSuccessCurrenciesList)
-  yield takeEvery(SET_ERROR_CURRENCIES_LIST, setErrorCurrenciesList)
-  yield takeEvery(GET_RATES_LIST, getRatesList)
-  yield takeEvery(SET_SUCCESS_RATES_LIST, setSuccessRatesList)
-  yield takeEvery(SET_ERROR_RATES_LIST, setErrorRatesList)
+  yield takeEvery(GET_CURRENCIES_LIST, handleGetCurrenciesList)
+  yield takeEvery(GET_RATES_LIST, handleGetRatesList)
 }
 

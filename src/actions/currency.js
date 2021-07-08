@@ -8,9 +8,8 @@ import {
 } from 'constants/actions-constant'
 
 
-export const getCurrenciesList = (payload) => ({
+export const getCurrenciesList = () => ({
   type: GET_CURRENCIES_LIST,
-  payload,
 })
 
 export const setSuccessCurrenciesList = (payload) => ({
@@ -22,9 +21,8 @@ export const setErrorCurrenciesList = () => ({
   type: SET_ERROR_CURRENCIES_LIST,
  })
 
-export const getRatesList = (payload) => ({
+export const getRatesList = () => ({
   type: GET_RATES_LIST,
-  payload,
 })
 
 export const setSuccessRatesList = (payload) => ({

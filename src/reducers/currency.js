@@ -18,12 +18,14 @@ const initialState = {
   successFetchRatesList: false,
 }
 
-export const currency = (state = initialState, action) => {
+export const currencies = (state = initialState, action) => {
   switch (action.type) {
     case GET_CURRENCIES_LIST:
       return {
         ...state,
-        isFetchingCurrenciesList: true
+        isFetchingCurrenciesList: true,
+        errorFetchCurrenciesList: false,
+        successFetchCurrenciesList: false
       }
     case SET_SUCCESS_CURRENCIES_LIST:
       return {
@@ -41,7 +43,11 @@ export const currency = (state = initialState, action) => {
       }
     case GET_RATES_LIST:
       return {
-        ...state, isFetchingRatesList: true
+        ...state,
+        isFetchingRatesList: true,
+        errorFetchRatesList: false,
+        successFetchRatesList: false
+
       }
     case SET_SUCCESS_RATES_LIST:
       return {
@@ -51,7 +57,8 @@ export const currency = (state = initialState, action) => {
         ratesList: action.payload
       }
     case SET_ERROR_RATES_LIST:
-      return { ...state,
+      return {
+        ...state,
         errorFetchRatesList: true,
         isFetchingRatesList: false,
         successFetchRatesList: false,
