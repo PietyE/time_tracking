@@ -9,6 +9,12 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
 
   const handleChangeValue = (event) => {
     const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '')
+    if(filteredStr !== Number(prevValue)){
+      setIsEdit(true)
+    }
+    // if(filteredStr === ''){
+    //   setIsEdit(false)
+    // }
     setIsvalue(filteredStr)
   }
 
