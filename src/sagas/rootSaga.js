@@ -5,6 +5,7 @@ import { watchshowAlert } from './alert-saga'
 import { watchErrorAlert } from './error-saga'
 import { watchTimereports } from './timereports-saga'
 import { watchDeveloperProjects } from './projectreport-saga'
+import { watchProjectsManagement } from './projectsmanagement-saga'
 
 export function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export function* rootSaga() {
     watchErrorAlert(),
     watchTimereports(),
     watchDeveloperProjects(),
+    watchProjectsManagement(),
   ])
 }
