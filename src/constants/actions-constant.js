@@ -72,3 +72,12 @@ export const SELECT_DEVELOPERS = 'SELECT_DEVELOPERS'
 
 /** Processing to locations */
 export const LOCATION_PROCESSING = 'LOCATION_PROCESSING'
+
+/** Currency */
+export const GET_CURRENCIES_LIST = '@@currency/GET_CURRENCIES_LIST'
+export const SET_SUCCESS_CURRENCIES_LIST = '@@currency/SET_SUCCESS_CURRENCIES_LIST'
+export const SET_ERROR_CURRENCIES_LIST = '@@currency/SET_ERROR_CURRENCIES_LIST'
+export const GET_RATES_LIST = '@@currency/GET_RATES_LIST'
+export const SET_SUCCESS_RATES_LIST = '@@currency/SET_SUCCESS_RATES_LIST'
+export const SET_ERROR_RATES_LIST = '@@currency/SET_ERROR_RATES_LIST'
+
