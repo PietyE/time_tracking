@@ -11,17 +11,15 @@ import {
   setSuccessCurrenciesList,
   setSuccessRatesList,
 } from 'actions/currency'
-import { currencyListMapper } from '../utils/CyrrencyApiResponsMaper'
+import { currencyListMapper, ratesListMapper } from '../utils/currencyApiResponseMapper'
 
 
 export function* getCurrenciesList() {
   try {
     const URL_CURRENCIES_LIST = `currencies/`
     const response = yield call([Api, 'getCurrenciesList'], URL_CURRENCIES_LIST)
-    const currenciesArray = response.data;
-    const mapperResponse = currencyListMapper(currenciesArray);
-    console.dir(mapperResponse);
-    yield put(setSuccessCurrenciesList(currenciesArray))
+    const mapperResponse = currencyListMapper(response);
+    yield put(setSuccessCurrenciesList(mapperResponse))
   } catch (error) {
     yield put (setErrorCurrenciesList)
   }
@@ -30,9 +28,10 @@ export function* getCurrenciesList() {
 export function* getRatesList() {
   try {
     const URL_RATES_LIST = `exchange_rates/`
-    const rateList = yield call([Api, 'getRatesList'], URL_RATES_LIST)
-    console.dir(rateList);
-    yield put(setSuccessRatesList(rateList))
+    const response = yield call([Api, 'getRatesList'], URL_RATES_LIST)
+    const mapperResponse = ratesListMapper(response);
+    console.dir(mapperResponse);
+    yield put(setSuccessRatesList(mapperResponse))
   } catch (error) {
     yield put (setErrorRatesList)
   }

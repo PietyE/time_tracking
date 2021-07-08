@@ -2,7 +2,9 @@ import {
   GET_CURRENCIES_LIST,
   SET_SUCCESS_CURRENCIES_LIST,
   SET_ERROR_CURRENCIES_LIST,
-  GET_RATES_LIST, SET_SUCCESS_RATES_LIST,
+  GET_RATES_LIST,
+  SET_SUCCESS_RATES_LIST,
+  SET_ERROR_RATES_LIST,
 } from '../constants/actions-constant'
 
 const initialState = {
@@ -42,6 +44,12 @@ export const currencyList = (state = initialState, action) => {
         isFetchingRatesList: false,
         successFetchRatesList: true,
         ratesList: action.payload
+      }
+    case SET_ERROR_RATES_LIST:
+      return { ...state,
+        errorFetchRatesList: true,
+        isFetchingRatesList: false,
+        successFetchRatesList: false,
       }
     default:
       return state
