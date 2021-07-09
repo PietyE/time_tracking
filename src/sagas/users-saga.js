@@ -86,7 +86,7 @@ function* logIn({ payload: googleData }) {
       }
 
       const google_token = googleData.tokenId
-
+      yield call([api, 'deleteToken'])
       const response = yield call([users, 'googleAuth'], {
         token: google_token,
       })
