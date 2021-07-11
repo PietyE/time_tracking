@@ -34,7 +34,6 @@ const EditUserModal = (props) => {
     setEditedComment,
     setEditedCost,
   } = props
-
   const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
 
   const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
@@ -155,14 +154,17 @@ const EditUserModal = (props) => {
         <ModalRow>
           <ModalTitle title={`Salary ($): `} />
           <ModalInput
-            prevValue={editingUser.current_salary}
+            // prevValue={editingUser.current_salary}
+            prevValue={editingUser.salary_uah}
+
             handleSaveChange={handlerOnClickSaveNewSalary}
           />
         </ModalRow>
         <ModalRow>
           <ModalTitle title={`Rate ($): `} />
           <ModalInput
-            prevValue={editingUser.current_rate}
+            // prevValue={editingUser.current_rate}
+            prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
           />
         </ModalRow>

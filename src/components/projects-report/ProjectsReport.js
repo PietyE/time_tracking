@@ -56,7 +56,6 @@ function ProjectsReport({
   isFetchingReports
 }) {
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
-
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
@@ -136,8 +135,10 @@ function ProjectsReport({
               const {
                 name,
                 developer_projects,
-                current_rate,
-                current_salary,
+                // current_rate,
+                rate_uah,
+                // current_salary,
+                salary_uah,
                 id,
                 total_expenses,
                 total_overtimes,
@@ -164,8 +165,10 @@ function ProjectsReport({
                   commonProjectsInfo={commonProjectsInfo}
                   projects={developer_projects}
                   name={name}
-                  rate={current_rate}
-                  projectSalary={current_salary}
+                  // rate={current_rate}
+                  rate={rate_uah}
+                  // projectSalary={current_salary}
+                  projectSalary={salary_uah}
                   key={id}
                   userId={id}
                   selectedDate={selectedDate}
