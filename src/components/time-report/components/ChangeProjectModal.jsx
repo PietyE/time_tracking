@@ -28,6 +28,7 @@ const ChangeProjectModal = ({ onClickClose, editableWorkItem }) => {
         developer_project: selectedProject?.developer_project_id,
       })
     )
+    onClickClose();
   }, [dispatch, editableWorkItem, selectedProject])
 
   return (
