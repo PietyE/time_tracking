@@ -215,6 +215,9 @@ function* setUserSalary({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setUserRate({ payload }) {
@@ -240,6 +243,9 @@ function* setUserRate({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setProcessedStatus({ payload }) {
@@ -248,7 +254,8 @@ function* setProcessedStatus({ payload }) {
     yield call([users, 'toggleProcessedStatus'], payload)
     yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
-  } catch (error) {
+  }
+  catch (error) {
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -258,7 +265,11 @@ function* setProcessedStatus({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
+
 
 /////////// ref
 function* setUserCost({ payload }) {
@@ -285,6 +296,9 @@ function* setUserCost({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setEditedCost({ payload }) {
@@ -303,6 +317,8 @@ function* setEditedCost({ payload }) {
     yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
+    yield put(setIsFetchingReports(false))
+
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -311,6 +327,9 @@ function* setEditedCost({ payload }) {
         delay: 6000,
       })
     )
+  }
+  finally {
+    yield put(setIsFetchingReports(false))
   }
 }
 
@@ -338,6 +357,9 @@ function* setUserComment({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setEditedComment({ payload }) {
@@ -364,6 +386,9 @@ function* setEditedComment({ payload }) {
         delay: 6000,
       })
     )
+  }
+  finally {
+    yield put(setIsFetchingReports(false))
   }
 }
 
