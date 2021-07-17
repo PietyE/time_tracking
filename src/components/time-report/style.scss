@@ -107,7 +107,9 @@
     box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
     border-radius: 5px;
     padding: 10px;
-
+    &.below {
+      box-shadow: 0 0 5px 2px rgba(201, 234, 122, 0.5);
+    }
     .time_report_day_header {
       display: flex;
       justify-content: space-between;
@@ -227,141 +229,6 @@
         .pencil_icon {
           color: #fff;
           font-size: 22px;
-        }
-      }
-    }
-    .time_report_day_row {
-      padding: 10px 5px 10px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      min-height: 60px;
-      border: 1px solid #dedede;
-      border-radius: 5px;
-      background-color: #eefcfc;
-      position: relative;
-      margin-bottom: 15px;
-      overflow: hidden;
-      &.active {
-        box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
-      }
-      &.editing {
-        box-shadow: 0 0 5px 2px rgba(201, 198, 12, 0.5);
-      }
-      &.full {
-        .time_report_day_description {
-          transition: max-height 0.4s;
-          max-height: 60vh;
-        }
-      }
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0px;
-        width: 7px;
-        height: 100%;
-        border-radius: 4px 0 0 4px;
-        background-color: #009c98;
-      }
-      .time_report_day_description {
-        color: #414141;
-        font-family: Montserrat, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        flex: 0.9;
-        text-align: left;
-        height: auto;
-        transition: 0.4s;
-        //max-height: 38px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        cursor: text;
-        word-break: break-word;
-        &.textarea {
-          border: none;
-          border-bottom: 2px solid #009c98;
-          background-color: inherit;
-          resize: none;
-          font-size: 16px;
-          line-height: 1.5;
-          padding: 0 5px;
-          margin-left: -5px;
-          margin-bottom: -2px;
-        }
-      }
-      .time_report_day_hours {
-        width: 60px;
-        color: #414141;
-        font-family: Montserrat, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        text-align: center;
-        &.hours_input {
-          background-color: inherit;
-          border: none;
-          border-bottom: 2px solid #009c98;
-          font-size: 16px;
-          line-height: 1.5;
-          padding: 0 5px;
-          margin-right: 6px;
-          margin-bottom: -2px;
-          text-align: center;
-        }
-      }
-      .time_report_day_edit {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        position: relative;
-        height: 100%;
-        &:hover {
-          svg {
-            color: slategray;
-          }
-        }
-        button {
-          border: unset;
-          background-color: unset;
-          width: 100%;
-          font-size: 18px;
-        }
-        .time_report_day_menu {
-          background-color: #eefcfc;
-          display: flex;
-          align-items: stretch;
-          justify-content: space-around;
-          transition: 0.3s ease-out;
-          height: 100%;
-          .button {
-            padding: 5px 10px;
-            height: 100%;
-            &:hover {
-              .icon {
-                color: #969595;
-              }
-            }
-            &:focus {
-              .icon {
-                color: #969595;
-              }
-            }
-            &.edit_button {
-              //margin-right: 15px;
-            }
-            .icon {
-              color: #414141;
-            }
-          }
-          &.open {
-            right: -6px;
-            width: 180px;
-            transition: 0.3s ease-in;
-            .button:hover {
-              filter: brightness(0.9);
-              transition: 0.3s;
-            }
-          }
         }
       }
     }
@@ -623,5 +490,148 @@
   align-items: center;
   .change_project_body_current_project {
     margin-right: 15px;
+  }
+}
+
+.time_report_day_row {
+  padding: 10px 5px 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  background-color: #eefcfc;
+  position: relative;
+  margin-bottom: 15px;
+  overflow: hidden;
+  &.active {
+    box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
+  }
+  &.editing {
+    box-shadow: 0 0 5px 2px rgba(201, 198, 12, 0.5);
+  }
+  &.full {
+    .time_report_day_description {
+      transition: max-height 0.4s;
+      max-height: 60vh;
+    }
+  }
+  &.shadow {
+    filter: brightness(0.9);
+    opacity: 0.4;
+  }
+  &.draging {
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  }
+  .drag_button {
+    position: absolute;
+    left: 0px;
+    width: 7px;
+    height: 100%;
+    border-radius: 4px 0 0 4px;
+    background-color: #009c98;
+    cursor: move;
+  }
+  .time_report_day_description {
+    color: #414141;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    flex: 0.9;
+    text-align: left;
+    height: auto;
+    transition: 0.4s;
+    //max-height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: text;
+    word-break: break-word;
+    &.textarea {
+      border: none;
+      border-bottom: 2px solid #009c98;
+      background-color: inherit;
+      resize: none;
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 0 5px;
+      margin-left: -5px;
+      margin-bottom: -2px;
+    }
+  }
+  .time_report_day_hours {
+    width: 60px;
+    color: #414141;
+    font-family: Montserrat, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    &.hours_input {
+      background-color: inherit;
+      border: none;
+      border-bottom: 2px solid #009c98;
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 0 5px;
+      margin-right: 6px;
+      margin-bottom: -2px;
+      text-align: center;
+    }
+  }
+  .time_report_day_edit {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    &:hover {
+      svg {
+        color: slategray;
+      }
+    }
+    button {
+      border: unset;
+      background-color: unset;
+      width: 100%;
+      font-size: 18px;
+    }
+    .time_report_day_menu {
+      background-color: #eefcfc;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-around;
+      transition: 0.3s ease-out;
+      height: 100%;
+      .button {
+        padding: 5px 10px;
+        height: 100%;
+        &:hover {
+          .icon {
+            color: #969595;
+          }
+        }
+        &:focus {
+          .icon {
+            color: #969595;
+          }
+        }
+        &.edit_button {
+          //margin-right: 15px;
+        }
+        .icon {
+          color: #414141;
+        }
+      }
+      &.open {
+        right: -6px;
+        width: 180px;
+        transition: 0.3s ease-in;
+        .button:hover {
+          filter: brightness(0.9);
+          transition: 0.3s;
+        }
+      }
+    }
   }
 }

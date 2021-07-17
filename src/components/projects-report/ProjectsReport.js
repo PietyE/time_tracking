@@ -32,7 +32,9 @@ import {
   getDevProjectConsolidateProjectReportsSelector,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
-import { getProjectsList } from '../../selectors/developer-projects'
+import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
+import Spinner from '../ui/spinner'
+
 function ProjectsReport({
   roleUser,
   selectedDate,
@@ -51,8 +53,10 @@ function ProjectsReport({
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
+  isFetchingReports
 }) {
   const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
@@ -69,6 +73,8 @@ function ProjectsReport({
     getDeveloperConsolidateProjectReport()
   }, [])
   return (
+    <>
+      {isFetchingReports && <Spinner />}
     <div className="container project_report_container">
       {isOpenEdit && (
         <EditUserModal handlerCloseModalEdit={handlerCloseModalEdit} />
@@ -86,8 +92,11 @@ function ProjectsReport({
               onSelected={setSelectedProjectInProjectReports}
               // onClear={clearSelectedProjectInProjectReports}
               // disabled={!_.isEmpty(selectedDeveloper)}
-              disabled={selectedDeveloper.name !== 'All Developers' ? true : false }
+              disabled={
+                selectedDeveloper.name !== 'All Developers' ? true : false
+              }
               initialChoice={selectedProject}
+
             />
             <Select
               title="choose developer..."
@@ -99,7 +108,7 @@ function ProjectsReport({
               onSelected={setSelectedDeveloper}
               // disabled={!_.isEmpty(selectedProject)}
               // onClear={clearDeveloperSelected}
-              disabled={selectedProject.name !== 'All Projects' ? true : false }
+              disabled={selectedProject.name !== 'All Projects' ? true : false}
               initialChoice={selectedDeveloper}
             />
           </div>
@@ -118,7 +127,7 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
-      <div className="table_container">
+      <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
@@ -126,8 +135,10 @@ function ProjectsReport({
               const {
                 name,
                 developer_projects,
-                current_rate,
-                current_salary,
+                // current_rate,
+                rate_uah,
+                // current_salary,
+                salary_uah,
                 id,
                 total_expenses,
                 total_overtimes,
@@ -147,13 +158,17 @@ function ProjectsReport({
 
               const comment = comments[0] ? comments[0].text : ''
 
+
+
               return (
                 <RenderUser
                   commonProjectsInfo={commonProjectsInfo}
                   projects={developer_projects}
                   name={name}
-                  rate={current_rate}
-                  projectSalary={current_salary}
+                  // rate={current_rate}
+                  rate={rate_uah}
+                  // projectSalary={current_salary}
+                  projectSalary={salary_uah}
                   key={id}
                   userId={id}
                   selectedDate={selectedDate}
@@ -167,6 +182,7 @@ function ProjectsReport({
                   total_uah={total_uah}
                   is_processed={is_processed}
                   setProcessedStatus={setProcessedStatus}
+                  isFetchingReports={isFetchingReports}
                 />
               )
             })}
@@ -174,6 +190,7 @@ function ProjectsReport({
         </div>
       </div>
     </div>
+    </>
   )
 }
 
@@ -195,6 +212,7 @@ const RenderUser = ({
   total_uah,
   is_processed,
   setProcessedStatus,
+  isFetchingReports
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -237,6 +255,7 @@ const RenderUser = ({
         setProcessedStatus={setProcessedStatus}
         selectedDate={selectedDate}
         isOpen={isOpen}
+        isFetchingReports={isFetchingReports}
       />
       {projects.map((project) => {
         return (
@@ -265,6 +284,7 @@ const mapStateToProps = (state) => ({
   selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
   selectedProject: getSelectedProjectSelector(state),
   editingUserId: getEditingUserIdSelector(state),
+  isFetchingReports: getIsFetchingProjectsReport(state),
 })
 
 const actions = {

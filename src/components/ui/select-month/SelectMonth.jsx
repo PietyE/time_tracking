@@ -30,7 +30,7 @@ function SelectMonth({
 
   const [isOpenPicker, setIsOpenPicker] = useState(false)
 
-  const handlerSelectMonth = e => {
+  const handlerSelectMonth = (e) => {
     e.preventDefault()
     const selectedMonth = +e.target.dataset.month
     if (e.target.classList.contains('disabled')) return
@@ -39,19 +39,22 @@ function SelectMonth({
     setIsOpenPicker(false)
   }
 
-  const handlerSelectPrevYear = e => {
+  const handlerSelectPrevYear = (e) => {
     e.preventDefault()
-    setCurrentYear(currentYear - 1)
+    if (currentYear > 2010) setCurrentYear(currentYear - 1)
   }
 
-  const handlerSelectNextYear = e => {
+  const handlerSelectNextYear = (e) => {
     e.preventDefault()
     setCurrentYear(currentYear + 1)
   }
 
-  const handlerSelectPrevMonth = e => {
+  const handlerSelectPrevMonth = (e) => {
     e.preventDefault()
     if (currentMonth === 0) {
+    if(currentYear === 2010){
+       return
+    }
       setCurrentMonth(11)
       setNewData({ month: 11, year: currentYear - 1 })
       setCurrentYear(currentYear - 1)
@@ -61,7 +64,7 @@ function SelectMonth({
     }
   }
 
-  const handlerSelectNextMonth = e => {
+  const handlerSelectNextMonth = (e) => {
     e.preventDefault()
     e.stopPropagation()
     if (currentMonth === 11) {
@@ -89,7 +92,7 @@ function SelectMonth({
   const disabledNextMonthButton =
     selectedDate.month === month && dissabledNextYearButton
 
-  const getClassNameForMonth = index => {
+  const getClassNameForMonth = (index) => {
     let className = 'day_button'
     if (index > month && dissabledNextYearButton) {
       className = className + ' disabled'
@@ -118,7 +121,7 @@ function SelectMonth({
   }, [])
 
   const callbackEventListener = useCallback(
-    event => {
+    (event) => {
       const isParent = checkIsParentNode(selectMonthRef.current, event.target)
       if (isParent) return
       setIsOpenPicker(false)

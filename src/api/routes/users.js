@@ -10,6 +10,15 @@ class UsersCRUD extends CRUD {
     })
   }
 
+  logInWithCredentials(data) {
+    const url = `${this.url}/login/`
+    return this.request({
+      url,
+      method: 'POST',
+      data,
+    })
+  }
+
   logOut() {
     const url = `${this.url}/auth/logout/`
     return this.request({

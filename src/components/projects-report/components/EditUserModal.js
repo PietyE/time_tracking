@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { connect, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 
@@ -21,6 +21,9 @@ import ModalTitle from './ModalTitle'
 import ModalInput from './ModalInput'
 
 import Modal from 'components/ui/modal'
+import { Spinner } from 'react-bootstrap'
+import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
+import { isEqual } from 'lodash'
 
 const EditUserModal = (props) => {
   const {
@@ -34,7 +37,6 @@ const EditUserModal = (props) => {
     setEditedComment,
     setEditedCost,
   } = props
-
   const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
 
   const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
@@ -44,6 +46,15 @@ const EditUserModal = (props) => {
   const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
 
   const [comment, setCommentLocal] = useState(_comment)
+  const [isFetching, setIsFetching] = useState(false)
+
+  const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
+
+  useEffect(() => {
+    if (isFetching) {
+      setIsFetching(fetchingStatus)
+    }
+  }, [fetchingStatus])
 
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
@@ -108,6 +119,8 @@ const EditUserModal = (props) => {
       text: comment,
     }
     setNewComment(data)
+    setIsFetching(true)
+
   }
 
   const handleSaveEditedComment = () => {
@@ -120,6 +133,7 @@ const EditUserModal = (props) => {
       commentId: commentId,
     }
     setEditedComment(data)
+    setIsFetching(true)
   }
 
   const handleCancelEditComment = () => {
@@ -155,14 +169,17 @@ const EditUserModal = (props) => {
         <ModalRow>
           <ModalTitle title={`Salary ($): `} />
           <ModalInput
-            prevValue={editingUser.current_salary}
+            // prevValue={editingUser.current_salary}
+            prevValue={editingUser.salary_uah}
+
             handleSaveChange={handlerOnClickSaveNewSalary}
           />
         </ModalRow>
         <ModalRow>
           <ModalTitle title={`Rate ($): `} />
           <ModalInput
-            prevValue={editingUser.current_rate}
+            // prevValue={editingUser.current_rate}
+            prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
           />
         </ModalRow>
@@ -176,7 +193,12 @@ const EditUserModal = (props) => {
         <ModalRow direction={'column'}>
           <div className="comment_title_container">
             <ModalTitle title={`Comment:`} />
-            {comment !== _comment && (
+            {isFetching &&
+            <div className = 'spinner-small'>
+              <Spinner animation = "border" variant = "success"/>
+            </div>
+            }
+            {comment !== _comment && !isFetching &&(
               <div className="edit_user_modal_button_container">
                 <button
                   variant={'success'}

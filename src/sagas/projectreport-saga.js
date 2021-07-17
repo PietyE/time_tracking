@@ -15,9 +15,11 @@ import {
 import {
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
+  setIsFetchingReports,
 } from 'actions/projects-report'
 
-export function* getDeveloperConsolidateProjectReport(action) {
+export function* getDeveloperConsolidateProjectReport() {
+  yield put(setIsFetchingReports(true))
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
@@ -52,13 +54,14 @@ export function* getDeveloperConsolidateProjectReport(action) {
   if (data) {
     yield put(setDeveloperConsolidateProjectReport(data))
   }
+  yield put(setIsFetchingReports(false))
+
 }
 
 export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `projects/`
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-  console.log('data',data)
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
