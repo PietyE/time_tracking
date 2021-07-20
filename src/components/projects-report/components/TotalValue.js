@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 import ModalTitle from './ModalTitle'
 import ModalRow from './ModalRow'
+import CurrencySelect from './CurrencySelect'
 
 const TotalValue = (props) => {
   const {
@@ -17,6 +18,8 @@ const TotalValue = (props) => {
 
   const [isEdit, setIsEdit] = useState(false)
   const [newExchangeRate, setNewExchengeRate] = useState('')
+  const [selectedCurrency, setCurrency] = useState(null)
+
 
   const handleSaveExchangeRate = () => {
     const data = {
@@ -24,6 +27,7 @@ const TotalValue = (props) => {
         .toISOString()
         .slice(0, 10),
       rate: newExchangeRate,
+      currency: selectedCurrency
     }
     setExchangeRates(data)
     setIsEdit(false)
@@ -32,6 +36,10 @@ const TotalValue = (props) => {
   const handleChangeExchengeRateInput = (event) => {
     const filteredStr = event.target.value.replace(/[^0-9\\.]/gi, '')
     setNewExchengeRate(filteredStr)
+  }
+
+  const handleChangeCurrency = (data) => {
+    setCurrency(data)
   }
 
   const handleClickEditButton = () => {
@@ -65,11 +73,16 @@ const TotalValue = (props) => {
       <ModalRow>
         <ModalTitle title="Exchange rate: " />
         <div onClick={handleClickEditButton}>
+          <CurrencySelect
+            className="project_reports_exchange_select"
+            parentHandler={handleChangeCurrency}
+          />
           <input
             className="project_reports_exchange_input"
             value={newExchangeRate || ''}
             onChange={handleChangeExchengeRateInput}
           />
+
         </div>
         <div className="edit_user_modal_button_container">
           {!isEdit ? null : (
