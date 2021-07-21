@@ -13,6 +13,7 @@ export const currencyListMapper = (response) => {
     if (item && typeof item === 'object' && typeof item.code === 'string' && typeof item.id === 'string') {
       const currencyItem = {
         code: item.code,
+        numericCode: item.numeric_code,
         serverId: item.id,
       }
       previous.push(currencyItem)
@@ -26,7 +27,6 @@ export const currencyListMapper = (response) => {
 export const ratesListMapper = (response) => {
 
   const ratesArray = lodashGet(response, 'data.items', []);
-  console.dir(ratesArray);
   if (!ratesArray || !Array.isArray(ratesArray) || !ratesArray.length) {
     return []
   }
