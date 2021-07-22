@@ -2,7 +2,7 @@ import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   GET_ALL_PROJECTS, GET_SELECTED_PROJECT, GET_USERS,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_USERS,
-  SET_USERS_ON_PROJECT,
+  SET_USERS_ON_PROJECT,GET_USER_INFO_BY_PROJECT,SET_PROJECTS_WITH_REPORT
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -17,6 +17,15 @@ export const getAllProjects = (payload) => ({
 
 export const setAllProjects = (payload) => ({
   type: SET_ALL_PROJECTS,
+  payload,
+})
+
+export const getUsersInfoByProject =(payload)=>({
+  type: GET_USER_INFO_BY_PROJECT,
+  payload
+})
+export const setProjectsWithReport = (payload) => ({
+  type: SET_PROJECTS_WITH_REPORT,
   payload,
 })
 

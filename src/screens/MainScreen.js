@@ -17,6 +17,7 @@ import {
   getProfileEmail,
 } from 'selectors/user'
 import ProjectManagementScreen from './ProjectManagementScreen'
+import PmPrivateRoute from '../Routes/PmPrivatRoute'
 
 function MainScreen({
   isAuth,
@@ -51,7 +52,8 @@ function MainScreen({
       <Switch>
         <Route path="/projects" component={ProjectsScreen} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
-        <Route path="/management" component={ProjectManagementScreen} exct />
+        <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
+
         <Redirect from="/" to="/timereport" />
       </Switch>
     </>
