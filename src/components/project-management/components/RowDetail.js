@@ -1,33 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import {connect} from 'react-redux'
+import React, { useEffect, useCallback, useState } from 'react'
+import { useDispatch, connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
+import { isEqual } from 'lodash'
 
-import {
-  getProjectReportById,
-  getSelectedMonthForPMSelector,
-} from '../../../reducers/projects-management'
+import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
+import { getProjectReportByIdSelector } from '../../../reducers/projects-management'
 
-const RowDetail = ({ row, currentProject }) => {
+const RowDetail = ({ row, currentProjectReport }) => {
+  const dispatch = useDispatch()
+    const _getProjectReportById = useCallback(
+    (data) => {
+      dispatch(getProjectReportById(data))
+    },
+    [dispatch],
+  )
+  const _downloadProjectReport = useCallback(
+    (data) => {
+      dispatch(downloadProjectReport(data))
+    },
+    [dispatch],
+  )
+  const downloadXLS = (id) => {
+    _downloadProjectReport(id)
+  }
+  // const downloadIcon =id=>
+  //   (<Button variant = "outline-*" onClick={(id)=>downloadXLS(id)}> <span className = "oi oi-cloud-download"/></Button>)
+
 
   const [childRows, setChildRows] = useState([])
 
   useEffect(() => {
-    let reformatProjects
-    if (currentProject) {
-      reformatProjects = currentProject.users.map(user => ({
+    _getProjectReportById(row?.id)
+
+  }, [])
+
+  useEffect(() => {
+    if (currentProjectReport) {
+      let reformatProjects = []
+      reformatProjects = currentProjectReport.users.map(user => ({
         user: user.userName,
-        occupancy: user.is_fulltime ? 'Yes' : 'No',
+        occupancy: user.is_fulltime ? 'Full-time' : 'Part-time',
         hours: user.hours,
-        report: downloadIcon,
-        actions: editIcon,
+        report: <Button variant = "outline-*" onClick={()=>downloadXLS(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
+        actions: '',
+
       }))
       setChildRows(reformatProjects)
     }
-  }, [currentProject])
+  }, [currentProjectReport])
 
-  const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
-  const editIcon = <span className = "oi oi-pencil"/>
 
 
   const [childColumns] = useState([
@@ -53,7 +75,7 @@ const RowDetail = ({ row, currentProject }) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentProject: getProjectReportById(state, ownProps?.row?.id)
+  currentProjectReport: getProjectReportByIdSelector(state, ownProps?.row?.id),
 })
 
 export default connect(mapStateToProps)(RowDetail)

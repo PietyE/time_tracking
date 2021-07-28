@@ -2,7 +2,7 @@ import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   GET_ALL_PROJECTS, GET_SELECTED_PROJECT, GET_USERS,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_USERS,
-  SET_USERS_ON_PROJECT,GET_USER_INFO_BY_PROJECT,SET_PROJECTS_WITH_REPORT
+  SET_USERS_ON_PROJECT,GET_PROJECT_REPORT_BY_ID,SET_PROJECT_REPORTS,GET_DOWNLOAD_PROJECT_REPORT
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -20,14 +20,30 @@ export const setAllProjects = (payload) => ({
   payload,
 })
 
-export const getUsersInfoByProject =(payload)=>({
-  type: GET_USER_INFO_BY_PROJECT,
+export const getProjectReportById =(payload)=>({
+  type: GET_PROJECT_REPORT_BY_ID,
   payload
 })
 export const setProjectsWithReport = (payload) => ({
-  type: SET_PROJECTS_WITH_REPORT,
+  type: SET_PROJECT_REPORTS,
   payload,
 })
+
+export const downloadProjectReport = payload =>({
+  type: GET_DOWNLOAD_PROJECT_REPORT,
+  payload,
+})
+
+export const getUsers = (payload) => ({
+  type: GET_USERS,
+  payload,
+})
+
+export const setUsers = (payload) => ({
+  type: SET_USERS,
+  payload,
+})
+
 
 export const getSelectedProject = (payload) => ({
   type: GET_SELECTED_PROJECT,
@@ -44,12 +60,4 @@ export const setUsersOnProject = (payload) => ({
   payload,
 })
 
-export const getUsers = (payload) => ({
-  type: GET_USERS,
-  payload,
-})
 
-export const setUsers = (payload) => ({
-  type: SET_USERS,
-  payload,
-})

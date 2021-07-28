@@ -1,47 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
   import { RowDetailState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid'
-import { Button, Navbar, Nav, NavItem } from 'react-bootstrap'
 import {
   Grid,
   Table,
   TableHeaderRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { isEqual } from 'lodash'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import {
   getAllProjectsSelector,
   getSelectedMonthForPMSelector,
-  getProjectsWithReport,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
-  getAllProjects, getUsersInfoByProject,
+  getAllProjects,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
 import './style.scss'
+import { Button } from 'react-bootstrap'
 
 const ProjectManagementComponent =
   ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, getUsersInfoByProject }) => {
-
     useEffect(() => {
       getAllProjects()
     }, [])
 
-    useEffect(() => {
-      if (projects.length > 0) {
-        getUsersInfoByProject()
-      }
-    }, [projects])
-
     const [isCreateProjectModalShown, setCreateProjectModalShown] = useState(false)
-
-    const projectsWithReport = useSelector(getProjectsWithReport, isEqual)
-
-    const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
-    const editIcon = <span className = "oi oi-pencil"/>
 
     const [columns] = useState([
       { name: 'project', title: 'Project' },
@@ -56,31 +42,21 @@ const ProjectManagementComponent =
       return <TableHeaderRow.SortLabel {...props} />;
     });
     const [rows, setRows] = useState([])
-    const calcTotalHours = id => {
-      const currentProject = projectsWithReport.find(project => project.projectId === id)
-      if (currentProject) {
-        const totalHours = currentProject.users.reduce((acc, cur) => {
-          return acc + Number(cur.hours)
-        }, 0)
-        return totalHours
-      }
-    }
-
+    const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
+    const editIcon = <span className = "oi oi-pencil"/>
     useEffect(() => {
-      if (projectsWithReport?.length > 0) {
+      if (projects?.length > 0) {
         const reformatProjects = projects.map(project => ({
           project: project.name,
           occupancy: ' ',
-          hours: calcTotalHours(project.id),
+          hours: '',
           report: downloadIcon,
           actions: editIcon,
           id: project.id,
         }))
         setRows(reformatProjects)
       }
-
-    }, [projectsWithReport, projects])
-
+    }, [projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
     return (
@@ -109,10 +85,11 @@ const ProjectManagementComponent =
               <SortingState
                 defaultSorting={[{ columnName: 'project', direction: 'asc' }]}/>
                 <IntegratedSorting/>
-              {/*<LocalSorting/>*/}
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
+                // toggleDetailRowExpanded={}
+                defaultExpandedRowIds={[]}
               />
               <Table/>
               <TableHeaderRow showSortingControls  sortLabelComponent={SortingLabel}/>
@@ -136,7 +113,7 @@ const mapStateToProps = (state) => ({
 })
 const actions = {
   changeSelectedDateProjectsManagement,
-  getAllProjects, getUsersInfoByProject,
+  getAllProjects,
 }
 
 

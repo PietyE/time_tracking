@@ -1,112 +1,95 @@
 import React from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
-import './style.scss'
+import { Modal } from 'react-bootstrap'
+import TeamMemberItem from './TeamMemberItem'
+import TeamInput from './TeamInput'
+import { getUsersSelector } from '../../../reducers/projects-management'
+import { Field, Form, Formik } from 'formik'
+import { useSelector } from 'react-redux'
+import { isEqual } from 'lodash'
 
-import { useFormik } from 'formik'
+function CreateProjectModal({ onClose, show }) {
+  const users = useSelector(getUsersSelector, isEqual)
+  const projectManagers = users.filter(user => user.role === 4)
 
-function CreateProjectModal(props) {
-  // eslint-disable-next-line react/prop-types
-  const { onClose, show } = props
-
-  const onSubmit = (values, { setSubmitting }) => {
-    // setTimeout(() => {
-    //   alert(JSON.stringify(values, null, 2))
-    //   setSubmitting(false)
-    // }, 400)
+  const onSubmit = (values) => {
+    console.log('values', values)
   }
-
-  const {
-    handleSubmit,
-    handleChange,
-    handleBlur,
-    values,
-    errors,
-    isSubmitting,
-    touched,
-  } = useFormik({
-    initialValues: {
-      projectName: '',
-      users: [],
-      projectManager: '',
-    },
-    onSubmit,
-  })
+  const initialValues = {
+    projectName: '',
+    team: [],
+    projectManager: '',
+  }
 
   return (
     <Modal
-      show={show}
-      onHide={onClose}
-      backdrop={false}
-      centered={true}
+      show = {show}
+      onHide = {onClose}
+      backdrop = {false}
+      centered = {true}
     >
       <Modal.Header closeButton>
         <Modal.Title>New Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group
-            controlId='projectName'
-            name='projectName'
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.projectName}
-          >
-            <Form.Label>Project Name</Form.Label>
-            <Form.Control type='projectName' placeholder='Enter project name' />
-          </Form.Group>
+        <Formik
+          initialValues={initialValues}
+          // validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ values, setFieldValue }) => (
+            <Form className = "pm_create_modal_form">
+              <label className="pm_create_modal_project_label pm_create_modal_label">
+                Project name
+                <br />
+                <Field
+                  className="pm_create_modal_input"
+                  name="projectName"
+                  placeholder="Enter project name"
+                />
+              </label>
+              <label className="pm_create_modal_team_label pm_create_modal_label">
+                Team
+                <br />
+                <TeamInput setFieldValue={setFieldValue} values={values}/>
 
-          <Form.Group controlId='users'>
-            <Form.Label>Team</Form.Label>
-            <Form.Control as='select'>
-              <option>Some name 1</option>
-              <option>Some name 2</option>
-              <option>Some name 3</option>
-              <option>Some name 4</option>
-              <option>Some name 5</option>
-            </Form.Control>
-          </Form.Group>
+                </label>
+              {values.team.length>0&&
+              <ul>
+                {values.team.map(el => <TeamMemberItem key={el.id} data={el} setFieldValue={setFieldValue} values={values}/>)}
+              </ul>
+              }
+              <label className="pm_create_modal_pm_label pm_create_modal_label">
+                Project manager
+                <br />
+                <Field
+                  className="pm_create_modal_input"
+                  name="projectManager"
+                  as="select"
+                >
+                    <option label='Select PM' disabled={true}></option>
+                    {projectManagers&&projectManagers.map(pm=>
+                      <option key={pm.id} value ={pm.name }>{pm.name}</option>)
+                    }
+                </Field>
 
-
-          <div>
-            <div className={'selected-user'}>
-              <span>Some name 1</span>
-              <div className={'selected-user-controls'}>
-              <Form.Group controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Full-time" />
-              </Form.Group>
-              <span className="oi oi-x remove-user"/>
+              </label>
+              {/*{values.projectManager&&<div className='pm_create_team_item  pm_create_team_item_pm'>*/}
+              {/*  <span className='pm_create_team_text'>{values.projectManager}</span>*/}
+              {/*  <FontAwesomeIcon icon={faTimesCircle} onClick={()=>setFieldValue('projectManager', '')} className='pm_create_team_close' />*/}
+              {/*</div>}*/}
+              <div className='pm_create_team_buttons_container'>
+                <button className='pm_create_team_button' >Cancel</button>
+                <button className='pm_create_team_button ' type='submit'>Create</button>
               </div>
-            </div>
-          </div>
 
 
-          <Form.Group controlId='projectManager'>
-            <Form.Label>Team</Form.Label>
-            <Form.Control as='select'>
-              <option>Project Manager 1</option>
-              <option>Project Manager 2</option>
-              <option>Project Manager 3</option>
-              <option>Project Manager 4</option>
-            </Form.Control>
-          </Form.Group>
+            </Form>
 
-          <Button
-            variant='success'
-            type='submit'
-            disabled={isSubmitting}
-            className='mr-3'
-          >
-            Create
-          </Button>
-          <Button
-            variant='secondary'
-            type='button'
-            onClick={onClose}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </Button>
-        </Form>
+          )
+          }
+
+
+        </Formik>
       </Modal.Body>
     </Modal>
   )
