@@ -166,12 +166,13 @@ function* handleLoginWithCreds(userData) {
       yield call([api, 'setToken'], authData.key)
 
   } catch (error) {
+    const credentialError = error?.response?.data?.non_field_errors[0]
     callback(false);
     yield put(setAuthStatus(false))
     yield put(
       showAler({
         type: WARNING_ALERT,
-        title: 'Something went wrong',
+        title: credentialError?credentialError:'Something went wrong' ,
         message: error.message || 'Something went wrong',
         delay: 6000,
       })
