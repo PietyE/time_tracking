@@ -6,6 +6,8 @@ import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 import ModalTitle from './ModalTitle'
 import ModalRow from './ModalRow'
 import CurrencySelect from './CurrencySelect'
+import { useSelector } from 'react-redux'
+import { selectRateList } from '../../../selectors/currency'
 
 const TotalValue = (props) => {
   const {
@@ -20,6 +22,7 @@ const TotalValue = (props) => {
   const [newExchangeRate, setNewExchengeRate] = useState('')
   const [selectedCurrency, setCurrency] = useState(null)
   const [formIsValid, setFormIsValid] = useState(false)
+  const rateList = useSelector(selectRateList)
 
 
   const handleSaveExchangeRate = () => {
@@ -140,6 +143,7 @@ const TotalValue = (props) => {
         </div>
       )}
     </div>
+
     </>
   )
 }

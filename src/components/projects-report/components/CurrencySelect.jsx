@@ -8,7 +8,7 @@ function CurrencySelect(props) {
   const {parentHandler} = props;
 
   const currenciesList = useSelector(selectCurrencyList)
-
+  // console.dir(currenciesList);
 
   const result = currenciesList
     .filter(item => item.numericCode !== '980')
@@ -20,7 +20,7 @@ function CurrencySelect(props) {
       }
 
     })
-
+  // console.dir(result);
   const handleOnChange = (event) => {
     const currencyId = event.serverId;
     parentHandler(currencyId);
@@ -29,7 +29,7 @@ function CurrencySelect(props) {
 
   return (
     <Select
-      title="BBbb"
+      title="Currencies"
       listItems={result}
       valueKey="name"
       idKey="serverId"

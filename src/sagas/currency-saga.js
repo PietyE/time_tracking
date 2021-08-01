@@ -31,7 +31,7 @@ export function* handleGetRatesList() {
     const mapperResponse = ratesListMapper(response);
     yield put(setSuccessRatesList(mapperResponse))
   } catch (error) {
-    yield put (setErrorRatesList())
+    yield put(setErrorRatesList())
   }
 }
 
