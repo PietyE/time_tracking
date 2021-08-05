@@ -21,8 +21,9 @@ export const setErrorCurrenciesList = () => ({
   type: SET_ERROR_CURRENCIES_LIST,
  })
 
-export const getRatesList = () => ({
+export const getRatesList = (payload) => ({
   type: GET_RATES_LIST,
+  payload
 })
 
 export const setSuccessRatesList = (payload) => ({

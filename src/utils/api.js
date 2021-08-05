@@ -146,9 +146,10 @@ class Api {
     })
   }
 
-  getRatesList = (url) => {
+  getRatesList = (url, params) => {
     return fetchApi({
       url,
+      params
     })
   }
 }

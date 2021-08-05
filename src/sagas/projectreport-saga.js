@@ -17,6 +17,7 @@ import {
   setDevelopersProjectInProjectReport,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
+import { getSelectedMonthSelector } from '../reducers/projects-report'
 
 export function* getDeveloperConsolidateProjectReport() {
   const { month, year } = yield select(
@@ -63,6 +64,7 @@ export function* getDeveloperProjects() {
 }
 
 function* setExchangeRate({ payload }) {
+  const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
     yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -73,7 +75,13 @@ function* setExchangeRate({ payload }) {
         delay: 5000,
       })
     )
-    yield put(getRatesList())
+    const now = new Date();
+    const ratesParams = {
+      is_active: true,
+      year: now.getFullYear(),
+      month: now.getMonth() + 1
+    };
+    yield put(getRatesList(ratesParams))
     yield call(getDeveloperConsolidateProjectReport)
   } catch (error) {
     yield put(

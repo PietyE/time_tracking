@@ -22,7 +22,7 @@ const TotalValue = (props) => {
   const [newExchangeRate, setNewExchengeRate] = useState('')
   const [selectedCurrency, setCurrency] = useState(null)
   const [formIsValid, setFormIsValid] = useState(false)
-  const rateList = useSelector(selectRateList)
+
 
 
   const handleSaveExchangeRate = () => {

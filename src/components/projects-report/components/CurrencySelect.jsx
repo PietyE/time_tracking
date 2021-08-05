@@ -8,7 +8,7 @@ function CurrencySelect(props) {
   const {parentHandler} = props;
 
   const currenciesList = useSelector(selectCurrencyList)
-  // console.dir(currenciesList);
+  console.dir(currenciesList);
 
   const result = currenciesList
     .filter(item => item.numericCode !== '980')

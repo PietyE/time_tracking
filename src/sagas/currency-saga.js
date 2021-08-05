@@ -24,10 +24,10 @@ export function* handleGetCurrenciesList() {
   }
 }
 
-export function* handleGetRatesList() {
+export function* handleGetRatesList({ payload }) {
   try {
     const URL_RATES_LIST = 'exchange_rates/'
-    const response = yield call([Api, 'getRatesList'], URL_RATES_LIST)
+    const response = yield call([Api, 'getRatesList'], URL_RATES_LIST, payload)
     const mapperResponse = ratesListMapper(response);
     yield put(setSuccessRatesList(mapperResponse))
   } catch (error) {
