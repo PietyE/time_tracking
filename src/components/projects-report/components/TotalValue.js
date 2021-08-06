@@ -84,7 +84,7 @@ const TotalValue = (props) => {
     <div className="project_reports_total_container">
       <ModalRow>
         <ModalTitle title="Exchange rate: " />
-        <div onClick={handleClickEditButton} className="total_container_select_input">
+        <div onClick={handleClickEditButton} className="total_container_select_input d-flex">
           <CurrencySelect
             parentHandler={handleChangeCurrency}
           />

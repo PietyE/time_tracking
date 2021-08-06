@@ -19,7 +19,6 @@ function CurrencySelect(props) {
       }
 
     })
-  // console.dir(result);
   const handleOnChange = (event) => {
     const currencyId = event.serverId;
     parentHandler(currencyId);
