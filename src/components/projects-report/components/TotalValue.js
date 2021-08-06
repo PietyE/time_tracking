@@ -105,7 +105,6 @@ const TotalValue = (props) => {
                 <button
                   onClick={handleSaveExchangeRate}
                   disabled={
-                    // !formIsValid
                     prevExchangeRate === newExchangeRate || !newExchangeRate
                   }
                   className="edit_user_button save"
