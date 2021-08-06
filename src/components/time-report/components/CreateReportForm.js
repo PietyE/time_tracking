@@ -1,9 +1,10 @@
-import React, { useState, memo } from 'react'
-import { connect } from 'react-redux'
+import React, { useState, useEffect, memo } from 'react'
+import { connect, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
-
+import {isEqual} from 'lodash'
+import {getSelectedDateTimeReport} from '../../../selectors/timereports'
 import { setEditMode } from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
@@ -24,6 +25,12 @@ function CreateReportForm({
   const [leftSize, setLeftSize] = useState(1000)
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
+
+  const selectedDay = useSelector(getSelectedDateTimeReport,isEqual)
+  useEffect(()=>{
+    setBorderInputClassName('')
+    setBorderInputHoursClassName('')
+  },[selectedDay])
 
   const MAX_SIZE = 1000
 

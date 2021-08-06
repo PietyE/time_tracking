@@ -5,6 +5,11 @@
 .app {
   text-align: center;
 }
+.app_without_scroll{
+  text-align: center;
+  height: 100vh;
+  overflow: hidden;
+}
 
 .container {
   width: 100%;

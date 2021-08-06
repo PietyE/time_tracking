@@ -20,6 +20,9 @@ import {
   getIdEditingWorkItem,
 } from 'selectors/timereports'
 
+ import {WARNING_ALERT} from '../../../constants/alert-constant'
+ import {showAler} from '../../../actions/alert'
+
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
 const CLASS_NAME_BELOW_DRAGING_WORK_ITEM_DAY = 'below'
@@ -58,6 +61,7 @@ function ReportItem({
   idEditingWorkItem,
   setEditMode,
   isOneProject,
+  showAler,
 }) {
   const {
     title: oldTitle,
@@ -99,6 +103,14 @@ function ReportItem({
     const [_hour, min] = e.target.duration.value.split(':')
     const duration = _hour ? +_hour * 60 + +min : +min
     const title = e.target.title.value
+     if(duration === 0){
+       showAler({
+         type: WARNING_ALERT,
+         message: 'Worked time can\'t be 0',
+         delay: 5000,
+       })
+       return
+     }
     if (oldDuration !== duration || oldTitle !== title) {
       editTimeReport({
         developer_project,
@@ -311,6 +323,7 @@ const actions = {
   deleteTimeReport,
   editTimeReport,
   setEditMode,
+  showAler,
 }
 
 export default connect(mapStateToProps, actions)(memo(ReportItem))

@@ -15,11 +15,13 @@ import {
 import {
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
+  setIsFetchingReports,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector } from '../reducers/projects-report'
 
 export function* getDeveloperConsolidateProjectReport() {
+  yield put(setIsFetchingReports(true))
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
@@ -54,6 +56,8 @@ export function* getDeveloperConsolidateProjectReport() {
   if (data) {
     yield put(setDeveloperConsolidateProjectReport(data))
   }
+  yield put(setIsFetchingReports(false))
+
 }
 
 export function* getDeveloperProjects() {

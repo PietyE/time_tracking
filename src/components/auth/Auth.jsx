@@ -8,6 +8,7 @@ import { logIn } from 'actions/users'
 import { getUserAuthStatus } from 'selectors/user'
 import { CLIENT_ID } from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
+import signInIcon from 'images/signIn-icon.svg'
 import SignInWithLogin from './SignInWithLogin'
 
 import './styles.css'
@@ -32,6 +33,7 @@ function Auth(props) {
         <span className="auth-text_button">Sign in with google</span>
       </Button>
       <Button className="auth-google_button" onClick={handleClickToggleModal}>
+        <img src={signInIcon} alt="signIn icon" className="auth-logo" />
         <span className="auth-text_button">Sign in with login</span>
       </Button>
     </div>

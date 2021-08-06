@@ -8,6 +8,7 @@ import {
   setAuthStatus,
   setFetchingProfileStatus, setAuthInProgress, unsetAuthInProgress,
 } from 'actions/users'
+import {setIsFetchingReports} from 'actions/projects-report'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
@@ -86,7 +87,7 @@ function* logIn({ payload: googleData }) {
       }
 
       const google_token = googleData.tokenId
-
+      yield call([api, 'deleteToken'])
       const response = yield call([users, 'googleAuth'], {
         token: google_token,
       })
@@ -165,12 +166,13 @@ function* handleLoginWithCreds(userData) {
       yield call([api, 'setToken'], authData.key)
 
   } catch (error) {
+    const credentialError = error?.response?.data?.non_field_errors[0]
     callback(false);
     yield put(setAuthStatus(false))
     yield put(
       showAler({
         type: WARNING_ALERT,
-        title: 'Something went wrong',
+        title: credentialError?credentialError:'Something went wrong' ,
         message: error.message || 'Something went wrong',
         delay: 6000,
       })
@@ -187,13 +189,14 @@ function* logOut() {
     yield put(cleanUserOauthData())
     yield put(setAuthStatus(false))
     yield call([localStorage, 'clear'])
+    yield call([api, 'deleteToken'])
   }
 }
 
 function* setUserSalary({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     yield call([users, 'createUserSalary'], payload)
-
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -201,6 +204,7 @@ function* setUserSalary({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -212,10 +216,14 @@ function* setUserSalary({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setUserRate({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     yield call([users, 'createUserRate'], payload)
     yield put(
       showAler({
@@ -224,6 +232,7 @@ function* setUserRate({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -234,14 +243,20 @@ function* setUserRate({ payload }) {
         delay: 6000,
       })
     )
+  }
+  finally {
+    yield put(setIsFetchingReports(false))
   }
 }
 
 function* setProcessedStatus({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     yield call([users, 'toggleProcessedStatus'], payload)
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
-  } catch (error) {
+  }
+  catch (error) {
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -251,11 +266,16 @@ function* setProcessedStatus({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
+
 
 /////////// ref
 function* setUserCost({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     const URL = 'expenses/'
     yield call([Api, 'saveNewCost'], URL, payload)
     yield put(
@@ -265,6 +285,7 @@ function* setUserCost({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -276,10 +297,14 @@ function* setUserCost({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setEditedCost({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     const { expenseId, ...data } = payload
     const URL = `expenses/${expenseId}/`
     yield call([Api, 'saveEditedCost'], URL, data)
@@ -290,8 +315,11 @@ function* setEditedCost({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
+    yield put(setIsFetchingReports(false))
+
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -301,10 +329,14 @@ function* setEditedCost({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setUserComment({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     const URL = 'comments/'
     yield call([Api, 'saveNewComments'], URL, payload)
     yield put(
@@ -314,6 +346,7 @@ function* setUserComment({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -325,10 +358,14 @@ function* setUserComment({ payload }) {
       })
     )
   }
+  finally {
+    yield put(setIsFetchingReports(false))
+  }
 }
 
 function* setEditedComment({ payload }) {
   try {
+    yield put(setIsFetchingReports(true))
     const { commentId, ...data } = payload
     const URL = `comments/${commentId}`
     yield call([Api, 'saveEditedComments'], URL, data)
@@ -339,6 +376,7 @@ function* setEditedComment({ payload }) {
         delay: 5000,
       })
     )
+    yield put(setIsFetchingReports(false))
     yield put(getDeveloperConsolidateProjectReport())
   } catch (error) {
     yield put(
@@ -349,6 +387,9 @@ function* setEditedComment({ payload }) {
         delay: 6000,
       })
     )
+  }
+  finally {
+    yield put(setIsFetchingReports(false))
   }
 }
 
