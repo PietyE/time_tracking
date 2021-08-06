@@ -22,6 +22,7 @@ const TotalValue = (props) => {
   const [formIsValid, setFormIsValid] = useState(false)
 
 
+
   const handleSaveExchangeRate = () => {
     if (!formIsValid) {
       return;
@@ -102,7 +103,6 @@ const TotalValue = (props) => {
                 <button
                   onClick={handleSaveExchangeRate}
                   disabled={
-                    // !formIsValid
                     prevExchangeRate === newExchangeRate || !newExchangeRate
                   }
                   className="edit_user_button save"

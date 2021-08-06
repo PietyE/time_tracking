@@ -17,6 +17,7 @@ import {
   getProfileEmail,
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from '../actions/currency'
+import { getSelectedMonthSelector } from '../reducers/projects-report'
 
 function MainScreen({
   isAuth,
@@ -27,8 +28,10 @@ function MainScreen({
   profileId,
   profileEmail,
   getCurrenciesList,
-  getRatesList
+  getRatesList,
+  getSelectedMonth
 }) {
+  const date = getSelectedMonth;
   useEffect(() => {
     if (isAuth) {
       if (roleUser !== DEVELOPER) {
@@ -37,8 +40,13 @@ function MainScreen({
           name: profileName,
           email: profileEmail,
         })
+        const ratesParams = {
+          is_active: true,
+          year: date.year,
+          month: date.month + 1
+        };
         getCurrenciesList()
-        getRatesList()
+        getRatesList(ratesParams)
 
       } else {
         getDeveloperProjects()
@@ -77,6 +85,7 @@ const mapStateToProps = (state) => ({
   profileId: getProfileId(state),
   profileName: getProfileName(state),
   profileEmail: getProfileEmail(state),
+  getSelectedMonth: getSelectedMonthSelector(state)
 })
 
 export default connect(mapStateToProps, actions)(memo(MainScreen))

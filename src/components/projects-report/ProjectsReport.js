@@ -35,6 +35,7 @@ import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
 import { getIsFetchingReport } from '../../selectors/timereports'
+import ActualRates from '../ui/actual-rates/ActualRates'
 
 function ProjectsReport({
   roleUser,
@@ -63,7 +64,6 @@ function ProjectsReport({
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
-  // const isFetchingReports = useSelector(getIsFetchingProjectsReport)
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
@@ -121,6 +121,7 @@ function ProjectsReport({
           setNewData={changeSelectedDateProjectsReport}
         />
       </div>
+
       {roleUser !== DEVELOPER && roleUser !== PM && (
         <TotalValue
           totalUsd={total_usd}
@@ -129,6 +130,9 @@ function ProjectsReport({
           prevExchangeRate={exchange_rate}
           selectedDate={selectedDate}
         />
+      )}
+      {roleUser !== DEVELOPER && roleUser !== PM && (
+        <ActualRates />
       )}
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
