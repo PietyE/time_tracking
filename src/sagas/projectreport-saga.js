@@ -16,6 +16,7 @@ import {
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
 } from 'actions/projects-report'
+import { getRatesList } from '../actions/currency'
 
 export function* getDeveloperConsolidateProjectReport() {
   const { month, year } = yield select(
@@ -72,6 +73,7 @@ function* setExchangeRate({ payload }) {
         delay: 5000,
       })
     )
+    yield put(getRatesList())
     yield call(getDeveloperConsolidateProjectReport)
   } catch (error) {
     yield put(

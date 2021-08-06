@@ -19,9 +19,13 @@ const TotalValue = (props) => {
   const [isEdit, setIsEdit] = useState(false)
   const [newExchangeRate, setNewExchengeRate] = useState('')
   const [selectedCurrency, setCurrency] = useState(null)
+  const [formIsValid, setFormIsValid] = useState(false)
 
 
   const handleSaveExchangeRate = () => {
+    if (!formIsValid) {
+      return;
+    }
     const data = {
       date: new Date(selectedDate.year, selectedDate.month + 1)
         .toISOString()
@@ -68,13 +72,20 @@ const TotalValue = (props) => {
     setNewExchengeRate(prevExchangeRate || '')
   }, [prevExchangeRate])
 
+  useEffect( () => {
+    const status = !!(selectedCurrency && newExchangeRate && prevExchangeRate !== newExchangeRate);
+    setFormIsValid (
+      status
+    );
+  }, [selectedCurrency, newExchangeRate])
+
   return (
+    <>
     <div className="project_reports_total_container">
       <ModalRow>
         <ModalTitle title="Exchange rate: " />
-        <div onClick={handleClickEditButton}>
+        <div onClick={handleClickEditButton} className="total_container_select_input d-flex">
           <CurrencySelect
-            className="project_reports_exchange_select"
             parentHandler={handleChangeCurrency}
           />
           <input
@@ -87,15 +98,25 @@ const TotalValue = (props) => {
         <div className="edit_user_modal_button_container">
           {!isEdit ? null : (
             <>
-              <button
-                onClick={handleSaveExchangeRate}
-                disabled={
-                  prevExchangeRate === newExchangeRate || !newExchangeRate
-                }
-                className="edit_user_button save"
-              >
-                <FontAwesomeIcon icon={faCheck} />
-              </button>
+              {formIsValid && (
+                <button
+                  onClick={handleSaveExchangeRate}
+                  disabled={
+                    // !formIsValid
+                    prevExchangeRate === newExchangeRate || !newExchangeRate
+                  }
+                  className="edit_user_button save"
+                >
+                  <FontAwesomeIcon icon={faCheck} />
+                </button>
+              )}
+
+              { !formIsValid && (
+                <button className="edit_user_button save btn btn-secondary btn-lg disabled">
+                  <FontAwesomeIcon icon={faCheck} />
+                </button>
+              )}
+
               <button
                 onClick={handleClickCancel}
                 className="edit_user_button cancel"
@@ -119,6 +140,8 @@ const TotalValue = (props) => {
         </div>
       )}
     </div>
+
+    </>
   )
 }
 
