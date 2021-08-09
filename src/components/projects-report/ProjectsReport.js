@@ -36,6 +36,7 @@ import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/de
 import Spinner from '../ui/spinner'
 import { getIsFetchingReport } from '../../selectors/timereports'
 import ActualRates from '../ui/actual-rates/ActualRates'
+import { getRatesList } from '../../actions/currency'
 
 function ProjectsReport({
   roleUser,
@@ -66,6 +67,18 @@ function ProjectsReport({
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
+  }
+
+  const handleChangeData = (data) => {
+    const { month, year } = data;
+    changeSelectedDateProjectsReport(data)
+    const ratesParams = {
+      month,
+      year,
+      is_active: true
+    }
+    getRatesList(ratesParams)
+
   }
 
   useEffect(() => {
@@ -117,7 +130,7 @@ function ProjectsReport({
         )}
         <SelectMonth
           selectedDate={selectedDate}
-          setNewData={changeSelectedDateProjectsReport}
+          setNewData={handleChangeData}
         />
       </div>
 
@@ -130,9 +143,9 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
-      {roleUser !== DEVELOPER && roleUser !== PM && (
-        <ActualRates />
-      )}
+      {/*{roleUser !== DEVELOPER && roleUser !== PM && (*/}
+      {/*  <ActualRates />*/}
+      {/*)}*/}
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
