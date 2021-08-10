@@ -14,7 +14,7 @@ const TeamInput = ({setFieldValue, values}) => {
     if(!checkResult){
       currentDev = developers.find(el=> el.name === data)
     }
-    return !!checkResult?  [...values.team]: [...values.team, { name: data, fullTime: true, id: currentDev.id, }]
+    return !!checkResult?  [...values.team]: [...values.team, { name: data, is_full_time: true, is_active: true, user_id: currentDev.id, }]
   }
 
   return (
@@ -30,7 +30,7 @@ const TeamInput = ({setFieldValue, values}) => {
     >
       <option label='Select developer' disabled={true}></option>
       {developers&&developers.map(developer=>
-        <option key={developer.id} data-id={developer.id}  value ={developer.name}>{developer.name}</option>)}
+        <option key={developer.id}  value ={developer.name}>{developer.name}</option>)}
     </Field>
   )
 }

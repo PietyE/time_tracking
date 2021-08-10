@@ -1,8 +1,8 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
-  SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_USERS, SET_USERS_ON_PROJECT,SET_PROJECT_REPORTS,
+  SET_ALL_PROJECTS, SET_SELECTED_PROJECT,  SET_SELECTED_PROJECT_ID,SET_PROJECT_REPORTS,
 } from 'constants/actions-constant'
-import { createSelector } from '@reduxjs/toolkit';
+
 const todayDate = new Date()
 
 const initialState = {
@@ -12,9 +12,10 @@ const initialState = {
   },
   projects: [],
   projectsWithReports: [],
-  selectedProjects: [],
-  usersOnProject: {},
-  users: [],
+  selectedProjectId:'',
+  selectedProject: {},
+  // usersOnProject: {},
+  // users: [],
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []
@@ -36,20 +37,13 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, projects: action.payload }
     case SET_PROJECT_REPORTS:
      return setProjectsWithReports(state, action)
-
-
-
+    case SET_SELECTED_PROJECT_ID:
+      return { ...state, selectedProjectId: action.payload }
     case SET_SELECTED_PROJECT:
-      console.log('action.payload SET_SELECTED_PROJECT>', action.payload)
-      return { ...state, selectedProjects: action.payload }
-    case SET_USERS_ON_PROJECT:
-      console.log(' action.payload SET_USERS_ON_PROJECT>',  action.payload)
-      // const qqq = { ...state.projectsManagement.usersOnProject, [action.payload.id]: action.payload.usersOnProject }
-      // console.log('qqq >', qqq)
-      return {...state, usersOnProject: action.payload}
-    case SET_USERS:
-      console.log('action.payload SET_USERS>', action.payload)
-      return { ...state, users: action.payload }
+      return { ...state, selectedProject: action.payload }
+
+
+
 
     default:
       return state
@@ -62,13 +56,36 @@ export const getSelectedMonthForPMSelector = (state) =>
 export const getAllProjectsSelector = (state) =>
   state.projectsManagement.projects
 
-export const getProjectsWithReport = (state) =>  state.projectsManagement.projectsWithReports
+export const getProjectsWithReportSelector = (state) =>  state.projectsManagement.projectsWithReports
 
 export const getProjectReportByIdSelector = (state,id) => {
-  return getProjectsWithReport(state).find(project=>project.projectId === id)
+  return getProjectsWithReportSelector(state).find(project=>project.projectId === id)
+}
+export const getSelectedProjectIdSelector = state => state.projectsManagement.selectedProjectId
+export const getSelectedProjectSelector = state => state.projectsManagement.selectedProject
+
+export const getProjectName = state =>{
+  const id = getSelectedProjectIdSelector(state)
+  const projects = getAllProjectsSelector(state)
+  const currentProject = projects.find(project=>project.id === id)
+  return currentProject?.name
 }
 
+export const getActiveUsersSelector = state => {
+  const id = getSelectedProjectIdSelector(state)
+  const reports = getProjectsWithReportSelector(state, id)
+  const currentProjectReports = reports.find(rep => rep.projectId === id)
+  return currentProjectReports?.users?.map(report=>({
+    user_id: report.userId,
+    // name: state.developers.developersList.find(dev => dev.id === report.user.id),
+    name: report.userName,
+    is_full_time:report?.is_full_time,
+    is_active: report?.is_active,
+  }))
+}
+
+
+
+
 export const getUsersSelector = state => state.developers.developersList
-export const getUsersOnProjectSelector = (state) =>
-  state.projectsManagement.usersOnProject
 

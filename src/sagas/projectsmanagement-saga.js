@@ -1,26 +1,41 @@
-import {  call, takeEvery, put, select } from 'redux-saga/effects'
+import {  call, takeEvery, put, select, all } from 'redux-saga/effects'
 import Api from 'utils/api'
 import {pm} from '../api'
 import { saveAs } from 'file-saver'
-
-
 import {
-  GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, GET_USERS,
+  GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID,CREATE_PROJECT,
+  CHANGE_PROJECT_NAME,CHANGE_USERS_ON_PROJECT
 } from 'constants/actions-constant'
 import { setAllProjects, setProjectsWithReport, } from '../actions/projects-management'
-import { setUsers } from '../actions/projects-management'
+// import { setUsers } from '../actions/projects-management'
+import { showAler } from '../actions/alert'
+import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
 
 
 export function* getAllProjects() {
-  const URL_PROJECTS = `projects/`
-  const { data } = yield call([Api, 'getAllProjects'], URL_PROJECTS)
-  yield put(setAllProjects(data))
+  try{
+    const URL_PROJECTS = `projects/`
+    const { data } = yield call([Api, 'getAllProjects'], URL_PROJECTS)
+    yield put(setAllProjects(data))
+  }
+  catch(error){
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+
 }
 
 export function* getProjectReportById({payload}) {
   const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-
-  const { data } = yield call([pm, 'getProjectsReportById'], { year, month, id: `${payload}` })
+try{
+  
+    const { data } = yield call([pm, 'getProjectsReportById'], { year, month, id: `${payload}` })
   console.log('data', data)
   const usersReport = data.map(el => ({
       projectReportId: el.id,
@@ -29,6 +44,7 @@ export function* getProjectReportById({payload}) {
       userName: el.user.name,
       hours: el.hours,
       is_fulltime: el.is_fulltime,
+    is_active: el.is_active,
     }),
   )
   const projectReport = {
@@ -36,6 +52,17 @@ export function* getProjectReportById({payload}) {
     users: usersReport,
   }
   yield put(setProjectsWithReport(projectReport))
+}catch(error){
+  yield put(
+    showAler({
+      type: WARNING_ALERT,
+      title: 'Something went wrong',
+      message: error.message || 'Something went wrong',
+      delay: 6000,
+    })
+  )
+    console.dir(error)
+}
 }
 
 export function* downloadProjectReport({payload}) {
@@ -48,20 +75,119 @@ export function* downloadProjectReport({payload}) {
       saveAs(response.data, fileName)
     }
   } catch (error) {
-    console.log('!error', error)
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+    console.dir( error)
   }
 }
 
-export function* getUsers() {
-  const { data } = yield call([pm, 'getUsers'])
-  console.log('data', data)
-  yield put(setUsers(data))
+export function* createProject({payload}) {
+try{
+const{projectName,users}=payload
+  const {data} = yield call([pm, 'createProject'], {name: projectName})
+  yield call([pm, 'setUsersToProject'],
+      {project: data.id, users: users})
+      yield put(
+        showAler({
+          type: SUCCES_ALERT,
+          message: 'Project has been created',
+          delay: 5000,
+        })
+      )
+      yield call(getAllProjects)
+}catch(error){
+  yield put(
+    showAler({
+      type: WARNING_ALERT,
+      title: 'Something went wrong',
+      message: error.message || 'Something went wrong',
+      delay: 6000,
+    })
+  )
+  console.dir(error)
+  }
 }
+
+
+export function* changeProjName({payload}) {
+  try{
+    console.log('payload', payload)
+    const result = yield call([pm, 'changeProjectName'], payload.id, {name: payload.data})
+    if(result.status === 200){
+      yield put(
+        showAler({
+          type: SUCCES_ALERT,
+          message: 'Project name has been modify',
+          delay: 5000,
+        })
+      )
+      yield call(getAllProjects)
+    }
+
+  }catch(error){
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+    console.dir(error)
+  }
+}
+export function* editProjectTeamList({payload}) {
+  try{
+    console.log('payload from edit saga', payload.data)
+    const {id, data} = payload
+    yield all(data.map(member => {
+        console.log('-----------------  2 --------------------')
+        call([pm, 'changeProjectTeam'], id, member)
+    }
+    ))
+    // if(result.status === 200){
+    //   yield put(
+    //     showAler({
+    //       type: SUCCES_ALERT,
+    //       message: 'Project team has been modify',
+    //       delay: 5000,
+    //     })
+    //   )
+      // yield call(getAllProjects)
+    // }
+
+  }catch(error){
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+    console.dir(error)
+  }
+}
+
+
+
+// export function* getAllProjectsWithReport() {
+//   const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+//   const { data } = yield call([pm, 'getProjectsWithReport'], { year, month })
+//   console.log('data', data)
+// }
 
 export function* watchProjectsManagement() {
   yield takeEvery(
     [GET_ALL_PROJECTS],
     getAllProjects,
+    // getAllProjectsWithReport
   )
   yield  takeEvery(
     [GET_PROJECT_REPORT_BY_ID],
@@ -72,7 +198,12 @@ export function* watchProjectsManagement() {
     downloadProjectReport,
   )
   yield  takeEvery(
-    [GET_USERS],
-    getUsers,
+    [CREATE_PROJECT],
+    createProject,
   )
+  yield takeEvery(
+    [CHANGE_PROJECT_NAME], changeProjName)
+  yield takeEvery(
+    [CHANGE_USERS_ON_PROJECT], editProjectTeamList)
 }
+

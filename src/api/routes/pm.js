@@ -19,6 +19,49 @@ class PmCRUD extends CRUD {
     })
   }
 
+  createProject(data){
+    const url = '/projects/'
+    return this.request({
+      url,
+      method: 'POST',
+      data
+    })
+  }
+  setUsersToProject(data){
+    const url = `${this.url}/create-list/`
+    return this.request({
+      url,
+      method: 'POST',
+      data
+    })
+  }
+
+  changeProjectName(id, data){
+    const url = `/projects/${id}/`
+    return this.request({
+      url,
+      method: 'PATCH',
+      data
+    })
+  }
+
+  changeProjectTeam(id, data){
+    const url = `/${this.url}/${id}/`
+    return this.request({
+      url,
+      method: 'PATCH',
+      data
+    })
+  }
+
+  //
+  // getProjectsWithReport(params) {
+  //   const url = `${this.url}/report/${params.year}/${params.month}`
+  //   return this.request({
+  //     url,
+  //     method: 'GET',
+  //   })
+  // }
 
 
 

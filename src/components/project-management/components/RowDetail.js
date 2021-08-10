@@ -9,21 +9,20 @@ import { getProjectReportByIdSelector } from '../../../reducers/projects-managem
 
 const RowDetail = ({ row, currentProjectReport }) => {
   const dispatch = useDispatch()
+
     const _getProjectReportById = useCallback(
     (data) => {
       dispatch(getProjectReportById(data))
     },
     [dispatch],
   )
+
   const _downloadProjectReport = useCallback(
     (data) => {
       dispatch(downloadProjectReport(data))
     },
     [dispatch],
   )
-  const downloadXLS = (id) => {
-    _downloadProjectReport(id)
-  }
   // const downloadIcon =id=>
   //   (<Button variant = "outline-*" onClick={(id)=>downloadXLS(id)}> <span className = "oi oi-cloud-download"/></Button>)
 
@@ -42,7 +41,7 @@ const RowDetail = ({ row, currentProjectReport }) => {
         user: user.userName,
         occupancy: user.is_fulltime ? 'Full-time' : 'Part-time',
         hours: user.hours,
-        report: <Button variant = "outline-*" onClick={()=>downloadXLS(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
+        report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
         actions: '',
 
       }))

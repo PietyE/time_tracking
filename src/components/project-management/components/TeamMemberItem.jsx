@@ -3,21 +3,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 const TeamMemberItem = ({data, setFieldValue, values}) => {
-const [occupancy, setOccupancy] = useState(!data.fullTime)
+  const occupancyToBool = !!data.is_full_time
+const [occupancy, setOccupancy] = useState(!occupancyToBool)
   const removeMember = (e) => {
     setFieldValue(
       'team',
       values.team.filter((el) => el.name !== e.target.dataset.name)
     )
   }
+
   const changeOccupancy = () =>{
     setOccupancy(!occupancy)
-    let index = values.team.findIndex(el => el.id === data.id);
-    data.fullTime = occupancy
+    let index = values.team.findIndex(el => el.user_id === data.user_id);
+    console.log('index', index)
+    data.is_full_time = occupancy
     const newArr = [...values.team]
-    newArr[index] = data
+    newArr.splice(index,1,data)
     setFieldValue('team', newArr)
   }
+
   return (
     <li onClick={removeMember} data-name={data.name} className='pm_create_team_item' >
       <span className='pm_create_team_text'>{data.name}</span>

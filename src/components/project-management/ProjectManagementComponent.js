@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
   import { RowDetailState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid'
 import {
@@ -7,28 +7,31 @@ import {
   TableHeaderRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
   getSelectedMonthForPMSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
-  getAllProjects,
+  getAllProjects,downloadProjectReport,setSelectedProjectId,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
+import EditProjectModal from './components/EditProjectModal'
 import './style.scss'
 import { Button } from 'react-bootstrap'
 
 const ProjectManagementComponent =
   ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, getUsersInfoByProject }) => {
+
     useEffect(() => {
       getAllProjects()
-    }, [])
+    }, [getAllProjects])
+    const dispatch = useDispatch()
 
     const [isCreateProjectModalShown, setCreateProjectModalShown] = useState(false)
-
+    const [isEditProjectModalShown, setEditProjectModalShown] = useState(false)
     const [columns] = useState([
       { name: 'project', title: 'Project' },
       { name: 'occupancy', title: 'Occupancy' },
@@ -41,17 +44,36 @@ const ProjectManagementComponent =
         return <TableHeaderRow.SortLabel {...props} disabled />;
       return <TableHeaderRow.SortLabel {...props} />;
     });
+
+    const _downloadProjectReport = useCallback(
+      (data) => {
+        dispatch(downloadProjectReport(data))
+      },
+      [dispatch],
+    )
+    const _setSelectedProjectId = useCallback(
+      (data) => {
+        dispatch(setSelectedProjectId(data))
+      },
+      [dispatch],
+    )
+    const openEditModal = (id) =>{
+      _setSelectedProjectId(id)
+      setEditProjectModalShown(true)
+    }
+
     const [rows, setRows] = useState([])
-    const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
-    const editIcon = <span className = "oi oi-pencil"/>
+    // const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
+    // const editIcon = <span className = "oi oi-pencil"/>
+
     useEffect(() => {
       if (projects?.length > 0) {
         const reformatProjects = projects.map(project => ({
           project: project.name,
           occupancy: ' ',
           hours: '',
-          report: downloadIcon,
-          actions: editIcon,
+          report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(project.id)}> <span className = "oi oi-cloud-download"/></Button>,
+          actions: <span className = "oi oi-pencil" onClick={()=>openEditModal(project.id)}/>,
           id: project.id,
         }))
         setRows(reformatProjects)
@@ -102,7 +124,11 @@ const ProjectManagementComponent =
           show = {isCreateProjectModalShown}
           onClose = {setCreateProjectModalShown.bind(setCreateProjectModalShown, false)}
         />
-
+        <EditProjectModal
+          show = {isEditProjectModalShown}
+          onClose = {setEditProjectModalShown.bind(setEditProjectModalShown, false)
+          }
+        />
       </>
     )
   }
