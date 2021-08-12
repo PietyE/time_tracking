@@ -105,6 +105,8 @@ function Select(props) {
     return false
   })
 
+  const showContainer = !!searchedListItems.length;
+
   return (
     <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
@@ -137,12 +139,13 @@ function Select(props) {
           }
         />
       </div>
-      {isOpen && !disabled && (
+      {isOpen && !disabled && showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
           {searchedListItems.map((item) => (
+
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
