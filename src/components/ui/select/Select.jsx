@@ -105,7 +105,7 @@ function Select(props) {
     return false
   })
 
-  const showContainer = !!searchedListItems.length;
+  const showContainer = isOpen && !disabled && !!searchedListItems.length;
 
   return (
     <button
@@ -139,7 +139,7 @@ function Select(props) {
           }
         />
       </div>
-      {isOpen && !disabled && showContainer && (
+      {showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
