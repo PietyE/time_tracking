@@ -7,7 +7,6 @@ import {
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT,
 } from 'constants/actions-constant'
 import { setAllProjects, setProjectsWithReport } from '../actions/projects-management'
-// import { setUsers } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
 import { getSelectedProjectIdSelector } from '../reducers/projects-management'
@@ -178,7 +177,6 @@ export function* editUsersOnProject({ payload }) {
 
 export function* addUsersToProject({ payload }) {
   try {
-    console.log('payload', payload)
     const result = yield call([pm, 'createDeveloperProject'], payload.data)
     if (result.status === 200) {
       yield put(
