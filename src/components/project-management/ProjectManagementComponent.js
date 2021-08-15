@@ -65,8 +65,6 @@ const ProjectManagementComponent =
     }
 
     const [rows, setRows] = useState([])
-    // const downloadIcon = <Button variant = "outline-*"><span className = "oi oi-cloud-download"/></Button>
-    // const editIcon = <span className = "oi oi-pencil"/>
 
     useEffect(() => {
       if (projects?.length > 0) {

@@ -150,10 +150,8 @@ export function* changeProjName({ payload }) {
 
 export function* editUsersOnProject({ payload }) {
   try {
-    console.log('payload from edit saga', payload.data)
     const { id, data } = payload
     const result = yield call([pm, 'changeProjectTeam'], id, data)
-    console.log('result', result)
     if (result.status === 200) {
       yield put(
         showAler({
@@ -190,10 +188,10 @@ export function* addUsersToProject({ payload }) {
           delay: 5000,
         }),
       )
-      yield call(getProjectReportById)
 
 
     }
+    yield call(getProjectReportById)
 
   } catch (error) {
     yield put(
@@ -208,12 +206,6 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
-
-// export function* getAllProjectsWithReport() {
-//   const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-//   const { data } = yield call([pm, 'getProjectsWithReport'], { year, month })
-//   console.log('data', data)
-// }
 
 export function* watchProjectsManagement() {
   yield takeEvery(

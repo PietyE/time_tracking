@@ -59,6 +59,7 @@ function EditProjectModal({ onClose, show }) {
   const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
   const deactivatedUsers = useSelector(getDeactivatedMembersSelector, isEqual)
 
+
   const availableProjectManagersList = projectManagersList.filter(pm => pm?.id !== activeProjectManager?.user_id)
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
@@ -136,7 +137,9 @@ function EditProjectModal({ onClose, show }) {
 
               if (isPm) {
                 setFieldValue('projectManager.name', e.target.value)
-                _changeUserOnProject(activeProjectManager.projectReportId, { is_active: false })
+                if(activeProjectManager){
+                  _changeUserOnProject(activeProjectManager.projectReportId, { is_active: false })
+                }
               }
               const wasDeactivated = deactivatedUsers.find(user => user.user_id === targetUserId)
               if (wasDeactivated) {
@@ -150,7 +153,6 @@ function EditProjectModal({ onClose, show }) {
                 })
               }
             }
-
             return (
               <Form className = "pm_create_modal_form">
                 {/*Change project name*/}
@@ -198,7 +200,7 @@ function EditProjectModal({ onClose, show }) {
                     as = "select"
                     onChange = {handleAddMemberToProject}
                   >
-                    <option label = 'Select PM' disabled = {true}></option>
+                    <option label = 'Select PM' ></option>
                     {!!availableProjectManagersList.length && availableProjectManagersList.map(pm =>
                       <option key = {pm?.id} data-id = {pm.id} value = {pm?.name}>{pm?.name}</option>,
                     )

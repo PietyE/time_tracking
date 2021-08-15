@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
-import { isEqual } from 'lodash'
 
 import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
 import { getProjectReportByIdSelector } from '../../../reducers/projects-management'
@@ -23,9 +22,6 @@ const RowDetail = ({ row, currentProjectReport }) => {
     },
     [dispatch],
   )
-  // const downloadIcon =id=>
-  //   (<Button variant = "outline-*" onClick={(id)=>downloadXLS(id)}> <span className = "oi oi-cloud-download"/></Button>)
-
 
   const [childRows, setChildRows] = useState([])
 
