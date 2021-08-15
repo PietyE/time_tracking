@@ -32,11 +32,12 @@ const RowDetail = ({ row, currentProjectReport }) => {
 
   useEffect(() => {
     if (currentProjectReport) {
-      let reformatProjects = []
-      reformatProjects = currentProjectReport.users.map(user => ({
+      const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true)
+      console.log('reformatProjects', activeProjectReports)
+      const reformatProjects = activeProjectReports.map(user => ({
         user: user.userName,
-        occupancy: user.is_fulltime ? 'Full-time' : 'Part-time',
-        hours: user.hours,
+        occupancy: user.is_full_time ? 'Full-time' : 'Part-time',
+        hours: user.hours || 0,
         report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
         actions: '',
 
