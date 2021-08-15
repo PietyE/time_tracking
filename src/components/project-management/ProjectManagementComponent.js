@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
-  import { RowDetailState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid'
+import {
+  RowDetailState, SortingState, IntegratedSorting,
+} from '@devexpress/dx-react-grid'
 import {
   Grid,
   Table,
@@ -13,8 +15,8 @@ import {
   getSelectedMonthForPMSelector,
 } from '../../reducers/projects-management'
 import {
-  changeSelectedDateProjectsManagement,
-  getAllProjects,downloadProjectReport,setSelectedProjectId,
+  changeSelectedDateProjectsManagement, clearPmProjects,
+  getAllProjects, downloadProjectReport, setSelectedProjectId,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -23,7 +25,7 @@ import './style.scss'
 import { Button } from 'react-bootstrap'
 
 const ProjectManagementComponent =
-  ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, getUsersInfoByProject }) => {
+  ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, clearPmProjects }) => {
 
     useEffect(() => {
       getAllProjects()
@@ -36,14 +38,14 @@ const ProjectManagementComponent =
       { name: 'project', title: 'Project' },
       { name: 'occupancy', title: 'Occupancy' },
       { name: 'hours', title: 'Hours' },
-      { name: 'report', title: 'Report', },
+      { name: 'report', title: 'Report' },
       { name: 'actions', title: '' },
     ])
     const SortingLabel = React.memo(props => {
-      if (props.column.name === "report" || props.column.name === "actions")
-        return <TableHeaderRow.SortLabel {...props} disabled />;
-      return <TableHeaderRow.SortLabel {...props} />;
-    });
+      if (props.column.name === 'report' || props.column.name === 'actions')
+        return <TableHeaderRow.SortLabel {...props} disabled/>
+      return <TableHeaderRow.SortLabel {...props} />
+    })
 
     const _downloadProjectReport = useCallback(
       (data) => {
@@ -57,7 +59,7 @@ const ProjectManagementComponent =
       },
       [dispatch],
     )
-    const openEditModal = (id) =>{
+    const openEditModal = (id) => {
       _setSelectedProjectId(id)
       setEditProjectModalShown(true)
     }
@@ -72,8 +74,9 @@ const ProjectManagementComponent =
           project: project.name,
           occupancy: ' ',
           hours: '',
-          report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(project.id)}> <span className = "oi oi-cloud-download"/></Button>,
-          actions: <span className = "oi oi-pencil" onClick={()=>openEditModal(project.id)}/>,
+          report: <Button variant = "outline-*" onClick = {() => _downloadProjectReport(project.id)}> <span
+            className = "oi oi-cloud-download"/></Button>,
+          actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
           id: project.id,
         }))
         setRows(reformatProjects)
@@ -81,6 +84,11 @@ const ProjectManagementComponent =
     }, [projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
+
+    const clear = () => {
+      clearPmProjects()
+      setExpandedRowIds([])
+    }
     return (
       <>
         <div className = "container project_management_container">
@@ -88,6 +96,8 @@ const ProjectManagementComponent =
             <SelectMonth
               selectedDate = {selectedDateForPM}
               setNewData = {changeSelectedDateProjectsManagement}
+              clearProjects = {clear}
+
             />
 
             <button
@@ -105,19 +115,21 @@ const ProjectManagementComponent =
               columns = {columns}
             >
               <SortingState
-                defaultSorting={[{ columnName: 'project', direction: 'asc' }]}/>
-                <IntegratedSorting/>
+                defaultSorting = {[{ columnName: 'project', direction: 'asc' }]}/>
+              <IntegratedSorting/>
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
                 // toggleDetailRowExpanded={}
-                defaultExpandedRowIds={[]}
+                defaultExpandedRowIds = {[]}
               />
               <Table/>
-              <TableHeaderRow showSortingControls  sortLabelComponent={SortingLabel}/>
+              <TableHeaderRow showSortingControls sortLabelComponent = {SortingLabel} resizingEnabled/>
               <TableRowDetail contentComponent = {RowDetail}/>
             </Grid>
           </div>
+
+
         </div>
 
         <CreateProjectModal
@@ -140,6 +152,8 @@ const mapStateToProps = (state) => ({
 const actions = {
   changeSelectedDateProjectsManagement,
   getAllProjects,
+  clearPmProjects,
+
 }
 
 

@@ -1,5 +1,8 @@
 .project_management_container {
   padding-top: 40px;
+  .dx-g-bs4-header-cell-content{
+    justify-content: center;
+  }
 }
 
 .pm_create_modal_form{
@@ -17,6 +20,7 @@
   padding-left: 8px;
   height: 35px;
 }
+
 .pm_create_team_item{
   margin-bottom: 8px;
   display: flex;

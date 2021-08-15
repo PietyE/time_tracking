@@ -17,6 +17,7 @@ function SelectMonth({
   selectedDate = {},
   setNewData,
   extraClassNameContainer,
+  clearProjects,
 }) {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
@@ -55,10 +56,12 @@ function SelectMonth({
     if(currentYear === 2010){
        return
     }
+
       setCurrentMonth(11)
       setNewData({ month: 11, year: currentYear - 1 })
       setCurrentYear(currentYear - 1)
     } else {
+      clearProjects()
       setCurrentMonth(currentMonth - 1)
       setNewData({ month: currentMonth - 1, year: currentYear })
     }
@@ -72,6 +75,7 @@ function SelectMonth({
       setNewData({ month: 0, year: currentYear + 1 })
       setCurrentYear(currentYear + 1)
     } else {
+      clearProjects()
       setCurrentMonth(currentMonth + 1)
       setNewData({ month: currentMonth + 1, year: currentYear })
     }

@@ -3,14 +3,14 @@ import CRUD from '../base'
 class PmCRUD extends CRUD {
 
   getProjectsReportById(params) {
-    const url = `${this.url}/report/${params.year}/${params.month+1}/?project_id=${params.id}`
+    const url = `${this.url}/report/${params.year}/${params.month + 1}/?project_id=${params.id}`
     return this.request({
       url,
       method: 'GET',
     })
   }
 
-  getProjectReportInExcel(params){
+  getProjectReportInExcel(params) {
     const url = `${this.url}/${params.payload}/export-excel/${params.year}/${params.month + 1}/`
     return this.request({
       url,
@@ -19,38 +19,48 @@ class PmCRUD extends CRUD {
     })
   }
 
-  createProject(data){
+  createProject(data) {
     const url = '/projects/'
     return this.request({
       url,
       method: 'POST',
-      data
+      data,
     })
   }
-  setUsersToProject(data){
+
+  setUsersToProject(data) {
     const url = `${this.url}/create-list/`
     return this.request({
       url,
       method: 'POST',
-      data
+      data,
     })
   }
 
-  changeProjectName(id, data){
+  changeProjectName(id, data) {
     const url = `/projects/${id}/`
     return this.request({
       url,
       method: 'PATCH',
-      data
+      data,
     })
   }
 
-  changeProjectTeam(id, data){
-    const url = `/${this.url}/${id}/`
+  changeProjectTeam(id, data) {
+    const url = `${this.url}/${id}/`
     return this.request({
       url,
       method: 'PATCH',
-      data
+      data,
+    })
+  }
+
+  createDeveloperProject(data) {
+    const url = `${this.url}/`
+    return this.request({
+      url,
+      method: 'POST',
+      data,
     })
   }
 
@@ -62,7 +72,6 @@ class PmCRUD extends CRUD {
   //     method: 'GET',
   //   })
   // }
-
 
 
 }
