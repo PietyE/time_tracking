@@ -152,6 +152,12 @@ class Api {
       params
     })
   }
+
+  getConsolidatedReport = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
 
 
