@@ -4,7 +4,7 @@ import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
   GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, CREATE_PROJECT,
-  CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT,
+  CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import { setAllProjects, setProjectsWithReport } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
@@ -90,7 +90,28 @@ export function* downloadProjectReport({ payload }) {
     console.dir(error)
   }
 }
+export function* downloadAllTeamProjectReport({ payload }) {
+  try {
+    const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
+    const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], { year, month, payload })
+    console.log('response', response)
+    const fileName = response.headers['content-disposition'].split('"')[1]
+    if (response && response.data instanceof Blob) {
+      saveAs(response.data, fileName)
+    }
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      }),
+    )
+    console.dir(error)
+  }
+}
 export function* createProject({ payload }) {
   try {
     const { projectName, users } = payload
@@ -218,6 +239,10 @@ export function* watchProjectsManagement() {
   yield  takeEvery(
     [GET_DOWNLOAD_PROJECT_REPORT],
     downloadProjectReport,
+  )
+  yield  takeEvery(
+    [GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT],
+    downloadAllTeamProjectReport,
   )
   yield  takeEvery(
     [CREATE_PROJECT],

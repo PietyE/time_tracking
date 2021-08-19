@@ -5,7 +5,7 @@ import {
   SET_USERS_ON_PROJECT, GET_PROJECT_REPORT_BY_ID, SET_PROJECT_REPORTS,
   GET_DOWNLOAD_PROJECT_REPORT, CREATE_PROJECT, SET_SELECTED_PROJECT_ID,
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, CLEAR_PM_PROJECTS,
-  ADD_USERS_ON_PROJECT,
+  ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -34,6 +34,10 @@ export const setProjectsWithReport = (payload) => ({
 
 export const downloadProjectReport = payload => ({
   type: GET_DOWNLOAD_PROJECT_REPORT,
+  payload,
+})
+export const downloadAllTeamProjectReport = payload => ({
+  type: GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   payload,
 })
 

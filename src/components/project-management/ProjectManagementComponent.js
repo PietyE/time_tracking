@@ -17,6 +17,7 @@ import {
 import {
   changeSelectedDateProjectsManagement, clearPmProjects,
   getAllProjects, downloadProjectReport, setSelectedProjectId,
+  downloadAllTeamProjectReport,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -47,12 +48,19 @@ const ProjectManagementComponent =
       return <TableHeaderRow.SortLabel {...props} />
     })
 
-    const _downloadProjectReport = useCallback(
+
+    const _downloadAllTeamProjectReport = useCallback(
       (data) => {
-        dispatch(downloadProjectReport(data))
+        dispatch(downloadAllTeamProjectReport(data))
       },
       [dispatch],
     )
+    // const _downloadProjectReport = useCallback(
+    //   (data) => {
+    //     dispatch(downloadProjectReport(data))
+    //   },
+    //   [dispatch],
+    // )
     const _setSelectedProjectId = useCallback(
       (data) => {
         dispatch(setSelectedProjectId(data))
@@ -65,14 +73,14 @@ const ProjectManagementComponent =
     }
 
     const [rows, setRows] = useState([])
-
+    console.log('projects', projects)
     useEffect(() => {
       if (projects?.length > 0) {
         const reformatProjects = projects.map(project => ({
           project: project.name,
           occupancy: ' ',
           hours: '',
-          report: <Button variant = "outline-*" onClick = {() => _downloadProjectReport(project.id)}> <span
+          report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}> <span
             className = "oi oi-cloud-download"/></Button>,
           actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
           id: project.id,

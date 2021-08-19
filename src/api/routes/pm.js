@@ -19,6 +19,15 @@ class PmCRUD extends CRUD {
     })
   }
 
+  getAllTeamProjectReportsInExcel(params) {
+    const url = `/projects/${params.payload}/export-excel/${params.year}/${params.month + 1}/`
+    return this.request({
+      url,
+      method: 'GET',
+      responseType: 'blob',
+    })
+  }
+
   createProject(data) {
     const url = '/projects/'
     return this.request({
