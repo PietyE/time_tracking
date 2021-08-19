@@ -16,10 +16,10 @@ export default function TableHeader({ roleUser }) {
           <div className="table_cell salary">Salary</div>
           <div className="table_cell rate">Rate</div>
           <div className="table_cell hours">Hours</div>
-          <div className="table_cell total">Hourly salary</div>
-          <div className="table_cell total">Total</div>
-          <div className="table_cell to_pay">To pay</div>
-          <div className="table_cell coast">Costs</div>
+          <div className="table_cell total">Overtime salary, total</div>
+          <div className="table_cell total">Total salary</div>
+          <div className="table_cell coast">Extra costs, UAH</div>
+          <div className="table_cell to_pay">Total to pay, UAH</div>
         </>)}
       {roleUser === PM && (
         <>
