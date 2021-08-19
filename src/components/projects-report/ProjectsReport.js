@@ -21,6 +21,7 @@ import {
   getDevelopersProjectInProjectReport,
   setEditUserId,
   setExchangeRates,
+  getConsolidateProjectReport,
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
@@ -29,12 +30,11 @@ import {
   getEditingUserIdSelector,
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
-  getDevProjectConsolidateProjectReportsSelector,
+  getDevProjectConsolidateProjectReportsSelector, selectUsersReports,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
-import { getIsFetchingReport } from '../../selectors/timereports'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
 
@@ -56,9 +56,12 @@ function ProjectsReport({
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
-  isFetchingReports
+  isFetchingReports,
+  getConsolidateProjectReport,
+  selectUsersReports
 }) {
-  const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  // const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  const users = selectUsersReports
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
@@ -85,7 +88,8 @@ function ProjectsReport({
     if (roleUser !== DEVELOPER) {
       getDevelopersProjectInProjectReport()
     }
-    getDeveloperConsolidateProjectReport()
+    // getDeveloperConsolidateProjectReport()
+    getConsolidateProjectReport()
   }, [])
   return (
     <>
@@ -143,9 +147,9 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
-      {/*{roleUser !== DEVELOPER && roleUser !== PM && (*/}
-      {/*  <ActualRates />*/}
-      {/*)}*/}
+      {roleUser !== DEVELOPER && roleUser !== PM && (
+        <ActualRates />
+      )}
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
@@ -167,10 +171,10 @@ function ProjectsReport({
                 is_processed,
               } = user
 
-              const allProjectsName = developer_projects
-                .map((project) => project.name)
-                .join(', ')
-
+              // const allProjectsName = developer_projects
+              //   .map((project) => project.name)
+              //   .join(', ')
+              const allProjectsName = '';
               const commonProjectsInfo = {
                 name: allProjectsName,
               }
@@ -215,7 +219,7 @@ function ProjectsReport({
 
 const RenderUser = ({
   name = '',
-  commonProjectsInfo = {},
+  // commonProjectsInfo = {},
   projects = [],
   rate = 0,
   projectSalary = 0,
@@ -244,17 +248,18 @@ const RenderUser = ({
     setIsOpen(!isOpen)
   }
 
-  const totalHoursOvertime = projects.reduce((sum, project) => {
-    if (!project.is_full_time) {
-      return (sum = sum + project.working_time)
-    }
-    return sum
-  }, 0)
+  // const totalHoursOvertime = projects.reduce((sum, project) => {
+  //   if (!project.is_full_time) {
+  //     return (sum = sum + project.working_time)
+  //   }
+  //   return sum
+  // }, 0)
+  const totalHoursOvertime = 0;
 
   return (
     <div className="table_body_item">
       <TableRow
-        project={commonProjectsInfo}
+        // project={commonProjectsInfo}
         projectSalary={projectSalary}
         name={name}
         rate={rate}
@@ -276,20 +281,20 @@ const RenderUser = ({
         isOpen={isOpen}
         isFetchingReports={isFetchingReports}
       />
-      {projects.map((project) => {
-        return (
-          <TableRow
-            project={project}
-            extraClass={isOpen ? 'more_project open' : 'more_project'}
-            rate={rate}
-            key={project.id}
-            selectedDate={selectedDate}
-            is_full_time={project.is_full_time}
-            userId={userId}
-            roleUser={roleUser}
-          />
-        )
-      })}
+      {/*{projects.map((project) => {*/}
+      {/*  return (*/}
+      {/*    <TableRow*/}
+      {/*      project={project}*/}
+      {/*      extraClass={isOpen ? 'more_project open' : 'more_project'}*/}
+      {/*      rate={rate}*/}
+      {/*      key={project.id}*/}
+      {/*      selectedDate={selectedDate}*/}
+      {/*      is_full_time={project.is_full_time}*/}
+      {/*      userId={userId}*/}
+      {/*      roleUser={roleUser}*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*})}*/}
     </div>
   )
 }
@@ -304,6 +309,7 @@ const mapStateToProps = (state) => ({
   selectedProject: getSelectedProjectSelector(state),
   editingUserId: getEditingUserIdSelector(state),
   isFetchingReports: getIsFetchingProjectsReport(state),
+  selectUsersReports: selectUsersReports(state),
 })
 
 const actions = {
@@ -317,6 +323,7 @@ const actions = {
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
+  getConsolidateProjectReport
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)
