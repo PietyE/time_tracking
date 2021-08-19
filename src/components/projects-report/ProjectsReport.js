@@ -61,7 +61,6 @@ function ProjectsReport({
 }) {
   // const { users, total_usd, total_uah, exchange_rate } = projectsReports
   const users = selectUsersReports
-  console.dir(users);
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
