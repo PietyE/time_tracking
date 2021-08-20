@@ -58,9 +58,10 @@ function ProjectsReport({
   setProcessedStatus,
   isFetchingReports,
   getConsolidateProjectReport,
-  selectUsersReports
+  selectUsersReports,
+  getRatesList
 }) {
-  // const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  const { total_usd, total_uah, exchange_rate } = projectsReports
   const users = selectUsersReports
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
@@ -76,8 +77,8 @@ function ProjectsReport({
     const { month, year } = data;
     changeSelectedDateProjectsReport(data)
     const ratesParams = {
-      month,
       year,
+      month: month + 1,
       is_active: true
     }
     getRatesList(ratesParams)
@@ -323,7 +324,8 @@ const actions = {
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
-  getConsolidateProjectReport
+  getConsolidateProjectReport,
+  getRatesList
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

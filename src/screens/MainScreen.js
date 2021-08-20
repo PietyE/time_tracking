@@ -32,7 +32,6 @@ function MainScreen({
   getSelectedMonth
 }) {
   const date = getSelectedMonth;
-  console.dir(date);
   useEffect(() => {
     if (isAuth) {
       if (roleUser !== DEVELOPER) {

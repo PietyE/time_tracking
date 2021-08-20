@@ -31,8 +31,6 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
-import ActualRates from '../ui/actual-rates/ActualRates'
-import { getRatesList } from '../../actions/currency'
 
 function TimeReport(props) {
   const {
@@ -50,7 +48,6 @@ function TimeReport(props) {
     selectedDeveloper,
     selectDevelopers,
     getTimeReportCsv,
-    getRatesList,
   } = props
 
   const [showEmpty, setShowEmpty] = useState(true)
@@ -82,18 +79,6 @@ function TimeReport(props) {
         return res + item.duration
       }, 0)
     : 0
-
-  // const handleChangeData = (data) => {
-  //   const { month, year } = data;
-  //   changeSelectedDateTimeReport(data)
-  //   const ratesParams = {
-  //     month,
-  //     year,
-  //     is_active: true
-  //   }
-  //   getRatesList(ratesParams)
-  //
-  // }
 
   const bootstrapWidthRouteState = () => {
     if (routeState) {
@@ -197,7 +182,7 @@ function TimeReport(props) {
           <div className="time_report_header_btn_section">
             <SelectMonth
               selectedDate={selectedDate}
-              // setNewData={handleChangeData}
+              setNewData={changeSelectedDateTimeReport}
               extraClassNameContainer="time_report_header_select_month"
             />
             <button className="export_btn" onClick={handlerExportCsv}>
@@ -208,7 +193,6 @@ function TimeReport(props) {
             </button>
           </div>
         </div>
-        <ActualRates />
         <div className="time_report_total_container">
           <div className="time_repord_checkbox">
             <label>
@@ -279,7 +263,6 @@ const actions = {
   resetSelectedDate,
   selectDevelopers,
   getTimeReportCsv,
-  getRatesList,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

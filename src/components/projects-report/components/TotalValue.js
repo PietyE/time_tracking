@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { InputGroup } from 'react-bootstrap'
+import { InputGroup, Spinner } from 'react-bootstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 import ModalTitle from './ModalTitle'
 import ModalRow from './ModalRow'
 import CurrencySelect from './CurrencySelect'
+import { useSelector } from 'react-redux'
+import { selectIsFetchingRatesList } from '../../../selectors/currency'
 
 const TotalValue = (props) => {
   const {
@@ -21,7 +23,7 @@ const TotalValue = (props) => {
   const [selectedCurrency, setCurrency] = useState(null)
   const [formIsValid, setFormIsValid] = useState(false)
 
-
+  const isFetchRateList = useSelector(selectIsFetchingRatesList)
 
   const handleSaveExchangeRate = () => {
     if (!formIsValid) {
@@ -85,6 +87,12 @@ const TotalValue = (props) => {
     <div className="project_reports_total_container">
       <ModalRow>
         <ModalTitle title="Exchange rate: " />
+        {isFetchRateList &&
+        <div className="spinner-small">
+          <Spinner animation="border" variant="success"/>
+        </div>
+        }
+        {!isFetchRateList &&
         <div onClick={handleClickEditButton} className="total_container_select_input d-flex">
           <CurrencySelect
             parentHandler={handleChangeCurrency}
@@ -96,6 +104,8 @@ const TotalValue = (props) => {
           />
 
         </div>
+        }
+
         <div className="edit_user_modal_button_container">
           {!isEdit ? null : (
             <>
