@@ -36,6 +36,7 @@ import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
+import { getRatesList } from '../../actions/currency'
 
 function ProjectsReport({
   roleUser,
@@ -57,9 +58,10 @@ function ProjectsReport({
   setProcessedStatus,
   isFetchingReports,
   getConsolidateProjectReport,
-  selectUsersReports
+  selectUsersReports,
+  getRatesList
 }) {
-  // const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  const { total_usd, total_uah, exchange_rate } = projectsReports
   const users = selectUsersReports
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
@@ -69,6 +71,18 @@ function ProjectsReport({
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
+  }
+
+  const handleChangeData = (data) => {
+    const { month, year } = data;
+    changeSelectedDateProjectsReport(data)
+    const ratesParams = {
+      year,
+      month: month + 1,
+      is_active: true
+    }
+    getRatesList(ratesParams)
+
   }
 
   useEffect(() => {
@@ -121,19 +135,19 @@ function ProjectsReport({
         )}
         <SelectMonth
           selectedDate={selectedDate}
-          setNewData={changeSelectedDateProjectsReport}
+          setNewData={handleChangeData}
         />
       </div>
 
-      {/*{roleUser !== DEVELOPER && roleUser !== PM && (*/}
-      {/*  <TotalValue*/}
-      {/*    totalUsd={total_usd}*/}
-      {/*    totalUah={total_uah}*/}
-      {/*    setExchangeRates={setExchangeRates}*/}
-      {/*    prevExchangeRate={exchange_rate}*/}
-      {/*    selectedDate={selectedDate}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {roleUser !== DEVELOPER && roleUser !== PM && (
+        <TotalValue
+          totalUsd={total_usd}
+          totalUah={total_uah}
+          setExchangeRates={setExchangeRates}
+          prevExchangeRate={exchange_rate}
+          selectedDate={selectedDate}
+        />
+      )}
       {roleUser !== DEVELOPER && roleUser !== PM && (
         <ActualRates />
       )}
@@ -310,7 +324,8 @@ const actions = {
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
-  getConsolidateProjectReport
+  getConsolidateProjectReport,
+  getRatesList
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

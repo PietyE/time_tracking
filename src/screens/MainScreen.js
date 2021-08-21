@@ -42,8 +42,8 @@ function MainScreen({
         })
         const ratesParams = {
           is_active: true,
-          year: date.year,
-          month: date.month + 1
+          year: date.year || date.getFullYear(),
+          month: date.month + 1 || date.getMonth() + 1
         };
         getCurrenciesList()
         getRatesList(ratesParams)

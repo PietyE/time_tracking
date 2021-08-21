@@ -15,9 +15,7 @@ export function* handleGetConsolidatedReport() {
     month + 1
   }/`
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
-  console.dir(response);
   const mapperResponse = consolidateReportMapper(response)
-  console.dir(mapperResponse);
   yield put(setConsolidateProjectReport(mapperResponse))
 }
 
