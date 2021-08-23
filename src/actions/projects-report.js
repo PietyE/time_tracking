@@ -11,7 +11,8 @@ import {
   SET_EDIT_USER_ID,
   SET_EXCHANGE_RATES,
   SET_IS_FETCHING_PROJECT_REPORTS,
-  GET_CONSOLIDATE_PROJECT_REPORT, SET_CONSOLIDATE_PROJECT_REPORT,
+  GET_CONSOLIDATE_PROJECT_REPORT,
+  SET_CONSOLIDATE_PROJECT_REPORT, GET_USERS_PROJECT_REPORT,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -83,3 +84,9 @@ export const setConsolidateProjectReport = (payload) => ({
   type: SET_CONSOLIDATE_PROJECT_REPORT,
   payload,
 })
+
+export const getUsersProjectReport = (payload) => ({
+  type: GET_USERS_PROJECT_REPORT,
+  payload,
+})
+

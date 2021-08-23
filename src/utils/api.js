@@ -158,7 +158,14 @@ class Api {
       url,
     })
   }
+
+  getUsersProjectReports = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
+
 
 
 export default new Api()
