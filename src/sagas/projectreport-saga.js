@@ -11,6 +11,7 @@ import {
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
+  GET_USERS_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import {
   setDeveloperConsolidateProjectReport,
@@ -18,7 +19,7 @@ import {
   setIsFetchingReports,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
-import { getSelectedMonthSelector } from '../reducers/projects-report'
+import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
 
 export function* getDeveloperConsolidateProjectReport() {
   yield put(setIsFetchingReports(true))
@@ -99,6 +100,16 @@ function* setExchangeRate({ payload }) {
   }
 }
 
+function* usersProjectReport (action) {
+ const { payload: userId } = action;
+  const { month, year } = yield select(
+    (state) => state.projectsReport.selectedDate
+  )
+
+  const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
+  const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
+}
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -111,6 +122,7 @@ export function* watchDeveloperProjects() {
     ],
     getDeveloperConsolidateProjectReport
   )
+  yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
   yield takeEvery(
     [GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT],
     getDeveloperProjects

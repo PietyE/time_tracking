@@ -17,6 +17,7 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   reportsRefactored: [],
+  usersProjectReports: {},
   reports: {
     users: [],
     total_uah: '',
@@ -38,6 +39,7 @@ const initialState = {
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   editingUserId: '',
+  userId: '',
 }
 
 export const projectsReport = (state = initialState, action) => {
