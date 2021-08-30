@@ -104,16 +104,18 @@ function* setExchangeRate({ payload }) {
 
 function* usersProjectReport (action) {
  const { payload: userId } = action;
+ console.dir(userId);
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
 
   const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
   const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
-  // console.dir(response.data.developer_projects);
-  // const mapperResponse = usersProjectReportMapper(response)
+  console.dir(response.data.developer_projects);
+  const mapperResponse = usersProjectReportMapper(response)
   // console.dir(mapperResponse);
-  // yield put(setUsersProjectReport(mapperResponse))
+  const payload = {userId, mapperResponse };
+  yield put(setUsersProjectReport(payload))
 }
 
 export function* watchDeveloperProjects() {

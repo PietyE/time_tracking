@@ -1,27 +1,30 @@
 import { GET_USERS_PROJECT_REPORT, SET_SUCCESS_USERS_PROJECT_REPORT } from '../constants/actions-constant'
 
-const initialState = {
-  usersProjectReports: {},
-  isFetchingUsersProjectReports: false,
-  successFetchUsersProjectReports: false,
-  errorFetchUsersProjectReports: false,
-}
+const initialState = {};
+
 
 export const projectReportDetails = (state = initialState, action) => {
+  console.dir(action.payload);
   switch (action.type) {
     case GET_USERS_PROJECT_REPORT:
       return {
         ...state,
-        isFetchingUsersProjectReports: true,
-        successFetchUsersProjectReports: false,
-        errorFetchUsersProjectReports: false
+        [action.payload]: {
+          projects: [],
+          isFetching: true,
+          success: false,
+          error: false,
+        }
       }
     case SET_SUCCESS_USERS_PROJECT_REPORT:
       return {
         ...state,
-        isFetchingUsersProjectReports: false,
-        successFetchUsersProjectReports: true,
-        usersProjectReports: action.payload
+        [action.payload.userId]: {
+          projects: action.payload.mapperResponse,
+          isFetching: false,
+          success: true,
+          error: false,
+        }
       }
 
     default:

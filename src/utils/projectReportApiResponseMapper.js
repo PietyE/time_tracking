@@ -35,7 +35,7 @@ export const consolidateReportMapper = (response) => {
 
 export const usersProjectReportMapper = (response) => {
 
-
+return response.data.developer_projects;
 }
 
 
