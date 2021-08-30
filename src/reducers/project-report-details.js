@@ -4,7 +4,7 @@ const initialState = {};
 
 
 export const projectReportDetails = (state = initialState, action) => {
-  console.dir(action.payload);
+  // console.dir(action.payload);
   switch (action.type) {
     case GET_USERS_PROJECT_REPORT:
       return {

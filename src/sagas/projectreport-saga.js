@@ -15,7 +15,7 @@ import {
 } from 'constants/actions-constant'
 import {
   setDeveloperConsolidateProjectReport,
-  setDevelopersProjectInProjectReport,
+  setDevelopersProjectInProjectReport, setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
 } from 'actions/projects-report'
@@ -103,19 +103,20 @@ function* setExchangeRate({ payload }) {
 }
 
 function* usersProjectReport (action) {
- const { payload: userId } = action;
- console.dir(userId);
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  try {
+    const { payload: userId } = action;
+    const { month, year } = yield select(
+      (state) => state.projectsReport.selectedDate
+    )
 
-  const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
-  const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
-  console.dir(response.data.developer_projects);
-  const mapperResponse = usersProjectReportMapper(response)
-  // console.dir(mapperResponse);
-  const payload = {userId, mapperResponse };
-  yield put(setUsersProjectReport(payload))
+    const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
+    const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
+    const mapperResponse = usersProjectReportMapper(response)
+    const payload = { userId, mapperResponse };
+    yield put(setUsersProjectReport(payload))
+  } catch (error) {
+    yield put(setErrorUsersProjectReport())
+  }
 }
 
 export function* watchDeveloperProjects() {
