@@ -17,9 +17,11 @@ import {
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
   setIsFetchingReports,
+  setUsersProjectReport,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
+import { usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 
 export function* getDeveloperConsolidateProjectReport() {
   yield put(setIsFetchingReports(true))
@@ -108,6 +110,10 @@ function* usersProjectReport (action) {
 
   const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
   const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
+  // console.dir(response.data.developer_projects);
+  // const mapperResponse = usersProjectReportMapper(response)
+  // console.dir(mapperResponse);
+  // yield put(setUsersProjectReport(mapperResponse))
 }
 
 export function* watchDeveloperProjects() {

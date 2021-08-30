@@ -31,3 +31,12 @@ export const consolidateReportMapper = (response) => {
     return previous
   }, [])
 }
+
+
+export const usersProjectReportMapper = (response) => {
+
+
+}
+
+
+
