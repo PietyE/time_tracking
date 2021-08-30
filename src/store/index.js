@@ -10,6 +10,7 @@ import { developerProjects } from 'reducers/developer-projects'
 import { developers } from 'reducers/developers'
 import { projectsReport } from 'reducers/projects-report'
  import { currencies } from 'reducers/currency'
+import { projectReportDetails } from '../reducers/project-report-details'
 
 const rootReducer = combineReducers({
   profile,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   developerProjects,
   developers,
   projectsReport,
-  currencies
+  currencies,
+  projectReportDetails
 })
 
 const sagaMiddleware = createSagaMiddleware()

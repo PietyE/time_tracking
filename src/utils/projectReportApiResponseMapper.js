@@ -31,3 +31,31 @@ export const consolidateReportMapper = (response) => {
     return previous
   }, [])
 }
+
+
+export const usersProjectReportMapper = (response) => {
+  if (
+    !response ||
+    !response.data ||
+    typeof response.data !== 'object' ||
+    !Array.isArray(response.data.developer_projects) ||
+    !response.data.developer_projects.length
+  ) {
+    return [];
+  }
+
+
+  return  response.data.developer_projects.map(item => {
+      return {
+        name: lodashGet(item, 'project.name', ''),
+        working_time: lodashGet(item, 'total_hours', ''),
+        id: lodashGet(item, 'project.id', ''),
+        total: lodashGet(item, 'total', ''),
+        is_full_time: lodashGet(item, 'is_full_time', '')
+      };
+
+  });
+}
+
+
+

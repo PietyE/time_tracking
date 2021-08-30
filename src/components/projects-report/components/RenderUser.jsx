@@ -4,25 +4,25 @@ import TableRow from './TableRow'
 import { useDispatch } from 'react-redux'
 
 const RenderUser = ({
-                      name = '',
-                      // commonProjectsInfo = {},
-                      projects = [],
-                      rate = 0,
-                      projectSalary = 0,
-                      selectedDate = {},
-                      total_expenses,
-                      total_overtimes,
-                      total_salary,
-                      userId,
-                      roleUser,
-                      setEditUserId,
-                      setIsOpenEdit,
-                      comment,
-                      total_uah,
-                      is_processed,
-                      setProcessedStatus,
-                      isFetchingReports
-                    }) => {
+    name = '',
+    // commonProjectsInfo = {},
+    projects = [],
+    rate = 0,
+    projectSalary = 0,
+    selectedDate = {},
+    total_expenses,
+    total_overtimes,
+    total_salary,
+    userId,
+    roleUser,
+    setEditUserId,
+    setIsOpenEdit,
+    comment,
+    total_uah,
+    is_processed,
+    setProcessedStatus,
+    isFetchingReports
+  }) => {
 
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
