@@ -102,6 +102,7 @@ function* setExchangeRate({ payload }) {
 
 function* usersProjectReport (action) {
  const { payload: userId } = action;
+ console.dir(userId);
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
