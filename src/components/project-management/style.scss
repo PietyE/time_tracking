@@ -1,0 +1,70 @@
+.project_management_container {
+  padding-top: 40px;
+  .dx-g-bs4-header-cell-content{
+    justify-content: center;
+  }
+}
+
+.pm_create_modal_form{
+  display: flex;
+  flex-direction: column;
+}
+.pm_create_modal_label{
+  font-weight: bold;
+  font-size: 18px;
+}
+.pm_create_modal_input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-left: 8px;
+  height: 35px;
+}
+
+.pm_create_team_item{
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  &:last-child{
+    margin-bottom: 30px;
+  }
+}
+.pm_create_team_text{
+  font-weight: 500;
+}
+
+.pm_create_team_close{
+  font-size: 20px;
+  cursor: pointer;
+  & path{
+    pointer-events: none;
+  }
+}
+.pm_create_team_buttons_container{
+  display: flex;
+  justify-content: space-between;
+}
+.pm_create_team_item_pm{
+  margin-bottom: 30px;
+}
+.pm_create_team_button{
+  width: 90px;
+  height: 40px;
+}
+.pm_create_team_control_container{
+  display: flex;
+  align-items: center;
+}
+.pm_create_team_checkbox_label{
+  margin-right: 30px;
+  margin-bottom: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.pm_create_team_checkbox{
+  margin-right: 10px;
+  height: 18px;
+  width: 18px;
+}
+
