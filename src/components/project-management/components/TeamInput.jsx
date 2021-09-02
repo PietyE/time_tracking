@@ -5,7 +5,6 @@ import { getDeveloperSelector, getActiveDevSelector } from '../../../reducers/pr
 import { isEqual } from 'lodash'
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
-
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
   let availableDevelopers = developers
@@ -13,6 +12,10 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
      const currentActiveProjectDevelopers = currentProjectDevelopers.filter(dev => dev.is_active === true)
     const currentActiveProjectDevelopersIdArray = currentActiveProjectDevelopers.map(dev => dev.user_id)
     availableDevelopers = developers.filter(dev => !currentActiveProjectDevelopersIdArray.includes(dev.id)) || null
+  }
+  if(type === 'create'){
+    const selectedDevId = values?.team.map(el=>el.user_id)
+    availableDevelopers = developers.filter(dev=> !selectedDevId.includes(dev.id))
   }
 
   const handleChangeDev = e => {
@@ -32,9 +35,10 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
       user_id: currentDev.id,
     }]
     setFieldValue('team', result)
-     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
+    availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
+    
   }
-
+  console.log('availableDevelopers', availableDevelopers)
   return (
     <Field
       className = "pm_create_modal_input pm_create_select"
@@ -44,8 +48,9 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
       onChange = {handleChangeDev}
     >
       <option label = 'Select developer' disabled = {true}></option>
-      {availableDevelopers.length > 0 && (availableDevelopers).map(developer =>
-        <option key = {developer.id} data-id = {developer.id} value = {developer.name}>{developer.name}</option>)}
+      {availableDevelopers.length > 0 && availableDevelopers.map(developer =>
+        <option key = {developer.id} data-id = {developer.id} value = {developer.name}>{developer.name}</option>
+      )}
 
     </Field>
   )

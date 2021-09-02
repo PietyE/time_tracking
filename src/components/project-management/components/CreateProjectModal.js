@@ -77,70 +77,75 @@ function CreateProjectModal({ onClose, show }) {
           // validationSchema={validationSchema}
           onSubmit = {onSubmit}
         >
-          {({ values, setFieldValue }) => (
-            <Form className = "pm_create_modal_form">
-              <label className = "pm_create_modal_project_label pm_create_modal_label">
-                Project name
-                <br/>
-                <Field
-                  className = "pm_create_modal_input"
-                  name = "projectName"
-                  placeholder = "Enter project name"
-                />
-              </label>
-              <label className = "pm_create_modal_team_label pm_create_modal_label">
-                Team
-                <br/>
-                <TeamInput setFieldValue = {setFieldValue} values = {values}/>
+          {({ values, setFieldValue }) => {
+            const freeProjectManagers = projectManagers.filter(pm=>  pm.name !== values?.projectManager?.name)
+            return(
+              (
+                <Form className = "pm_create_modal_form">
+                  <label className = "pm_create_modal_project_label pm_create_modal_label">
+                    Project name
+                    <br/>
+                    <Field
+                      className = "pm_create_modal_input"
+                      name = "projectName"
+                      placeholder = "Enter project name"
+                    />
+                  </label>
+                  <label className = "pm_create_modal_team_label pm_create_modal_label">
+                    Team
+                    <br/>
+                    <TeamInput setFieldValue = {setFieldValue} values = {values} type='create'/>
 
-              </label>
-              {values.team.length > 0 &&
-              <ul>
-                {values.team.map(el => <TeamMemberItem key = {el.user_id} data = {el} setFieldValue = {setFieldValue}
-                                                       values = {values}/>)}
-              </ul>
-              }
-              <label className = "pm_create_modal_pm_label pm_create_modal_label">
-                Project manager
-                <br/>
-                <Field
-                  className = "pm_create_modal_input"
-                  name = "projectManager.name"
-                  as = "select"
-                >
-                  <option label = 'Select PM' disabled = {true}></option>
-                  {projectManagers && projectManagers.map(pm =>
-                    <option key = {pm.id} value = {pm.name}>{pm.name}</option>)
+                  </label>
+                  {values.team.length > 0 &&
+                  <ul>
+                    {values.team.map(el => <TeamMemberItem key = {el.user_id} data = {el} setFieldValue = {setFieldValue}
+                                                           values = {values}/>)}
+                  </ul>
                   }
-                </Field>
+                  <label className = "pm_create_modal_pm_label pm_create_modal_label">
+                    Project manager
+                    <br/>
+                    <Field
+                      className = "pm_create_modal_input"
+                      name = "projectManager.name"
+                      as = "select"
+                    >
+                      <option label = 'Select PM' disabled = {true}></option>
+                      {freeProjectManagers && freeProjectManagers.map(pm =>
+                        <option key = {pm.id} value = {pm.name}>{pm.name}</option>)
+                      }
+                    </Field>
 
-              </label>
-              {values.projectManager.name &&
-              <div className = 'pm_create_team_item  pm_create_team_item_pm'>
+                  </label>
+                  {values.projectManager.name &&
+                  <div className = 'pm_create_team_item  pm_create_team_item_pm'>
 
-                <span className = 'pm_create_team_text'>{values.projectManager.name}</span>
+                    <span className = 'pm_create_team_text'>{values.projectManager.name}</span>
 
-                <label className = 'pm_create_team_checkbox_label'>
-                  <Field
-                    type = 'checkbox'
-                    name = 'values.projectManager.is_full_time'
-                    checked = {!values.projectManager?.is_full_time}
-                    onChange = {() => setFieldValue('projectManager.is_full_time', !values.projectManager.is_full_time)}
-                    className = 'pm_create_team_checkbox'/>
-                  Part-time
-                </label>
+                    <label className = 'pm_create_team_checkbox_label'>
+                      <Field
+                        type = 'checkbox'
+                        name = 'values.projectManager.is_full_time'
+                        checked = {!values.projectManager?.is_full_time}
+                        onChange = {() => setFieldValue('projectManager.is_full_time', !values.projectManager.is_full_time)}
+                        className = 'pm_create_team_checkbox'/>
+                      Part-time
+                    </label>
 
-                <FontAwesomeIcon icon = {faTimesCircle}
-                                 onClick = {() => setFieldValue('projectManager', pmInitialValue)}
-                                 className = 'pm_create_team_close'/>
-              </div>}
+                    <FontAwesomeIcon icon = {faTimesCircle}
+                                     onClick = {() => setFieldValue('projectManager', pmInitialValue)}
+                                     className = 'pm_create_team_close'/>
+                  </div>}
 
-              <div className = 'pm_create_team_buttons_container'>
-                <button className = 'pm_create_team_button' type = 'button' onClick = {onClose}>Cancel</button>
-                <button className = 'pm_create_team_button ' type = 'submit'>Create</button>
-              </div>
-            </Form>
-          )
+                  <div className = 'pm_create_team_buttons_container'>
+                    <button className = 'pm_create_team_button' type = 'button' onClick = {onClose}>Cancel</button>
+                    <button className = 'pm_create_team_button ' type = 'submit'>Create</button>
+                  </div>
+                </Form>
+              )
+            )
+          }
           }
 
 
