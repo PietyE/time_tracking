@@ -13,6 +13,7 @@ import { connect, useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
   getSelectedMonthForPMSelector,
+  getIsFetchingPmPageSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement, clearPmProjects,
@@ -24,9 +25,10 @@ import CreateProjectModal from './components/CreateProjectModal'
 import EditProjectModal from './components/EditProjectModal'
 import './style.scss'
 import { Button } from 'react-bootstrap'
+import SpinnerStyled from '../ui/spinner'
 
 const ProjectManagementComponent =
-  ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, clearPmProjects }) => {
+  ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, clearPmProjects, isFetching }) => {
 
     useEffect(() => {
       getAllProjects()
@@ -73,7 +75,7 @@ const ProjectManagementComponent =
     }
 
     const [rows, setRows] = useState([])
-    console.log('projects', projects)
+
     useEffect(() => {
       if (projects?.length > 0) {
         const reformatProjects = projects.map(project => ({
@@ -97,6 +99,7 @@ const ProjectManagementComponent =
     }
     return (
       <>
+        {isFetching && <SpinnerStyled/>}
         <div className = "container project_management_container">
           <div className = "flex row justify-content-between">
             <SelectMonth
@@ -154,6 +157,7 @@ const ProjectManagementComponent =
 const mapStateToProps = (state) => ({
   selectedDateForPM: getSelectedMonthForPMSelector(state),
   projects: getAllProjectsSelector(state),
+  isFetching: getIsFetchingPmPageSelector(state),
 })
 const actions = {
   changeSelectedDateProjectsManagement,

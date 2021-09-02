@@ -8,13 +8,14 @@ import {
   getSelectedProjectIdSelector,
   getProjectName,
   getActivePmInCurrentProjectSelector, getProjectManagerListSelector, getActiveDevSelector,
-  getDeactivatedMembersSelector, getSelectedProjectSelector,
+  getDeactivatedMembersSelector, getSelectedProjectSelector, getIsFetchingPmPageSelector,
 } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
 import {
   getProjectReportById, setSelectedProject,
   changeProjectName, changeUserOnProject, addUsersOnProject,
 } from '../../../actions/projects-management'
+import SpinnerStyled from '../../ui/spinner'
 
 function EditProjectModal({ onClose, show }) {
   const dispatch = useDispatch()
@@ -59,8 +60,10 @@ function EditProjectModal({ onClose, show }) {
   const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
   const deactivatedUsers = useSelector(getDeactivatedMembersSelector, isEqual)
 
+  const isFetching = useSelector(getIsFetchingPmPageSelector)
 
   const availableProjectManagersList = projectManagersList.filter(pm => pm?.id !== activeProjectManager?.user_id)
+
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
 
@@ -104,7 +107,6 @@ function EditProjectModal({ onClose, show }) {
   const onSubmit = values => {
     _changeProjectName(currentProjectId, values.projectName)
   }
-
   return (
     <Modal
       show = {show}
@@ -112,9 +114,11 @@ function EditProjectModal({ onClose, show }) {
       backdrop = {false}
       centered = {true}
     >
+      {isFetching && <SpinnerStyled/>}
       <Modal.Header closeButton>
         <Modal.Title>Edit Project</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <Formik
           initialValues = {valuesFromApi || initialValues}

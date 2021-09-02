@@ -6,7 +6,7 @@ import {
   GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, CREATE_PROJECT,
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
 } from 'constants/actions-constant'
-import { setAllProjects, setProjectsWithReport } from '../actions/projects-management'
+import { setAllProjects, setProjectsWithReport,setFetchingPmPage } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
 import { getSelectedProjectIdSelector } from '../reducers/projects-management'
@@ -14,6 +14,7 @@ import { getSelectedProjectIdSelector } from '../reducers/projects-management'
 
 export function* getAllProjects() {
   try {
+    yield put(setFetchingPmPage(true))
     const URL_PROJECTS = `projects/`
     const { data } = yield call([Api, 'getAllProjects'], URL_PROJECTS)
     yield put(setAllProjects(data))
@@ -27,12 +28,16 @@ export function* getAllProjects() {
       }),
     )
   }
+  finally {
+    yield put(setFetchingPmPage(false))
+  }
 
 }
 
 export function* getProjectReportById(action) {
   const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
   try {
+    yield put(setFetchingPmPage(true))
     let projectId = action?.payload
 
     if (!action) {
@@ -65,12 +70,15 @@ export function* getProjectReportById(action) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
 export function* downloadProjectReport({ payload }) {
   try {
+    yield put(setFetchingPmPage(true))
     const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
     const response = yield call([pm, 'getProjectReportInExcel'], { year, month, payload })
@@ -87,11 +95,15 @@ export function* downloadProjectReport({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
+
 export function* downloadAllTeamProjectReport({ payload }) {
   try {
+    yield put(setFetchingPmPage(true))
     const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
     const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], { year, month, payload })
@@ -109,11 +121,15 @@ export function* downloadAllTeamProjectReport({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
+
 export function* createProject({ payload }) {
   try {
+    yield put(setFetchingPmPage(true))
     const { projectName, users } = payload
     const { data } = yield call([pm, 'createProject'], { name: projectName })
     yield call([pm, 'setUsersToProject'],
@@ -135,14 +151,15 @@ export function* createProject({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
-
 export function* changeProjName({ payload }) {
   try {
-    console.log('payload', payload)
+    yield put(setFetchingPmPage(true))
     const result = yield call([pm, 'changeProjectName'], payload.id, { name: payload.data })
     if (result.status === 200) {
       yield put(
@@ -164,12 +181,15 @@ export function* changeProjName({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
 export function* editUsersOnProject({ payload }) {
   try {
+    yield put(setFetchingPmPage(true))
     const { id, data } = payload
     const result = yield call([pm, 'changeProjectTeam'], id, data)
     if (result.status === 200) {
@@ -192,12 +212,15 @@ export function* editUsersOnProject({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
 export function* addUsersToProject({ payload }) {
   try {
+    yield put(setFetchingPmPage(true))
     const result = yield call([pm, 'createDeveloperProject'], payload.data)
     if (result.status === 200) {
       yield put(
@@ -221,10 +244,11 @@ export function* addUsersToProject({ payload }) {
         delay: 6000,
       }),
     )
-    console.dir(error)
+  }
+  finally {
+    yield put(setFetchingPmPage(false))
   }
 }
-
 
 export function* watchProjectsManagement() {
   yield takeEvery(

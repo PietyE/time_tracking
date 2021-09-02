@@ -1,7 +1,7 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
-  CLEAR_PM_PROJECTS,
+  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -15,6 +15,7 @@ const initialState = {
   projectsWithReports: [],
   selectedProjectId: '',
   selectedProject: {},
+  isFetchingPmPage:false,
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []
@@ -42,12 +43,14 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, selectedProject: action.payload }
     case CLEAR_PM_PROJECTS:
       return { ...state, projectsWithReports: [] }
-
-
+    case SET_IS_FETCHING_PM_PAGE:
+      return { ...state, isFetchingPmPage: action.payload }
     default:
       return state
   }
 }
+
+export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
 
 export const getUsersSelector = state => state.developers.developersList
 

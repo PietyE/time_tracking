@@ -5,7 +5,8 @@ import {
   SET_USERS_ON_PROJECT, GET_PROJECT_REPORT_BY_ID, SET_PROJECT_REPORTS,
   GET_DOWNLOAD_PROJECT_REPORT, CREATE_PROJECT, SET_SELECTED_PROJECT_ID,
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, CLEAR_PM_PROJECTS,
-  ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT
+  ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
+  SET_IS_FETCHING_PM_PAGE
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -80,22 +81,10 @@ export const clearPmProjects = payload => ({
   payload,
 })
 
-
-///////////////////////////////////////////
-export const getUsers = (payload) => ({
-  type: GET_USERS,
+export const setFetchingPmPage = payload => ({
+  type: SET_IS_FETCHING_PM_PAGE,
   payload,
 })
 
-export const setUsers = (payload) => ({
-  type: SET_USERS,
-  payload,
-})
-
-
-export const setUserOnProject = (payload) => ({
-  type: SET_USERS_ON_PROJECT,
-  payload,
-})
 
 
