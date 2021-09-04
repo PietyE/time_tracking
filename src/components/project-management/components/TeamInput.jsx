@@ -38,7 +38,6 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
     
   }
-  console.log('availableDevelopers', availableDevelopers)
   return (
     <Field
       className = "pm_create_modal_input pm_create_select"

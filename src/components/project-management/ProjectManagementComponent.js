@@ -12,13 +12,15 @@ import {
 import { connect, useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
+  getSelectedDateForPMSelector,
   getSelectedMonthForPMSelector,
-  getIsFetchingPmPageSelector,
+  getIsFetchingPmPageSelector, getIsShowEditModalSelector, getIsShowCreateModalSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement, clearPmProjects,
-  getAllProjects, downloadProjectReport, setSelectedProjectId,
+  getAllProjects, setSelectedProjectId,
   downloadAllTeamProjectReport,
+  setShowCreateModal, setShowEditModal
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -27,16 +29,32 @@ import './style.scss'
 import { Button } from 'react-bootstrap'
 import SpinnerStyled from '../ui/spinner'
 
-const ProjectManagementComponent =
-  ({ selectedDateForPM, changeSelectedDateProjectsManagement, getAllProjects, projects, clearPmProjects, isFetching }) => {
+const ProjectManagementComponent =({
+                                     selectedDateForPM,
+                                     changeSelectedDateProjectsManagement,
+                                     getAllProjects,
+                                     projects,
+                                     clearPmProjects,
+                                     isFetching,
+                                     month,
+                                     setShowCreateModal,
+                                     setShowEditModal,
+                                     isEditModalShow,
+                                     isCreateModalShow,
+}) => {
 
     useEffect(() => {
       getAllProjects()
     }, [getAllProjects])
+
+    useEffect(()=>{
+      clearPmProjects()
+      setExpandedRowIds([])
+      getAllProjects()
+    },[month])
+
     const dispatch = useDispatch()
 
-    const [isCreateProjectModalShown, setCreateProjectModalShown] = useState(false)
-    const [isEditProjectModalShown, setEditProjectModalShown] = useState(false)
     const [columns] = useState([
       { name: 'project', title: 'Project' },
       { name: 'occupancy', title: 'Occupancy' },
@@ -57,12 +75,6 @@ const ProjectManagementComponent =
       },
       [dispatch],
     )
-    // const _downloadProjectReport = useCallback(
-    //   (data) => {
-    //     dispatch(downloadProjectReport(data))
-    //   },
-    //   [dispatch],
-    // )
     const _setSelectedProjectId = useCallback(
       (data) => {
         dispatch(setSelectedProjectId(data))
@@ -71,7 +83,7 @@ const ProjectManagementComponent =
     )
     const openEditModal = (id) => {
       _setSelectedProjectId(id)
-      setEditProjectModalShown(true)
+      setShowEditModal(true)
     }
 
     const [rows, setRows] = useState([])
@@ -81,9 +93,10 @@ const ProjectManagementComponent =
         const reformatProjects = projects.map(project => ({
           project: project.name,
           occupancy: ' ',
-          hours: '',
-          report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}> <span
-            className = "oi oi-cloud-download"/></Button>,
+          hours: project?.total_hours || 0,
+          report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
+            <span className = "oi oi-cloud-download"/>
+          </Button>,
           actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
           id: project.id,
         }))
@@ -93,10 +106,6 @@ const ProjectManagementComponent =
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
 
-    const clear = () => {
-      clearPmProjects()
-      setExpandedRowIds([])
-    }
     return (
       <>
         {isFetching && <SpinnerStyled/>}
@@ -105,14 +114,12 @@ const ProjectManagementComponent =
             <SelectMonth
               selectedDate = {selectedDateForPM}
               setNewData = {changeSelectedDateProjectsManagement}
-              clearProjects = {clear}
-
             />
 
             <button
               type = 'submit'
               className = 'btn btn-outline-secondary'
-              onClick = {setCreateProjectModalShown.bind(setCreateProjectModalShown, true)}
+              onClick = {()=>setShowCreateModal(true)}
             >
               Add new project
             </button>
@@ -129,7 +136,6 @@ const ProjectManagementComponent =
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
-                // toggleDetailRowExpanded={}
                 defaultExpandedRowIds = {[]}
               />
               <Table/>
@@ -141,29 +147,26 @@ const ProjectManagementComponent =
 
         </div>
 
-        <CreateProjectModal
-          show = {isCreateProjectModalShown}
-          onClose = {setCreateProjectModalShown.bind(setCreateProjectModalShown, false)}
-        />
-        <EditProjectModal
-          show = {isEditProjectModalShown}
-          onClose = {setEditProjectModalShown.bind(setEditProjectModalShown, false)
-          }
-        />
+        <CreateProjectModal show = {isCreateModalShow} />
+        <EditProjectModal show = {isEditModalShow} />
       </>
     )
   }
 
 const mapStateToProps = (state) => ({
-  selectedDateForPM: getSelectedMonthForPMSelector(state),
+  selectedDateForPM: getSelectedDateForPMSelector(state),
   projects: getAllProjectsSelector(state),
   isFetching: getIsFetchingPmPageSelector(state),
+  month: getSelectedMonthForPMSelector(state),
+  isEditModalShow: getIsShowEditModalSelector(state),
+  isCreateModalShow: getIsShowCreateModalSelector(state),
 })
 const actions = {
   changeSelectedDateProjectsManagement,
   getAllProjects,
   clearPmProjects,
-
+  setShowEditModal,
+  setShowCreateModal
 }
 
 

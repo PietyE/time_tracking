@@ -3,14 +3,14 @@ import { Modal } from 'react-bootstrap'
 import TeamMemberItem from './TeamMemberItem'
 import TeamInput from './TeamInput'
 import { getProjectManagerListSelector, getAllProjectsSelector } from '../../../reducers/projects-management'
-import { createProject } from '../../../actions/projects-management'
+import { createProject, setShowCreateModal } from '../../../actions/projects-management'
 import { Field, Form, Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
-function CreateProjectModal({ onClose, show }) {
+function CreateProjectModal({ show }) {
   const dispatch = useDispatch()
 
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
@@ -24,6 +24,14 @@ function CreateProjectModal({ onClose, show }) {
     },
     [dispatch],
   )
+  // const _setShowCreateModal = useCallback(
+  //   () => {
+  //     dispatch(setShowCreateModal(false))
+  //   },
+  //   [dispatch],
+  // )
+
+  const handleClose = () => dispatch(setShowCreateModal(false))
 
   const checkExistingProjects = data => {
     return projects.find(project => project.name === data)
@@ -47,7 +55,7 @@ function CreateProjectModal({ onClose, show }) {
         users: users,
       }
       _createProject(preparedData)
-      onClose()
+      handleClose()
     }
   }
   const pmInitialValue = {
@@ -64,11 +72,13 @@ function CreateProjectModal({ onClose, show }) {
   return (
     <Modal
       show = {show}
-      onHide = {onClose}
+      onHide = {handleClose}
       backdrop = {false}
       centered = {true}
+      className='pm_page_modal'
+
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className = 'pm_modal_header'>
         <Modal.Title>New Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -95,6 +105,7 @@ function CreateProjectModal({ onClose, show }) {
                     Team
                     <br/>
                     <TeamInput setFieldValue = {setFieldValue} values = {values} type='create'/>
+                    <span className='pm_create_modal_input_arrow'>&#8250;</span>
 
                   </label>
                   {values.team.length > 0 &&
@@ -116,7 +127,7 @@ function CreateProjectModal({ onClose, show }) {
                         <option key = {pm.id} value = {pm.name}>{pm.name}</option>)
                       }
                     </Field>
-
+                    <span className='pm_create_modal_input_arrow'>&#8250;</span>
                   </label>
                   {values.projectManager.name &&
                   <div className = 'pm_create_team_item  pm_create_team_item_pm'>
@@ -139,8 +150,8 @@ function CreateProjectModal({ onClose, show }) {
                   </div>}
 
                   <div className = 'pm_create_team_buttons_container'>
-                    <button className = 'pm_create_team_button' type = 'button' onClick = {onClose}>Cancel</button>
-                    <button className = 'pm_create_team_button ' type = 'submit'>Create</button>
+                    <button className = 'pm_create_team_button' type = 'button' onClick = {handleClose} >Cancel</button>
+                    <button className = 'pm_create_team_button ' type = 'submit' >Create</button>
                   </div>
                 </Form>
               )
