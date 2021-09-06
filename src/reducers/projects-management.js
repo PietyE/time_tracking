@@ -1,7 +1,7 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
-  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE
+  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -16,6 +16,8 @@ const initialState = {
   selectedProjectId: '',
   selectedProject: {},
   isFetchingPmPage:false,
+  isShowEditModal:false,
+  isShowCreateModal: false,
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []
@@ -45,12 +47,18 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, projectsWithReports: [] }
     case SET_IS_FETCHING_PM_PAGE:
       return { ...state, isFetchingPmPage: action.payload }
+    case SET_SHOW_EDIT_MODAL:
+      return { ...state, isShowEditModal: action.payload }
+    case SET_SHOW_CREATE_MODAL:
+      return { ...state, isShowCreateModal: action.payload }
     default:
       return state
   }
 }
 
 export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
+export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
+export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal
 
 export const getUsersSelector = state => state.developers.developersList
 
@@ -63,8 +71,11 @@ export const getDeveloperSelector = state => {
   return users.filter(user => user.role === 1)
 }
 ///////////////////////////////////////////////////////
-export const getSelectedMonthForPMSelector = (state) =>
+export const getSelectedDateForPMSelector = (state) =>
   state.projectsManagement.selectedDateForPM
+
+export const getSelectedMonthForPMSelector = (state) =>
+  state.projectsManagement.selectedDateForPM.month
 ///////////////////////////////////////////////////////
 export const getAllProjectsSelector = (state) =>
   state.projectsManagement.projects

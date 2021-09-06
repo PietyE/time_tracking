@@ -33,7 +33,6 @@ const RowDetail = ({ row, currentProjectReport }) => {
   useEffect(() => {
     if (currentProjectReport) {
       const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true)
-      console.log('reformatProjects', activeProjectReports)
       const reformatProjects = activeProjectReports.map(user => ({
         user: user.userName,
         occupancy: user.is_full_time ? 'Full-time' : 'Part-time',

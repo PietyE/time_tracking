@@ -15,9 +15,21 @@ import { getSelectedProjectIdSelector } from '../reducers/projects-management'
 export function* getAllProjects() {
   try {
     yield put(setFetchingPmPage(true))
-    const URL_PROJECTS = `projects/`
+    const URL_PROJECTS = 'projects/'
     const { data } = yield call([Api, 'getAllProjects'], URL_PROJECTS)
-    yield put(setAllProjects(data))
+
+    const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+
+    const response = yield call([pm, 'getProjectsTotalHours'], { month, year })
+    const ProjectsWithHours = [...data]
+    response.data.map(project=>{
+      const index = data.findIndex(el=>el.id === project.id)
+      if(index){
+        ProjectsWithHours[index] = project
+      }
+    })
+    yield put(setAllProjects(ProjectsWithHours))
+
   } catch (error) {
     yield put(
       showAler({
@@ -107,7 +119,6 @@ export function* downloadAllTeamProjectReport({ payload }) {
     const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
     const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], { year, month, payload })
-    console.log('response', response)
     const fileName = response.headers['content-disposition'].split('"')[1]
     if (response && response.data instanceof Blob) {
       saveAs(response.data, fileName)

@@ -1,10 +1,52 @@
+.pm_page_modal{
+  backdrop-filter: blur(5px);
+}
 .project_management_container {
   padding-top: 40px;
+
+  .table-active{
+    padding: 0 0 0 40px;
+  }
+  .card{
+    border-radius:  8px;
+    overflow: hidden;
+    border-top: none;
+  }
+  thead{
+    height: 70px;
+    background-color: #009c98;
+    color: #fff;
+    border: 1px solid #009c98;
+
+    span{
+      line-height: 42px;
+    }
+
+    .text-primary{
+      color: #fff !important;
+
+    }
+  }
+  tbody{
+    td{
+      line-height: 36px;
+    }
+  }
+
   .dx-g-bs4-header-cell-content{
     justify-content: center;
   }
 }
 
+.pm_modal_header{
+  background-color: #009c98;
+  color: #fff;
+  span{
+    color: #fff;
+
+  }
+
+}
 .pm_create_modal_form{
   display: flex;
   flex-direction: column;
@@ -12,13 +54,43 @@
 .pm_create_modal_label{
   font-weight: bold;
   font-size: 18px;
+  position: relative;
 }
 .pm_create_modal_input {
+  position: relative;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid #949494;
+  border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
   padding-left: 8px;
-  height: 35px;
+  appearance: none;
+  &::-webkit-scrollbar-track {
+    background: #EEEEEE;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 35px;
+
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.15);
+  }
+}
+.pm_create_modal_input_arrow{
+  position: absolute;
+  right: 15px;
+  top: 42px;
+  transform: rotate(90deg);
+  font-size: 28px;
+  pointer-events: none;
 }
 
 .pm_create_team_item{
@@ -44,12 +116,30 @@
   display: flex;
   justify-content: space-between;
 }
+.pm_edit_team_button_container{
+  margin-left: auto;
+}
 .pm_create_team_item_pm{
   margin-bottom: 30px;
 }
 .pm_create_team_button{
+  all: unset;
+  cursor: pointer;
+  text-align: center;
   width: 90px;
   height: 40px;
+  border-radius: 6px;
+  background-color: #009c98;
+  border-color: #009c98;
+  color: #fff;
+  &:focus {
+    filter: brightness(1);
+    transition: 0.3s;
+  }
+  &:hover {
+    filter: brightness(1.2);
+    transition: 0.3s;
+  }
 }
 .pm_create_team_control_container{
   display: flex;

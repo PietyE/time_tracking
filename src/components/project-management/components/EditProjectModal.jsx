@@ -13,11 +13,11 @@ import {
 import { isEqual } from 'lodash'
 import {
   getProjectReportById, setSelectedProject,
-  changeProjectName, changeUserOnProject, addUsersOnProject,
+  changeProjectName, changeUserOnProject, addUsersOnProject, setShowEditModal,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 
-function EditProjectModal({ onClose, show }) {
+function EditProjectModal({ show }) {
   const dispatch = useDispatch()
 
   const _getProjectReportById = useCallback(
@@ -104,25 +104,27 @@ function EditProjectModal({ onClose, show }) {
     projectManager: pmInitialValue,
   }
 
+  const handleClose = () => dispatch(setShowEditModal(false))
+
   const onSubmit = values => {
     _changeProjectName(currentProjectId, values.projectName)
   }
   return (
     <Modal
       show = {show}
-      onHide = {onClose}
+      onHide = {handleClose}
       backdrop = {false}
       centered = {true}
+      className='pm_page_modal'
     >
       {isFetching && <SpinnerStyled/>}
-      <Modal.Header closeButton>
+      <Modal.Header closeButton className='pm_modal_header'>
         <Modal.Title>Edit Project</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Formik
           initialValues = {valuesFromApi || initialValues}
-          // validationSchema={validationSchema}
           onSubmit = {onSubmit}
           enableReinitialize
 
@@ -170,8 +172,7 @@ function EditProjectModal({ onClose, show }) {
                   />
                 </label>
 
-                <div className = 'pm_create_team_buttons_container'>
-                  {/*<button className='pm_create_team_button' type='button' onClick={onClose} >Cancel</button>*/}
+                <div className = 'pm_create_team_buttons_container pm_edit_team_button_container'>
                   <button className = 'pm_create_team_button ' type = 'submit'>Change</button>
                 </div>
                 {/*Change project developers*/}
