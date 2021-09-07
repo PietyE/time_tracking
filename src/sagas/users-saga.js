@@ -162,7 +162,7 @@ function* handleLoginWithCreds(userData) {
       const authData = JSON.stringify(userObjforLocalStorage)
 
       yield call([localStorage, 'setItem'], 'user_auth_data', authData)
-      yield call([api, 'setToken'], authData.key)
+      yield call([api, 'setToken'], userObjforLocalStorage.key)
 
   } catch (error) {
     const credentialError = error?.response?.data?.non_field_errors[0]
