@@ -48,7 +48,7 @@ export const usersProjectReportMapper = (response) => {
   return  response.data.developer_projects.map(item => {
       return {
         name: lodashGet(item, 'project.name', ''),
-        working_time: lodashGet(item, 'total_hours', ''),
+        working_time: '',
         id: lodashGet(item, 'project.id', ''),
         total: lodashGet(item, 'total', ''),
         is_full_time: lodashGet(item, 'is_full_time', '')

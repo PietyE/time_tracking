@@ -33,21 +33,14 @@ export default function TableRow({
   is_processed,
   setProcessedStatus,
   isOpen,
-  isFetchingReports
+  isFetchingReports,
 }) {
-  // const {
-  //   working_time: hours,
-  //   id: developer_project_id,
-  //   total,
-  //   name: projectName,
-  // } = project
-
   const {
     working_time: hours,
     id: developer_project_id,
     total,
     name: projectName,
-  } = {}
+  } = project
 
   const [isProcessed, setIsProcessed] = useState(false)
 

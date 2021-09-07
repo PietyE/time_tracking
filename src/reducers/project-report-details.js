@@ -1,10 +1,13 @@
-import { GET_USERS_PROJECT_REPORT, SET_SUCCESS_USERS_PROJECT_REPORT } from '../constants/actions-constant'
+import {
+  GET_USERS_PROJECT_REPORT,
+  SET_ERROR_USER_PROJECT_REPORT,
+  SET_SUCCESS_USERS_PROJECT_REPORT,
+} from '../constants/actions-constant'
 
 const initialState = {};
 
 
 export const projectReportDetails = (state = initialState, action) => {
-  // console.dir(action.payload);
   switch (action.type) {
     case GET_USERS_PROJECT_REPORT:
       return {
@@ -26,7 +29,16 @@ export const projectReportDetails = (state = initialState, action) => {
           error: false,
         }
       }
-
+    case SET_ERROR_USER_PROJECT_REPORT:
+      return {
+        ...state,
+        [action.payload]: {
+          projects: [],
+          isFetching: false,
+          success: false,
+          error: true,
+        }
+      }
     default:
       return state
   }
