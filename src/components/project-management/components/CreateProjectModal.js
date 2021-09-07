@@ -121,6 +121,7 @@ function CreateProjectModal({ show }) {
                       className = "pm_create_modal_input"
                       name = "projectManager.name"
                       as = "select"
+                      value=''
                     >
                       <option label = 'Select PM' disabled = {true}></option>
                       {freeProjectManagers && freeProjectManagers.map(pm =>
