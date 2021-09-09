@@ -98,6 +98,7 @@ export const setUsersProjectReport = (payload) => ({
   payload,
 })
 
-export const setErrorUsersProjectReport = () => ({
+export const setErrorUsersProjectReport = (payload) => ({
   type: SET_ERROR_USER_PROJECT_REPORT,
+  payload,
 })
