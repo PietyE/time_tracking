@@ -6,7 +6,10 @@ import {
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
-  SET_EDIT_USER_ID, SET_PROCESSED_STATUS, SET_IS_FETCHING_PROJECT_REPORTS, SET_CONSOLIDATE_PROJECT_REPORT,
+  SET_EDIT_USER_ID,
+  SET_PROCESSED_STATUS,
+  SET_IS_FETCHING_PROJECT_REPORTS,
+  SET_CONSOLIDATE_PROJECT_REPORT,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -17,6 +20,7 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   reportsRefactored: [],
+  // usersProjectReports: {},
   reports: {
     users: [],
     total_uah: '',
@@ -38,6 +42,7 @@ const initialState = {
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   editingUserId: '',
+  userId: '',
 }
 
 export const projectsReport = (state = initialState, action) => {
