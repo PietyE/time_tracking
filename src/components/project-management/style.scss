@@ -1,8 +1,47 @@
 .pm_page_modal{
   backdrop-filter: blur(5px);
 }
+
+.btn-outline-secondary{
+  border-radius: 6px;
+  background-color: #009c98;
+  border-color: #009c98;
+  color: #fff;
+  &:focus {
+    filter: brightness(1);
+    background-color: #009c98;
+    border-color: #009c98;
+    transition: 0.3s;
+  }
+  &:hover {
+    filter: brightness(1.2);
+    background-color: #009c98;
+    border-color: #009c98;
+    transition: 0.3s;
+  }
+  &:active{
+      filter: brightness(1.2);
+      background-color: #009c98;
+      border-color: #009c98;
+      transition: 0.3s;
+  }
+}
+
+.pm_select{
+  margin-right: 30px;
+  margin-left: 30px;
+}
 .project_management_container {
   padding-top: 40px;
+
+  .project_select{
+    margin-right: auto;
+  }
+
+  .row{
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   .table-active{
     padding: 0 0 0 40px;
@@ -17,7 +56,10 @@
     background-color: #009c98;
     color: #fff;
     border: 1px solid #009c98;
+    .dx-rg-bs4-table-header-title{
+      font-weight: 500;
 
+    }
     span{
       line-height: 42px;
     }

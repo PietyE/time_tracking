@@ -1,34 +1,40 @@
 import { call, takeEvery, put, select } from 'redux-saga/effects'
-import Api from 'utils/api'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
   GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, CREATE_PROJECT,
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
 } from 'constants/actions-constant'
-import { setAllProjects, setProjectsWithReport,setFetchingPmPage } from '../actions/projects-management'
+import {
+  setAllProjects,
+  setProjectsWithReport,
+  setFetchingPmPage,
+  setShownProject,
+} from '../actions/projects-management'
 import { showAler } from '../actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
-import { getSelectedProjectIdSelector } from '../reducers/projects-management'
+import {
+  getSelectedPmIdSelector,
+  getSelectedProjectIdSelector,
+  getShownProjectSelector,
+} from '../reducers/projects-management'
+import {isEmpty} from 'lodash'
 
 
 export function* getAllProjects() {
   try {
     yield put(setFetchingPmPage(true))
-    const URL_PROJECTS = 'projects/'
-    const { data } = yield call([Api, 'getAllProjects'], URL_PROJECTS)
-
+    const selectedPmId = yield select(getSelectedPmIdSelector)
     const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+    const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
+    yield put(setAllProjects(response.data))
+    const selectedProject = yield select(getShownProjectSelector)
 
-    const response = yield call([pm, 'getProjectsTotalHours'], { month, year })
-    const ProjectsWithHours = [...data]
-    response.data.map(project=>{
-      const index = data.findIndex(el=>el.id === project.id)
-      if(index){
-        ProjectsWithHours[index] = project
-      }
-    })
-    yield put(setAllProjects(ProjectsWithHours))
+    if(!isEmpty(selectedProject)){
+      const projectId = selectedProject?.id
+      const currentProject = response.data.find(el => el.id === projectId)
+      yield put(setShownProject(currentProject))
+    }
 
   } catch (error) {
     yield put(
