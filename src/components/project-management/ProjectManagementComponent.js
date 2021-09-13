@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
 import {
-  RowDetailState, SortingState, IntegratedSorting,
+  RowDetailState,
 } from '@devexpress/dx-react-grid'
 import {
   Grid,
@@ -14,13 +14,18 @@ import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
   getSelectedMonthForPMSelector,
-  getIsFetchingPmPageSelector, getIsShowEditModalSelector, getIsShowCreateModalSelector,
+  getIsFetchingPmPageSelector,
+  getIsShowEditModalSelector,
+  getIsShowCreateModalSelector,
+  getProjectManagerListSelector,
+  getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement, clearPmProjects,
   getAllProjects, setSelectedProjectId,
   downloadAllTeamProjectReport,
-  setShowCreateModal, setShowEditModal
+  setShowCreateModal, setShowEditModal,
+  setPm, setShownProject,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -28,6 +33,9 @@ import EditProjectModal from './components/EditProjectModal'
 import './style.scss'
 import { Button } from 'react-bootstrap'
 import SpinnerStyled from '../ui/spinner'
+import Select from '../ui/select'
+import { getCurrentUserSelector } from '../../reducers/profile'
+import {isEmpty} from 'lodash'
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -41,33 +49,35 @@ const ProjectManagementComponent =({
                                      setShowEditModal,
                                      isEditModalShow,
                                      isCreateModalShow,
+                                     projectManagers,
+                                     selectedPm,
+                                     setPm,
+                                     currentPm,
+                                     shownProject,
+                                     setShownProject,
+                                     filteredProjects
 }) => {
+  const dispatch = useDispatch()
 
-    useEffect(() => {
-      getAllProjects()
-    }, [getAllProjects])
+  useEffect(()=>{
+    if(isEmpty(selectedPm)){
+      setPm(currentPm)
+    }
+  },[])
 
-    useEffect(()=>{
-      clearPmProjects()
-      setExpandedRowIds([])
-      getAllProjects()
-    },[month])
-
-    const dispatch = useDispatch()
+  useEffect(()=>{
+    clearPmProjects()
+    setExpandedRowIds([])
+    getAllProjects()
+  },[month])
 
     const [columns] = useState([
       { name: 'project', title: 'Project' },
       { name: 'occupancy', title: 'Occupancy' },
       { name: 'hours', title: 'Hours' },
       { name: 'report', title: 'Report' },
-      { name: 'actions', title: '' },
+      { name: 'actions', title: 'Actions' },
     ])
-    const SortingLabel = React.memo(props => {
-      if (props.column.name === 'report' || props.column.name === 'actions')
-        return <TableHeaderRow.SortLabel {...props} disabled/>
-      return <TableHeaderRow.SortLabel {...props} />
-    })
-
 
     const _downloadAllTeamProjectReport = useCallback(
       (data) => {
@@ -87,10 +97,9 @@ const ProjectManagementComponent =({
     }
 
     const [rows, setRows] = useState([])
-
-    useEffect(() => {
-      if (projects?.length > 0) {
-        const reformatProjects = projects.map(project => ({
+  useEffect(() => {
+    if (filteredProjects?.length > 0) {
+        const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
           occupancy: ' ',
           hours: project?.total_hours || 0,
@@ -102,11 +111,21 @@ const ProjectManagementComponent =({
         }))
         setRows(reformatProjects)
       }
-    }, [projects])
+    }, [filteredProjects, projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
 
-    return (
+  const onSelectPm = (data) => {
+    setPm(data)
+    setShownProject(null)
+    getAllProjects()
+  }
+
+  const clearSelectedProject = () => {
+    setShownProject(null)
+  }
+
+  return (
       <>
         {isFetching && <SpinnerStyled/>}
         <div className = "container project_management_container">
@@ -114,6 +133,29 @@ const ProjectManagementComponent =({
             <SelectMonth
               selectedDate = {selectedDateForPM}
               setNewData = {changeSelectedDateProjectsManagement}
+            />
+            <Select
+              title="choose project manager..."
+              listItems={projectManagers}
+              onSelected={onSelectPm}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={'developer_select pm_select'}
+              initialChoice={selectedPm || currentPm}
+              isSearch
+            />
+
+            <Select
+              title="choose project..."
+              listItems = {projects}
+              onSelected={setShownProject}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={'project_select project_select'}
+              initialChoice={shownProject}
+              onClear={clearSelectedProject}
+              disabled={!projects?.length}
+              isSearch
             />
 
             <button
@@ -130,16 +172,13 @@ const ProjectManagementComponent =({
               rows = {rows}
               columns = {columns}
             >
-              <SortingState
-                defaultSorting = {[{ columnName: 'project', direction: 'asc' }]}/>
-              <IntegratedSorting/>
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
                 defaultExpandedRowIds = {[]}
               />
               <Table/>
-              <TableHeaderRow showSortingControls sortLabelComponent = {SortingLabel} resizingEnabled/>
+              <TableHeaderRow resizingEnabled/>
               <TableRowDetail contentComponent = {RowDetail}/>
             </Grid>
           </div>
@@ -160,13 +199,20 @@ const mapStateToProps = (state) => ({
   month: getSelectedMonthForPMSelector(state),
   isEditModalShow: getIsShowEditModalSelector(state),
   isCreateModalShow: getIsShowCreateModalSelector(state),
+  projectManagers: getProjectManagerListSelector(state),
+  selectedPm: getSelectedPmSelector(state),
+  currentPm: getCurrentUserSelector(state),
+  shownProject: getShownProjectSelector(state),
+  filteredProjects: getFilteredProjectSelector(state),
 })
 const actions = {
   changeSelectedDateProjectsManagement,
   getAllProjects,
   clearPmProjects,
   setShowEditModal,
-  setShowCreateModal
+  setShowCreateModal,
+  setPm,
+  setShownProject,
 }
 
 

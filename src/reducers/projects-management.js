@@ -2,7 +2,9 @@ import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
   CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
+  SET_SELECTED_PM,SET_SHOWN_PROJECT,
 } from 'constants/actions-constant'
+import {isEmpty} from 'lodash'
 
 const todayDate = new Date()
 
@@ -18,6 +20,13 @@ const initialState = {
   isFetchingPmPage:false,
   isShowEditModal:false,
   isShowCreateModal: false,
+  selectedPm: {},
+  // shownProject:{
+  //   id: '',
+  //   name: '',
+  //   total_hours: '',
+  // },
+  shownProject:null,
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []
@@ -51,10 +60,22 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, isShowEditModal: action.payload }
     case SET_SHOW_CREATE_MODAL:
       return { ...state, isShowCreateModal: action.payload }
+    case SET_SELECTED_PM:
+      return { ...state, selectedPm: action.payload }
+    case SET_SHOWN_PROJECT:
+      return { ...state, shownProject: action.payload }
     default:
       return state
   }
 }
+
+
+
+export const getSelectedPmSelector = state => state.projectsManagement.selectedPm
+export const getSelectedPmIdSelector = state => state.projectsManagement.selectedPm?.id
+
+
+
 
 export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
 export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
@@ -79,6 +100,16 @@ export const getSelectedMonthForPMSelector = (state) =>
 ///////////////////////////////////////////////////////
 export const getAllProjectsSelector = (state) =>
   state.projectsManagement.projects
+
+export const getShownProjectSelector = state => state.projectsManagement.shownProject
+
+export const getFilteredProjectSelector = state => {
+  const shownProject = getShownProjectSelector(state)
+  const allProjects = getAllProjectsSelector(state)
+  return isEmpty(shownProject)?allProjects:[shownProject]
+}
+
+
 
 export const getProjectsWithReportSelector = (state) => state.projectsManagement.projectsWithReports
 

@@ -7,6 +7,7 @@ import {
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, CLEAR_PM_PROJECTS,
   ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
+  SET_SELECTED_PM,SET_SHOWN_PROJECT,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -94,4 +95,15 @@ export const setShowCreateModal = payload => ({
   type: SET_SHOW_CREATE_MODAL,
   payload,
 })
+
+export const setPm = payload => ({
+  type: SET_SELECTED_PM,
+  payload,
+})
+
+export const setShownProject = payload => ({
+  type: SET_SHOWN_PROJECT,
+  payload,
+})
+
 
