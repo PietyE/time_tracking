@@ -130,10 +130,7 @@ const ProjectManagementComponent =({
         {isFetching && <SpinnerStyled/>}
         <div className = "container project_management_container">
           <div className = "flex row justify-content-between">
-            <SelectMonth
-              selectedDate = {selectedDateForPM}
-              setNewData = {changeSelectedDateProjectsManagement}
-            />
+
             <Select
               title="choose project manager..."
               listItems={projectManagers}
@@ -156,6 +153,12 @@ const ProjectManagementComponent =({
               onClear={clearSelectedProject}
               disabled={!projects?.length}
               isSearch
+            />
+
+            <SelectMonth
+              extraClassNameContainer={'pm_month_select'}
+              selectedDate = {selectedDateForPM}
+              setNewData = {changeSelectedDateProjectsManagement}
             />
 
             <button
