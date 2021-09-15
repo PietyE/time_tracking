@@ -180,9 +180,13 @@ const ProjectManagementComponent =({
                 onExpandedRowIdsChange = {setExpandedRowIds}
                 defaultExpandedRowIds = {[]}
               />
-              <Table/>
+              <Table
+                messages = {{
+                  noData: ''
+                }}
+              />
               <TableHeaderRow resizingEnabled/>
-              <TableRowDetail contentComponent = {RowDetail}/>
+              <TableRowDetail contentComponent = {RowDetail} />
             </Grid>
           </div>
 
