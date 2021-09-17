@@ -36,6 +36,7 @@ import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
 import { getCurrentUserSelector } from '../../reducers/profile'
 import {isEmpty} from 'lodash'
+import {convertHours} from '../../utils/common'
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -102,7 +103,7 @@ const ProjectManagementComponent =({
         const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
           occupancy: ' ',
-          hours: project?.total_hours || 0,
+          hours: convertHours(project?.total_hours) || 0,
           report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
             <span className = "oi oi-cloud-download"/>
           </Button>,
