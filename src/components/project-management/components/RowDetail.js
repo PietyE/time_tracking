@@ -63,7 +63,11 @@ const RowDetail = ({ row, currentProjectReport }) => {
         columns = {childColumns}
       >
         <Table/>
-        <Table/>
+        <Table
+          messages = {{
+            noData: ''
+          }}
+        />
       </Grid>
     </div>
   )
