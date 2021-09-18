@@ -15,7 +15,8 @@ import {
 } from 'constants/actions-constant'
 import {
   setDeveloperConsolidateProjectReport,
-  setDevelopersProjectInProjectReport, setErrorUsersProjectReport,
+  setDevelopersProjectInProjectReport,
+  setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
 } from 'actions/projects-report'
