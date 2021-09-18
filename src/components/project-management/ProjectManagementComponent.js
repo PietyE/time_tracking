@@ -183,7 +183,7 @@ const ProjectManagementComponent =({
               />
               <Table
                 messages = {{
-                  noData: ''
+                  noData: isFetching?'':'There are no active projects to display.'
                 }}
               />
               <TableHeaderRow resizingEnabled/>
