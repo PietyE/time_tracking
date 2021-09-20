@@ -25,7 +25,7 @@ import {
   getAllProjects, setSelectedProjectId,
   downloadAllTeamProjectReport,
   setShowCreateModal, setShowEditModal,
-  setPm, setShownProject,
+  setPm, setShownProject, getProjectReportById,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -86,6 +86,12 @@ const ProjectManagementComponent =({
       },
       [dispatch],
     )
+  const _getProjectReportById = useCallback(
+    (data) => {
+      dispatch(getProjectReportById(data))
+    },
+    [dispatch],
+  )
     const _setSelectedProjectId = useCallback(
       (data) => {
         dispatch(setSelectedProjectId(data))
@@ -119,11 +125,16 @@ const ProjectManagementComponent =({
   const onSelectPm = (data) => {
     setPm(data)
     setShownProject(null)
+    setExpandedRowIds([])
     getAllProjects()
   }
 
   const clearSelectedProject = () => {
     setShownProject(null)
+  }
+  const onSelectProject = (data) => {
+    setShownProject(data)
+    _getProjectReportById(data.id)
   }
 
   return (
@@ -146,7 +157,7 @@ const ProjectManagementComponent =({
             <Select
               title="choose project..."
               listItems = {projects}
-              onSelected={setShownProject}
+              onSelected={onSelectProject}
               valueKey="name"
               idKey="id"
               extraClassContainer={'project_select project_select'}
