@@ -78,6 +78,16 @@ function CreateReportForm({
       })
       return
     }
+    if ((takeTime % 15) !== 0) {
+      setBorderInputHoursClassName('border-danger')
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Check the entered value',
+        message: error.message || 'The value must be a multiple of 15',
+        delay: 5000,
+      })
+      return
+    }
 
     setBorderInputClassName('')
 
