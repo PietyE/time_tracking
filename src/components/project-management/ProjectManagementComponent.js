@@ -105,7 +105,6 @@ const ProjectManagementComponent =({
 
     const [rows, setRows] = useState([])
   useEffect(() => {
-    if (filteredProjects?.length > 0) {
         const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
           occupancy: ' ',
@@ -117,7 +116,6 @@ const ProjectManagementComponent =({
           id: project.id,
         }))
         setRows(reformatProjects)
-      }
     }, [filteredProjects, projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
