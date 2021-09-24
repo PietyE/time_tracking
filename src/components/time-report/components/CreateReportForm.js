@@ -19,6 +19,7 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
+  savePosition
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -34,7 +35,7 @@ function CreateReportForm({
 
   const MAX_SIZE = 1000
 
-  const handlerClickAddButton = () => {
+  const handlerClickAddButton = (e) => {
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
     if (!text && !hours) {
@@ -98,6 +99,7 @@ function CreateReportForm({
     })
     setText('')
     setHours('')
+    savePosition(e)
   }
 
   const handlerChangeText = (e) => {
