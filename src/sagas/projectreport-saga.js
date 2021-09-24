@@ -12,8 +12,11 @@ import {
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
+  GET_CONSOLIDATE_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import {
+  getConsolidateProjectReport,
+  setConsolidateProjectReport,
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport, setErrorUsersProjectReport,
   setIsFetchingReports,
@@ -21,7 +24,7 @@ import {
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
-import { usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
+import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 
 export function* getDeveloperConsolidateProjectReport() {
   yield put(setIsFetchingReports(true))
@@ -89,7 +92,8 @@ function* setExchangeRate({ payload }) {
       month: now.getMonth() + 1
     };
     yield put(getRatesList(ratesParams))
-    yield call(getDeveloperConsolidateProjectReport)
+    // yield call(getDeveloperConsolidateProjectReport)
+    yield call(getConsolidateProjectReport)
   } catch (error) {
     yield put(
       showAler({
@@ -119,6 +123,18 @@ function* usersProjectReport (action) {
       yield put(setUsersProjectReport(payload))
 }
 
+export function* handleGetConsolidatedReport() {
+  const { month, year } = yield select(
+    (state) => state.projectsReport.selectedDate
+  )
+  const URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
+    month + 1
+  }/`
+  const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
+  const mapperResponse = consolidateReportMapper(response)
+  yield put(setConsolidateProjectReport(mapperResponse))
+}
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -128,8 +144,9 @@ export function* watchDeveloperProjects() {
       CLEAR_SELECTED_DEVELOPER,
       SET_SELECTED_PROJECT_PROJECTREPORTS,
       CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
+      GET_CONSOLIDATE_PROJECT_REPORT
     ],
-    getDeveloperConsolidateProjectReport
+    handleGetConsolidatedReport
   )
   yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
   yield takeEvery(

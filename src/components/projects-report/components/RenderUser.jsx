@@ -74,6 +74,7 @@ const RenderUser = ({
       {isOpen && <UserProjectList
         userId={userId}
         isOpen={isOpen}
+        selectedDate={selectedDate}
       />}
     </div>
   )
