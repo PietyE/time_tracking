@@ -13,6 +13,7 @@ function Day({
   showEmpty,
   isOpenCreate,
   isOneProject,
+  savePosition,
 }) {
   const [isCreate, setIsCreate] = useState(true)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
@@ -74,6 +75,7 @@ function Day({
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
           sumHours={sumHours}
+          savePosition={savePosition}
         />
       )}
       {descriptions.map(({ title, duration, id }) => (
