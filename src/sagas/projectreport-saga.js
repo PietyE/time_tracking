@@ -18,7 +18,8 @@ import {
   getConsolidateProjectReport,
   setConsolidateProjectReport,
   setDeveloperConsolidateProjectReport,
-  setDevelopersProjectInProjectReport, setErrorUsersProjectReport,
+  setDevelopersProjectInProjectReport,
+  setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
 } from 'actions/projects-report'

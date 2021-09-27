@@ -104,7 +104,7 @@ export const getEditingUserIdSelector = (state) =>
 
 export const getEditingUser = (state) => {
   const editingUserId = state.projectsReport.editingUserId
-  return state.projectsReport.reports.users.find(
+  return state.projectsReport.reportsRefactored.find(
     (report) => report.id === editingUserId
   )
 }

@@ -14,14 +14,17 @@ export const consolidateReportMapper = (response) => {
     if (item && typeof item === 'object') {
       const reportItem = {
         name: lodashGet(item, 'name', ''),
+        email: lodashGet(item, 'email', ''),
         developer_projects: lodashGet(item, 'developer_projects', ''),
         rate_uah: lodashGet(item, 'rates[0].rate', ''),
         salary_uah: lodashGet(item, 'salary_uah', ''),
         id: lodashGet(item, 'id', ''),
-        total_expenses: lodashGet(item, 'expenses[0].amount_uah', ''),
+        total_expenses: lodashGet(item, 'expenses[0].amount', ''),
+        expensesId: lodashGet(item, 'expenses[0].id', ''),
         total_overtimes: lodashGet(item, 'total_overtime_amount_uah', ''),
         total: lodashGet(item, 'total', ''),
-        comments: lodashGet(item, 'comments', ''),
+        comments: lodashGet(item, 'comment.text', ''),
+        commentId: lodashGet(item, 'comment.id', ''),
         total_uah: lodashGet(item, 'total_amount_uah', ''),
         is_processed: lodashGet(item, 'is_processed', '')
       }
