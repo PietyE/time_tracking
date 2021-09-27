@@ -8,7 +8,7 @@ import {
   setAuthStatus,
   setFetchingProfileStatus, setAuthInProgress, unsetAuthInProgress,
 } from 'actions/users'
-import {setIsFetchingReports} from 'actions/projects-report'
+import { getConsolidateProjectReport, setIsFetchingReports } from 'actions/projects-report'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
@@ -205,7 +205,8 @@ function* setUserSalary({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -233,7 +234,8 @@ function* setUserRate({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -254,7 +256,8 @@ function* setProcessedStatus({ payload }) {
     yield put(setIsFetchingReports(true))
     yield call([users, 'toggleProcessedStatus'], payload)
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   }
   catch (error) {
     yield put(
@@ -286,7 +289,8 @@ function* setUserCost({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -316,7 +320,8 @@ function* setEditedCost({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(setIsFetchingReports(false))
 
@@ -347,7 +352,8 @@ function* setUserComment({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
@@ -377,7 +383,8 @@ function* setEditedComment({ payload }) {
       })
     )
     yield put(setIsFetchingReports(false))
-    yield put(getDeveloperConsolidateProjectReport())
+    // yield put(getDeveloperConsolidateProjectReport())
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({

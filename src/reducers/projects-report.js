@@ -51,15 +51,16 @@ export const projectsReport = (state = initialState, action) => {
       return { ...state,
         isFetchingReports: true,
         selectedDate: action.payload }
-    case SET_DEV_CONSOLIDATE_PROJECT_REPORT:
-      return {
-        ...state,
-        isFetchingReports: false,
-        reports: action.payload
-      }
+    // case SET_DEV_CONSOLIDATE_PROJECT_REPORT:
+    //   return {
+    //     ...state,
+    //     isFetchingReports: false,
+    //     reports: action.payload
+    //   }
     case SET_CONSOLIDATE_PROJECT_REPORT:
       return {
         ...state,
+        isFetchingReports: false,
         reportsRefactored: action.payload
       }
     case SET_PROCESSED_STATUS:
