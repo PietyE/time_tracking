@@ -89,6 +89,17 @@ function CreateReportForm({
       })
       return
     }
+   
+    if (takeTime > 480) {
+      setBorderInputHoursClassName('border-danger')
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Check the entered value',
+        message: error.message || 'Maximum working time is 8 hours for one work item',
+        delay: 5000,
+      })
+      return
+    }
 
     setBorderInputClassName('')
 
