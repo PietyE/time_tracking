@@ -11,7 +11,8 @@ import {
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
-  GET_USERS_PROJECT_REPORT, GET_CONSOLIDATE_PROJECT_REPORT,
+  GET_USERS_PROJECT_REPORT,
+  GET_CONSOLIDATE_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import {
   getConsolidateProjectReport,
@@ -69,7 +70,6 @@ export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = `projects/`
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
-  console.dir(data);
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
@@ -114,7 +114,6 @@ function* usersProjectReport (action) {
 
     const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
     const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
-  console.dir(response);
     if (response.status >= 400) {
       yield put(setErrorUsersProjectReport(userId))
       return;
@@ -129,46 +128,30 @@ export function* handleGetConsolidatedReport() {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
-
   yield put(setIsFetchingReports(true))
-
   const { email = '' } = yield select(
     (state) => state.projectsReport.selectedDeveloper
   )
-
   const { id = '' } = yield select(
     (state) => state.projectsReport.selectedProject
   )
-// console.dir(month);
-//   console.dir(year);
-
   const searchDeveloperParam = `${email}` || ''
-
   const searchProjectParam = `${id}` || ''
-
   let URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
     month + 1
   }/?search=${searchDeveloperParam}`
-
   if (searchProjectParam) {
     URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
       month + 1
     }/?search=${searchDeveloperParam}`
   }
-
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
-  console.dir(response);
   const mapperResponse = consolidateReportMapper(response)
   yield put(setConsolidateProjectReport(mapperResponse))
-
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT
   )
-
-  // if (data) {
-  //   yield put(setDeveloperConsolidateProjectReport(data))
-  // }
   yield put(setIsFetchingReports(false))
 }
 

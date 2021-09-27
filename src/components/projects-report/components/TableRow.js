@@ -37,7 +37,7 @@ export default function TableRow({
 }) {
   const {
     working_time: hours,
-    id: developer_project_id,
+    idDeveloperProjects: developer_project_id,
     total,
     name: projectName,
   } = project
@@ -166,14 +166,15 @@ export default function TableRow({
               <span className="table_cell total">
                 {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
               </span>
-              <span className="table_cell to_pay">
-                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
-              </span>
               <span className="table_cell coast">
                 {extraClass === 'common'
                   ? UAHFormat.format(total_expenses)
                   : ''}
               </span>
+              <span className="table_cell to_pay">
+                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
+              </span>
+
             </>
           )}
 
