@@ -20,9 +20,11 @@ export const consolidateReportMapper = (response) => {
         salary_uah: lodashGet(item, 'salary_uah', ''),
         id: lodashGet(item, 'id', ''),
         total_expenses: lodashGet(item, 'expenses[0].amount', ''),
+        expensesId: lodashGet(item, 'expenses[0].id', ''),
         total_overtimes: lodashGet(item, 'total_overtime_amount_uah', ''),
         total: lodashGet(item, 'total', ''),
         comments: lodashGet(item, 'comment.text', ''),
+        commentId: lodashGet(item, 'comment.id', ''),
         total_uah: lodashGet(item, 'total_amount_uah', ''),
         is_processed: lodashGet(item, 'is_processed', '')
       }

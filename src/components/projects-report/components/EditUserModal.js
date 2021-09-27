@@ -38,14 +38,21 @@ const EditUserModal = (props) => {
     setEditedCost,
   } = props
   console.dir(editingUser);
-  const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
-  console.dir(_comment);
+  // const _comment = editingUser.comments ? editingUser.comments.text : ''
+  const _comment = editingUser.comments
+  // console.dir(_comment);
 
-  const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
-  console.dir(commentId);
+  // const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
+  const commentId = editingUser.commentId
+  // console.dir(commentId);
+
   // const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
+  const _expense = editingUser.total_expenses
+  // console.dir(_expense)
 
   // const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
+  const expenseId = editingUser.expensesId
+  console.dir(expenseId)
 
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
@@ -103,7 +110,7 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       amount: newCoast,
-      // expenseId: expenseId,
+      expenseId: expenseId,
     }
     setEditedCost(data)
   }
@@ -135,6 +142,7 @@ const EditUserModal = (props) => {
       text: comment,
       commentId: commentId,
     }
+    console.dir(data)
     setEditedComment(data)
     setIsFetching(true)
   }
@@ -189,8 +197,8 @@ const EditUserModal = (props) => {
         <ModalRow>
           <ModalTitle title={`Cost (UAH): `} />
           <ModalInput
-            // prevValue={_expense}
-            // handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
+            prevValue={_expense}
+            handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
           />
         </ModalRow>
         <ModalRow direction={'column'}>
