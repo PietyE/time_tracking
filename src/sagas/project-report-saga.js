@@ -5,19 +5,19 @@ import { setConsolidateProjectReport } from '../actions/projects-report'
 import { consolidateReportMapper } from '../utils/projectReportApiResponseMapper'
 
 
-export function* handleGetConsolidatedReport() {
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
-// console.dir(month);
-//   console.dir(year);
-  const URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
-    month + 1
-  }/`
-  const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
-  const mapperResponse = consolidateReportMapper(response)
-  yield put(setConsolidateProjectReport(mapperResponse))
-}
+// export function* handleGetConsolidatedReport() {
+//   const { month, year } = yield select(
+//     (state) => state.projectsReport.selectedDate
+//   )
+// // console.dir(month);
+// //   console.dir(year);
+//   const URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
+//     month + 1
+//   }/`
+//   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
+//   const mapperResponse = consolidateReportMapper(response)
+//   yield put(setConsolidateProjectReport(mapperResponse))
+// }
 
 
 
