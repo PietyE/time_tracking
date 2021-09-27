@@ -13,7 +13,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
 import {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
@@ -44,7 +44,7 @@ function ProjectsReport({
   roleUser,
   selectedDate,
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   projectsReports,
   developersList = [],
   setSelectedDeveloper,
@@ -237,7 +237,7 @@ const mapStateToProps = (state) => ({
 
 const actions = {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,

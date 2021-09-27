@@ -49,17 +49,18 @@ export const projectsReport = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_SELECTED_DATE_PROJECTS_REPORT:
       return { ...state,
-        isFetchingReports: true,
+        // isFetchingReports: true,
         selectedDate: action.payload }
-    case SET_DEV_CONSOLIDATE_PROJECT_REPORT:
-      return {
-        ...state,
-        isFetchingReports: false,
-        reports: action.payload
-      }
+    // case SET_DEV_CONSOLIDATE_PROJECT_REPORT:
+    //   return {
+    //     ...state,
+    //     isFetchingReports: false,
+    //     reports: action.payload
+    //   }
     case SET_CONSOLIDATE_PROJECT_REPORT:
       return {
         ...state,
+        isFetchingReports: false,
         reportsRefactored: action.payload
       }
     case SET_PROCESSED_STATUS:
@@ -74,7 +75,7 @@ export const projectsReport = (state = initialState, action) => {
     case SET_SELECTED_PROJECT_PROJECTREPORTS:
       return {
         ...state,
-        isFetchingReports: true,
+        isFetchingReports: false,
         selectedProject: action.payload }
     case CLEAR_SELECTED_PROJECT_PROJECTREPORTS:
       return {

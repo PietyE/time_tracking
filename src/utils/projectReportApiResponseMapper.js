@@ -54,7 +54,8 @@ export const usersProjectReportMapper = (response) => {
         working_time: '',
         id: lodashGet(item, 'project.id', ''),
         total: lodashGet(item, 'total', ''),
-        is_full_time: lodashGet(item, 'is_full_time', '')
+        is_full_time: lodashGet(item, 'is_full_time', ''),
+        idDeveloperProjects: lodashGet(item, 'id', '')
       };
 
   });
