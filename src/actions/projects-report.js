@@ -23,10 +23,10 @@ export const changeSelectedDateProjectsReport = (payload) => ({
   payload,
 })
 
-export const getDeveloperConsolidateProjectReport = (payload) => ({
-  type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,
-  payload,
-})
+// export const getDeveloperConsolidateProjectReport = (payload) => ({
+//   type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,
+//   payload,
+// })
 
 export const setDeveloperConsolidateProjectReport = (payload) => ({
   type: SET_DEV_CONSOLIDATE_PROJECT_REPORT,

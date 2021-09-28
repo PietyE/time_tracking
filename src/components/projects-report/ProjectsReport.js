@@ -13,7 +13,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
 import {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
@@ -31,7 +31,7 @@ import {
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
-  selectUsersReports,
+  selectUsersReports, getEditingUser,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
@@ -44,7 +44,7 @@ function ProjectsReport({
   roleUser,
   selectedDate,
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   projectsReports,
   developersList = [],
   setSelectedDeveloper,
@@ -182,7 +182,7 @@ function ProjectsReport({
                 name: allProjectsName,
               }
 
-              const comment = comments[0] ? comments[0].text : ''
+              // const comment = comments[0] ? comments[0].text : ''
 
 
 
@@ -204,7 +204,7 @@ function ProjectsReport({
                   roleUser={roleUser}
                   setEditUserId={setEditUserId}
                   setIsOpenEdit={setIsOpenEdit}
-                  comment={comment}
+                  comment={comments}
                   total_uah={total_uah}
                   is_processed={is_processed}
                   setProcessedStatus={setProcessedStatus}
@@ -237,7 +237,7 @@ const mapStateToProps = (state) => ({
 
 const actions = {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
+  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,

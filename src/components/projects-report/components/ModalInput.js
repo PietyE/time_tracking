@@ -7,6 +7,7 @@ import { isEqual } from 'lodash'
 import { useSelector } from 'react-redux'
 
 export const ModalInput = ({ prevValue, handleSaveChange }) => {
+  console.dir(prevValue)
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)

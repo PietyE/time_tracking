@@ -12,16 +12,20 @@ import {
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
+  GET_CONSOLIDATE_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import {
+  getConsolidateProjectReport,
+  setConsolidateProjectReport,
   setDeveloperConsolidateProjectReport,
-  setDevelopersProjectInProjectReport, setErrorUsersProjectReport,
+  setDevelopersProjectInProjectReport,
+  setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
-import { usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
+import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 
 export function* getDeveloperConsolidateProjectReport() {
   yield put(setIsFetchingReports(true))
@@ -89,7 +93,8 @@ function* setExchangeRate({ payload }) {
       month: now.getMonth() + 1
     };
     yield put(getRatesList(ratesParams))
-    yield call(getDeveloperConsolidateProjectReport)
+    // yield call(getDeveloperConsolidateProjectReport)
+    yield call(getConsolidateProjectReport)
   } catch (error) {
     yield put(
       showAler({
@@ -119,17 +124,52 @@ function* usersProjectReport (action) {
       yield put(setUsersProjectReport(payload))
 }
 
+
+export function* handleGetConsolidatedReport() {
+  const { month, year } = yield select(
+    (state) => state.projectsReport.selectedDate
+  )
+  yield put(setIsFetchingReports(true))
+  const { email = '' } = yield select(
+    (state) => state.projectsReport.selectedDeveloper
+  )
+  const { id = '' } = yield select(
+    (state) => state.projectsReport.selectedProject
+  )
+  const searchDeveloperParam = `${email}` || ''
+  const searchProjectParam = `${id}` || ''
+  let URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
+    month + 1
+  }/?search=${searchDeveloperParam}`
+  if (searchProjectParam) {
+    URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
+      month + 1
+    }/?search=${searchDeveloperParam}`
+  }
+  const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
+  const mapperResponse = consolidateReportMapper(response)
+  yield put(setConsolidateProjectReport(mapperResponse))
+  const { data } = yield call(
+    [Api, 'consolidateReportApi'],
+    URL_CONSOLIDATED_LIST_REPORT
+  )
+  yield put(setIsFetchingReports(false))
+}
+
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
-      GET_DEV_CONSOLIDATE_PROJECT_REPORT,
+      // GET_DEV_CONSOLIDATE_PROJECT_REPORT,
       CHANGE_SELECTED_DATE_PROJECTS_REPORT,
       SET_SELECTED_DEVELOPER,
       CLEAR_SELECTED_DEVELOPER,
       SET_SELECTED_PROJECT_PROJECTREPORTS,
       CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
+      GET_CONSOLIDATE_PROJECT_REPORT
     ],
-    getDeveloperConsolidateProjectReport
+    // getDeveloperConsolidateProjectReport
+    handleGetConsolidatedReport
   )
   yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
   yield takeEvery(
