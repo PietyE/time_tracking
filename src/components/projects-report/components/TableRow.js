@@ -94,6 +94,8 @@ export default function TableRow({
   // const hoursString =
   //   roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
+  const totalHours = totalHoursOvertime ? totalHoursOvertime : '0'
+
   let stateDataForLink = {
     userId,
     developer_project_id,
@@ -160,7 +162,7 @@ export default function TableRow({
               </span>
               <span className="table_cell rate">{usdFormat.format(rate)}</span>
               <span className="table_cell hours">
-                {is_full_time ? 'fulltime' : `${totalHoursOvertime} h`}
+                {is_full_time ? 'fulltime' : `${totalHours} h`}
               </span>
               <span className="table_cell total">
                 {UAHFormat.format(total_overtimes || total)}
@@ -182,7 +184,7 @@ export default function TableRow({
 
           {roleUser === PM && (
             <span className="table_cell hours">
-              {is_full_time ? 'fulltime' : `${totalHoursOvertime} h`}
+              {is_full_time ? 'fulltime' : `${totalHours} h`}
             </span>
           )}
 
