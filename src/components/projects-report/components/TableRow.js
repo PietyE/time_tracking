@@ -34,8 +34,9 @@ export default function TableRow({
   setProcessedStatus,
   isOpen,
   isFetchingReports,
+  working_time
 }) {
-  // console.dir(total_expenses);
+  // console.dir(totalHoursOvertime);
   // console.dir(total_uah);
   const {
     working_time: hours,
@@ -43,12 +44,11 @@ export default function TableRow({
     total,
     name: projectName,
   } = project
-
   const [isProcessed, setIsProcessed] = useState(false)
 
-  const roundHours = (hours) => {
-    return parseFloat(hours.toFixed(2))
-  }
+  // const roundHours = (hours) => {
+  //   return parseFloat(hours.toFixed(2))
+  // }
 
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
@@ -91,8 +91,8 @@ export default function TableRow({
     }
   }
 
-  const hoursString =
-    roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
+  // const hoursString =
+  //   roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
   let stateDataForLink = {
     userId,
@@ -160,13 +160,13 @@ export default function TableRow({
               </span>
               <span className="table_cell rate">{usdFormat.format(rate)}</span>
               <span className="table_cell hours">
-                {is_full_time ? 'fulltime' : `${hoursString} h`}
+                {is_full_time ? 'fulltime' : `${totalHoursOvertime} h`}
               </span>
               <span className="table_cell total">
-                {usdFormat.format(total_overtimes || total)}
+                {UAHFormat.format(total_overtimes || total)}
               </span>
               <span className="table_cell total">
-                {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
+                {extraClass === 'common' ? UAHFormat.format(total_salary) : ''}
               </span>
               <span className="table_cell coast">
                 {extraClass === 'common'
@@ -182,7 +182,7 @@ export default function TableRow({
 
           {roleUser === PM && (
             <span className="table_cell hours">
-              {is_full_time ? 'fulltime' : `${hoursString} h`}
+              {is_full_time ? 'fulltime' : `${totalHoursOvertime} h`}
             </span>
           )}
 

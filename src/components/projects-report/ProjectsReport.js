@@ -172,6 +172,7 @@ function ProjectsReport({
                 comments,
                 total_uah,
                 is_processed,
+                totalHoursOvertime
               } = user
 
               // const allProjectsName = developer_projects
@@ -195,6 +196,7 @@ function ProjectsReport({
                   rate={rate_uah}
                   // projectSalary={current_salary}
                   projectSalary={salary_uah}
+                  totalHoursOvertime={totalHoursOvertime}
                   key={id}
                   userId={id}
                   selectedDate={selectedDate}

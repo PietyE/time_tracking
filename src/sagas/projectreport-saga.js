@@ -120,6 +120,7 @@ function* usersProjectReport (action) {
       return;
     }
       const mapperResponse = usersProjectReportMapper(response)
+  console.dir(response)
       const payload = { userId, mapperResponse };
       yield put(setUsersProjectReport(payload))
 }
@@ -138,21 +139,28 @@ export function* handleGetConsolidatedReport() {
   )
   const searchDeveloperParam = `${email}` || ''
   const searchProjectParam = `${id}` || ''
+  console.dir(id)
+
   let URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
     month + 1
   }/?search=${searchDeveloperParam}`
+
   if (searchProjectParam) {
     URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
       month + 1
-    }/?search=${searchDeveloperParam}`
+    }/?search=${searchProjectParam}`
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
   const mapperResponse = consolidateReportMapper(response)
+  console.dir(response)
   yield put(setConsolidateProjectReport(mapperResponse))
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT
   )
+  if (data) {
+    yield put(setDeveloperConsolidateProjectReport(data))
+  }
   yield put(setIsFetchingReports(false))
 }
 
