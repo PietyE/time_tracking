@@ -6,7 +6,7 @@ import TableRow from './TableRow'
 
 
 const UserProjectList = (props) => {
-  const { userId, isOpen, selectedDate } = props
+  const { userId, isOpen, selectedDate, rate } = props
   const userDetails = useSelector(selectUserProjects)
 
   const user = userDetails[userId]
@@ -28,15 +28,17 @@ const UserProjectList = (props) => {
       {!isFetching && success && !showContent && <p>No data to display</p>}
       {!isFetching && success && showContent &&
       projects.map((item) => {
-        const { idDeveloperProjects, total, is_full_time } = item
+        const { idDeveloperProjects, total, is_full_time, working_time, } = item
         return (
           <TableRow
             project={item}
             extraClass={isOpen ? 'more_project open' : 'more_project'}
-            rate=''
+            rate={rate}
             key={idDeveloperProjects}
             selectedDate={selectedDate}
             is_full_time={is_full_time}
+            totalHoursOvertime={working_time}
+            total_overtimes={total}
             userId={userId}
             roleUser={'ADMIN'}
           />
