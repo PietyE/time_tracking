@@ -23,6 +23,7 @@ const RenderUser = ({
   is_processed,
   setProcessedStatus,
   isFetchingReports,
+  totalHoursOvertime
 }) => {
 
   const dispatch = useDispatch()
@@ -44,7 +45,7 @@ const RenderUser = ({
   //   }
   //   return sum
   // }, 0)
-  const totalHoursOvertime = 0
+  // const totalHoursOvertime = 0
 
   return (
     <div className='table_body_item'>
@@ -74,6 +75,8 @@ const RenderUser = ({
       {isOpen && <UserProjectList
         userId={userId}
         isOpen={isOpen}
+        selectedDate={selectedDate}
+        rate={rate}
       />}
     </div>
   )

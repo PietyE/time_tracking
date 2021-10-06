@@ -26,7 +26,7 @@ import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
-export function* getDeveloperProjects({ payload, projectIdForSelect = null }) {
+export function* getDeveloperProjects({ payload, type, projectIdForSelect = null }) {
   const { role } = yield select((state) => state.profile)
 
   let URL_DEVELOPER_PROJECT = `developer-projects/`
@@ -52,6 +52,7 @@ export function* getDeveloperProjects({ payload, projectIdForSelect = null }) {
         const routeProject = developerProjects.find(
           (project) => projectIdForSelect === project.developer_project_id
         )
+
         yield put(selectProject(routeProject))
       }
     }
@@ -196,7 +197,6 @@ export function* editTimeReport({ payload }) {
       )
     }
   } catch (error) {
-    //console.dir(error)
   }
 }
 

@@ -37,13 +37,17 @@ const EditUserModal = (props) => {
     setEditedComment,
     setEditedCost,
   } = props
-  const _comment = editingUser.comments[0] ? editingUser.comments[0].text : ''
+  // const _comment = editingUser.comments ? editingUser.comments.text : ''
+  const _comment = editingUser.comments
 
-  const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
+  // const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
+  const commentId = editingUser.commentId
 
-  const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
+  // const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
+  const _expense = editingUser.total_expenses
 
-  const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
+  // const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
+  const expenseId = editingUser.expensesId
 
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)

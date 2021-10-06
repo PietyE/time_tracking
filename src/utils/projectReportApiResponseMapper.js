@@ -14,16 +14,20 @@ export const consolidateReportMapper = (response) => {
     if (item && typeof item === 'object') {
       const reportItem = {
         name: lodashGet(item, 'name', ''),
+        email: lodashGet(item, 'email', ''),
         developer_projects: lodashGet(item, 'developer_projects', ''),
         rate_uah: lodashGet(item, 'rates[0].rate', ''),
-        salary_uah: lodashGet(item, 'salary_uah', ''),
+        salary_uah: lodashGet(item, 'salaries[0].salary', ''),
         id: lodashGet(item, 'id', ''),
-        total_expenses: lodashGet(item, 'expenses[0].amount_uah', ''),
+        total_expenses: lodashGet(item, 'expenses[0].amount', ''),
+        expensesId: lodashGet(item, 'expenses[0].id', ''),
         total_overtimes: lodashGet(item, 'total_overtime_amount_uah', ''),
-        total: lodashGet(item, 'total', ''),
-        comments: lodashGet(item, 'comments', ''),
+        total: lodashGet(item, 'salary_uah', ''),
+        comments: lodashGet(item, 'comment.text', ''),
+        commentId: lodashGet(item, 'comment.id', ''),
         total_uah: lodashGet(item, 'total_amount_uah', ''),
-        is_processed: lodashGet(item, 'is_processed', '')
+        is_processed: lodashGet(item, 'is_processed', ''),
+        totalHoursOvertime: lodashGet(item, 'total_hours', '')
       }
       previous.push(reportItem)
       return previous
@@ -48,10 +52,11 @@ export const usersProjectReportMapper = (response) => {
   return  response.data.developer_projects.map(item => {
       return {
         name: lodashGet(item, 'project.name', ''),
-        working_time: '',
+        working_time: lodashGet(item, 'total_hours', ''),
         id: lodashGet(item, 'project.id', ''),
-        total: lodashGet(item, 'total', ''),
-        is_full_time: lodashGet(item, 'is_full_time', '')
+        total: lodashGet(item, 'overtime_amount_uah_usd', ''),
+        is_full_time: lodashGet(item, 'is_full_time', ''),
+        idDeveloperProjects: lodashGet(item, 'id', '')
       };
 
   });

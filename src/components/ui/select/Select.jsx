@@ -76,12 +76,19 @@ function Select(props) {
     }
   }, [isOpen, callbackEventListener])
 
-  useEffect(() => {
-    if (initialChoice && initialChoice[valueKey]) {
-      setTitle(initialChoice[valueKey])
-    }
-  }, [initialChoice])
+  // useEffect(() => {
+  //   if (initialChoice && initialChoice[valueKey]) {
+  //     setTitle(initialChoice[valueKey])
+  //   }
+  // }, [initialChoice])
 
+  useEffect(()=>{
+    if (initialChoice && initialChoice[valueKey]){
+      setTitle(initialChoice[valueKey])
+    } else if(!initialChoice && listItems?.length){
+      setTitle(title)
+    }
+  },[listItems,initialChoice])
   useEffect(() => {
     if (
       prevList &&
