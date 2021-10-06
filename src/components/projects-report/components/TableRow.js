@@ -36,8 +36,6 @@ export default function TableRow({
   isFetchingReports,
   working_time
 }) {
-  // console.dir(totalHoursOvertime);
-  // console.dir(total_uah);
   const {
     working_time: hours,
     idDeveloperProjects: developer_project_id,

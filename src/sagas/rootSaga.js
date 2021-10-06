@@ -6,7 +6,6 @@ import { watchErrorAlert } from './error-saga'
 import { watchTimereports } from './timereports-saga'
 import { watchDeveloperProjects } from './projectreport-saga'
 import { watchCurrencies } from './currency-saga'
-// import { watchNewConsolidatedReport } from './project-report-saga'
 
 
 export function* rootSaga() {
@@ -17,6 +16,5 @@ export function* rootSaga() {
     watchTimereports(),
     watchDeveloperProjects(),
     watchCurrencies(),
-    // watchNewConsolidatedReport()
   ])
 }

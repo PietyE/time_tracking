@@ -37,22 +37,17 @@ const EditUserModal = (props) => {
     setEditedComment,
     setEditedCost,
   } = props
-  console.dir(editingUser);
   // const _comment = editingUser.comments ? editingUser.comments.text : ''
   const _comment = editingUser.comments
-  // console.dir(_comment);
 
   // const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
   const commentId = editingUser.commentId
-  // console.dir(commentId);
 
   // const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
   const _expense = editingUser.total_expenses
-  // console.dir(_expense)
 
   // const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
   const expenseId = editingUser.expensesId
-  console.dir(expenseId)
 
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
@@ -127,7 +122,6 @@ const EditUserModal = (props) => {
         .slice(0, 10),
       text: comment,
     }
-    console.dir(data);
     setNewComment(data)
     setIsFetching(true)
 
@@ -142,7 +136,6 @@ const EditUserModal = (props) => {
       text: comment,
       commentId: commentId,
     }
-    console.dir(data)
     setEditedComment(data)
     setIsFetching(true)
   }
