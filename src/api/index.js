@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import usersCRUD from './routes/users'
+import pmCRUD from './routes/pm'
 
 // eslint-disable-next-line no-undef
 const _baseURL = process.env.REACT_APP_BASE_URL
@@ -29,6 +30,7 @@ class Client {
     })
 
     this.users = usersCRUD(this.instanse)
+    this.pm = pmCRUD(this.instanse)
   }
 
   setToken(token) {
@@ -42,7 +44,7 @@ class Client {
 const api = new Client(_baseURL)
 
 export const { users } = api
-
+export const { pm } = api
 export default api
 
 // const handleError = (error) => {

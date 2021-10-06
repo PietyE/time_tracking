@@ -19,6 +19,7 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
+  savePosition
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -34,7 +35,7 @@ function CreateReportForm({
 
   const MAX_SIZE = 1000
 
-  const handlerClickAddButton = () => {
+  const handlerClickAddButton = (e) => {
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
     if (!text && !hours) {
@@ -78,6 +79,27 @@ function CreateReportForm({
       })
       return
     }
+    if ((takeTime % 15) !== 0) {
+      setBorderInputHoursClassName('border-danger')
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Check the entered value',
+        message: error.message || 'The value must be a multiple of 15',
+        delay: 5000,
+      })
+      return
+    }
+   
+    if (takeTime > 480) {
+      setBorderInputHoursClassName('border-danger')
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Check the entered value',
+        message: error.message || 'Maximum working time is 8 hours for one work item',
+        delay: 5000,
+      })
+      return
+    }
 
     setBorderInputClassName('')
 
@@ -88,6 +110,7 @@ function CreateReportForm({
     })
     setText('')
     setHours('')
+    savePosition(e)
   }
 
   const handlerChangeText = (e) => {

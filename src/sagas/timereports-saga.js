@@ -99,41 +99,46 @@ export function* workerTimeReports() {
 }
 
 export function* addTimeReport({ payload }) {
-  yield put(setIsFetchingReports(true))
+  try{
+    yield put(setIsFetchingReports(true))
 
-  const { selectedProject } = yield select((state) => state.timereports)
+    const { selectedProject } = yield select((state) => state.timereports)
 
-  const URL_WORK_ITEMS = `work_items/`
-  const { reports } = yield select((state) => state.timereports)
-  const newTimereport = [...reports.items]
+    const URL_WORK_ITEMS = `work_items/`
+    const { reports } = yield select((state) => state.timereports)
+    const newTimereport = [...reports.items]
 
-  const body = {
-    id: selectedProject.id,
-    developer_project: selectedProject.developer_project_id,
-    title: payload.description,
-    duration: payload.tookHours,
-    date: payload.date,
+    const body = {
+      id: selectedProject.id,
+      developer_project: selectedProject.developer_project_id,
+      title: payload.description,
+      duration: payload.tookHours,
+      date: payload.date,
+    }
+
+    const { data, status } = yield call(
+      [Api, 'addWorkItem'],
+      URL_WORK_ITEMS,
+      body
+    )
+
+    if (status >= 400) {
+      return
+    }
+
+    newTimereport.unshift({
+      id: data.id,
+      title: data.title,
+      duration: data.duration,
+      date: data.date,
+    })
+
+    yield put(setTimeReports({ items: newTimereport }))
+  }finally {
+    yield put(setIsFetchingReports(false))
+
   }
 
-  const { data, status } = yield call(
-    [Api, 'addWorkItem'],
-    URL_WORK_ITEMS,
-    body
-  )
-
-  if (status >= 400) {
-    return
-  }
-
-  newTimereport.unshift({
-    id: data.id,
-    title: data.title,
-    duration: data.duration,
-    date: data.date,
-  })
-
-  yield put(setTimeReports({ items: newTimereport }))
-  yield put(setIsFetchingReports(false))
 
 }
 

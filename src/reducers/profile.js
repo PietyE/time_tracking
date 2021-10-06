@@ -31,3 +31,8 @@ export const profile = (state = initial_state, action) => {
 }
 
 export const getAuthInProgressSelector = (state) => state.profile.authInProgress;
+export const getCurrentUserSelector = state => ({
+  id: state.profile.id,
+  name: state.profile.name,
+  email: state.profile.email
+})

@@ -34,6 +34,18 @@ class Api {
     })
   }
 
+  getAllProjects = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getSelectedProject = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
   getWorkItems = (url) => {
     return fetchApi({
       url,

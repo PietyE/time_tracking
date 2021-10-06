@@ -46,11 +46,12 @@ export const fetchApi = async ({
     const { response = {}, message: error_message } = error
 
     const { data = {}, status, statusText } = response
-    const { detail, title } = data
+
+    const { detail, title, non_field_errors } = data
 
     const errorData = {
       status,
-      messages: (title && title[0]) || error_message || statusText,
+      messages: (title && title[0]) || non_field_errors && non_field_errors[0] || error_message || statusText,
       detail: typeof data === 'object' ? detail : '',
     }
 
