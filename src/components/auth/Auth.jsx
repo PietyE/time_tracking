@@ -12,29 +12,21 @@ import signInIcon from 'images/signIn-icon.svg'
 import SignInWithLogin from './SignInWithLogin'
 
 import './styles.css'
+import LoginForm from "./LoginForm";
+import Logo from "../ui/logo";
 
 function Auth(props) {
   const { logIn, isAuth } = props
 
-  const [isOpenModalSignIn, setIsOpenModalSignIn] = useState(false)
-
-  const handleClickToggleModal = () => {
-    setIsOpenModalSignIn((prev) => !prev)
-  }
-
-  const GoogleButton = (renderProps) => (
-    <div className="button_container">
+    const GoogleButton = (renderProps) => (
+    <div className="login_container">
       <Button
-        className="auth-google_button mb-3"
+        className="auth-google_button w-100"
         variant="outline-primary"
         onClick={renderProps.onClick}
       >
         <img src={googleIcon} alt="google icon" className="auth-logo" />
         <span className="auth-text_button">Sign in with google</span>
-      </Button>
-      <Button className="auth-google_button" onClick={handleClickToggleModal}>
-        <img src={signInIcon} alt="signIn icon" className="auth-logo" />
-        <span className="auth-text_button">Sign in with login</span>
       </Button>
     </div>
   )
@@ -46,19 +38,31 @@ function Auth(props) {
   return (
     <>
       <div className="auth-container">
-        <span className="logo_container"></span>
+          <Logo/>
+          <div className="auth-wrapper">
+              <h1>Sign in</h1>
+              <p>Sign in into Vilmate time reporter</p>
+              <GoogleLogin
+                  clientId={CLIENT_ID}
+                  render={GoogleButton}
+                  onSuccess={logIn}
+                  onFailure={logIn}
+                  cookiePolicy={'single_host_origin'}
+              />
+              <div className="or-cont">
+                  <div className="line"></div>
+                  <div>or</div>
+                  <div className="line"></div>
+              </div>
+              <LoginForm/>
+          </div>
       </div>
-      <GoogleLogin
-        clientId={CLIENT_ID}
-        render={GoogleButton}
-        onSuccess={logIn}
-        onFailure={logIn}
-        cookiePolicy={'single_host_origin'}
-      />
-      <SignInWithLogin
-        onClickClose={handleClickToggleModal}
-        show={isOpenModalSignIn}
-      />
+
+
+      {/*<SignInWithLogin*/}
+      {/*  onClickClose={handleClickToggleModal}*/}
+      {/*  show={isOpenModalSignIn}*/}
+      {/*/>*/}
     </>
   )
 }
