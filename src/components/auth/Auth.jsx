@@ -10,6 +10,7 @@ import { CLIENT_ID } from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
 import signInIcon from 'images/signIn-icon.svg'
 import SignInWithLogin from './SignInWithLogin'
+
 import './styles.css'
 
 function Auth(props) {
