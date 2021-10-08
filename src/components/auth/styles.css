@@ -14,6 +14,26 @@
 
 }
 
+.logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 415px;
+  margin-bottom: 65px;
+}
+
+.logo-container img {
+  margin: 5px;
+}
+
+.logo-container .logo {
+  width: 65px;
+}
+
+
+img.name {
+  margin-top:10px;
+}
 .auth-wrapper{
   max-width: 535px;
   max-height: 530px;
@@ -44,10 +64,12 @@
   text-align: center;
   letter-spacing: 0.03em;
   color: #222222;
+  margin-bottom: 30px;
 }
 
 .auth-wrapper form{
   width: 415px;
+  position: relative;
 }
 
 .auth-wrapper form input{
@@ -64,10 +86,23 @@
   color: #ADADA7;
 }
 
-.sgn-in{
+.sign-in{
   height: 56px;
   background: #009C98;
   border-radius: 4px;
+  color: #FFFFFF;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  text-transform: uppercase;
+  border: none;
+}
+
+.sign-in:hover{
+  background: #009C98;
+  border: solid 1px #009C98;
 }
 
 .or-cont{
@@ -90,15 +125,12 @@
   width: 40%;
 }
 
-
-
 .logo_container {
   width: 100%;
   height: 100vh;
   position: absolute;
   left: 0;
   top: 0;
-
   z-index: 100;
 }
 
@@ -116,6 +148,15 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   border-radius: 4px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.auth-google_button img {
+  width: 24px;
 }
 
 .sign_in_button {
@@ -131,15 +172,17 @@
 }
 
 .auth-google_button:hover {
-  background-color: #f9f9f9;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .auth-text_button {
-  color: #414141;
   font-family: Montserrat;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #222222;
+  letter-spacing: .5px;
 }
 
 .auth-logo {
@@ -159,4 +202,27 @@
 .error_message {
   position: absolute;
   top: 75%;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.error {
+  border: 1px solid rgba(248, 66, 66, 0.8) !important;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.server-error{
+  position: absolute;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  color: #F84242;
+  bottom:62px;
 }

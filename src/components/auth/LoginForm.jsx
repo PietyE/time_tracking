@@ -1,12 +1,14 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {Button, Form} from "react-bootstrap";
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { logInWithCredentials } from '../../actions/users'
 import { getAuthInProgressSelector } from '../../reducers/profile'
 
-function LoginForm(props) {
-    const { onClickClose, show } = props
+function LoginForm({cleanErros, serverErrpr}) {
+    useEffect(()=>{
+        cleanErros();
+    }, [])
     const dispatch = useDispatch();
     const isAuthInProgress = useSelector(getAuthInProgressSelector);
     const onSubmit = (values, { setSubmitting }) => {
@@ -14,9 +16,12 @@ function LoginForm(props) {
             return;
         }
         setSubmitting(true);
+
         dispatch(logInWithCredentials(values, setSubmitting));
+        cleanErros();
     }
     const validate = (values) => {
+        cleanErros();
         const errors = {}
 
         if (!values.email) {
@@ -58,7 +63,7 @@ function LoginForm(props) {
                 className="fields email_field"
             >
                 {/*<Form.Label>Email address</Form.Label>*/}
-                <Form.Control type="email" placeholder="Your email address" />
+                <Form.Control className={errors.email || serverErrpr.status  ? 'error': ""} type="email" placeholder="Your email address" />
                 {errors.email && touched.email && (
                     <Form.Text className="text-danger error_message">
                         {errors.email}
@@ -74,18 +79,23 @@ function LoginForm(props) {
                 className="fields password_field"
             >
                 {/*<Form.Label>Password</Form.Label>*/}
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control className={errors.password || serverErrpr.status ? "error": ""} type="password" placeholder="Password" />
                 {errors.password && touched.password && (
                     <Form.Text className="text-danger error_message">
                         {errors.password}
                     </Form.Text>
                 )}
             </Form.Group>
+            {serverErrpr.status&&
+                        <div className="server-error">
+                            {serverErrpr.message}
+                        </div>
+                }
             <Button
                 //variant="success"
                 type="submit"
                 disabled={isSubmitting}
-                className="sgn-in w-100"
+                className="sign-in w-100"
             >
                 Sign In
             </Button>
