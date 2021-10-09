@@ -76,19 +76,21 @@ function Select(props) {
     }
   }, [isOpen, callbackEventListener])
 
+  ///////////////////////////////////////////////////////////
   // useEffect(() => {
   //   if (initialChoice && initialChoice[valueKey]) {
   //     setTitle(initialChoice[valueKey])
   //   }
   // }, [initialChoice])
-
+  ///////////////////////////////////////////////////////////
   useEffect(()=>{
-    if (initialChoice && initialChoice[valueKey]){
-      setTitle(initialChoice[valueKey])
-    } else if(!initialChoice && listItems?.length){
-      setTitle(title)
-    }
-  },[listItems,initialChoice])
+ if (initialChoice && initialChoice[valueKey]){
+    setTitle(initialChoice[valueKey])
+  } else if(!initialChoice && listItems?.length){
+    setTitle(title)
+  }
+    },[listItems,initialChoice])
+
   useEffect(() => {
     if (
       prevList &&
@@ -112,6 +114,8 @@ function Select(props) {
     }
     return false
   })
+
+  const showContainer = isOpen && !disabled && !!searchedListItems.length;
 
   return (
     <button
@@ -145,12 +149,13 @@ function Select(props) {
           }
         />
       </div>
-      {isOpen && !disabled && (
+      {showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
           {searchedListItems.map((item) => (
+
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={

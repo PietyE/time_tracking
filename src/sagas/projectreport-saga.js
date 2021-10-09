@@ -146,7 +146,7 @@ export function* handleGetConsolidatedReport() {
   if (searchProjectParam) {
     URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
       month + 1
-    }/?search=${searchProjectParam}`
+    }/?project_id=${searchProjectParam}`
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
   const mapperResponse = consolidateReportMapper(response)

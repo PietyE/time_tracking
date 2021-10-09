@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCaretLeft,
@@ -55,6 +56,7 @@ function SelectMonth({
     if(currentYear === 2010){
        return
     }
+
       setCurrentMonth(11)
       setNewData({ month: 11, year: currentYear - 1 })
       setCurrentYear(currentYear - 1)
