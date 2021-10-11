@@ -39,14 +39,6 @@ const RenderUser = ({
     dispatch(getUsersProjectReport(userId))
   }
 
-  // const totalHoursOvertime = projects.reduce((sum, project) => {
-  //   if (!project.is_full_time) {
-  //     return (sum = sum + project.working_time)
-  //   }
-  //   return sum
-  // }, 0)
-  // const totalHoursOvertime = 0
-
   return (
     <div className='table_body_item'>
       <TableRow

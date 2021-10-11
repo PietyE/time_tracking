@@ -13,7 +13,6 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
 import {
   changeSelectedDateProjectsReport,
-  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
@@ -44,7 +43,6 @@ function ProjectsReport({
   roleUser,
   selectedDate,
   changeSelectedDateProjectsReport,
-  // getDeveloperConsolidateProjectReport,
   projectsReports,
   developersList = [],
   setSelectedDeveloper,
@@ -91,7 +89,6 @@ function ProjectsReport({
     if (roleUser !== DEVELOPER) {
       getDevelopersProjectInProjectReport()
     }
-    // getDeveloperConsolidateProjectReport()
     getConsolidateProjectReport()
   }, [])
   return (
@@ -183,10 +180,6 @@ function ProjectsReport({
                 name: allProjectsName,
               }
 
-              // const comment = comments[0] ? comments[0].text : ''
-
-
-
               return (
                 <RenderUser
                   commonProjectsInfo={commonProjectsInfo}
@@ -239,7 +232,6 @@ const mapStateToProps = (state) => ({
 
 const actions = {
   changeSelectedDateProjectsReport,
-  // getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,

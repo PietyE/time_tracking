@@ -44,10 +44,6 @@ export default function TableRow({
   } = project
   const [isProcessed, setIsProcessed] = useState(false)
 
-  // const roundHours = (hours) => {
-  //   return parseFloat(hours.toFixed(2))
-  // }
-
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
     currency: 'USD',
@@ -88,9 +84,6 @@ export default function TableRow({
       }
     }
   }
-
-  // const hoursString =
-  //   roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
 
   const hoursToShow = is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} h`
 
