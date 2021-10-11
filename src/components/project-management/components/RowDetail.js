@@ -4,9 +4,9 @@ import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
 import {convertHours} from '../../../utils/common'
 import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
-import { getProjectReportByIdSelector } from '../../../reducers/projects-management'
+import { getIsFetchingPmPageSelector, getProjectReportByIdSelector } from '../../../reducers/projects-management'
 
-const RowDetail = ({ row, currentProjectReport }) => {
+const RowDetail = ({ row, currentProjectReport, isFetching }) => {
   const dispatch = useDispatch()
 
     const _getProjectReportById = useCallback(
@@ -65,7 +65,7 @@ const RowDetail = ({ row, currentProjectReport }) => {
         <Table/>
         <Table
           messages = {{
-            noData: ''
+            noData: isFetching?'':'There are no developers in this project yet.'
           }}
         />
       </Grid>
@@ -75,6 +75,7 @@ const RowDetail = ({ row, currentProjectReport }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   currentProjectReport: getProjectReportByIdSelector(state, ownProps?.row?.id),
+  isFetching: getIsFetchingPmPageSelector(state),
 })
 
 export default connect(mapStateToProps)(RowDetail)
