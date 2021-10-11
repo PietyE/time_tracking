@@ -4,7 +4,10 @@ variables:
   value: time-tracking-frontend
 
 trigger:
-- dev
+  branches:
+    include:
+    - dev
+    - feature-to-dev/*
 
 pool:
   vmImage: 'ubuntu-latest'
