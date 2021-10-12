@@ -1,5 +1,6 @@
 import React,{useEffect} from "react";
-import {Button, Form} from "react-bootstrap";
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { logInWithCredentials } from '../../actions/users'
@@ -18,10 +19,10 @@ function LoginForm({cleanErros, serverErrpr}) {
         setSubmitting(true);
 
         dispatch(logInWithCredentials(values, setSubmitting));
-        cleanErros();
+        dispatch(cleanErros());
     }
     const validate = (values) => {
-        cleanErros();
+        dispatch(cleanErros());
         const errors = {}
 
         if (!values.email) {

@@ -1,21 +1,28 @@
-import React, {memo} from 'react'
-import {connect} from 'react-redux'
+import React, {memo, useCallback} from 'react'
 import GoogleLogin from 'react-google-login'
 import {Redirect} from 'react-router-dom'
-import {Button} from 'react-bootstrap'
-
+import Button from 'react-bootstrap/Button'
+import { useDispatch, useSelector } from 'react-redux'
 import {cleanUserErrorData, logIn} from 'actions/users'
-import {getUserAuthStatus} from 'selectors/user'
+import {getUserAuthStatus,getErrorUserSelector} from 'selectors/user'
 import {CLIENT_ID} from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
+import isEqual from "lodash/isEqual";
 
 
 import './styles.css'
 import LoginForm from "./LoginForm";
 
+function Auth() {
+    const dispatch = useDispatch();
+    const isAuth = useSelector(getUserAuthStatus);
+    const errors = useSelector(getErrorUserSelector, isEqual);
 
-function Auth(props) {
-    const {logIn, cleanUserErrorData, isAuth, errors} = props
+
+    const loginG =  useCallback((googleData)=>{
+        dispatch(logIn(googleData))
+    },[dispatch]);
+
 
     const GoogleButton = (renderProps) => (
         <div className="login_container">
@@ -48,8 +55,8 @@ function Auth(props) {
                     <GoogleLogin
                         clientId={CLIENT_ID}
                         render={GoogleButton}
-                        onSuccess={logIn}
-                        onFailure={logIn}
+                        onSuccess={loginG}
+                        onFailure={loginG}
                         cookiePolicy={'single_host_origin'}
                     />
                     <div className="or-cont">
@@ -68,14 +75,6 @@ function Auth(props) {
     )
 }
 
-const mapStateToProps = (state) => ({
-    isAuth: getUserAuthStatus(state),
-    errors: state.profile.error
-})
 
-const actions = {
-    logIn,
-    cleanUserErrorData
-}
 
-export default connect(mapStateToProps, actions)(memo(Auth))
+export default memo(Auth)

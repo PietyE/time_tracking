@@ -81,7 +81,7 @@ function* bootstrap() {
 }
 
 function* logIn({ payload: googleData }) {
-  try {
+    try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
         throw new Error(googleData.error)
@@ -95,7 +95,7 @@ function* logIn({ payload: googleData }) {
 
       const { data, status } = response
       const { user, token } = data
-      if (status !== 200) {
+        if (status !== 200) {
         throw new Error()
       }
       const userObjforState = {
@@ -120,7 +120,7 @@ function* logIn({ payload: googleData }) {
       throw new Error()
     }
   } catch (error) {
-    yield put(setAuthStatus(false))
+        yield put(setAuthStatus(false))
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -145,7 +145,7 @@ function* handleLoginWithCreds(userData) {
       const { data, status } = response
       const { user, token } = data
 
-      if (status !== 200) {
+      if (status <= 200 && status >= 299) {
         throw new Error()
       }
       const userObjforState = {
@@ -167,8 +167,7 @@ function* handleLoginWithCreds(userData) {
       yield call([api, 'setToken'], userObjforLocalStorage.key)
 
   } catch (error) {
-      console.log('error111', error);
-    const credentialError = error?.response?.data?.non_field_errors[0]
+      const credentialError = error?.response?.data?.non_field_errors[0]
     callback(false);
     yield put(setAuthStatus(false))
     yield put(
