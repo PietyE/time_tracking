@@ -64,7 +64,6 @@ function Auth() {
                         <div>or</div>
                         <div className="line"></div>
                     </div>
-
                     <LoginForm
                         cleanErros = {cleanUserErrorData}
                         serverErrpr={errors }
