@@ -3,10 +3,10 @@ import Api from 'utils/api'
 import api, { users } from 'api'
 import { isEmpty } from 'lodash'
 import {
-  setUsersOauthData,
-  cleanUserOauthData,
-  setAuthStatus,
-  setFetchingProfileStatus, setAuthInProgress, unsetAuthInProgress,
+    setUsersOauthData,
+    cleanUserOauthData,
+    setAuthStatus,
+    setFetchingProfileStatus, setAuthInProgress, unsetAuthInProgress, setUserErrorData,
 } from 'actions/users'
 import {setIsFetchingReports} from 'actions/projects-report'
 import { showAler } from 'actions/alert'
@@ -28,6 +28,7 @@ import {
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
 import { getAuthInProgressSelector } from '../reducers/profile'
+import {setErrorData} from "../actions/error";
 
 function* bootstrap() {
   try {
@@ -80,7 +81,7 @@ function* bootstrap() {
 }
 
 function* logIn({ payload: googleData }) {
-  try {
+    try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
         throw new Error(googleData.error)
@@ -94,7 +95,7 @@ function* logIn({ payload: googleData }) {
 
       const { data, status } = response
       const { user, token } = data
-      if (status !== 200) {
+        if (status !== 200) {
         throw new Error()
       }
       const userObjforState = {
@@ -119,7 +120,7 @@ function* logIn({ payload: googleData }) {
       throw new Error()
     }
   } catch (error) {
-    yield put(setAuthStatus(false))
+        yield put(setAuthStatus(false))
     yield put(
       showAler({
         type: WARNING_ALERT,
@@ -143,7 +144,8 @@ function* handleLoginWithCreds(userData) {
 
       const { data, status } = response
       const { user, token } = data
-      if (status !== 200) {
+
+      if (status <= 200 && status >= 299) {
         throw new Error()
       }
       const userObjforState = {
@@ -165,16 +167,15 @@ function* handleLoginWithCreds(userData) {
       yield call([api, 'setToken'], userObjforLocalStorage.key)
 
   } catch (error) {
-    const credentialError = error?.response?.data?.non_field_errors[0]
+      const credentialError = error?.response?.data?.non_field_errors[0]
     callback(false);
     yield put(setAuthStatus(false))
     yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: credentialError?credentialError:'Something went wrong' ,
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      })
+        setUserErrorData({
+            status:true,
+            message: "Please, enter correct email and password",
+            detail:''
+        })
     )
   } finally {
     yield put (unsetAuthInProgress())
