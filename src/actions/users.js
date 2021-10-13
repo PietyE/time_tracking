@@ -15,11 +15,21 @@ import {
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
   LOG_IN_WITH_CREDENTIALS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS,
+  SET_USER_ERROR,  REMOVE_USER_ERROR
 } from 'constants/actions-constant'
 
 export const setUsersOauthData = (payload) => ({
   type: SET_USER_OAUTH_DATA,
   payload,
+})
+
+export const setUserErrorData = payload => ({
+  type: SET_USER_ERROR,
+  payload,
+})
+
+export const cleanUserErrorData = () => ({
+  type: REMOVE_USER_ERROR,
 })
 
 export const shownAlert = (payload) => ({

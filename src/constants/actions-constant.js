@@ -16,6 +16,8 @@ export const SET_EDITED_COST = 'SET_EDITED_COST'
 export const SET_NEW_COMMENT = 'SET_NEW_COMMENT'
 export const SET_EDITED_COMMENT = 'SET_EDITED_COMMENT'
 export const SET_PROCESSED_STATUS = 'SET_PROCESSED_STATUS'
+export const SET_USER_ERROR = 'SET_USER_ERROR'
+export const REMOVE_USER_ERROR = 'REMOVE_USER_ERROR'
 /** Alert Action Constant*/
 export const SHOW_ALERT = 'SHOW_ALERT'
 export const HIDE_ALERT = 'HIDE_ALERT'
