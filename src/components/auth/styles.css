@@ -1,5 +1,6 @@
 .auth-container {
-  background-color: #F3F5F5;
+  background-image: url(../../images/background.jpg);
+  background-color: rgba(0, 0, 0, 0.3);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -11,119 +12,7 @@
   justify-content: flex-start;
   flex-direction: column;
   padding-top: 70px;
-
-}
-
-.logo-container{
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 415px;
-  margin-bottom: 65px;
-}
-
-.logo-container img {
-  margin: 5px;
-}
-
-.logo-container .logo {
-  width: 65px;
-}
-
-
-img.name {
-  margin-top:10px;
-}
-.auth-wrapper{
-  max-width: 535px;
-  max-height: 530px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  border-radius: 10px;
-  padding: 45px 60px;
-  font-family: Montserrat sans-serif;
-}
-
-.auth-wrapper h1{
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 36px;
-  /* identical to box height, or 150% */
-  letter-spacing: 0.018em;
-  color: #000000;
-}
-
-.auth-wrapper p{
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  text-align: center;
-  letter-spacing: 0.03em;
-  color: #222222;
-  margin-bottom: 30px;
-}
-
-.auth-wrapper form{
-  width: 415px;
-  position: relative;
-}
-
-.auth-wrapper form input{
-  height: 56px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  border-radius: 4px;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 24px;
-  letter-spacing: 0.03em;
-  color: #ADADA7;
-  width: 100%;
-}
-
-.sign-in{
-  height: 56px;
-  background: #009C98;
-  border-radius: 4px;
-  color: #FFFFFF;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  text-transform: uppercase;
-  border: none;
-}
-
-.sign-in:hover{
-  background: #009C98;
-  border: solid 1px #009C98;
-}
-
-.or-cont{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ADADA7;
-  margin: 15px 0;
-}
-
-.line{
-  height: 1px;
-  background:rgba(173, 173, 167, 0.4);
-  max-width: 179px;
-  width: 40%;
+  filter: blur(2px);
 }
 
 .logo_container {
@@ -132,32 +21,34 @@ img.name {
   position: absolute;
   left: 0;
   top: 0;
+  background-color: rgba(255, 255, 255, 0.1);
   z-index: 100;
 }
 
-.login_container {
+.button_container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  position: fixed;
+  z-index: 110;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%);
 }
 
 .auth-google_button {
-  height: 56px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  border-radius: 4px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.auth-google_button img {
-  width: 24px;
+  height: 40px;
+  width: 20%;
+  min-width: 200px;
+  max-width: 250px;
+  border-radius: 5px;
+  border: 1px solid #827d7d;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+  text-align: left;
+  padding-left: 1.3rem;
 }
 
 .sign_in_button {
@@ -173,17 +64,15 @@ img.name {
 }
 
 .auth-google_button:hover {
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
 }
 
 .auth-text_button {
+  color: #414141;
   font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  color: #222222;
-  letter-spacing: .5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 12px;
 }
 
 .auth-logo {
@@ -203,27 +92,4 @@ img.name {
 .error_message {
   position: absolute;
   top: 75%;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-.error {
-  border: 1px solid rgba(248, 66, 66, 0.8) !important;
-  box-sizing: border-box;
-  border-radius: 4px;
-}
-
-.server-error{
-  position: absolute;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0.01em;
-  color: #F84242;
-  bottom:62px;
 }

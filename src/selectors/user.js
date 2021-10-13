@@ -23,5 +23,3 @@ export const getUserAuthStatus = createSelector(
   getUserAuthStatusSelector,
   isAuth => isAuth
 )
-
-export const getErrorUserSelector = state => state.profile.error
