@@ -2,18 +2,13 @@ import {
   SET_USER_OAUTH_DATA,
   CLEAN_USER_OAUTH_DATA,
   SET_AUTH_STATUS,
-  SET_FETCHING_PROFILE_STATUS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS, SET_USER_ERROR, REMOVE_USER_ERROR,
+  SET_FETCHING_PROFILE_STATUS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS,
 } from 'constants/actions-constant'
 
 const initial_state = {
   isAuth: true,
   isFetchingUsers: false,
-  authInProgress: false,
-  error:{
-    status: null,
-    messages: '',
-    detail: '',
-  }
+  authInProgress: false
 }
 
 export const profile = (state = initial_state, action) => {
@@ -30,14 +25,6 @@ export const profile = (state = initial_state, action) => {
       return { ...state, isAuth: action.payload }
     case SET_FETCHING_PROFILE_STATUS:
       return { ...state, isFetchingUsers: action.payload }
-    case SET_USER_ERROR:
-      return {...state, error: action.payload}
-    case REMOVE_USER_ERROR:
-      return {...state, error: {
-          status: null,
-          messages: '',
-          detail: '',
-        }}
     default:
       return state
   }
