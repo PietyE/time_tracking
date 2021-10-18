@@ -154,59 +154,72 @@ function ProjectsReport({
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
-            {users.map((user) => {
-              const {
-                name,
-                developer_projects,
-                // current_rate,
-                rate_uah,
-                // current_salary,
-                salary_uah,
-                id,
-                total_expenses,
-                total_overtimes,
-                total: total_salary,
-                comments,
-                total_uah,
-                is_processed,
-                totalHoursOvertime
-              } = user
+            {!!users?.length ?
+              (
+                <>
+                {users.map((user) => {
+                  console.log('user', user)
+                  const {
+                    name,
+                    developer_projects,
+                    // current_rate,
+                    rate_uah,
+                    // current_salary,
+                    salary_uah,
+                    id,
+                    total_expenses,
+                    total_overtimes,
+                    total: total_salary,
+                    comments,
+                    total_uah,
+                    is_processed,
+                    totalHoursOvertime
+                  } = user
 
-              // const allProjectsName = developer_projects
-              //   .map((project) => project.name)
-              //   .join(', ')
-              const allProjectsName = '';
-              const commonProjectsInfo = {
-                name: allProjectsName,
-              }
+                  // const allProjectsName = developer_projects
+                  //   .map((project) => project.name)
+                  //   .join(', ')
+                  const allProjectsName = '';
+                  const commonProjectsInfo = {
+                    name: allProjectsName,
+                  }
 
-              return (
-                <RenderUser
-                  commonProjectsInfo={commonProjectsInfo}
-                  projects={developer_projects}
-                  name={name}
-                  // rate={current_rate}
-                  rate={rate_uah}
-                  // projectSalary={current_salary}
-                  projectSalary={salary_uah}
-                  totalHoursOvertime={totalHoursOvertime}
-                  key={id}
-                  userId={id}
-                  selectedDate={selectedDate}
-                  total_expenses={total_expenses}
-                  total_overtimes={total_overtimes}
-                  total_salary={total_salary}
-                  roleUser={roleUser}
-                  setEditUserId={setEditUserId}
-                  setIsOpenEdit={setIsOpenEdit}
-                  comment={comments}
-                  total_uah={total_uah}
-                  is_processed={is_processed}
-                  setProcessedStatus={setProcessedStatus}
-                  isFetchingReports={isFetchingReports}
-                />
+                  return (
+                    <RenderUser
+                      commonProjectsInfo={commonProjectsInfo}
+                      projects={developer_projects}
+                      name={name}
+                      // rate={current_rate}
+                      rate={rate_uah}
+                      // projectSalary={current_salary}
+                      projectSalary={salary_uah}
+                      totalHoursOvertime={totalHoursOvertime}
+                      key={id}
+                      userId={id}
+                      selectedDate={selectedDate}
+                      total_expenses={total_expenses}
+                      total_overtimes={total_overtimes}
+                      total_salary={total_salary}
+                      roleUser={roleUser}
+                      setEditUserId={setEditUserId}
+                      setIsOpenEdit={setIsOpenEdit}
+                      comment={comments}
+                      total_uah={total_uah}
+                      is_processed={is_processed}
+                      setProcessedStatus={setProcessedStatus}
+                      isFetchingReports={isFetchingReports}
+                    />
+                  )
+                })}
+                </>):
+              (
+                <>
+                  {!isFetchingReports &&
+                  <p className='table_body_container_text'> There are no users in this project yet</p>
+                  }
+                </>
               )
-            })}
+            }
           </div>
         </div>
       </div>
