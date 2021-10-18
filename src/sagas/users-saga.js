@@ -28,6 +28,7 @@ import {
 } from 'constants/actions-constant'
 import { getDeveloperConsolidateProjectReport } from 'actions/projects-report'
 import { getAuthInProgressSelector } from '../reducers/profile'
+import { clearPmPageState } from '../actions/projects-management'
 
 function* bootstrap() {
   try {
@@ -111,6 +112,7 @@ function* logIn({ payload: googleData }) {
 
       yield put(setUsersOauthData(userObjforState))
       yield put(setAuthStatus(true))
+      yield put(clearPmPageState())
 
       const authData = JSON.stringify(userObjforLocalStorage)
       yield call([localStorage, 'setItem'], 'user_auth_data', authData)
@@ -157,6 +159,7 @@ function* handleLoginWithCreds(userData) {
 
       yield put(setUsersOauthData(userObjforState))
       yield put(setAuthStatus(true))
+    yield put(clearPmPageState())
 
 
       const authData = JSON.stringify(userObjforLocalStorage)
