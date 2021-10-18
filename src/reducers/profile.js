@@ -31,8 +31,16 @@ export const profile = (state = initial_state, action) => {
 }
 
 export const getAuthInProgressSelector = (state) => state.profile.authInProgress;
-export const getCurrentUserSelector = state => ({
-  id: state.profile.id,
-  name: state.profile.name,
-  email: state.profile.email
-})
+export const getCurrentUserSelector = state => {
+  if(state?.profile?.role === 4){
+    return ({
+      id: state.profile.id,
+      name: state.profile.name,
+      email: state.profile.email,
+    })
+  }else{
+    return (null)
+  }
+
+
+}
