@@ -158,7 +158,6 @@ function ProjectsReport({
               (
                 <>
                 {users.map((user) => {
-                  console.log('user', user)
                   const {
                     name,
                     developer_projects,
