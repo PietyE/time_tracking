@@ -74,11 +74,15 @@ export function* getDeveloperProjects() {
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
-function* setExchangeRate({ payload }) {
+function* setExchangeRate({ payload, callback }) {
   const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
-    yield call([Api, 'saveExchangeRate'], URL, payload)
+    const response = yield call([Api, 'saveExchangeRate'], URL, payload)
+    const status = `${response.status}`
+    if(status[0] !== '2') {
+      throw new Error()
+    }
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -86,6 +90,7 @@ function* setExchangeRate({ payload }) {
         delay: 5000,
       })
     )
+    callback()
     const now = new Date();
     const ratesParams = {
       is_active: true,
@@ -114,7 +119,8 @@ function* usersProjectReport (action) {
 
     const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
     const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
-    if (response.status >= 400) {
+    const status = `${response.status}`
+    if(status[0] !== '2') {
       yield put(setErrorUsersProjectReport(userId))
       return;
     }
@@ -154,9 +160,6 @@ export function* handleGetConsolidatedReport() {
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT
   )
-  if (data) {
-    yield put(setDeveloperConsolidateProjectReport(data))
-  }
   yield put(setIsFetchingReports(false))
 }
 

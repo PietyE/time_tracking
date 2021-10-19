@@ -10,6 +10,7 @@ import {
   SET_PROCESSED_STATUS,
   SET_IS_FETCHING_PROJECT_REPORTS,
   SET_CONSOLIDATE_PROJECT_REPORT,
+  LOG_OUT,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -81,6 +82,11 @@ export const projectsReport = (state = initialState, action) => {
       return { ...state, editingUserId: action.payload }
     case SET_IS_FETCHING_PROJECT_REPORTS:
       return { ...state, isFetchingReports: action.payload }
+    case LOG_OUT:
+      return {
+        ...state,
+        reportsRefactored: [],
+      }
     default:
       return state
   }

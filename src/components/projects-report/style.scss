@@ -324,7 +324,6 @@
   padding: 30px 20px;
   box-shadow: 0px 0px 10px 5px rgba(158, 167, 171, 0.9);
   position: relative;
-  overflow-y: scroll;
   .edit_user_modal_close_button_container {
     cursor: pointer;
     padding: 5px;
@@ -482,7 +481,7 @@
     }
   }
 }
-.spinner-small{
+.spinner-small {
   width: 33px;
   height: 33px;
   display: flex;

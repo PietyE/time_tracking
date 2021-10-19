@@ -1,5 +1,6 @@
 import {
   GET_USERS_PROJECT_REPORT,
+  LOG_OUT,
   SET_ERROR_USER_PROJECT_REPORT,
   SET_SUCCESS_USERS_PROJECT_REPORT,
 } from '../constants/actions-constant'
@@ -39,6 +40,10 @@ export const projectReportDetails = (state = initialState, action) => {
           error: true,
         }
       }
+    case LOG_OUT:
+      return {
+        ...initialState
+        }
     default:
       return state
   }

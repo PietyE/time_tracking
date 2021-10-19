@@ -24,6 +24,7 @@ import Modal from 'components/ui/modal'
 import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
+import CurrencySelect from './CurrencySelect'
 
 const EditUserModal = (props) => {
   const {
@@ -37,20 +38,14 @@ const EditUserModal = (props) => {
     setEditedComment,
     setEditedCost,
   } = props
-  // const _comment = editingUser.comments ? editingUser.comments.text : ''
   const _comment = editingUser.comments
-
-  // const commentId = editingUser.comments[0] ? editingUser.comments[0].id : null
   const commentId = editingUser.commentId
-
-  // const _expense = editingUser.expenses[0] ? editingUser.expenses[0].amount : ''
   const _expense = editingUser.total_expenses
-
-  // const expenseId = editingUser.expenses[0] ? editingUser.expenses[0].id : null
   const expenseId = editingUser.expensesId
 
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
+  const [selectedCurrency, setCurrency] = useState('')
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
@@ -72,6 +67,7 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       salary: newSalary,
+      currency: selectedCurrency
     }
     setNewSalary(data)
   }
@@ -83,6 +79,7 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       rate: newRate,
+      currency: selectedCurrency
     }
     setNewRate(data)
   }
@@ -144,6 +141,10 @@ const EditUserModal = (props) => {
     setCommentLocal(_comment)
   }
 
+  const handleChangeCurrency = (data) => {
+    setCurrency(selectedCurrency)
+  }
+
   return (
     <Modal>
       <div className="edit_user_modal_container">
@@ -171,7 +172,10 @@ const EditUserModal = (props) => {
           </div>
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Salary ($): `} />
+          <ModalTitle title={`Salary`} />
+          <CurrencySelect
+            parentHandler={handleChangeCurrency}
+          />
           <ModalInput
             // prevValue={editingUser.current_salary}
             prevValue={editingUser.salary_uah}
@@ -180,7 +184,10 @@ const EditUserModal = (props) => {
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Rate ($): `} />
+          <ModalTitle title={`Rate`} />
+          <CurrencySelect
+            parentHandler={handleChangeCurrency}
+          />
           <ModalInput
             // prevValue={editingUser.current_rate}
             prevValue={editingUser.rate_uah}
@@ -188,7 +195,7 @@ const EditUserModal = (props) => {
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Cost (UAH): `} />
+          <ModalTitle title={`Cost`} />
           <ModalInput
             prevValue={_expense}
             handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
