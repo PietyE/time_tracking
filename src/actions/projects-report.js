@@ -65,18 +65,16 @@ export const setEditUserId = (payload) => ({
   payload,
 })
 
-export const setExchangeRates = (payload) => ({
+export const setExchangeRates = (payload, callback) => ({
   type: SET_EXCHANGE_RATES,
   payload,
+  callback
 })
 
 export const setIsFetchingReports = (payload) => ({
   type: SET_IS_FETCHING_PROJECT_REPORTS,
   payload,
 })
-
-
-
 
 export const getConsolidateProjectReport = (payload) => ({
   type: GET_CONSOLIDATE_PROJECT_REPORT,

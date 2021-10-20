@@ -5,7 +5,7 @@ import Select from 'components/ui/select'
 
 function CurrencySelect(props) {
 
-  const {parentHandler} = props;
+  const {parentHandler, selectedCurrency} = props;
 
   const currenciesList = useSelector(selectCurrencyList)
 
@@ -32,6 +32,7 @@ function CurrencySelect(props) {
       valueKey="name"
       idKey="serverId"
       onSelected={handleOnChange}
+      initialChoice={selectedCurrency}
     />
   )
 }

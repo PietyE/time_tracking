@@ -36,7 +36,7 @@ const TotalValue = (props) => {
       rate: newExchangeRate,
       currency: selectedCurrency
     }
-    setExchangeRates(data)
+    setExchangeRates(data, clearInput)
     setIsEdit(false)
   }
 
@@ -56,6 +56,11 @@ const TotalValue = (props) => {
   const handleClickCancel = () => {
     setNewExchengeRate(prevExchangeRate || '')
     setIsEdit(false)
+  }
+
+  const clearInput = () => {
+    setNewExchengeRate('')
+    setCurrency(null)
   }
 
   const usdFormat = new Intl.NumberFormat('ru', {
@@ -96,6 +101,7 @@ const TotalValue = (props) => {
         <div onClick={handleClickEditButton} className="total_container_select_input d-flex">
           <CurrencySelect
             parentHandler={handleChangeCurrency}
+            selectedCurrency={selectedCurrency}
           />
           <input
             className="project_reports_exchange_input"
