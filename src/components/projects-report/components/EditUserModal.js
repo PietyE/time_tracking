@@ -142,7 +142,7 @@ const EditUserModal = (props) => {
   }
 
   const handleChangeCurrency = (data) => {
-    setCurrency(selectedCurrency)
+    setCurrency(data)
   }
 
   return (
@@ -175,6 +175,7 @@ const EditUserModal = (props) => {
           <ModalTitle title={`Salary`} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
+            selectedCurrency={selectedCurrency}
           />
           <ModalInput
             // prevValue={editingUser.current_salary}
@@ -187,6 +188,7 @@ const EditUserModal = (props) => {
           <ModalTitle title={`Rate`} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
+            selectedCurrency={selectedCurrency}
           />
           <ModalInput
             // prevValue={editingUser.current_rate}
