@@ -98,7 +98,7 @@ function* setExchangeRate({ payload, callback }) {
       month: now.getMonth() + 1
     };
     yield put(getRatesList(ratesParams))
-    yield call(getConsolidateProjectReport)
+    yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
       showAler({
