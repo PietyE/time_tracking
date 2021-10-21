@@ -217,9 +217,6 @@ function* setUserSalary({ payload }) {
       })
     )
   }
-  finally {
-    yield put(setIsFetchingReports(false))
-  }
 }
 
 function* setUserRate({ payload }) {
@@ -246,9 +243,6 @@ function* setUserRate({ payload }) {
       })
     )
   }
-  finally {
-    yield put(setIsFetchingReports(false))
-  }
 }
 
 function* setProcessedStatus({ payload }) {
@@ -268,9 +262,6 @@ function* setProcessedStatus({ payload }) {
         delay: 6000,
       })
     )
-  }
-  finally {
-    yield put(setIsFetchingReports(false))
   }
 }
 
@@ -304,9 +295,6 @@ function* setUserCost({ payload }) {
       })
     )
   }
-  finally {
-    yield put(setIsFetchingReports(false))
-  }
 }
 
 function* setEditedCost({ payload }) {
@@ -338,9 +326,6 @@ function* setEditedCost({ payload }) {
       })
     )
   }
-  finally {
-    yield put(setIsFetchingReports(false))
-  }
 }
 
 function* setUserComment({ payload }) {
@@ -370,9 +355,6 @@ function* setUserComment({ payload }) {
         delay: 6000,
       })
     )
-  }
-  finally {
-    yield put(setIsFetchingReports(false))
   }
 }
 
@@ -404,9 +386,6 @@ function* setEditedComment({ payload }) {
         delay: 6000,
       })
     )
-  }
-  finally {
-    yield put(setIsFetchingReports(false))
   }
 }
 
