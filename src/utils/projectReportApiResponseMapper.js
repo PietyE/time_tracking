@@ -1,5 +1,16 @@
 import {get as lodashGet} from 'lodash';
+import { minutesToHoursPipe } from './minutesToHoursPipe'
 
+const normalizeMinutes = (minutes) => {
+  if(typeof minutes === 'number') {
+    return minutes;
+  }
+  if(typeof minutes === 'string') {
+    const value = parseInt(minutes);
+    return isNaN(value) ? 0 : value;
+  }
+  return 0;
+}
 
 export const consolidateReportMapper = (response) => {
   if (
@@ -27,7 +38,7 @@ export const consolidateReportMapper = (response) => {
         commentId: lodashGet(item, 'comment.id', ''),
         total_uah: lodashGet(item, 'total_amount_uah', ''),
         is_processed: lodashGet(item, 'is_processed', ''),
-        totalHoursOvertime: lodashGet(item, 'total_hours', '')
+        totalHoursOvertime: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', '')))
       }
       previous.push(reportItem)
       return previous
@@ -52,7 +63,7 @@ export const usersProjectReportMapper = (response) => {
   return  response.data.developer_projects.map(item => {
       return {
         name: lodashGet(item, 'project.name', ''),
-        working_time: lodashGet(item, 'total_hours', ''),
+        working_time: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
         id: lodashGet(item, 'project.id', ''),
         total: lodashGet(item, 'overtime_amount_uah_usd', ''),
         is_full_time: lodashGet(item, 'is_full_time', ''),

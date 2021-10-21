@@ -85,7 +85,7 @@ export default function TableRow({
     }
   }
 
-  const hoursToShow = is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} h`
+  const hoursToShow = is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} `
 
   let stateDataForLink = {
     userId,
