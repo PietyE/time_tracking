@@ -69,7 +69,7 @@ export function* getProjectReportById(action) {
         projectId: el.project.id,
         userId: el.user.id,
         userName: el.user.name,
-        hours: el.hours,
+        minutes: el.total_minutes,
         is_full_time: el.is_full_time,
         is_active: el.is_active,
       }),
