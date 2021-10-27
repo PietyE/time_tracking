@@ -15,6 +15,7 @@ export const currencyListMapper = (response) => {
         code: item.code,
         numericCode: item.numeric_code,
         serverId: item.id,
+        sign: item.symbol,
       }
       previous.push(currencyItem)
       return previous
@@ -43,7 +44,8 @@ export const ratesListMapper = (response) => {
         name: lodashGet(item, 'currency.code', ''),
         date: lodashGet(item, 'date', ''),
         rate: lodashGet(item, 'rate', ''),
-        isActive: lodashGet(item, 'is_active', false)
+        isActive: lodashGet(item, 'is_active', false),
+        sign: lodashGet(item, 'currency.symbol', '')
       }
       previous.push(rateItem)
       return previous

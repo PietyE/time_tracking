@@ -23,7 +23,9 @@ const RenderUser = ({
   is_processed,
   setProcessedStatus,
   isFetchingReports,
-  totalHoursOvertime
+  totalHoursOvertime,
+  salaryCurrency,
+  rateCurrency
 }) => {
 
   const dispatch = useDispatch()
@@ -51,6 +53,8 @@ const RenderUser = ({
         total_expenses={total_expenses}
         total_overtimes={total_overtimes}
         total_salary={total_salary}
+        salaryCurrency={salaryCurrency}
+        rateCurrency={rateCurrency}
         totalHoursOvertime={totalHoursOvertime}
         roleUser={roleUser}
         userId={userId}
