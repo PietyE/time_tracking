@@ -165,6 +165,8 @@ function ProjectsReport({
                     rate_uah,
                     // current_salary,
                     salary_uah,
+                    salaryCurrency,
+                    rateCurrency,
                     id,
                     total_expenses,
                     total_overtimes,
@@ -192,6 +194,8 @@ function ProjectsReport({
                       rate={rate_uah}
                       // projectSalary={current_salary}
                       projectSalary={salary_uah}
+                      salaryCurrency={salaryCurrency}
+                      rateCurrency={rateCurrency}
                       totalHoursOvertime={totalHoursOvertime}
                       key={id}
                       userId={id}

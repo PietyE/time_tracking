@@ -12,7 +12,7 @@ const normalizeMinutes = (minutes) => {
   return 0;
 }
 
-export const consolidateReportMapper = (response) => {
+export const consolidateReportMapper = (response, currentCurrency, currentCurrencyRate) => {
   if (
     !response ||
     !response.data ||
@@ -28,7 +28,9 @@ export const consolidateReportMapper = (response) => {
         email: lodashGet(item, 'email', ''),
         developer_projects: lodashGet(item, 'developer_projects', ''),
         rate_uah: lodashGet(item, 'rates[0].rate', ''),
-        salary_uah: lodashGet(item, 'salaries[0].salary', ''),
+        rateCurrency: currentCurrencyRate[lodashGet(item, 'rates[0].currency', '')] || '',
+        salary_uah: lodashGet(item, 'salaries[0].salary', 0),
+        salaryCurrency: currentCurrency[lodashGet(item, 'salaries[0].currency', '')] || '',
         id: lodashGet(item, 'id', ''),
         total_expenses: lodashGet(item, 'expenses[0].amount', ''),
         expensesId: lodashGet(item, 'expenses[0].id', ''),
@@ -69,7 +71,6 @@ export const usersProjectReportMapper = (response) => {
         is_full_time: lodashGet(item, 'is_full_time', ''),
         idDeveloperProjects: lodashGet(item, 'id', '')
       };
-
   });
 }
 

@@ -34,7 +34,9 @@ export default function TableRow({
   setProcessedStatus,
   isOpen,
   isFetchingReports,
-  working_time
+  working_time,
+  salaryCurrency,
+  rateCurrency
 }) {
   const {
     working_time: hours,
@@ -56,6 +58,10 @@ export default function TableRow({
     currency: 'UAH',
     minimumFractionDigits: 0,
   })
+
+  const digitFormat = new Intl.NumberFormat('ru', {
+    minimumFractionDigits: 0,
+  });
 
   const handlerEditClick = (e) => {
 
@@ -149,9 +155,11 @@ export default function TableRow({
           {roleUser !== PM && (
             <>
               <span className="table_cell salary">
-                {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
+                {extraClass === 'common' ? `${digitFormat.format(projectSalary)} ${salaryCurrency}` : ''}
               </span>
-              <span className="table_cell rate">{usdFormat.format(rate)}</span>
+              <span className="table_cell rate">
+                 {extraClass === 'common' ? `${digitFormat.format(rate)} ${rateCurrency}` : ''}
+                   </span>
               <span className="table_cell hours">
                 {hoursToShow}
               </span>
