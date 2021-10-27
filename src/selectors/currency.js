@@ -9,7 +9,6 @@ export const selectErrorFetchRatesList = state => state.currencies.errorFetchRat
 
 export const selectActualRates = (state) => {
   const currencies = selectCurrencyList(state)
-  // console.dir(currencies)
   const rates = selectRateList(state)
 
   if (!currencies.length || !rates.length) {

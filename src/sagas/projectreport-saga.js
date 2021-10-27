@@ -26,7 +26,7 @@ import {
 import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
 import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
-import { selectActualCurrencyForUserList, selectActualCurrencyRateForUserList } from '../selectors/currency'
+import { selectActualCurrencyForUserList } from '../selectors/currency'
 
 // export function* getDeveloperConsolidateProjectReport() {
 //   yield put(setIsFetchingReports(true))
@@ -156,7 +156,7 @@ export function* handleGetConsolidatedReport() {
     }/?project_id=${searchProjectParam}`
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
-  const currentCurrency = yield select(selectActualCurrencyForUserList);
+  const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))
   const { data } = yield call(
