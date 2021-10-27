@@ -12,7 +12,7 @@ const normalizeMinutes = (minutes) => {
   return 0;
 }
 
-export const consolidateReportMapper = (response, currentCurrency, currentCurrencyRate) => {
+export const consolidateReportMapper = (response, currentCurrency) => {
   if (
     !response ||
     !response.data ||
@@ -28,7 +28,7 @@ export const consolidateReportMapper = (response, currentCurrency, currentCurren
         email: lodashGet(item, 'email', ''),
         developer_projects: lodashGet(item, 'developer_projects', ''),
         rate_uah: lodashGet(item, 'rates[0].rate', ''),
-        rateCurrency: currentCurrencyRate[lodashGet(item, 'rates[0].currency', '')] || '',
+        rateCurrency: currentCurrency[lodashGet(item, 'rates[0].currency', '')] || '',
         salary_uah: lodashGet(item, 'salaries[0].salary', 0),
         salaryCurrency: currentCurrency[lodashGet(item, 'salaries[0].currency', '')] || '',
         id: lodashGet(item, 'id', ''),

@@ -157,8 +157,7 @@ export function* handleGetConsolidatedReport() {
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
   const currentCurrency = yield select(selectActualCurrencyForUserList);
-  const currentCurrencyRate = yield select(selectActualCurrencyRateForUserList);
-  const mapperResponse = consolidateReportMapper(response, currentCurrency, currentCurrencyRate)
+  const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))
   const { data } = yield call(
     [Api, 'consolidateReportApi'],

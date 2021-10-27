@@ -45,10 +45,3 @@ export const selectActualCurrencyForUserList = (state) => {
 
   return actualCurrencies.reduce((prev, item) => (prev[item.serverId] = item.sign, prev), {})
 }
-
-
-export const selectActualCurrencyRateForUserList = (state) => {
-  const actualCurrencies = selectRateList(state)
-
-  return actualCurrencies.reduce((prev, item) => (prev[item.currencyId] = item.sign, prev), {})
-}
