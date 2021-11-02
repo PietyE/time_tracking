@@ -9,6 +9,8 @@ import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
 import Spinner from 'components/ui/spinner'
+import SideMenu from 'components/side-menu'
+//import ProjectReportNew from 'components/project-report-new-design'
 import {
   changeSelectedDateTimeReport,
   addTimeReport,
@@ -251,6 +253,10 @@ function TimeReport(props) {
             <div>Please, choose your project...</div>
           )}
         </div>
+      </div>
+      <div className="new_design">
+        <SideMenu />
+        {/* <ProjectReportNew /> */}
       </div>
     </>
   )

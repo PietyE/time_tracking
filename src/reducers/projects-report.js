@@ -6,7 +6,11 @@ import {
   SET_SELECTED_PROJECT_PROJECTREPORTS,
   CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
-  SET_EDIT_USER_ID, SET_PROCESSED_STATUS, SET_IS_FETCHING_PROJECT_REPORTS,
+  SET_EDIT_USER_ID,
+  SET_PROCESSED_STATUS,
+  SET_IS_FETCHING_PROJECT_REPORTS,
+  SET_CONSOLIDATE_PROJECT_REPORT,
+  LOG_OUT,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -16,6 +20,7 @@ const initialState = {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
   },
+  reportsRefactored: [],
   reports: {
     users: [],
     total_uah: '',
@@ -37,6 +42,7 @@ const initialState = {
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   editingUserId: '',
+  userId: '',
 }
 
 export const projectsReport = (state = initialState, action) => {
@@ -45,11 +51,11 @@ export const projectsReport = (state = initialState, action) => {
       return { ...state,
         isFetchingReports: true,
         selectedDate: action.payload }
-    case SET_DEV_CONSOLIDATE_PROJECT_REPORT:
+    case SET_CONSOLIDATE_PROJECT_REPORT:
       return {
         ...state,
         isFetchingReports: false,
-        reports: action.payload
+        reportsRefactored: action.payload
       }
     case SET_PROCESSED_STATUS:
       return { ...state, isFetchingReports: true }
@@ -63,7 +69,7 @@ export const projectsReport = (state = initialState, action) => {
     case SET_SELECTED_PROJECT_PROJECTREPORTS:
       return {
         ...state,
-        isFetchingReports: true,
+        isFetchingReports: false,
         selectedProject: action.payload }
     case CLEAR_SELECTED_PROJECT_PROJECTREPORTS:
       return {
@@ -76,6 +82,11 @@ export const projectsReport = (state = initialState, action) => {
       return { ...state, editingUserId: action.payload }
     case SET_IS_FETCHING_PROJECT_REPORTS:
       return { ...state, isFetchingReports: action.payload }
+    case LOG_OUT:
+      return {
+        ...state,
+        reportsRefactored: [],
+      }
     default:
       return state
   }
@@ -92,7 +103,7 @@ export const getEditingUserIdSelector = (state) =>
 
 export const getEditingUser = (state) => {
   const editingUserId = state.projectsReport.editingUserId
-  return state.projectsReport.reports.users.find(
+  return state.projectsReport.reportsRefactored.find(
     (report) => report.id === editingUserId
   )
 }
@@ -105,3 +116,6 @@ export const getDevProjectConsolidateProjectReportsSelector = (state) =>
 
 export const getSelectDeveloperInProjectReportSelector = (state) =>
   state.projectsReport.selectedDeveloper
+
+export const selectUsersReports = (state) =>
+  state.projectsReport.reportsRefactored
