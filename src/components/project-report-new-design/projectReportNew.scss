@@ -1,0 +1,140 @@
+.project_report_container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  background-color: #f3f5f5;
+  flex-direction: column;
+
+  .project_report_header {
+    display: flex;
+
+    .header_title {
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 36px;
+      letter-spacing: 0.018em;
+      color: #000000;
+      margin: 0 0 0 40px;
+    }
+
+    .project_report_export_button {
+      position: relative;
+      display: flex;
+      height: 40px;
+      margin: 0 0 0 564px;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background: #009C98;
+      border-radius: 4px;
+      cursor: pointer;
+
+      .export_button_img {
+        width: 16px;
+        height: 16px;
+        margin: 12px 0 12px 16px;
+      }
+
+      .export_button_text {
+        height: 24px;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: 0.03em;
+        color: #FFFFFF;
+        margin: 8px 16px 8px 10px;
+      }
+    }
+  }
+  
+  .diw_row {
+    position: relative;
+    width: 911px;
+    height: 0px;
+    border: 1px solid rgba(201, 201, 198, 0.7);
+    margin: 25px 0 0 40px;
+  }
+
+  .project_report_date {
+    margin: 30px 0 0 40px;
+  }
+  
+  .project_report_work_data {
+    .work_data {
+      display: flex;
+      width: 910px;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 45px 0 0 40px;
+
+      .user_work_data {
+        width: 190px;
+        height: 117px;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 0 28px 16px;
+        background: #FFFFFF;
+        border: 1px solid rgba(201, 201, 198, 0.4);
+        box-sizing: border-box;
+        border-radius: 10px;
+        text-align: left;
+
+        .data {
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 26px;
+          line-height: 32px;
+          letter-spacing: 0.02em;
+          color: #222222;
+        }
+
+        .user_work_data_text {
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 13px;
+          line-height: 24px;
+          letter-spacing: 0.02em;
+          color: rgba(122, 122, 122, 0.7);
+          margin: 0 0 0 2px;
+        }
+      }
+    }
+    .project_data {
+      position: relative;
+      width: 911px;
+      height: 312px;
+      margin: 30px 0 0 40px;
+      background: #FFFFFF;
+      border: 1px solid rgba(201, 201, 198, 0.4);
+      box-sizing: border-box;
+      border-radius: 10px;
+      flex-direction: column;
+
+      .project_data_header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 46px;
+        text-align: center;
+        padding: 11px 43px 11px 24px;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 24px;
+        text-align: right;
+        letter-spacing: 0.02em;
+        color: rgba(34, 34, 34, 0.3);
+        background: #F3F3F3;
+        border-radius: 9px 9px 0px 0px;
+      }
+    }
+  }
+}
