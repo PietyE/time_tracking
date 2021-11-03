@@ -3,11 +3,12 @@ import { selectUserProjects } from '../../../selectors/project-report-details'
 import { useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 import TableRow from './TableRow'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 
 const UserProjectList = (props) => {
   const { userId, isOpen, selectedDate, rate } = props
-  const userDetails = useSelector(selectUserProjects)
+  const userDetails = useShallowEqualSelector(selectUserProjects)
 
   const user = userDetails[userId]
   if (!user) {
