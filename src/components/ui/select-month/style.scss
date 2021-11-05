@@ -6,9 +6,9 @@
   height: 40px;
   border: 1px solid #e8e8e8;
   border-radius: 7px;
+  background-color: #ffffff;
   position: relative;
   transition: 0.3s ease-out;
-  margin-right: 20px;
   &:focus {
     border: 1px solid #8a8a8a;
   }
@@ -24,7 +24,7 @@
     border: unset;
     outline: unset;
     cursor: pointer;
-
+    background-color: #fff;
     .icon_change_month_button {
       color: rgb(81, 81, 81);
     }
@@ -63,7 +63,6 @@
     justify-content: center;
     cursor: pointer;
     user-select: none;
-    background: #fff;
     .calendar_icon {
       color: #a1a1a1;
       font-size: 13px;

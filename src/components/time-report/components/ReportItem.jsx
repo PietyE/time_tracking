@@ -1,7 +1,7 @@
 import React, {memo, useState, useCallback, useRef, useEffect} from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faTimes, faCheck, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faTimes, faCheck, faPlus, faEllipsisH, faEllipsisV} from '@fortawesome/free-solid-svg-icons'
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { FaExchangeAlt } from 'react-icons/fa'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -362,7 +362,11 @@ function ReportItem({
       <div className="time_report_day_edit">
         {!idEditingWorkItem?
           <div className={'edit_dots ' +(editMenu?'dots-bg':'')} onClick={()=>{setEditMenu(!editMenu)}}>
-            <img src="./img/more1.svg" alt="more"/>
+            <FontAwesomeIcon
+                icon={faEllipsisV}
+                color="#414141"
+                className="icon pencil_icon"
+            />
           </div>:
           <button className="create_btn"  onClick={
             idEditingWorkItem === id ? () => null : handlerClickEditMode}
