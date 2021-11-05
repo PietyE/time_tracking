@@ -18,6 +18,14 @@ const getTimeReports = createSelector(
   reports => reports
 )
 
+const getAllDays = state => state.timereports.selectDays
+
+const getSelectedDay = state => state.timereports.selctedDay;
+
+const getSelectDayStatus =state=>state.timereports.selectDayStatus;
+
+const getSelectedDayStatus =state=>state.timereports.selectedDayStatus;
+
 const getIdEditingWorkItem = state => state.timereports.idEditingWorkItem
 
 export {
@@ -28,4 +36,8 @@ export {
   getSelectedProject,
   getSelecredDeveloper,
   getIdEditingWorkItem,
+  getAllDays,
+  getSelectedDay,
+  getSelectDayStatus,
+  getSelectedDayStatus
 }

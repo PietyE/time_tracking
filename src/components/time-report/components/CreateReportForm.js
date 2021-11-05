@@ -5,10 +5,11 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
 import {isEqual} from 'lodash'
 import {getSelectedDateTimeReport} from '../../../selectors/timereports'
-import { setEditMode } from 'actions/times-report'
+import {setEditMode, setUserStatus} from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
+import ActivitySelect from "./ActivitySelect";
 
 function CreateReportForm({
   addTimeReport,
@@ -19,7 +20,8 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  savePosition
+  savePosition, selectDayStatus, selectedDayStatus
+
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -138,6 +140,11 @@ function CreateReportForm({
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
+      <ActivitySelect
+          statuses={selectDayStatus}
+          selectedStatus={selectedDayStatus}
+          setUserStatus={setUserStatus}
+      />
       <div className="description_input_container">
         <input
           type="text"
@@ -154,7 +161,7 @@ function CreateReportForm({
 
       <div className="time_report_day_row_create_right">
         <InputMask
-          placeholder="HH"
+          placeholder="0:00"
           maskPlaceholder="0"
           className={`hours_input input ${borderInputHoursClassName}`}
           value={hours}

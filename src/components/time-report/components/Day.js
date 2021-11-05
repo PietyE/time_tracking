@@ -1,40 +1,61 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
 
 import HeaderDay from './HeaderDay'
 import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
 import FooterDay from './FooterDay'
+import ActivitySelect from "./ActivitySelect";
+import DayCrate from "./DayCrate";
+import {setUserStatus} from "../../../actions/times-report";
 
 function Day({
-  numberOfDay,
-  selectedDate,
-  descriptions = [],
-  addTimeReport,
-  showEmpty,
-  isOpenCreate,
-  isOneProject,
-  savePosition,
+                numberOfDay,
+                selectedDate,
+                descriptions = [],
+                addTimeReport,
+                showEmpty,
+                isOpenCreate,
+                isOneProject,
+                savePosition,
+                selectDayStatus,
+                selectedDayStatus,
+                 setUserStatus
 }) {
-  const [isCreate, setIsCreate] = useState(true)
-  const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
+  const [isCreate, setIsCreate] = useState(true);
+  const [isCreatedList, setIsCreatedList] = useState(false);
+  const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('');
+  let [draganDroped , setDraganDroped] = useState(false);
 
   const handlerAddDayReport = (e) => {
     e.preventDefault()
     if (isCreate) {
-      setClassNameForEndAnimation('close')
+     setClassNameForEndAnimation('close')
       return
     }
     setIsCreate(true)
   }
 
+  useEffect(()=>{
+    if(isCreate && descriptions.length){
+      setIsCreate(false)
+      setIsCreatedList(true)
+     }
+    },[descriptions]);
+
+  const openNewItem = ()=>{
+    setIsCreate(!isCreate)
+  }
+
   const day = new Date(selectedDate?.year, selectedDate?.month, numberOfDay)
   const dayOfWeek = day.getDay()
 
-  const dayTitle = day.toLocaleDateString('en', {
-    weekday: 'long',
-    month: 'long',
+  let dayTitle = day.toLocaleDateString('en', {
     day: 'numeric',
+    weekday: 'long',
+    //month: 'long',
   })
+
+    dayTitle = dayTitle.split(' ').reverse().join(', ');
 
   const todayStr = isOpenCreate ? '(today)' : ''
   const weekEndClassName =
@@ -54,40 +75,54 @@ function Day({
   if (!showEmpty && !descriptions.length && !isOpenCreate) {
     return null
   }
+
   return (
     <div className="time_report_day_container" data-day={numberOfDay}>
-      <HeaderDay
-        handlerAddDayReport={handlerAddDayReport}
-        isCreate={isCreate}
-        dayTitle={dayTitle}
-        todayStr={todayStr}
-        classNameForEndAnimation={classNameForEndAnimation}
-        weekEndClassName={weekEndClassName}
-      />
-      {isCreate && (
-        <CreateReportForm
+
+      <DayCrate
+          handlerAddDayReport={handlerAddDayReport}
+          isCreate={isCreate}
+          dayTitle={dayTitle}
+          todayStr={todayStr}
+          classNameForEndAnimation={classNameForEndAnimation}
+          weekEndClassName={weekEndClassName}
           addTimeReport={addTimeReport}
           numberOfDay={numberOfDay}
           selectedDate={selectedDate}
           setIsCreate={setIsCreate}
-          isCreate={isCreate}
           isOpenCreate={isOpenCreate}
           extraClassName={classNameForEndAnimation}
           handlerEndAnimation={handlerEndAnimation}
           sumHours={sumHours}
           savePosition={savePosition}
-        />
-      )}
-      {descriptions.map(({ title, duration, id }) => (
+          isCreateList = {isCreatedList}
+          selectDayStatus={selectDayStatus}
+          selectedDayStatus ={selectedDayStatus}
+          setUserStatus={setUserStatus}
+          descriptions={descriptions}
+      />
+      {descriptions.map(({ title, duration, id }, index) => (
         <ReportItem
-          key={id}
-          text={title}
-          hours={duration}
-          id={id}
-          isOneProject={isOneProject}
-        />
+            key={id}
+            index={index}
+            text={title}
+            hours={duration}
+            opneNewItem={openNewItem}
+            dayTitle={ dayTitle}
+            id={id}
+            isOneProject={isOneProject}
+            slecet
+            selectDayStatus={selectDayStatus}
+            selectedDayStatus ={selectedDayStatus}
+            isCreate={isCreate}
+            setUserStatus={setUserStatus}
+            setDraganDroped={setDraganDroped}
+            draganDroped={draganDroped}
+          />
       ))}
-      <FooterDay sumHours={sumHours} />
+      {/*<FooterDay*/}
+      {/*    sumHours={sumHours}*/}
+      {/*/>*/}
     </div>
   )
 }

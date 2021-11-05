@@ -16,6 +16,7 @@ import {
   selectProject,
   clearSelectedProject,
   getTimeReportCsv,
+  setUserStatus
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
 import {
@@ -24,6 +25,10 @@ import {
   getIsFetchingReport,
   getSelectedProject,
   getSelecredDeveloper,
+  getAllDays,
+  getSelectedDay,
+  getSelectDayStatus,
+  getSelectedDayStatus,
 } from 'selectors/timereports'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getRoleUser } from 'selectors/user'
@@ -31,6 +36,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+import FunnelSelect from "./components/FunnelSelect";
 
 function TimeReport(props) {
   const {
@@ -48,13 +54,27 @@ function TimeReport(props) {
     selectedDeveloper,
     selectDevelopers,
     getTimeReportCsv,
+    selectedDays,
+    selectedDay,
+    selectDayStatus,
+    selectedDayStatus
+
   } = props
+
 
   const [showEmpty, setShowEmpty] = useState(true)
 
   const { state: routeState } = useLocation()
 
   const todayDate = new Date()
+
+  const setStatusDayFromSlecr =(status)=>{
+    if(status.name === 'Hide empty days') {
+      setShowEmpty(false);
+    }else {
+      setShowEmpty(true);
+    }
+  }
 
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -73,12 +93,19 @@ function TimeReport(props) {
   for (let i = 0; i < daySize; i++) {
     renderDaysArray.push(i)
   }
-
   const totalHours = reports
     ? reports.reduce((res, item) => {
         return res + item.duration
       }, 0)
     : 0
+
+  const selectedProjectHours = reports && selectedProject
+      ?reports.reduce((res, item)=>{
+        if(item.developer_project === selectedProject.developer_project_id){
+          return res + item.duration
+        }
+      }, 0)
+      :0
 
   const [currentPosition, setCurrentPosition] = useState(null)
   const savePosition = e => {
@@ -159,10 +186,10 @@ function TimeReport(props) {
 
   useEffect(() => {
     bootstrapWidthRouteState()
-    // return () => {
-    //   clearSelectedProject()
-    //   resetSelectedDate()
-    // }
+    return () => {
+      clearSelectedProject()
+      resetSelectedDate()
+    }
   }, [])
 
   return (
@@ -175,6 +202,31 @@ function TimeReport(props) {
             : 'time_report_container container'
         }
       >
+        <div className="time_report_total_container">
+          <h1>Time report</h1>
+          {/*<div className="time_repord_checkbox">*/}
+          {/*  <label>*/}
+          {/*    <input*/}
+          {/*      type="checkbox"*/}
+          {/*      onChange={() => setShowEmpty(!showEmpty)}*/}
+          {/*      value={showEmpty}*/}
+          {/*    />*/}
+          {/*    <span>Hide Empty Days</span>*/}
+          {/*  </label>*/}
+          {/*</div>*/}
+          <div className="time_report_total_hours">
+            <span>
+              Total hours worked this month:{` `}
+              <strong>{parseMinToHoursAndMin(totalHours, true)}</strong>
+            </span>
+          </div>
+        </div>
+        <div className="time_report_header">
+          <div className="time-report-prject-wrap">
+            {selectedProject.name} <span className="divider"></span>
+            {parseMinToHoursAndMin(selectedProjectHours, true)}
+          </div>
+        </div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
             {roleUser !== DEVELOPER && (
@@ -189,13 +241,18 @@ function TimeReport(props) {
               selectProject={selectProject}
               selectedProject={selectedProject}
             />
+            <SelectMonth
+                selectedDate={selectedDate}
+                setNewData={changeSelectedDateTimeReport}
+                extraClassNameContainer="time_report_header_select_month"
+            />
+            <FunnelSelect
+                days={selectedDays}
+                selectedDay={selectedDay}
+                setStausDay={setStatusDayFromSlecr}
+            />
           </div>
           <div className="time_report_header_btn_section">
-            <SelectMonth
-              selectedDate={selectedDate}
-              setNewData={changeSelectedDateTimeReport}
-              extraClassNameContainer="time_report_header_select_month"
-            />
             <button className="export_btn" onClick={handlerExportCsv}>
               <span className="export_icon_container">
                 <DownloadIcon />
@@ -204,23 +261,11 @@ function TimeReport(props) {
             </button>
           </div>
         </div>
-        <div className="time_report_total_container">
-          <div className="time_repord_checkbox">
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => setShowEmpty(!showEmpty)}
-                value={showEmpty}
-              />
-              <span>Hide Empty Days</span>
-            </label>
-          </div>
-          <div className="time_report_total_hours">
-            <span>
-              Total hours:{` `}
-              <strong>{parseMinToHoursAndMin(totalHours)}</strong>
-            </span>
-          </div>
+        <div className="time_report_day_row_titles">
+          <div className='time_report_activity_day'>DATE</div>
+          <div className='title-status'>ACTIVITY STATUS</div>
+          <div className='title-tasks'>TASKS</div>
+          <div className='title-hours'>HOURS</div>
         </div>
         <div className="time_report_body_container">
           {reports ? (
@@ -229,6 +274,7 @@ function TimeReport(props) {
               const dataOfDay = reports.filter(
                 (report) => numberOfDay === new Date(report.date).getDate()
               )
+
               const isOpenCreate =
                 todayDate.getDate() === numberOfDay &&
                 todayDate.getMonth() === selectedDate.month &&
@@ -244,6 +290,9 @@ function TimeReport(props) {
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}
+                  selectDayStatus={selectDayStatus}
+                  selectedDayStatus={selectedDayStatus}
+                  setUserStatus={setUserStatus}
                 />
               )
             })
@@ -265,6 +314,10 @@ const mapStateToProps = (state) => ({
   selectedProject: getSelectedProject(state),
   developersList: getDevelopersSelector(state),
   selectedDeveloper: getSelecredDeveloper(state),
+  selectedDays:getAllDays(state),
+  selectedDay:getSelectedDay(state),
+  selectDayStatus: getSelectDayStatus(state),
+  selectedDayStatus: getSelectedDayStatus(state)
 })
 
 const actions = {
@@ -275,6 +328,7 @@ const actions = {
   resetSelectedDate,
   selectDevelopers,
   getTimeReportCsv,
+  setUserStatus
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

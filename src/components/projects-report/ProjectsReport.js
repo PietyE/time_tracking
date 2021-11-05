@@ -131,7 +131,7 @@ function ProjectsReport({
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
-            {users.map((user) => {
+            {users && Array.isArray(users)&&users.map((user) => {
               const {
                 name,
                 developer_projects,
