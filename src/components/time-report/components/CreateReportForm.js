@@ -169,7 +169,7 @@ function CreateReportForm({
           mask="9:99"
           onFocus={handlerFocus}
         />
-        <button className="create_btn" onClick={handlerClickAddButton}>
+        <button className={'create_btn '+(hours && hours!=='0:00' && text ? '': 'disabled')} onClick={handlerClickAddButton}>
           <FontAwesomeIcon
             icon={faCheck}
             color="#414141"

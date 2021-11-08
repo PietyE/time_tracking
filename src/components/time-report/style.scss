@@ -14,6 +14,14 @@
     margin-bottom: 20px;
     .time_report_header_select_section {
       display: flex;
+      flex-wrap: wrap;
+
+      //.select_month_container{
+      //  .select_btn{
+      //    display: flex;
+      //    align-items: flex-end;
+      //  }
+      //}
       .developer_select {
         margin-right: 20px;
 
@@ -54,8 +62,8 @@
         margin-right: 20px;
       }
       .export_btn {
-        height: 40px;
-        width: 140px;
+        height: 36px;
+        width: 167px;
         border-radius: 5px;
         background-color: #009c98;
         color: #fff;
@@ -112,23 +120,28 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(201, 201, 198, 0.7);
+
+    h1{
+      font-size: 24px;
+      font-family: 'Montserrat';
+      font-style: normal;
+      color: #000;
+    }
+
     .time_report_total_hours {
-      h1{
-        font-size: 24px;
-        font-family: 'Montserrat';
-        font-style: normal;
-        color: #000;
-      }
       span {
         color: #616161;
         font-family: Montserrat, sans-serif;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 500;
         line-height: 19px;
+
       }
 
       strong{
+        margin-left: 10px;
         font-size: 18px;
+        font-weight: 400;
         color: #000;
       }
     }
@@ -200,7 +213,7 @@
 
     &_create{
       display: flex;
-      min-height: 74px;
+      min-height: 54px;
       align-items: center;
     }
 
@@ -417,9 +430,15 @@
 
 .funnel_select{
   width: 180px;
+  margin-left: 40px;
   .select_title_container{
     justify-content: center;
     position: relative;
+
+    .fa-filter{
+      color: #fff;
+      background: #fff;
+    }
 
     &:before{
       content: "";
@@ -428,7 +447,7 @@
       top:2px;
       width: 20px;
       height: 20px;
-      background-image: url("../../images/filter2.svg");
+      background-image: url(../../images/filter2.svg);
       background-repeat: no-repeat;
     }
 
@@ -512,6 +531,12 @@
     height: 0;
     opacity: 0;
     margin-bottom: 0;
+  }
+}
+
+@media screen and (min-device-width: 1030px) {
+  .funnel_select{
+    margin-left: 10px;
   }
 }
 
@@ -699,7 +724,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  min-height: 60px;
+  min-height: 62px;
   border-radius: 5px;
   background-color: #fff;
   position: relative;
@@ -912,5 +937,9 @@
 .select_container .select_title_container .select_title_icon{
    font-size: 12px;
  }
+
+.disabled{
+  opacity: .5;
+}
 
 

@@ -144,7 +144,9 @@ function ReportItem({
     window.addEventListener('click', (event)=>{
       if(editMenu){
         if(event.target.parentNode.classList.contains('edit_dots')
-            || event.target.parentNode.classList.contains('time_report_day_menu')){
+            || event.target.parentNode.classList.contains('time_report_day_menu')
+            || event.target.classList.contains('time_report_day_menu')
+            || event.target.parentNode.classList.contains('svg-inline--fa')){
           return
         }
         setEditMenu(false)

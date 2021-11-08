@@ -216,7 +216,7 @@ function TimeReport(props) {
           {/*</div>*/}
           <div className="time_report_total_hours">
             <span>
-              Total hours worked this month:{` `}
+              Total hours spend this month:{` `}
               <strong>{parseMinToHoursAndMin(totalHours, true)}</strong>
             </span>
           </div>
@@ -257,7 +257,7 @@ function TimeReport(props) {
               <span className="export_icon_container">
                 <DownloadIcon />
               </span>
-              <span className="export_btn_text">Export</span>
+              <span className="export_btn_text">Export in XLSX</span>
             </button>
           </div>
         </div>
