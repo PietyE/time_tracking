@@ -44,3 +44,15 @@ export const convertHours = (data) =>{
     return 0
   }
 }
+export const convertMinutesToHours = (data) => {
+  if(data){
+    const hours = Math.floor(data/60);
+    let minutes = data - (hours*60);
+    if(minutes < 10){
+      minutes = `0${minutes}`
+    }
+    return `${hours}:${minutes}`
+  }else{
+    return 0
+  }
+}

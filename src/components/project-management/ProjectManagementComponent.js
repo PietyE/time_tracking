@@ -36,7 +36,7 @@ import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
 import { getCurrentUserSelector } from '../../reducers/profile'
 import {isEmpty} from 'lodash'
-import {convertHours} from '../../utils/common'
+import {convertMinutesToHours} from '../../utils/common'
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -102,13 +102,12 @@ const ProjectManagementComponent =({
       _setSelectedProjectId(id)
       setShowEditModal(true)
     }
-
-    const [rows, setRows] = useState([])
+  const [rows, setRows] = useState([])
   useEffect(() => {
         const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
           occupancy: ' ',
-          hours: convertHours(project?.total_hours) || 0,
+          hours: convertMinutesToHours(project?.total_minutes) || 0,
           report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
             <span className = "oi oi-cloud-download"/>
           </Button>,

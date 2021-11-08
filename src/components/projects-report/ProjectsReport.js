@@ -13,7 +13,6 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
 import {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
@@ -21,6 +20,7 @@ import {
   getDevelopersProjectInProjectReport,
   setEditUserId,
   setExchangeRates,
+  getConsolidateProjectReport,
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
@@ -30,16 +30,19 @@ import {
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
+  selectUsersReports, getEditingUser,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
+import ActualRates from '../ui/actual-rates/ActualRates'
+import { getRatesList } from '../../actions/currency'
+import RenderUser from './components/RenderUser'
 
 function ProjectsReport({
   roleUser,
   selectedDate,
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
   projectsReports,
   developersList = [],
   setSelectedDeveloper,
@@ -53,9 +56,13 @@ function ProjectsReport({
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
-  isFetchingReports
+  isFetchingReports,
+  getConsolidateProjectReport,
+  selectUsersReports,
+  getRatesList,
 }) {
-  const { users, total_usd, total_uah, exchange_rate } = projectsReports
+  const { total_usd, total_uah, exchange_rate } = projectsReports
+  const users = selectUsersReports
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
@@ -66,11 +73,23 @@ function ProjectsReport({
     setIsOpenEdit(false)
   }
 
+  const handleChangeData = (data) => {
+    const { month, year } = data;
+    changeSelectedDateProjectsReport(data)
+    const ratesParams = {
+      year,
+      month: month + 1,
+      is_active: true
+    }
+    getRatesList(ratesParams)
+
+  }
+
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
       getDevelopersProjectInProjectReport()
     }
-    getDeveloperConsolidateProjectReport()
+    getConsolidateProjectReport()
   }, [])
   return (
     <>
@@ -115,9 +134,10 @@ function ProjectsReport({
         )}
         <SelectMonth
           selectedDate={selectedDate}
-          setNewData={changeSelectedDateProjectsReport}
+          setNewData={handleChangeData}
         />
       </div>
+
       {roleUser !== DEVELOPER && roleUser !== PM && (
         <TotalValue
           totalUsd={total_usd}
@@ -127,65 +147,82 @@ function ProjectsReport({
           selectedDate={selectedDate}
         />
       )}
+      {roleUser !== DEVELOPER && roleUser !== PM && (
+        <ActualRates />
+      )}
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
           <div className="table_body_container">
-            {users.map((user) => {
-              const {
-                name,
-                developer_projects,
-                // current_rate,
-                rate_uah,
-                // current_salary,
-                salary_uah,
-                id,
-                total_expenses,
-                total_overtimes,
-                total: total_salary,
-                comments,
-                total_uah,
-                is_processed,
-              } = user
+            {!!users?.length ?
+              (
+                <>
+                {users.map((user) => {
+                  const {
+                    name,
+                    developer_projects,
+                    // current_rate,
+                    rate_uah,
+                    // current_salary,
+                    salary_uah,
+                    salaryCurrency,
+                    rateCurrency,
+                    id,
+                    total_expenses,
+                    total_overtimes,
+                    total: total_salary,
+                    comments,
+                    total_uah,
+                    is_processed,
+                    totalHoursOvertime
+                  } = user
 
-              const allProjectsName = developer_projects
-                .map((project) => project.name)
-                .join(', ')
+                  // const allProjectsName = developer_projects
+                  //   .map((project) => project.name)
+                  //   .join(', ')
+                  const allProjectsName = '';
+                  const commonProjectsInfo = {
+                    name: allProjectsName,
+                  }
 
-              const commonProjectsInfo = {
-                name: allProjectsName,
-              }
-
-              const comment = comments[0] ? comments[0].text : ''
-
-
-
-              return (
-                <RenderUser
-                  commonProjectsInfo={commonProjectsInfo}
-                  projects={developer_projects}
-                  name={name}
-                  // rate={current_rate}
-                  rate={rate_uah}
-                  // projectSalary={current_salary}
-                  projectSalary={salary_uah}
-                  key={id}
-                  userId={id}
-                  selectedDate={selectedDate}
-                  total_expenses={total_expenses}
-                  total_overtimes={total_overtimes}
-                  total_salary={total_salary}
-                  roleUser={roleUser}
-                  setEditUserId={setEditUserId}
-                  setIsOpenEdit={setIsOpenEdit}
-                  comment={comment}
-                  total_uah={total_uah}
-                  is_processed={is_processed}
-                  setProcessedStatus={setProcessedStatus}
-                  isFetchingReports={isFetchingReports}
-                />
+                  return (
+                    <RenderUser
+                      commonProjectsInfo={commonProjectsInfo}
+                      projects={developer_projects}
+                      name={name}
+                      // rate={current_rate}
+                      rate={rate_uah}
+                      // projectSalary={current_salary}
+                      projectSalary={salary_uah}
+                      salaryCurrency={salaryCurrency}
+                      rateCurrency={rateCurrency}
+                      totalHoursOvertime={totalHoursOvertime}
+                      key={id}
+                      userId={id}
+                      selectedDate={selectedDate}
+                      total_expenses={total_expenses}
+                      total_overtimes={total_overtimes}
+                      total_salary={total_salary}
+                      roleUser={roleUser}
+                      setEditUserId={setEditUserId}
+                      setIsOpenEdit={setIsOpenEdit}
+                      comment={comments}
+                      total_uah={total_uah}
+                      is_processed={is_processed}
+                      setProcessedStatus={setProcessedStatus}
+                      isFetchingReports={isFetchingReports}
+                    />
+                  )
+                })}
+                </>):
+              (
+                <>
+                  {!isFetchingReports &&
+                  <p className='table_body_container_text'> There are no users in this project yet</p>
+                  }
+                </>
               )
-            })}
+            }
           </div>
         </div>
       </div>
@@ -194,86 +231,7 @@ function ProjectsReport({
   )
 }
 
-const RenderUser = ({
-  name = '',
-  commonProjectsInfo = {},
-  projects = [],
-  rate = 0,
-  projectSalary = 0,
-  selectedDate = {},
-  total_expenses,
-  total_overtimes,
-  total_salary,
-  userId,
-  roleUser,
-  setEditUserId,
-  setIsOpenEdit,
-  comment,
-  total_uah,
-  is_processed,
-  setProcessedStatus,
-  isFetchingReports
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
 
-  const handlerOpenMoreProject = (e) => {
-    if (e.target.type === 'checkbox') {
-      return
-    }
-    e.preventDefault()
-    e.stopPropagation()
-    setIsOpen(!isOpen)
-  }
-
-  const totalHoursOvertime = projects.reduce((sum, project) => {
-    if (!project.is_full_time) {
-      return (sum = sum + project.working_time)
-    }
-    return sum
-  }, 0)
-
-  return (
-    <div className="table_body_item">
-      <TableRow
-        project={commonProjectsInfo}
-        projectSalary={projectSalary}
-        name={name}
-        rate={rate}
-        onClick={handlerOpenMoreProject}
-        extraClass={'common'}
-        total_expenses={total_expenses}
-        total_overtimes={total_overtimes}
-        total_salary={total_salary}
-        totalHoursOvertime={totalHoursOvertime}
-        roleUser={roleUser}
-        userId={userId}
-        setEditUserId={setEditUserId}
-        setIsOpenEdit={setIsOpenEdit}
-        comment={comment}
-        total_uah={total_uah}
-        is_processed={is_processed}
-        setProcessedStatus={setProcessedStatus}
-        selectedDate={selectedDate}
-        isOpen={isOpen}
-        isFetchingReports={isFetchingReports}
-      />
-      {projects.map((project) => {
-        return (
-          <TableRow
-            project={project}
-            extraClass={isOpen ? 'more_project open' : 'more_project'}
-            rate={rate}
-            key={project.id}
-            selectedDate={selectedDate}
-            is_full_time={project.is_full_time}
-            userId={userId}
-            roleUser={roleUser}
-          />
-        )
-      })}
-    </div>
-  )
-}
 
 const mapStateToProps = (state) => ({
   roleUser: getRoleUser(state),
@@ -285,11 +243,11 @@ const mapStateToProps = (state) => ({
   selectedProject: getSelectedProjectSelector(state),
   editingUserId: getEditingUserIdSelector(state),
   isFetchingReports: getIsFetchingProjectsReport(state),
+  selectUsersReports: selectUsersReports(state),
 })
 
 const actions = {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
   clearDeveloperSelected,
   setSelectedProjectInProjectReports,
@@ -298,6 +256,8 @@ const actions = {
   setEditUserId,
   setExchangeRates,
   setProcessedStatus,
+  getConsolidateProjectReport,
+  getRatesList,
 }
 
 export default connect(mapStateToProps, actions)(ProjectsReport)

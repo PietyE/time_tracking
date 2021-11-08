@@ -33,20 +33,18 @@ export default function TableRow({
   is_processed,
   setProcessedStatus,
   isOpen,
-  isFetchingReports
+  isFetchingReports,
+  working_time,
+  salaryCurrency,
+  rateCurrency
 }) {
   const {
     working_time: hours,
-    id: developer_project_id,
+    idDeveloperProjects: developer_project_id,
     total,
     name: projectName,
   } = project
-
   const [isProcessed, setIsProcessed] = useState(false)
-
-  const roundHours = (hours) => {
-    return parseFloat(hours.toFixed(2))
-  }
 
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
@@ -60,6 +58,10 @@ export default function TableRow({
     currency: 'UAH',
     minimumFractionDigits: 0,
   })
+
+  const digitFormat = new Intl.NumberFormat('ru', {
+    minimumFractionDigits: 0,
+  });
 
   const handlerEditClick = (e) => {
 
@@ -89,8 +91,7 @@ export default function TableRow({
     }
   }
 
-  const hoursString =
-    roundHours(totalHoursOvertime / 60) || roundHours(hours / 60) || 0
+  const hoursToShow = is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} `
 
   let stateDataForLink = {
     userId,
@@ -154,32 +155,35 @@ export default function TableRow({
           {roleUser !== PM && (
             <>
               <span className="table_cell salary">
-                {extraClass === 'common' ? usdFormat.format(projectSalary) : ''}
+                {extraClass === 'common' ? `${digitFormat.format(projectSalary)} ${salaryCurrency}` : ''}
               </span>
-              <span className="table_cell rate">{usdFormat.format(rate)}</span>
+              <span className="table_cell rate">
+                 {extraClass === 'common' ? `${digitFormat.format(rate)} ${rateCurrency}` : ''}
+                   </span>
               <span className="table_cell hours">
-                {is_full_time ? 'fulltime' : `${hoursString} h`}
+                {hoursToShow}
               </span>
               <span className="table_cell total">
-                {usdFormat.format(total_overtimes || total)}
+                {UAHFormat.format(total_overtimes || total)}
               </span>
               <span className="table_cell total">
-                {extraClass === 'common' ? usdFormat.format(total_salary) : ''}
-              </span>
-              <span className="table_cell to_pay">
-                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
+                {extraClass === 'common' ? UAHFormat.format(total_salary) : ''}
               </span>
               <span className="table_cell coast">
                 {extraClass === 'common'
                   ? UAHFormat.format(total_expenses)
                   : ''}
               </span>
+              <span className="table_cell to_pay">
+                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
+              </span>
+
             </>
           )}
 
           {roleUser === PM && (
             <span className="table_cell hours">
-              {is_full_time ? 'fulltime' : `${hoursString} h`}
+              {hoursToShow}
             </span>
           )}
 
