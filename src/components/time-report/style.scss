@@ -226,7 +226,7 @@
         height: 30px;
         border: 0;
         background: transparent;
-
+        cursor: auto;
       }
       .time_report_day_title {
         color: #7e7e82;
@@ -466,6 +466,7 @@
       width: 20px;
       height: 20px;
       background-image: url('../../images/filter2.svg');
+      background-image: url('/public/img/more1.svg');
       background-repeat: no-repeat;
     }
 
