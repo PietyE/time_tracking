@@ -918,6 +918,12 @@
       z-index: 99;
       padding-left: 5px;
       padding: 8px;
+
+      .change_project_button{
+        svg{
+          transform: rotate(90deg);
+        }
+      }
       .button {
         padding: 5px 10px;
         height: 100%;
@@ -925,6 +931,7 @@
 
         .icon{
           margin-right: 10px;
+          font-size: 17px;
         }
 
         &:hover {
@@ -938,9 +945,6 @@
           .icon {
             color: #969595;
           }
-        }
-        &.edit_button {
-          //margin-right: 15px;
         }
         .icon {
           color: #414141;
