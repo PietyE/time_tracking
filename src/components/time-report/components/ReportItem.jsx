@@ -145,6 +145,7 @@ function ReportItem({
       if(editMenu){
         if(event.target.parentNode.classList.contains('edit_dots')
             || event.target.parentNode.classList.contains('time_report_day_menu')
+            || event.target.parentNode.classList.contains('time_report_day_edit')
             || event.target.classList.contains('time_report_day_menu')
             || event.target.parentNode.classList.contains('svg-inline--fa')){
           return
@@ -407,7 +408,7 @@ function ReportItem({
                   form="edit_form"
               >
                 <FaExchangeAlt className="icon" />
-                Edit the report
+                Swap to other project
               </button>
           )}
           <button

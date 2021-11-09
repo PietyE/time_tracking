@@ -16,12 +16,6 @@
       display: flex;
       flex-wrap: wrap;
 
-      //.select_month_container{
-      //  .select_btn{
-      //    display: flex;
-      //    align-items: flex-end;
-      //  }
-      //}
       .developer_select {
         margin-right: 20px;
 
@@ -285,6 +279,19 @@
       animation: createTimeReport 0.3s 1 ease;
       height: 42px;
 
+      .select_title_container{
+        .select_circle-icon{
+          margin-left: 8px;
+          width: 6px;
+        }
+      }
+
+      .select_circle-icon{
+        width: 7px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
       &.close {
         height: 0;
         opacity: 0;
@@ -341,11 +348,21 @@
 
       .select_list_container{
         overflow: auto;
+        max-width: 100%;
+
+        .select_list_item{
+          text-align: center;
+        }
       }
     }
 
     .select_list_item_container{
       padding: 0 6px;
+      &.selected{
+        background: rgba(87, 108, 108, 0.15);
+        border-radius: 5px;
+        padding:0 8px;
+      }
     }
     .create_btn {
       width: 42px;
@@ -440,6 +457,7 @@
       background: #fff;
     }
 
+
     &:before{
       content: "";
       position: absolute;
@@ -447,7 +465,7 @@
       top:2px;
       width: 20px;
       height: 20px;
-      background-image: url(../../images/filter2.svg);
+      background-image: url('../../images/filter2.svg');
       background-repeat: no-repeat;
     }
 
@@ -551,9 +569,6 @@
 
         .developer_select {
           margin-bottom: 10px;
-            .select_title_container{
-
-            }
 
         }
       }
@@ -895,16 +910,26 @@
       width: 224px;
       height: 128px;
       top:100%;
-      left: -80px;
+      left: -150px;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
       box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
       border-radius: 6px;
       z-index: 99;
+      padding-left: 5px;
+      padding: 8px;
       .button {
         padding: 5px 10px;
         height: 100%;
+        text-align: left;
+
+        .icon{
+          margin-right: 10px;
+        }
+
         &:hover {
+          background: rgba(87, 108, 108, 0.15);
+          border-radius: 5px;
           .icon {
             color: #969595;
           }
