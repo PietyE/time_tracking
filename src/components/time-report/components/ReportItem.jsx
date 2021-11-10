@@ -75,7 +75,7 @@ function ReportItem({
     date,
   } = editableText
 
-
+  console.log(' dayTitle',  dayTitle);
   const containerRef = useRef(null)
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
@@ -187,7 +187,6 @@ function ReportItem({
     ){
       return
     }
-    console.log('draganDroped', draganDroped)
     setDraganDroped(!draganDroped);
 
     const currentWorkItem = containerRef.current
@@ -342,7 +341,7 @@ function ReportItem({
              />}
           </span>
            <span className="time_report_activity_day">
-              {index === 0 && dayTitle}
+              {index === 0 && !isCreate && dayTitle}
           </span>
           <div className="report-description-wrapper">
               <span className="time_report_activity_select" >
