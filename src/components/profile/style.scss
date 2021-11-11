@@ -145,6 +145,17 @@
     }
 
     &-about{
+
+      .description{
+        display: none;
+
+        &.open{
+          display: block;
+          height: max-content;
+          transition:height 2s linear;
+        }
+      }
+
       p{
         padding: 0px 24px 0;
         font-size: 13px;
@@ -160,10 +171,55 @@
         width: 125px;
         height: 40px;
         align-items: center;
-        background: url("../../images/up-arrow.png");
-        background-repeat: no-repeat;
-        background-position: right 20px  top 11px;
+        cursor: pointer;
+
+        .arrow{
+          background: url("../../images/up-arrow.png");
+          background-repeat: no-repeat;
+          background-position: center;
+          width: 40px;
+          height: 40px;
+
+          &.open{
+            transform: rotate(90deg);
+          }
+        }
       }
     }
   }
+}
+
+.fade-in {
+  animation: fadeIn 2s;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s;
+  -o-animation: fadeIn 2s;
+  -ms-animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+  //0% {display:none;}
+  //100% {display:block;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {display:none;}
+  100% {display:block;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
 }
