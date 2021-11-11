@@ -150,7 +150,7 @@
         height: 92px;
         overflow: hidden;
         transition:all 2s ease-out;
-
+        text-overflow: ellipsis;
         &.open{
           max-height:max-content;
           transition:all 7s ease-out;
