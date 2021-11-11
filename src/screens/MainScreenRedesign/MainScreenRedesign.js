@@ -67,19 +67,15 @@ function MainScreen({
   return (
     <div className="new_design">
       <SideMenu />
-      {/* <Header />
-      <div className="new_design">
-        <SideMenu />
-        <ProjectReportNew />
-      </div> */}
+      {/* <Header /> */}
       <Switch>
         {/* <Route path="/old" component={Header} exct /> */}
-        <Route path="/project" component={ProjectsScreen} exct />
+        {/* <Route path="/old/project" component={ProjectsScreen} exct /> */}
         <Route path="/projectreport" component={ProjectReportNew} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
-        <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
+        {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
-        <Redirect from="/new" to="/projectreport" />
+        {/* <Redirect from="/" to="/projectreport" /> */}
       </Switch>
     </div>
   )

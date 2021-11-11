@@ -65,11 +65,11 @@ function MainScreen({
     <>
       <Header />
       <Switch>
-        <Route path="/projects" component={ProjectsScreen} exct />
-        <Route path="/timereport" component={TimeReportScreen} exct />
-        <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
+        <Route path="/old/projects" component={ProjectsScreen} exct />
+        <Route path="/old/timereport" component={TimeReportScreen} exct />
+        <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} />
 
-        <Redirect from="/" to="/timereport" />
+        {/* <Redirect from="/old" to="/old/timereport" /> */}
       </Switch>
     </>
   )

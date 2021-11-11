@@ -1,8 +1,9 @@
 import React, { memo, useState } from 'react'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+// import { useHistory } from 'react-router'
 
 import { logIn } from 'actions/users'
 import { getUserAuthStatus } from 'selectors/user'
@@ -38,10 +39,12 @@ function Auth(props) {
       </Button>
     </div>
   )
+  
+  const history = useHistory()
 
   if (isAuth) {
-    // return <Redirect to="/timereport" />
-    return <Redirect to="/projectreport" />
+    history.push("/")
+    // return <Redirect to="/projectreport" />
   }
 
   return (
