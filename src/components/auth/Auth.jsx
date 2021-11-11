@@ -40,7 +40,8 @@ function Auth(props) {
   )
 
   if (isAuth) {
-    return <Redirect to="/timereport" />
+    // return <Redirect to="/timereport" />
+    return <Redirect to="/projectreport" />
   }
 
   return (

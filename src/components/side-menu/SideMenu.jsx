@@ -39,8 +39,8 @@ function SideMenu () {
       panelId: "...",
       smallSize: true,
       items: [
-        {icon: clock, label: "Time report", smallSize: true},
-        {icon: people, label: "Vilmates", smallSize: true}
+        {icon: clock, label: "Time report", smallSize: true, pathname: "/timereport"},
+        {icon: people, label: "Vilmates", smallSize: true, pathname: "/vilmates"}
       ]
     }]
     if((userRole === "Accountant" ||
@@ -50,19 +50,19 @@ function SideMenu () {
         panelId: "...",
         smallSize: true,
         items: [
-          {icon: schedule, label: "Total overview"},
-          {icon: coin, label: "Project report", smallSize: true, subItems: [
-            {icon: house, label: "In-house employees"},
-            {icon: arrowDownCircul, label: "Remote employees"},
+          {icon: schedule, label: "Total overview", pathname: "/totaloverview"},
+          {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport", subItems: [
+            {icon: house, label: "In-house employees", pathname: "/inhouseemployees"},
+            {icon: arrowDownCircul, label: "Remote employees", pathname: "/remoteemployees"},
           ]},
-          {icon: basket, label: "Other costs"}
+          {icon: basket, label: "Other costs", pathname: "/othercosts"}
         ]
       },
       {
         panelName: "Management",
         panelId: "...",
         items: [
-          {icon: fileCheck, label: "Project management"}
+          {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
         ]
       })
     } else if (userRole === "Developer") {
@@ -71,7 +71,7 @@ function SideMenu () {
         panelId: "...",
         smallSize: true,
         items: [
-          {icon: coin, label: "Project report", smallSize: true}
+          {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport"}
         ]
 
       })
@@ -81,14 +81,14 @@ function SideMenu () {
           panelId: "...",
           smallSize: true,
           items: [
-            {icon: coin, label: "Project report", smallSize: true}
+            {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport"}
           ]
         },
         {
           panelName: "Management",
           panelId: "...",
           items: [
-            {icon: fileCheck, label: "Project management"}
+            {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
           ]
         })
       }
