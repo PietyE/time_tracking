@@ -11,6 +11,12 @@ import {
   SET_EDIT_USER_ID,
   SET_EXCHANGE_RATES,
   SET_IS_FETCHING_PROJECT_REPORTS,
+  GET_CONSOLIDATE_PROJECT_REPORT,
+  SET_CONSOLIDATE_PROJECT_REPORT,
+  GET_USERS_PROJECT_REPORT,
+  SET_ERROR_USER_PROJECT_REPORT,
+  SET_SUCCESS_USERS_PROJECT_REPORT,
+  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -18,10 +24,10 @@ export const changeSelectedDateProjectsReport = (payload) => ({
   payload,
 })
 
-export const getDeveloperConsolidateProjectReport = (payload) => ({
-  type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,
-  payload,
-})
+// export const getDeveloperConsolidateProjectReport = (payload) => ({
+//   type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,
+//   payload,
+// })
 
 export const setDeveloperConsolidateProjectReport = (payload) => ({
   type: SET_DEV_CONSOLIDATE_PROJECT_REPORT,
@@ -60,12 +66,43 @@ export const setEditUserId = (payload) => ({
   payload,
 })
 
-export const setExchangeRates = (payload) => ({
+export const setExchangeRates = (payload, callback) => ({
   type: SET_EXCHANGE_RATES,
   payload,
+  callback
 })
 
 export const setIsFetchingReports = (payload) => ({
   type: SET_IS_FETCHING_PROJECT_REPORTS,
   payload,
 })
+
+export const getConsolidateProjectReport = (payload) => ({
+  type: GET_CONSOLIDATE_PROJECT_REPORT,
+  payload,
+})
+
+export const setConsolidateProjectReport = (payload) => ({
+  type: SET_CONSOLIDATE_PROJECT_REPORT,
+  payload,
+})
+
+export const getUsersProjectReport = (payload) => ({
+  type: GET_USERS_PROJECT_REPORT,
+  payload,
+})
+
+export const setUsersProjectReport = (payload) => ({
+  type: SET_SUCCESS_USERS_PROJECT_REPORT,
+  payload,
+})
+
+export const setErrorUsersProjectReport = (payload) => ({
+  type: SET_ERROR_USER_PROJECT_REPORT,
+  payload,
+})
+
+// export const setReportHistory = (data) => ({
+//   type: SAVE_COMMENTS_HISTORY,
+//   payload: {data},
+// })

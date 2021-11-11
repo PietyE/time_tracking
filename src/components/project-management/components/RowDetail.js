@@ -2,11 +2,11 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
-import {convertHours} from '../../../utils/common'
+import {convertMinutesToHours} from '../../../utils/common'
 import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
-import { getProjectReportByIdSelector } from '../../../reducers/projects-management'
+import { getIsFetchingPmPageSelector, getProjectReportByIdSelector } from '../../../reducers/projects-management'
 
-const RowDetail = ({ row, currentProjectReport }) => {
+const RowDetail = ({ row, currentProjectReport, isFetching }) => {
   const dispatch = useDispatch()
 
     const _getProjectReportById = useCallback(
@@ -32,11 +32,11 @@ const RowDetail = ({ row, currentProjectReport }) => {
 
   useEffect(() => {
     if (currentProjectReport) {
-      const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true || report.hours)
+      const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true || report.minutes)
       const reformatProjects = activeProjectReports.map(user => ({
         user: user.userName,
         occupancy: user.is_full_time ? 'Full-time' : 'Part-time',
-        hours: convertHours(user.hours) || 0,
+        hours: convertMinutesToHours(user.minutes) || 0,
         report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
         actions: '',
 
@@ -65,7 +65,7 @@ const RowDetail = ({ row, currentProjectReport }) => {
         <Table/>
         <Table
           messages = {{
-            noData: ''
+            noData: isFetching?'':'There are no developers in this project yet.'
           }}
         />
       </Grid>
@@ -75,6 +75,7 @@ const RowDetail = ({ row, currentProjectReport }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   currentProjectReport: getProjectReportByIdSelector(state, ownProps?.row?.id),
+  isFetching: getIsFetchingPmPageSelector(state),
 })
 
 export default connect(mapStateToProps)(RowDetail)

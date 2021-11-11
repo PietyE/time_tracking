@@ -24,4 +24,26 @@ export const getUserAuthStatus = createSelector(
   isAuth => isAuth
 )
 
-export const getErrorUserSelector = state => state.profile.error
+export const getUserRoleText = createSelector([
+  getRoleUser
+  ],
+  (roleNumber) => {
+       switch(roleNumber){
+          case 1: {
+            return 'Developer'
+          }
+          case 2: {
+            return 'Accountant'
+          }
+          case 3: {
+            return 'Admin'
+          }
+          case 4: {
+            return 'Project manager'
+          }
+          default: {
+            return 'NoRole'
+          }
+       }
+  }
+)

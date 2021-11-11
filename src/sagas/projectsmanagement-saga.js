@@ -25,15 +25,18 @@ export function* getAllProjects() {
   try {
     yield put(setFetchingPmPage(true))
     const selectedPmId = yield select(getSelectedPmIdSelector)
-    const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-    const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
-    yield put(setAllProjects(response.data))
-    const selectedProject = yield select(getShownProjectSelector)
+      if(selectedPmId){
+      const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+      const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
+      yield put(setAllProjects(response.data))
+      const selectedProject = yield select(getShownProjectSelector)
 
-    if(!isEmpty(selectedProject)){
-      const projectId = selectedProject?.id
-      const currentProject = response.data.find(el => el.id === projectId)
-      yield put(setShownProject(currentProject))
+      if(!isEmpty(selectedProject)){
+        const projectId = selectedProject?.id
+        const currentProject = response.data.find(el => el.id === projectId)
+        yield put(setShownProject(currentProject))
+      }
+
     }
 
   } catch (error) {
@@ -69,7 +72,7 @@ export function* getProjectReportById(action) {
         projectId: el.project.id,
         userId: el.user.id,
         userName: el.user.name,
-        hours: el.hours,
+        minutes: el.total_minutes,
         is_full_time: el.is_full_time,
         is_active: el.is_active,
       }),
