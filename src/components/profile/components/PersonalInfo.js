@@ -27,7 +27,7 @@ function PersonalInfo(){
                     <h4 className="profile__container-title small">About</h4>
                 </div>
                 <div className="row ">
-                   <p className={'description fade-in ' +(longDescription?'open':'')}>
+                   <p className={'description' +(longDescription?'open':'')}>
                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut mi ultrices odio aliquet sollicitudin. Donec pulvinar vestibulum odio, ut congue neque sollicitudin ac. Etiam sed augue non dolor iaculis mollis. Nunc sollicitudin ante nibh, a pretium est varius et. Nullam at rutrum justo, in tempor magna. Aliquam eget tellus et dolor suscipit luctus nec vitae orci. Fusce luctus, erat ac laoreet suscipit, enim lacus rhoncus ligula, sagittis placerat lectus est et orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam elementum vehicula elit, ac consequat libero dictum quis. Ut suscipit neque urna, at fermentum nibh mollis eget. Praesent et lacus nec enim tincidunt dignissim. Nam lobortis, quam a dapibus lacinia, purus odio volutpat augue, in pellentesque purus dui nec eros.
 
                               Duis sit amet enim et mauris venenatis tempus id ut purus. Nullam pellentesque ac turpis at consectetur. Donec a purus ut velit luctus sagittis. Aliquam tempus semper augue at tempor. Curabitur dapibus lacinia augue, eu scelerisque arcu hendrerit eleifend. Nulla ac cursus est. Sed ultricies tortor ac nunc porta, nec vulputate lectus maximus. Nam pharetra dignissim elit vitae placerat. Praesent dapibus urna lectus, in posuere massa volutpat at. Aliquam erat volutpat. Donec hendrerit lectus a lacus suscipit auctor. Integer malesuada elit sit amet lacus auctor, nec ullamcorper ipsum suscipit.
@@ -38,10 +38,7 @@ function PersonalInfo(){
 
                               Duis egestas ipsum a eros ullamcorper, ac venenatis leo iaculis. Etiam volutpat condimentum odio, eu commodo mauris dictum eu. Vivamus viverra dignissim massa vitae placerat. Curabitur tempor semper libero et convallis. Sed nec bibendum lorem. Integer sagittis turpis ac lacus volutpat dictum. Pellentesque consequat at lorem eget porttitor. Praesent nisi elit, dignissim vitae nunc vitae, viverra dapibus sapien.
                         </p>
-                        <p className={'description fade-in '+(!longDescription?'open':'')}>Глеб не любит просто “перемещать пиксели по экрану”, ему интересно делать
-                            делать продукты действительно лучше. Так, благодаря UX аналитике
-                            Глеб привлек 1 миллион новых пользователей в SaaS продукт. Читайте ответы на традиционные вопросы ниже :)
-                        </p>
+
 
                 </div>
                 <div className="row">
