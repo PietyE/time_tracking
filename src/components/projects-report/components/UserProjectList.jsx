@@ -12,7 +12,7 @@ const UserProjectList = (props) => {
 
   const user = userDetails[userId]
   if (!user) {
-    return <></>
+    return null
   }
   const { isFetching, error, success, projects } = user
   const showContent = !!(projects && projects.length)
@@ -24,7 +24,7 @@ const UserProjectList = (props) => {
         <Spinner animation='border' variant='success' />
       </div>
       }
-      {!isFetching && error &&
+      {!isFetching && !!error &&
       <p className='rate_item m-0 py-3 p-3 text-danger'>An error occurred while fetching project list</p>}
       {!isFetching && success && !showContent && <p>No data to display</p>}
       {!isFetching && success && showContent &&
