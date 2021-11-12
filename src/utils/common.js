@@ -56,3 +56,19 @@ export const convertMinutesToHours = (data) => {
     return 0
   }
 }
+
+export const  currentItemsGets =(pageSize, currentPage, totalItems)=>{
+  let from ;
+  let to ;
+  if(currentPage>1){
+    from = (currentPage-1) * pageSize;
+    to = currentPage * pageSize;
+  }else {
+    from = 0;
+    to = currentPage * pageSize;
+  }
+
+  let res = totalItems.slice(from, to);
+  console.log('res', res)
+  return res;
+}

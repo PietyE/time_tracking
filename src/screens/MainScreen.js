@@ -20,6 +20,7 @@ import { getCurrenciesList, getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector } from '../reducers/projects-report'
 import ProjectManagementScreen from './ProjectManagementScreen'
 import PmPrivateRoute from '../Routes/PmPrivatRoute'
+import PeopleScreen from "./PeopleScreen";
 
 function MainScreen({
   isAuth,
@@ -68,7 +69,7 @@ function MainScreen({
         <Route path="/projects" component={ProjectsScreen} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
         <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
-
+        <Route path="/people" component={PeopleScreen}/>
         <Redirect from="/" to="/timereport" />
       </Switch>
     </>
