@@ -40,7 +40,6 @@ function ProjectData (props) {
   //   developer_project_id: userProjects.id,
   //   selectedDate,
   // }
-  // debugger
   return (
     <div className="project_data">
       <div className="project_data_header">

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 function Project (props) {
   const { project, stateDataForLink } = props;
-  // debugger
 
   const isNull = (value) => {
     if (value > 0) {
