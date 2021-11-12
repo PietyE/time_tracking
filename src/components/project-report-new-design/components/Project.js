@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 function Project (props) {
   const { project, stateDataForLink } = props;
+  // debugger
 
   const isNull = (value) => {
     if (value > 0) {
@@ -14,7 +15,8 @@ function Project (props) {
   
   return (
     <div className="projects_data">
-      <span className="span_project_name">{<Link
+      <span className="span_project_name">
+        {<Link
                   to={{
                     pathname: '/timereport',
                     state: stateDataForLink,
