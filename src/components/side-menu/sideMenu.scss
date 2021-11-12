@@ -139,9 +139,12 @@
       margin-top: 10px;
 
       .subitem {
-        margin-left: 40px;
         position: relative;
         width: auto;
+
+        .sidebar_menu_button {
+          padding-left: 40px;
+        }
       }
     
       .sidebar_menu_button {

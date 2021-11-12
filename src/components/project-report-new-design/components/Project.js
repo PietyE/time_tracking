@@ -14,7 +14,8 @@ function Project (props) {
   
   return (
     <div className="projects_data">
-      <span className="span_project_name">{<Link
+      <span className="span_project_name">
+        {<Link
                   to={{
                     pathname: '/timereport',
                     state: stateDataForLink,

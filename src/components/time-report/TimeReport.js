@@ -255,10 +255,6 @@ function TimeReport(props) {
           )}
         </div>
       </div>
-      <div className="new_design">
-        <SideMenu />
-        <ProjectReportNew />
-      </div>
     </>
   )
 }
