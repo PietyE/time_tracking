@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -18,6 +18,7 @@ function SelectMonth({
   selectedDate = {},
   setNewData,
   extraClassNameContainer,
+  showYear
 }) {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
@@ -85,10 +86,22 @@ function SelectMonth({
 
   const longMonthName = monthsNamesLong[currentMonth]
 
-  const longMonthNameText =
-    selectedDate.year && selectedDate.year !== year
-      ? `${longMonthName}, ${selectedDate.year}`
-      : longMonthName
+  // const longMonthNameText =
+  //   selectedDate.year && selectedDate.year !== year
+  //     ? `${longMonthName}, ${selectedDate.year}`
+  //     : longMonthName
+
+  const longMonthNameText = useMemo(()=>{
+    if(selectedDate){
+        if(showYear){
+          return `${longMonthName}, ${selectedDate.year} ` 
+        } 
+        if(selectedDate.year && selectedDate.year !== year)  {
+          return `${longMonthName}, ${selectedDate.year}`  
+        }
+    }
+    return longMonthName
+  }, [selectedDate, longMonthName, showYear])
 
   const dissabledNextYearButton = currentYear === year
   const disabledNextMonthButton =
