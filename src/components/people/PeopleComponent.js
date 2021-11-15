@@ -14,8 +14,6 @@ import Pagination from "../ui/pagination/Pagination";
 function PeopleComponent() {
     const dispatch = useDispatch()
     const users = useSelector(getDevelopersSelector)
-    console.log('users', users);
-   // let totalCount = useSelector(getTotalItemCount);
     let totalCount = users?users?.length:0;
     let pageSize = useSelector(getPageSize);
     let currentPage = useSelector(getCurrentPage)
@@ -39,7 +37,7 @@ function PeopleComponent() {
 
     return<div className="container ">
         <h1 className="page-title">Vilmates</h1>
-        <div className="row">
+        <div className="row justify-content-center">
             <Pagination
                 totalCount={totalCount}
                 pageSize={pageSize}
