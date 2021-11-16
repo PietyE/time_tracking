@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import {faCaretDown, faChevronDown} from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
 
@@ -141,7 +141,7 @@ function Select(props) {
           </span>
         )}
         <FontAwesomeIcon
-          icon={faCaretDown}
+          icon={faChevronDown}
           className={
             isOpen && !classNameOpen
               ? 'select_title_icon active'

@@ -18,7 +18,7 @@ function Pagination({totalCount, pageSize, currentPage, paginationDeiplayed }){
     })
 
     return <div>
-        <h4>Pagination</h4>
+
         <ul className='pagination'>
             {pagesList}
         </ul>
