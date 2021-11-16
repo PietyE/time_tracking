@@ -24,7 +24,7 @@ function PersonalInfo(){
             <hr/>
             <div className="personal__info-about">
                 <div className="row">
-                    <h4 className="profile__container-title small">About</h4>
+                    <h5 className="profile__container-title small">About</h5>
                 </div>
                 <div className="row ">
                    <p className={'description' +(longDescription?'open':'')}>

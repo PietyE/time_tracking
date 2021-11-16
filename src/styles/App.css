@@ -34,3 +34,20 @@
 .error_page h1 {
   text-align: center;
 }
+
+.more{
+  display: flex;
+  margin: 0 25px 25px;
+  color: #009C98;
+  font-size: 14px;
+  line-height: 24px;
+  text-decoration: none;
+  height: 40px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.more:hover{
+  color: #009C98;
+  text-decoration: none;
+}

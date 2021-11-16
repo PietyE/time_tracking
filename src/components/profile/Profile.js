@@ -7,11 +7,11 @@ import {
 } from 'selectors/user'
 import {useSelector } from 'react-redux'
 import "./style.scss";
+import Comments from "./components/Comments";
+import BestEmployee from "./components/BestEmployee";
 
 function Profile(){
    const profile = useSelector(getProfile);
-
-   console.log('profile', profile);
 
    let  {
        name,
@@ -22,6 +22,9 @@ function Profile(){
     return<div className='container profile'>
         <h1 className="profile-title">My profile</h1>
         <div className="row">
+            <a href="#" className="more back-to"><span className='arrow'></span>Back to people list</a>
+        </div>
+        <div className="row">
             <div className="col-lg-4">
                 <AvatarInfo
                     name={name}
@@ -30,7 +33,9 @@ function Profile(){
                 <WorksOn/>
             </div>
             <div className="col-lg-8">
+                <BestEmployee/>
                 <PersonalInfo/>
+                <Comments profile={profile}/>
             </div>
         </div>
     </div>
