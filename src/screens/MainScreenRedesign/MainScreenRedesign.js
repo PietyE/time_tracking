@@ -23,6 +23,7 @@ import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.css'
+import InHouseEmployees from 'components/in-house-employees'
 
 function MainScreen({
   isAuth,
@@ -72,6 +73,7 @@ function MainScreen({
         {/* <Route path="/old" component={Header} exct /> */}
         {/* <Route path="/old/project" component={ProjectsScreen} exct /> */}
         <Route path="/projectreport" component={ProjectReportNew} exct />
+        <Route path="/inhouseemployees" component={InHouseEmployees} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 

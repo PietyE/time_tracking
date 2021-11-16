@@ -1,0 +1,88 @@
+import React, { useEffect, useCallback, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import CurrencySelect from './components/CurrencySelect';
+import { getSelectedDateTimeReport } from 'selectors/timereports';
+
+import check from 'images/inHouseEmployees/check.svg'
+import { InHouseEmployeesContext } from 'context/inHouseEmployees-context';
+import { setExchangeRates } from 'actions/projects-report'
+
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+
+import './inHouseEmployees.scss'
+
+function InHouseEmployees () {
+  const [currencyValue, setCurrencyValue] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [currentCurrencyId, setCurrentCurrencyId] = useState(null)
+  const selectedDate = useShallowEqualSelector(getSelectedDateTimeReport);
+  const [opened, setOpened] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(selected && selected.rate !== currencyValue) {
+      setCurrencyValue(selected.rate)
+      setCurrentCurrencyId(selected.currencyId)
+    }
+  }, [selected])
+
+  const buttonRouteTo = useCallback((item) => {
+    if (item) {
+      setSelected(item)
+    }
+  }, [])
+
+  const changeValue = useCallback((e) => {
+    if(e.target.value >= 0) {
+      setCurrencyValue(e.target.value)
+    } else {
+      console.log("Write a positive number")
+    }
+  }, [])
+
+  const handleSaveExchangeRate = () => {
+    const data = {
+      date: new Date(selectedDate.year, selectedDate.month + 1)
+        .toISOString()
+        .slice(0, 10),
+      rate: currencyValue,
+      currency: currentCurrencyId
+    }
+    dispatch(setExchangeRates(data, clearInput))
+    setOpened(false)
+    // setIsEdit(false)
+  }
+
+  const onOpen = () => {
+    setOpened(!opened)
+  }
+
+  const clearInput = () => {
+    setCurrencyValue('')
+    setCurrentCurrencyId(null)
+  }
+
+  return (
+    <InHouseEmployeesContext.Provider value={{selected, opened, onOpenDropDown: onOpen, onItemClick: buttonRouteTo}}>
+      <div className="in_house_employees_page">
+        <div className="header">
+          <span className="header_text">In-house-employees</span>
+          <div className="selected_currency">
+            <CurrencySelect />
+          </div>
+          <div className="row">
+            <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="10" height="1.5" fill="#616161"/>
+            </svg>
+          </div>
+          <input type="number" className="currency_value" value={currencyValue} onChange={changeValue}/>
+          <div className="check_button">
+            <img src={check} className="check" onClick={handleSaveExchangeRate}/>
+          </div>
+        </div>
+
+      </div>
+    </InHouseEmployeesContext.Provider>
+  )
+}
+export default InHouseEmployees;

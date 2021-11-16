@@ -295,17 +295,139 @@
 }
 
 .side_menu_container_close {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 24px;
-  height: auto;
-  left: 0px;
-  top: 0px;
-  background: white;
-  box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(20px);
-  cursor: pointer;
+  // position: relative;
+  // display: flex;
+  // flex-direction: column;
+  // width: 24px;
+  // height: auto;
+  // left: 0px;
+  // top: 0px;
+  // background: white;
+  // box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1);
+  // backdrop-filter: blur(20px);
+  // cursor: pointer;
+
+  // .side_menu_container {
+    width: 78px;
+
+    .side_menu_wrap {
+      flex-direction: column;
+      margin-top: 0px;
+
+      .side_menu_company_logo{
+        width: 78px;
+        height: 88px;
+        padding-top: 29px;
+        padding-bottom: 23px;
+        padding-left: 17px;
+        padding-right: 17px;
+        margin-left: 0px;
+        margin-top: 0px;
+        border: 1px solid rgba(201, 201, 198, 0.6);
+      }
+
+      .side_menu_company_name {
+        display: none;
+      }
+
+      .side_menu_button {
+        width: 78px;
+        height: 72px;
+        padding-top: 20px;
+        margin-left: 0px;
+        margin-top: 0px;
+        border: 1px solid rgba(201, 201, 198, 0.6);
+      }    
+    }
+
+    .side_menu_user_info {
+      height: 94px;
+      margin: 0px;
+      border: 1px solid rgba(201, 201, 198, 0.6);
+    
+      .user_avatar {
+        height: 44px;
+        width: 44px;
+        margin: 25px 17px 25px 17px;
+      }
+
+      .user_info {
+        display: none;
+      }
+    }
+
+    .div_row {
+      display: none;
+    }
+
+    .sidebar_menu {
+      width: 78px;
+      margin-top: 14px;
+    
+      .panel_name,
+      .item {
+        display: none;
+      }
+
+      .panel_items {
+        width: 78px;
+        margin: 0px;
+
+        .sidebar_menu_button,
+        .sidebar_menu_button.opened {
+          margin: 0;
+          height: 44px;
+          padding: 0 29px 0 27px;
+
+          &.hasChildren {
+            .up_arrow {
+              display: none;
+            }
+          }
+          &.opened {
+            .up_arrow {
+              display: none;
+            }
+          }
+
+          .sidebar_img {
+            width: 22px;
+            height: 22px;
+            margin: 0px;
+
+          }
+        }
+
+        .subitem {
+          margin: 0px;
+        }
+      }
+    }
+
+    .div_row2 {
+      display: block;
+      margin-top: 85px;
+    }
+
+    .sidebar_footer {
+      width: 78px;
+      margin-top: 14px;
+      .sidebar_menu_button {
+          margin: 0;
+          height: 44px;
+          padding: 0 29px 0 27px;
+
+        .sidebar_img {
+          width: 22px;
+          height: 22px;
+          margin: 0px;
+        }
+        .item {
+          display: none;
+        }
+      }
+    }
+  // }
 }
 
 @media screen and (max-width: 1440px) {

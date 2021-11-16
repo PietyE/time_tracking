@@ -1,0 +1,188 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.in_house_employees_page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #F3F3F3;
+  padding: 35px 0 0 40px;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+
+    .header_text {
+      display: flex;
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 36px;
+      letter-spacing: 0.018em;     
+      color: #000000;  
+      width: auto;
+      height: 36px;
+    }
+
+    .selected_currency {
+
+      .currency {
+        margin: 0 0 0 439px;
+        height: 40px;
+        background-color: #FFFFFF;
+        display: flex;
+        padding: 8px 10px 8px 14px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        border-radius: 4px;
+
+        .flag {
+          width: 22px;
+          height: 22px;
+          // margin-top: 9px;
+        }
+
+        .currency_name {
+          width: 33px;
+          height: 24px;
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 24px;
+          text-align: center;
+          letter-spacing: 0.03em;
+          color: #222222;
+          margin: 0 0 0 10px;
+        }
+
+        .up_arrow {
+          transform: rotate(180deg);
+          width: 18px;
+          height: 18px;
+          margin: 0 0 0 10px;
+        }
+      }
+
+      .drop_down_menu {
+        width: 159px;
+        background: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+        z-index: 2;
+        display: flex;
+        flex-direction: row;
+        text-align: left;
+        position: absolute;
+        left: 1000px;
+        top: 79px;
+
+        .currency_label {
+          height: 40px;
+          background: #FFFFFF;
+          border-radius: 5px;
+          width: 143px;
+          margin: 8px 8px 8px 8px;
+          padding: 6px 0 10px 8px;
+
+          &:hover {
+            background: rgba(87, 108, 108, 0.15);
+            cursor: pointer;
+          }
+
+          .flag {
+            width: 22px;
+            height: 22px;
+          }
+
+          .name {
+            margin-left: 10px;
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            letter-spacing: 0.03em;
+            color: #222222;
+          }
+
+          .dash {
+            margin-left: 5px;
+          }
+
+          .value {
+            margin-left: 5px;
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            letter-spacing: 0.03em;
+            color: #222222;
+          }
+        }
+      }
+    }
+
+    .row {
+      display: flex;
+      margin: 20px 0 0 5px;
+    }
+
+    .currency_value {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 16px;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      border-radius: 4px;
+      font-family: Montserrat;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      letter-spacing: 0.03em;
+      color: #222222;
+      margin: 0 0 0 5px;
+      height: 40px;
+      width: 78px;
+    }
+
+    .check_button {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background: #009C98;
+      border-radius: 4px;
+      margin-left: 15px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+
+      .check {
+        width: 16px;
+        height: 13px;
+      }
+    }
+  }
+}

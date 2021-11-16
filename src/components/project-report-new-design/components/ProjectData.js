@@ -26,7 +26,6 @@ function ProjectData (props) {
   }, [])
 
   const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
-  console.log(userProjects)
 
   // const {
   //   working_time: hours,
