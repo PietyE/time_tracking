@@ -5,9 +5,8 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import { getProjects, getDeveloperProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
-import TimeReportScreen from './TimeReportScreen'
-import ProjectsScreen from './ProjectsScreen'
-import ProfileScreen from "./ProfileScreen";
+import TimeReportScreen from '../TimeReportScreen'
+import ProjectsScreen from '../ProjectsScreen'
 
 import Header from 'components/header'
 import {
@@ -17,10 +16,13 @@ import {
   getProfileName,
   getProfileEmail,
 } from 'selectors/user'
-import { getCurrenciesList, getRatesList } from '../actions/currency'
-import { getSelectedMonthSelector } from '../reducers/projects-report'
-import ProjectManagementScreen from './ProjectManagementScreen'
-import PmPrivateRoute from '../Routes/PmPrivatRoute'
+import { getCurrenciesList, getRatesList } from '../../actions/currency'
+import { getSelectedMonthSelector } from '../../reducers/projects-report'
+import ProjectManagementScreen from '../ProjectManagementScreen'
+import PmPrivateRoute from '../../Routes/PmPrivatRoute'
+import SideMenu from 'components/side-menu'
+import ProjectReportNew from 'components/project-report-new-design'
+import './MainScreen.css'
 
 function MainScreen({
   isAuth,
@@ -63,17 +65,19 @@ function MainScreen({
   }
 
   return (
-    <>
-      <Header />
+    <div className="new_design">
+      <SideMenu />
+      {/* <Header /> */}
       <Switch>
-        <Route path="/old/projects" component={ProjectsScreen} exct />
-        <Route path="/old/timereport" component={TimeReportScreen} exct />
-        <Route path="/profile" component={ProfileScreen} exct />
-        <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} />
+        {/* <Route path="/old" component={Header} exct /> */}
+        {/* <Route path="/old/project" component={ProjectsScreen} exct /> */}
+        <Route path="/projectreport" component={ProjectReportNew} exct />
+        <Route path="/timereport" component={TimeReportScreen} exct />
+        {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
-        {/* <Redirect from="/old" to="/old/timereport" /> */}
+        {/* <Redirect from="/" to="/projectreport" /> */}
       </Switch>
-    </>
+    </div>
   )
 }
 
