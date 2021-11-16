@@ -1,4 +1,4 @@
-import DeveloperFilter from "./DeveloperFilter";
+import Filter from "./Filter";
 
 
-export default DeveloperFilter;
+export default Filter;

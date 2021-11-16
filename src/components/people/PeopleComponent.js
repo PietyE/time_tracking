@@ -8,9 +8,10 @@ import {getCurrentItems, getCurrentPage, getPageSize} from "../../selectors/pagi
 import {setCurrentItems} from "../../actions/pagination";
 import Pagination from "../ui/pagination/Pagination";
 import StatisticBlock from "../ui/statistic";
-import DeveloperFilter from "../ui/devekoper-filter";
+import Filter from "../ui/filter";
 import './style.scss'
 import Search from "../ui/search/Search";
+
 
 
 
@@ -50,9 +51,15 @@ function PeopleComponent() {
 
             </div>
         </div>
-        <div className="row filters-block">
-            <Search/>
-            <DeveloperFilter/>
+        <div className="row justify-content-between">
+            <div className="filters-block row">
+                <Search/>
+                <Filter type={'developer'} />
+                <Filter type={'city'}/>
+            </div>
+            <div className="filters-block">
+                <a href="#" className='btn btn-reset'>Reset filters</a>
+            </div>
         </div>
         <div className="row">
             {usersList}
@@ -67,7 +74,6 @@ function PeopleComponent() {
                 />
             </div>
         </div>
-
     </div>
 }
 

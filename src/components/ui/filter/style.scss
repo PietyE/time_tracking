@@ -1,4 +1,4 @@
-.developer-filter{
+.filter{
   position: relative;
   margin-left: 20px;
   &::before{
@@ -14,7 +14,19 @@
     z-index: 99999;
   }
 
+  .select_container{
+    max-width: 100%;
+  }
+
   .select_title_container{
     margin-left: 40px;
   }
+
+  &.city{
+    &::before {
+      background-image: url("../../../images/building.svg") !important;
+    }
+  }
+
+
 }
