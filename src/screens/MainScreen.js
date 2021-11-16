@@ -69,7 +69,7 @@ function MainScreen({
         <Route path="/old/projects" component={ProjectsScreen} exct />
         <Route path="/old/timereport" component={TimeReportScreen} exct />
         <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} />
-        <Route path="/people" component={PeopleScreen}/>
+        <Route path="/people" component={PeopleScreen} exct/>
         {/* <Redirect from="/old" to="/old/timereport" /> */}
       </Switch>
     </>
