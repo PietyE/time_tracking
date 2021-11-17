@@ -9,6 +9,8 @@ import {useSelector } from 'react-redux'
 import "./style.scss";
 import Comments from "./components/Comments";
 import BestEmployee from "./components/BestEmployee";
+import LikesInfo from "./components/LikesInfo";
+import ContactDetails from "./components/ContactDetails";
 
 function Profile(){
    const profile = useSelector(getProfile);
@@ -30,7 +32,9 @@ function Profile(){
                     name={name}
                     imageUrl={imageUrl}
                 />
+                <LikesInfo/>
                 <WorksOn/>
+                <ContactDetails/>
             </div>
             <div className="col-lg-8">
                 <BestEmployee/>

@@ -7,7 +7,7 @@ function CreateComment({profile}){
             <div className="comment__create-avatar">
                 <img src={imageUrl} alt=""/>
             </div>
-            <textarea className="comment__create-textarea"/>
+            <textarea placeholder='Add a comment about Larov Dmytro' className="comment__create-textarea"/>
         </div>
     </div>
 }

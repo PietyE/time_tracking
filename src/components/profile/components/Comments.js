@@ -9,6 +9,9 @@ function Comments({profile}){
        <h4 className='profile__container-title'>Comments</h4>
         <CreateComment profile={profile}/>
         <CommentItem/>
+        <div className="row">
+            <a href="#" className="btn more">Show more</a>
+        </div>
     </div>
 }
 
