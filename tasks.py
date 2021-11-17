@@ -7,59 +7,44 @@ import paramiko
 from invoke import task
 
 # =====   Server IPs    =====
-DEV_SERVER_IP = "134.209.240.110"
+DEV_SERVER_IP = None
 TEST_SERVER_IP = None
-STAGE_SERVER_IP = None
-PROD_SERVER_IP = "157.230.98.201"
+STAGE_SERVER_IP = "159.89.4.200"
+PROD_SERVER_IP = None
 
 # =====    SSH Paths    =====
 # absolute path on your local machine
-DEV_SERVER_SSH_KEY_PATH = ".ssh/TimeTrackingFrontend.pem"
+DEV_SERVER_SSH_KEY_PATH = None
 TEST_SERVER_SSH_KEY_PATH = None
-STAGE_SERVER_SSH_KEY_PATH = None
-PROD_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\id_rsa"
+STAGE_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\timetrackingstage\\id_rsa"
+PROD_SERVER_SSH_KEY_PATH = None
 
 # =====   HOST USERs   =====
-DEV_SERVER_HOST_USER = "root"
+DEV_SERVER_HOST_USER = None
 TEST_SERVER_HOST_USER = None
-STAGE_SERVER_HOST_USER = None
-PROD_SERVER_HOST_USER = "root"
+STAGE_SERVER_HOST_USER = "root"
+PROD_SERVER_HOST_USER = None
 
 CONFIG = {
-    "dev": {
-        "ip": DEV_SERVER_IP,
-        "ssh_key_path": DEV_SERVER_SSH_KEY_PATH,
-        "host_user": DEV_SERVER_HOST_USER,
-        "project_name": "timetracking-front",
-        "env_variables": {
-            "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
-            "NPM_CONFIG_PRODUCTION": "true",
-            "YARN_PRODUCTION": "true",
-            "NODE_OPTIONS": '"--max_old_space_size=4096"'
-        },
-        "remote_branch_name": "development",
-        "local_branch_name": "dev",
-        # http://mikebian.co/sending-dokku-container-logs-to-papertrail
-        "domain": "timetracking.vilmate.com",
-    },
+    "dev": {},
     "test": {},
-    "stage": {},
-    "prod": {
-    "ip": PROD_SERVER_IP,
-        "ssh_key_path": PROD_SERVER_SSH_KEY_PATH,
-        "host_user": PROD_SERVER_HOST_USER,
-        "project_name": "time-tracking-frontend",
+    "stage": {
+        "ip": STAGE_SERVER_IP,
+        "ssh_key_path": STAGE_SERVER_SSH_KEY_PATH,
+        "host_user": STAGE_SERVER_HOST_USER,
+        "project_name": "timetracking-front",
         "env_variables": {
             "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
             "NPM_CONFIG_PRODUCTION": "true",
             "YARN_PRODUCTION": "true",
             "NODE_OPTIONS": '"--max_old_space_size=2048"'
         },
-        "remote_branch_name": "master",
-        "local_branch_name": "master",
+        "remote_branch_name": "stage",
+        "local_branch_name": "stage",
         # http://mikebian.co/sending-dokku-container-logs-to-papertrail
-        "domain": "internal.vilmate.com",
+        "domain": "stage-timetracking.vilmate.com",
     },
+    "prod": {},
 }
 
 
@@ -726,7 +711,7 @@ def deploy(ctx, env, branch=None, force=False):
 def setup_server(ctx, env):
     check_server_connection(ctx, env)
     install_dokku(ctx, env)
-    # add_key_to_dokku(ctx, env)  # use this command only once
+    add_key_to_dokku(ctx, env)  # use this command only once
     create_project(ctx, env)
     create_nginx_conf_files(ctx, env)
 
