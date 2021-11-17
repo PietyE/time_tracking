@@ -2,12 +2,13 @@ import React from 'react'
 import { selectCurrencyList } from '../../../selectors/currency'
 import { useSelector } from 'react-redux'
 import Select from 'components/ui/select'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 function CurrencySelect(props) {
 
   const {parentHandler, selectedCurrency} = props;
 
-  const currenciesList = useSelector(selectCurrencyList)
+  const currenciesList = useShallowEqualSelector(selectCurrencyList)
 
   const result = currenciesList
     .filter(item => item.numericCode !== '980')

@@ -176,6 +176,12 @@ class Api {
       url,
     })
   }
+
+  getData = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
 
 

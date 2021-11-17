@@ -11,6 +11,7 @@ import {
   SET_IS_FETCHING_PROJECT_REPORTS,
   SET_CONSOLIDATE_PROJECT_REPORT,
   LOG_OUT,
+  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -43,6 +44,7 @@ const initialState = {
   developerProjectInProjectReport: [],
   editingUserId: '',
   userId: '',
+  // reportHistory: []
 }
 
 export const projectsReport = (state = initialState, action) => {
@@ -87,6 +89,12 @@ export const projectsReport = (state = initialState, action) => {
         ...state,
         reportsRefactored: [],
       }
+    // case SAVE_COMMENTS_HISTORY:
+    //   const {data} = action.payload
+    //   return {
+    //     ...state,
+    //     reportHistory: data
+    //   }  
     default:
       return state
   }
