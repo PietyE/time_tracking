@@ -44,10 +44,10 @@ function CurrencySelect (props) {
 
   return (
     <>
-      <div className="currency" onClick={contextType.onOpenDropDown}>
+      <div className={`currency  ${contextType.opened ? "open_menu" : "close_menu"} `} onClick={contextType.onOpenDropDown}>
         <img src={flag} className="flag" /> 
         <span className="currency_name">{currency}</span>
-        <img src={upArrow} className="up_arrow" />  
+        <img src={upArrow} className="up_arrow"/>  
       </div>
       {!!contextType.opened &&
         <div className="drop_down_menu">
