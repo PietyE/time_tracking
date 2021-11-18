@@ -16,7 +16,7 @@ PROD_SERVER_IP = None
 # absolute path on your local machine
 DEV_SERVER_SSH_KEY_PATH = None
 TEST_SERVER_SSH_KEY_PATH = None
-STAGE_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\timetrackingstage\\id_rsa"
+STAGE_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\id_rsa"
 PROD_SERVER_SSH_KEY_PATH = None
 
 # =====   HOST USERs   =====
@@ -34,6 +34,7 @@ CONFIG = {
         "host_user": STAGE_SERVER_HOST_USER,
         "project_name": "timetracking-front",
         "env_variables": {
+            "ENV_BUILD": ".env.stage",
             "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
             "NPM_CONFIG_PRODUCTION": "true",
             "YARN_PRODUCTION": "true",
@@ -137,7 +138,7 @@ def add_key_to_dokku(ctx, env):
     config = CONFIG[env]
 
     ctx.run(
-        f"cat ~/.ssh/id_rsa.pub | ssh -i {config['ssh_key_path']} "
+        f"cat ~/.ssh/timetrackingstage/id_rsa.pub | ssh -i {config['ssh_key_path']} "
         f"-o 'IdentitiesOnly yes' "
         f"{config['host_user']}@{config['ip']} sudo dokku ssh-keys:add $USER",
         pty=True,
@@ -176,7 +177,7 @@ def create_nginx_conf_files(ctx, env, client):
     if not project_name:
         print('"project_name" should be set in config')
 
-    print(f"Sniffing dirrectory /home/dokku/{project_name}/ ...")
+    print(f"Sniffing directory /home/dokku/{project_name}/ ...")
 
     stdin, stdout, stderr = client.exec_command(f"ls -la /home/dokku/{project_name}/")
     stdout = list(stdout)
@@ -410,7 +411,7 @@ def create_env_variables(ctx, env, client):
         print('"env_variables" and "project_name" should be set')
         return
 
-    stdin, stdout, stderr = client.exec_command(f"dokku config {project_name}")
+    stdin, stdout, stderr = client.exec_command(f"dokku config:show {project_name}")
 
     err = list(stderr)
     if err:
@@ -639,7 +640,7 @@ def install_letsencrypt_plugin(ctx, env, client):
     else:
         print("Letsencrypt plugin previously installed")
 
-    stdin, stdout, stderr = client.exec_command("sudo dokku letsencrypt:ls")
+    stdin, stdout, stderr = client.exec_command("sudo dokku letsencrypt:list")
     display_message(stderr)
     display_message(stdout)
 
@@ -711,7 +712,7 @@ def deploy(ctx, env, branch=None, force=False):
 def setup_server(ctx, env):
     check_server_connection(ctx, env)
     install_dokku(ctx, env)
-    add_key_to_dokku(ctx, env)  # use this command only once
+    # add_key_to_dokku(ctx, env)  # use this command only once
     create_project(ctx, env)
     create_nginx_conf_files(ctx, env)
 
