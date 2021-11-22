@@ -41,7 +41,7 @@ function SideMenu () {
       items: [
         {icon: clock, label: "Time report", smallSize: true, pathname: "/timereport"},
         {icon: people, label: "Vilmates", smallSize: true, pathname: "/vilmates"},
-        {icon: people, label: "Profile", smallSize: true, pathname: "/profile"}
+        {icon: people, label: "People", smallSize: true, pathname: "/people"}
       ]
     }]
     if((userRole === "Accountant" ||

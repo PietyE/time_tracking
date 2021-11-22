@@ -56,3 +56,50 @@ export const convertMinutesToHours = (data) => {
     return 0
   }
 }
+
+export const  currentItemsGets =(pageSize, currentPage, totalItems)=>{
+  let from ;
+  let to ;
+  if(currentPage>1){
+    from = (currentPage-1) * pageSize;
+    to = currentPage * pageSize;
+  }else {
+    from = 0;
+    to = currentPage * pageSize;
+  }
+
+  let res = totalItems.slice(from, to);
+  return res;
+}
+
+
+export  function paginationWithDots(c, m) {
+  var current = c,
+      last = m,
+      delta = 2,
+      left = current - delta,
+      right = current + delta + 1,
+      range = [],
+      rangeWithDots = [],
+      l;
+
+  for (let i = 1; i <= last; i++) {
+    if (i == 1 || i == last || i >= left && i < right) {
+      range.push(i);
+    }
+  }
+
+  for (let i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1);
+      } else if (i - l !== 1) {
+        rangeWithDots.push('...');
+      }
+    }
+    rangeWithDots.push(i);
+    l = i;
+  }
+
+  return rangeWithDots;
+}

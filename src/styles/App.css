@@ -4,7 +4,6 @@
 
 .app {
   text-align: center;
-  background: #E5E5E5;
 }
 .app_without_scroll{
   text-align: center;
@@ -14,8 +13,21 @@
 
 .container {
   width: 100%;
-  max-width: 1212px;
+  max-width: 1100px;
   padding: 0 15px;
+}
+
+.page-title{
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 0.018em;
+  color: #000000;
+  border-bottom: 1px solid rgba(201, 201, 198, 0.7);
+  padding: 30px 0;
+  text-align: left;
+  margin-bottom: 30px;
 }
 
 .error_page {
