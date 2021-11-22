@@ -7,6 +7,7 @@ import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import TimeReportScreen from '../TimeReportScreen'
 import ProjectsScreen from '../ProjectsScreen'
+import ProfileScreen from "../ProfileScreen";
 
 import Header from 'components/header'
 import {
@@ -75,6 +76,7 @@ function MainScreen({
         <Route path="/projectreport" component={ProjectReportNew} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
         <Route path="/people" component={PeopleScreen}/>
+        <Route path="/profile" component={ProfileScreen} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
         {/* <Redirect from="/" to="/projectreport" /> */}

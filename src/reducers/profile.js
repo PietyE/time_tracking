@@ -12,6 +12,7 @@ const initial_state = {
 }
 
 export const profile = (state = initial_state, action) => {
+ // console.log('state', state)
   switch (action.type) {
     case SET_USER_OAUTH_DATA:
       return { ...state, ...action.payload }
