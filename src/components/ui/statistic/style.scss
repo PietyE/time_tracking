@@ -1,0 +1,39 @@
+
+.statistic__block {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  width: 209px;
+  height: 117px;
+  left: 301px;
+  top: 130px;
+  background: #FFFFFF;
+  border: 1px solid rgba(201, 201, 198, 0.4);
+  box-sizing: border-box;
+  border-radius: 10px;
+
+  &-count{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+    letter-spacing: 0.02em;
+    color: #222222;
+  }
+
+  &-progress{
+    font-size: 16px;
+    line-height: 24px;
+    text-align: right;
+    letter-spacing: 0.02em;
+    color: #009C98;
+  }
+
+  &-type{
+    font-size: 13px;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    color: rgba(122, 122, 122, 0.7);
+  }
+}
+

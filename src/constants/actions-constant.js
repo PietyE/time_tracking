@@ -115,6 +115,14 @@ export const SET_SHOWN_PROJECT = 'SET_SHOWN_PROJECT'
 
 export const SET_STATUS_USER = 'SET_STATUS_USER'
 
+/**pagination*/
+
+export const SET_PAGE_SIZE = 'SET_PAGE_SIZE'
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+export const SET_CURRENT_ITEMS = 'SET_CURRENT_ITEMS'
+export const SET_TOTAL_ITEMS_COUNT ='SET_TOTAL_ITEMS_COUNT'
+
+
 
 export const CLEAR_PM_PAGE = 'CLEAR_PM_PAGE'
 

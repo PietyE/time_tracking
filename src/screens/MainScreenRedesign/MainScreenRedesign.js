@@ -7,6 +7,7 @@ import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import TimeReportScreen from '../TimeReportScreen'
 import ProjectsScreen from '../ProjectsScreen'
+import ProfileScreen from "../ProfileScreen";
 
 import Header from 'components/header'
 import {
@@ -23,6 +24,7 @@ import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.css'
+import PeopleScreen from "../PeopleScreen";
 
 function MainScreen({
   isAuth,
@@ -73,6 +75,8 @@ function MainScreen({
         {/* <Route path="/old/project" component={ProjectsScreen} exct /> */}
         <Route path="/projectreport" component={ProjectReportNew} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
+        <Route path="/people" component={PeopleScreen}/>
+        <Route path="/profile" component={ProfileScreen} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
         {/* <Redirect from="/" to="/projectreport" /> */}
