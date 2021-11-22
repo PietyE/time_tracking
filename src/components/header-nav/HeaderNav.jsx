@@ -70,6 +70,15 @@ function HeaderNav() {
             PROJECTS MANAGEMENT
           </NavLink>
         </li>
+        <li className="nav_item">
+          <NavLink
+              to="/profile"
+              className="nav_item_link"
+              activeStyle={activeTabStale}
+          >
+           PROFILE
+          </NavLink>
+        </li>
       </ul>
     </>
   )
