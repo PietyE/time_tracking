@@ -113,6 +113,8 @@ export const SET_SHOW_CREATE_MODAL = 'SET_SHOW_CREATE_MODAL'
 export const SET_SELECTED_PM = 'SET_SELECTED_PM'
 export const SET_SHOWN_PROJECT = 'SET_SHOWN_PROJECT'
 
+export const SET_STATUS_USER = 'SET_STATUS_USER'
+
 /**pagination*/
 
 export const SET_PAGE_SIZE = 'SET_PAGE_SIZE'

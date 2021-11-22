@@ -4,7 +4,7 @@ export const getTokenKeyFromLocalStorage = () => {
   return data_user.key
 }
 
-export const parseMinToHoursAndMin = (min) => {
+export const parseMinToHoursAndMin = (min, Hformat=false) => {
   const HOUR = 60
   let minToNumber = +min
   let strHours = '00'
@@ -20,7 +20,7 @@ export const parseMinToHoursAndMin = (min) => {
     strMin = minutes < 10 ? `0${minutes}` : `${minutes}`
   }
 
-  return `${strHours}:${strMin}`
+  return Hformat?`${strHours}h ${strMin}m`:`${strHours}:${strMin}`
 }
 
 export const getUrlParams = (search) => {
