@@ -209,15 +209,15 @@ export default function TableRow({
                   ''
                 )}
               </span>
+              {extraClass === 'common' && roleUser !==PM &&(
               <span className="table_cell ready">
-                {extraClass === 'common' && (
-                  <input
+                <input
                     type="checkbox"
                     checked={isProcessed}
                     onChange={handlerChangeProcessedStatusInput}
                   />
-                )}
               </span>
+              )}
             </>
           )}
         </div>
