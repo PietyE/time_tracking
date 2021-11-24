@@ -145,6 +145,7 @@ function ProjectsReport({
           setExchangeRates={setExchangeRates}
           prevExchangeRate={exchange_rate}
           selectedDate={selectedDate}
+
         />
       )}
       {roleUser !== DEVELOPER && roleUser !== PM && (
