@@ -71,7 +71,7 @@ function TimeReport(props) {
 
   const todayDate = new Date()
 
-  const setStatusDayFromSlecr =(status)=>{
+  const setStatusDayFromSlector =(status)=>{
     if(status.name === 'Hide empty days') {
       setShowEmpty(false);
     }else {
@@ -252,7 +252,7 @@ function TimeReport(props) {
             <FunnelSelect
                 days={selectedDays}
                 selectedDay={selectedDay}
-                setStausDay={setStatusDayFromSlecr}
+                setStatusDay={setStatusDayFromSlector}
             />
           </div>
           <div className="time_report_header_btn_section">

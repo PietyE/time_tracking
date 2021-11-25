@@ -14,6 +14,16 @@
   padding: 0 15px;
 }
 
+.table__titles {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 24px;
+  text-align: right;
+  letter-spacing: 0.02em;
+  color: rgba(34, 34, 34, 0.3);
+}
+
 .page-title{
   font-style: normal;
   font-weight: 600;
@@ -25,6 +35,36 @@
   padding: 30px 0;
   text-align: left;
   margin-bottom: 30px;
+}
+
+.btn-add-new{
+  width: 182px;
+  height: 40px;
+  left: 1089px;
+  top: 35px;
+  background: #009C98;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.search {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 280px;
+  height: 40px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #ADADA7;
+  text-align: left;
+  padding-left: 45px;
+  background-image: url("../images/loupe1.svg");
+  background-repeat: no-repeat;
+  background-position: left 10px center;
 }
 
 .error_page {

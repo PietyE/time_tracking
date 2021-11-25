@@ -26,6 +26,7 @@ import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.css'
 import PeopleScreen from "../PeopleScreen";
 
+
 function MainScreen({
   isAuth,
   roleUser,
@@ -77,6 +78,7 @@ function MainScreen({
         <Route path="/timereport" component={TimeReportScreen} exct />
         <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct />
+        <Route path="/projectmanagement" component={ProjectManagementScreen} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
         {/* <Redirect from="/" to="/projectreport" /> */}
