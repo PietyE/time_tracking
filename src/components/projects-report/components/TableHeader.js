@@ -29,8 +29,10 @@ export default function TableHeader({ roleUser }) {
       {roleUser !== DEVELOPER && (
         <>
           <div className="table_cell comment">Comments</div>
-          <div className="table_cell ready">Payed</div>
-        </>
+            {roleUser !== PM && (
+                <div className="table_cell ready">Payed</div>
+            )}
+            </>
       )}
 
     </div>
