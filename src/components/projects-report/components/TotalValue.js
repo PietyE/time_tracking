@@ -87,6 +87,11 @@ const TotalValue = (props) => {
     );
   }, [selectedCurrency, newExchangeRate])
 
+  useEffect(()=>{
+    handleClickCancel();
+    clearInput();
+  },[selectedDate])
+
   return (
     <>
     <div className="project_reports_total_container">
