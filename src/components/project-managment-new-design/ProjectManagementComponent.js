@@ -38,6 +38,9 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 import {isEmpty} from 'lodash'
 import {convertMinutesToHours} from '../../utils/common'
 import Filter from "../ui/filter";
+import ReportItemProject from "../common/repott-item/ReportItemProject";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCaretDown, faCaretUp, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -60,6 +63,8 @@ const ProjectManagementComponent =({
                                      filteredProjects
 }) => {
   const dispatch = useDispatch()
+
+
 
   useEffect(()=>{
     if(isEmpty(selectedPm)){
@@ -124,6 +129,10 @@ const ProjectManagementComponent =({
     }, [filteredProjects, projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
+
+    const projectsList = projects.map((e,i)=>{
+       return <ReportItemProject key={e.id} p={e}/>
+    });
 
   const onSelectPm = (data) => {
     setPm(data)
@@ -202,11 +211,38 @@ const ProjectManagementComponent =({
                                   isSearch
                               />
                   </div>
-                  <div className="row table__titles ">
-                      <div className="col-lg-5">PROJECT NAME</div>
-                      <div className="col-lg-2">ESTIMATE</div>
-                      <div className="col-lg-3">HOURS WORKED</div>
+                  <div className="row table__titles">
+                      <div className="col-lg-5 ">
+                          <div className="sort-by">
+                               <span>
+                             PROJECT NAME
+                          </span>
+                              <span className="cart-cont">
+                              <div className={'min'}>
+                                   <FontAwesomeIcon
+                                       icon={faCaretUp}
+                                       color="#414141"
+                                       className="icon pencil_icon"
+                                   />
+                              </div>
+                              <div className={'max'}>
+                                  <FontAwesomeIcon
+                                      icon={faCaretDown}
+                                      color="#414141"
+                                      className="icon pencil_icon"
+                                  />
+                              </div>
+                          </span>
+                          </div>
+                      </div>
+                      <div className="col-lg-2">
+                          ESTIMATE
+                      </div>
+                      <div className="col-lg-3">
+                          HOURS WORKED
+                      </div>
                   </div>
+                  {projectsList}
               </div>
 
               <CreateProjectModal show = {isCreateModalShow} />

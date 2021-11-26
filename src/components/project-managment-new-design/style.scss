@@ -71,10 +71,39 @@
 
   .table__titles{
     margin-top: 40px;
-    div{
+    &>div{
       text-align: left;
+      &:first-child{
+        padding-left: 40px;
+      }
+    }
+    .sort-by{
+      display: flex;
+      position: relative;
+      justify-content: flex-start;
+      width: max-content;
+      padding-right: 10px;
+      .cart-cont{
+        position: absolute;
+        top:-4px;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding:0;
+        width: 5px;
+        height: 10px;
+        &>div{
+          margin: 0;
+          padding: 0;
+          width: 5px;
+          height: 5px;
+        }
+      }
     }
   }
+
 }
 
 .pm_page_modal{
