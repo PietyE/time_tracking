@@ -1,8 +1,8 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
-  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE
+  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE, SET_SHOW_EDIT_MODAL, SET_SHOW_CREATE_MODAL,
+  SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS
 } from 'constants/actions-constant'
 import {isEmpty} from 'lodash'
 
@@ -14,6 +14,8 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   projects: [],
+  activeProjects:[],
+  archiveProjects:[],
   projectsWithReports: [],
   selectedProjectId: '',
   selectedProject: {},
@@ -59,6 +61,8 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, selectedPm: action.payload }
     case SET_SHOWN_PROJECT:
       return { ...state, shownProject: action.payload }
+    case GET_ACTIVE_PROJECTS:
+      return {...state, activeProjects:action.payload}
     case CLEAR_PM_PAGE:
       return { ...initialState }
     default:

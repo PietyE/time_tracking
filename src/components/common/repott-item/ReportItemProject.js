@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import "./style.scss"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArchive, faCheck, faEllipsisV, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {faEdit, faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import Archive from "../../../images/archive1.svg"
-import {parseMinToHoursAndMin} from "../../../utils/common";
+import {closeEditMenu, parseMinToHoursAndMin} from "../../../utils/common";
 
 
 function ReportItemProject({p}) {
@@ -15,6 +15,10 @@ function ReportItemProject({p}) {
     let toggleEdit = ()=>{
         setIsEdit(!isEdit)
     }
+
+    useEffect(()=>{
+        closeEditMenu(isEdit, setIsEdit)
+    },[isEdit])
 
     return <div className="row report__item">
         <div className="col-lg-5">

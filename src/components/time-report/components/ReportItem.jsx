@@ -12,7 +12,7 @@ import {
   editTimeReport,
   setEditMode,
 } from 'actions/times-report'
-import { parseMinToHoursAndMin } from 'utils/common'
+import {closeEditMenu, parseMinToHoursAndMin} from 'utils/common'
 import DeleteModal from './DeleteModal'
 import Linking from 'components/common/linking'
 import {
@@ -140,23 +140,8 @@ function ReportItem({
   const activeClassNameContainerForEditting =
     idEditingWorkItem === id ? 'editing' : ''
 
-  const closeEditMenu = ()=>{
-    window.addEventListener('click', (event)=>{
-      if(editMenu){
-        if(event.target.parentNode?.classList.contains('edit_dots')
-            || event.target.parentNode.classList.contains('time_report_day_menu')
-            || event.target.parentNode.classList.contains('time_report_day_edit')
-            || event.target.classList.contains('time_report_day_menu')
-            || event.target.parentNode.classList.contains('svg-inline--fa')){
-          return
-        }
-        setEditMenu(false)
-      }
-    })
-  }
-
   useEffect(()=>{
-    closeEditMenu();
+    closeEditMenu(editMenu, setEditMenu);
   },[editMenu])
 
 

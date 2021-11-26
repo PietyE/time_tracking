@@ -175,6 +175,10 @@ function Select(props) {
               {item.iconColor &&
                 <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
               }
+              {item.count&&
+              <span className={'count-container '+ (item.name === "Active"?'active':'')}>{item.count}</span>
+              }
+
               <span
                 className={
                   item.name === _title

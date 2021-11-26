@@ -72,6 +72,21 @@ export const  currentItemsGets =(pageSize, currentPage, totalItems)=>{
   return res;
 }
 
+export const closeEditMenu = (editMenu, setEditMenu)=>{
+  window.addEventListener('click', (event)=>{
+    if(editMenu){
+      if(event.target.parentNode?.classList.contains('edit_dots')
+          || event.target.parentNode.classList.contains('time_report_day_menu')
+          || event.target.parentNode.classList.contains('time_report_day_edit')
+          || event.target.classList.contains('time_report_day_menu')
+          || event.target.parentNode.classList.contains('svg-inline--fa')){
+        return
+      }
+      setEditMenu(false)
+    }
+  })
+}
+
 
 export  function paginationWithDots(c, m) {
   var current = c,

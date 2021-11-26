@@ -21,11 +21,11 @@ import {
   getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
-  changeSelectedDateProjectsManagement, clearPmProjects,
-  getAllProjects, setSelectedProjectId,
-  downloadAllTeamProjectReport,
-  setShowCreateModal, setShowEditModal,
-  setPm, setShownProject, getProjectReportById,
+    changeSelectedDateProjectsManagement, clearPmProjects,
+    getAllProjects, setSelectedProjectId,
+    downloadAllTeamProjectReport,
+    setShowCreateModal, setShowEditModal,
+    setPm, setShownProject, getProjectReportById, getActiveProjects,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -37,7 +37,7 @@ import Select from '../ui/select'
 import { getCurrentUserSelector } from '../../reducers/profile'
 import {isEmpty} from 'lodash'
 import {convertMinutesToHours} from '../../utils/common'
-import Filter from "../ui/filter";
+
 import ReportItemProject from "../common/repott-item/ReportItemProject";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
@@ -60,13 +60,13 @@ const ProjectManagementComponent =({
                                      currentPm,
                                      shownProject,
                                      setShownProject,
-                                     filteredProjects
+                                     filteredProjects,
+                                       getActiveProjects
+
 }) => {
   const dispatch = useDispatch()
 
-
-
-  useEffect(()=>{
+    useEffect(()=>{
     if(isEmpty(selectedPm)){
       setPm(currentPm)
     }
@@ -78,17 +78,9 @@ const ProjectManagementComponent =({
     getAllProjects()
   },[month])
 
-    const [columns] = useState([
-      { name: 'project', title: 'PROJECT NAME' },
-      { name: 'occupancy', title: 'ESTIMATE' },
-      { name: 'hours', title: 'HOURS WORKED' },
-      // { name: 'report', title: 'Report' },
-      // { name: 'actions', title: 'Actions' },
-    ])
-
     const [typeProjects] = useState([
-        {name: 'Active'},
-        {name: 'Archive'},
+        {name: 'Active', count: 5},
+        {name: 'Archive', count: 3},
     ])
 
     const _downloadAllTeamProjectReport = useCallback(
@@ -113,7 +105,8 @@ const ProjectManagementComponent =({
       _setSelectedProjectId(id)
       setShowEditModal(true)
     }
-  const [rows, setRows] = useState([])
+
+    const [rows, setRows] = useState([])
   useEffect(() => {
         const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
@@ -130,7 +123,22 @@ const ProjectManagementComponent =({
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
 
-    const projectsList = projects.map((e,i)=>{
+    let [p, setP]= useState([])
+    useEffect(()=>{
+        setP(projects);
+    },[projects]);
+
+    const showTypeProject=(item)=>{
+        if(item.name == 'Active' ){
+            let activeP = projects.filter(e=>e.isActive == true);
+            console.log('Active P', activeP);
+            setP(activeP)
+        }else {
+            setP([])
+        }
+    }
+
+    const projectsList = p.map((e,i)=>{
        return <ReportItemProject key={e.id} p={e}/>
     });
 
@@ -201,7 +209,7 @@ const ProjectManagementComponent =({
                               <Select
                                   title="Active"
                                   listItems = {typeProjects}
-                                  onSelected={onSelectProject}
+                                  onSelected={showTypeProject}
                                   valueKey="name"
                                   idKey="id"
                                   extraClassContainer={'filter'}
@@ -271,6 +279,7 @@ const actions = {
   setShowCreateModal,
   setPm,
   setShownProject,
+    getActiveProjects
 }
 
 

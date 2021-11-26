@@ -7,7 +7,7 @@ import {
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, CLEAR_PM_PROJECTS,
   ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE
+  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -18,6 +18,11 @@ export const changeSelectedDateProjectsManagement = (payload) => ({
 export const getAllProjects = (payload) => ({
   type: GET_ALL_PROJECTS,
   payload,
+})
+
+export const getActiveProjects = (payload) =>({
+  type:GET_ACTIVE_PROJECTS,
+  payload
 })
 
 export const setAllProjects = (payload) => ({
