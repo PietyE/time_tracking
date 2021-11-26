@@ -8,8 +8,7 @@ import { setAuthStatus } from 'actions/users'
 
 export function* errorHandler() {
   const { status, messages, detail } = yield select((state) => state.error)
-
-  switch (status) {
+    switch (status) {
     case 401:
       yield call([localStorage, 'clear'])
       yield put(setAuthStatus(false))
