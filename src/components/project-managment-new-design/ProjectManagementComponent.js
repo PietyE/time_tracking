@@ -41,6 +41,7 @@ import {convertMinutesToHours} from '../../utils/common'
 import ReportItemProject from "../common/repott-item/ReportItemProject";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
+import CreateProjectModal2 from "./components/CreateProjectModal2";
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -253,7 +254,7 @@ const ProjectManagementComponent =({
                   {projectsList}
               </div>
 
-              <CreateProjectModal show = {isCreateModalShow} />
+              <CreateProjectModal2 show = {isCreateModalShow}/>
               <EditProjectModal show = {isEditModalShow} />
       </div>)
   }

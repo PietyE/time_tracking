@@ -89,6 +89,12 @@ export const getProjectManagerListSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 4)
 }
+
+export const getTeamMListSelector = state => {
+  const users = getUsersSelector(state)
+  return users.filter(user => user.role !== 4)
+}
+
 export const getDeveloperSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 1)

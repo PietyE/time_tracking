@@ -1,0 +1,74 @@
+.team-m{
+  margin-top: 20px;
+  .avatar-cont{
+    display: flex;
+    margin-right: 85px;
+  }
+  &-avatar{
+    width: 36px;
+    height: 36px;
+  }
+
+  &-name{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.01em;
+    color: #222222;
+    margin-left: 10px;
+  }
+
+  &__type-work{
+    display: flex;
+
+  }
+
+  &-input-cont{
+    display: flex;
+    align-items:baseline;
+
+    &:first-child{
+      margin-right: 60px;
+    }
+
+    &:last-child{
+      margin-right: 52px;
+    }
+
+    label{
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.03em;
+      color: #222222;
+      position: relative;
+      cursor: pointer;
+
+      input{
+        display: none;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 5px;
+        left: -15px;
+        height: 12px;
+        width: 12px;
+        background-color: #fff;
+        border: 1px solid rgba(34, 34, 34, 0.7);
+        box-sizing: border-box;
+        border-radius: 50%;
+      }
+
+      input:checked +.checkmark {
+        background-color: #fff;
+        border: solid 3px #309C99;
+      }
+    }
+  }
+}

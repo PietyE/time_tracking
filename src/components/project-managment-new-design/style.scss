@@ -34,6 +34,10 @@
       width: 100%;
       left: 0;
     }
+
+    .select_title_text{
+      margin-left: 25px;
+    }
   }
 
   .select-project{
@@ -173,6 +177,7 @@
 }
 .project_management_container {
   padding-top: 40px;
+  position: relative;
 
   .project_select{
     margin-right: auto;
@@ -226,19 +231,124 @@
   }
 }
 
-.pm_modal_header{
-  background-color: #009c98;
-  color: #fff;
-  span{
-    color: #fff;
 
+.pm_page_modal{
+  background: rgba(34, 34, 34, 0.6);
+  backdrop-filter:none;
+  .modal-dialog{
+   min-width: 630px!important;
+
+    .modal-body{
+      padding: 0;
+    }
+
+    .modal-content{
+      border: 1px solid rgba(201, 201, 198, 0.4);
+      box-sizing: border-box;
+      box-shadow: -10px 10px 35px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+
+      font-family: "Montserrat";
+    }
+
+    .pm_modal_header{
+      background-color: #fff;
+      border-bottom: 1px solid rgba(201, 201, 198, 0.7);
+      padding: 35px;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+      position: relative;
+      border-radius: 20px 20px 0 0;
+
+      .modal-title{
+        color: #222;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+        letter-spacing: 0.018em;
+      }
+
+      .close{
+        position: absolute;
+        top:20px;
+        right: -60px;
+        cursor: pointer;
+      }
+
+
+    }
+    .pm_create_modal_form{
+      display: flex;
+      flex-direction: column;
+
+      .form-container{
+        padding: 0 35px;
+      }
+
+      .input-cont{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+        &:last-child{
+          margin-bottom: 20px;
+        }
+        label{
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0.017em;
+          color: #222222;
+        }
+
+        .project-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+          color: #222222;
+        }
+
+        input{
+          background: #FFFFFF;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-sizing: border-box;
+          border-radius: 4px;
+          padding: 10px;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0.03em;
+          color: #222222;
+        }
+      }
+
+      .team-container{
+        margin:12px 15px 30px;
+        padding: 0 20px;
+      }
+
+      .plus{
+        margin-bottom:4px;
+      }
+
+
+
+      &-submit{
+        width: 100%;
+        background: #009C98;
+        border-radius: 0px 0px 20px 20px;
+        color: #fff;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        letter-spacing: 0.03em;
+        border: 0;
+        height: 64px;
+      }
+    }
   }
 
 }
-.pm_create_modal_form{
-  display: flex;
-  flex-direction: column;
-}
+
 .pm_create_modal_label{
   font-weight: bold;
   font-size: 18px;
