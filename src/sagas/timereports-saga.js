@@ -178,6 +178,7 @@ export function* editTimeReport({ payload }) {
     const { data, status } = yield call([Api, 'editWorkItem'], URL, body)
 
     if (status >= 400) {
+      yield put(setIsFetchingReports(false))
       return
     }
 
