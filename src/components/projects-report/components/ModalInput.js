@@ -6,7 +6,7 @@ import { getIsFetchingProjectsReport } from '../../../selectors/developer-projec
 import { isEqual } from 'lodash'
 import { useSelector } from 'react-redux'
 
-export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit }) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit }) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
