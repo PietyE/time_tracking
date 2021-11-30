@@ -183,7 +183,6 @@ const EditUserModal = (props) => {
             // prevValue={editingUser.current_salary}
             prevValue={editingUser.salary_uah}
             CisEdit={isCEdit}
-            setIsCEdit={setIsCEdit}
             handleSaveChange={handlerOnClickSaveNewSalary}
           />
         </ModalRow>
