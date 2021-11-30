@@ -13,8 +13,9 @@ function Project (props) {
   }
   
   return (
-    <div className="projects_data">
-      <span className="span_project_name">
+    <div className="all_projects_data">
+      <div className="project_name">
+        <div className="name">
         {<Link
                   to={{
                     pathname: '/timereport',
@@ -23,10 +24,11 @@ function Project (props) {
                 >
                   {project.name}
                 </Link>}
-      </span>
-      <span className="span_occupancy">{project.is_full_time ? "Full-time" : "Part-time"}</span>
-      <span className="span_hours">{project.working_time}</span>
-      <span className="span_total">{isNull(project.total)}</span>
+        </div>        
+      </div>
+      <div className="occupancy">{project.is_full_time ? "Full-time" : "Part-time"}</div>
+      <div className="hours">{project.working_time}</div>
+      <div className="total">{isNull(project.total)}</div>
     </div>
   )
 }

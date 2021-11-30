@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo } from 'react'
 import closeButton from '../../../images/projectReportIcons/closeButton.svg'
-import UserComment from './UserComment';
+import UserComment from './UserComment/UserComment';
 import {ProjectReportContext} from 'context/projectReport-context'
 
 function Comments (props) {

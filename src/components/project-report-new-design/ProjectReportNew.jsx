@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport'
 import WorkData from './components/WorkData'
-import ProjectData from './components/ProjectData'
+import ProjectData from './components/ProjectData/ProjectData'
 import Comments from './components/Comments'
 
 import SelectMonth from 'components/ui/select-month'
@@ -15,9 +15,7 @@ import { DEVELOPER, PM } from 'constants/role-constant'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import {ProjectReportContext} from 'context/projectReport-context'
 
-import {
-  selectUsersReports
-} from 'reducers/projects-report'
+import { selectUsersReports } from 'reducers/projects-report'
 
 import {
   getDevelopersProjectInProjectReport,
@@ -45,7 +43,6 @@ function ProjectReportNew () {
     }
   }, [currentUserId, usersData])
   const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
-
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
       getDevelopersProject()
@@ -90,9 +87,11 @@ function ProjectReportNew () {
         // comments,
         commentId,
         totalHoursOvertime,
-        projects
+        projects,
+        salaryCurrency,
+        rate_uah,
+        rateCurrency
       } = currentUser
-    
   const commonProjectsInfo = {
     name: '',
   }
@@ -100,14 +99,18 @@ function ProjectReportNew () {
   return (
     <div className="project_report_work_data">
     <WorkData salary={salary_uah}
+              salaryCur={salaryCurrency}
+              currencyRate={rateCurrency}
               total_hours={totalHoursOvertime}
               extra_costs={total_expenses} 
-              salaryPerHour={total_overtimes}
+              salaryPerHour={rate_uah}
               comments_lenght={comments.length}
               openComments={openComments} />
+    <div className="component_project_data">
     <ProjectData projects={commonProjectsInfo}
                  overtime={totalHoursOvertime}
                  userId={id} />
+    </div>             
     {openComments &&            
     <Comments comments={comments}
               commentId={commentId}

@@ -33,3 +33,26 @@
 .error_page h1 {
   text-align: center;
 }
+
+.table__titles {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 24px;
+  text-align: right;
+  letter-spacing: 0.02em;
+  color: rgba(34, 34, 34, 0.3);
+}
+
+.page-title{
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 0.018em;
+  color: #000000;
+  border-bottom: 1px solid rgba(201, 201, 198, 0.7);
+  padding: 30px 0;
+  text-align: left;
+  margin-bottom: 30px;
+}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
-import Currency from './Currency';
+import Currency from '../Currency';
 
 
 function DropDownCurrency (props) {
   const {
-    currencyList
+    currencyList,
+    chooseCurrency
   } = props;
 
   return (
@@ -15,7 +16,9 @@ function DropDownCurrency (props) {
           (<Currency item={currency}
                      name={currency.name}
                      rate={currency.rate}
-                     key={currency.currencyId} />)
+                     key={currency.currencyId}
+                     chooseCurrency={chooseCurrency}
+                     />)
       )
       }
     </div>
