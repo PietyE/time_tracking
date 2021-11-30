@@ -19,7 +19,7 @@ import {
   setConsolidateProjectReport,
   setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
-  setErrorUsersProjectReport, setExchangeRatesSuccess,
+  setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
 } from 'actions/projects-report'
