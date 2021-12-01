@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
 
 import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 
 function Select(props) {
   const {
@@ -24,6 +24,7 @@ function Select(props) {
 
 
   const [_title, setTitle] = useState(title)
+  const [icon , setIcon] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -52,9 +53,12 @@ function Select(props) {
     }
   }
 
-  const handlerClickItem = (e) => {
+  const handlerClickItem = (e, icon=false) => {
     e.preventDefault()
     setTitle(e.currentTarget.dataset.value)
+    if(icon){
+      setIcon(icon);
+    }
   }
 
   const handlerChangeSearchValue = (e) => {
@@ -85,10 +89,16 @@ function Select(props) {
   ///////////////////////////////////////////////////////////
   useEffect(()=>{
  if (initialChoice && initialChoice[valueKey]){
+   if(initialChoice.iconColor){
+     setIcon(initialChoice.iconColor)
+   }
     setTitle(initialChoice[valueKey])
   } else if(!initialChoice && listItems?.length){
     setTitle(title)
-  }
+   if(initialChoice && initialChoice.iconColor){
+     setIcon(initialChoice.iconColor)
+   }
+ }
     },[listItems,initialChoice])
 
   useEffect(() => {
@@ -127,7 +137,10 @@ function Select(props) {
       //disabled={!listItems.length}
     >
       <div className="select_title_container">
+        {icon ?
+            <span className={'select_circle-icon'} style={{backgroundColor:icon}}></span>:''}
         {isSearch && isOpen && !disabled ? (
+
           <input
             className="select_title_text select_title_text_input"
             placeholder={_title}
@@ -136,12 +149,14 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
+
+
           <span className={`select_title_text ${classNameDisabled}`}>
             {_title}
           </span>
         )}
         <FontAwesomeIcon
-          icon={faCaretDown}
+            icon={faChevronDown}
           className={
             isOpen && !classNameOpen
               ? 'select_title_icon active'
@@ -156,7 +171,10 @@ function Select(props) {
         >
           {searchedListItems.map((item) => (
 
-            <div className="select_list_item_container" key={item[idKey]}>
+            <div className={"select_list_item_container " +(item.name === _title ? 'selected':'')} key={item[idKey]}>
+              {item.iconColor &&
+                <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
+              }
               <span
                 className={
                   item.name === _title
@@ -166,7 +184,7 @@ function Select(props) {
                 data-value={item[valueKey]}
                 onClick={(e) => {
                   if (_title !== e.currentTarget.dataset.value) {
-                    handlerClickItem(e)
+                    handlerClickItem(e, item.iconColor)
                     onSelected(item)
                   }
                 }}

@@ -9,7 +9,7 @@ import {
   SELECT_PROJECT,
   CLEAR_SELECTED_PROJECT,
   SET_EDIT_MODE,
-  GET_TIME_REPORT_CSV,
+  GET_TIME_REPORT_CSV, SET_STATUS_USER,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateTimeReport = (payload) => ({
@@ -62,4 +62,9 @@ export const setEditMode = (payload) => ({
 
 export const getTimeReportCsv = () => ({
   type: GET_TIME_REPORT_CSV,
+})
+
+export const setUserStatus =(payload)=>({
+  type: SET_STATUS_USER,
+  payload
 })

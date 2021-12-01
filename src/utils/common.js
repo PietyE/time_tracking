@@ -4,7 +4,7 @@ export const getTokenKeyFromLocalStorage = () => {
   return data_user.key
 }
 
-export const parseMinToHoursAndMin = (min) => {
+export const parseMinToHoursAndMin = (min, Hformat=false) => {
   const HOUR = 60
   let minToNumber = +min
   let strHours = '00'
@@ -20,7 +20,7 @@ export const parseMinToHoursAndMin = (min) => {
     strMin = minutes < 10 ? `0${minutes}` : `${minutes}`
   }
 
-  return `${strHours}:${strMin}`
+  return Hformat?`${strHours}h ${strMin}m`:`${strHours}:${strMin}`
 }
 
 export const getUrlParams = (search) => {
@@ -55,4 +55,51 @@ export const convertMinutesToHours = (data) => {
   }else{
     return 0
   }
+}
+
+export const  currentItemsGets =(pageSize, currentPage, totalItems)=>{
+  let from ;
+  let to ;
+  if(currentPage>1){
+    from = (currentPage-1) * pageSize;
+    to = currentPage * pageSize;
+  }else {
+    from = 0;
+    to = currentPage * pageSize;
+  }
+
+  let res = totalItems.slice(from, to);
+  return res;
+}
+
+
+export  function paginationWithDots(c, m) {
+  var current = c,
+      last = m,
+      delta = 2,
+      left = current - delta,
+      right = current + delta + 1,
+      range = [],
+      rangeWithDots = [],
+      l;
+
+  for (let i = 1; i <= last; i++) {
+    if (i == 1 || i == last || i >= left && i < right) {
+      range.push(i);
+    }
+  }
+
+  for (let i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1);
+      } else if (i - l !== 1) {
+        rangeWithDots.push('...');
+      }
+    }
+    rangeWithDots.push(i);
+    l = i;
+  }
+
+  return rangeWithDots;
 }
