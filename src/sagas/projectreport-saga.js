@@ -77,6 +77,7 @@ export function* getDeveloperProjects() {
 
 function* setExchangeRate({ payload, callback }) {
   const { month, year } = yield select(getSelectedMonthSelector)
+
   try {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -84,6 +85,7 @@ function* setExchangeRate({ payload, callback }) {
     if(status[0] !== '2') {
       throw new Error()
     }
+
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -91,8 +93,9 @@ function* setExchangeRate({ payload, callback }) {
         delay: 5000,
       })
     )
+
     callback()
-    const now = new Date();
+    const now = new Date(payload.date);
     const ratesParams = {
       is_active: true,
       year: now.getFullYear(),
