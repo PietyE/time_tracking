@@ -148,10 +148,10 @@ const EditUserModal = (props) => {
 
   const handleChangeCurrency = (data, row=null) => {
     setCurrency(data)
-      let resive = {};
-      resive[row]= row;
-     let res = Object.assign({},isCEdit,resive)
-    setIsCEdit(res);
+     let receive = {};
+     receive[row]= row;
+     let res = Object.assign({},isCEdit,receive)
+     setIsCEdit(res);
   }
 
   return (

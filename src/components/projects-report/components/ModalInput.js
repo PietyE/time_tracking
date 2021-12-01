@@ -38,9 +38,9 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     setIsvalue(+prevValue)
     setIsEdit(false)
     if(setIsCEdit){
-      let resive = {};
-      resive[row]= '';
-      let res = Object.assign({},CisEdit,resive )
+      let receive = {};
+      receive[row]= '';
+      let res = Object.assign({},CisEdit,receive)
       setIsCEdit(res)
     }
   }
