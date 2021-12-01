@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch } from 'react-redux';
 
 import clock from 'images/sideMenuIcons/clock.svg'
-import chat from 'images/ic-dots-frame.svg'
 import check from 'images/inHouseEmployees/checkbox-check.svg'
 import { setProcessedStatus } from 'actions/users'
 
 import { selectProjectsByUserId,
-         selectUserProjects, 
-         selectProjectReportByUserId, 
          selectCommentsByUserId 
         } from 'selectors/project-report-details';
 import { getUsersProjectReport } from 'actions/projects-report';
@@ -80,7 +77,7 @@ function User (props) {
     }
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if(currentUserCommentShow !== contextType.commentsOn){
       setCurrentUserCommentShow(false)
     }

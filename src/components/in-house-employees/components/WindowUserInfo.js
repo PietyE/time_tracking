@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext, useCallback, useEffect } from 'react'
+import React, { useState, useMemo, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 
 import closeButton from 'images/projectReportIcons/closeButton.svg'
@@ -53,7 +53,6 @@ function WindowUserInfo (props) {
   const [newHourlyRate, setNewHourlyRate] = useState(hourlyRate);
   const [newSalary, setNewSalaryValue] = useState(salary);
   const [newExtraCosts, setNewExtraCosts] = useState(extraCosts);
-  // const [userCommentsOn, setUserCommentsOn] = useState(commentsOn);
   const dispatch = useDispatch();
 
   const checkCurrency = (currency) => {
@@ -221,7 +220,6 @@ function WindowUserInfo (props) {
       setEditOn(false)
     }
   }, [contextType.commentsOn])
-  console.log(id, contextType.currentUserId)
 
   return (
     <div className="main_container">

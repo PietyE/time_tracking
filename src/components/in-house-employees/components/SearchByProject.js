@@ -28,8 +28,6 @@ function SearchByProject () {
               idKey="id"
               isSearch={true}
               onSelected={onSelectedDispatch}
-              // onClear={clearSelectedProjectInProjectReports}
-              // disabled={!_.isEmpty(selectedDeveloper)}
               disabled={
                 selectedDeveloper.name !== 'All Developers' ? true : false
               }

@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux';
 
-import CurrencySelect from './components/CurrencySelect/CurrencySelect';
 import SearchByProject from './components/SearchByProject';
 import SearchByDeveloper from './components/SearchByDeveloper';
 import UsersInfo from './components/UsersInfo';
@@ -12,10 +11,7 @@ import { getIsFetchingProjectsReport } from '../../selectors/developer-projects'
 
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report';
 import { changeSelectedDateTimeReport } from 'actions/times-report'
-import { setExchangeRates } from 'actions/projects-report'
-import { setProcessedStatus } from 'actions/users'
 
-import check from 'images/inHouseEmployees/check.svg'
 import filter from 'images/inHouseEmployees/filter.svg';
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 

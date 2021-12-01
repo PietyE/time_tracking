@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useContext, useEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
 import usaFlag from 'images/inHouseEmployees/usaFlag.svg'
 import euroFlag from 'images/inHouseEmployees/euroFlag.svg'
@@ -29,7 +28,7 @@ function CurrencySelect (props) {
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  useMemo(() => {
+  useEffect(() => {
     if(selected){
       setCurrency(selected.name)
       if(currency === "EUR") {
@@ -46,7 +45,6 @@ function CurrencySelect (props) {
 
   useEffect(() => {
     if(selected && selected.rate !== currencyValue) {
-      // changeSelected(selected)
     }
   }, [selected])
 

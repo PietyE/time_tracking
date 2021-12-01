@@ -1,25 +1,21 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import usaFlag from 'images/inHouseEmployees/usaFlag.svg'
 import euroFlag from 'images/inHouseEmployees/euroFlag.svg'
 import ukrFlag from 'images/inHouseEmployees/ukrFlag.svg'
 import ukFlag from 'images/inHouseEmployees/ukFlag.svg'
 
-import { InHouseEmployeesContext } from 'context/inHouseEmployees-context'
-
-
 function Currency (props) {
   const {item, name, rate, chooseCurrency} = props;
   const [flag, setFlag] = useState(null);
   const [value, setValue] = useState(rate)
-  const contextType = useContext(InHouseEmployeesContext);
 
   const onClick = (e) => {
     e.stopPropagation()
     chooseCurrency(item)
   }
   
-  useMemo(() => {
+  useEffect(() => {
     if(name === "EUR") {
       setFlag(euroFlag)
     } else if(name === "UAH") {
@@ -29,9 +25,6 @@ function Currency (props) {
     } else if (name === "GBP") {
       setFlag(ukFlag)
     }
-    // if(rate < 0){
-    //   setValue('0')
-    // }
   }, [name])
 
   return (

@@ -1,10 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { getDevelopersSelector } from 'selectors/developers';
 import { selectUsersReports } from 'reducers/projects-report';
 import { getConsolidateProjectReport } from 'actions/projects-report';
-import { selectCommentsByUserId } from 'selectors/project-report-details';
-import { selectRateList } from 'selectors/currency'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
 
