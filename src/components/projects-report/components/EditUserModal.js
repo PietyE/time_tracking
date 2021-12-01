@@ -46,7 +46,11 @@ const EditUserModal = (props) => {
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
   const [selectedCurrency, setCurrency] = useState('')
-  const [isCEdit, setIsCEdit] = useState(false)
+  const initialCurrencyState = {
+    salary: '',
+    rate:''
+  }
+  const [isCEdit, setIsCEdit] = useState(initialCurrencyState)
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
@@ -142,9 +146,12 @@ const EditUserModal = (props) => {
     setCommentLocal(_comment)
   }
 
-  const handleChangeCurrency = (data) => {
+  const handleChangeCurrency = (data, row=null) => {
     setCurrency(data)
-    setIsCEdit(true);
+      let resive = {};
+      resive[row]= row;
+     let res = Object.assign({},isCEdit,resive)
+    setIsCEdit(res);
   }
 
   return (
@@ -178,12 +185,14 @@ const EditUserModal = (props) => {
           <CurrencySelect
             parentHandler={handleChangeCurrency}
             selectedCurrency={selectedCurrency}
+            row={'salary'}
           />
           <ModalInput
             // prevValue={editingUser.current_salary}
             prevValue={editingUser.salary_uah}
             CisEdit={isCEdit}
             setIsCEdit={setIsCEdit}
+            row={'salary'}
             handleSaveChange={handlerOnClickSaveNewSalary}
           />
         </ModalRow>
@@ -192,11 +201,15 @@ const EditUserModal = (props) => {
           <CurrencySelect
             parentHandler={handleChangeCurrency}
             selectedCurrency={selectedCurrency}
+            row={'rate'}
           />
           <ModalInput
             // prevValue={editingUser.current_rate}
             prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
+            CisEdit={isCEdit}
+            setIsCEdit={setIsCEdit}
+            row={'rate'}
           />
         </ModalRow>
         <ModalRow>
