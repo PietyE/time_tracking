@@ -46,6 +46,7 @@ const EditUserModal = (props) => {
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
   const [selectedCurrency, setCurrency] = useState('')
+  const [isCEdit, setIsCEdit] = useState(false)
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
@@ -143,6 +144,7 @@ const EditUserModal = (props) => {
 
   const handleChangeCurrency = (data) => {
     setCurrency(data)
+    setIsCEdit(true);
   }
 
   return (
@@ -180,7 +182,8 @@ const EditUserModal = (props) => {
           <ModalInput
             // prevValue={editingUser.current_salary}
             prevValue={editingUser.salary_uah}
-
+            CisEdit={isCEdit}
+            setIsCEdit={setIsCEdit}
             handleSaveChange={handlerOnClickSaveNewSalary}
           />
         </ModalRow>
