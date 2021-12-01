@@ -1,18 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./style.scss"
 import Search from "../../ui/search/Search";
 import CheckItem from "./component/CheckItem";
 
 
-function AddSelectedM({teamM}) {
+function AddSelectedM({teamM, location, checkedUsers, setCheckedUsers}) {
+
     const teamMList = teamM.map((e)=>{
-       return <CheckItem key={e.id} e={e} />
+        if(e){
+            return <CheckItem
+                key={e.id}
+                checkedUsers={checkedUsers}
+                setCheckedUsers={setCheckedUsers}
+                e={e}
+            />;
+        }
     });
     return<div>
-        <form className="add-selected ">
+        <form className={'add-selected '+(location?'members':'') }>
             <Search/>
             <div className="check-items-box">
-                <CheckItem/>
                 {teamMList}
             </div>
             <div className={'btn-cont'}>

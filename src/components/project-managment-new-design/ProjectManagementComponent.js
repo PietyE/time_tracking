@@ -254,7 +254,7 @@ const ProjectManagementComponent =({
                   {projectsList}
               </div>
 
-              <CreateProjectModal2 show = {isCreateModalShow}/>
+              <CreateProjectModal2 show = {isCreateModalShow} e={projectManagers}/>
               <EditProjectModal show = {isEditModalShow} />
       </div>)
   }

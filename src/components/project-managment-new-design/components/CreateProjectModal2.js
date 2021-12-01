@@ -18,7 +18,7 @@ import AddSelectedM from "../../common/AddSelectedM/AddSelectedM";
 import {setDevelopers} from "../../../actions/developers";
 import {getDevelopersSelector} from "../../../selectors/developers";
 
-function CreateProjectModal2({show}) {
+function CreateProjectModal2({e, show}) {
     const dispatch = useDispatch()
 
     const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
@@ -26,17 +26,19 @@ function CreateProjectModal2({show}) {
     const projectTeamM = useSelector(getUsersSelector);
     const users = useSelector(getDevelopersSelector)
 
+
+
     const projects = useSelector(getAllProjectsSelector, isEqual)
 
-    const [addUser, setAddUser]=useState(true);
+    const [addUser, setAddUser]=useState(false);
 
-    const [teamM, setTeamM]= useState(users)
+    const [teamM, setTeamM]= useState(e);
 
-    useEffect(()=>{
+    const [addLocation, setAddLocation]=useState(false);
 
-    },[teamM])
+    const [checkedUsers, setCheckedUsers] =useState([]);
 
-    console.log('Team M', teamM);
+    console.log('checked users', checkedUsers);
 
     const showEmployees = (employees)=>{
         setAddUser(!addUser);
@@ -44,11 +46,14 @@ function CreateProjectModal2({show}) {
     }
 
     const showManagers=()=>{
-        showEmployees(projectManagers)
+        showEmployees(projectManagers);
+        setAddLocation(false);
     }
 
     const showTeamM=()=>{
-        showEmployees(teamM);
+        showEmployees(users);
+        setAddLocation(true);
+
     }
 
 
@@ -162,14 +167,16 @@ function CreateProjectModal2({show}) {
                                         <label htmlFor="">
                                             Project manager
                                         </label>
-                                        <Plus isActive={true} showUList={showManagers}/>
+                                        <Plus isActive={addUser} showUList={showManagers}/>
                                         <TeamM/>
                                     </div>
                                     <div className="team-container input-cont">
                                         <label htmlFor="">
                                             Team
                                         </label>
-                                        <Plus isActive={true} showUList={showTeamM}/>
+                                        <Plus isActive={addUser}
+                                              showUList={showTeamM}
+                                        />
                                         <TeamM/>
                                         <TeamM/>
                                     </div>
@@ -177,7 +184,12 @@ function CreateProjectModal2({show}) {
                                         Create the project
                                     </button>
                                     {
-                                        addUser&&<AddSelectedM teamM={teamM}/>
+                                        addUser&&<AddSelectedM
+                                            teamM={teamM}
+                                            location={addLocation}
+                                            checkedUsers={checkedUsers}
+                                            setCheckedUsers={setCheckedUsers}
+                                        />
                                     }
                                 </div>
                             )

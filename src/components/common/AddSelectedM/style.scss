@@ -11,6 +11,11 @@
   border-radius: 6px;
   font-family: 'Montserrat';
 
+  &.members{
+    top:220px;
+  }
+
+
   .search{
     width: 256px;
     height: 40px;
@@ -27,10 +32,13 @@
     width: 256px;
     height: 208px;
     margin:30px 8px 0;
+    overflow-y: scroll;
     .check-item{
       display: flex;
       align-items: flex-end;
       height: 40px;
+      margin: 6px 0;
+
       &.checked{
         background: rgba(87, 108, 108, 0.12);
         border-radius: 5px;
@@ -43,7 +51,7 @@
         letter-spacing: 0.03em;
         color: #222222;
         position: relative;
-
+        cursor: pointer;
         input {
           position: absolute;
           opacity: 0;
