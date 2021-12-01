@@ -1,12 +1,10 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
-import usaFlag from 'images/inHouseEmployees/usaFlag.svg'
-import euroFlag from 'images/inHouseEmployees/euroFlag.svg'
-import ukrFlag from 'images/inHouseEmployees/ukrFlag.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
-import ukFlag from 'images/inHouseEmployees/ukFlag.svg'
 
 import { selectRateList, selectCurrencyList } from 'selectors/currency'
+
+import { flags } from 'constants/currency-flag-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
@@ -22,7 +20,6 @@ function CurrencySelect (props) {
     changeExtraCosts
   } = props
 
-  const [flag, setFlag] = useState(usaFlag);
   const [currency, setCurrency] = useState("USD");
   const currenciesRateList = useShallowEqualSelector(selectRateList);
   const [opened, setOpened] = useState(false);
@@ -31,15 +28,6 @@ function CurrencySelect (props) {
   useEffect(() => {
     if(selected){
       setCurrency(selected.name)
-      if(currency === "EUR") {
-        setFlag(euroFlag)
-      } else if(currency === "UAH") {
-        setFlag(ukrFlag)
-      } else if (currency === "USD") {
-        setFlag(usaFlag)
-      } else if (currency === "GBP") {
-        setFlag(ukFlag)
-      } 
     }
   }, [currency, selected])
 
@@ -51,15 +39,6 @@ function CurrencySelect (props) {
   useEffect(() => {
     if(currencyValue) {
       setCurrency(currencyValue)
-    }
-    if(currency === "EUR") {
-      setFlag(euroFlag)
-    } else if(currency === "UAH") {
-      setFlag(ukrFlag)
-    } else if (currency === "USD") {
-      setFlag(usaFlag)
-    } else if (currency === "GBP") {
-      setFlag(ukFlag)
     }
   }, [currencyValue, currency])
 
@@ -93,7 +72,7 @@ function CurrencySelect (props) {
   return (
     <>
       <div className={`currency  ${opened ? "open_menu" : "close_menu"} `} onClick={onOpen}>
-        <img src={flag} className="flag" /> 
+        <img src={flags[currency]} className="flag" /> 
         <span className="currency_name">{currency}</span>
         <img src={upArrow} className="up_arrow"/>  
       </div>

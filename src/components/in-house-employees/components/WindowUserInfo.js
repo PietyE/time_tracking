@@ -137,24 +137,18 @@ function WindowUserInfo (props) {
   const changeHourlyRate = (e) => {
     if(e.target.value >= 0) {
       setNewHourlyRate(e.target.value)
-    } else {
-      console.log("Write a positive number")
     }
   }
 
   const changeExtraCosts = (e) => {
     if(e.target.value >= 0) {
       setNewExtraCosts(e.target.value)
-    } else {
-      console.log("Write a positive number")
     }
   }
 
   const changeSalary = (e) => {
     if(e.target.value >= 0) {
       setNewSalaryValue(e.target.value)
-    } else {
-      console.log("Write a positive number")
     }
   }
 

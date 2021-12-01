@@ -41,8 +41,6 @@ function DropDownCurrencyChange (props) {
   const changeValue = useCallback((e) => {
     if(e.target.value >= 0) {
       setCurrencyValue(e.target.value)
-    } else {
-      console.log("Write a positive number")
     }
   }, [])
 
