@@ -8,7 +8,9 @@ function WorkData (props) {
     extra_costs,
     salaryPerHour,
     comments_lenght,
-    openComments
+    openComments,
+    salaryCur,
+    currencyRate
   } = props;
 
   const contextType = useContext(ProjectReportContext);
@@ -22,7 +24,7 @@ function WorkData (props) {
     <div className="work_data">
       <div className="user_work_data">
         <span className="data">
-          ${salary ? salary : "0"}
+          {salaryCur}{salary ? salary : "0"}
         </span>
         <span className="user_work_data_text">SALARY</span>
       </div>
@@ -34,7 +36,7 @@ function WorkData (props) {
       </div>
       <div className="user_work_data">
         <span className="data">
-            ${salaryPerHour ? salaryPerHour : "0"}/h
+            {currencyRate}{salaryPerHour ? salaryPerHour : "0"}/h
         </span>
         <span className="user_work_data_text">HOURLY RATE</span>   
       </div>
