@@ -25,6 +25,7 @@ import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.css'
 import InHouseEmployees from 'components/in-house-employees'
+import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 import PeopleScreen from "../PeopleScreen";
 
 function MainScreen({
@@ -79,6 +80,7 @@ function MainScreen({
         <Route path="/timereport" component={TimeReportScreen} exct />
         <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct />
+        <Route path="/remotecontractors" component={RemoteContractors} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 
         {/* <Redirect from="/" to="/projectreport" /> */}

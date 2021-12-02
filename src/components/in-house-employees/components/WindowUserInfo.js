@@ -13,7 +13,7 @@ import CurrencySelect from 'components/in-house-employees/components/CurrencySel
 
 import { selectCommentsByUserId } from 'selectors/project-report-details';
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
-import { InHouseEmployeesContext } from 'context/inHouseEmployees-context'
+import { EmployeesMainComponentContext } from 'context/employeesMainComponent-context'
 import ProjectData from 'components/project-report-new-design/components/ProjectData/ProjectData'
 import UserComment from 'components/project-report-new-design/components/UserComment/UserComment'
 
@@ -47,12 +47,14 @@ function WindowUserInfo (props) {
   } = props
 
   const [checkOn, setCheckOn] = useState(is_processed);
-  const contextType = useContext(InHouseEmployeesContext);
+  const contextType = useContext(EmployeesMainComponentContext);
   const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, id));
   const [editOn, setEditOn] = useState(false);
   const [newHourlyRate, setNewHourlyRate] = useState(hourlyRate);
   const [newSalary, setNewSalaryValue] = useState(salary);
   const [newExtraCosts, setNewExtraCosts] = useState(extraCosts);
+  const [salaryError, setSalaryError] = useState(false);
+  const [hourlyRateError, setHourlyRateError] = useState(false);
   const dispatch = useDispatch();
 
   const checkCurrency = (currency) => {
@@ -120,7 +122,7 @@ function WindowUserInfo (props) {
 
   const toPayCheck = (e) => {
     e.stopPropagation()
-    setCheckOn(!checkOn)
+    // setCheckOn(!checkOn)
     dispatch(setProcessedStatus({
       id: id,
       month: selectedDate.month + 1,
@@ -130,13 +132,13 @@ function WindowUserInfo (props) {
   }
 
   const editPage = () => {
-    setEditOn(true)
+    setEditOn(!editOn)
     contextType.hideComments()
   }
 
   const changeHourlyRate = (e) => {
     if(e.target.value >= 0) {
-      setNewHourlyRate(e.target.value)
+      setNewHourlyRate(+e.target.value)
     }
   }
 
@@ -148,7 +150,7 @@ function WindowUserInfo (props) {
 
   const changeSalary = (e) => {
     if(e.target.value >= 0) {
-      setNewSalaryValue(e.target.value)
+      setNewSalaryValue(+e.target.value)
     }
   }
 
@@ -166,29 +168,39 @@ function WindowUserInfo (props) {
     setNewExtraCostsFlag(value.name)
     setextraCostsCurrencyId(value.currencyId)
   }
-
+  console.log(newSalary)
   const saveNewData = () => {
     if(newSalary !== salary || newSalaryFlag !== oldCurrencySalary) {
-      const data = {
-        user: id,
-        date_start: new Date(selectedDate.year, selectedDate.month + 1)
-          .toISOString()
-          .slice(0, 10),
-        salary: newSalary,
-        currency: salaryCurrencyId
+      if(!!newSalary) {
+        const data = {
+          user: id,
+          date_start: new Date(selectedDate.year, selectedDate.month + 1)
+            .toISOString()
+            .slice(0, 10),
+          salary: newSalary,
+          currency: salaryCurrencyId
+        }
+        dispatch(setNewSalary(data))
+        setSalaryError(false)
+      } else {
+        setSalaryError(true)
       }
-      dispatch(setNewSalary(data))
     }
     if(newHourlyRate !== hourlyRate || newHourlyRateFlag !== oldCurrencyHourlyRate) {
-      const data = {
-        user: id,
-        date_start: new Date(selectedDate.year, selectedDate.month + 1)
-          .toISOString()
-          .slice(0, 10),
-        rate: newHourlyRate,
-        currency: hourlyRateCurrencyId
+      if(!!newHourlyRate) {
+        const data = {
+          user: id,
+          date_start: new Date(selectedDate.year, selectedDate.month + 1)
+            .toISOString()
+            .slice(0, 10),
+          rate: newHourlyRate,
+          currency: hourlyRateCurrencyId
+        }
+        dispatch(setNewRate(data))
+        setHourlyRateError(false)
+      } else {
+        setHourlyRateError(true)
       }
-      dispatch(setNewRate(data))
     }
     if(newExtraCosts !== extraCosts || newExtraCostsFlag !== oldCurrencyExtraCosts) {
       const data = {
@@ -333,13 +345,13 @@ function WindowUserInfo (props) {
           <span className="info_data">₴{toPaySalary}</span>
           <span className="grn">грн</span>
         </div>
-        {!checkOn &&
+        {!is_processed &&
           <div className="topay">
             <span className="payed">PAYED</span>
             <div className="checkbox" onClick={toPayCheck} />
           </div>
         }     
-        {!!checkOn &&
+        {is_processed &&
         <div className="topay">
           <span className="payed checked">PAYED</span>
           <div className="checkbox_checked" onClick={toPayCheck}>
@@ -361,34 +373,46 @@ function WindowUserInfo (props) {
         <div className="div_info_row">
           <img src={calendar} className="calendar" />
           <span className="info_text">LAST SINCE</span>
-          <div className="info_data_edited data">
-            <span>01 Sep, 2021</span>
-            <img src={upArrow} className="up_arrow"/>
-          </div>
+          <div className="info_container">
+            <div className="info_data_edited data">
+              <span>01 Sep, 2021</span>
+              <img src={upArrow} className="up_arrow"/>
+            </div>
+          </div>  
         </div>
         <div className="row2" />
-        <div className="div_info_row">
+        <div className={`div_info_row ${salaryError ? "error" : ""}`}>
           <img src={dot} className="dot" />
           <span className="info_text">SALARY</span>
           <div className="currency_select_edited">
             <CurrencySelect currencyValue={newSalaryFlag} changeSalary={changeSalaryFlag}/>
           </div>
-          <div className="info_data_edited">
-            <span>{changeIcon(newSalaryFlag)}</span>
-            <textarea className="change_currency_info" onChange={changeSalary} value={newSalary} />
+          <div className="info_container">
+            <div className={`info_data_edited ${salaryError ? "error" : ""}`}>
+              <span>{changeIcon(newSalaryFlag)}</span>
+              <textarea className="change_currency_info" onChange={changeSalary} value={newSalary} />
+            </div>
+            <span className={`error_show ${salaryError ? "show" : "hide"}`}>
+              Some error
+            </span>
           </div>
         </div>
         <div className="row2 grey" />
-        <div className="div_info_row grey">
+        <div className={`div_info_row grey ${hourlyRateError ? "error" : ""}`}>
           <img src={dot} className="dot" />
           <span className="info_text">HOURLY RATE</span>
           <div className="currency_select_edited">
             <CurrencySelect currencyValue={newHourlyRateFlag} changeHourlyRate={changeHourlyRateFlag}/>
           </div>
-          <div className="info_data_edited">
-            <span>{changeIcon(newHourlyRateFlag)}</span>
-            <textarea className="change_currency_info" onChange={changeHourlyRate} value={newHourlyRate} />
-            <span>/h</span>
+          <div className="info_container">
+            <div className={`info_data_edited ${hourlyRateError ? "error" : ""}`}>
+              <span>{changeIcon(newHourlyRateFlag)}</span>
+              <textarea className="change_currency_info" onChange={changeHourlyRate} value={newHourlyRate} />
+              <span>/h</span>
+            </div>
+            <span className={`error_show ${hourlyRateError ? "show" : "hide"}`}>
+              Some error
+            </span>
           </div>
         </div>
         <div className="row2 grey" />
@@ -431,13 +455,13 @@ function WindowUserInfo (props) {
             <span className="info_data">₴{toPaySalary}</span>
             <span className="grn">грн</span>
           </div>
-          {!checkOn &&
+          {!is_processed &&
             <div className="topay">
               <span className="payed edited">PAYED</span>
               <div className="checkbox edited"/>
             </div>
           }     
-          {!!checkOn &&
+          {is_processed &&
           <div className="topay">
             <span className="payed checked edited">PAYED</span>
             <div className="checkbox_checked edited">

@@ -142,6 +142,10 @@
         position: relative;
         width: auto;
 
+        &.hide {
+          display: none;
+        }
+
         .sidebar_menu_button {
           padding-left: 40px;
         }
@@ -164,6 +168,10 @@
         &.opened {
           .up_arrow {
             transform: rotate(0deg);
+
+            &.hide {
+              transform: rotate(180deg);
+            }
           }
         }
         &.selected,

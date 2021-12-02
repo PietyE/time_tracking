@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import EmployeesMainComponent from './components/EmployeesMainComponent/EmployeesMainComponent';
+import EmployeesMainComponent from 'components/in-house-employees/components/EmployeesMainComponent/EmployeesMainComponent';
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report';
 
-import './inHouseEmployees.scss'
+import './remoteContractors.scss'
 
-function InHouseEmployees () {
+function RemoteContractors () {
 
     const dispatch = useDispatch();
 
@@ -18,8 +18,8 @@ function InHouseEmployees () {
       }, [])
   
   return (
-    <EmployeesMainComponent getDevelopersProjects={getDevelopersProjects} pageName="In-house-employees"/>
+    <EmployeesMainComponent getDevelopersProjects={getDevelopersProjects} pageName="Remote contractors"/>
   )
 }
 
-export default InHouseEmployees;
+export default RemoteContractors;
