@@ -6,7 +6,7 @@ import { getIsFetchingProjectsReport } from '../../../selectors/developer-projec
 import { isEqual } from 'lodash'
 import { useSelector } from 'react-redux'
 
-export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit }) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
@@ -37,7 +37,12 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit })
   const handlerClickCancelButton = () => {
     setIsvalue(+prevValue)
     setIsEdit(false)
-    setIsCEdit(false)
+    if(setIsCEdit){
+      let receive = {};
+      receive[row]= '';
+      let res = Object.assign({},CisEdit,receive)
+      setIsCEdit(res)
+    }
   }
 
   const handleClickSave = () => {
@@ -64,7 +69,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit })
           <Spinner animation = "border" variant = "success"/>
         </div>
         }
-        {(isEdit || CisEdit )&& !isFetching && <>
+        {(isEdit || (CisEdit && CisEdit[row]===row))&& !isFetching && <>
           <button
             variant = {'success'}
             onClick = {handleClickSave}

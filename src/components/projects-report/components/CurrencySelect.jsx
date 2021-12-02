@@ -5,7 +5,7 @@ import Select from 'components/ui/select'
 
 function CurrencySelect(props) {
 
-  const {parentHandler, selectedCurrency} = props;
+  const {parentHandler, selectedCurrency, row} = props;
 
   const currenciesList = useSelector(selectCurrencyList)
 
@@ -21,7 +21,7 @@ function CurrencySelect(props) {
     })
   const handleOnChange = (event) => {
     const currencyId = event.serverId;
-    parentHandler(currencyId);
+    parentHandler(currencyId, row);
   }
 
 
