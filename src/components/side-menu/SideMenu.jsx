@@ -141,7 +141,30 @@ function SideMenu () {
       )} 
       {!openSideMenu &&
         <div className="side_menu_container_close">
+            {/* <SidemenuButton /> */}
+            <div className="side_menu_wrap">
+            <Logo />
+            {/* <Company /> */}
             <SidemenuButton />
+          </div>
+          <div className="side_menu_user_info">
+            <div className="user_avatar">
+              <UserAvatar />
+            </div>
+            <div className="user_info">
+              <span className="user_role">{ userRole }</span>
+              <span className="user_name">{ userName }</span>
+            </div>
+          </div>
+          <div className="div_row" />
+            <div className="sidebar_menu">
+              <SideBarMenu panels={panels}/>
+            </div>
+            <div className="div_row2" />
+            <div className="sidebar_footer">
+              <HelpCenter img={questionCircle}/>
+              <Logout img={door}/>
+            </div> 
         </div>
       }
     </SidebarContext.Provider> 
