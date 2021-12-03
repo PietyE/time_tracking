@@ -10,7 +10,7 @@ import { selectProjectsByUserId,
         } from 'selectors/project-report-details';
 import { getUsersProjectReport } from 'actions/projects-report';
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
-import { InHouseEmployeesContext } from 'context/inHouseEmployees-context'
+import { EmployeesMainComponentContext } from 'context/employeesMainComponent-context'
 
 
 function User (props) {
@@ -30,8 +30,8 @@ function User (props) {
   } = props;
 
   const [checked, setChecked] = useState(is_processed);
-  const [currentUserCommentShow, setCurrentUserCommentShow] = useState(false)
-  const contextType = useContext(InHouseEmployeesContext);
+  const [currentUserCommentShow, setCurrentUserCommentShow] = useState(false);
+  const contextType = useContext(EmployeesMainComponentContext);
   const dispatch = useDispatch();
   const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, userId))
 
@@ -40,10 +40,15 @@ function User (props) {
   }
 
   useEffect(() => {
+    setChecked(is_processed)
+  }, [is_processed])
+
+  useEffect(() => {
     loadProjects()
   }, [])
 
   const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
+  
   const toPayCheck = (e) => {
     e.stopPropagation()
     setChecked(!checked)
@@ -90,7 +95,7 @@ function User (props) {
   }, [currentUserCommentShow, contextType.commentsOn, contextType.currentUserId, userId])
 
   return (
-    <div className="user_info" onClick={chooseUser}>
+    <div className={`user_info ${contextType.currentUserId === userId ? "selected" : ""}`} onClick={chooseUser}>
       <img src={clock} alt="avatar" className="user_avatar" />
       <div className="name_email">
         <span className="name">{name}</span>

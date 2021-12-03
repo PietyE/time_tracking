@@ -9,6 +9,7 @@ import { Link, useRouteMatch } from 'react-router-dom'
 
 const SideMenuItem = (props) =>{
   const [opened, setOpened] = useState(true);
+  const [hide, setHide] = useState(false)
 
   const { item } = props;
   const contextType = useContext(SidebarContext);
@@ -43,18 +44,24 @@ const SideMenuItem = (props) =>{
     )
   }, [isSelected])
 
+  const hideSubitem = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setHide(!hide)
+  } 
+
   return (
     <>
     <Link to={item.pathname} style={{ textDecoration: 'none' }}>
       <div className={itemClasses} onClick={onClick}>
         <img src={item.icon} className="sidebar_img" />
         <span className="item">{item.label}</span>
-        <img src={upArrow} className="up_arrow" />
+        <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} />
       </div>
     </Link> 
       {item?.subItems &&
        opened && (
-        <div className="subitem">
+        <div className={`subitem ${hide ? "hide" : ""}`}>
           {item?.subItems.map((subItem) => (
             <SideMenuItem item={subItem} key={subItem.label} />
           ))}
