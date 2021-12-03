@@ -111,6 +111,15 @@ function ReportItem({
        })
        return
      }
+
+    if(duration > 8){
+      showAler({
+        type: WARNING_ALERT,
+        message: 'Worked time can\'t be more 8 hours',
+        delay: 5000,
+      })
+      return
+    }
     if (oldDuration !== duration || oldTitle !== title) {
       editTimeReport({
         developer_project,
