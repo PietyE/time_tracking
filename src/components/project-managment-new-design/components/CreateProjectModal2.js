@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {Modal} from 'react-bootstrap'
-import TeamMemberItem from './TeamMemberItem'
-import TeamInput from './TeamInput'
 import {
     getProjectManagerListSelector,
     getAllProjectsSelector,
@@ -30,33 +28,69 @@ function CreateProjectModal2({e, show}) {
 
     const projects = useSelector(getAllProjectsSelector, isEqual)
 
-    const [addUser, setAddUser]=useState(false);
+    const [addM, setAddM]=useState(false);
+    const [addD, setAddD]=useState(false);
 
-    const [teamM, setTeamM]= useState(e);
+    const [teamM, setTeamM]= useState([]);
 
     const [addLocation, setAddLocation]=useState(false);
 
     const [checkedUsers, setCheckedUsers] =useState([]);
 
-    console.log('checked users', checkedUsers);
+    const [selectedM, setSelectedM] = useState([]);
+    const [selectedD, setSelectedD] = useState([]);
+
+    let selectedMList =[];
+    let selectedDList =[];
+
+
+    const addSelected =  (e)=>{
+        e.preventDefault();
+        if(addLocation){
+            setSelectedD(checkedUsers)
+        }else {
+            setSelectedM(checkedUsers)
+        }
+    }
+
+    const deleteItem = (id)=> {
+        setSelectedM(selectedM.filter(e => e.id !== id));
+        setSelectedD(selectedD.filter(e => e.id !== id));
+        //setCheckedUsers(checkedUsers.filter(e => e.id !== id));
+    }
+
+    selectedMList = selectedM.map((e)=>{
+        if(e.role === 4){
+            return <TeamM key={e.id} e={e} del={deleteItem}/>
+        }
+    });
+    selectedDList = selectedD.map((e)=>{
+        if(e.role !== 4){
+            return <TeamM key={e.id} e={e} del={deleteItem} d={true}/>
+        }
+    });
+
+
+    const closeAddUser = ()=>{
+        setAddM(false)
+        setAddD(false)
+    }
 
     const showEmployees = (employees)=>{
-        setAddUser(!addUser);
         setTeamM(employees);
     }
 
     const showManagers=()=>{
         showEmployees(projectManagers);
         setAddLocation(false);
+        setAddM(!addM);
     }
 
     const showTeamM=()=>{
-        showEmployees(users);
+        showEmployees(projectTeamM);
         setAddLocation(true);
-
+        setAddD(!addD);
     }
-
-
 
     const _createProject = useCallback(
         (data) => {
@@ -64,12 +98,6 @@ function CreateProjectModal2({e, show}) {
         },
         [dispatch],
     )
-    // const _setShowCreateModal = useCallback(
-    //   () => {
-    //     dispatch(setShowCreateModal(false))
-    //   },
-    //   [dispatch],
-    // )
 
     const handleClose = () => dispatch(setShowCreateModal(false))
 
@@ -167,28 +195,32 @@ function CreateProjectModal2({e, show}) {
                                         <label htmlFor="">
                                             Project manager
                                         </label>
-                                        <Plus isActive={addUser} showUList={showManagers}/>
-                                        <TeamM/>
+                                        <Plus isActive={addM}
+                                              showUList={showManagers}
+
+                                        />
+                                        {selectedMList}
                                     </div>
                                     <div className="team-container input-cont">
                                         <label htmlFor="">
                                             Team
                                         </label>
-                                        <Plus isActive={addUser}
+                                        <Plus isActive={addD}
                                               showUList={showTeamM}
                                         />
-                                        <TeamM/>
-                                        <TeamM/>
+                                        {selectedDList}
                                     </div>
                                     <button className="pm_create_modal_form-submit">
                                         Create the project
                                     </button>
                                     {
-                                        addUser&&<AddSelectedM
+                                        (addM || addD)&&<AddSelectedM
                                             teamM={teamM}
                                             location={addLocation}
                                             checkedUsers={checkedUsers}
                                             setCheckedUsers={setCheckedUsers}
+                                            addSelected={addSelected}
+                                            closeAddUser={closeAddUser}
                                         />
                                     }
                                 </div>

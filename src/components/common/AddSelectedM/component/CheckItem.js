@@ -5,23 +5,17 @@ function CheckItem({e, checkedUsers, setCheckedUsers}) {
     let [checked, setChecked]=useState(false);
 
     const isChecked = ()=>{
-        console.log('checked', checked)
         if(!checked){
             setCheckedUsers([...checkedUsers, e])
         }else{
             setCheckedUsers(checkedUsers.filter(elem=>elem!==e))
         }
-        // if(checked){
-        //
-        // }else {
-        //    setCheckedUsers(checkedUsers.filter(elem=> elem !==e))
-        // }
     }
     const change = ()=>{
         setChecked(!checked);
         setTimeout(()=>{
             isChecked()
-        },1000);
+        },10);
     }
 
     return <div className={'check-item '+(checked ? 'checked':'')}>
