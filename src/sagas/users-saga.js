@@ -85,6 +85,9 @@ function* logIn({ payload: googleData }) {
   try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
+        if(googleData.error === 'popup_closed_by_user'){
+          throw new Error('Popup closed by user')
+        }
         throw new Error(googleData.error)
       }
 
