@@ -42,7 +42,6 @@ function EmployeesMainComponent (props) {
   const [openUserInfo, setOpenUserInfo] = useState(false);
   const [commentsOn, setUserCommentsOn] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [check, setCheck] = useState("")
   const dispatch = useDispatch();
 
   const onSentNewData = (data) => {
@@ -76,14 +75,8 @@ function EmployeesMainComponent (props) {
 
   const selectUser = (user, checked) => {
     if (user) {
-      if(user === userSelected){
-        setUserSelected(userSelected)
-        setCurrentUserId(userSelected.id)
-        setCheck(userSelected.is_processed)
-      } else {
-        setUserSelected(user)
-        setCurrentUserId(user.id)
-      }
+      setUserSelected(user)
+      setCurrentUserId(user.id)
       if(checked !== userIsChecked){
         setUserIsChecked(!userIsChecked)
       }
@@ -106,23 +99,17 @@ function EmployeesMainComponent (props) {
     setProjectState("Archieve")
   }
 
-  const toPayCheck = () => {
-    setCheck(!check)
-  }
-
   return (
     <EmployeesMainComponentContext.Provider value={{selected,
                                               opened,
                                               currentUserId,
                                               commentsOn,
-                                              check, 
                                               onItemClick: buttonRouteTo,
                                               showWindowWithUserInfo: userWindowInfoOpen,
                                               closeWindowWithUserInfo: userWindowInfoClose,
                                               chooseUser: selectUser,
                                               showComments: showUserComments,
                                               hideComments: hideUserComments,
-                                              checkToPay: toPayCheck
                                               }}>
       <div className="in_house_employees_page">
         <div className="header">

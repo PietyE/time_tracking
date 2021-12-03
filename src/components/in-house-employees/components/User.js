@@ -40,10 +40,15 @@ function User (props) {
   }
 
   useEffect(() => {
+    setChecked(is_processed)
+  }, [is_processed])
+
+  useEffect(() => {
     loadProjects()
   }, [])
 
   const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
+  
   const toPayCheck = (e) => {
     e.stopPropagation()
     setChecked(!checked)

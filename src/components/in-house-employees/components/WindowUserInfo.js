@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useMemo, useContext, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import closeButton from 'images/projectReportIcons/closeButton.svg'
@@ -46,7 +46,7 @@ function WindowUserInfo (props) {
     is_processed,
   } = props
 
-  const [checkOn, setCheckOn] = useState(is_processed);
+  const [checked, setChecked] = useState(is_processed);
   const contextType = useContext(EmployeesMainComponentContext);
   const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, id));
   const [editOn, setEditOn] = useState(false);
@@ -56,6 +56,10 @@ function WindowUserInfo (props) {
   const [salaryError, setSalaryError] = useState(false);
   const [hourlyRateError, setHourlyRateError] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setChecked(is_processed)
+  }, [is_processed])
 
   const checkCurrency = (currency) => {
     if(currency === "$") {
@@ -122,13 +126,15 @@ function WindowUserInfo (props) {
 
   const toPayCheck = (e) => {
     e.stopPropagation()
-    // setCheckOn(!checkOn)
-    dispatch(setProcessedStatus({
-      id: id,
-      month: selectedDate.month + 1,
-      year: selectedDate.year,
-    })
-    )
+    if(id === contextType.currentUserId){
+      setChecked(!checked)
+      dispatch(setProcessedStatus({
+        id: id,
+        month: selectedDate.month + 1,
+        year: selectedDate.year,
+      })
+      )
+    }
   }
 
   const editPage = () => {
@@ -168,7 +174,7 @@ function WindowUserInfo (props) {
     setNewExtraCostsFlag(value.name)
     setextraCostsCurrencyId(value.currencyId)
   }
-  console.log(newSalary)
+
   const saveNewData = () => {
     if(newSalary !== salary || newSalaryFlag !== oldCurrencySalary) {
       if(!!newSalary) {
@@ -226,7 +232,6 @@ function WindowUserInfo (props) {
       setEditOn(false)
     }
   }, [contextType.commentsOn])
-
   return (
     <div className="main_container">
       <div className="header">
@@ -345,13 +350,13 @@ function WindowUserInfo (props) {
           <span className="info_data">₴{toPaySalary}</span>
           <span className="grn">грн</span>
         </div>
-        {!is_processed &&
+        {!checked &&
           <div className="topay">
-            <span className="payed">PAYED</span>
+            <span className="payed">NOT PAYED</span>
             <div className="checkbox" onClick={toPayCheck} />
           </div>
         }     
-        {is_processed &&
+        {checked &&
         <div className="topay">
           <span className="payed checked">PAYED</span>
           <div className="checkbox_checked" onClick={toPayCheck}>
@@ -455,13 +460,13 @@ function WindowUserInfo (props) {
             <span className="info_data">₴{toPaySalary}</span>
             <span className="grn">грн</span>
           </div>
-          {!is_processed &&
+          {!checked &&
             <div className="topay">
               <span className="payed edited">PAYED</span>
               <div className="checkbox edited"/>
             </div>
           }     
-          {is_processed &&
+          {checked &&
           <div className="topay">
             <span className="payed checked edited">PAYED</span>
             <div className="checkbox_checked edited">

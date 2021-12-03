@@ -1031,7 +1031,7 @@ input, textarea {
         position: relative;
         display: flex;
         flex-direction: row;
-        margin: 0 0 0 347px;
+        margin: 0 0 0 317px;
         height: 24px;
         align-items: center;
 
@@ -1044,10 +1044,12 @@ input, textarea {
           line-height: 24px;
           text-align: right;
           letter-spacing: 0.02em;
-          color: #616161;
+          color: #F84242;
+          height: 24px;
 
           &.checked {
             color: #009C98;
+            margin-left: 30px;
           }
 
           &.edited {
@@ -1055,6 +1057,7 @@ input, textarea {
 
             &.checked {
               color: #ADADA7;
+              margin-left: 30px;
             }
           }
         }
@@ -1065,7 +1068,7 @@ input, textarea {
           width: 20px;
           height: 20px;
           top: 0;
-          border: 2px solid #616161;
+          border: 2px solid #F84242;
           border-radius: 4px;
           margin-left: 12px;
 
