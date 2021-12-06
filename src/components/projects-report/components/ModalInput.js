@@ -82,7 +82,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
           <Spinner animation = "border" variant = "success"/>
         </div>
         }
-        {isEdit && !isFetching && <>
+        {(isEdit || (CisEdit && CisEdit[row]===row))&& !isFetching && <>
           <button
             variant = {'success'}
             onClick = {handleClickSave}
