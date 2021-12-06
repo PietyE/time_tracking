@@ -12,7 +12,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshagent(['dokku']) {
+                sshagent(['jenkins']) {
                     sh '''
 	                    if git remote | grep dokku > /dev/null;
 	                    then
