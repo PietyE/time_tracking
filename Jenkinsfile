@@ -13,15 +13,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(['dokku']) {
-	                if git remote | grep dokku > /dev/null;
-	                then
-	                echo "dokku already exist";
-	                else
-	                echo "dokku remote does not already exist";
-	                git remote add dokku dokku@159.89.4.200:timetracking-front;
-	                fi
-	                git remote -v
-                    git push -f dokku HEAD:master
+                    sh '''
+	                    if git remote | grep dokku > /dev/null;
+	                    then
+	                    echo "dokku already exist";
+	                    else
+	                    echo "dokku remote does not already exist";
+	                    git remote add dokku dokku@159.89.4.200:timetracking-front;
+	                    fi
+	                    git remote -v
+                        git push -f dokku HEAD:master
+                    '''
                 }
             }
         }
