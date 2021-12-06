@@ -28,18 +28,6 @@ function ProjectData (props) {
 
   const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
 
-  // const {
-  //   working_time: hours,
-  //   idDeveloperProjects: developer_project_id,
-  //   total,
-  //   name: projectName,
-  // } = projects
-
-  // let stateDataForLink = {
-  //   userId,
-  //   developer_project_id: userProjects.id,
-  //   selectedDate,
-  // }
   return (
     <div className="project_data">
       <div className="project_data_header">
