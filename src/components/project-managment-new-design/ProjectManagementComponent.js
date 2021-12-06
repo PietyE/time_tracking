@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import SelectMonth from '../ui/select-month'
 import {
-  RowDetailState,
+    RowDetailState,
 } from '@devexpress/dx-react-grid'
 import {
-  Grid,
-  Table,
-  TableHeaderRow,
-  TableRowDetail,
+    Grid,
+    Table,
+    TableHeaderRow,
+    TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { connect, useDispatch } from 'react-redux'
+import {connect, useDispatch} from 'react-redux'
 import {
-  getAllProjectsSelector,
-  getSelectedDateForPMSelector,
-  getSelectedMonthForPMSelector,
-  getIsFetchingPmPageSelector,
-  getIsShowEditModalSelector,
-  getIsShowCreateModalSelector,
-  getProjectManagerListSelector,
-  getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector,
+    getAllProjectsSelector,
+    getSelectedDateForPMSelector,
+    getSelectedMonthForPMSelector,
+    getIsFetchingPmPageSelector,
+    getIsShowEditModalSelector,
+    getIsShowCreateModalSelector,
+    getProjectManagerListSelector,
+    getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
     changeSelectedDateProjectsManagement, clearPmProjects,
@@ -31,10 +31,10 @@ import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
 import EditProjectModal from './components/EditProjectModal'
 import './style.scss'
-import { Button } from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
-import { getCurrentUserSelector } from '../../reducers/profile'
+import {getCurrentUserSelector} from '../../reducers/profile'
 import {isEmpty} from 'lodash'
 import {convertMinutesToHours} from '../../utils/common'
 
@@ -42,42 +42,46 @@ import ReportItemProject from "../common/repott-item/ReportItemProject";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
 import CreateProjectModal2 from "./components/CreateProjectModal2";
+import WindowInfo from "../common/window-info/WindowInfo";
+import InfoItemM from "../common/window-info/components/InfoItemM";
+import TeamM from "../common/team-m/TeamM";
+import Plus from "../ui/plus";
 
-const ProjectManagementComponent =({
-                                     selectedDateForPM,
-                                     changeSelectedDateProjectsManagement,
-                                     getAllProjects,
-                                     projects,
-                                     clearPmProjects,
-                                     isFetching,
-                                     month,
-                                     setShowCreateModal,
-                                     setShowEditModal,
-                                     isEditModalShow,
-                                     isCreateModalShow,
-                                     projectManagers,
-                                     selectedPm,
-                                     setPm,
-                                     currentPm,
-                                     shownProject,
-                                     setShownProject,
-                                     filteredProjects,
-                                       getActiveProjects
+const ProjectManagementComponent = ({
+                                        selectedDateForPM,
+                                        changeSelectedDateProjectsManagement,
+                                        getAllProjects,
+                                        projects,
+                                        clearPmProjects,
+                                        isFetching,
+                                        month,
+                                        setShowCreateModal,
+                                        setShowEditModal,
+                                        isEditModalShow,
+                                        isCreateModalShow,
+                                        projectManagers,
+                                        selectedPm,
+                                        setPm,
+                                        currentPm,
+                                        shownProject,
+                                        setShownProject,
+                                        filteredProjects,
+                                        getActiveProjects
 
-}) => {
-  const dispatch = useDispatch()
+                                    }) => {
+    const dispatch = useDispatch()
 
-    useEffect(()=>{
-    if(isEmpty(selectedPm)){
-      setPm(currentPm)
-    }
-  },[])
+    useEffect(() => {
+        if (isEmpty(selectedPm)) {
+            setPm(currentPm)
+        }
+    }, [])
 
-  useEffect(()=>{
-    clearPmProjects()
-    setExpandedRowIds([])
-    getAllProjects()
-  },[month])
+    useEffect(() => {
+        clearPmProjects()
+        setExpandedRowIds([])
+        getAllProjects()
+    }, [month])
 
     const [typeProjects] = useState([
         {name: 'Active', count: 5},
@@ -85,148 +89,147 @@ const ProjectManagementComponent =({
     ])
 
     const _downloadAllTeamProjectReport = useCallback(
-      (data) => {
-        dispatch(downloadAllTeamProjectReport(data))
-      },
-      [dispatch],
+        (data) => {
+            dispatch(downloadAllTeamProjectReport(data))
+        },
+        [dispatch],
     )
-  const _getProjectReportById = useCallback(
-    (data) => {
-      dispatch(getProjectReportById(data))
-    },
-    [dispatch],
-  )
+    const _getProjectReportById = useCallback(
+        (data) => {
+            dispatch(getProjectReportById(data))
+        },
+        [dispatch],
+    )
     const _setSelectedProjectId = useCallback(
-      (data) => {
-        dispatch(setSelectedProjectId(data))
-      },
-      [dispatch],
+        (data) => {
+            dispatch(setSelectedProjectId(data))
+        },
+        [dispatch],
     )
     const openEditModal = (id) => {
-      _setSelectedProjectId(id)
-      setShowEditModal(true)
+        _setSelectedProjectId(id)
+        setShowEditModal(true)
     }
 
     const [rows, setRows] = useState([])
-  useEffect(() => {
+    useEffect(() => {
         const reformatProjects = filteredProjects.map(project => ({
-          project: project.name,
-          occupancy: ' ',
-          hours: convertMinutesToHours(project?.total_minutes) || 0,
-          report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
-            <span className = "oi oi-cloud-download"/>
-          </Button>,
-          actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
-          id: project.id,
+            project: project.name,
+            occupancy: ' ',
+            hours: convertMinutesToHours(project?.total_minutes) || 0,
+            report: <Button variant="outline-*" onClick={() => _downloadAllTeamProjectReport(project.id)}>
+                <span className="oi oi-cloud-download"/>
+            </Button>,
+            actions: <span className="oi oi-pencil" onClick={() => openEditModal(project.id)}/>,
+            id: project.id,
         }))
         setRows(reformatProjects)
     }, [filteredProjects, projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
 
-    let [p, setP]= useState([])
-    useEffect(()=>{
+    let [p, setP] = useState([])
+    useEffect(() => {
         setP(projects);
-    },[projects]);
+    }, [projects]);
 
-    const showTypeProject=(item)=>{
-        if(item.name == 'Active' ){
-            let activeP = projects.filter(e=>e.isActive == true);
-            console.log('Active P', activeP);
+    const showTypeProject = (item) => {
+        if (item.name == 'Active') {
+            let activeP = projects.filter(e => e.isActive == true);
             setP(activeP)
-        }else {
+        } else {
             setP([])
         }
     }
 
-    const projectsList = p.map((e,i)=>{
-       return <ReportItemProject key={e.id} p={e}/>
+    const projectsList = p.map((e, i) => {
+        return <ReportItemProject key={e.id} p={e}/>
     });
 
-  const onSelectPm = (data) => {
-    setPm(data)
-    setShownProject(null)
-    setExpandedRowIds([])
-    getAllProjects()
-  }
+    const onSelectPm = (data) => {
+        setPm(data)
+        setShownProject(null)
+        setExpandedRowIds([])
+        getAllProjects()
+    }
 
-  const clearSelectedProject = () => {
-    setShownProject(null)
-  }
-  const onSelectProject = (data) => {
-    setShownProject(data)
-    _getProjectReportById(data.id)
-  }
+    const clearSelectedProject = () => {
+        setShownProject(null)
+    }
+    const onSelectProject = (data) => {
+        setShownProject(data)
+        _getProjectReportById(data.id)
+    }
 
-  return (
-      <div className="project">
-          <div className="container">
-              <h1 className="page-title">
-                  <span>Project management</span>
-                  <button
-                      type = 'submit'
-                      className = 'btn btn-add-new'
-                      onClick = {()=>setShowCreateModal(true)}
-                  >
-                      Add new project
-                  </button>
-              </h1>
-          </div>
-          {isFetching && <SpinnerStyled/>}
-              <div className = "container ">
-                  <div className = "flex row  justify-content-between">
-                      <div className={'left-cont'}>
-                                <Select
-                                    title="Search by PM or developer"
-                                    listItems={projectManagers}
-                                    onSelected={onSelectPm}
-                                    valueKey="name"
-                                    idKey="id"
-                                    extraClassContainer={' search search-manger'}
-                                    initialChoice={selectedPm || currentPm}
-                                    isSearch
-                                />
-                                <div className='divider'>-</div>
-                                <Select
-                                    title="Projects"
-                                    listItems = {projects}
-                                    onSelected={onSelectProject}
-                                    valueKey="name"
-                                    idKey="id"
-                                    extraClassContainer={'select-project'}
-                                    initialChoice={shownProject}
-                                    onClear={clearSelectedProject}
-                                    // disabled={!projects?.length}
-                                    isSearch
-                                />
+    return (
+        <div className="project">
+            <div className="container">
+                <h1 className="page-title">
+                    <span>Project management</span>
+                    <button
+                        type='submit'
+                        className='btn btn-add-new'
+                        onClick={() => setShowCreateModal(true)}
+                    >
+                        Add new project
+                    </button>
+                </h1>
+            </div>
+            {isFetching && <SpinnerStyled/>}
+            <div className="container ">
+                <div className="flex row  justify-content-between">
+                    <div className={'left-cont'}>
+                        <Select
+                            title="Search by PM or developer"
+                            listItems={projectManagers}
+                            onSelected={onSelectPm}
+                            valueKey="name"
+                            idKey="id"
+                            extraClassContainer={' search search-manger'}
+                            initialChoice={selectedPm || currentPm}
+                            isSearch
+                        />
+                        <div className='divider'>-</div>
+                        <Select
+                            title="Projects"
+                            listItems={projects}
+                            onSelected={onSelectProject}
+                            valueKey="name"
+                            idKey="id"
+                            extraClassContainer={'select-project'}
+                            initialChoice={shownProject}
+                            onClear={clearSelectedProject}
+                            // disabled={!projects?.length}
+                            isSearch
+                        />
 
-                                <SelectMonth
-                                    extraClassNameContainer={'month_select'}
-                                    selectedDate = {selectedDateForPM}
-                                    setNewData = {changeSelectedDateProjectsManagement}
-                                />
+                        <SelectMonth
+                            extraClassNameContainer={'month_select'}
+                            selectedDate={selectedDateForPM}
+                            setNewData={changeSelectedDateProjectsManagement}
+                        />
 
-                            </div>
-                              <Select
-                                  title="Active"
-                                  listItems = {typeProjects}
-                                  onSelected={showTypeProject}
-                                  valueKey="name"
-                                  idKey="id"
-                                  extraClassContainer={'filter'}
-                                  initialChoice={'Active'}
-                                  onClear={clearSelectedProject}
-                                  // disabled={!projects?.length}
-                                  isSearch
-                              />
-                  </div>
-                  <div className="row table__titles">
-                      <div className="col-lg-5 ">
-                          <div className="sort-by">
+                    </div>
+                    <Select
+                        title="Active"
+                        listItems={typeProjects}
+                        onSelected={showTypeProject}
+                        valueKey="name"
+                        idKey="id"
+                        extraClassContainer={'filter'}
+                        initialChoice={'Active'}
+                        onClear={clearSelectedProject}
+                        // disabled={!projects?.length}
+                        isSearch
+                    />
+                </div>
+                <div className="row table__titles">
+                    <div className="col-lg-5 ">
+                        <div className="sort-by">
                                <span>
                              PROJECT NAME
                           </span>
-                              <span className="cart-cont">
+                            <span className="cart-cont">
                               <div className={'min'}>
                                    <FontAwesomeIcon
                                        icon={faCaretUp}
@@ -242,44 +245,143 @@ const ProjectManagementComponent =({
                                   />
                               </div>
                           </span>
-                          </div>
-                      </div>
-                      <div className="col-lg-2">
-                          ESTIMATE
-                      </div>
-                      <div className="col-lg-3">
-                          HOURS WORKED
-                      </div>
-                  </div>
-                  {projectsList}
-              </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-2">
+                        ESTIMATE
+                    </div>
+                    <div className="col-lg-3">
+                        HOURS WORKED
+                    </div>
+                </div>
+                {projectsList}
+            </div>
 
-              <CreateProjectModal2 show = {isCreateModalShow} e={projectManagers}/>
-              <EditProjectModal show = {isEditModalShow} />
-      </div>)
-  }
+            <CreateProjectModal2 show={isCreateModalShow} e={projectManagers}/>
+            <EditProjectModal show={isEditModalShow}/>
+            <WindowInfo>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <InfoItemM>
+                    <span className="info_text">LAST SINCE</span>
+                    <span className="info_data">01 Sep, 2021</span>
+                </InfoItemM>
+                <div className="projects_info">
+                    <div className="project_data">
+                        <div className="project_data_header">
+                            <span className="headers project">DEVELOPER NAME</span>
+                            <span className="headers">OCCUPANCY</span>
+                            <span className="headers">HOURS</span>
+                        </div>
+                        <div className="team-container">
+                            <TeamM e={{
+                                name: 'Some users',
+                                email: 'user@gmail.com',
+                                id: '123'
+                            }}
+                                   d={true}
+                                   hovers={'190h 59m'}
+                            />
+                            <TeamM e={{
+                                name: 'Some users',
+                                email: 'user@gmail.com',
+                                id: '123'
+                            }}
+                                   d={true}
+                                   hovers={'190h 59m'}
+                            />
+                            <TeamM e={{
+                                name: 'Some users',
+                                email: 'user@gmail.com',
+                                id: '123'
+                            }}
+                                   d={true}
+                                   hovers={'190h 59m'}
+                            />
+                            <TeamM e={{
+                                name: 'Some users',
+                                email: 'user@gmail.com',
+                                id: '123'
+                            }}
+                                   d={true}
+                                   hovers={'190h 59m'}
+                            />
+                            <TeamM e={{
+                                name: 'Some users',
+                                email: 'user@gmail.com',
+                                id: '123'
+                            }}
+                                   d={true}
+                                   hovers={'190h 59m'}
+                            />
+                        </div>
+                        <div className="edit-control container">
+                            <div className="row">
+                                <div className="col-5">
+                                    <a href="">
+                                        <span className="row align-items-center">
+                                             <Plus/>
+                                        <span>
+                                             Add new developers
+                                        </span>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div className="col-7">
+                                    <button className="btn btn-add">Save changes</button>
+                                    <button className="btn btn-cancel">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </WindowInfo>
+        </div>)
+}
 
 const mapStateToProps = (state) => ({
-  selectedDateForPM: getSelectedDateForPMSelector(state),
-  projects: getAllProjectsSelector(state),
-  isFetching: getIsFetchingPmPageSelector(state),
-  month: getSelectedMonthForPMSelector(state),
-  isEditModalShow: getIsShowEditModalSelector(state),
-  isCreateModalShow: getIsShowCreateModalSelector(state),
-  projectManagers: getProjectManagerListSelector(state),
-  selectedPm: getSelectedPmSelector(state),
-  currentPm: getCurrentUserSelector(state),
-  shownProject: getShownProjectSelector(state),
-  filteredProjects: getFilteredProjectSelector(state),
+    selectedDateForPM: getSelectedDateForPMSelector(state),
+    projects: getAllProjectsSelector(state),
+    isFetching: getIsFetchingPmPageSelector(state),
+    month: getSelectedMonthForPMSelector(state),
+    isEditModalShow: getIsShowEditModalSelector(state),
+    isCreateModalShow: getIsShowCreateModalSelector(state),
+    projectManagers: getProjectManagerListSelector(state),
+    selectedPm: getSelectedPmSelector(state),
+    currentPm: getCurrentUserSelector(state),
+    shownProject: getShownProjectSelector(state),
+    filteredProjects: getFilteredProjectSelector(state),
 })
 const actions = {
-  changeSelectedDateProjectsManagement,
-  getAllProjects,
-  clearPmProjects,
-  setShowEditModal,
-  setShowCreateModal,
-  setPm,
-  setShownProject,
+    changeSelectedDateProjectsManagement,
+    getAllProjects,
+    clearPmProjects,
+    setShowEditModal,
+    setShowCreateModal,
+    setPm,
+    setShownProject,
     getActiveProjects
 }
 

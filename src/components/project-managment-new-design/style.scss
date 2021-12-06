@@ -141,6 +141,38 @@
     }
   }
 
+  .team-container{
+    height: 400px;
+    overflow-y: scroll;
+  }
+
+  .edit-control{
+    height: 60px;
+    padding: 10px ;
+    background: #F3F3F3;
+    border: 1px solid rgba(201, 201, 198, 0.4);
+    box-sizing: border-box;
+
+
+    a{
+      display: block;
+      margin-left: 25px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 0.03em;
+      color: #009C98;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+
+    .plus{
+      background: #F3F3F3;
+    }
+  }
+
 }
 
 .pm_page_modal{

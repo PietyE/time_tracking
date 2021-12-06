@@ -4,7 +4,7 @@ import TrashImg from "../../../images/ic_trash .svg"
 
 
 
-function TeamM({e, del,d}) {
+function TeamM({e, del,d, hovers}) {
     return <div className='container team-m'>
         <div className="row ">
             <div className={'avatar-cont'}>
@@ -18,7 +18,7 @@ function TeamM({e, del,d}) {
                     }
                 </div>
             </div>
-            <form className="team-m__type-work">
+            <form className={'team-m__type-work ' +(hovers ?'flex-column':'')}>
                 <div className="team-m-input-cont">
                     <label htmlFor={e.id}>
                         <input name="w-type" type="radio"  defaultChecked="checked" id={e.id}/>
@@ -34,6 +34,11 @@ function TeamM({e, del,d}) {
                    </label>
                </div>
             </form>
+            {hovers &&
+                <div className='estimate-hours'>
+                    {hovers}
+                </div>
+            }
             <div className="trash-cont" onClick={()=>{del(e.id)}}>
                 <img src={TrashImg} alt=""/>
             </div>

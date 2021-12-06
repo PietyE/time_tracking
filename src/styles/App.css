@@ -67,6 +67,49 @@
 
 }
 
+.btn-add{
+  margin: 0 6px;
+  width: 132px;
+  height: 40px;
+  left: 419px;
+  top: 529px;
+  background: #009C98;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em
+}
+
+.btn-add:hover{
+  color: #fff;
+}
+
+.btn-cancel{
+  margin: 0 6px;
+  width: 96px;
+  height: 40px;
+  border: 1px solid #009C98;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #009C98;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+}
+
+.btn-cancel:hover{
+  color: #009C98;
+}
+
 .error_page {
   background: url(../images/500.png) center no-repeat,
     url(../images/6os.gif) left center no-repeat,
