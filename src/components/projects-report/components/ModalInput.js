@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {showAler} from "../../../actions/alert";
 import {WARNING_ALERT} from "../../../constants/alert-constant";
 
-export const ModalInput = ({ prevValue, handleSaveChange }) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
@@ -50,10 +50,16 @@ export const ModalInput = ({ prevValue, handleSaveChange }) => {
   const handlerClickCancelButton = () => {
     setIsvalue(+prevValue)
     setIsEdit(false)
+    if(setIsCEdit){
+      let receive = {};
+      receive[row]= '';
+      let res = Object.assign({},CisEdit,receive)
+      setIsCEdit(res)
+    }
   }
 
   const handleClickSave = () => {
-    if (Number(value) !== Number(prevValue)) {
+    if ((Number(value) !== Number(prevValue)) || CisEdit ) {
       handleSaveChange(value)
       setIsFetching(true)
       setIsEdit(false)
