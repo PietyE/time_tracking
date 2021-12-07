@@ -2,13 +2,13 @@ pipeline {
 
     agent any
 
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 checkout([$class: 'GitSCM', branches: [[name: '*/stage']], extensions: [], userRemoteConfigs:
-//                 [[credentialsId: 'azure_repos', url: 'https://vilmate.visualstudio.com/DefaultCollection/Time%20Tracking/_git/Time%20Tracking']]])
-//             }
-//         }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/stage']], extensions: [], userRemoteConfigs:
+                [[credentialsId: 'azure_repos', url: 'https://vilmate.visualstudio.com/DefaultCollection/Time%20Tracking/_git/Time%20Tracking']]])
+            }
+        }
 
         stage('Deploy') {
             steps {
