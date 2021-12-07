@@ -43,7 +43,38 @@ function MonthData (props) {
             </div>
         </div>
         <div className="vertical_row" />
-        <div></div>
+        <div className="info_block">
+          <div className="info_row">
+            <div className="square blue" />
+            <span className="text">Salaries</span>
+            <span className="value">$125,192</span>
+          </div>
+          <div className="percent">72%</div>
+          <div className="info_row">
+            <div className="square purple" />
+            <span className="text">Office</span>
+            <span className="value">$959</span>
+          </div>
+          <div className="percent">1,4%</div>
+          <div className="info_row">
+            <div className="square green" />
+            <span className="text">Salaries remote</span>
+            <span className="value">$14,707</span>
+          </div>
+          <div className="percent">25%</div>
+          <div className="info_row">
+            <div className="square red" />
+            <span className="text">Defecit last month</span>
+            <span className="value">$8,651</span>
+          </div>
+          <div className="percent">14%</div>
+          <div className="info_row">
+            <div className="square yellow" />
+            <span className="text">PR budget</span>
+            <span className="value">$31</span>
+          </div>
+          <div className="percent">0,3%</div>
+        </div>
     </div>
    </>
   )

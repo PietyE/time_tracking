@@ -56,6 +56,7 @@
             margin: 0;
             display: flex;
             flex-direction: row;
+            justify-content: flex-start;
             position: relative;
 
             .schedule {
@@ -95,12 +96,86 @@
 
             .vertical_row {
                 border: 1px solid rgba(201, 201, 198, 0.7);
-                transform: rotate(-90deg);
-                width: 344px;
-                height: 0;
+                width: 0;
+                height: 344px;
                 padding: 0;
-                margin: 200px 0 0 -50px;
+                margin: 30px 0 0 67px;
                 position: relative;
+            }
+
+            .info_block {
+                padding-top: 41px;
+                width: 491px;
+                padding-left: 68px;
+
+                .info_row {
+                    display: flex;
+                    flex-direction: row;
+                    text-align: left;
+                    width: 100%;
+                    margin-top: 22px;
+
+                    .square {
+                        width: 26px;
+                        height: 26px;
+                        border-radius: 6px;
+
+                        &.blue {
+                            background: #1F7BED;
+                        }
+
+                        &.purple {
+                            background: #C416C8;
+                        }
+
+                        &.green {
+                            background: #6AC035;
+                        }
+
+                        &.red {
+                            background: #F5330D;
+                        }
+
+                        &.yellow {
+                            background: #F8E642;
+                        }
+                    }
+
+                    .text {
+                        margin-left: 16px;
+                        font-family: Montserrat;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 15px;
+                        line-height: 24px;
+                        letter-spacing: 0.016em;
+                        color: #222222;
+                    }
+
+                    .value {
+                        position: absolute;
+                        right: 43px;
+                        font-family: Montserrat;
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 15px;
+                        line-height: 24px;
+                        text-align: right;
+                        letter-spacing: 0.02em;
+                        color: #222222;
+                    }
+                }
+
+                .percent {
+                    margin-left: 380px;
+                    font-family: Montserrat;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 15px;
+                    letter-spacing: 0.004em;
+                    color: #616161;
+                }
             }
         }
     }

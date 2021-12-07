@@ -60,6 +60,10 @@
         line-height: 32px;
         letter-spacing: 0.02em;
         color: #222222;
+
+        &.negative {
+          color: #F84242;
+        }
       }
 
       .user_work_data_text {
