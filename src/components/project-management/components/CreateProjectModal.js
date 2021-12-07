@@ -1,22 +1,33 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Modal } from 'react-bootstrap'
 import TeamMemberItem from './TeamMemberItem'
 import TeamInput from './TeamInput'
 import { getProjectManagerListSelector, getAllProjectsSelector } from '../../../reducers/projects-management'
+import { getProjectsList } from 'selectors/developer-projects'
 import { createProject, setShowCreateModal } from '../../../actions/projects-management'
+import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 import { Field, Form, Formik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
+import {WARNING_ALERT} from '../../../constants/alert-constant'
+import {showAler} from '../../../actions/alert'
 
 function CreateProjectModal({ show }) {
   const dispatch = useDispatch()
 
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
 
-  const projects = useSelector(getAllProjectsSelector, isEqual)
+  const getDevelopersProjects = useCallback(() => {
+    dispatch(getDevelopersProjectInProjectReport())
+  }, [])
 
+  useEffect(() => {
+    getDevelopersProjects()
+  }, [])
+
+  const projects = useSelector(getProjectsList, shallowEqual)
 
   const _createProject = useCallback(
     (data) => {
@@ -30,33 +41,42 @@ function CreateProjectModal({ show }) {
   //   },
   //   [dispatch],
   // )
-
-  const handleClose = () => dispatch(setShowCreateModal(false))
-
   const checkExistingProjects = data => {
     return projects.find(project => project.name === data)
   }
 
+  const handleClose = () => dispatch(setShowCreateModal(false))
+
+
   const onSubmit = (values) => {
     const { projectName, projectManager } = values
+    if(!!projectName) {
+      const existingProject = checkExistingProjects(projectName);
 
-    if (!!projectName && !checkExistingProjects(projectName)) {
-      let users = values.team
+      if (!existingProject) {
+        let users = values.team
 
-      if (!!values.projectManager.name) {
-        const preparedPm = projectManager
-        const currentProjectManager = projectManagers.find(pm => pm.name === values.projectManager?.name)
-        preparedPm.user_id = currentProjectManager.id
-        users = [...values.team, preparedPm]
+        if (!!values.projectManager.name) {
+          const preparedPm = projectManager
+          const currentProjectManager = projectManagers.find(pm => pm.name === values.projectManager?.name)
+          preparedPm.user_id = currentProjectManager.id
+          users = [...values.team, preparedPm]
+        }
+
+        const preparedData = {
+          projectName: projectName,
+          users: users,
+        }
+        _createProject(preparedData)
+        handleClose()
+      } else {
+        dispatch(showAler({
+          type: WARNING_ALERT,
+          message: 'Such a name of the project already exists',
+          delay: 5000,
+        }))
       }
-
-      const preparedData = {
-        projectName: projectName,
-        users: users,
-      }
-      _createProject(preparedData)
-      handleClose()
-    }
+    } 
   }
   const pmInitialValue = {
     name: '',
