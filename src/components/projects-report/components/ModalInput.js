@@ -32,7 +32,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
        dispath(showAler({
         type: WARNING_ALERT,
         title: 'Fields can not be empty',
-        message:'Убедитесь, что в числе не больше 8 знаков.',
+        message:'Убедитесь, что в поле не больше 8 знаков.',
         delay: 5000,
       }))
       return
