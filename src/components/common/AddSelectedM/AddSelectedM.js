@@ -6,7 +6,7 @@ import CheckItem from "./component/CheckItem";
 
 function AddSelectedM({teamM, location, checkedUsers, setCheckedUsers, addSelected, closeAddUser}) {
     const [searchTerm, setSearchTerm] = useState("")
-    const teamMList = teamM.filter((val)=>{
+    const teamMList = teamM?.filter((val)=>{
         if(searchTerm ==""){
             return val;
         }else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())) {

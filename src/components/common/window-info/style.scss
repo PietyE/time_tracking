@@ -498,6 +498,10 @@
         }
       }
     }
+
+    .add-selected{
+      left: 20px;
+    }
   }
 
   .main_container_footer {
@@ -528,6 +532,9 @@
       &:hover {
         color: #009C98;
         background: #FFFFFF;
+        cursor: pointer;
+      }
+      .add-new{
         cursor: pointer;
       }
     }

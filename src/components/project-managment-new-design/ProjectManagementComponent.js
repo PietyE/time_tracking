@@ -29,7 +29,8 @@ import {
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
-import EditProjectModal from './components/EditProjectModal'
+//import EditProjectModal from './components/EditProjectModal'
+
 import './style.scss'
 import {Button} from 'react-bootstrap'
 import SpinnerStyled from '../ui/spinner'
@@ -46,6 +47,7 @@ import WindowInfo from "../common/window-info/WindowInfo";
 import InfoItemM from "../common/window-info/components/InfoItemM";
 import TeamM from "../common/team-m/TeamM";
 import Plus from "../ui/plus";
+import EditProjectModal2 from "./components/EditProjectModal2";
 
 const ProjectManagementComponent = ({
                                         selectedDateForPM,
@@ -258,106 +260,9 @@ const ProjectManagementComponent = ({
             </div>
 
             <CreateProjectModal2 show={isCreateModalShow} e={projectManagers}/>
-            <EditProjectModal show={isEditModalShow}/>
-            <WindowInfo>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <InfoItemM>
-                    <span className="info_text">LAST SINCE</span>
-                    <span className="info_data">01 Sep, 2021</span>
-                </InfoItemM>
-                <div className="projects_info">
-                    <div className="project_data">
-                        <div className="project_data_header">
-                            <span className="headers project">DEVELOPER NAME</span>
-                            <span className="headers">OCCUPANCY</span>
-                            <span className="headers">HOURS</span>
-                        </div>
-                        <div className="team-container">
-                            <TeamM e={{
-                                name: 'Some users',
-                                email: 'user@gmail.com',
-                                id: '123'
-                            }}
-                                   d={true}
-                                   hovers={'190h 59m'}
-                            />
-                            <TeamM e={{
-                                name: 'Some users',
-                                email: 'user@gmail.com',
-                                id: '123'
-                            }}
-                                   d={true}
-                                   hovers={'190h 59m'}
-                            />
-                            <TeamM e={{
-                                name: 'Some users',
-                                email: 'user@gmail.com',
-                                id: '123'
-                            }}
-                                   d={true}
-                                   hovers={'190h 59m'}
-                            />
-                            <TeamM e={{
-                                name: 'Some users',
-                                email: 'user@gmail.com',
-                                id: '123'
-                            }}
-                                   d={true}
-                                   hovers={'190h 59m'}
-                            />
-                            <TeamM e={{
-                                name: 'Some users',
-                                email: 'user@gmail.com',
-                                id: '123'
-                            }}
-                                   d={true}
-                                   hovers={'190h 59m'}
-                            />
-                        </div>
-                        <div className="edit-control container">
-                            <div className="row">
-                                <div className="col-5">
-                                    <a href="">
-                                        <span className="row align-items-center">
-                                             <Plus/>
-                                        <span>
-                                             Add new developers
-                                        </span>
-                                        </span>
-                                    </a>
-                                </div>
-                                <div className="col-7">
-                                    <button className="btn btn-add">Save changes</button>
-                                    <button className="btn btn-cancel">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </WindowInfo>
+            {/*<EditProjectModal show={isEditModalShow}/>*/}
+            <EditProjectModal2 show={isEditModalShow}/>
+
         </div>)
 }
 

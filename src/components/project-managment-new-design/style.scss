@@ -154,7 +154,7 @@
     box-sizing: border-box;
 
 
-    a{
+    .add-new{
       display: block;
       margin-left: 25px;
       font-style: normal;
@@ -163,6 +163,7 @@
       line-height: 24px;
       letter-spacing: 0.03em;
       color: #009C98;
+      cursor: pointer;
       &:hover{
         text-decoration: none;
       }
