@@ -43,13 +43,9 @@ const EditUserModal = (props) => {
   const commentId = editingUser.commentId
   const _expense = editingUser.total_expenses
   const expenseId = editingUser.expensesId
-  let currentSalaryCurrency = editingUser.salaryCurrency
-  let currentRateCurrency = editingUser.rateCurrency
   const currenciesList = useSelector(selectCurrencyList)
-
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
-  const [selectedCurrency, setCurrency] = useState('')
   const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
   const [selectedRateCurrency, setRateCurrency] = useState('Currency')
 
@@ -80,10 +76,8 @@ const EditUserModal = (props) => {
   }
 
   useEffect(()=>{
-    setTimeout(()=>{
-      setCurrentCurrency();
-    },200)
-  },[currenciesList,editingUser])
+    setCurrentCurrency();
+    },[currenciesList,editingUser])
 
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
