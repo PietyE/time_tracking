@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 
-import HeaderProjectReport from './components/HeaderProjectReport'
-import WorkData from './components/WorkData'
+import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
+import WorkData from './components/WorkData/WorkData'
 import ProjectData from './components/ProjectData/ProjectData'
 import Comments from './components/Comments'
 
@@ -105,7 +105,11 @@ function ProjectReportNew () {
               extra_costs={total_expenses} 
               salaryPerHour={rate_uah}
               comments_lenght={comments.length}
-              openComments={openComments} />
+              openComments={openComments}
+              firstBlockText={"SALARY"}
+              secondBlockText={"HOURS WORKED"}
+              thirdBlockText={"HOURLY RATE"}
+              fourthBlockText={"EXTRA COSTS"} />
     <div className="component_project_data">
     <ProjectData projects={commonProjectsInfo}
                  overtime={totalHoursOvertime}
@@ -124,7 +128,7 @@ function ProjectReportNew () {
   return (
     <ProjectReportContext.Provider value={{selected, onItemClick: buttonFocusOn, openComments: commentsOnOpen}}>
       <div className="project_report_container">
-        <HeaderProjectReport id={currentUserId}/>
+        <HeaderProjectReport id={currentUserId} name="Project report"/>
         <div className="diw_row" />
         <div className="project_report_date">
           <SelectMonth
