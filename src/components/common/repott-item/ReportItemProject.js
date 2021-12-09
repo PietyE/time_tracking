@@ -8,7 +8,7 @@ import Archive from "../../../images/archive1.svg"
 import {closeEditMenu, parseMinToHoursAndMin} from "../../../utils/common";
 
 
-function ReportItemProject({p}) {
+function ReportItemProject({p, openEditModal}) {
 
     let [isEdit, setIsEdit] = useState(false)
 
@@ -48,6 +48,7 @@ function ReportItemProject({p}) {
                             className="button edit_button"
                             type={'button'}
                             form="edit_form"
+                            onClick={()=>{openEditModal(p.id)}}
                         >
                             <FontAwesomeIcon
                                 icon={ faEdit}

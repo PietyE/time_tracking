@@ -145,7 +145,7 @@ const ProjectManagementComponent = ({
     }
 
     const projectsList = p.map((e, i) => {
-        return <ReportItemProject key={e.id} p={e}/>
+        return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
     });
 
     const onSelectPm = (data) => {

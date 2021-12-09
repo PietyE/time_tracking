@@ -42,6 +42,14 @@
       }
     }
 
+    .team-m__type-work{
+      flex-direction: column;
+
+      .team-m-name{
+        margin-top: 5px;
+      }
+    }
+
     .user_project {
       position: relative;
       width: 100%;

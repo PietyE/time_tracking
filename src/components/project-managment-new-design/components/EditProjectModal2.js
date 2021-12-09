@@ -18,13 +18,14 @@ import {
     getProjectManagerListSelector,
     getProjectName,
     getSelectedProjectIdSelector,
-    getSelectedProjectSelector
+    getSelectedProjectSelector, getUsersSelector
 } from "../../../reducers/projects-management";
 import {isEqual} from "lodash";
 
 
 function EditProjectModal2({show}) {
-    let [addMember, setAddMember] = useState(false)
+    let [addMember, setAddMember] = useState(false);
+    const projectTeamM = useSelector(getUsersSelector);
 
     const dispatch = useDispatch()
 
@@ -75,7 +76,7 @@ function EditProjectModal2({show}) {
 
     const [valuesFromApi, setValuesFromApi] = useState(null)
 
-
+    console.log('values from api', valuesFromApi)
     useEffect(() => {
         if (projectName) {
             setValuesFromApi({
@@ -118,8 +119,16 @@ function EditProjectModal2({show}) {
         _changeProjectName(currentProjectId, values.projectName)
     }
 
-    return <>
-        <WindowInfo>
+    let teamMList = currentProjectActiveDevelopers?.map((e)=>{
+        return <div key={e.user_id}>
+            <TeamM e={e} hovers={'120h 50m'}/>
+        </div>
+    });
+
+    console.log('projectTeamM', projectTeamM)
+
+    return <div className={'edit-modal-container '+(show ? 'active':'')}>
+        <WindowInfo close={handleClose }>
             <InfoItemM>
                 <span className="info_text">LAST SINCE</span>
                 <span className="info_data">01 Sep, 2021</span>
@@ -156,58 +165,17 @@ function EditProjectModal2({show}) {
                         <span className="headers">HOURS</span>
                     </div>
                     <div className="team-container">
-                        <TeamM e={{
-                            name: 'Some users',
-                            email: 'user@gmail.com',
-                            id: '123'
-                        }}
-                               d={true}
-                               hovers={'190h 59m'}
-                        />
-                        <TeamM e={{
-                            name: 'Some users',
-                            email: 'user@gmail.com',
-                            id: '123'
-                        }}
-                               d={true}
-                               hovers={'190h 59m'}
-                        />
-                        <TeamM e={{
-                            name: 'Some users',
-                            email: 'user@gmail.com',
-                            id: '123'
-                        }}
-                               d={true}
-                               hovers={'190h 59m'}
-                        />
-                        <TeamM e={{
-                            name: 'Some users',
-                            email: 'user@gmail.com',
-                            id: '123'
-                        }}
-                               d={true}
-                               hovers={'190h 59m'}
-                        />
-                        <TeamM e={{
-                            name: 'Some users',
-                            email: 'user@gmail.com',
-                            id: '123'
-                        }}
-                               d={true}
-                               hovers={'190h 59m'}
-                        />
+                        {teamMList}
                     </div>
                     <div className="edit-control container">
                         <div className="row">
                             <div className="col-5 add-new " onClick={()=>{setAddMember(!addMember)}}>
-
-                                        <span className="row align-items-center">
+                                       <span className="row align-items-center">
                                              <Plus/>
                                         <span>
                                              Add new developers
                                         </span>
                                         </span>
-
                             </div>
                             <div className="col-6">
                                 <button className="btn btn-add">Save changes</button>
@@ -217,11 +185,13 @@ function EditProjectModal2({show}) {
                     </div>
                 </div>
                 {addMember&&
-                <AddSelectedM/>
+                <AddSelectedM
+                   // teamM={}
+                />
                 }
             </div>
         </WindowInfo>
-    </>
+    </div>
 }
 
 

@@ -20,15 +20,15 @@ function TeamM({e, del,d, hovers}) {
             </div>
             <form className={'team-m__type-work ' +(hovers ?'flex-column':'')}>
                 <div className="team-m-input-cont">
-                    <label htmlFor={e.id}>
-                        <input name="w-type" type="radio"  defaultChecked="checked" id={e.id}/>
+                    <label htmlFor={e.id ||e.user_id}>
+                        <input name="w-type" type="radio"  checked={e.is_full_time ? 'checked':'' } id={e.id ||e.user_id}/>
                         <span className="checkmark"></span>
                         Part-time
                     </label>
                 </div>
                <div className="team-m-input-cont">
-                   <label htmlFor={e.id+1}>
-                       <input name="w-type" type="radio"  id={e.id+1}/>
+                   <label htmlFor={e.id+1 || e.user_id}>
+                       <input name="w-type" type="radio" checked={!e.is_full_time ? 'checked':'' } id={e.id+1 || e.user_id}/>
                        <span className="checkmark"></span>
                        Full-time
                    </label>
@@ -39,7 +39,7 @@ function TeamM({e, del,d, hovers}) {
                     {hovers}
                 </div>
             }
-            <div className="trash-cont" onClick={()=>{del(e.id)}}>
+            <div className="trash-cont" onClick={()=>{del(e.id || e.user_id)}}>
                 <img src={TrashImg} alt=""/>
             </div>
         </div>

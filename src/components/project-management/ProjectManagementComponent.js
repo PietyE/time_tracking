@@ -203,7 +203,7 @@ const ProjectManagementComponent =({
         </div>
 
         <CreateProjectModal show = {isCreateModalShow} />
-        <EditProjectModal show = {isEditModalShow} />
+        <EditProjectModal show={isEditModalShow} />
       </>
     )
   }

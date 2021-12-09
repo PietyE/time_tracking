@@ -10,7 +10,7 @@ import CreateComment from "../../in-house-employees/components/CreateComment/Cre
 
 
 
-function WindowInfo({title, children}) {
+function WindowInfo({title, children, close}) {
     return  <div className="main_container">
         <div className="header">
             <span className="title">Vilmate Internal</span>
@@ -45,7 +45,7 @@ function WindowInfo({title, children}) {
                 </svg>
             </div>
             <div className="vert_row" />
-            <img src={closeButton} className="close_button"/>
+            <img src={closeButton} className="close_button" onClick={close}/>
         </div>
         {children}
     </div>
