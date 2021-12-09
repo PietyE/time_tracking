@@ -112,7 +112,7 @@ function ReportItem({
        return
      }
 
-    if(duration > 8){
+    if(duration > 480){
       showAler({
         type: WARNING_ALERT,
         message: 'Worked time can\'t be more 8 hours',
