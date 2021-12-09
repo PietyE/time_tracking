@@ -24,8 +24,29 @@ import {isEqual} from "lodash";
 
 
 function EditProjectModal2({show}) {
+    const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
     let [addMember, setAddMember] = useState(false);
+    const [checkedUsers, setCheckedUsers] =useState([]);
+    const [currentEditedTeam, setEditedTeam] = useState([]);
+
     const projectTeamM = useSelector(getUsersSelector);
+    const closeAddUser=()=>{setAddMember(false)}
+
+    const addSelected =  (e)=>{
+        e.preventDefault();
+        setEditedTeam([... new Set(currentEditedTeam.concat(checkedUsers))])
+    }
+
+    const deleteItem = (id)=>{
+        let res = currentEditedTeam.filter((e)=>{
+            if(e.user_id !== id && e.id !==id){
+                return e;
+            }
+        });
+        setEditedTeam(res);
+    }
+
+
 
     const dispatch = useDispatch()
 
@@ -64,9 +85,11 @@ function EditProjectModal2({show}) {
     const currentProject = useSelector((getSelectedProjectSelector, isEqual))
     const projectName = useSelector(getProjectName, isEqual)
 
+    console.log('currentProject',  currentProject);
+
     const projectManagersList = useSelector(getProjectManagerListSelector, isEqual)
     const activeProjectManager = useSelector(getActivePmInCurrentProjectSelector, isEqual)
-    const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
+
     const deactivatedUsers = useSelector(getDeactivatedMembersSelector, isEqual)
 
     const isFetching = useSelector(getIsFetchingPmPageSelector)
@@ -76,7 +99,7 @@ function EditProjectModal2({show}) {
 
     const [valuesFromApi, setValuesFromApi] = useState(null)
 
-    console.log('values from api', valuesFromApi)
+
     useEffect(() => {
         if (projectName) {
             setValuesFromApi({
@@ -85,6 +108,7 @@ function EditProjectModal2({show}) {
                 projectManager: activeProjectManager,
             })
         }
+        setEditedTeam(currentProjectActiveDevelopers)
     }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
 
     useEffect(() => {
@@ -119,16 +143,16 @@ function EditProjectModal2({show}) {
         _changeProjectName(currentProjectId, values.projectName)
     }
 
-    let teamMList = currentProjectActiveDevelopers?.map((e)=>{
+    let teamMList = currentEditedTeam?.map((e)=>{
         return <div key={e.user_id}>
-            <TeamM e={e} hovers={'120h 50m'}/>
+            <TeamM e={e} hovers={'120h 50m'} del={deleteItem}/>
         </div>
     });
 
-    console.log('projectTeamM', projectTeamM)
+
 
     return <div className={'edit-modal-container '+(show ? 'active':'')}>
-        <WindowInfo close={handleClose }>
+        <WindowInfo close={handleClose } title={projectName}>
             <InfoItemM>
                 <span className="info_text">LAST SINCE</span>
                 <span className="info_data">01 Sep, 2021</span>
@@ -186,7 +210,11 @@ function EditProjectModal2({show}) {
                 </div>
                 {addMember&&
                 <AddSelectedM
-                   // teamM={}
+                    teamM={projectTeamM}
+                    closeAddUser={closeAddUser}
+                    checkedUsers={checkedUsers}
+                    setCheckedUsers={setCheckedUsers}
+                    addSelected={addSelected}
                 />
                 }
             </div>

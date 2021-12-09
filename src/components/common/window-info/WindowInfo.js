@@ -13,7 +13,7 @@ import CreateComment from "../../in-house-employees/components/CreateComment/Cre
 function WindowInfo({title, children, close}) {
     return  <div className="main_container">
         <div className="header">
-            <span className="title">Vilmate Internal</span>
+            <span className="title">{title}</span>
             <div className="chat_img">
 
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
