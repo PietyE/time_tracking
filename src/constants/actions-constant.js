@@ -25,6 +25,7 @@ export const SET_MESSAGE = 'SET_MESSAGE'
 /** Error Action */
 export const SET_ERROR_DATA = 'SET_ERROR_DATA'
 export const CLEAN_ERROR_DATA = 'CLEAN_ERROR_DATA'
+export const SET_ERROR_PROJECT_REPORT = 'SET_ERROR_PROJECT_REPORT'
 
 /** Timereports Action */
 export const CHANGE_SELECTED_DATE_TIME_REPORT =

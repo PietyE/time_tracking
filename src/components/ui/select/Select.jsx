@@ -38,6 +38,10 @@ function Select(props) {
     setIsOpen(true)
   }
 
+  const initTitle = ()=>{
+   return   listItems.find((item)=>item.serverId === initialChoice)
+  }
+
   const handlerClickClear = (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -92,6 +96,7 @@ function Select(props) {
     },[listItems,initialChoice])
 
   useEffect(() => {
+    setTitle(initTitle()?.name)
     if (
       prevList &&
       listItems &&
@@ -102,7 +107,7 @@ function Select(props) {
     } else if (!listItems.length) {
       setTitle('List is empty')
     }
-  }, [listItems])
+  }, [listItems, initialChoice])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
