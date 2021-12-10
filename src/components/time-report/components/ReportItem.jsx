@@ -19,6 +19,7 @@ import {
   getTimeReportForEdit,
   getIdEditingWorkItem,
 } from 'selectors/timereports'
+import CopyToClipboardButton from 'components/ui/copyToClipboardButton/CopyToClipboardButton'
 
  import {WARNING_ALERT} from '../../../constants/alert-constant'
  import {showAler} from '../../../actions/alert'
@@ -281,6 +282,7 @@ function ReportItem({
 
       <div className="time_report_day_edit">
         <div className={'time_report_day_menu'}>
+          <CopyToClipboardButton />
           {idEditingWorkItem !== id && isOneProject && (
             <button
               onClick={hanldeClickToggleShowModalChangeProject}
