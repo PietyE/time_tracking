@@ -50,6 +50,14 @@ function CreateProjectModal({ show }) {
 
   const onSubmit = (values) => {
     const { projectName, projectManager } = values
+    if(projectManager.name === ''){
+      dispatch(showAler({
+        type: WARNING_ALERT,
+        message: 'Project Manager should be chosen',
+        delay: 5000,
+      }));
+      return
+    }
     if(!!projectName) {
       const existingProject = checkExistingProjects(projectName);
 
