@@ -4,12 +4,15 @@ import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import {showAler} from "../../../actions/alert";
+import {WARNING_ALERT} from "../../../constants/alert-constant";
 
 export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
+  const dispath = useDispatch()
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
@@ -20,9 +23,19 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
   }, [fetchingStatus])
 
   const handleChangeValue = (event) => {
-    const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '')
+    const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '');
     if(filteredStr !== Number(prevValue)){
       setIsEdit(true)
+    }
+
+    if(filteredStr.length>8){
+       dispath(showAler({
+        type: WARNING_ALERT,
+        title: 'Fields can not be empty',
+        message:'Убедитесь, что в поле не больше 8 знаков.',
+        delay: 5000,
+      }))
+      return
     }
     // if(filteredStr === ''){
     //   setIsEdit(false)
