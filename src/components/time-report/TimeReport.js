@@ -80,11 +80,7 @@ function TimeReport(props) {
       }, 0)
     : 0
 
-  const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = e => {
-    setCurrentPosition(e?.target.offsetTop)
-  }
-  
+
   const bootstrapWidthRouteState = () => {
     if (routeState) {
       const {
