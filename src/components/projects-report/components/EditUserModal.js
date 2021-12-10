@@ -25,6 +25,7 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import CurrencySelect from './CurrencySelect'
+import {selectCurrencyList} from "../../../selectors/currency";
 
 const EditUserModal = (props) => {
   const {
@@ -42,10 +43,13 @@ const EditUserModal = (props) => {
   const commentId = editingUser.commentId
   const _expense = editingUser.total_expenses
   const expenseId = editingUser.expensesId
-
+  const currenciesList = useSelector(selectCurrencyList)
   const [comment, setCommentLocal] = useState(_comment)
   const [isFetching, setIsFetching] = useState(false)
-  const [selectedCurrency, setCurrency] = useState('')
+  const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
+  const [selectedRateCurrency, setRateCurrency] = useState('Currency')
+
+
   const initialCurrencyState = {
     salary: '',
     rate:''
@@ -60,6 +64,21 @@ const EditUserModal = (props) => {
     }
   }, [fetchingStatus])
 
+  const setCurrentCurrency =()=>{
+    currenciesList.forEach((e)=>{
+      if(e.sign == editingUser.salaryCurrency ){
+        setSalaryCurrency(e.serverId)
+      }
+      if( e.sign == editingUser.rateCurrency){
+        setRateCurrency(e.serverId)
+      }
+    });
+  }
+
+  useEffect(()=>{
+    setCurrentCurrency();
+    },[currenciesList,editingUser])
+
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
     handlerCloseModalEdit()
@@ -72,9 +91,10 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       salary: newSalary,
-      currency: selectedCurrency
+      currency: selectedSalaryCurrency
     }
     setNewSalary(data)
+    setIsCEdit(initialCurrencyState)
   }
 
   const handlerOnClickSaveNewRate = (newRate) => {
@@ -84,9 +104,10 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       rate: newRate,
-      currency: selectedCurrency
+      currency: selectedRateCurrency
     }
     setNewRate(data)
+    setIsCEdit(initialCurrencyState)
   }
 
   const handleSaveCost = (newCoast) => {
@@ -147,8 +168,12 @@ const EditUserModal = (props) => {
   }
 
   const handleChangeCurrency = (data, row=null) => {
-    setCurrency(data)
-     let receive = {};
+    if(row =='salary'){
+      setSalaryCurrency(data)
+    }else{
+      setRateCurrency(data)
+    }
+    let receive = {};
      receive[row]= row;
      let res = Object.assign({},isCEdit,receive)
      setIsCEdit(res);
@@ -184,7 +209,7 @@ const EditUserModal = (props) => {
           <ModalTitle title={`Salary`} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
-            selectedCurrency={selectedCurrency}
+            selectedCurrency={selectedSalaryCurrency}
             row={'salary'}
           />
           <ModalInput
@@ -200,7 +225,7 @@ const EditUserModal = (props) => {
           <ModalTitle title={`Rate`} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
-            selectedCurrency={selectedCurrency}
+            selectedCurrency={selectedRateCurrency}
             row={'rate'}
           />
           <ModalInput
