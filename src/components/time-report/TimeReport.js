@@ -144,12 +144,6 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
-  useEffect(()=>{
-    if(currentPosition && !isFetchingReports){
-      window.scrollTo(0, Number(currentPosition) - 100 )
-      setCurrentPosition(null)
-    }
-  },[currentPosition,isFetchingReports])
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
