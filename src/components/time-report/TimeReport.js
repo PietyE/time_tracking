@@ -144,12 +144,7 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
-  useEffect(()=>{
-    if(currentPosition && !isFetchingReports){
-      window.scrollTo(0, Number(currentPosition) - 100 )
-      setCurrentPosition(null)
-    }
-  },[currentPosition,isFetchingReports])
+
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
@@ -244,7 +239,6 @@ function TimeReport(props) {
                   selectedDate={selectedDate}
                   descriptions={dataOfDay}
                   addTimeReport={addTimeReport}
-                  savePosition={savePosition}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}

@@ -36,6 +36,7 @@ function CreateReportForm({
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = (e) => {
+    e.preventDefault()
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
     if (!text && !hours) {
@@ -89,7 +90,7 @@ function CreateReportForm({
       })
       return
     }
-   
+
     if (takeTime > 480) {
       setBorderInputHoursClassName('border-danger')
       showAler({
@@ -102,7 +103,6 @@ function CreateReportForm({
     }
 
     setBorderInputClassName('')
-
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
       description: text,
@@ -110,7 +110,6 @@ function CreateReportForm({
     })
     setText('')
     setHours('')
-    savePosition(e)
   }
 
   const handlerChangeText = (e) => {
@@ -134,9 +133,10 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-    <div
+    <form
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
+      onSubmit={handlerClickAddButton}
     >
       <div className="description_input_container">
         <input
@@ -162,7 +162,7 @@ function CreateReportForm({
           mask="9:99"
           onFocus={handlerFocus}
         />
-        <button className="create_btn" onClick={handlerClickAddButton}>
+        <button type='submit' className="create_btn">
           <FontAwesomeIcon
             icon={faCheck}
             color="#414141"
@@ -170,7 +170,7 @@ function CreateReportForm({
           />
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 
