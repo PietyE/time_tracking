@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { connect, useSelector } from 'react-redux'
+import React, { useState, useEffect,useMemo } from 'react'
+import { connect, shallowEqual, useSelector } from 'react-redux'
 import _ from 'lodash'
 import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
@@ -11,6 +11,7 @@ import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
+import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
   setSelectedDeveloper,
@@ -68,6 +69,7 @@ function ProjectsReport({
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
+  const errorStatus = useSelector(getProjectReportError, shallowEqual)
   const handlerCloseModalEdit = () => {
     setEditUserId('')
     setIsOpenEdit(false)
@@ -91,6 +93,15 @@ function ProjectsReport({
     }
     getConsolidateProjectReport()
   }, [])
+
+  const errorProjectReport = useMemo(()=>{
+    if (errorStatus){
+      return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
+    } else {
+      return <p className='table_body_container_text'> There are no users in this project yet</p>
+    }
+  }, [errorStatus])
+  
   return (
     <>
       {isFetchingReports && <Spinner />}
@@ -218,7 +229,7 @@ function ProjectsReport({
               (
                 <>
                   {!isFetchingReports &&
-                  <p className='table_body_container_text'> There are no users in this project yet</p>
+                  errorProjectReport
                   }
                 </>
               )

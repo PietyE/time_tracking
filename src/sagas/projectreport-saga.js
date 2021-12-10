@@ -13,6 +13,7 @@ import {
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
   GET_CONSOLIDATE_PROJECT_REPORT,
+  SET_ERROR_PROJECT_REPORT
 } from 'constants/actions-constant'
 import {
   getConsolidateProjectReport,
@@ -138,6 +139,10 @@ export function* handleGetConsolidatedReport() {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
+  yield put ({
+    type: SET_ERROR_PROJECT_REPORT, 
+    payload: null
+  })
 
   yield put(setIsFetchingReports(true))
   const { email = '' } = yield select(
@@ -159,6 +164,17 @@ export function* handleGetConsolidatedReport() {
     }/?project_id=${searchProjectParam}`
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
+  if(response.status > 400) {
+    let status = response.status
+    let text = "something went wrong"
+    yield put ({
+      type: SET_ERROR_PROJECT_REPORT, 
+      payload: {
+        status,
+        text
+      }
+    })
+  }
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))

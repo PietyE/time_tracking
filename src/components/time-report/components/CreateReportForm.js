@@ -19,8 +19,7 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  savePosition
-}) {
+                          }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
@@ -36,7 +35,6 @@ function CreateReportForm({
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = (e) => {
-    e.preventDefault()
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
     if (!text && !hours) {
@@ -90,7 +88,7 @@ function CreateReportForm({
       })
       return
     }
-
+   
     if (takeTime > 480) {
       setBorderInputHoursClassName('border-danger')
       showAler({
@@ -103,6 +101,7 @@ function CreateReportForm({
     }
 
     setBorderInputClassName('')
+
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
       description: text,
@@ -136,7 +135,6 @@ function CreateReportForm({
     <form
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
-      onSubmit={handlerClickAddButton}
     >
       <div className="description_input_container">
         <input
