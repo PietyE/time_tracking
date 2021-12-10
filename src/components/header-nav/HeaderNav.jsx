@@ -12,7 +12,7 @@ function HeaderNav() {
   const userRole = useSelector(getRoleUser, shallowEqual)
   
   useEffect(() => {
-    if(userRole === 1){
+    if(userRole === 1 || userRole === 2){
       setPermission(false)
     } else {
       setPermission(true)
