@@ -96,7 +96,9 @@ function Select(props) {
     },[listItems,initialChoice])
 
   useEffect(() => {
-    setTitle(initTitle()?.name)
+    if(initTitle()?.name){
+      setTitle(initTitle()?.name)
+    }
     if (
       prevList &&
       listItems &&
