@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect} from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 
 import AlertStyled from 'components/ui/alert'
 import StatusPage from 'components/common/StatusPage'
@@ -7,10 +7,11 @@ import RootRouteComponent from 'screens/RootRouteComponent'
 import { getAlertIsShownAlertSelector } from 'selectors/alert'
 import { getErrorStatus } from 'selectors/error'
 
+
+
 import '../styles/App.css'
 
 const App = ({ isShownAlert, errorStatus }) => {
-
 
   const appClass = 'app';
   if (errorStatus === 500) {

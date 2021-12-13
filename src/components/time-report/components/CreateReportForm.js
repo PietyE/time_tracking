@@ -36,9 +36,9 @@ function CreateReportForm({
 
   const handlerClickAddButton = (e) => {
     e.preventDefault()
-
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
+
     if (!text && !hours) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
@@ -109,6 +109,7 @@ function CreateReportForm({
       description: text,
       tookHours: takeTime,
     })
+
     setText('')
     setHours('')
   }
@@ -135,9 +136,9 @@ function CreateReportForm({
   }
   return (
     <form
+        onSubmit={handlerClickAddButton}
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
-      onSubmit={handlerClickAddButton}
     >
       <div className="description_input_container">
         <input

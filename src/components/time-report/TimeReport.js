@@ -80,11 +80,7 @@ function TimeReport(props) {
       }, 0)
     : 0
 
-  const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = e => {
-    setCurrentPosition(e?.target.offsetTop)
-  }
-  
+
   const bootstrapWidthRouteState = () => {
     if (routeState) {
       const {
@@ -144,6 +140,7 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
+
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
@@ -238,7 +235,6 @@ function TimeReport(props) {
                   selectedDate={selectedDate}
                   descriptions={dataOfDay}
                   addTimeReport={addTimeReport}
-                  savePosition={savePosition}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}
