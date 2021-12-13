@@ -49,7 +49,8 @@ function CreateProjectModal({ show }) {
 
 
   const onSubmit = (values) => {
-    const { projectName, projectManager } = values
+    console.log('values', values.team.length)
+    const { projectName, projectManager, team } = values
     if(projectManager.name === ''){
       dispatch(showAler({
         type: WARNING_ALERT,
@@ -58,6 +59,25 @@ function CreateProjectModal({ show }) {
       }));
       return
     }
+
+    if(projectName === ''){
+      dispatch(showAler({
+        type: WARNING_ALERT,
+        message: `The project can't be created with an empty "Project Name"`,
+        delay: 5000,
+      }));
+      return
+    }
+
+    if(!team.length){
+      dispatch(showAler({
+        type: WARNING_ALERT,
+        message: `The project can't be created with an empty "Team"`,
+        delay: 5000,
+      }));
+      return
+    }
+
     if(!!projectName) {
       const existingProject = checkExistingProjects(projectName);
 
