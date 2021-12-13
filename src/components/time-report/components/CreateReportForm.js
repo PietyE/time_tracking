@@ -38,6 +38,7 @@ function CreateReportForm({
     e.preventDefault()
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
+
     if (!text && !hours) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
