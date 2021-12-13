@@ -35,6 +35,7 @@ function CreateReportForm({
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = (e) => {
+    e.preventDefault()
 
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
