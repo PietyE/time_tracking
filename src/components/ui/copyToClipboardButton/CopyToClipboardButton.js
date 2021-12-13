@@ -3,10 +3,10 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import copy from 'images/copy.svg'
 
 const CopyToClipboardButton = (props) => {
-    const {copyText, onCopy} = props
+    const {text, onCopy} = props
 
     return (
-        <CopyToClipboard text={copyText} onCopy={onCopy}>
+        <CopyToClipboard text={text} onCopy={onCopy}>
             <img src={copy} alt="" className="copy_img" />
         </CopyToClipboard>
     )
