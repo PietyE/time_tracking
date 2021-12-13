@@ -11,7 +11,7 @@ export default function TableHeader({ roleUser }) {
       <div className="table_cell project_name">
         <span>Projects</span>
       </div>
-      {roleUser !== PM && (
+      {/* {roleUser !== PM && ( */}
         <>
           <div className="table_cell salary">Salary</div>
           <div className="table_cell rate">Rate</div>
@@ -20,12 +20,13 @@ export default function TableHeader({ roleUser }) {
           <div className="table_cell total">Total salary</div>
           <div className="table_cell coast">Extra costs, UAH</div>
           <div className="table_cell to_pay">Total to pay, UAH</div>
-        </>)}
-      {roleUser === PM && (
+        </>
+        {/* )} */}
+      {/* {roleUser === PM && (
         <>
           <div className="table_cell hours">Hours</div>
         </>
-      )}
+      )} */}
       {roleUser !== DEVELOPER && (
         <>
           <div className="table_cell comment">Comments</div>

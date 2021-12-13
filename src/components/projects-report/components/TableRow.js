@@ -45,7 +45,7 @@ export default function TableRow({
     name: projectName,
   } = project
   const [isProcessed, setIsProcessed] = useState(false)
-
+  
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
     currency: 'USD',
@@ -152,7 +152,7 @@ export default function TableRow({
             </span>
           </span>
 
-          {roleUser !== PM && (
+          {/* {roleUser !== PM && ( */}
             <>
               <span className="table_cell salary">
                 {extraClass === 'common' ? `${digitFormat.format(projectSalary)} ${salaryCurrency}` : ''}
@@ -179,13 +179,13 @@ export default function TableRow({
               </span>
 
             </>
-          )}
+          {/* )} */}
 
-          {roleUser === PM && (
+          {/* {roleUser === PM && (
             <span className="table_cell hours">
               {hoursToShow}
             </span>
-          )}
+          )} */}
 
           {roleUser !== DEVELOPER && (
             <>
