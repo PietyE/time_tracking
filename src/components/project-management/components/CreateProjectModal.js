@@ -49,7 +49,6 @@ function CreateProjectModal({ show }) {
 
 
   const onSubmit = (values) => {
-    console.log('values', values.team.length)
     const { projectName, projectManager, team } = values
     if(projectManager.name === ''){
       dispatch(showAler({
