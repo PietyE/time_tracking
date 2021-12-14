@@ -19,8 +19,7 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  savePosition
-}) {
+                          }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
@@ -36,8 +35,10 @@ function CreateReportForm({
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = (e) => {
+    e.preventDefault()
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
+
     if (!text && !hours) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
@@ -108,9 +109,9 @@ function CreateReportForm({
       description: text,
       tookHours: takeTime,
     })
+
     setText('')
     setHours('')
-    savePosition(e)
   }
 
   const handlerChangeText = (e) => {
@@ -134,7 +135,8 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-    <div
+    <form
+        onSubmit={handlerClickAddButton}
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
@@ -162,7 +164,7 @@ function CreateReportForm({
           mask="9:99"
           onFocus={handlerFocus}
         />
-        <button className="create_btn" onClick={handlerClickAddButton}>
+        <button type='submit' className="create_btn">
           <FontAwesomeIcon
             icon={faCheck}
             color="#414141"
@@ -170,7 +172,7 @@ function CreateReportForm({
           />
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 

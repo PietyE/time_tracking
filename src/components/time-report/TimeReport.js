@@ -80,11 +80,7 @@ function TimeReport(props) {
       }, 0)
     : 0
 
-  const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = e => {
-    setCurrentPosition(e?.target.offsetTop)
-  }
-  
+
   const bootstrapWidthRouteState = () => {
     if (routeState) {
       const {
@@ -134,18 +130,17 @@ function TimeReport(props) {
     }
   }
 
+  useEffect(()=>{
+    selectProject(projects[0])
+  },[projects])
+
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
       return
     }
     getTimeReportCsv()
   }
-  useEffect(()=>{
-    if(currentPosition && !isFetchingReports){
-      window.scrollTo(0, Number(currentPosition) - 100 )
-      setCurrentPosition(null)
-    }
-  },[currentPosition,isFetchingReports])
+
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
@@ -240,7 +235,6 @@ function TimeReport(props) {
                   selectedDate={selectedDate}
                   descriptions={dataOfDay}
                   addTimeReport={addTimeReport}
-                  savePosition={savePosition}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}

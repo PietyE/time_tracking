@@ -1,10 +1,23 @@
 import React, { memo, useEffect, useState, useCallback } from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
 import ButtonHeaderNav from './components/ButtonHeaderNav'
+import { getRoleUser } from 'selectors/user'
 
 function HeaderNav() {
   const [isOpenMenu, setStateMenu] = useState(false)
+  const [permission, setPermission] = useState(false)
+
+  const userRole = useSelector(getRoleUser, shallowEqual)
+  
+  useEffect(() => {
+    if([1,2].includes(userRole)){
+      setPermission(false)
+    } else {
+      setPermission(true)
+    }
+  }, [])
 
   const activeTabStale = {
     color: '#249c98',
@@ -61,6 +74,7 @@ function HeaderNav() {
             TIMEREPORT
           </NavLink>
         </li>
+        {permission &&
         <li className="nav_item">
           <NavLink
             to="/management"
@@ -70,6 +84,7 @@ function HeaderNav() {
             PROJECTS MANAGEMENT
           </NavLink>
         </li>
+        }
       </ul>
     </>
   )
