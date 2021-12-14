@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
 
@@ -20,6 +20,7 @@ function Select(props) {
     onClear,
     isSearch = false,
     disabled,
+    isTeamSearch
   } = props
 
 
@@ -129,6 +130,7 @@ function Select(props) {
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
+      type='button'
       onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
       //disabled={!listItems.length}
@@ -147,14 +149,17 @@ function Select(props) {
             {_title}
           </span>
         )}
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          className={
-            isOpen && !classNameOpen
-              ? 'select_title_icon active'
-              : 'select_title_icon'
-          }
-        />
+        {!isTeamSearch &&
+          <FontAwesomeIcon
+              icon={faCaretDown}
+              className={
+                isOpen && !classNameOpen
+                    ? 'select_title_icon active'
+                    : 'select_title_icon'
+              }
+          />
+        }
+
       </div>
       {showContainer && (
         <div

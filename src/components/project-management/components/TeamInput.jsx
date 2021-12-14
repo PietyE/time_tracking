@@ -1,12 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Field } from 'formik'
 import { useSelector } from 'react-redux'
 import { getDeveloperSelector, getActiveDevSelector } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
+import Select from "../../ui/select";
+
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
+  const [selectedItem, setSelectedItem] =useState('')
+
   let availableDevelopers = developers
   if (currentProjectDevelopers) {
      const currentActiveProjectDevelopers = currentProjectDevelopers.filter(dev => dev.is_active === true)
@@ -19,7 +23,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   }
 
   const handleChangeDev = e => {
-    const data = e.target.value
+    const data = e?.target?.value || e.name
     if (type === 'update') {
       onChangeDev(e)
     }
@@ -38,20 +42,28 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
     
   }
-  return (
-    <Field
-      className = "pm_create_modal_input pm_create_select"
-      as = "select"
-      name = "team"
-      value = ''
-      onChange = {handleChangeDev}
-    >
-      <option label = 'Select developer' disabled = {true}></option>
-      {availableDevelopers.length > 0 && availableDevelopers.map(developer =>
-        <option key = {developer.id} data-id = {developer.id} value = {developer.name}>{developer.name}</option>
-      )}
 
-    </Field>
+  const onSelectItem = (data) => {
+    setSelectedItem(data)
+    handleChangeDev(data)
+  }
+
+  return (
+      <div>
+      <Select
+          title="Select Team"
+          listItems={availableDevelopers}
+          valueKey="name"
+          idKey="id"
+          extraClassContainer={'developer_select pm_select'}
+          isSearch
+          onSelected={onSelectItem}
+          initialChoice={selectedItem}
+          isTeamSearch={true}
+      />
+    </div>
+
+
   )
 }
 
