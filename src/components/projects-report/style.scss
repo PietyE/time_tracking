@@ -388,6 +388,13 @@
   }
 }
 
+.disable{
+  opacity: .5;
+  cursor: none!important;
+  cursor: not-allowed!important;
+  pointer-events: all !important;
+}
+
 @media screen and (max-device-width: 940px) {
   .project_report_container {
     font-size: 13px;
