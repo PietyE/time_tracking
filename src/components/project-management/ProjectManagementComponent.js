@@ -133,6 +133,7 @@ const ProjectManagementComponent =({
     setShownProject(data)
     _getProjectReportById(data.id)
   }
+  projectManagers.unshift({id: "select-all", name: "Select All"})
 
   return (
       <>
