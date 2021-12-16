@@ -1,7 +1,5 @@
-import React, { useState, useEffect,useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { connect, shallowEqual, useSelector } from 'react-redux'
-import _ from 'lodash'
-import TableRow from './components/TableRow'
 import TableHeader from './components/TableHeader'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
@@ -10,7 +8,7 @@ import TotalValue from './components/TotalValue'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
-import { DEVELOPER, PM } from 'constants/role-constant'
+import {ACCOUNTANT, DEVELOPER, PM} from 'constants/role-constant'
 import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
@@ -31,7 +29,7 @@ import {
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
-  selectUsersReports, getEditingUser,
+  selectUsersReports,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
@@ -39,6 +37,7 @@ import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
 import RenderUser from './components/RenderUser'
+import { getSortedUsers } from '../../utils/common'
 
 function ProjectsReport({
   roleUser,
@@ -67,6 +66,10 @@ function ProjectsReport({
   const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
 
   const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [sortField, setSortField] = useState({
+    key: null,
+    order: null,
+  })
   const allDevelopers = useSelector(getDevelopersList)
   const allProjects = useSelector(getProjectsList)
   const errorStatus = useSelector(getProjectReportError, shallowEqual)
@@ -87,6 +90,10 @@ function ProjectsReport({
 
   }
 
+  const handleSortPress = useCallback((data) => {
+    setSortField(data);
+  }, [])
+
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
       getDevelopersProjectInProjectReport()
@@ -94,14 +101,19 @@ function ProjectsReport({
     getConsolidateProjectReport()
   }, [])
 
-  const errorProjectReport = useMemo(()=>{
+  const errorProjectReport = useMemo(() => {
     if (errorStatus){
       return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
     } else {
       return <p className='table_body_container_text'> There are no users in this project yet</p>
     }
   }, [errorStatus])
-  
+
+  const sortedUsers = useMemo(
+    () => getSortedUsers(users, sortField.key, sortField.order),
+    [sortField.key, sortField.order, users.length],
+  )
+
   return (
     <>
       {isFetchingReports && <Spinner />}
@@ -149,26 +161,29 @@ function ProjectsReport({
         />
       </div>
 
-      {roleUser !== DEVELOPER && roleUser !== PM && (
-        <TotalValue
-          totalUsd={total_usd}
-          totalUah={total_uah}
-          setExchangeRates={setExchangeRates}
-          prevExchangeRate={exchange_rate}
-          selectedDate={selectedDate}
-        />
+      {roleUser !== ACCOUNTANT && roleUser !== PM && (
+          <TotalValue
+              totalUsd={total_usd}
+              totalUah={total_uah}
+              setExchangeRates={setExchangeRates}
+              prevExchangeRate={exchange_rate}
+              selectedDate={selectedDate}
+          />
       )}
       {roleUser !== DEVELOPER && roleUser !== PM && (
         <ActualRates />
       )}
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
-          <TableHeader roleUser={roleUser} />
+          <TableHeader
+            roleUser={roleUser}
+            onSortPress={handleSortPress}
+          />
           <div className="table_body_container">
             {!!users?.length ?
               (
                 <>
-                {users.map((user) => {
+                {sortedUsers.map((user) => {
                   const {
                     name,
                     developer_projects,
