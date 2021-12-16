@@ -19,6 +19,7 @@ import {
   getShownProjectSelector,
 } from '../reducers/projects-management'
 import {isEmpty} from 'lodash'
+import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import { setErrorData } from 'actions/error'
 
 
@@ -27,17 +28,29 @@ export function* getAllProjects() {
     yield put(setFetchingPmPage(true))
     const selectedPmId = yield select(getSelectedPmIdSelector)
       if(selectedPmId){
-      const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-      const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
-      yield put(setAllProjects(response.data))
-      const selectedProject = yield select(getShownProjectSelector)
+        if(selectedPmId === "select-all") {
+          const response = yield select(getProjectInTimeReportSelector)
+          yield put(setAllProjects(response))
+          const selectedProject = yield select(getShownProjectSelector)
+          
+          if(!isEmpty(selectedProject)){
+            const projectId = selectedProject?.id
+            const currentProject = response.data.find(el => el.id === projectId)
+            yield put(setShownProject(currentProject))
+          }
+        } 
+        if (selectedPmId !== "select-all") {
+          const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+          const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
+          yield put(setAllProjects(response.data))
+          const selectedProject = yield select(getShownProjectSelector)
 
-      if(!isEmpty(selectedProject)){
-        const projectId = selectedProject?.id
-        const currentProject = response.data.find(el => el.id === projectId)
-        yield put(setShownProject(currentProject))
-      }
-
+          if(!isEmpty(selectedProject)){
+            const projectId = selectedProject?.id
+            const currentProject = response.data.find(el => el.id === projectId)
+            yield put(setShownProject(currentProject))
+          }
+        }
     }
 
   } catch (error) {
