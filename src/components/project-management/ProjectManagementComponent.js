@@ -66,6 +66,13 @@ const ProjectManagementComponent =({
     }
   },[])
 
+  useEffect(() => {
+    projectManagers.unshift({
+      id: "select-all", 
+      name: "Select All"
+    })
+  }, [projectManagers])
+
   useEffect(()=>{
     clearPmProjects()
     setExpandedRowIds([])
@@ -133,7 +140,6 @@ const ProjectManagementComponent =({
     setShownProject(data)
     _getProjectReportById(data.id)
   }
-  projectManagers.unshift({id: "select-all", name: "Select All"})
 
   return (
       <>
