@@ -8,8 +8,17 @@ import { setAuthStatus } from 'actions/users'
 
 export function* errorHandler() {
   const { status, messages, detail } = yield select((state) => state.error)
-
   switch (status) {
+    case 400:
+      yield put(
+        showAler({
+          type: DANGER_ALERT,
+          message: detail || messages || 'Something went wrong',
+          delay: 5000,
+        })
+      )
+      yield put(cleanErrorData())
+      break
     case 401:
       yield call([localStorage, 'clear'])
       yield put(setAuthStatus(false))

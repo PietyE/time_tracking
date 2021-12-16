@@ -20,6 +20,7 @@ import {
 } from '../reducers/projects-management'
 import {isEmpty} from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
+import { setErrorData } from 'actions/error'
 
 
 export function* getAllProjects() {
@@ -164,6 +165,7 @@ export function* createProject({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
     const { projectName, users } = payload
+    // const { data } = pm.createProject({name: projectName})
     const { data } = yield call([pm, 'createProject'], { name: projectName })
     yield call([pm, 'setUsersToProject'],
       { project: data.id, users: users })
@@ -176,14 +178,19 @@ export function* createProject({ payload }) {
     )
     yield call(getAllProjects)
   } catch (error) {
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      }),
-    )
+    const { response = {}, message: error_message } = error
+
+    const { data = {}, status, statusText } = response
+
+    const { detail, title, non_field_errors, duration } = data
+    const errorMessage = (title && title[0]) || duration || non_field_errors && non_field_errors[0] || error_message || statusText
+    const errorData = {
+      status,
+      messages: errorMessage ,
+      detail: typeof data === 'object' ? detail : '',
+    }
+
+    yield put(setErrorData(errorData))
   }
   finally {
     yield put(setFetchingPmPage(false))
