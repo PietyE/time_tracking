@@ -77,8 +77,6 @@ export const getSelectedPmSelector = state => state.projectsManagement.selectedP
 export const getSelectedPmIdSelector = state => state.projectsManagement.selectedPm?.id
 
 
-
-
 export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
 export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
 export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal

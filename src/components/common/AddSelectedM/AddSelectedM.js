@@ -15,7 +15,7 @@ function AddSelectedM({teamM, location, checkedUsers, setCheckedUsers, addSelect
     }).map((e)=>{
         if(e){
             return <CheckItem
-                key={e.id}
+                key={e.id || e.user_id}
                 checkedUsers={checkedUsers}
                 setCheckedUsers={setCheckedUsers}
                 e={e}

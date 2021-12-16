@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "./style.scss"
 import TrashImg from "../../../images/ic_trash .svg"
 
 
 
 function TeamM({e, del,d, hovers}) {
+    let [fulTime, setFullTime] = useState(e.is_full_time);
+
+
     return <div className='container team-m'>
         <div className="row ">
             <div className={'avatar-cont'}>
@@ -21,14 +24,21 @@ function TeamM({e, del,d, hovers}) {
             <form className={'team-m__type-work ' +(hovers ?'flex-column':'')}>
                 <div className="team-m-input-cont">
                     <label htmlFor={e.id ||e.user_id}>
-                        <input name="w-type" type="radio"  checked={e.is_full_time ? 'checked':'' } id={e.id ||e.user_id}/>
+                        <input name="w-type" type="radio"
+                               checked={!fulTime ? 'checked':'' }
+                               id={e.id ||e.user_id}
+                               onChange={()=>{setFullTime(false)}}
+                        />
                         <span className="checkmark"></span>
                         Part-time
                     </label>
                 </div>
                <div className="team-m-input-cont">
-                   <label htmlFor={e.id+1 || e.user_id}>
-                       <input name="w-type" type="radio" checked={!e.is_full_time ? 'checked':'' } id={e.id+1 || e.user_id}/>
+                   <label htmlFor={e.id+1 || e.user_id+1}>
+                       <input name="w-type" type="radio"
+                              checked={fulTime ? 'checked':'' }
+                              onChange={()=>{setFullTime(true)}}
+                              id={e.id+1 || e.user_id+1}/>
                        <span className="checkmark"></span>
                        Full-time
                    </label>

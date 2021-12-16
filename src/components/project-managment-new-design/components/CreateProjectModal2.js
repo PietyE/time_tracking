@@ -56,7 +56,6 @@ function CreateProjectModal2({e, show}) {
     const deleteItem = (id)=> {
         setSelectedM(selectedM.filter(e => e.id !== id));
         setSelectedD(selectedD.filter(e => e.id !== id));
-        //setCheckedUsers(checkedUsers.filter(e => e.id !== id));
     }
 
     selectedMList = selectedM.map((e)=>{
