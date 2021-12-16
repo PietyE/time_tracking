@@ -63,7 +63,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
           valueKey="name"
           idKey="id"
           extraClassContainer={'developer_select pm_select'}
-          isSearch
+          isSearch={true}
           onSelected={onSelectItem}
           initialChoice={selectedItem}
           isTeamSearch={true}
