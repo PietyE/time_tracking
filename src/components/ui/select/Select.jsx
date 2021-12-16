@@ -32,11 +32,9 @@ function Select(props) {
   const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
-    console.log('is open ', e.target.parentNode.className)
     if(e.target.parentNode.className === 'select_title_container'){
       return;
     }
-    e.stopPropagation()
     if (isOpen) {
       setClassNameOpen('select_close')
       return

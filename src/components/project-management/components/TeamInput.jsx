@@ -5,17 +5,18 @@ import {
   getDeveloperSelector,
   getActiveDevSelector,
   getProjectManagerListSelector,
-  getUserListSelector
+  getUserListSelector, getAccountantSelector, getTeamSelector
 } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
 import Select from "../../ui/select";
 
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
-  const users = useSelector( getUserListSelector, isEqual)
+ // const users = useSelector( getUserListSelector, isEqual)
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
+  const teamMembers = useSelector(getTeamSelector, isEqual)
   const [selectedItem, setSelectedItem] =useState('')
 
   let availableDevelopers = developers
@@ -59,7 +60,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
       <div>
       <Select
           title="Select Team"
-          listItems={users}
+          listItems={teamMembers}
           valueKey="name"
           idKey="id"
           extraClassContainer={'developer_select pm_select'}
