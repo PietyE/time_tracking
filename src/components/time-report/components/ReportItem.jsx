@@ -19,8 +19,9 @@ import {
   getTimeReportForEdit,
   getIdEditingWorkItem,
 } from 'selectors/timereports'
+import CopyToClipboardButton from 'components/ui/copyToClipboardButton/CopyToClipboardButton'
 
- import {WARNING_ALERT} from '../../../constants/alert-constant'
+ import {WARNING_ALERT, SUCCES_ALERT} from '../../../constants/alert-constant'
  import {showAler} from '../../../actions/alert'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
@@ -223,6 +224,14 @@ function ReportItem({
     }
   }
 
+  const onCopy = () => {
+    showAler({
+      type: SUCCES_ALERT,
+      message: 'Copy to clipboard',
+      delay: 5000,
+    })
+  }
+
   return (
     <div
       className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting}`}
@@ -281,6 +290,7 @@ function ReportItem({
 
       <div className="time_report_day_edit">
         <div className={'time_report_day_menu'}>
+          <CopyToClipboardButton text={text} onCopy={onCopy}/>
           {idEditingWorkItem !== id && isOneProject && (
             <button
               onClick={hanldeClickToggleShowModalChangeProject}

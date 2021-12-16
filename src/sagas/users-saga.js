@@ -140,6 +140,7 @@ function* logIn({ payload: googleData }) {
 
 function* handleLoginWithCreds(userData) {
   const isAuthInProgress = yield select(getAuthInProgressSelector);
+  yield call([api, 'deleteToken'])
   if(isAuthInProgress) {
     return;
   }

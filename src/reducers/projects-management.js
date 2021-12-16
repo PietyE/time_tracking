@@ -79,12 +79,19 @@ export const getIsFetchingPmPageSelector = state => state.projectsManagement.isF
 export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
 export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal
 
-export const getUsersSelector = state => state.developers.developersList
+export const getUsersSelector = state => state?.developers.developersList
 
 export const getProjectManagerListSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 4)
 }
+
+export const getUserListSelector = state =>{
+  const users = getUsersSelector(state)
+  return users
+}
+
+
 export const getDeveloperSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 1)
