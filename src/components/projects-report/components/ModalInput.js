@@ -12,8 +12,8 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
+  const [disabledBtn, setDisabled] = useState(false)
   const dispath = useDispatch()
-
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
   useEffect(() => {
@@ -35,7 +35,10 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
         message:'Убедитесь, что в поле не больше 8 знаков.',
         delay: 5000,
       }))
+      setDisabled(true)
       return
+    }else {
+      setDisabled(false)
     }
     // if(filteredStr === ''){
     //   setIsEdit(false)
@@ -86,7 +89,8 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
           <button
             variant = {'success'}
             onClick = {handleClickSave}
-            className = "edit_user_button save"
+            className = {'edit_user_button save ' + (disabledBtn ?'disabled':'')}
+            disabled={disabledBtn?true:false}
           >
             <FontAwesomeIcon icon = {faCheck}/>
           </button>
@@ -94,6 +98,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
             variant = "secondary"
             onClick = {handlerClickCancelButton}
             className = "edit_user_button cancel"
+            disabled={'disabled'}
           >
             <FontAwesomeIcon icon = {faTimes}/>
           </button>
