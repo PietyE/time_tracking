@@ -1,3 +1,6 @@
+import { ASCEND } from '../constants/order-constant'
+import { isArray, sortBy } from 'lodash'
+
 export const getTokenKeyFromLocalStorage = () => {
   const user_auth_data = localStorage.getItem('user_auth_data')
   const data_user = JSON.parse(user_auth_data)
@@ -55,4 +58,27 @@ export const convertMinutesToHours = (data) => {
   }else{
     return 0
   }
+}
+
+export const getSortedUsers = (users, key, order) => {
+  if (!users || !isArray(users)) return [];
+
+  if (!key || !order) return users;
+
+  const numericKeys = [
+    'rate_uah',
+    'salary_uah',
+    'total_expenses',
+    'total_overtimes',
+    'total',
+    'total_uah',
+  ];
+  const isNumericKey = numericKeys.some(item => item === key);
+
+  const sortedData = sortBy(
+    users,
+    isNumericKey ? (item) => parseFloat(item[key]) : key,
+    );
+
+  return order === ASCEND ? sortedData :sortedData.reverse();
 }
