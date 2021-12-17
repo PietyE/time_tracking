@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
 import {
+  IntegratedSorting,
   RowDetailState,
+  SortingState,
 } from '@devexpress/dx-react-grid'
 import {
   Grid,
@@ -191,6 +193,21 @@ const ProjectManagementComponent =({
               rows = {rows}
               columns = {columns}
             >
+              <SortingState
+                defaultSorting={[
+                  { columnName: 'project', direction: 'asc' },
+                ]}
+                columnExtensions={[
+                  { columnName: 'project', sortingEnabled: true },
+                  { columnName: 'occupancy', sortingEnabled: true },
+                  { columnName: 'hours', sortingEnabled: true},
+                  { columnName: 'report', sortingEnabled: false},
+                  { columnName: 'actions', sortingEnabled: false},
+                ]}
+              />
+              {/*<IntegratedGrouping />*/}
+              <IntegratedSorting />
+
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
@@ -201,12 +218,15 @@ const ProjectManagementComponent =({
                   noData: isFetching?'':'There are no active projects to display.'
                 }}
               />
-              <TableHeaderRow resizingEnabled/>
+              <TableHeaderRow
+                resizingEnabled
+                showSortingControls={true}
+              />
               <TableRowDetail contentComponent = {RowDetail} />
+
             </Grid>
+
           </div>
-
-
         </div>
 
         <CreateProjectModal show = {isCreateModalShow} />
