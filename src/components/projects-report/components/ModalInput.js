@@ -28,11 +28,11 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
       setIsEdit(true)
     }
 
-    if(filteredStr.length>8){
+    if(filteredStr.length>6){
        dispath(showAler({
         type: WARNING_ALERT,
         title: 'Fields can not be empty',
-        message:'Убедитесь, что в поле не больше 6 знаков.',
+        message:'Make sure there are no more than 6 characters in the field.',
         delay: 5000,
       }))
       setDisabled(true)
