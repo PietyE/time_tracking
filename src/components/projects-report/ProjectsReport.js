@@ -286,4 +286,4 @@ const actions = {
   getRatesList,
 }
 
-export default connect(mapStateToProps, actions)(ProjectsReport)
+export default connect(mapStateToProps, actions)(ProjectsReport);
