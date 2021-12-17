@@ -12,6 +12,7 @@ import Select from "../../ui/select";
 
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
+  const users = useSelector( getUserListSelector, isEqual)
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
@@ -37,7 +38,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     const checkResult = values.team.find(el => el.name === data)
     let currentDev
     if (!checkResult) {
-      currentDev = teamMembers.find(el => el.name === data)
+      currentDev = users.find(el => el.name === data)
     }
     const result = !!checkResult ? [...values.team] : [...values.team, {
       name: data,
@@ -59,7 +60,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
       <div>
       <Select
           title="Select Team"
-          listItems={teamMembers}
+          listItems={users}
           valueKey="name"
           idKey="id"
           extraClassContainer={'developer_select pm_select'}
