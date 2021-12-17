@@ -5,7 +5,7 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import {useDispatch, useSelector} from 'react-redux'
-import {showAler} from "../../../actions/alert";
+import {hideAlert, showAler} from "../../../actions/alert";
 import {WARNING_ALERT} from "../../../constants/alert-constant";
 
 export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
@@ -32,13 +32,14 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
        dispath(showAler({
         type: WARNING_ALERT,
         title: 'Fields can not be empty',
-        message:'Убедитесь, что в поле не больше 8 знаков.',
+        message:'Убедитесь, что в поле не больше 6 знаков.',
         delay: 5000,
       }))
       setDisabled(true)
       return
     }else {
       setDisabled(false)
+      dispath(hideAlert())
     }
     // if(filteredStr === ''){
     //   setIsEdit(false)
