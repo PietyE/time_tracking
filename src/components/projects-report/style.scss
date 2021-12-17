@@ -99,9 +99,12 @@
   }
   .table_cell.salary,
   .table_cell.rate,
-  .table_cell.hours,
-  .table_cell.total {
+  .table_cell.hours {
     flex: 0.7;
+  }
+
+  .table_cell.total {
+    flex: 1;
   }
 
   .table_cell.coast {
@@ -109,7 +112,7 @@
   }
 
   .table_cell.ready {
-    flex: 0.5;
+    flex: 0.7;
     justify-content: center;
   }
 
@@ -118,7 +121,7 @@
   }
 
   .table_cell.comment {
-    flex: 0.7;
+    flex: 1;
     justify-content: center;
     .comment_text:hover {
       color: cornflowerblue;
@@ -201,6 +204,16 @@
     cursor: pointer;
     filter: brightness(0.8);
     transition: all 0.3s;
+  }
+
+  .sort_button {
+    cursor: pointer;
+    margin-left: 5px;
+    & :hover {
+      cursor: pointer;
+      filter: brightness(0.8);
+      transition: all 0.3s;
+    }
   }
 
   .show_more_project_btn_container > .active {
