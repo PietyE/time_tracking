@@ -35,7 +35,7 @@ export function* getAllProjects() {
           
           if(!isEmpty(selectedProject)){
             const projectId = selectedProject?.id
-            const currentProject = response.data.find(el => el.id === projectId)
+            const currentProject = response.find(el => el.id === projectId)
             yield put(setShownProject(currentProject))
           }
         } 
