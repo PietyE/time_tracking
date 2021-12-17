@@ -96,6 +96,11 @@ export const getDeveloperSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 1)
 }
+
+export const getTeamSelector = state => {
+  const users = getUsersSelector(state)
+  return users.filter(user => user.role !== 3)
+}
 ///////////////////////////////////////////////////////
 export const getSelectedDateForPMSelector = (state) =>
   state.projectsManagement.selectedDateForPM
