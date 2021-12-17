@@ -77,7 +77,9 @@ export const getSortedUsers = (users, key, order) => {
 
   const sortedData = sortBy(
     users,
-    isNumericKey ? (item) => parseFloat(item[key]) : key,
+    isNumericKey
+      ? (item) => item[key] ? parseFloat(item[key]) : 0
+      : key,
     );
 
   return order === ASCEND ? sortedData :sortedData.reverse();
