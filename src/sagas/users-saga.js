@@ -127,7 +127,7 @@ function* logIn({ payload: googleData }) {
     }
   } catch (error) {
         yield put(setAuthStatus(false))
-    if(!googleData.details === 'Cookies are not enabled in current environment.'){
+    if(googleData.details !== 'Cookies are not enabled in current environment.'){
         yield put(
             showAler({
                 type: WARNING_ALERT,
