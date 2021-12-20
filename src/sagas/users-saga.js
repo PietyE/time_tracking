@@ -126,8 +126,7 @@ function* logIn({ payload: googleData }) {
       throw new Error()
     }
   } catch (error) {
-        console.log('error', googleData.details)
-    yield put(setAuthStatus(false))
+        yield put(setAuthStatus(false))
     if(!googleData.details === 'Cookies are not enabled in current environment.'){
         yield put(
             showAler({
