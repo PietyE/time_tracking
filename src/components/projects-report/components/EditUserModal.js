@@ -48,7 +48,8 @@ const EditUserModal = (props) => {
   const [isFetching, setIsFetching] = useState(false)
   const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
   const [selectedRateCurrency, setRateCurrency] = useState('Currency')
-
+  const [salary, setSalary] = useState("")
+  const [rate, setRate] = useState("")
 
   const initialCurrencyState = {
     salary: '',
@@ -67,17 +68,25 @@ const EditUserModal = (props) => {
   const setCurrentCurrency =()=>{
     currenciesList.forEach((e)=>{
       if(e.sign == editingUser.salaryCurrency ){
+        if(salary){
+          setSalaryCurrency(salary)
+        } else {
         setSalaryCurrency(e.serverId)
+        }
       }
       if( e.sign == editingUser.rateCurrency){
+        if(rate){
+          setRateCurrency(rate)
+        } else {
         setRateCurrency(e.serverId)
-      }
+        }
+      }   
     });
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentCurrency();
-    },[currenciesList,editingUser])
+  }, [currenciesList, editingUser])
 
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
@@ -94,7 +103,7 @@ const EditUserModal = (props) => {
       currency: selectedSalaryCurrency
     }
     setNewSalary(data)
-    setIsCEdit(initialCurrencyState)
+    setIsCEdit({ ...isCEdit, salary: ""})
   }
 
   const handlerOnClickSaveNewRate = (newRate) => {
@@ -107,7 +116,7 @@ const EditUserModal = (props) => {
       currency: selectedRateCurrency
     }
     setNewRate(data)
-    setIsCEdit(initialCurrencyState)
+    setIsCEdit({ ...isCEdit, rate: ""})
   }
 
   const handleSaveCost = (newCoast) => {
@@ -170,13 +179,34 @@ const EditUserModal = (props) => {
   const handleChangeCurrency = (data, row=null) => {
     if(row =='salary'){
       setSalaryCurrency(data)
+      setSalary(data)
     }else{
       setRateCurrency(data)
+      setRate(data)
     }
     let receive = {};
      receive[row]= row;
-     let res = Object.assign({},isCEdit,receive)
+     let res = {...isCEdit, ...receive}
      setIsCEdit(res);
+  }
+
+  const handlerClickCancelButton = (row) => {
+    if(setIsCEdit){
+      setIsCEdit({...isCEdit, [row]: ""})
+    }
+    if(row === "salary") {
+      currenciesList.forEach((e)=>{
+        if(e.sign == editingUser.salaryCurrency ){
+          setSalaryCurrency(e.serverId)
+        }   
+      });
+    } else {
+      currenciesList.forEach((e)=>{
+        if( e.sign == editingUser.rateCurrency){
+          setRateCurrency(e.serverId)
+        }
+      })
+    }
   }
 
   return (
@@ -219,6 +249,7 @@ const EditUserModal = (props) => {
             setIsCEdit={setIsCEdit}
             row={'salary'}
             handleSaveChange={handlerOnClickSaveNewSalary}
+            handleCancelChange={handlerClickCancelButton}
           />
         </ModalRow>
         <ModalRow>
@@ -232,6 +263,7 @@ const EditUserModal = (props) => {
             // prevValue={editingUser.current_rate}
             prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
+            handleCancelChange={handlerClickCancelButton}
             CisEdit={isCEdit}
             setIsCEdit={setIsCEdit}
             row={'rate'}
