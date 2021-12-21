@@ -39,7 +39,7 @@ pipeline {
         failure {
             slackSend channel: '#project_time_tracking',
                       color: 'danger',
-                      message: "The pipeline ${currentBuild.fullDisplayName} or ${currentBuild.fullProjectName} or ${env.JOB_NAME} ${env.BUILD_NUMBER} failed",
+                      message: "The pipeline ${currentBuild.fullDisplayName} failed",
                       teamDomain: 'vilmateteam',
                       tokenCredentialId: 'slack-token'
         }
