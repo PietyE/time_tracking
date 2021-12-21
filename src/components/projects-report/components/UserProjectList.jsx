@@ -3,16 +3,20 @@ import { selectUserProjects } from '../../../selectors/project-report-details'
 import { useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 import TableRow from './TableRow'
+import { getRoleUser } from '../../../selectors/user'
 
 
 const UserProjectList = (props) => {
   const { userId, isOpen, selectedDate, rate } = props
-  const userDetails = useSelector(selectUserProjects)
-
+  const userDetails = useSelector(selectUserProjects);
+  const userRole = useSelector(getRoleUser);
   const user = userDetails[userId]
+
   if (!user) {
     return <></>
   }
+
+
   const { isFetching, error, success, projects } = user
   const showContent = !!(projects && projects.length)
 
@@ -40,7 +44,7 @@ const UserProjectList = (props) => {
             totalHoursOvertime={working_time}
             total_overtimes={total}
             userId={userId}
-            roleUser={'ADMIN'}
+            roleUser={userRole}
           />
         )
       })
