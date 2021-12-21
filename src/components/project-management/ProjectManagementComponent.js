@@ -66,12 +66,12 @@ const ProjectManagementComponent =({
     }
   },[])
 
-  useEffect(() => {
-    projectManagers.unshift({
-      id: "select-all", 
-      name: "Select All"
-    })
-  }, [projectManagers])
+  // useEffect(() => {
+  //   projectManagers.unshift({
+  //     id: "select-all", 
+  //     name: "Select All"
+  //   })
+  // }, [projectManagers])
 
   useEffect(()=>{
     clearPmProjects()
@@ -154,6 +154,7 @@ const ProjectManagementComponent =({
               valueKey="name"
               idKey="id"
               extraClassContainer={'developer_select pm_select'}
+              onSelectAll="true"
               initialChoice={selectedPm || currentPm}
               isSearch
             />
