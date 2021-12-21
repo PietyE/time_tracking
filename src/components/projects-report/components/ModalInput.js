@@ -60,6 +60,8 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     }
   }
 
+  const handleCancel = (row) => (e) => {handleCancelChange(row)}
+
   return (
     <>
       <div onClick = {handleClickEditButton} className = "edit_user_modal_title_value_container">
@@ -86,7 +88,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
           </button>
           <button
             variant = "secondary"
-            onClick = {e => handleCancelChange(row)}
+            onClick = {handleCancel(row)}
             className = "edit_user_button cancel"
           >
             <FontAwesomeIcon icon = {faTimes}/>
