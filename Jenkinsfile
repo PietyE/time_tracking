@@ -32,14 +32,15 @@ pipeline {
         success {
             slackSend channel: '#project_time_tracking',
                       color: 'good',
-                      message: 'The pipeline ${currentBuild.fullDisplayName} completed successfully',
+                      message: "The pipeline ${currentBuild.fullDisplayName} completed successfully",
                       teamDomain: 'vilmateteam',
                       tokenCredentialId: 'slack-token'
         }
         failure {
             slackSend channel: '#project_time_tracking',
                       color: 'danger',
-                      message: 'The pipeline ${currentBuild.fullDisplayName} failed',
+                      message: "The pipeline ${currentBuild.fullDisplayName} or ${currentBuild.fullProjectName} or
+                      ${env.JOB_NAME} ${env.BUILD_NUMBER} failed",
                       teamDomain: 'vilmateteam',
                       tokenCredentialId: 'slack-token'
         }
