@@ -10,6 +10,7 @@ import {
 import { Popover, OverlayTrigger } from 'react-bootstrap'
 
 import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
+import { digitFormat, UAHFormat } from '../../../utils/common'
 
 export default function TableRow({
   project,
@@ -45,23 +46,6 @@ export default function TableRow({
     name: projectName,
   } = project
   const [isProcessed, setIsProcessed] = useState(false)
-
-  const usdFormat = new Intl.NumberFormat('ru', {
-    style: 'currency',
-    currency: 'USD',
-    currencyDisplay: 'symbol',
-    minimumFractionDigits: 0,
-  })
-
-  const UAHFormat = new Intl.NumberFormat('ru', {
-    style: 'currency',
-    currency: 'UAH',
-    minimumFractionDigits: 0,
-  })
-
-  const digitFormat = new Intl.NumberFormat('ru', {
-    minimumFractionDigits: 0,
-  });
 
   const handlerEditClick = (e) => {
 
