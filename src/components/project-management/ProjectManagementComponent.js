@@ -53,18 +53,18 @@ const ProjectManagementComponent =({
                                      projectManagers,
                                      selectedPm,
                                      setPm,
-                                     currentPm,
+                                   //  currentPm,
                                      shownProject,
                                      setShownProject,
                                      filteredProjects
 }) => {
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    if(isEmpty(selectedPm)){
-      setPm(currentPm)
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(isEmpty(selectedPm)){
+  //     setPm(currentPm)
+  //   }
+  // },[])
 
   useEffect(() => {
     projectManagers.unshift({
@@ -72,6 +72,12 @@ const ProjectManagementComponent =({
       name: "Select All"
     })
   }, [projectManagers])
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      onSelectPm(projectManagers[0])
+    },260)
+  },[])
 
   useEffect(()=>{
     clearPmProjects()
@@ -154,7 +160,7 @@ const ProjectManagementComponent =({
               valueKey="name"
               idKey="id"
               extraClassContainer={'developer_select pm_select'}
-              initialChoice={selectedPm || currentPm}
+              initialChoice={selectedPm}
               isSearch
             />
 
@@ -224,7 +230,6 @@ const mapStateToProps = (state) => ({
   isCreateModalShow: getIsShowCreateModalSelector(state),
   projectManagers: getProjectManagerListSelector(state),
   selectedPm: getSelectedPmSelector(state),
-  currentPm: getCurrentUserSelector(state),
   shownProject: getShownProjectSelector(state),
   filteredProjects: getFilteredProjectSelector(state),
 })
