@@ -1,6 +1,59 @@
 .project_report_container {
   padding-top: 40px;
 
+  .row{
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .table-active{
+    padding: 0 0 0 40px;
+  }
+  .card{
+    border-radius:  8px;
+    overflow: hidden;
+    border-top: none;
+  }
+  thead{
+    //height: 150px;
+    background-color: #009c98;
+    color: #fff;
+    border: 1px solid #009c98;
+    .dx-rg-bs4-table-header-title{
+      font-weight: 500;
+    }
+    span{
+      line-height: 42px;
+    }
+
+    .text-primary{
+      color: #fff !important;
+
+    }
+  }
+  tbody{
+    td{
+      line-height: 36px;
+    }
+  }
+
+  .dx-g-bs4-header-cell-content{
+    justify-content: center;
+  }
+
+  .dx-rg-bs4-table-header-title {
+    overflow: visible;
+    text-overflow: inherit;
+    white-space: normal;
+  }
+
+  .dx-g-bs4-table-header-cell-wrapper {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+
   .project_reports_total_container {
     display: flex;
     align-items: center;
@@ -71,7 +124,6 @@
     display: flex;
     align-items: center;
     min-width: 0;
-    overflow: hidden;
   }
 
   .table_header_container .table_cell {
