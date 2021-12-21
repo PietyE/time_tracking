@@ -12,7 +12,7 @@ const SortButton = ({ name, current, onSortPress }) => {
         key: name,
         order: isAscending ? ASCEND : DESCEND,
       });
-  }, [isAscending, name]);
+  }, [isAscending, name, onSortPress]);
 
     const buttonIcon = isAscending ? faSortAmountDown : faSortAmountDownAlt;
     const isChoose = useMemo(() => name === current, [name, current]);
