@@ -5,7 +5,7 @@ import {
   getDeveloperSelector,
   getActiveDevSelector,
   getProjectManagerListSelector,
-  getUserListSelector
+  getUserListSelector, getAccountantSelector, getTeamSelector
 } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
 import Select from "../../ui/select";
@@ -16,6 +16,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
+  const teamMembers = useSelector(getTeamSelector, isEqual)
   const [selectedItem, setSelectedItem] =useState('')
 
   let availableDevelopers = developers
@@ -37,7 +38,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     const checkResult = values.team.find(el => el.name === data)
     let currentDev
     if (!checkResult) {
-      currentDev = developers.find(el => el.name === data)
+      currentDev = users.find(el => el.name === data)
     }
     const result = !!checkResult ? [...values.team] : [...values.team, {
       name: data,
@@ -63,7 +64,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
           valueKey="name"
           idKey="id"
           extraClassContainer={'developer_select pm_select'}
-          isSearch
+          isSearch={true}
           onSelected={onSelectItem}
           initialChoice={selectedItem}
           isTeamSearch={true}

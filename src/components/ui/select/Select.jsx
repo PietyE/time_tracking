@@ -32,6 +32,7 @@ function Select(props) {
   const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
+    e.preventDefault()
     if (isOpen) {
       setClassNameOpen('select_close')
       return
@@ -131,9 +132,9 @@ function Select(props) {
         disabled ? 'disabled' : ''
       }`}
       type='button'
-      onClick={disabled ? null : handlerClickOpen}
+      onClick={handlerClickOpen}
       tabIndex={1}
-      //disabled={!listItems.length}
+      disabled={disabled}
     >
       <div className="select_title_container">
         {isSearch && isOpen && !disabled ? (
@@ -145,7 +146,7 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
-          <span className={`select_title_text ${classNameDisabled}`}>
+          <span className={`select_title_text ${classNameDisabled}`} >
             {_title}
           </span>
         )}
