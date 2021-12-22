@@ -4,7 +4,7 @@ import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
 import TotalValue from './components/TotalValue'
-import { getRoleUser } from 'selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
 import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
 import { getProjectReportError } from 'selectors/project-report'
@@ -49,6 +49,7 @@ function ProjectsReport() {
   const dispatch = useDispatch();
 
   const roleUser = useEqualSelector(getRoleUser);
+  const profileId = useEqualSelector(getProfileId);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
   const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
   const developersList = useEqualSelector(getDevelopersSelector);
@@ -249,7 +250,51 @@ function ProjectsReport() {
       />)}
       {roleUser !== DEVELOPER && roleUser !== PM && (<ActualRates/>)}
 
-      <div className="card mt-5 mb-5">
+      {roleUser === PM && (
+        <div
+          key="First Grid Element"
+          className="card mt-5 mb-5"
+        >
+          <Grid
+            rows={rows.filter(item => item.id === profileId)}
+            columns={
+              initialColumns.filter((column) => !roleRestrictions[DEVELOPER].includes(column.name))
+            }
+          >
+            <SortingState
+              defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+            />
+
+            <IntegratedSorting/>
+
+            <RowDetailState
+              expandedRowIds={expandedRowIds}
+              onExpandedRowIdsChange={setExpandedRowIds}
+              defaultExpandedRowIds={[]}
+            />
+            <Table
+              rowComponent={CustomTableRow}
+              cellComponent={CustomCell}
+              messages={{
+                noData: isFetchingReports ? '' : 'There are no active projects to display.',
+              }}
+            />
+            <TableHeaderRow
+              resizingEnabled
+              tableColumnResizingEnabled
+              showSortingControls={true}
+              cellComponent={CustomHeaderCell}
+            />
+            <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+          </Grid>
+        </div>
+
+      )}
+
+      <div
+        key="First Grid Element"
+        className="card mt-5 mb-5"
+      >
         <Grid
           rows={rows}
           columns={columns}
