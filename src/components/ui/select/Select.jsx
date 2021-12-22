@@ -21,7 +21,6 @@ function Select(props) {
     isSearch = false,
     disabled,
     isTeamSearch,
-    onSelectAll
   } = props
 
 
@@ -167,13 +166,6 @@ function Select(props) {
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
-          {onSelectAll && 
-            <div className='select_list_item_container' key='select-all'>
-              <span>
-               Select All
-              </span>
-            </div>
-          }
 
           {searchedListItems.map((item) => (
 

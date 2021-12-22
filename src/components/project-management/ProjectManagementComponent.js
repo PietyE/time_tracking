@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import SelectMonth from '../ui/select-month'
 import {
   RowDetailState,
@@ -66,12 +66,17 @@ const ProjectManagementComponent =({
     }
   },[])
 
-  // useEffect(() => {
-  //   projectManagers.unshift({
-  //     id: "select-all", 
-  //     name: "Select All"
-  //   })
-  // }, [projectManagers])
+  const addSelectAll = useMemo(() => {
+    if(projectManagers){
+      return [
+        {
+          id: "select-all",
+          name: "Select All"
+        },
+        ...projectManagers
+      ]
+    }
+  }, [projectManagers])
 
   useEffect(()=>{
     clearPmProjects()
@@ -149,7 +154,7 @@ const ProjectManagementComponent =({
 
             <Select
               title="choose project manager..."
-              listItems={projectManagers}
+              listItems={addSelectAll}
               onSelected={onSelectPm}
               valueKey="name"
               idKey="id"
