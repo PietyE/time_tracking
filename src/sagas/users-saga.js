@@ -12,7 +12,7 @@ import {
 } from 'actions/users'
 import { getConsolidateProjectReport, setIsFetchingReports } from 'actions/projects-report'
 import { showAler } from 'actions/alert'
-import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT, SUCCES_ALERT, DANGER_ALERT } from 'constants/alert-constant'
 import {
   LOG_IN,
   LOG_OUT,
@@ -182,9 +182,9 @@ function* handleLoginWithCreds(userData) {
     yield put(setAuthStatus(false))
     yield put(
       showAler({
-        type: WARNING_ALERT,
-        title: credentialError?credentialError:'Something went wrong' ,
-        message: error.message || 'Something went wrong',
+        type: DANGER_ALERT,
+        title: '',
+        message: credentialError,
         delay: 6000,
       })
     )
