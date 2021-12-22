@@ -36,7 +36,8 @@ export default function TableRow({
   isFetchingReports,
   working_time,
   salaryCurrency,
-  rateCurrency
+  rateCurrency,
+  userRolePM
 }) {
   const {
     working_time: hours,
@@ -152,7 +153,7 @@ export default function TableRow({
             </span>
           </span>
 
-          {/* {roleUser !== PM && ( */}
+          {roleUser !== PM && (
             <>
               <span className="table_cell salary">
                 {extraClass === 'common' ? `${digitFormat.format(projectSalary)} ${salaryCurrency}` : ''}
@@ -179,13 +180,42 @@ export default function TableRow({
               </span>
 
             </>
-          {/* )} */}
+          )}
 
-          {/* {roleUser === PM && (
+          {userRolePM && (
+            <>
+              <span className="table_cell salary">
+                {extraClass === 'common' ? `${digitFormat.format(projectSalary)} ${salaryCurrency}` : ''}
+              </span>
+              <span className="table_cell rate">
+                 {extraClass === 'common' ? `${digitFormat.format(rate)} ${rateCurrency}` : ''}
+                   </span>
+              <span className="table_cell hours">
+                {hoursToShow}
+              </span>
+              <span className="table_cell total">
+                {UAHFormat.format(total_overtimes || total)}
+              </span>
+              <span className="table_cell total">
+                {extraClass === 'common' ? UAHFormat.format(total_salary) : ''}
+              </span>
+              <span className="table_cell coast">
+                {extraClass === 'common'
+                  ? UAHFormat.format(total_expenses)
+                  : ''}
+              </span>
+              <span className="table_cell to_pay">
+                {extraClass === 'common' ? UAHFormat.format(total_uah) : ''}
+              </span>
+
+            </>
+          )}
+
+          {roleUser === PM && (
             <span className="table_cell hours">
               {hoursToShow}
             </span>
-          )} */}
+          )}
 
           {roleUser !== DEVELOPER && (
             <>
