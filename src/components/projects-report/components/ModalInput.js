@@ -5,22 +5,22 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import {useDispatch, useSelector} from 'react-redux'
-import {showAler} from "../../../actions/alert";
+import {hideAlert, showAler} from "../../../actions/alert";
 import {WARNING_ALERT} from "../../../constants/alert-constant";
 
-export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row, handleCancelChange}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
+  const [disabledBtn, setDisabled] = useState(false)
   const dispath = useDispatch()
-
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
   useEffect(() => {
     if (isFetching) {
       setIsFetching(fetchingStatus)
     }
-  }, [fetchingStatus])
+  }, [fetchingStatus, isFetching])
 
   const handleChangeValue = (event) => {
     const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '');
@@ -28,14 +28,18 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
       setIsEdit(true)
     }
 
-    if(filteredStr.length>8){
+    if(filteredStr.length>6){
        dispath(showAler({
         type: WARNING_ALERT,
         title: 'Fields can not be empty',
-        message:'Убедитесь, что в поле не больше 8 знаков.',
+        message:'Make sure there are no more than 6 characters in the field.',
         delay: 5000,
       }))
+      setDisabled(true)
       return
+    }else {
+      setDisabled(false)
+      dispath(hideAlert())
     }
     // if(filteredStr === ''){
     //   setIsEdit(false)
@@ -47,16 +51,6 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     setIsEdit(true)
   }
 
-  const handlerClickCancelButton = () => {
-    setIsvalue(+prevValue)
-    setIsEdit(false)
-    if(setIsCEdit){
-      let receive = {};
-      receive[row]= '';
-      let res = Object.assign({},CisEdit,receive)
-      setIsCEdit(res)
-    }
-  }
 
   const handleClickSave = () => {
     if ((Number(value) !== Number(prevValue)) || CisEdit ) {
@@ -65,6 +59,8 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
       setIsEdit(false)
     }
   }
+
+  const handleCancel = (row) => (e) => {handleCancelChange(row)}
 
   return (
     <>
@@ -86,13 +82,13 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
           <button
             variant = {'success'}
             onClick = {handleClickSave}
-            className = "edit_user_button save"
+            className = {'edit_user_button save ' + (disabledBtn ?'disabled':'')}
           >
             <FontAwesomeIcon icon = {faCheck}/>
           </button>
           <button
             variant = "secondary"
-            onClick = {handlerClickCancelButton}
+            onClick = {handleCancel(row)}
             className = "edit_user_button cancel"
           >
             <FontAwesomeIcon icon = {faTimes}/>

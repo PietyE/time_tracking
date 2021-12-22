@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
 
@@ -20,6 +20,7 @@ function Select(props) {
     onClear,
     isSearch = false,
     disabled,
+    isTeamSearch,
   } = props
 
 
@@ -31,6 +32,7 @@ function Select(props) {
   const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
+    e.preventDefault()
     if (isOpen) {
       setClassNameOpen('select_close')
       return
@@ -129,9 +131,10 @@ function Select(props) {
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
-      onClick={disabled ? null : handlerClickOpen}
+      type='button'
+      onClick={handlerClickOpen}
       tabIndex={1}
-      //disabled={!listItems.length}
+      disabled={disabled}
     >
       <div className="select_title_container">
         {isSearch && isOpen && !disabled ? (
@@ -143,24 +146,28 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
-          <span className={`select_title_text ${classNameDisabled}`}>
+          <span className={`select_title_text ${classNameDisabled}`} >
             {_title}
           </span>
         )}
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          className={
-            isOpen && !classNameOpen
-              ? 'select_title_icon active'
-              : 'select_title_icon'
-          }
-        />
+        {!isTeamSearch &&
+          <FontAwesomeIcon
+              icon={faCaretDown}
+              className={
+                isOpen && !classNameOpen
+                    ? 'select_title_icon active'
+                    : 'select_title_icon'
+              }
+          />
+        }
+
       </div>
       {showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
+
           {searchedListItems.map((item) => (
 
             <div className="select_list_item_container" key={item[idKey]}>

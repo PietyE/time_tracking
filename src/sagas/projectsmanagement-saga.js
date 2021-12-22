@@ -19,6 +19,8 @@ import {
   getShownProjectSelector,
 } from '../reducers/projects-management'
 import {isEmpty} from 'lodash'
+import { getProjectInTimeReportSelector } from 'reducers/projects-report'
+import { setErrorData } from 'actions/error'
 
 
 export function* getAllProjects() {
@@ -26,17 +28,29 @@ export function* getAllProjects() {
     yield put(setFetchingPmPage(true))
     const selectedPmId = yield select(getSelectedPmIdSelector)
       if(selectedPmId){
-      const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-      const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
-      yield put(setAllProjects(response.data))
-      const selectedProject = yield select(getShownProjectSelector)
+        if(selectedPmId === "select-all") {
+          const response = yield select(getProjectInTimeReportSelector)
+          yield put(setAllProjects(response))
+          const selectedProject = yield select(getShownProjectSelector)
+          
+          if(!isEmpty(selectedProject)){
+            const projectId = selectedProject?.id
+            const currentProject = response.find(el => el.id === projectId)
+            yield put(setShownProject(currentProject))
+          }
+        } 
+        if (selectedPmId !== "select-all") {
+          const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
+          const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
+          yield put(setAllProjects(response.data))
+          const selectedProject = yield select(getShownProjectSelector)
 
-      if(!isEmpty(selectedProject)){
-        const projectId = selectedProject?.id
-        const currentProject = response.data.find(el => el.id === projectId)
-        yield put(setShownProject(currentProject))
-      }
-
+          if(!isEmpty(selectedProject)){
+            const projectId = selectedProject?.id
+            const currentProject = response.data.find(el => el.id === projectId)
+            yield put(setShownProject(currentProject))
+          }
+        }
     }
 
   } catch (error) {
@@ -151,6 +165,7 @@ export function* createProject({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
     const { projectName, users } = payload
+    // const { data } = pm.createProject({name: projectName})
     const { data } = yield call([pm, 'createProject'], { name: projectName })
     yield call([pm, 'setUsersToProject'],
       { project: data.id, users: users })
@@ -163,14 +178,19 @@ export function* createProject({ payload }) {
     )
     yield call(getAllProjects)
   } catch (error) {
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      }),
-    )
+    const { response = {}, message: error_message } = error
+
+    const { data = {}, status, statusText } = response
+
+    const { detail, title, non_field_errors, duration } = data
+    const errorMessage = (title && title[0]) || duration || non_field_errors && non_field_errors[0] || error_message || statusText
+    const errorData = {
+      status,
+      messages: errorMessage ,
+      detail: typeof data === 'object' ? detail : '',
+    }
+
+    yield put(setErrorData(errorData))
   }
   finally {
     yield put(setFetchingPmPage(false))

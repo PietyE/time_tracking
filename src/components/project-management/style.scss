@@ -130,7 +130,40 @@
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.15);
   }
+
 }
+
+.pm_create_modal_team_label{
+  .select_container{
+    width: 100%;
+    height: 48px;
+    color: #222;
+    border: 1px solid #949494;
+    .select_title_text{
+      font-size: 18px;
+      color: #222;
+    }
+
+    .select_list_container{
+      width: 100%;
+
+      .select_list_item{
+        line-height: 22px;
+        span{
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .pm_create_modal_input_arrow{
+    top:30px;
+  }
+
+}
+
+
+
 .pm_create_modal_input_arrow{
   position: absolute;
   right: 15px;
@@ -203,5 +236,9 @@
   margin-right: 10px;
   height: 18px;
   width: 18px;
+}
+
+.disabled{
+  opacity: .5;
 }
 
