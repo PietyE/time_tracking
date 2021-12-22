@@ -25,7 +25,8 @@ const RenderUser = ({
   isFetchingReports,
   totalHoursOvertime,
   salaryCurrency,
-  rateCurrency
+  rateCurrency,
+  userRolePM
 }) => {
 
   const dispatch = useDispatch()
@@ -67,6 +68,7 @@ const RenderUser = ({
         selectedDate={selectedDate}
         isOpen={isOpen}
         isFetchingReports={isFetchingReports}
+        userRolePM={userRolePM}
       />
       {isOpen && <UserProjectList
         userId={userId}

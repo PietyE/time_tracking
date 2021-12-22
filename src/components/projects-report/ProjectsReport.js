@@ -1,7 +1,5 @@
-import React, { useState, useEffect,useMemo } from 'react'
-import { connect, shallowEqual, useSelector } from 'react-redux'
-import _ from 'lodash'
-import TableRow from './components/TableRow'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import TableHeader from './components/TableHeader'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
@@ -9,15 +7,12 @@ import EditUserModal from './components/EditUserModal'
 import TotalValue from './components/TotalValue'
 import './style.scss'
 import { getRoleUser } from 'selectors/user'
-import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER, PM } from 'constants/role-constant'
 import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
   setSelectedDeveloper,
-  clearDeveloperSelected,
   setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
   setExchangeRates,
@@ -25,13 +20,11 @@ import {
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
-  getProjectInTimeReportSelector,
   getSelectedProjectSelector,
-  getEditingUserIdSelector,
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
-  selectUsersReports, getEditingUser,
+  selectUsersReports
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
@@ -39,60 +32,48 @@ import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
 import RenderUser from './components/RenderUser'
+import useEqualSelector from 'custom-hook/useEqualSelector'
+import { getProfileId } from 'selectors/user'
 
-function ProjectsReport({
-  roleUser,
-  selectedDate,
-  changeSelectedDateProjectsReport,
-  projectsReports,
-  developersList = [],
-  setSelectedDeveloper,
-  clearDeveloperSelected,
-  setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
-  projectList = [],
-  selectedDeveloper = {},
-  getDevelopersProjectInProjectReport,
-  selectedProject = {},
-  setEditUserId,
-  setExchangeRates,
-  setProcessedStatus,
-  isFetchingReports,
-  getConsolidateProjectReport,
-  selectUsersReports,
-  getRatesList,
-}) {
-  const { total_usd, total_uah, exchange_rate } = projectsReports
-  const users = selectUsersReports
-  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+function ProjectsReport() {
 
+  const [userRolePM, setUserRolePM] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
-  const allDevelopers = useSelector(getDevelopersList)
-  const allProjects = useSelector(getProjectsList)
-  const errorStatus = useSelector(getProjectReportError, shallowEqual)
+
+  const dispatch = useDispatch()
+
+  const roleUser = useEqualSelector(getRoleUser)
+  const selectedDate = useEqualSelector(getSelectedMonthSelector)
+  const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector)
+  const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector)
+  const selectedProject = useEqualSelector(getSelectedProjectSelector)
+  const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport)
+  const selectUsersReport = useEqualSelector(selectUsersReports)
+  const allDevelopers = useEqualSelector(getDevelopersList)
+  const allProjects = useEqualSelector(getProjectsList)
+  const errorStatus = useEqualSelector(getProjectReportError)
+  const currentUserId = useEqualSelector(getProfileId)
+
+  const { total_usd, total_uah, exchange_rate } = projectsReports
+  const users = selectUsersReport
+  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+  const currentUser = users.find((users) => {return (users.id === currentUserId)})
+
   const handlerCloseModalEdit = () => {
-    setEditUserId('')
+    dispatch(setEditUserId(''))
     setIsOpenEdit(false)
   }
 
   const handleChangeData = (data) => {
     const { month, year } = data;
-    changeSelectedDateProjectsReport(data)
+    dispatch(changeSelectedDateProjectsReport(data))
     const ratesParams = {
       year,
       month: month + 1,
       is_active: true
     }
-    getRatesList(ratesParams)
-
+    dispatch(getRatesList(ratesParams))
   }
-
-  useEffect(() => {
-    if (roleUser !== DEVELOPER) {
-      getDevelopersProjectInProjectReport()
-    }
-    getConsolidateProjectReport()
-  }, [])
 
   const errorProjectReport = useMemo(()=>{
     if (errorStatus){
@@ -101,7 +82,78 @@ function ProjectsReport({
       return <p className='table_body_container_text'> There are no users in this project yet</p>
     }
   }, [errorStatus])
-  
+
+  const onSetSelectedDeveloper = useCallback((data)=>{
+    dispatch(setSelectedDeveloper(data))
+  }, [dispatch, setSelectedDeveloper])
+
+  const onSelectedProjectInProjectReports = useCallback((data)=>{
+    dispatch(setSelectedProjectInProjectReports(data))
+  }, [dispatch, setSelectedProjectInProjectReports])
+
+  const onSetEditUserId = useCallback((data)=>{
+    dispatch(setEditUserId(data))
+  }, [dispatch, setEditUserId])
+
+  const onSetExchangeRates = useCallback((data)=>{
+    dispatch(setExchangeRates(data))
+  }, [dispatch, setExchangeRates])
+
+  const onSetProcessedStatus = useCallback((data)=>{
+    dispatch(setProcessedStatus(data))
+  }, [dispatch, setProcessedStatus])
+
+    useEffect(() => {
+    if (roleUser !== DEVELOPER) {
+      dispatch(getDevelopersProjectInProjectReport())
+    }
+    if (roleUser === PM) {
+      setUserRolePM(true)
+    } else {
+      setUserRolePM(false)
+    }
+    dispatch(getConsolidateProjectReport())
+  }, [])
+
+  const renderUser = () => {
+    if(currentUser) {
+      const allProjectsName = '';
+      const commonProjectsInfo = {
+        name: allProjectsName,
+      }
+
+      return (
+        <RenderUser
+          commonProjectsInfo={commonProjectsInfo}
+          projects={currentUser.developer_projects}
+          name={currentUser.name}
+          // rate={current_rate}
+          rate={currentUser.rate_uah}
+          // projectSalary={current_salary}
+          projectSalary={currentUser.salary_uah}
+          salaryCurrency={currentUser.salaryCurrency}
+          rateCurrency={currentUser.rateCurrency}
+          totalHoursOvertime={currentUser.totalHoursOvertime}
+          key={currentUser.id}
+          userId={currentUser.id}
+          selectedDate={currentUser.selectedDate}
+          total_expenses={currentUser.total_expenses}
+          total_overtimes={currentUser.total_overtimes}
+          total_salary={currentUser.total_salary}
+          roleUser={roleUser}
+          setEditUserId={onSetEditUserId}
+          setIsOpenEdit={setIsOpenEdit}
+          comment={currentUser.comments}
+          total_uah={total_uah}
+          is_processed={currentUser.is_processed}
+          setProcessedStatus={onSetProcessedStatus}
+          isFetchingReports={isFetchingReports}
+          userRolePM
+        />
+      )
+    }
+  }
+
   return (
     <>
       {isFetchingReports && <Spinner />}
@@ -119,9 +171,7 @@ function ProjectsReport({
               valueKey="name"
               idKey="id"
               isSearch={true}
-              onSelected={setSelectedProjectInProjectReports}
-              // onClear={clearSelectedProjectInProjectReports}
-              // disabled={!_.isEmpty(selectedDeveloper)}
+              onSelected={onSelectedProjectInProjectReports}
               disabled={
                 selectedDeveloper.name !== 'All Developers' ? true : false
               }
@@ -135,9 +185,7 @@ function ProjectsReport({
               valueKey="name"
               idKey="id"
               isSearch={true}
-              onSelected={setSelectedDeveloper}
-              // disabled={!_.isEmpty(selectedProject)}
-              // onClear={clearDeveloperSelected}
+              onSelected={onSetSelectedDeveloper}
               disabled={selectedProject.name !== 'All Projects' ? true : false}
               initialChoice={selectedDeveloper}
             />
@@ -153,7 +201,7 @@ function ProjectsReport({
         <TotalValue
           totalUsd={total_usd}
           totalUah={total_uah}
-          setExchangeRates={setExchangeRates}
+          setExchangeRates={onSetExchangeRates}
           prevExchangeRate={exchange_rate}
           selectedDate={selectedDate}
         />
@@ -161,6 +209,27 @@ function ProjectsReport({
       {roleUser !== DEVELOPER && roleUser !== PM && (
         <ActualRates />
       )}
+      { userRolePM && (
+          <div className={`table_container ${scrollClassName}`}>
+          <div className="table_scroll">
+            <TableHeader roleUser={roleUser} userRolePM/>
+            <div className="table_body_container">
+              {!!currentUser &&
+              (renderUser()) 
+              }
+              {!currentUser && 
+              
+                <>
+                  {!isFetchingReports &&
+                    errorProjectReport
+                  }
+                </>
+              }  
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={`table_container ${scrollClassName}`}>
         <div className="table_scroll">
           <TableHeader roleUser={roleUser} />
@@ -188,9 +257,6 @@ function ProjectsReport({
                     totalHoursOvertime
                   } = user
 
-                  // const allProjectsName = developer_projects
-                  //   .map((project) => project.name)
-                  //   .join(', ')
                   const allProjectsName = '';
                   const commonProjectsInfo = {
                     name: allProjectsName,
@@ -201,9 +267,7 @@ function ProjectsReport({
                       commonProjectsInfo={commonProjectsInfo}
                       projects={developer_projects}
                       name={name}
-                      // rate={current_rate}
                       rate={rate_uah}
-                      // projectSalary={current_salary}
                       projectSalary={salary_uah}
                       salaryCurrency={salaryCurrency}
                       rateCurrency={rateCurrency}
@@ -215,12 +279,12 @@ function ProjectsReport({
                       total_overtimes={total_overtimes}
                       total_salary={total_salary}
                       roleUser={roleUser}
-                      setEditUserId={setEditUserId}
+                      setEditUserId={onSetEditUserId}
                       setIsOpenEdit={setIsOpenEdit}
                       comment={comments}
                       total_uah={total_uah}
                       is_processed={is_processed}
-                      setProcessedStatus={setProcessedStatus}
+                      setProcessedStatus={onSetProcessedStatus}
                       isFetchingReports={isFetchingReports}
                     />
                   )
@@ -242,33 +306,4 @@ function ProjectsReport({
   )
 }
 
-
-
-const mapStateToProps = (state) => ({
-  roleUser: getRoleUser(state),
-  selectedDate: getSelectedMonthSelector(state),
-  projectsReports: getDevProjectConsolidateProjectReportsSelector(state),
-  developersList: getDevelopersSelector(state),
-  projectList: getProjectInTimeReportSelector(state),
-  selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
-  selectedProject: getSelectedProjectSelector(state),
-  editingUserId: getEditingUserIdSelector(state),
-  isFetchingReports: getIsFetchingProjectsReport(state),
-  selectUsersReports: selectUsersReports(state),
-})
-
-const actions = {
-  changeSelectedDateProjectsReport,
-  setSelectedDeveloper,
-  clearDeveloperSelected,
-  setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
-  getDevelopersProjectInProjectReport,
-  setEditUserId,
-  setExchangeRates,
-  setProcessedStatus,
-  getConsolidateProjectReport,
-  getRatesList,
-}
-
-export default connect(mapStateToProps, actions)(ProjectsReport)
+export default ProjectsReport
