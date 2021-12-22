@@ -3,7 +3,7 @@ import CRUD from '../base'
 class PmCRUD extends CRUD {
   getProjectsApi(params) {
     return this.request({
-      url: '/projects',
+      url: 'projects/',
       params,
     })
   }
