@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {hideAlert, showAler} from "../../../actions/alert";
 import {WARNING_ALERT} from "../../../constants/alert-constant";
 
-export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row}) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row, handleCancelChange}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
@@ -20,7 +20,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     if (isFetching) {
       setIsFetching(fetchingStatus)
     }
-  }, [fetchingStatus])
+  }, [fetchingStatus, isFetching])
 
   const handleChangeValue = (event) => {
     const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '');
@@ -51,16 +51,6 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     setIsEdit(true)
   }
 
-  const handlerClickCancelButton = () => {
-    setIsvalue(+prevValue)
-    setIsEdit(false)
-    if(setIsCEdit){
-      let receive = {};
-      receive[row]= '';
-      let res = Object.assign({},CisEdit,receive)
-      setIsCEdit(res)
-    }
-  }
 
   const handleClickSave = () => {
     if ((Number(value) !== Number(prevValue)) || CisEdit ) {
@@ -69,6 +59,8 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
       setIsEdit(false)
     }
   }
+
+  const handleCancel = (row) => (e) => {handleCancelChange(row)}
 
   return (
     <>
@@ -91,15 +83,13 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
             variant = {'success'}
             onClick = {handleClickSave}
             className = {'edit_user_button save ' + (disabledBtn ?'disabled':'')}
-            disabled={disabledBtn?true:false}
           >
             <FontAwesomeIcon icon = {faCheck}/>
           </button>
           <button
             variant = "secondary"
-            onClick = {handlerClickCancelButton}
+            onClick = {handleCancel(row)}
             className = "edit_user_button cancel"
-            disabled={'disabled'}
           >
             <FontAwesomeIcon icon = {faTimes}/>
           </button>
