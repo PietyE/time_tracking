@@ -64,8 +64,6 @@ const ProjectManagementComponent = () => {
 
   const dispatch = useDispatch()
 
-  //const projectReports = useSelector(getProjectInTimeReportSelector, isEqual)
-
   const selectedDateForPM = useSelector(getSelectedDateForPMSelector, isEqual)
   const projects = useSelector(getAllProjectsSelector, isEqual)
   const isFetching = useSelector(getIsFetchingPmPageSelector, isEqual)
@@ -75,7 +73,6 @@ const ProjectManagementComponent = () => {
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
   const selectedPm = useSelector(getSelectedPmSelector, isEqual)
   const currentPm = useSelector(getCurrentUserSelector, isEqual)
-
   const filteredProjects = useSelector(getFilteredProjectSelector, isEqual)
 
   const _downloadAllTeamProjectReport = useCallback(
