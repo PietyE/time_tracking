@@ -15,11 +15,9 @@ import CustomCell from './CustomCell'
 const ProjectReportRowDetail = ({ row }) => {
   const dispatch = useDispatch();
   const userDetails = useEqualSelector(selectUserProjects);
-  console.log("-> userDetails", userDetails);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
   const userRole = useEqualSelector(getRoleUser);
   const user = userDetails[row.id]
-  console.log("-> user", user);
 
   const {  projects = [] } = user || {};
 
