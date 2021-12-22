@@ -1,18 +1,17 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
 import { convertMinutesToHours } from '../../../utils/common'
 import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
 import { getIsFetchingPmPageSelector, getProjectReportByIdSelector } from '../../../reducers/projects-management'
-import { isEqual } from 'lodash'
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 const RowDetail = ({ row }) => {
   const dispatch = useDispatch()
-  const isFetching = useSelector(getIsFetchingPmPageSelector, isEqual);
-  const currentProjectReport = useSelector(
+  const isFetching = useEqualSelector(getIsFetchingPmPageSelector);
+  const currentProjectReport = useEqualSelector(
     state => getProjectReportByIdSelector(state, row.id),
-    isEqual,
   );
   const _getProjectReportById = useCallback((data) => {
     dispatch(getProjectReportById(data))
