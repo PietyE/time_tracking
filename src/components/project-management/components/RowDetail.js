@@ -1,27 +1,26 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { useDispatch, connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
-import {convertMinutesToHours} from '../../../utils/common'
+import { convertMinutesToHours } from '../../../utils/common'
 import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
 import { getIsFetchingPmPageSelector, getProjectReportByIdSelector } from '../../../reducers/projects-management'
+import { isEqual } from 'lodash'
 
-const RowDetail = ({ row, currentProjectReport, isFetching }) => {
+const RowDetail = ({ row }) => {
   const dispatch = useDispatch()
+  const isFetching = useSelector(getIsFetchingPmPageSelector, isEqual);
+  const currentProjectReport = useSelector(
+    state => getProjectReportByIdSelector(state, row.id),
+    isEqual,
+  );
+  const _getProjectReportById = useCallback((data) => {
+    dispatch(getProjectReportById(data))
+  }, [dispatch]);
 
-    const _getProjectReportById = useCallback(
-    (data) => {
-      dispatch(getProjectReportById(data))
-    },
-    [dispatch],
-  )
-
-  const _downloadProjectReport = useCallback(
-    (data) => {
-      dispatch(downloadProjectReport(data))
-    },
-    [dispatch],
-  )
+  const _downloadProjectReport = useCallback((data) => {
+    dispatch(downloadProjectReport(data))
+  }, [dispatch],)
 
   const [childRows, setChildRows] = useState([])
 
@@ -36,8 +35,11 @@ const RowDetail = ({ row, currentProjectReport, isFetching }) => {
       const reformatProjects = activeProjectReports.map(user => ({
         user: user.userName,
         occupancy: user.is_full_time ? 'Full-time' : 'Part-time',
+
+
         hours: convertMinutesToHours(user.minutes) || 0,
-        report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
+        report: <Button variant="outline-*" onClick={() => _downloadProjectReport(user.projectReportId)}> <span
+          className="oi oi-cloud-download"/></Button>,
         actions: '',
 
       }))
@@ -46,36 +48,24 @@ const RowDetail = ({ row, currentProjectReport, isFetching }) => {
   }, [currentProjectReport])
 
 
-
-  const [childColumns] = useState([
-    { name: 'user', title: 'User' },
-    { name: 'occupancy', title: 'Occupancy' },
-    { name: 'hours', title: 'Hours' },
-    { name: 'report', title: 'Report' },
-    { name: 'actions', title: ' ' },
-  ])
+  const [childColumns] = useState([{name: 'user', title: 'User'}, {
+    name: 'occupancy', title: 'Occupancy'
+  }, {name: 'hours', title: 'Hours'}, {name: 'report', title: 'Report'}, {name: 'actions', title: ' '},])
 
 
-  return (
-    <div>
-      <Grid
-        rows = {childRows}
-        columns = {childColumns}
-      >
-        <Table/>
-        <Table
-          messages = {{
-            noData: isFetching?'':'There are no developers in this project yet.'
-          }}
-        />
-      </Grid>
-    </div>
-  )
+  return (<div>
+    <Grid
+      rows={childRows}
+      columns={childColumns}
+    >
+      <Table/>
+      <Table
+        messages={{
+          noData: isFetching ? '' : 'There are no developers in this project yet.'
+        }}
+      />
+    </Grid>
+  </div>)
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  currentProjectReport: getProjectReportByIdSelector(state, ownProps?.row?.id),
-  isFetching: getIsFetchingPmPageSelector(state),
-})
-
-export default connect(mapStateToProps)(RowDetail)
+export default RowDetail
