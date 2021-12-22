@@ -16,9 +16,13 @@ import {
   changeProjectName, changeUserOnProject, addUsersOnProject, setShowEditModal,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
+import {showAler} from "../../../actions/alert";
+import {WARNING_ALERT} from "../../../constants/alert-constant";
 
 function EditProjectModal({ show }) {
   const dispatch = useDispatch()
+  const projectName = useSelector(getProjectName, isEqual)
+  let [pName, setPName] = useState('')
 
   const _getProjectReportById = useCallback(
     (data) => {
@@ -53,7 +57,17 @@ function EditProjectModal({ show }) {
 
   const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
   const currentProject = useSelector((getSelectedProjectSelector, isEqual))
-  const projectName = useSelector(getProjectName, isEqual)
+
+  const projectNameOnChange = (e) => {
+    setPName(e?.target?.value);
+  }
+
+  useEffect(()=>{
+    setPName(projectName)
+      },
+      [projectName])
+
+
 
   const projectManagersList = useSelector(getProjectManagerListSelector, isEqual)
   const activeProjectManager = useSelector(getActivePmInCurrentProjectSelector, isEqual)
@@ -137,7 +151,17 @@ function EditProjectModal({ show }) {
             }
 
             const handleAddMemberToProject = e => {
-              const targetUserId = e.target.selectedOptions[0].dataset.id
+              const targetUserId = e.target?.selectedOptions[0]?.dataset.id || e.id
+              let isChosenE = !!values.team.filter(el => el.is_active === true).find((e)=>e.user_id === targetUserId);
+
+              if(isChosenE){
+                dispatch(showAler({
+                  type: WARNING_ALERT,
+                  message: `This employee already chosen`,
+                  delay: 5000,
+                }));
+                return
+              }
 
               const isPm = projectManagersList.find(pm => pm.id === targetUserId)
 
@@ -169,11 +193,15 @@ function EditProjectModal({ show }) {
                     className = "pm_create_modal_input"
                     name = "projectName"
                     placeholder = "Enter project name"
+                    onChange={projectNameOnChange}
+                    value={pName || ''}
                   />
                 </label>
 
                 <div className = 'pm_create_team_buttons_container pm_edit_team_button_container'>
-                  <button className = 'pm_create_team_button ' type = 'submit'>Change</button>
+                  <button className ={'pm_create_team_button '+(pName === projectName?'disabled':'')}
+                          disabled={pName === projectName? true:false}
+                          type = 'submit'>Change</button>
                 </div>
                 {/*Change project developers*/}
 
