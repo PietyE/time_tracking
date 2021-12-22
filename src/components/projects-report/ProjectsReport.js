@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { connect, shallowEqual, useSelector } from 'react-redux'
-import TableHeader from './components/TableHeader'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
@@ -12,9 +11,7 @@ import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
   setSelectedDeveloper,
-  clearDeveloperSelected,
   setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
   setExchangeRates,
@@ -35,68 +32,39 @@ import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/de
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
-import RenderUser from './components/RenderUser'
-import { convertMinutesToHours, digitFormat, getSortedUsers, UAHFormat } from '../../utils/common'
+import { digitFormat, UAHFormat } from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
-import RowDetail from '../project-management/components/RowDetail'
-import { Button, OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import './style.scss'
 import CustomCell from './components/CustomCell'
 import CustomHeaderCell from './components/CustomHeaderCell'
+import { initialColumns, roleRestrictions } from './projectReportConfig'
+import ProjectReportRowDetail from './components/ProjectReportRowDetail'
+import useEqualSelector from '../../custom-hook/useEqualSelector'
 
-const roleRestrictions = {
-  [DEVELOPER]: ['comments', 'is_processed',],
-  [PM]: ['salary_uah', 'rate_uah', 'total_overtimes', 'total', 'total_expenses', 'total_uah', 'is_processed',],
-}
-const initialColumns = [{name: 'name', title: 'Name'}, {
-  name: 'developer_projects',
-  title: 'Projects'
-}, {name: 'salary_uah', title: 'Salary'}, {name: 'rate_uah', title: 'Rate'}, {
-  name: 'totalHoursOvertime',
-  title: 'Hours'
-}, {name: 'total_overtimes', title: 'Overtime\n salary,\n total'}, {
-  name: 'total',
-  title: 'Total salary'
-}, {name: 'total_expenses', title: 'Extra costs, UAH'}, {
-  name: 'total_uah',
-  title: 'Total to pay, UAH'
-}, {name: 'comments', title: 'Comments'}, {name: 'is_processed', title: 'Payed'},];
+function ProjectsReport() {
+  const dispatch = useDispatch();
 
-function ProjectsReport({
-                          roleUser,
-                          selectedDate,
-                          changeSelectedDateProjectsReport,
-                          projectsReports,
-                          developersList = [],
-                          setSelectedDeveloper,
-                          clearDeveloperSelected,
-                          setSelectedProjectInProjectReports,
-                          clearSelectedProjectInProjectReports,
-                          projectList = [],
-                          selectedDeveloper = {},
-                          getDevelopersProjectInProjectReport,
-                          selectedProject = {},
-                          setEditUserId,
-                          setExchangeRates,
-                          setProcessedStatus,
-                          isFetchingReports,
-                          getConsolidateProjectReport,
-                          selectUsersReports,
-                          getRatesList,
-                        }) {
+  const roleUser = useEqualSelector(getRoleUser);
+  const selectedDate = useEqualSelector(getSelectedMonthSelector);
+  const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
+  const developersList = useEqualSelector(getDevelopersSelector);
+  const projectList = useEqualSelector(getProjectInTimeReportSelector);
+  const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector);
+  const selectedProject = useEqualSelector(getSelectedProjectSelector);
+  const editingUserId = useEqualSelector(getEditingUserIdSelector);
+  const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport);
+  const selectedReports = useEqualSelector(selectUsersReports);
+
   const {total_usd, total_uah, exchange_rate} = projectsReports
-  const users = selectUsersReports;
-  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+  const users = selectedReports;
 
   const [columns, setColumns] = useState(initialColumns);
   const [expandedRowIds, setExpandedRowIds] = useState([]);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [sortField, setSortField] = useState({
-    key: null, order: null,
-  });
   const [rows, setRows] = useState([]);
   const allDevelopers = useSelector(getDevelopersList);
   const allProjects = useSelector(getProjectsList);
@@ -107,30 +75,28 @@ function ProjectsReport({
       return;
     }
     e.stopPropagation()
-    setProcessedStatus({
+
+    const proceedStatus = {
       id: userId, month: selectedDate.month + 1, year: selectedDate.year,
-    })
+    };
+
+    dispatch(setProcessedStatus(proceedStatus));
   };
 
   const handlerCloseModalEdit = () => {
-    setEditUserId('')
+    dispatch(setEditUserId(''));
     setIsOpenEdit(false)
   };
 
   const handleChangeData = (data) => {
     const {month, year} = data;
-    changeSelectedDateProjectsReport(data)
+    dispatch(changeSelectedDateProjectsReport(data));
     const ratesParams = {
       year, month: month + 1, is_active: true
     }
-    getRatesList(ratesParams)
+    dispatch(getRatesList(ratesParams));
 
   };
-
-  const handleSortPress = useCallback((data) => {
-    setSortField(data);
-  }, []);
-
 
   const errorProjectReport = useMemo(() => {
     if (errorStatus) {
@@ -140,10 +106,9 @@ function ProjectsReport({
     }
   }, [errorStatus]);
 
-  const sortedUsers = useMemo(
-    () => getSortedUsers(users, sortField.key, sortField.order),
-    [sortField.key, sortField.order, users.length],
-  );
+  const handleOnSelect = useCallback((selector) => (data) => {
+    dispatch(selector(data));
+  }, [dispatch]);
 
   const handleRowClick = (userId) => (e) => {
     if (e.target.type === 'checkbox') {
@@ -153,12 +118,12 @@ function ProjectsReport({
     e.stopPropagation()
 
     if (roleUser === ADMIN || roleUser === ACCOUNTANT) {
-      setEditUserId(userId)
-      setIsOpenEdit(true)
+      dispatch(setEditUserId(userId));
+      setIsOpenEdit(true);
     }
   }
 
-  const TableRow = ({row, ...restProps}) => (
+  const CustomTableRow = ({row, ...restProps}) => (
     <Table.Row
       {...restProps}
       // eslint-disable-next-line no-alert
@@ -230,9 +195,9 @@ function ProjectsReport({
 
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
-      getDevelopersProjectInProjectReport()
+      dispatch(getDevelopersProjectInProjectReport());
     }
-    getConsolidateProjectReport()
+    dispatch(getConsolidateProjectReport());
   }, [roleUser]);
 
   return (<>
@@ -248,7 +213,7 @@ function ProjectsReport({
             valueKey="name"
             idKey="id"
             isSearch={true}
-            onSelected={setSelectedProjectInProjectReports}
+            onSelected={handleOnSelect(setSelectedProjectInProjectReports)}
             // onClear={clearSelectedProjectInProjectReports}
             // disabled={!_.isEmpty(selectedDeveloper)}
             disabled={selectedDeveloper.name !== 'All Developers' ? true : false}
@@ -262,7 +227,7 @@ function ProjectsReport({
             valueKey="name"
             idKey="id"
             isSearch={true}
-            onSelected={setSelectedDeveloper}
+            onSelected={handleOnSelect(setSelectedDeveloper)}
             // disabled={!_.isEmpty(selectedProject)}
             // onClear={clearDeveloperSelected}
             disabled={selectedProject.name !== 'All Projects' ? true : false}
@@ -278,7 +243,7 @@ function ProjectsReport({
       {roleUser !== ACCOUNTANT && roleUser !== PM && (<TotalValue
         totalUsd={total_usd}
         totalUah={total_uah}
-        setExchangeRates={setExchangeRates}
+        setExchangeRates={handleOnSelect(setExchangeRates)}
         prevExchangeRate={exchange_rate}
         selectedDate={selectedDate}
       />)}
@@ -301,7 +266,7 @@ function ProjectsReport({
             defaultExpandedRowIds={[]}
           />
           <Table
-            rowComponent={TableRow}
+            rowComponent={CustomTableRow}
             cellComponent={CustomCell}
             messages={{
               noData: isFetchingReports ? '' : 'There are no active projects to display.',
@@ -313,118 +278,11 @@ function ProjectsReport({
             showSortingControls={true}
             cellComponent={CustomHeaderCell}
           />
-          <TableRowDetail contentComponent={RowDetail}/>
+          <TableRowDetail contentComponent={ProjectReportRowDetail}/>
         </Grid>
       </div>
-
-      {/*<div className={`table_container ${scrollClassName}`}>*/}
-      {/*  <div className="table_scroll">*/}
-      {/*    <TableHeader*/}
-      {/*      roleUser={roleUser}*/}
-      {/*      onSortPress={handleSortPress}*/}
-      {/*    />*/}
-      {/*    <div className="table_body_container">*/}
-      {/*      {users?.length ?*/}
-      {/*        (*/}
-      {/*          <>*/}
-      {/*          {sortedUsers.map((user) => {*/}
-      {/*            const {*/}
-      {/*              name,*/}
-      {/*              developer_projects,*/}
-      {/*              // current_rate,*/}
-      {/*              rate_uah,*/}
-      {/*              // current_salary,*/}
-      {/*              salary_uah,*/}
-      {/*              salaryCurrency,*/}
-      {/*              rateCurrency,*/}
-      {/*              id,*/}
-      {/*              total_expenses,*/}
-      {/*              total_overtimes,*/}
-      {/*              total: total_salary,*/}
-      {/*              comments,*/}
-      {/*              total_uah,*/}
-      {/*              is_processed,*/}
-      {/*              totalHoursOvertime*/}
-      {/*            } = user*/}
-
-      {/*            // const allProjectsName = developer_projects*/}
-      {/*            //   .map((project) => project.name)*/}
-      {/*            //   .join(', ')*/}
-      {/*            const allProjectsName = '';*/}
-      {/*            const commonProjectsInfo = {*/}
-      {/*              name: allProjectsName,*/}
-      {/*            }*/}
-
-      {/*            return (*/}
-      {/*              <RenderUser*/}
-      {/*                commonProjectsInfo={commonProjectsInfo}*/}
-      {/*                projects={developer_projects}*/}
-      {/*                name={name}*/}
-      {/*                // rate={current_rate}*/}
-      {/*                rate={rate_uah}*/}
-      {/*                // projectSalary={current_salary}*/}
-      {/*                projectSalary={salary_uah}*/}
-      {/*                salaryCurrency={salaryCurrency}*/}
-      {/*                rateCurrency={rateCurrency}*/}
-      {/*                totalHoursOvertime={totalHoursOvertime}*/}
-      {/*                key={id}*/}
-      {/*                userId={id}*/}
-      {/*                selectedDate={selectedDate}*/}
-      {/*                total_expenses={total_expenses}*/}
-      {/*                total_overtimes={total_overtimes}*/}
-      {/*                total_salary={total_salary}*/}
-      {/*                roleUser={roleUser}*/}
-      {/*                setEditUserId={setEditUserId}*/}
-      {/*                setIsOpenEdit={setIsOpenEdit}*/}
-      {/*                comment={comments}*/}
-      {/*                total_uah={total_uah}*/}
-      {/*                is_processed={is_processed}*/}
-      {/*                setProcessedStatus={setProcessedStatus}*/}
-      {/*                isFetchingReports={isFetchingReports}*/}
-      {/*              />*/}
-      {/*            )*/}
-      {/*          })}*/}
-      {/*          </>):*/}
-      {/*        (*/}
-      {/*          <>*/}
-      {/*            {!isFetchingReports &&*/}
-      {/*            errorProjectReport*/}
-      {/*            }*/}
-      {/*          </>*/}
-      {/*        )*/}
-      {/*      }*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
   </>);
 }
 
-const mapStateToProps = (state) => ({
-  roleUser: getRoleUser(state),
-  selectedDate: getSelectedMonthSelector(state),
-  projectsReports: getDevProjectConsolidateProjectReportsSelector(state),
-  developersList: getDevelopersSelector(state),
-  projectList: getProjectInTimeReportSelector(state),
-  selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
-  selectedProject: getSelectedProjectSelector(state),
-  editingUserId: getEditingUserIdSelector(state),
-  isFetchingReports: getIsFetchingProjectsReport(state),
-  selectUsersReports: selectUsersReports(state),
-})
-
-const actions = {
-  changeSelectedDateProjectsReport,
-  setSelectedDeveloper,
-  clearDeveloperSelected,
-  setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
-  getDevelopersProjectInProjectReport,
-  setEditUserId,
-  setExchangeRates,
-  setProcessedStatus,
-  getConsolidateProjectReport,
-  getRatesList,
-};
-
-export default connect(mapStateToProps, actions)(ProjectsReport);
+export default ProjectsReport;
