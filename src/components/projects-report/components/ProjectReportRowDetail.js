@@ -1,60 +1,79 @@
-import React, { useEffect, useCallback, useState } from 'react'
-import { useDispatch, connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
-import {convertMinutesToHours} from '../../../utils/common'
-import { getProjectReportById, downloadProjectReport } from '../../../actions/projects-management'
-import { getIsFetchingPmPageSelector, getProjectReportByIdSelector } from '../../../reducers/projects-management'
+import { UAHFormat } from '../../../utils/common'
+import { selectUserProjects } from '../../../selectors/project-report-details'
+import { getRoleUser } from '../../../selectors/user'
+import { initialColumns, roleRestrictions } from '../projectReportConfig'
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
+import { getSelectedMonthSelector } from '../../../reducers/projects-report'
+import { PM } from '../../../constants/role-constant'
+import { Link } from 'react-router-dom'
+import { getUsersProjectReport } from '../../../actions/projects-report'
+import { useDispatch } from 'react-redux'
+import CustomCell from './CustomCell'
 
-const ProjectReportRowDetail = ({ row, currentProjectReport, isFetching }) => {
-  const dispatch = useDispatch()
+const ProjectReportRowDetail = ({ row }) => {
+  const dispatch = useDispatch();
+  const userDetails = useEqualSelector(selectUserProjects);
+  console.log("-> userDetails", userDetails);
+  const selectedDate = useEqualSelector(getSelectedMonthSelector);
+  const userRole = useEqualSelector(getRoleUser);
+  const user = userDetails[row.id]
+  console.log("-> user", user);
 
-  const _getProjectReportById = useCallback(
-    (data) => {
-      dispatch(getProjectReportById(data))
-    },
-    [dispatch],
-  )
+  const {  projects = [] } = user || {};
 
-  const _downloadProjectReport = useCallback(
-    (data) => {
-      dispatch(downloadProjectReport(data))
-    },
-    [dispatch],
-  )
+  const [childColumns, setChildColumns] = useState(initialColumns);
+  const [childRows, setChildRows] = useState([]);
 
-  const [childRows, setChildRows] = useState([])
+  const formattedProjects = useMemo(
+    () => projects.map(({ name, total, is_full_time, working_time, idDeveloperProjects }) => ({
+      name: '',
+      developer_projects: (
+        <Link
+          to={{
+            pathname: '/timereport',
+            state: {
+              userId: row.id,
+              developer_project_id: idDeveloperProjects,
+              selectedDate,
+            },
+          }}
+        >
+        {name}
+        </Link>
+      ),
+      salary_uah: '',
+      rate_uah: '',
+      totalHoursOvertime: is_full_time ? 'fulltime' : `${working_time || 0} `,
+      total_overtimes: '',
+      total: userRole === PM ? '' : UAHFormat.format(total),
+      total_expenses: '',
+      total_uah: '',
+      comments: '',
+      is_processed: '',
+      id: idDeveloperProjects,
+    })),
+    [projects.length]);
+
 
   useEffect(() => {
-    _getProjectReportById(row?.id)
-
-  }, [])
+      setChildRows(formattedProjects)
+  }, [formattedProjects]);
 
   useEffect(() => {
-    if (currentProjectReport) {
-      const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true || report.minutes)
-      const reformatProjects = activeProjectReports.map(user => ({
-        user: user.userName,
-        occupancy: user.is_full_time ? 'Full-time' : 'Part-time',
-        hours: convertMinutesToHours(user.minutes) || 0,
-        report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
-        actions: '',
+    dispatch(getUsersProjectReport(row.id));
+  }, [row.id]);
 
-      }))
-      setChildRows(reformatProjects)
+  useEffect(() => {
+    if (userRole && roleRestrictions?.[userRole]) {
+      const filteredColumns = initialColumns.filter(
+        (column) => !roleRestrictions[userRole].includes(column.name),
+      );
+
+      setChildColumns(filteredColumns);
     }
-  }, [currentProjectReport])
-
-
-
-  const [childColumns] = useState([
-    { name: 'user', title: 'User' },
-    { name: 'occupancy', title: 'Occupancy' },
-    { name: 'hours', title: 'Hours' },
-    { name: 'report', title: 'Report' },
-    { name: 'actions', title: ' ' },
-  ])
-
+  }, [userRole]);
 
   return (
     <div>
@@ -62,10 +81,10 @@ const ProjectReportRowDetail = ({ row, currentProjectReport, isFetching }) => {
         rows = {childRows}
         columns = {childColumns}
       >
-        <Table/>
         <Table
+          cellComponent={CustomCell}
           messages = {{
-            noData: isFetching?'':'There are no developers in this project yet.'
+            noData: 'There are no projects.'
           }}
         />
       </Grid>
@@ -73,9 +92,4 @@ const ProjectReportRowDetail = ({ row, currentProjectReport, isFetching }) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  currentProjectReport: getProjectReportByIdSelector(state, ownProps?.row?.id),
-  isFetching: getIsFetchingPmPageSelector(state),
-})
-
-export default connect(mapStateToProps)(ProjectReportRowDetail)
+export default ProjectReportRowDetail;
