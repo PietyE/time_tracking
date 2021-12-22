@@ -19,6 +19,7 @@ module.exports = {
     'comma-dangle': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': 'off',
   },
   globals: {
     fetch: false,
