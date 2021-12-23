@@ -158,8 +158,6 @@ function ProjectsReport({
 
               const comment = comments[0] ? comments[0].text : ''
 
-
-
               return (
                 <RenderUser
                   commonProjectsInfo={commonProjectsInfo}
