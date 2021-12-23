@@ -308,7 +308,7 @@ function ProjectsReport() {
 
           <IntegratedSorting
             columnExtensions={[
-              { columnName: 'totalHoursOvertime', compare: compareForTimeColumns },
+              { columnName: 'totalHours', compare: compareForTimeColumns },
               { columnName: 'total_overtimes', compare: compareForUAHColumns },
               { columnName: 'total', compare: compareForUAHColumns },
               { columnName: 'total_expenses', compare: compareForUAHColumns },
