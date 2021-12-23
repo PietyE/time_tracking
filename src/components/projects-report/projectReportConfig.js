@@ -23,7 +23,7 @@ export const columnExtensions = [
   { columnName: 'developer_projects', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'salary_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'rate_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
-  { columnName: 'totalHoursOvertime', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'totalHours', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'total_overtimes', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'total', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'total_expenses', width: 'auto', align: 'center', wordWrapEnabled: false},
