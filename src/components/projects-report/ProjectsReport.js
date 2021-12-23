@@ -243,7 +243,7 @@ function ProjectsReport() {
         />
       </div>
 
-      {roleUser !== ACCOUNTANT && roleUser !== PM && (<TotalValue
+      {  roleUser !== PM && (<TotalValue
         totalUsd={total_usd}
         totalUah={total_uah}
         setExchangeRates={handleOnSelect(setExchangeRates)}
@@ -255,7 +255,7 @@ function ProjectsReport() {
       {roleUser === PM && (
         <div
           key="Second Grid Element"
-          className="card mt-5 mb-5"
+          className="card  mb-5"
         >
           <Grid
             rows={rows.filter(item => item.id === profileId)}
@@ -290,7 +290,7 @@ function ProjectsReport() {
 
       <div
         key="First Grid Element"
-        className="card mt-5 mb-5"
+        className="card mb-5"
       >
         <Grid
           rows={rows}
