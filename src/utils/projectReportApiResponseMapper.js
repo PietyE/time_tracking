@@ -40,7 +40,8 @@ export const consolidateReportMapper = (response, currentCurrency) => {
         commentId: lodashGet(item, 'comment.id', ''),
         total_uah: lodashGet(item, 'total_amount_uah', ''),
         is_processed: lodashGet(item, 'is_processed', ''),
-        totalHoursOvertime: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', '')))
+        totalHoursOvertime: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
+        total_hours: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'total_minutes', ''))),
       }
       previous.push(reportItem)
       return previous

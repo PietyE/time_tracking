@@ -26,6 +26,7 @@ import {
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
   selectUsersReports,
+
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
@@ -149,12 +150,13 @@ function ProjectsReport() {
                        salaryCurrency,
                        rateCurrency,
                        is_full_time,
+                         total_hours
                      }) => ({
       name,
       developer_projects,
       salary_uah: `${digitFormat.format(salary_uah)} ${salaryCurrency}`,
       rate_uah: `${digitFormat.format(rate_uah)} ${rateCurrency}`,
-      totalHoursOvertime: is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} `,
+      totalHours: is_full_time ? 'fulltime' : `${total_hours || 0} `,
       total_overtimes: UAHFormat.format(total_overtimes || total),
       total: UAHFormat.format(total),
       total_expenses: UAHFormat.format(total_expenses),

@@ -130,9 +130,7 @@ function TimeReport(props) {
     }
   }
 
-  useEffect(()=>{
-    selectProject(projects[0])
-  },[projects])
+
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -140,7 +138,6 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
-
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
