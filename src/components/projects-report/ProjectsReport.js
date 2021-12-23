@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { connect, useSelector } from 'react-redux'
-import _ from 'lodash'
-import TableRow from './components/TableRow'
-import TableHeader from './components/TableHeader'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
 import TotalValue from './components/TotalValue'
-import './style.scss'
-import { getRoleUser } from 'selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
-import { DEVELOPER, PM } from 'constants/role-constant'
+import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
+import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
   setSelectedDeveloper,
-  clearDeveloperSelected,
   setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
   setExchangeRates,
+  getConsolidateProjectReport,
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
@@ -30,272 +25,311 @@ import {
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
+  selectUsersReports,
+
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
+import ActualRates from '../ui/actual-rates/ActualRates'
+import { getRatesList } from '../../actions/currency'
+import { digitFormat, UAHFormat } from '../../utils/common'
+import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
+import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
+import './style.scss'
+import CustomCell from './components/CustomCell'
+import CustomHeaderCell from './components/CustomHeaderCell'
+import { initialColumns, roleRestrictions } from './projectReportConfig'
+import ProjectReportRowDetail from './components/ProjectReportRowDetail'
+import useEqualSelector from '../../custom-hook/useEqualSelector'
 
-function ProjectsReport({
-  roleUser,
-  selectedDate,
-  changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
-  projectsReports,
-  developersList = [],
-  setSelectedDeveloper,
-  clearDeveloperSelected,
-  setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
-  projectList = [],
-  selectedDeveloper = {},
-  getDevelopersProjectInProjectReport,
-  selectedProject = {},
-  setEditUserId,
-  setExchangeRates,
-  setProcessedStatus,
-  isFetchingReports
-}) {
-  const { users, total_usd, total_uah, exchange_rate } = projectsReports
-  const scrollClassName = roleUser === PM ? 'overflow-hidden' : '';
+function ProjectsReport() {
+  const dispatch = useDispatch();
 
-  const [isOpenEdit, setIsOpenEdit] = useState(false)
-  const allDevelopers = useSelector(getDevelopersList)
-  const allProjects = useSelector(getProjectsList)
-  const handlerCloseModalEdit = () => {
-    setEditUserId('')
-    setIsOpenEdit(false)
-  }
+  const roleUser = useEqualSelector(getRoleUser);
+  const profileId = useEqualSelector(getProfileId);
+  const selectedDate = useEqualSelector(getSelectedMonthSelector);
+  const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
+  const developersList = useEqualSelector(getDevelopersSelector);
+  const projectList = useEqualSelector(getProjectInTimeReportSelector);
+  const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector);
+  const selectedProject = useEqualSelector(getSelectedProjectSelector);
+  const editingUserId = useEqualSelector(getEditingUserIdSelector);
+  const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport);
+  const selectedReports = useEqualSelector(selectUsersReports);
 
-  useEffect(() => {
-    if (roleUser !== DEVELOPER) {
-      getDevelopersProjectInProjectReport()
+  const {total_usd, total_uah, exchange_rate} = projectsReports
+  const users = selectedReports;
+
+  const [columns, setColumns] = useState(initialColumns);
+  const [expandedRowIds, setExpandedRowIds] = useState([]);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [rows, setRows] = useState([]);
+  const allDevelopers = useSelector(getDevelopersList);
+  const allProjects = useSelector(getProjectsList);
+  const errorStatus = useSelector(getProjectReportError, shallowEqual);
+
+  const handlerChangeProcessedStatusInput = (userId) => (e) => {
+    if (isFetchingReports) {
+      return;
     }
-    getDeveloperConsolidateProjectReport()
-  }, [])
-  return (
-    <>
-      {isFetchingReports && <Spinner />}
-    <div className="container project_report_container">
-      {isOpenEdit && (
-        <EditUserModal handlerCloseModalEdit={handlerCloseModalEdit} />
-      )}
-      <div className="project_report_header_container">
-        {roleUser !== DEVELOPER && roleUser !== PM && (
-          <div className="project_report_header_choice">
-            <Select
-              title="choose your project..."
-              extraClassContainer="project_select_container"
-              listItems={allProjects}
-              valueKey="name"
-              idKey="id"
-              isSearch={true}
-              onSelected={setSelectedProjectInProjectReports}
-              // onClear={clearSelectedProjectInProjectReports}
-              // disabled={!_.isEmpty(selectedDeveloper)}
-              disabled={
-                selectedDeveloper.name !== 'All Developers' ? true : false
-              }
-              initialChoice={selectedProject}
+    e.stopPropagation()
 
-            />
-            <Select
-              title="choose developer..."
-              extraClassContainer="developer_select_container"
-              listItems={allDevelopers}
-              valueKey="name"
-              idKey="id"
-              isSearch={true}
-              onSelected={setSelectedDeveloper}
-              // disabled={!_.isEmpty(selectedProject)}
-              // onClear={clearDeveloperSelected}
-              disabled={selectedProject.name !== 'All Projects' ? true : false}
-              initialChoice={selectedDeveloper}
-            />
-          </div>
-        )}
-        <SelectMonth
-          selectedDate={selectedDate}
-          setNewData={changeSelectedDateProjectsReport}
-        />
-      </div>
-      {roleUser !== DEVELOPER && roleUser !== PM && (
-        <TotalValue
-          totalUsd={total_usd}
-          totalUah={total_uah}
-          setExchangeRates={setExchangeRates}
-          prevExchangeRate={exchange_rate}
-          selectedDate={selectedDate}
-        />
-      )}
-      <div className={`table_container ${scrollClassName}`}>
-        <div className="table_scroll">
-          <TableHeader roleUser={roleUser} />
-          <div className="table_body_container">
-            {users.map((user) => {
-              const {
-                name,
-                developer_projects,
-                // current_rate,
-                rate_uah,
-                // current_salary,
-                salary_uah,
-                id,
-                total_expenses,
-                total_overtimes,
-                total: total_salary,
-                comments,
-                total_uah,
-                is_processed,
-              } = user
+    const proceedStatus = {
+      id: userId, month: selectedDate.month + 1, year: selectedDate.year,
+    };
 
-              const allProjectsName = developer_projects
-                .map((project) => project.name)
-                .join(', ')
+    dispatch(setProcessedStatus(proceedStatus));
+  };
 
-              const commonProjectsInfo = {
-                name: allProjectsName,
-              }
+  const handlerCloseModalEdit = () => {
+    dispatch(setEditUserId(''));
+    setIsOpenEdit(false)
+  };
 
-              const comment = comments[0] ? comments[0].text : ''
+  const handleChangeData = (data) => {
+    const {month, year} = data;
+    dispatch(changeSelectedDateProjectsReport(data));
+    const ratesParams = {
+      year, month: month + 1, is_active: true
+    }
+    dispatch(getRatesList(ratesParams));
 
-              return (
-                <RenderUser
-                  commonProjectsInfo={commonProjectsInfo}
-                  projects={developer_projects}
-                  name={name}
-                  // rate={current_rate}
-                  rate={rate_uah}
-                  // projectSalary={current_salary}
-                  projectSalary={salary_uah}
-                  key={id}
-                  userId={id}
-                  selectedDate={selectedDate}
-                  total_expenses={total_expenses}
-                  total_overtimes={total_overtimes}
-                  total_salary={total_salary}
-                  roleUser={roleUser}
-                  setEditUserId={setEditUserId}
-                  setIsOpenEdit={setIsOpenEdit}
-                  comment={comment}
-                  total_uah={total_uah}
-                  is_processed={is_processed}
-                  setProcessedStatus={setProcessedStatus}
-                  isFetchingReports={isFetchingReports}
-                />
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-    </>
-  )
-}
+  };
 
-const RenderUser = ({
-  name = '',
-  commonProjectsInfo = {},
-  projects = [],
-  rate = 0,
-  projectSalary = 0,
-  selectedDate = {},
-  total_expenses,
-  total_overtimes,
-  total_salary,
-  userId,
-  roleUser,
-  setEditUserId,
-  setIsOpenEdit,
-  comment,
-  total_uah,
-  is_processed,
-  setProcessedStatus,
-  isFetchingReports
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const errorProjectReport = useMemo(() => {
+    if (errorStatus) {
+      return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
+    } else {
+      return <p className='table_body_container_text'> There are no users in this project yet</p>
+    }
+  }, [errorStatus]);
 
-  const handlerOpenMoreProject = (e) => {
+  const handleOnSelect = useCallback((selector) => (data) => {
+    dispatch(selector(data));
+  }, [dispatch]);
+
+  const handleRowClick = (userId) => (e) => {
     if (e.target.type === 'checkbox') {
       return
     }
-    e.preventDefault()
+
     e.stopPropagation()
-    setIsOpen(!isOpen)
+
+    if (roleUser === ADMIN || roleUser === ACCOUNTANT) {
+      dispatch(setEditUserId(userId));
+      setIsOpenEdit(true);
+    }
   }
 
-  const totalHoursOvertime = projects.reduce((sum, project) => {
-    if (!project.is_full_time) {
-      return (sum = sum + project.working_time)
-    }
-    return sum
-  }, 0)
+  const CustomTableRow = ({row, ...restProps}) => (
+    <Table.Row
+      {...restProps}
+      // eslint-disable-next-line no-alert
+      onClick={handleRowClick(row.id)}
+    />
+  );
 
-  return (
-    <div className="table_body_item">
-      <TableRow
-        project={commonProjectsInfo}
-        projectSalary={projectSalary}
-        name={name}
-        rate={rate}
-        onClick={handlerOpenMoreProject}
-        extraClass={'common'}
-        total_expenses={total_expenses}
-        total_overtimes={total_overtimes}
-        total_salary={total_salary}
-        totalHoursOvertime={totalHoursOvertime}
-        roleUser={roleUser}
-        userId={userId}
-        setEditUserId={setEditUserId}
-        setIsOpenEdit={setIsOpenEdit}
-        comment={comment}
-        total_uah={total_uah}
-        is_processed={is_processed}
-        setProcessedStatus={setProcessedStatus}
-        selectedDate={selectedDate}
-        isOpen={isOpen}
-        isFetchingReports={isFetchingReports}
-      />
-      {projects.map((project) => {
-        return (
-          <TableRow
-            project={project}
-            extraClass={isOpen ? 'more_project open' : 'more_project'}
-            rate={rate}
-            key={project.id}
-            selectedDate={selectedDate}
-            is_full_time={project.is_full_time}
-            userId={userId}
-            roleUser={roleUser}
+  const formatedUsers = useMemo(
+    () => users.map(({
+                       name,
+                       developer_projects,
+                       salary_uah,
+                       rate_uah,
+                       totalHoursOvertime,
+                       total_overtimes,
+                       total,
+                       total_expenses,
+                       total_uah,
+                       comments,
+                       is_processed,
+                       id,
+                       salaryCurrency,
+                       rateCurrency,
+                       is_full_time,
+                         total_hours
+                     }) => ({
+      name,
+      developer_projects,
+      salary_uah: `${digitFormat.format(salary_uah)} ${salaryCurrency}`,
+      rate_uah: `${digitFormat.format(rate_uah)} ${rateCurrency}`,
+      totalHours: is_full_time ? 'fulltime' : `${total_hours || 0} `,
+      total_overtimes: UAHFormat.format(total_overtimes || total),
+      total: UAHFormat.format(total),
+      total_expenses: UAHFormat.format(total_expenses),
+      total_uah: UAHFormat.format(total_uah),
+      comments: (comments ? (<OverlayTrigger
+        placement="left"
+        containerPadding={20}
+        trigger={['focus', 'hover']}
+        key={id}
+        overlay={<Popover id="popover-basic">
+          <Popover.Title as="h3">Comment</Popover.Title>
+          <Popover.Content>{comments}</Popover.Content>
+        </Popover>}
+      >
+        <FontAwesomeIcon icon={faComments}/>
+      </OverlayTrigger>) : ('')),
+      is_processed: (<span className="table_cell ready">
+          <input
+            type="checkbox"
+            checked={is_processed}
+            onChange={handlerChangeProcessedStatusInput(id)}
           />
-        )
-      })}
+        </span>),
+      id,
+    })),
+    [users]);
+
+  useEffect(() => {
+    if (roleUser && roleRestrictions?.[roleUser]) {
+      const filteredColumns = initialColumns.filter((column) => !roleRestrictions[roleUser].includes(column.name),);
+
+      setColumns(filteredColumns);
+    }
+  }, [roleUser]);
+
+  useEffect(() => {
+    setRows(formatedUsers)
+  }, [formatedUsers]);
+
+  useEffect(() => {
+    if (roleUser !== DEVELOPER) {
+      dispatch(getDevelopersProjectInProjectReport());
+    }
+    dispatch(getConsolidateProjectReport());
+  }, [roleUser]);
+
+  return (<>
+    {isFetchingReports && <Spinner/>}
+    <div className="container project_report_container">
+      {isOpenEdit && (<EditUserModal handlerCloseModalEdit={handlerCloseModalEdit}/>)}
+      <div className="project_report_header_container">
+        {roleUser !== DEVELOPER && roleUser !== PM && (<div className="project_report_header_choice">
+          <Select
+            title="choose your project..."
+            extraClassContainer="project_select_container"
+            listItems={allProjects}
+            valueKey="name"
+            idKey="id"
+            isSearch={true}
+            onSelected={handleOnSelect(setSelectedProjectInProjectReports)}
+            // onClear={clearSelectedProjectInProjectReports}
+            // disabled={!_.isEmpty(selectedDeveloper)}
+            disabled={selectedDeveloper.name !== 'All Developers' ? true : false}
+            initialChoice={selectedProject}
+
+          />
+          <Select
+            title="choose developer..."
+            extraClassContainer="developer_select_container"
+            listItems={allDevelopers}
+            valueKey="name"
+            idKey="id"
+            isSearch={true}
+            onSelected={handleOnSelect(setSelectedDeveloper)}
+            // disabled={!_.isEmpty(selectedProject)}
+            // onClear={clearDeveloperSelected}
+            disabled={selectedProject.name !== 'All Projects' ? true : false}
+            initialChoice={selectedDeveloper}
+          />
+        </div>)}
+        <SelectMonth
+          selectedDate={selectedDate}
+          setNewData={handleChangeData}
+        />
+      </div>
+
+      {roleUser !== ACCOUNTANT && roleUser !== PM && (<TotalValue
+        totalUsd={total_usd}
+        totalUah={total_uah}
+        setExchangeRates={handleOnSelect(setExchangeRates)}
+        prevExchangeRate={exchange_rate}
+        selectedDate={selectedDate}
+      />)}
+      {roleUser !== DEVELOPER && roleUser !== PM && (<ActualRates/>)}
+
+      {roleUser === PM && (
+        <div
+          key="Second Grid Element"
+          className="card mt-5 mb-5"
+        >
+          <Grid
+            rows={rows.filter(item => item.id === profileId)}
+            columns={
+              initialColumns.filter((column) => !roleRestrictions[DEVELOPER].includes(column.name))
+            }
+          >
+            <SortingState
+              defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+            />
+
+            <IntegratedSorting/>
+
+              <RowDetailState
+              expandedRowIds={expandedRowIds}
+              onExpandedRowIdsChange={setExpandedRowIds}
+              defaultExpandedRowIds={[]}
+            />
+            <Table
+              rowComponent={CustomTableRow}
+              cellComponent={CustomCell}
+              messages={{
+                noData: isFetchingReports ? '' : 'There are no active projects to display.',
+              }}
+            />
+            <TableHeaderRow
+              resizingEnabled
+              tableColumnResizingEnabled
+              showSortingControls={true}
+              cellComponent={CustomHeaderCell}
+            />
+            <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+          </Grid>
+        </div>
+
+      )}
+
+      <div
+        key="First Grid Element"
+        className="card mt-5 mb-5"
+      >
+        <Grid
+          rows={rows}
+          columns={columns}
+        >
+          <SortingState
+            defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+          />
+
+          <IntegratedSorting/>
+
+          <RowDetailState
+            expandedRowIds={expandedRowIds}
+            onExpandedRowIdsChange={setExpandedRowIds}
+            defaultExpandedRowIds={[]}
+          />
+          <Table
+            rowComponent={CustomTableRow}
+            cellComponent={CustomCell}
+            messages={{
+              noData: isFetchingReports ? '' : 'There are no active projects to display.',
+            }}
+          />
+          <TableHeaderRow
+            resizingEnabled
+            tableColumnResizingEnabled
+            showSortingControls={true}
+            cellComponent={CustomHeaderCell}
+          />
+          <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+        </Grid>
+      </div>
     </div>
-  )
+  </>);
 }
 
-const mapStateToProps = (state) => ({
-  roleUser: getRoleUser(state),
-  selectedDate: getSelectedMonthSelector(state),
-  projectsReports: getDevProjectConsolidateProjectReportsSelector(state),
-  developersList: getDevelopersSelector(state),
-  projectList: getProjectInTimeReportSelector(state),
-  selectedDeveloper: getSelectDeveloperInProjectReportSelector(state),
-  selectedProject: getSelectedProjectSelector(state),
-  editingUserId: getEditingUserIdSelector(state),
-  isFetchingReports: getIsFetchingProjectsReport(state),
-})
-
-const actions = {
-  changeSelectedDateProjectsReport,
-  getDeveloperConsolidateProjectReport,
-  setSelectedDeveloper,
-  clearDeveloperSelected,
-  setSelectedProjectInProjectReports,
-  clearSelectedProjectInProjectReports,
-  getDevelopersProjectInProjectReport,
-  setEditUserId,
-  setExchangeRates,
-  setProcessedStatus,
-}
-
-export default connect(mapStateToProps, actions)(ProjectsReport)
+export default ProjectsReport;

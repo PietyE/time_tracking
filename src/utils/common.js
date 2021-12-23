@@ -31,3 +31,46 @@ export const getUrlParams = (search) => {
     return Object.assign(params, { [key]: decodeURIComponent(val) })
   }, {})
 }
+
+export const convertHours = (data) =>{
+  if(data){
+    const hours = Math.floor(data);
+    let minutes = Math.round((data - hours)*60);
+    if(minutes < 10){
+      minutes = `0${minutes}`
+    }
+    return `${hours}:${minutes}`
+  }else{
+    return 0
+  }
+}
+export const convertMinutesToHours = (data) => {
+  if(data){
+    const hours = Math.floor(data/60);
+    let minutes = data - (hours*60);
+    if(minutes < 10){
+      minutes = `0${minutes}`
+    }
+    return `${hours}:${minutes}`
+  }else{
+    return 0
+  }
+}
+
+export const usdFormat = new Intl.NumberFormat('ru', {
+  style: 'currency',
+  currency: 'USD',
+  currencyDisplay: 'symbol',
+  minimumFractionDigits: 0,
+})
+
+export const UAHFormat = new Intl.NumberFormat('ru', {
+  style: 'currency',
+  currency: 'UAH',
+  minimumFractionDigits: 0,
+})
+
+export const digitFormat = new Intl.NumberFormat('ru', {
+  minimumFractionDigits: 0,
+});
+

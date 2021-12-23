@@ -34,6 +34,18 @@ class Api {
     })
   }
 
+  getAllProjects = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getSelectedProject = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
   getWorkItems = (url) => {
     return fetchApi({
       url,
@@ -139,6 +151,33 @@ class Api {
       method: 'post',
     })
   }
+
+  getCurrenciesList = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getRatesList = (url, params) => {
+    return fetchApi({
+      url,
+      params
+    })
+  }
+
+  getConsolidatedReport = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getUsersProjectReports = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
 }
+
+
 
 export default new Api()

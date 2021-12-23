@@ -44,6 +44,8 @@
       line-height: 1.5;
       white-space: nowrap;
       overflow: hidden;
+      max-width: 160px;
+      text-overflow: ellipsis;
       &.select_title_text_input {
         border: none;
       }
@@ -60,8 +62,9 @@
   }
   .select_list_container {
     width: 200px;
-    height: auto;
+    max-height: 50vh;
     min-height: 40px;
+    overflow-y: scroll;
     background-color: #fff;
     position: absolute;
     border: 1px solid #e8e8e8;

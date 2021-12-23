@@ -80,6 +80,7 @@ function TimeReport(props) {
       }, 0)
     : 0
 
+
   const bootstrapWidthRouteState = () => {
     if (routeState) {
       const {
@@ -128,6 +129,8 @@ function TimeReport(props) {
       }
     }
   }
+
+
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {

@@ -7,21 +7,16 @@ import RootRouteComponent from 'screens/RootRouteComponent'
 import { getAlertIsShownAlertSelector } from 'selectors/alert'
 import { getErrorStatus } from 'selectors/error'
 
-import {getIsFetchingProjectsReport} from '../selectors/developer-projects'
-import {getIsFetchingReport} from '../selectors/timereports'
-import {isEqual} from 'lodash'
+
 
 import '../styles/App.css'
 
 const App = ({ isShownAlert, errorStatus }) => {
-  const timeReportIsFetching = useSelector(getIsFetchingReport,isEqual)
-  const projectsReportFetching = useSelector(getIsFetchingProjectsReport, isEqual)
 
-  const appClass = timeReportIsFetching||projectsReportFetching?'app_without_scroll':'app';
+  const appClass = 'app';
   if (errorStatus === 500) {
     return <StatusPage />
   }
-
 
   return (
     <div className={appClass}>

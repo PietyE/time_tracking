@@ -19,8 +19,10 @@ function Select(props) {
     initialChoice = null,
     onClear,
     isSearch = false,
+    isTeamSearch =false,
     disabled,
   } = props
+
 
   const [_title, setTitle] = useState(title)
   const [isOpen, setIsOpen] = useState(false)
@@ -30,11 +32,16 @@ function Select(props) {
   const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
+    e.preventDefault()
     if (isOpen) {
       setClassNameOpen('select_close')
       return
     }
     setIsOpen(true)
+  }
+
+  const initTitle = ()=>{
+   return   listItems.find((item)=>item.serverId === initialChoice)
   }
 
   const handlerClickClear = (e) => {
@@ -75,13 +82,25 @@ function Select(props) {
     }
   }, [isOpen, callbackEventListener])
 
-  useEffect(() => {
-    if (initialChoice && initialChoice[valueKey]) {
-      setTitle(initialChoice[valueKey])
-    }
-  }, [initialChoice])
+  ///////////////////////////////////////////////////////////
+  // useEffect(() => {
+  //   if (initialChoice && initialChoice[valueKey]) {
+  //     setTitle(initialChoice[valueKey])
+  //   }
+  // }, [initialChoice])
+  ///////////////////////////////////////////////////////////
+  useEffect(()=>{
+ if (initialChoice && initialChoice[valueKey]){
+    setTitle(initialChoice[valueKey])
+  } else if(!initialChoice && listItems?.length){
+    setTitle(title)
+  }
+    },[listItems,initialChoice])
 
   useEffect(() => {
+    if(initTitle()?.name){
+      setTitle(initTitle()?.name)
+    }
     if (
       prevList &&
       listItems &&
@@ -92,7 +111,7 @@ function Select(props) {
     } else if (!listItems.length) {
       setTitle('List is empty')
     }
-  }, [listItems])
+  }, [listItems, initialChoice])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
@@ -105,14 +124,17 @@ function Select(props) {
     return false
   })
 
+  const showContainer = isOpen && !disabled && !!searchedListItems.length;
+
   return (
     <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
-      onClick={disabled ? null : handlerClickOpen}
+      type='button'
+      onClick={handlerClickOpen}
       tabIndex={1}
-      //disabled={!listItems.length}
+      disabled={disabled}
     >
       <div className="select_title_container">
         {isSearch && isOpen && !disabled ? (
@@ -124,25 +146,30 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
-          <span className={`select_title_text ${classNameDisabled}`}>
+          <span className={`select_title_text ${classNameDisabled}`} >
             {_title}
           </span>
         )}
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          className={
-            isOpen && !classNameOpen
-              ? 'select_title_icon active'
-              : 'select_title_icon'
-          }
-        />
+        {!isTeamSearch &&
+          <FontAwesomeIcon
+              icon={faCaretDown}
+              className={
+                isOpen && !classNameOpen
+                    ? 'select_title_icon active'
+                    : 'select_title_icon'
+              }
+          />
+        }
+
       </div>
-      {isOpen && !disabled && (
+      {showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
+
           {searchedListItems.map((item) => (
+
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={

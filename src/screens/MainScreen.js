@@ -16,6 +16,10 @@ import {
   getProfileName,
   getProfileEmail,
 } from 'selectors/user'
+import { getCurrenciesList, getRatesList } from '../actions/currency'
+import { getSelectedMonthSelector } from '../reducers/projects-report'
+import ProjectManagementScreen from './ProjectManagementScreen'
+import PmPrivateRoute from '../Routes/PmPrivatRoute'
 
 function MainScreen({
   isAuth,
@@ -25,7 +29,11 @@ function MainScreen({
   profileName,
   profileId,
   profileEmail,
+  getCurrenciesList,
+  getRatesList,
+  getSelectedMonth
 }) {
+  const date = getSelectedMonth;
   useEffect(() => {
     if (isAuth) {
       if (roleUser !== DEVELOPER) {
@@ -34,8 +42,17 @@ function MainScreen({
           name: profileName,
           email: profileEmail,
         })
+        const ratesParams = {
+          is_active: true,
+          year: date.year || date.getFullYear(),
+          month: date.month + 1 || date.getMonth() + 1
+        };
+        getCurrenciesList()
+        getRatesList(ratesParams)
+
       } else {
         getDeveloperProjects()
+
       }
     }
   }, [])
@@ -50,6 +67,8 @@ function MainScreen({
       <Switch>
         <Route path="/projects" component={ProjectsScreen} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
+        <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
+
         <Redirect from="/" to="/timereport" />
       </Switch>
     </>
@@ -60,6 +79,8 @@ const actions = {
   getProjects,
   getDeveloperProjects,
   selectDevelopers,
+  getCurrenciesList,
+  getRatesList
 }
 
 const mapStateToProps = (state) => ({
@@ -68,6 +89,7 @@ const mapStateToProps = (state) => ({
   profileId: getProfileId(state),
   profileName: getProfileName(state),
   profileEmail: getProfileEmail(state),
+  getSelectedMonth: getSelectedMonthSelector(state)
 })
 
 export default connect(mapStateToProps, actions)(memo(MainScreen))

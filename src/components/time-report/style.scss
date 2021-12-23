@@ -97,6 +97,12 @@
   }
   .project_select {
     margin-right: 20px;
+    .select_list_item{
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 160px;
+      text-overflow: ellipsis;
+    }
   }
 
   .time_report_day_container {
@@ -219,6 +225,9 @@
         border-radius: 5px;
         background-color: #5a5145;
         transition: 0.3s ease-out;
+        svg{
+          pointer-events: none;
+        }
         &:hover {
           background-color: #726b62;
           transition: 0.3s ease-in;
@@ -633,5 +642,14 @@
         }
       }
     }
+  }
+
+  .copy_img {
+    width: 20px;
+    height: 18px;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: #414141;
+    font-weight: 500;
   }
 }

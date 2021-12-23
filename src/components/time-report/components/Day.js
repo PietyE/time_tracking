@@ -13,7 +13,7 @@ function Day({
   showEmpty,
   isOpenCreate,
   isOneProject,
-}) {
+             }) {
   const [isCreate, setIsCreate] = useState(true)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
 
