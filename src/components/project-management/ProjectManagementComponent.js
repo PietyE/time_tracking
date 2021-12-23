@@ -38,7 +38,7 @@ import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
 import { getCurrentUserSelector } from '../../reducers/profile'
 import {isEmpty} from 'lodash'
-import {convertMinutesToHours} from '../../utils/common'
+import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
 const ProjectManagementComponent =({
                                      selectedDateForPM,
@@ -121,7 +121,7 @@ const ProjectManagementComponent =({
         const reformatProjects = filteredProjects.map(project => ({
           project: project.name,
           occupancy: ' ',
-          hours: convertMinutesToHours(project?.total_minutes) || 0,
+          hours: convertMinutesToHours(project?.total_minutes),
           report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
             <span className = "oi oi-cloud-download"/>
           </Button>,
@@ -205,14 +205,18 @@ const ProjectManagementComponent =({
                 ]}
                 columnExtensions={[
                   { columnName: 'project', sortingEnabled: true },
-                  { columnName: 'occupancy', sortingEnabled: true },
+                  { columnName: 'occupancy', sortingEnabled: false },
                   { columnName: 'hours', sortingEnabled: true},
                   { columnName: 'report', sortingEnabled: false},
                   { columnName: 'actions', sortingEnabled: false},
                 ]}
               />
-              {/*<IntegratedGrouping />*/}
-              <IntegratedSorting />
+              <IntegratedSorting
+                columnExtensions={[
+                  { columnName: 'hours', compare: compareForTimeColumns },
+                ]}
+
+              />
 
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
