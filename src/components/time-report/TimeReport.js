@@ -141,7 +141,6 @@ function TimeReport(props) {
     getTimeReportCsv()
   }
 
-
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
       selectProject(projects[0])
