@@ -21,7 +21,6 @@ function Select(props) {
     isSearch = false,
     isTeamSearch =false,
     disabled,
-    isTeamSearch
   } = props
 
 
