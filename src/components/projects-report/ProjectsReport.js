@@ -243,7 +243,7 @@ function ProjectsReport() {
         />
       </div>
 
-      {roleUser !== ACCOUNTANT && roleUser !== PM && (<TotalValue
+      {roleUser !== ACCOUNTANT && roleUser !== PM && roleUser !== DEVELOPER && (<TotalValue
         totalUsd={total_usd}
         totalUah={total_uah}
         setExchangeRates={handleOnSelect(setExchangeRates)}
