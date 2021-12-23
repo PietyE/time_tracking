@@ -3,16 +3,16 @@ import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
 import { UAHFormat } from '../../../utils/common'
 import { selectUserProjects } from '../../../selectors/project-report-details'
 import { getRoleUser } from '../../../selectors/user'
-import { initialColumns, roleRestrictions } from '../projectReportConfig'
+import { columnExtensions, initialColumns, roleRestrictions } from '../projectReportConfig'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { getSelectedMonthSelector } from '../../../reducers/projects-report'
-import { PM } from '../../../constants/role-constant'
+import { DEVELOPER, PM } from '../../../constants/role-constant'
 import { Link } from 'react-router-dom'
 import { getUsersProjectReport } from '../../../actions/projects-report'
 import { useDispatch } from 'react-redux'
 import CustomCell from './CustomCell'
 
-const ProjectReportRowDetail = ({ row }) => {
+const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
   const dispatch = useDispatch();
   const userDetails = useEqualSelector(selectUserProjects);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
@@ -66,7 +66,7 @@ const ProjectReportRowDetail = ({ row }) => {
   useEffect(() => {
     if (userRole && roleRestrictions?.[userRole]) {
       const filteredColumns = initialColumns.filter(
-        (column) => !roleRestrictions[userRole].includes(column.name),
+        (column) => !roleRestrictions[pmDetailed ? DEVELOPER : userRole].includes(column.name),
       );
 
       setChildColumns(filteredColumns);
@@ -80,6 +80,7 @@ const ProjectReportRowDetail = ({ row }) => {
         columns = {childColumns}
       >
         <Table
+          columnExtensions={columnExtensions}
           cellComponent={CustomCell}
           messages = {{
             noData: 'There are no projects.'
