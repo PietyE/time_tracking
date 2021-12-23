@@ -9,7 +9,7 @@ export const initialColumns = [
   { name: 'developer_projects', title: 'Projects'},
   { name: 'salary_uah', title: 'Salary' },
   { name: 'rate_uah', title: 'Rate' },
-  { name: 'totalHoursOvertime', title: 'Hours' },
+  { name: 'totalHours', title: 'Hours' },
   { name: 'total_overtimes', title: 'Overtime\n salary,\n total' },
   { name: 'total', title: 'Total salary' },
   { name: 'total_expenses', title: 'Extra costs, UAH' },

@@ -44,7 +44,7 @@ const ProjectReportRowDetail = ({ row }) => {
       salary_uah: '',
       rate_uah: '',
       totalHoursOvertime: is_full_time ? 'fulltime' : `${working_time || 0} `,
-      total_overtimes: '',
+        total_hovers: '',
       total: userRole === PM ? '' : UAHFormat.format(total),
       total_expenses: '',
       total_uah: '',
