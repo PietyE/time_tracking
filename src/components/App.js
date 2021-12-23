@@ -18,7 +18,6 @@ const App = ({ isShownAlert, errorStatus }) => {
     return <StatusPage />
   }
 
-
   return (
     <div className={appClass}>
 

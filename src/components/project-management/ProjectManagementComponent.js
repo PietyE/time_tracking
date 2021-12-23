@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import SelectMonth from '../ui/select-month'
 import {
+  IntegratedSorting,
   RowDetailState,
+  SortingState,
 } from '@devexpress/dx-react-grid'
 import {
   Grid,
@@ -66,11 +68,16 @@ const ProjectManagementComponent =({
     }
   },[])
 
-  useEffect(() => {
-    projectManagers.unshift({
-      id: "select-all", 
-      name: "Select All"
-    })
+  const addSelectAll = useMemo(() => {
+    if(projectManagers){
+      return [
+        {
+          id: "select-all",
+          name: "Select All"
+        },
+        ...projectManagers
+      ]
+    }
   }, [projectManagers])
 
   useEffect(()=>{
@@ -149,11 +156,12 @@ const ProjectManagementComponent =({
 
             <Select
               title="choose project manager..."
-              listItems={projectManagers}
+              listItems={addSelectAll}
               onSelected={onSelectPm}
               valueKey="name"
               idKey="id"
               extraClassContainer={'developer_select pm_select'}
+              onSelectAll="true"
               initialChoice={selectedPm || currentPm}
               isSearch
             />
@@ -191,6 +199,21 @@ const ProjectManagementComponent =({
               rows = {rows}
               columns = {columns}
             >
+              <SortingState
+                defaultSorting={[
+                  { columnName: 'project', direction: 'asc' },
+                ]}
+                columnExtensions={[
+                  { columnName: 'project', sortingEnabled: true },
+                  { columnName: 'occupancy', sortingEnabled: true },
+                  { columnName: 'hours', sortingEnabled: true},
+                  { columnName: 'report', sortingEnabled: false},
+                  { columnName: 'actions', sortingEnabled: false},
+                ]}
+              />
+              {/*<IntegratedGrouping />*/}
+              <IntegratedSorting />
+
               <RowDetailState
                 expandedRowIds = {expandedRowIds}
                 onExpandedRowIdsChange = {setExpandedRowIds}
@@ -201,12 +224,15 @@ const ProjectManagementComponent =({
                   noData: isFetching?'':'There are no active projects to display.'
                 }}
               />
-              <TableHeaderRow resizingEnabled/>
+              <TableHeaderRow
+                resizingEnabled
+                showSortingControls={true}
+              />
               <TableRowDetail contentComponent = {RowDetail} />
+
             </Grid>
+
           </div>
-
-
         </div>
 
         <CreateProjectModal show = {isCreateModalShow} />
