@@ -157,7 +157,8 @@ function EditProjectModal({ show }) {
             }
 
             const handleAddMemberToProject = (e) => {
-              const targetUserId = e.target.selectedOptions[0].dataset.id
+
+              const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
               const isPm = projectManagersList.find(
                 (pm) => pm.id === targetUserId

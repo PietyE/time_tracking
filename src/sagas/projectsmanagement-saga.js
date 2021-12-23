@@ -258,7 +258,7 @@ export function* changeProjName({ payload }) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project name has been modify',
+          message: 'Project name has been modified',
           delay: 5000,
         })
       )
@@ -287,7 +287,7 @@ export function* editUsersOnProject({ payload }) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project team has been modify',
+          message: 'Project team has been modified',
           delay: 5000,
         })
       )
@@ -315,7 +315,7 @@ export function* addUsersToProject({ payload }) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project team has been modify',
+          message: 'Project team has been modified',
           delay: 5000,
         })
       )
