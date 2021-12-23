@@ -16,6 +16,7 @@
 .env.local
 .env.development.local
 .env.test.local
+.env.stage.local
 .env.production.local
 .idea
 
@@ -26,6 +27,7 @@ yarn-error.log*
 /.idea/
 /.ssh/
 /venv
+/.vscode
 
 package-lock.json
 yarn.lock
