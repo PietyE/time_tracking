@@ -1,14 +1,78 @@
+.dx-g-bs4-header-cell-content {
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  align-self: center;
+}
+
 .project_report_container {
   padding-top: 40px;
+
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .table-active {
+    padding: 0 0 0 40px;
+  }
+
+  .card {
+    border-radius: 8px;
+    overflow: hidden;
+    border-top: none;
+  }
+
+  thead {
+    //height: 150px;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    //align-content: center;
+    background-color: #009c98;
+    color: #fff;
+    border: 1px solid #009c98;
+
+    .dx-rg-bs4-table-header-title {
+      font-weight: 500;
+      overflow: visible;
+      text-overflow: inherit;
+      white-space: normal;
+      vertical-align: middle;
+
+    }
+
+    span {
+      //line-height: 42px;
+    }
+
+    .text-primary {
+      color: #fff !important;
+
+    }
+  }
+
+  tbody {
+    td {
+      line-height: 36px;
+    }
+    tr:hover {
+      background-color: rgba(0, 140, 129, 0.1);
+      transition: all 0.3s;
+    }
+  }
 
   .project_reports_total_container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 25px;
+
     .edit_user_modal_title_container {
       flex-basis: unset;
     }
+
     .project_reports_exchange_input {
       width: 70px;
       display: flex;
@@ -23,6 +87,7 @@
       position: relative;
       left: -1px;
     }
+
     .project_reports_total_values_container {
       .project_reports_total_value {
         color: #414141;
@@ -30,25 +95,30 @@
         font-size: 16px;
         font-weight: 500;
         line-height: 19px;
+
         &.usd {
           margin-right: 20px;
         }
+
         & > span {
           font-weight: 700;
         }
       }
     }
   }
+
   .table_container {
     overflow-x: scroll;
 
     .table_scroll {
       min-width: 900px;
     }
+
     // .table_body_item:nth-child(even) {
     //   background-color: rgb(218, 233, 240);
     // }
   }
+
   .table_header_container,
   .table_body_container,
   .table_body_item,
@@ -59,8 +129,8 @@
     background-color: rgb(0, 140, 129);
   }
 
-  .table_body_container_text{
-    padding: 40px 0 ;
+  .table_body_container_text {
+    padding: 40px 0;
   }
 
   .table_cell {
@@ -71,7 +141,6 @@
     display: flex;
     align-items: center;
     min-width: 0;
-    overflow: hidden;
   }
 
   .table_header_container .table_cell {
@@ -80,6 +149,7 @@
 
   .table_cell.name {
     flex: 1.9;
+
     .edit_button {
       margin-right: 10px;
       height: 50px;
@@ -87,6 +157,7 @@
       align-items: center;
       padding: 0 10px;
       margin-left: -10px;
+
       &:hover {
         color: cornflowerblue;
         transition: all 0.3s;
@@ -97,11 +168,15 @@
   .table_cell.project_name {
     flex: 1.8;
   }
+
   .table_cell.salary,
   .table_cell.rate,
-  .table_cell.hours,
-  .table_cell.total {
+  .table_cell.hours {
     flex: 0.7;
+  }
+
+  .table_cell.total {
+    flex: 1;
   }
 
   .table_cell.coast {
@@ -109,7 +184,7 @@
   }
 
   .table_cell.ready {
-    flex: 0.5;
+    flex: 0.7;
     justify-content: center;
   }
 
@@ -118,8 +193,9 @@
   }
 
   .table_cell.comment {
-    flex: 0.7;
+    flex: 1;
     justify-content: center;
+
     .comment_text:hover {
       color: cornflowerblue;
     }
@@ -203,6 +279,17 @@
     transition: all 0.3s;
   }
 
+  .sort_button {
+    cursor: pointer;
+    margin-left: 5px;
+
+    & :hover {
+      cursor: pointer;
+      filter: brightness(0.8);
+      transition: all 0.3s;
+    }
+  }
+
   .show_more_project_btn_container > .active {
     transform: rotate(-180deg);
     transition: all 0.3s;
@@ -213,10 +300,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+
     .project_report_header_choice {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .project_select_container {
         margin-right: 20px;
       }
@@ -230,6 +319,7 @@
   justify-content: flex-start;
   flex: 1;
   margin-bottom: 0.8rem;
+
   &.column {
     flex-direction: column;
   }
@@ -251,10 +341,12 @@
       position: relative;
       left: -1px;
       flex-basis: 40%;
+
       &.bold {
         font-weight: bold;
       }
     }
+
     .edit_user_modal_input {
       outline: none;
       border: none;
@@ -269,6 +361,7 @@
       position: relative;
       left: -1px;
       text-align: start;
+
       &:focus {
         color: #495057;
         background-color: #fff;
@@ -287,15 +380,18 @@
   .comment_title_container {
     display: flex;
     margin-bottom: -1px;
+
     .edit_user_modal_title_container {
       border-radius: 0.25rem;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
+
     .edit_user_modal_button_container {
       margin-left: -1px;
     }
   }
+
   .edit_user_comment_textarea {
     width: 100%;
     height: 6.75rem;
@@ -324,6 +420,7 @@
   padding: 30px 20px;
   box-shadow: 0px 0px 10px 5px rgba(158, 167, 171, 0.9);
   position: relative;
+
   .edit_user_modal_close_button_container {
     cursor: pointer;
     padding: 5px;
@@ -371,26 +468,29 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   width: 40px;
+
   &.save {
     border-radius: 0;
     color: #fff;
     background-color: #28a745;
     border-color: #28a745;
   }
+
   &.cancel {
     color: #fff;
     background-color: #6c757d;
     border-color: #6c757d;
   }
+
   &:hover {
     filter: brightness(0.85);
     transition: 0.3s;
   }
 }
 
-.disabled{
+.disabled {
   opacity: .5;
-  cursor: not-allowed!important;
+  cursor: not-allowed !important;
 }
 
 @media screen and (max-device-width: 940px) {
@@ -405,10 +505,12 @@
       flex-wrap: wrap;
       flex-direction: column;
       align-items: flex-start;
+
       .project_report_header_choice {
         margin-bottom: 15px;
       }
     }
+
     .project_reports_total_container {
       flex-direction: column;
       align-items: flex-start;
@@ -460,32 +562,39 @@
       flex-direction: column;
       display: flex;
       align-items: flex-start;
+
       .usd {
         margin-bottom: 15px;
       }
+
       span {
         font-size: 14px;
       }
     }
+
     .project_report_header_container {
       flex-wrap: wrap;
       flex-direction: column;
       align-items: flex-start;
+
       .project_report_header_choice {
         margin-bottom: 15px;
         flex-direction: column;
         align-items: flex-start;
+
         .project_select_container {
           margin-bottom: 15px;
         }
       }
     }
+
     .project_reports_total_container {
       flex-direction: column;
       align-items: flex-start;
     }
   }
 }
+
 .spinner-small {
   width: 33px;
   height: 33px;

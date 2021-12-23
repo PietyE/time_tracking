@@ -21,6 +21,7 @@ function Select(props) {
     isSearch = false,
     isTeamSearch =false,
     disabled,
+    isTeamSearch
   } = props
 
 
@@ -167,6 +168,7 @@ function Select(props) {
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
+
           {searchedListItems.map((item) => (
 
             <div className="select_list_item_container" key={item[idKey]}>

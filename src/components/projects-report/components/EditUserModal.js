@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 
@@ -30,15 +30,11 @@ import {selectCurrencyList} from "../../../selectors/currency";
 const EditUserModal = (props) => {
   const {
     handlerCloseModalEdit,
-    editingUser = {},
-    selectedDate = {},
-    setNewSalary,
-    setNewRate,
-    setNewCost,
-    setNewComment,
-    setEditedComment,
-    setEditedCost,
   } = props
+
+  const editingUser = useSelector(getEditingUser, isEqual)
+  const editingUserId = useSelector(getEditingUserIdSelector, isEqual)
+  const selectedDate = useSelector(getSelectedMonthSelector, isEqual)
   const _comment = editingUser.comments
   const commentId = editingUser.commentId
   const _expense = editingUser.total_expenses
@@ -48,7 +44,10 @@ const EditUserModal = (props) => {
   const [isFetching, setIsFetching] = useState(false)
   const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
   const [selectedRateCurrency, setRateCurrency] = useState('Currency')
+  const [salary, setSalary] = useState("")
+  const [rate, setRate] = useState("")
 
+  const dispatch = useDispatch()
 
   const initialCurrencyState = {
     salary: '',
@@ -58,26 +57,24 @@ const EditUserModal = (props) => {
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
-  useEffect(() => {
-    if (isFetching) {
-      setIsFetching(fetchingStatus)
-    }
-  }, [fetchingStatus])
-
   const setCurrentCurrency =()=>{
     currenciesList.forEach((e)=>{
       if(e.sign == editingUser.salaryCurrency ){
+        if(salary){
+          setSalaryCurrency(salary)
+        } else {
         setSalaryCurrency(e.serverId)
+        }
       }
       if( e.sign == editingUser.rateCurrency){
+        if(rate){
+          setRateCurrency(rate)
+        } else {
         setRateCurrency(e.serverId)
-      }
+        }
+      }   
     });
   }
-
-  useEffect(()=>{
-    setCurrentCurrency();
-    },[currenciesList,editingUser])
 
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
@@ -93,8 +90,8 @@ const EditUserModal = (props) => {
       salary: newSalary,
       currency: selectedSalaryCurrency
     }
-    setNewSalary(data)
-    setIsCEdit(initialCurrencyState)
+    dispatch(setNewSalary(data))
+    setIsCEdit({ ...isCEdit, salary: ""})
   }
 
   const handlerOnClickSaveNewRate = (newRate) => {
@@ -106,8 +103,8 @@ const EditUserModal = (props) => {
       rate: newRate,
       currency: selectedRateCurrency
     }
-    setNewRate(data)
-    setIsCEdit(initialCurrencyState)
+    dispatch(setNewRate(data))
+    setIsCEdit({ ...isCEdit, rate: ""})
   }
 
   const handleSaveCost = (newCoast) => {
@@ -118,7 +115,7 @@ const EditUserModal = (props) => {
         .slice(0, 10),
       amount: newCoast,
     }
-    setNewCost(data)
+    dispatch(setNewCost(data))
   }
 
   const handleEditCost = (newCoast) => {
@@ -130,7 +127,7 @@ const EditUserModal = (props) => {
       amount: newCoast,
       expenseId: expenseId,
     }
-    setEditedCost(data)
+    dispatch(setEditedCost(data))
   }
 
   const handleChangeInputCommnent = (e) => {
@@ -145,7 +142,7 @@ const EditUserModal = (props) => {
         .slice(0, 10),
       text: comment,
     }
-    setNewComment(data)
+    dispatch(setNewComment(data))
     setIsFetching(true)
 
   }
@@ -159,7 +156,7 @@ const EditUserModal = (props) => {
       text: comment,
       commentId: commentId,
     }
-    setEditedComment(data)
+    dispatch(setEditedComment(data))
     setIsFetching(true)
   }
 
@@ -170,14 +167,45 @@ const EditUserModal = (props) => {
   const handleChangeCurrency = (data, row=null) => {
     if(row =='salary'){
       setSalaryCurrency(data)
+      setSalary(data)
     }else{
       setRateCurrency(data)
+      setRate(data)
     }
     let receive = {};
      receive[row]= row;
-     let res = Object.assign({},isCEdit,receive)
+     let res = {...isCEdit, ...receive}
      setIsCEdit(res);
   }
+
+  const handlerClickCancelButton = (row) => {
+    if(setIsCEdit){
+      setIsCEdit({...isCEdit, [row]: ""})
+    }
+    if(row === "salary") {
+      currenciesList.forEach((e)=>{
+        if(e.sign == editingUser.salaryCurrency ){
+          setSalaryCurrency(e.serverId)
+        }   
+      });
+    } else {
+      currenciesList.forEach((e)=>{
+        if( e.sign == editingUser.rateCurrency){
+          setRateCurrency(e.serverId)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (isFetching) {
+      setIsFetching(fetchingStatus)
+    }
+  }, [fetchingStatus])
+
+  useEffect(() => {
+    setCurrentCurrency();
+  }, [currenciesList, editingUser])
 
   return (
     <Modal>
@@ -219,6 +247,7 @@ const EditUserModal = (props) => {
             setIsCEdit={setIsCEdit}
             row={'salary'}
             handleSaveChange={handlerOnClickSaveNewSalary}
+            handleCancelChange={handlerClickCancelButton}
           />
         </ModalRow>
         <ModalRow>
@@ -232,6 +261,7 @@ const EditUserModal = (props) => {
             // prevValue={editingUser.current_rate}
             prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
+            handleCancelChange={handlerClickCancelButton}
             CisEdit={isCEdit}
             setIsCEdit={setIsCEdit}
             row={'rate'}
@@ -285,19 +315,4 @@ const EditUserModal = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  editingUserId: getEditingUserIdSelector(state),
-  editingUser: getEditingUser(state),
-  selectedDate: getSelectedMonthSelector(state),
-})
-
-const actions = {
-  setNewSalary,
-  setNewRate,
-  setNewCost,
-  setNewComment,
-  setEditedComment,
-  setEditedCost,
-}
-
-export default connect(mapStateToProps, actions)(EditUserModal)
+export default EditUserModal
