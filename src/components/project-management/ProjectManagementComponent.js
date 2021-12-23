@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { RowDetailState } from '@devexpress/dx-react-grid'
+import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import {
   Grid,
   Table,
@@ -43,7 +43,7 @@ import Select from '../ui/select'
 import SelectMonth from '../ui/select-month'
 import { getCurrentUserSelector } from '../../reducers/profile'
 
-import { convertMinutesToHours } from '../../utils/common'
+import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
 /////
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
@@ -127,7 +127,7 @@ const ProjectManagementComponent = () => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      hours: convertMinutesToHours(project?.total_minutes) || 0,
+      hours: convertMinutesToHours(project?.total_minutes),
       report: (
         <Button
           variant="outline-*"
@@ -223,6 +223,24 @@ const ProjectManagementComponent = () => {
 
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
+            <SortingState
+              defaultSorting={[
+                { columnName: 'project', direction: 'asc' },
+              ]}
+              columnExtensions={[
+                { columnName: 'project', sortingEnabled: true },
+                { columnName: 'occupancy', sortingEnabled: false },
+                { columnName: 'hours', sortingEnabled: true},
+                { columnName: 'report', sortingEnabled: false},
+                { columnName: 'actions', sortingEnabled: false},
+              ]}
+            />
+            <IntegratedSorting
+              columnExtensions={[
+                { columnName: 'hours', compare: compareForTimeColumns },
+              ]}
+
+            />
             <RowDetailState
               expandedRowIds={expandedRowIds}
               onExpandedRowIdsChange={setExpandedRowIds}
@@ -235,7 +253,7 @@ const ProjectManagementComponent = () => {
                   : 'There are no active projects to display.',
               }}
             />
-            <TableHeaderRow resizingEnabled />
+            <TableHeaderRow showSortingControls />
             <TableRowDetail contentComponent={RowDetail} />
           </Grid>
         </div>
