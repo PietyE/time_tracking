@@ -48,6 +48,7 @@ import { convertMinutesToHours } from '../../utils/common'
 /////
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
+import useEqualSelector from "../../custom-hook/useEqualSelector";
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
@@ -64,16 +65,16 @@ const ProjectManagementComponent = () => {
 
   const dispatch = useDispatch()
 
-  const selectedDateForPM = useSelector(getSelectedDateForPMSelector, isEqual)
-  const projects = useSelector(getAllProjectsSelector, isEqual)
-  const isFetching = useSelector(getIsFetchingPmPageSelector, isEqual)
-  // const month = useSelector(getSelectedMonthForPMSelector, isEqual)
-  const isEditModalShow = useSelector(getIsShowEditModalSelector, isEqual)
-  const isCreateModalShow = useSelector(getIsShowCreateModalSelector, isEqual)
-  const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
-  const selectedPm = useSelector(getSelectedPmSelector, isEqual)
-  const currentPm = useSelector(getCurrentUserSelector, isEqual)
-  const filteredProjects = useSelector(getFilteredProjectSelector, isEqual)
+  const selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
+  const projects = useEqualSelector(getAllProjectsSelector)
+  const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
+  // const month = useEqualSelector(getSelectedMonthForPMSelector)
+  const isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
+  const isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
+  const projectManagers = useEqualSelector(getProjectManagerListSelector)
+  const selectedPm = useEqualSelector(getSelectedPmSelector)
+  const currentPm = useEqualSelector(getCurrentUserSelector)
+  const filteredProjects =useEqualSelector(getFilteredProjectSelector)
 
   const _downloadAllTeamProjectReport = useCallback(
     (data) => {
