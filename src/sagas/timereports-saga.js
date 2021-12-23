@@ -73,9 +73,6 @@ export function* getDevelopers() {
 }
 
 export function* workerTimeReports() {
-  if(!localStorage.getItem('user_auth_data')){
-    return
-  }
   try {
     const { selectedProject, selectedDate, idEditingWorkItem } = yield select(
       (state) => state.timereports
