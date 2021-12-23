@@ -51,9 +51,9 @@ export const convertMinutesToHours = (data) => {
     if(minutes < 10){
       minutes = `0${minutes}`
     }
-    return `${hours}:${minutes}`
+    return `${hours}h ${minutes}m`
   }else{
-    return 0
+    return '0h 00m'
   }
 }
 
@@ -73,4 +73,46 @@ export const UAHFormat = new Intl.NumberFormat('ru', {
 export const digitFormat = new Intl.NumberFormat('ru', {
   minimumFractionDigits: 0,
 });
+
+const formatTimeToNumber = (timeStr) => {
+  const result = timeStr.replace('h ', '').replace('m', '');
+
+  return parseInt(result);
+}
+
+const formatUAHToNumber = (uahStr) => {
+  const result = uahStr.split(' ');
+  result.pop();
+
+  return parseInt(result.join(''));
+}
+
+export const compareForTimeColumns = (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') {
+    return 0;
+  }
+  const first = formatTimeToNumber(a);
+  const second = formatTimeToNumber(b);
+
+  if (first === second) {
+    return 0;
+  }
+
+  return first < second ? -1 : 1;
+}
+
+export const compareForUAHColumns = (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') {
+
+    return 0;
+  }
+  const first = formatUAHToNumber(a);
+  const second = formatUAHToNumber(b);
+
+  if (first === second) {
+    return 0;
+  }
+
+  return first < second ? -1 : 1;
+}
 
