@@ -32,7 +32,7 @@ import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/de
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
-import { digitFormat, UAHFormat } from '../../utils/common'
+import { compareForTimeColumns, compareForUAHColumns, digitFormat, UAHFormat } from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
@@ -41,7 +41,7 @@ import { faComments } from '@fortawesome/free-solid-svg-icons'
 import './style.scss'
 import CustomCell from './components/CustomCell'
 import CustomHeaderCell from './components/CustomHeaderCell'
-import { initialColumns, roleRestrictions } from './projectReportConfig'
+import { columnExtensions, initialColumns, roleRestrictions } from './projectReportConfig'
 import ProjectReportRowDetail from './components/ProjectReportRowDetail'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 
@@ -261,31 +261,26 @@ function ProjectsReport() {
               initialColumns.filter((column) => !roleRestrictions[DEVELOPER].includes(column.name))
             }
           >
-            <SortingState
-              defaultSorting={[{columnName: 'name', direction: 'asc'},]}
-            />
-
-            <IntegratedSorting/>
-
             <RowDetailState
               expandedRowIds={expandedRowIds}
               onExpandedRowIdsChange={setExpandedRowIds}
               defaultExpandedRowIds={[]}
             />
             <Table
+              columnExtensions={columnExtensions}
               rowComponent={CustomTableRow}
               cellComponent={CustomCell}
               messages={{
                 noData: isFetchingReports ? '' : 'There are no active projects to display.',
               }}
             />
-            <TableHeaderRow
-              resizingEnabled
-              tableColumnResizingEnabled
-              showSortingControls={true}
-              cellComponent={CustomHeaderCell}
+            <TableHeaderRow cellComponent={CustomHeaderCell}
             />
-            <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+            <TableRowDetail
+              contentComponent={
+                (props) => <ProjectReportRowDetail {...props} pmDetailed/>
+              }
+            />
           </Grid>
         </div>
 
@@ -301,9 +296,23 @@ function ProjectsReport() {
         >
           <SortingState
             defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+            columnExtensions={[
+              { columnName: 'developer_projects', sortingEnabled: false },
+              { columnName: 'salary_uah', sortingEnabled: false },
+              { columnName: 'rate', sortingEnabled: false},
+            ]}
+
           />
 
-          <IntegratedSorting/>
+          <IntegratedSorting
+            columnExtensions={[
+              { columnName: 'totalHoursOvertime', compare: compareForTimeColumns },
+              { columnName: 'total_overtimes', compare: compareForUAHColumns },
+              { columnName: 'total', compare: compareForUAHColumns },
+              { columnName: 'total_expenses', compare: compareForUAHColumns },
+              { columnName: 'total_uah', compare: compareForUAHColumns },
+            ]}
+          />
 
           <RowDetailState
             expandedRowIds={expandedRowIds}
@@ -311,6 +320,7 @@ function ProjectsReport() {
             defaultExpandedRowIds={[]}
           />
           <Table
+            columnExtensions={columnExtensions}
             rowComponent={CustomTableRow}
             cellComponent={CustomCell}
             messages={{
@@ -318,9 +328,7 @@ function ProjectsReport() {
             }}
           />
           <TableHeaderRow
-            resizingEnabled
-            tableColumnResizingEnabled
-            showSortingControls={true}
+            showSortingControls={roleUser !== DEVELOPER}
             cellComponent={CustomHeaderCell}
           />
           <TableRowDetail contentComponent={ProjectReportRowDetail}/>
