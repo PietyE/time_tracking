@@ -1,11 +1,9 @@
 import React, {useState} from 'react'
-import { Field } from 'formik'
 import { useSelector } from 'react-redux'
 import {
   getDeveloperSelector,
   getActiveDevSelector,
-  getProjectManagerListSelector,
-  getUserListSelector, getAccountantSelector, getTeamSelector
+  getUserListSelector,
 } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
 import Select from "../../ui/select";
@@ -15,8 +13,6 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   const users = useSelector( getUserListSelector, isEqual)
   const developers = useSelector(getDeveloperSelector, isEqual)
   const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
-  const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
-  const teamMembers = useSelector(getTeamSelector, isEqual)
   const [selectedItem, setSelectedItem] =useState('')
 
   let availableDevelopers = developers
@@ -40,7 +36,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     if (!checkResult) {
       currentDev = users.find(el => el.name === data)
     }
-    const result = !!checkResult ? [...values.team] : [...values.team, {
+    const result = checkResult ? [...values.team] : [...values.team, {
       name: data,
       is_full_time: true,
       is_active: true,
