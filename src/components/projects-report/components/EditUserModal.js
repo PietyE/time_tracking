@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import {
-  getEditingUserIdSelector,
   getEditingUser,
   getSelectedMonthSelector,
 } from 'reducers/projects-report'
@@ -33,7 +32,6 @@ const EditUserModal = (props) => {
   } = props
 
   const editingUser = useSelector(getEditingUser, isEqual)
-  const editingUserId = useSelector(getEditingUserIdSelector, isEqual)
   const selectedDate = useSelector(getSelectedMonthSelector, isEqual)
   const _comment = editingUser.comments
   const commentId = editingUser.commentId
