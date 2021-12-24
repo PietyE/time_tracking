@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {hideAlert, showAler} from "../../../actions/alert";
 import {WARNING_ALERT} from "../../../constants/alert-constant";
 
-export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, row, handleCancelChange}) => {
+export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, row, handleCancelChange}) => {
   const [isEdit, setIsEdit] = useState(false)
   const [value, setIsvalue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
@@ -60,7 +60,7 @@ export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, setIsCEdit, r
     }
   }
 
-  const handleCancel = (row) => (e) => {handleCancelChange(row)}
+  const handleCancel = (row) => () => {handleCancelChange(row)}
 
   return (
     <>
