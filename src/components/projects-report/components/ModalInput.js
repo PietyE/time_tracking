@@ -5,8 +5,8 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import {useDispatch, useSelector} from 'react-redux'
-import {hideAlert, showAler} from "../../../actions/alert";
-import {WARNING_ALERT} from "../../../constants/alert-constant";
+import {hideAlert, showAler} from '../../../actions/alert';
+import {WARNING_ALERT} from '../../../constants/alert-constant';
 
 export const ModalInput = ({ prevValue, handleSaveChange, CisEdit, row, handleCancelChange}) => {
   const [isEdit, setIsEdit] = useState(false)

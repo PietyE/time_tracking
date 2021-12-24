@@ -53,7 +53,7 @@ function CreateProjectModal({ show }) {
       dispatch(
         showAler({
           type: WARNING_ALERT,
-          message: `The project can't be created with an empty "Project Name"`,
+          message: 'The project cannot be created with an empty "Project Name"',
           delay: 5000,
         })
       )
@@ -64,7 +64,7 @@ function CreateProjectModal({ show }) {
       dispatch(
         showAler({
           type: WARNING_ALERT,
-          message: `The project can't be created with an empty "Team"`,
+          message: 'The project cannot be created with an empty "Team"',
           delay: 5000,
         })
       )

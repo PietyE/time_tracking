@@ -24,7 +24,7 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import CurrencySelect from './CurrencySelect'
-import {selectCurrencyList} from "../../../selectors/currency";
+import {selectCurrencyList} from '../../../selectors/currency';
 
 const EditUserModal = (props) => {
   const {
@@ -42,8 +42,8 @@ const EditUserModal = (props) => {
   const [isFetching, setIsFetching] = useState(false)
   const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
   const [selectedRateCurrency, setRateCurrency] = useState('Currency')
-  const [salary, setSalary] = useState("")
-  const [rate, setRate] = useState("")
+  const [salary, setSalary] = useState('')
+  const [rate, setRate] = useState('')
 
   const dispatch = useDispatch()
 
@@ -89,7 +89,7 @@ const EditUserModal = (props) => {
       currency: selectedSalaryCurrency
     }
     dispatch(setNewSalary(data))
-    setIsCEdit({ ...isCEdit, salary: ""})
+    setIsCEdit({ ...isCEdit, salary: ''})
   }
 
   const handlerOnClickSaveNewRate = (newRate) => {
@@ -102,7 +102,7 @@ const EditUserModal = (props) => {
       currency: selectedRateCurrency
     }
     dispatch(setNewRate(data))
-    setIsCEdit({ ...isCEdit, rate: ""})
+    setIsCEdit({ ...isCEdit, rate: ''})
   }
 
   const handleSaveCost = (newCoast) => {
@@ -178,9 +178,9 @@ const EditUserModal = (props) => {
 
   const handlerClickCancelButton = (row) => {
     if(setIsCEdit){
-      setIsCEdit({...isCEdit, [row]: ""})
+      setIsCEdit({...isCEdit, [row]: ''})
     }
-    if(row === "salary") {
+    if(row === 'salary') {
       currenciesList.forEach((e)=>{
         if(e.sign == editingUser.salaryCurrency ){
           setSalaryCurrency(e.serverId)
@@ -215,13 +215,13 @@ const EditUserModal = (props) => {
           <FontAwesomeIcon icon={faTimes} />
         </span>
         <ModalRow>
-          <ModalTitle title={`Employee:  `} />
+          <ModalTitle title={'Employee:  '} />
           <div className="edit_user_modal_title_value_container">
             <span className="edit_user_modal_title_value_text bold">{`${editingUser.name} (${editingUser.email})`}</span>
           </div>
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Selected Date: `} />
+          <ModalTitle title={'Selected Date: '} />
           <div className="edit_user_modal_title_value_container">
             <span className="edit_user_modal_title_value_text">
               {new Date(
@@ -232,7 +232,7 @@ const EditUserModal = (props) => {
           </div>
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Salary`} />
+          <ModalTitle title={'Salary'} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
             selectedCurrency={selectedSalaryCurrency}
@@ -249,7 +249,7 @@ const EditUserModal = (props) => {
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Rate`} />
+          <ModalTitle title={'Rate'} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
             selectedCurrency={selectedRateCurrency}
@@ -266,7 +266,7 @@ const EditUserModal = (props) => {
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Cost`} />
+          <ModalTitle title={'Cost'} />
           <ModalInput
             prevValue={_expense}
             handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
@@ -274,7 +274,7 @@ const EditUserModal = (props) => {
         </ModalRow>
         <ModalRow direction={'column'}>
           <div className="comment_title_container">
-            <ModalTitle title={`Comment:`} />
+            <ModalTitle title={'Comment:'} />
             {isFetching &&
             <div className = 'spinner-small'>
               <Spinner animation = "border" variant = "success"/>

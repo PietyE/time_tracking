@@ -68,7 +68,7 @@ import { selectActualCurrencyForUserList } from '../selectors/currency'
 // }
 
 export function* getDeveloperProjects() {
-  const URL_DEVELOPER_PROJECT = `projects/`
+  const URL_DEVELOPER_PROJECT = 'projects/'
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
   yield put(setDevelopersProjectInProjectReport(data))
@@ -164,7 +164,7 @@ export function* handleGetConsolidatedReport() {
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
   if(response.status > 400) {
     let status = response.status
-    let text = "something went wrong"
+    let text = 'something went wrong'
     yield put ({
       type: SET_ERROR_PROJECT_REPORT, 
       payload: {

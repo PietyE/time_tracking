@@ -6,7 +6,7 @@ import {
   getUserListSelector,
 } from '../../../reducers/projects-management'
 import { isEqual } from 'lodash'
-import Select from "../../ui/select";
+import Select from '../../ui/select';
 
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {

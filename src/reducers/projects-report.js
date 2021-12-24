@@ -28,15 +28,15 @@ const initialState = {
     exchange_rate: '',
   },
   selectedProject: {
-    email: "",
-    id: "",
-    name: "All Projects",
+    email: '',
+    id: '',
+    name: 'All Projects',
     role: null
   },
   selectedDeveloper: {
-    email: "",
-    id: "",
-    name: "All Developers",
+    email: '',
+    id: '',
+    name: 'All Developers',
     role: null
   },
   isFetchingReports: false,

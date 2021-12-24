@@ -209,7 +209,7 @@ function TimeReport(props) {
           </div>
           <div className="time_report_total_hours">
             <span>
-              Total hours:{` `}
+              Total hours:{' '}
               <strong>{parseMinToHoursAndMin(totalHours)}</strong>
             </span>
           </div>
