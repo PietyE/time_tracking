@@ -255,7 +255,7 @@ function ProjectsReport() {
       {roleUser === PM && (
         <div
           key="Second Grid Element"
-          className="card  mb-5"
+          className="card mb-5"
         >
           <Grid
             rows={rows.filter(item => item.id === profileId)}
