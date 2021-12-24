@@ -33,7 +33,13 @@ import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/de
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
-import { compareForTimeColumns, compareForUAHColumns, digitFormat, UAHFormat } from '../../utils/common'
+import {
+  compareForBoolean,
+  compareForTimeColumns,
+  compareForUAHColumns,
+  digitFormat,
+  UAHFormat
+} from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
@@ -45,8 +51,10 @@ import CustomHeaderCell from './components/CustomHeaderCell'
 import { columnExtensions, initialColumns, roleRestrictions } from './projectReportConfig'
 import ProjectReportRowDetail from './components/ProjectReportRowDetail'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
+import useWindowDimensions from '../../custom-hook/useWIndowDimensions'
 
 function ProjectsReport() {
+  const { width } = useWindowDimensions();
   const dispatch = useDispatch();
 
   const roleUser = useEqualSelector(getRoleUser);
@@ -184,6 +192,8 @@ function ProjectsReport() {
     })),
     [users]);
 
+  const isScrollTable = width < 900;
+
   useEffect(() => {
     if (roleUser && roleRestrictions?.[roleUser]) {
       const filteredColumns = initialColumns.filter((column) => !roleRestrictions[roleUser].includes(column.name),);
@@ -269,7 +279,7 @@ function ProjectsReport() {
               defaultExpandedRowIds={[]}
             />
             <Table
-              columnExtensions={columnExtensions}
+              columnExtensions={isScrollTable && columnExtensions}
               rowComponent={CustomTableRow}
               cellComponent={CustomCell}
               messages={{
@@ -301,7 +311,7 @@ function ProjectsReport() {
             columnExtensions={[
               { columnName: 'developer_projects', sortingEnabled: false },
               { columnName: 'salary_uah', sortingEnabled: false },
-              { columnName: 'rate', sortingEnabled: false},
+              { columnName: 'rate_uah', sortingEnabled: false},
             ]}
 
           />
@@ -313,6 +323,7 @@ function ProjectsReport() {
               { columnName: 'total', compare: compareForUAHColumns },
               { columnName: 'total_expenses', compare: compareForUAHColumns },
               { columnName: 'total_uah', compare: compareForUAHColumns },
+              { columnName: 'is_processed', compare: compareForBoolean },
             ]}
           />
 
@@ -322,7 +333,7 @@ function ProjectsReport() {
             defaultExpandedRowIds={[]}
           />
           <Table
-            columnExtensions={columnExtensions}
+            columnExtensions={!isScrollTable && columnExtensions}
             rowComponent={CustomTableRow}
             cellComponent={CustomCell}
             messages={{
