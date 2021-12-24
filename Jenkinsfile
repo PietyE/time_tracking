@@ -28,20 +28,20 @@ pipeline {
             }
         }
     }
-    post {
-        success {
-            slackSend channel: '#project_time_tracking',
-                      color: 'good',
-                      message: "The pipeline ${currentBuild.fullDisplayName} completed successfully",
-                      teamDomain: 'vilmateteam',
-                      tokenCredentialId: 'slack-token'
-        }
-        failure {
-            slackSend channel: '#project_time_tracking',
-                      color: 'danger',
-                      message: "The pipeline ${currentBuild.fullDisplayName} failed",
-                      teamDomain: 'vilmateteam',
-                      tokenCredentialId: 'slack-token'
-        }
-    }
+//     post {
+//         success {
+//             slackSend channel: '#project_time_tracking',
+//                       color: 'good',
+//                       message: "The pipeline ${currentBuild.fullDisplayName} completed successfully",
+//                       teamDomain: 'vilmateteam',
+//                       tokenCredentialId: 'slack-token'
+//         }
+//         failure {
+//             slackSend channel: '#project_time_tracking',
+//                       color: 'danger',
+//                       message: "The pipeline ${currentBuild.fullDisplayName} failed",
+//                       teamDomain: 'vilmateteam',
+//                       tokenCredentialId: 'slack-token'
+//         }
+//     }
 }
