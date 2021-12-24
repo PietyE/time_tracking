@@ -31,9 +31,9 @@ function MainScreen({
   profileEmail,
   getCurrenciesList,
   getRatesList,
-  getSelectedMonth
+  getSelectedMonth,
 }) {
-  const date = getSelectedMonth;
+  const date = getSelectedMonth
   useEffect(() => {
     if (isAuth) {
       if (roleUser !== DEVELOPER) {
@@ -45,16 +45,15 @@ function MainScreen({
         const ratesParams = {
           is_active: true,
           year: date.year || date.getFullYear(),
-          month: date.month + 1 || date.getMonth() + 1
-        };
+          month: date.month + 1 || date.getMonth() + 1,
+        }
         getCurrenciesList()
         getRatesList(ratesParams)
-
       } else {
         getDeveloperProjects()
-
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!isAuth) {
@@ -67,7 +66,11 @@ function MainScreen({
       <Switch>
         <Route path="/projects" component={ProjectsScreen} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
-        <PmPrivateRoute path="/management" exct component={ProjectManagementScreen} />
+        <PmPrivateRoute
+          path="/management"
+          exct
+          component={ProjectManagementScreen}
+        />
 
         <Redirect from="/" to="/timereport" />
       </Switch>
@@ -80,7 +83,7 @@ const actions = {
   getDeveloperProjects,
   selectDevelopers,
   getCurrenciesList,
-  getRatesList
+  getRatesList,
 }
 
 const mapStateToProps = (state) => ({
@@ -89,7 +92,7 @@ const mapStateToProps = (state) => ({
   profileId: getProfileId(state),
   profileName: getProfileName(state),
   profileEmail: getProfileEmail(state),
-  getSelectedMonth: getSelectedMonthSelector(state)
+  getSelectedMonth: getSelectedMonthSelector(state),
 })
 
 export default connect(mapStateToProps, actions)(memo(MainScreen))
