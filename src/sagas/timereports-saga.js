@@ -26,7 +26,7 @@ import { setDeveloperProjects } from 'actions/developer-projects'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
-export function* getDeveloperProjects({ payload, type, projectIdForSelect = null }) {
+export function* getDeveloperProjects({ projectIdForSelect = null }) {
   const { role } = yield select((state) => state.profile)
 
   let URL_DEVELOPER_PROJECT = `developer-projects/`
@@ -95,7 +95,7 @@ export function* workerTimeReports() {
 
       yield put(setIsFetchingReports(false))
     }
-  } catch (error) {}
+  } catch(e){}
 }
 
 export function* addTimeReport({ payload }) {
@@ -202,8 +202,7 @@ export function* editTimeReport({ payload }) {
         })
       )
     }
-  } catch (error) {
-  }
+  } catch (e) {}
 }
 
 export function* downloadCSV() {
