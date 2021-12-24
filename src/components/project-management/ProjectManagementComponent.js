@@ -6,24 +6,20 @@ import {
   TableHeaderRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { useDispatch, useSelector } from 'react-redux'
-import isEqual from 'lodash/isEqual'
+import { useDispatch } from 'react-redux'
 
 import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
-  getSelectedMonthForPMSelector,
   getIsFetchingPmPageSelector,
   getIsShowEditModalSelector,
   getIsShowCreateModalSelector,
   getProjectManagerListSelector,
   getSelectedPmSelector,
-  getShownProjectSelector,
   getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
-  clearPmProjects,
   getAllProjects,
   setSelectedProjectId,
   downloadAllTeamProjectReport,
@@ -31,7 +27,6 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
-  getProjectReportById,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -45,9 +40,6 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 
 import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
-/////
-import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
-import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import useEqualSelector from "../../custom-hook/useEqualSelector";
 
 const ProjectManagementComponent = () => {
@@ -82,13 +74,6 @@ const ProjectManagementComponent = () => {
     },
     [dispatch]
   )
-
-  // const _getProjectReportById = useCallback(
-  //   (data) => {
-  //     dispatch(getProjectReportById(data))
-  //   },
-  //   [dispatch]
-  // )
 
   const _setSelectedProjectId = useCallback(
     (data) => {
@@ -151,19 +136,6 @@ const ProjectManagementComponent = () => {
       setRows(reformatProj())
     }
   }, [filteredProjects])
-
-
-  // useEffect(() => {
-  //   if (isEmpty(selectedPm)) {
-  //     dispatch(setPm(currentPm))
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   dispatch(clearPmProjects())
-  //   setExpandedRowIds([])
-  //   dispatch(getAllProjects())
-  // }, [month])
 
   useEffect(() => {
     dispatch(getAllProjects())
