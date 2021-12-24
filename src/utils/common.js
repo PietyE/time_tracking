@@ -117,9 +117,6 @@ export const compareForUAHColumns = (a, b) => {
 }
 
 export const compareForBoolean = (a, b) => {
-  console.log('A : B ', a, ':', b)
-
-
   const first = a?.props?.children?.props?.checked ? 1 : 0;
   const second = b?.props?.children?.props?.checked ? 1 : 0;
   if (first === second) {
