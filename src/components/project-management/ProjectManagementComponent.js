@@ -1,29 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { RowDetailState } from '@devexpress/dx-react-grid'
+import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import {
   Grid,
   Table,
   TableHeaderRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { useDispatch, useSelector } from 'react-redux'
-import isEqual from 'lodash/isEqual'
+import { useDispatch } from 'react-redux'
 
 import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
-  getSelectedMonthForPMSelector,
   getIsFetchingPmPageSelector,
   getIsShowEditModalSelector,
   getIsShowCreateModalSelector,
   getProjectManagerListSelector,
   getSelectedPmSelector,
-  getShownProjectSelector,
   getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
-  clearPmProjects,
   getAllProjects,
   setSelectedProjectId,
   downloadAllTeamProjectReport,
@@ -31,7 +27,6 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
-  getProjectReportById,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -43,12 +38,8 @@ import Select from '../ui/select'
 import SelectMonth from '../ui/select-month'
 import { getCurrentUserSelector } from '../../reducers/profile'
 
-import { convertMinutesToHours } from '../../utils/common'
-
-/////
-import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
-import { getProjectInTimeReportSelector } from 'reducers/projects-report'
-import useEqualSelector from "../../custom-hook/useEqualSelector";
+import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
+import useEqualSelector from '../../custom-hook/useEqualSelector'
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
@@ -68,7 +59,6 @@ const ProjectManagementComponent = () => {
   const selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
   const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
-  // const month = useEqualSelector(getSelectedMonthForPMSelector)
   const isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
   const isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
@@ -82,14 +72,6 @@ const ProjectManagementComponent = () => {
     },
     [dispatch]
   )
-
-  // const _getProjectReportById = useCallback(
-  //   (data) => {
-  //     dispatch(getProjectReportById(data))
-  //   },
-  //   [dispatch]
-  // )
-
   const _setSelectedProjectId = useCallback(
     (data) => {
       dispatch(setSelectedProjectId(data))
@@ -127,7 +109,7 @@ const ProjectManagementComponent = () => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      hours: convertMinutesToHours(project?.total_minutes) || 0,
+      hours: convertMinutesToHours(project?.total_minutes),
       report: (
         <Button
           variant="outline-*"
@@ -151,6 +133,7 @@ const ProjectManagementComponent = () => {
       setRows(reformatProj())
     }
   }, [filteredProjects])
+
 
   // useEffect(() => {
   //   if (isEmpty(selectedPm)) {
@@ -223,6 +206,24 @@ const ProjectManagementComponent = () => {
 
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
+            <SortingState
+              defaultSorting={[
+                { columnName: 'project', direction: 'asc' },
+              ]}
+              columnExtensions={[
+                { columnName: 'project', sortingEnabled: true },
+                { columnName: 'occupancy', sortingEnabled: false },
+                { columnName: 'hours', sortingEnabled: true},
+                { columnName: 'report', sortingEnabled: false},
+                { columnName: 'actions', sortingEnabled: false},
+              ]}
+            />
+            <IntegratedSorting
+              columnExtensions={[
+                { columnName: 'hours', compare: compareForTimeColumns },
+              ]}
+
+            />
             <RowDetailState
               expandedRowIds={expandedRowIds}
               onExpandedRowIdsChange={setExpandedRowIds}
@@ -235,7 +236,7 @@ const ProjectManagementComponent = () => {
                   : 'There are no active projects to display.',
               }}
             />
-            <TableHeaderRow resizingEnabled />
+            <TableHeaderRow showSortingControls />
             <TableRowDetail contentComponent={RowDetail} />
           </Grid>
         </div>

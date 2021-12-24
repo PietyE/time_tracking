@@ -96,7 +96,7 @@ function EditProjectModal({ show }) {
   }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
 
   useEffect(() => {
-    if (!!show) {
+    if (show) {
       if (!currentProject) {
         _getProjectReportById(currentProjectId)
       }
@@ -104,7 +104,7 @@ function EditProjectModal({ show }) {
   }, [_getProjectReportById, currentProjectId, show])
 
   useEffect(() => {
-    if (!!currentProject) {
+    if (currentProject) {
       _setSelectedProject(currentProject)
     }
   }, [currentProject])

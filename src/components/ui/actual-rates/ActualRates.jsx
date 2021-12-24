@@ -4,7 +4,6 @@ import {
   selectActualRates,
   selectErrorFetchRatesList,
   selectIsFetchingRatesList,
-  selectRateList,
 } from '../../../selectors/currency'
 import './rates.css'
 import { Spinner } from 'react-bootstrap'
