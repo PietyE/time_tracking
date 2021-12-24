@@ -19,9 +19,7 @@ import {
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
-  getProjectInTimeReportSelector,
   getSelectedProjectSelector,
-  getEditingUserIdSelector,
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
@@ -53,11 +51,8 @@ function ProjectsReport() {
   const profileId = useEqualSelector(getProfileId);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
   const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
-  const developersList = useEqualSelector(getDevelopersSelector);
-  const projectList = useEqualSelector(getProjectInTimeReportSelector);
   const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector);
   const selectedProject = useEqualSelector(getSelectedProjectSelector);
-  const editingUserId = useEqualSelector(getEditingUserIdSelector);
   const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport);
   const selectedReports = useEqualSelector(selectUsersReports);
 
@@ -100,14 +95,6 @@ function ProjectsReport() {
 
   };
 
-  const errorProjectReport = useMemo(() => {
-    if (errorStatus) {
-      return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
-    } else {
-      return <p className='table_body_container_text'> There are no users in this project yet</p>
-    }
-  }, [errorStatus]);
-
   const handleOnSelect = useCallback((selector) => (data) => {
     dispatch(selector(data));
   }, [dispatch]);
@@ -139,7 +126,6 @@ function ProjectsReport() {
                        developer_projects,
                        salary_uah,
                        rate_uah,
-                       totalHoursOvertime,
                        total_overtimes,
                        total,
                        total_expenses,
@@ -150,7 +136,7 @@ function ProjectsReport() {
                        salaryCurrency,
                        rateCurrency,
                        is_full_time,
-                         total_hours
+                       total_hours
                      }) => ({
       name,
       developer_projects,
@@ -231,8 +217,6 @@ function ProjectsReport() {
             idKey="id"
             isSearch={true}
             onSelected={handleOnSelect(setSelectedDeveloper)}
-            // disabled={!_.isEmpty(selectedProject)}
-            // onClear={clearDeveloperSelected}
             disabled={selectedProject.name !== 'All Projects' ? true : false}
             initialChoice={selectedDeveloper}
           />
