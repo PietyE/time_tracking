@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { InputGroup, Spinner } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import ModalTitle from './ModalTitle'
 import ModalRow from './ModalRow'
 import CurrencySelect from './CurrencySelect'
