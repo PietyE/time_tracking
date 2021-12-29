@@ -206,10 +206,13 @@ function ProjectsReport() {
   }, [formatedUsers]);
 
   useEffect(() => {
-    if (roleUser !== DEVELOPER) {
-      dispatch(getDevelopersProjectInProjectReport());
-    }
-    dispatch(getConsolidateProjectReport());
+      if(roleUser){
+          if (roleUser !== DEVELOPER) {
+              dispatch(getDevelopersProjectInProjectReport());
+          }
+          dispatch(getConsolidateProjectReport());
+      }
+
   }, [roleUser]);
 
   return (<>
