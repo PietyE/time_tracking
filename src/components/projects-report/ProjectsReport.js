@@ -33,7 +33,13 @@ import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/de
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
-import { digitFormat, UAHFormat } from '../../utils/common'
+import {
+  compareForBoolean,
+  compareForTimeColumns,
+  compareForUAHColumns,
+  digitFormat,
+  UAHFormat
+} from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
@@ -42,11 +48,13 @@ import { faComments } from '@fortawesome/free-solid-svg-icons'
 import './style.scss'
 import CustomCell from './components/CustomCell'
 import CustomHeaderCell from './components/CustomHeaderCell'
-import { initialColumns, roleRestrictions } from './projectReportConfig'
+import { columnExtensions, initialColumns, roleRestrictions } from './projectReportConfig'
 import ProjectReportRowDetail from './components/ProjectReportRowDetail'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
+import useWindowDimensions from '../../custom-hook/useWIndowDimensions'
 
 function ProjectsReport() {
+  const { width } = useWindowDimensions();
   const dispatch = useDispatch();
 
   const roleUser = useEqualSelector(getRoleUser);
@@ -184,6 +192,8 @@ function ProjectsReport() {
     })),
     [users]);
 
+  const isScrollTable = width < 900;
+
   useEffect(() => {
     if (roleUser && roleRestrictions?.[roleUser]) {
       const filteredColumns = initialColumns.filter((column) => !roleRestrictions[roleUser].includes(column.name),);
@@ -255,7 +265,7 @@ function ProjectsReport() {
       {roleUser === PM && (
         <div
           key="Second Grid Element"
-          className="card mt-5 mb-5"
+          className="card mb-5"
         >
           <Grid
             rows={rows.filter(item => item.id === profileId)}
@@ -263,31 +273,26 @@ function ProjectsReport() {
               initialColumns.filter((column) => !roleRestrictions[DEVELOPER].includes(column.name))
             }
           >
-            <SortingState
-              defaultSorting={[{columnName: 'name', direction: 'asc'},]}
-            />
-
-            <IntegratedSorting/>
-
             <RowDetailState
               expandedRowIds={expandedRowIds}
               onExpandedRowIdsChange={setExpandedRowIds}
               defaultExpandedRowIds={[]}
             />
             <Table
+              columnExtensions={isScrollTable && columnExtensions}
               rowComponent={CustomTableRow}
               cellComponent={CustomCell}
               messages={{
                 noData: isFetchingReports ? '' : 'There are no active projects to display.',
               }}
             />
-            <TableHeaderRow
-              resizingEnabled
-              tableColumnResizingEnabled
-              showSortingControls={true}
-              cellComponent={CustomHeaderCell}
+            <TableHeaderRow cellComponent={CustomHeaderCell}
             />
-            <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+            <TableRowDetail
+              contentComponent={
+                (props) => <ProjectReportRowDetail {...props} pmDetailed/>
+              }
+            />
           </Grid>
         </div>
 
@@ -295,7 +300,7 @@ function ProjectsReport() {
 
       <div
         key="First Grid Element"
-        className="card mt-5 mb-5"
+        className="card mb-5"
       >
         <Grid
           rows={rows}
@@ -303,9 +308,24 @@ function ProjectsReport() {
         >
           <SortingState
             defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+            columnExtensions={[
+              { columnName: 'developer_projects', sortingEnabled: false },
+              { columnName: 'salary_uah', sortingEnabled: false },
+              { columnName: 'rate_uah', sortingEnabled: false},
+            ]}
+
           />
 
-          <IntegratedSorting/>
+          <IntegratedSorting
+            columnExtensions={[
+              { columnName: 'totalHours', compare: compareForTimeColumns },
+              { columnName: 'total_overtimes', compare: compareForUAHColumns },
+              { columnName: 'total', compare: compareForUAHColumns },
+              { columnName: 'total_expenses', compare: compareForUAHColumns },
+              { columnName: 'total_uah', compare: compareForUAHColumns },
+              { columnName: 'is_processed', compare: compareForBoolean },
+            ]}
+          />
 
           <RowDetailState
             expandedRowIds={expandedRowIds}
@@ -313,6 +333,7 @@ function ProjectsReport() {
             defaultExpandedRowIds={[]}
           />
           <Table
+            columnExtensions={!isScrollTable && columnExtensions}
             rowComponent={CustomTableRow}
             cellComponent={CustomCell}
             messages={{
@@ -320,9 +341,7 @@ function ProjectsReport() {
             }}
           />
           <TableHeaderRow
-            resizingEnabled
-            tableColumnResizingEnabled
-            showSortingControls={true}
+            showSortingControls={roleUser !== DEVELOPER}
             cellComponent={CustomHeaderCell}
           />
           <TableRowDetail contentComponent={ProjectReportRowDetail}/>
