@@ -25,6 +25,7 @@ import {
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 import * as Yup from 'yup';
+import cn from 'classnames';
 
 function EditProjectModal({ show }) {
   const dispatch = useDispatch();
@@ -126,7 +127,7 @@ function EditProjectModal({ show }) {
   const validationSchema = Yup.object().shape({
     projectName: Yup.string()
       .required('Project Name field is required.')
-      .max(50, 'Max length should be less than 50 symbols.')
+      .max(50, 'The project name can\'t be longer, than 50 symbols.')
       .matches(/[а-яА-Яa-zA-Z0-9_]/gi, 'Invalid name for project.')
   });
 
@@ -143,7 +144,7 @@ function EditProjectModal({ show }) {
       centered={true}
       className="pm_page_modal"
     >
-      {isFetching && <SpinnerStyled />}
+      {!!isFetching && <SpinnerStyled />}
       <Modal.Header closeButton className="pm_modal_header">
         <Modal.Title>Edit Project</Modal.Title>
       </Modal.Header>
@@ -206,7 +207,10 @@ function EditProjectModal({ show }) {
                   Project name
                   <br />
                   <Field
-                    className="pm_create_modal_input"
+                    className={cn(
+                      'pm_create_modal_input',
+                      errors?.projectName && 'pm_create_modal_colored_border',
+                    )}
                     name="projectName"
                     placeholder="Enter project name"
                   />
