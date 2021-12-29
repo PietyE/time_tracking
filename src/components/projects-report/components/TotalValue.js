@@ -25,10 +25,16 @@ const TotalValue = (props) => {
 
   const isFetchRateList = useSelector(selectIsFetchingRatesList)
 
+  const clearInput = () => {
+    setNewExchengeRate('')
+    setCurrency(null)
+  }
+
   const handleSaveExchangeRate = () => {
     if (!formIsValid) {
       return;
     }
+
     const data = {
       date: new Date(selectedDate.year, selectedDate.month + 1)
         .toISOString()
@@ -36,7 +42,7 @@ const TotalValue = (props) => {
       rate: newExchangeRate,
       currency: selectedCurrency
     }
-    setExchangeRates(data, clearInput)
+    setExchangeRates({ data, callback: clearInput })
     setIsEdit(false)
   }
 
@@ -56,11 +62,6 @@ const TotalValue = (props) => {
   const handleClickCancel = () => {
     setNewExchengeRate(prevExchangeRate || '')
     setIsEdit(false)
-  }
-
-  const clearInput = () => {
-    setNewExchengeRate('')
-    setCurrency(null)
   }
 
   const usdFormat = new Intl.NumberFormat('ru', {
@@ -85,7 +86,7 @@ const TotalValue = (props) => {
     setFormIsValid (
       status
     );
-  }, [selectedCurrency, newExchangeRate])
+  }, [selectedCurrency, newExchangeRate, prevExchangeRate, newExchangeRate])
 
   useEffect(()=>{
     handleClickCancel();
