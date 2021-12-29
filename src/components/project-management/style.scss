@@ -110,7 +110,6 @@
   border: 1px solid #949494;
   border-radius: 4px;
   margin-top: 10px;
-  margin-bottom: 10px;
   width: 100%;
   padding-left: 8px;
   appearance: none;
@@ -255,3 +254,11 @@
   opacity: .5;
 }
 
+.pm_error_message_block {
+  height: 15px;
+}
+.pm_name_error_message {
+  font-weight: 300;
+  font-size: 12px;
+  color: tomato;
+}
