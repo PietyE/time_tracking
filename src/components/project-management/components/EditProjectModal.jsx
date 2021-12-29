@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Field, Form, Formik } from 'formik'
 import TeamInput from './TeamInput'
@@ -24,9 +24,11 @@ import {
   setShowEditModal,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
+import * as Yup from 'yup';
 
 function EditProjectModal({ show }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const form = useRef(null);
 
   const _getProjectReportById = useCallback(
     (data) => {
@@ -96,7 +98,7 @@ function EditProjectModal({ show }) {
   }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
 
   useEffect(() => {
-    if (!!show) {
+    if (show) {
       if (!currentProject) {
         _getProjectReportById(currentProjectId)
       }
@@ -104,7 +106,7 @@ function EditProjectModal({ show }) {
   }, [_getProjectReportById, currentProjectId, show])
 
   useEffect(() => {
-    if (!!currentProject) {
+    if (currentProject) {
       _setSelectedProject(currentProject)
     }
   }, [currentProject])
@@ -121,10 +123,17 @@ function EditProjectModal({ show }) {
     projectManager: pmInitialValue,
   }
 
+  const validationSchema = Yup.object().shape({
+    projectName: Yup.string()
+      .required('Project Name field is required.')
+      .max(50, 'Max length should be less than 50 symbols.')
+      .matches(/[а-яА-Яa-zA-Z0-9_]/gi, 'Invalid name for project.')
+  });
+
   const handleClose = () => dispatch(setShowEditModal(false))
 
   const onSubmit = (values) => {
-    _changeProjectName(currentProjectId, values.projectName)
+    _changeProjectName(currentProjectId, values.projectName.trim())
   }
   return (
     <Modal
@@ -142,10 +151,12 @@ function EditProjectModal({ show }) {
       <Modal.Body>
         <Formik
           initialValues={valuesFromApi || initialValues}
+          validationSchema={validationSchema}
+          innerRef={form}
           onSubmit={onSubmit}
           enableReinitialize
         >
-          {({ values, setFieldValue }) => {
+          {({ values, setFieldValue, isValid , errors}) => {
             const handleChangePmFullTime = (e) => {
               _changeUserOnProject(e.target.dataset.id, {
                 is_full_time: !values.projectManager.is_full_time,
@@ -157,7 +168,6 @@ function EditProjectModal({ show }) {
             }
 
             const handleAddMemberToProject = (e) => {
-
               const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
               const isPm = projectManagersList.find(
@@ -189,8 +199,6 @@ function EditProjectModal({ show }) {
               }
             }
 
-            const isDisabled = !values.projectName || values.projectName === valuesFromApi?.projectName;
-
             return (
               <Form className="pm_create_modal_form">
                 {/*Change project name*/}
@@ -202,13 +210,18 @@ function EditProjectModal({ show }) {
                     name="projectName"
                     placeholder="Enter project name"
                   />
+                  <div className="pm_error_message_block">
+                    {errors?.projectName && (
+                      <span className="pm_name_error_message">{errors.projectName}</span>
+                  )}
+                  </div>
                 </label>
 
                 <div className="pm_create_team_buttons_container pm_edit_team_button_container">
                   <button
-                    className={isDisabled ? "pm_create_team_button_disable" : "pm_create_team_button"}
+                    className={!isValid ? "pm_create_team_button_disable" : "pm_create_team_button"}
                     type="submit"
-                    disabled={isDisabled}
+                    disabled={!isValid}
                   >
                     Change
                   </button>
