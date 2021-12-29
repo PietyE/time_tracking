@@ -17,3 +17,17 @@ export const initialColumns = [
   { name: 'comments', title: 'Comments' },
   { name: 'is_processed', title: 'Payed' },
 ];
+
+export const columnExtensions = [
+  { columnName: 'name', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'developer_projects', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'salary_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'rate_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'totalHours', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'total_overtimes', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'total', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'total_expenses', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'total_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'comments', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'is_processed', width: 'auto', align: 'center', wordWrapEnabled: false},
+];

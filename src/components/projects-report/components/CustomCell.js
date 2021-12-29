@@ -12,10 +12,11 @@ const CustomCell = ({ value, style, ...restProps }) => (
     }}
   >
     <span
+      title={value}
       style={{
-        overflow: 'visible',
-        textOverflow: 'inherit',
-        whiteSpace: 'normal',
+        overflow: 'hidden',
+        textOverflow: 'fade',
+        whiteSpace: 'nowrap',
         alignContent: 'center',
       }}
     >
