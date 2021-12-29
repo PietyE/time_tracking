@@ -3,16 +3,16 @@ import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
 import { UAHFormat } from '../../../utils/common'
 import { selectUserProjects } from '../../../selectors/project-report-details'
 import { getRoleUser } from '../../../selectors/user'
-import { columnExtensions, initialColumns, roleRestrictions } from '../projectReportConfig'
+import { initialColumns, roleRestrictions } from '../projectReportConfig'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { getSelectedMonthSelector } from '../../../reducers/projects-report'
-import { DEVELOPER, PM } from '../../../constants/role-constant'
+import { PM } from '../../../constants/role-constant'
 import { Link } from 'react-router-dom'
 import { getUsersProjectReport } from '../../../actions/projects-report'
 import { useDispatch } from 'react-redux'
 import CustomCell from './CustomCell'
 
-const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
+const ProjectReportRowDetail = ({ row }) => {
   const dispatch = useDispatch();
   const userDetails = useEqualSelector(selectUserProjects);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
@@ -43,7 +43,8 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
       ),
       salary_uah: '',
       rate_uah: '',
-      total_hours: is_full_time ? 'fulltime' : `${working_time || 0} `,
+      totalHoursOvertime: is_full_time ? 'fulltime' : `${working_time || 0} `,
+        total_hovers: '',
       total: userRole === PM ? '' : UAHFormat.format(total),
       total_expenses: '',
       total_uah: '',
@@ -65,7 +66,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
   useEffect(() => {
     if (userRole && roleRestrictions?.[userRole]) {
       const filteredColumns = initialColumns.filter(
-        (column) => !roleRestrictions[pmDetailed ? DEVELOPER : userRole].includes(column.name),
+        (column) => !roleRestrictions[userRole].includes(column.name),
       );
 
       setChildColumns(filteredColumns);
@@ -79,7 +80,6 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
         columns = {childColumns}
       >
         <Table
-          columnExtensions={columnExtensions}
           cellComponent={CustomCell}
           messages = {{
             noData: 'There are no projects.'

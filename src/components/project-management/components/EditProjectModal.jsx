@@ -188,9 +188,6 @@ function EditProjectModal({ show }) {
                 })
               }
             }
-
-            const isDisabled = !values.projectName || values.projectName === valuesFromApi?.projectName;
-
             return (
               <Form className="pm_create_modal_form">
                 {/*Change project name*/}
@@ -205,11 +202,7 @@ function EditProjectModal({ show }) {
                 </label>
 
                 <div className="pm_create_team_buttons_container pm_edit_team_button_container">
-                  <button
-                    className={isDisabled ? "pm_create_team_button_disable" : "pm_create_team_button"}
-                    type="submit"
-                    disabled={isDisabled}
-                  >
+                  <button className="pm_create_team_button " type="submit">
                     Change
                   </button>
                 </div>

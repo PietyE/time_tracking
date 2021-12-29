@@ -1,25 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
+import { RowDetailState } from '@devexpress/dx-react-grid'
 import {
   Grid,
   Table,
   TableHeaderRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-bootstrap4'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import isEqual from 'lodash/isEqual'
 
 import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
+  getSelectedMonthForPMSelector,
   getIsFetchingPmPageSelector,
   getIsShowEditModalSelector,
   getIsShowCreateModalSelector,
   getProjectManagerListSelector,
   getSelectedPmSelector,
+  getShownProjectSelector,
   getFilteredProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
+  clearPmProjects,
   getAllProjects,
   setSelectedProjectId,
   downloadAllTeamProjectReport,
@@ -27,6 +31,7 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
+  getProjectReportById,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -38,8 +43,11 @@ import Select from '../ui/select'
 import SelectMonth from '../ui/select-month'
 import { getCurrentUserSelector } from '../../reducers/profile'
 
-import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
+import { convertMinutesToHours } from '../../utils/common'
 
+/////
+import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
+import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import useEqualSelector from "../../custom-hook/useEqualSelector";
 
 const ProjectManagementComponent = () => {
@@ -74,6 +82,13 @@ const ProjectManagementComponent = () => {
     },
     [dispatch]
   )
+
+  // const _getProjectReportById = useCallback(
+  //   (data) => {
+  //     dispatch(getProjectReportById(data))
+  //   },
+  //   [dispatch]
+  // )
 
   const _setSelectedProjectId = useCallback(
     (data) => {
@@ -112,7 +127,7 @@ const ProjectManagementComponent = () => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      hours: convertMinutesToHours(project?.total_minutes),
+      hours: convertMinutesToHours(project?.total_minutes) || 0,
       report: (
         <Button
           variant="outline-*"
@@ -136,6 +151,18 @@ const ProjectManagementComponent = () => {
       setRows(reformatProj())
     }
   }, [filteredProjects])
+
+  // useEffect(() => {
+  //   if (isEmpty(selectedPm)) {
+  //     dispatch(setPm(currentPm))
+  //   }
+  // }, [])
+
+  // useEffect(() => {
+  //   dispatch(clearPmProjects())
+  //   setExpandedRowIds([])
+  //   dispatch(getAllProjects())
+  // }, [month])
 
   useEffect(() => {
     dispatch(getAllProjects())
@@ -196,24 +223,6 @@ const ProjectManagementComponent = () => {
 
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
-            <SortingState
-              defaultSorting={[
-                { columnName: 'project', direction: 'asc' },
-              ]}
-              columnExtensions={[
-                { columnName: 'project', sortingEnabled: true },
-                { columnName: 'occupancy', sortingEnabled: false },
-                { columnName: 'hours', sortingEnabled: true},
-                { columnName: 'report', sortingEnabled: false},
-                { columnName: 'actions', sortingEnabled: false},
-              ]}
-            />
-            <IntegratedSorting
-              columnExtensions={[
-                { columnName: 'hours', compare: compareForTimeColumns },
-              ]}
-
-            />
             <RowDetailState
               expandedRowIds={expandedRowIds}
               onExpandedRowIdsChange={setExpandedRowIds}
@@ -226,7 +235,7 @@ const ProjectManagementComponent = () => {
                   : 'There are no active projects to display.',
               }}
             />
-            <TableHeaderRow showSortingControls />
+            <TableHeaderRow resizingEnabled />
             <TableRowDetail contentComponent={RowDetail} />
           </Grid>
         </div>

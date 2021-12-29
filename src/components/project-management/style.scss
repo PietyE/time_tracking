@@ -221,19 +221,6 @@
     transition: 0.3s;
   }
 }
-.pm_create_team_button_disable {
-  all: unset;
-  //cursor: pointer;
-  text-align: center;
-  width: 90px;
-  height: 40px;
-  border-radius: 6px;
-  background-color: #009c98;
-  opacity: 0.5;
-  border-color: #009c98;
-  color: #fff;
-}
-
 .pm_create_team_control_container{
   display: flex;
   align-items: center;
