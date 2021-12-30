@@ -139,7 +139,7 @@ const ProjectManagementComponent = () => {
 
   useEffect(() => {
     dispatch(getAllProjects())
-  }, [isEditModalShow])
+  }, [isEditModalShow, isCreateModalShow])
 
   const projectManagerSelectList = [
     {
