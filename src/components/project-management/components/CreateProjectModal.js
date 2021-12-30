@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { Modal } from 'react-bootstrap'
 import TeamMemberItem from './TeamMemberItem'
 import TeamInput from './TeamInput'
-import {
-  getProjectManagerListSelector,
-  getAllProjectsSelector,
-} from '../../../reducers/projects-management'
+import { getProjectManagerListSelector } from '../../../reducers/projects-management'
 import { getProjectsList } from 'selectors/developer-projects'
 import {
   createProject,
   setShowCreateModal,
 } from '../../../actions/projects-management'
-import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 import { Field, Form, Formik } from 'formik'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'lodash'
@@ -24,15 +20,6 @@ function CreateProjectModal({ show }) {
   const dispatch = useDispatch()
 
   const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
-
-  // const getDevelopersProjects = useCallback(() => {
-  //   dispatch(getDevelopersProjectInProjectReport())
-  // }, [])
-
-  // useEffect(() => {
-  //   getDevelopersProjects()
-  // }, [])
-
   const projects = useSelector(getProjectsList, shallowEqual)
 
   const _createProject = useCallback(
@@ -41,12 +28,7 @@ function CreateProjectModal({ show }) {
     },
     [dispatch]
   )
-  // const _setShowCreateModal = useCallback(
-  //   () => {
-  //     dispatch(setShowCreateModal(false))
-  //   },
-  //   [dispatch],
-  // )
+
   const checkExistingProjects = (data) => {
     return projects.find((project) => project.name === data)
   }
@@ -54,47 +36,45 @@ function CreateProjectModal({ show }) {
   const handleClose = () => dispatch(setShowCreateModal(false))
 
   const onSubmit = (values) => {
-    const { projectName, projectManager, team } = values
+    const { projectName, projectManager, team } = values;
+    let errorMessage = '';
+
     if (projectManager.name === '') {
-      dispatch(
-        showAler({
-          type: WARNING_ALERT,
-          message: 'Project Manager should be chosen',
-          delay: 5000,
-        })
-      )
-      return
+      errorMessage = 'Project Manager should be chosen';
     }
 
-    if (projectName === '') {
-      dispatch(
-        showAler({
-          type: WARNING_ALERT,
-          message: `The project can't be created with an empty "Project Name"`,
-          delay: 5000,
-        })
-      )
-      return
+    if (!projectName.trim()) {
+      errorMessage = `The project can't be created with an empty "Project Name"`;
+    }
+
+    if (!projectName.match(/[а-яА-Яa-zA-Z0-9_]/gi)) {
+      errorMessage = 'Invalid name for project.';
+    }
+
+    if (projectName.length > 50) {
+      errorMessage = 'The project name can\'t be longer, than 50 symbols.';
     }
 
     if (!team.length) {
-      dispatch(
-        showAler({
-          type: WARNING_ALERT,
-          message: `The project can't be created with an empty "Team"`,
-          delay: 5000,
-        })
-      )
-      return
+      errorMessage = `The project can't be created with an empty "Team"`;
     }
 
-    if (!!projectName) {
+    if (errorMessage) {
+      dispatch(showAler({
+        type: WARNING_ALERT,
+        message: errorMessage,
+        delay: 5000,
+      }));
+      return;
+    }
+
+    if (projectName) {
       const existingProject = checkExistingProjects(projectName)
 
       if (!existingProject) {
         let users = values.team
 
-        if (!!values.projectManager.name) {
+        if (values.projectManager.name) {
           const preparedPm = projectManager
           const currentProjectManager = projectManagers.find(
             (pm) => pm.name === values.projectManager?.name
