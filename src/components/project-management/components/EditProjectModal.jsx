@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Field, Form, Formik } from 'formik'
 import TeamInput from './TeamInput'
@@ -28,7 +28,7 @@ import SpinnerStyled from '../../ui/spinner'
 import * as Yup from 'yup';
 import cn from 'classnames';
 
-function EditProjectModal({ show }) {
+function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
   const form = useRef(null);
 
@@ -89,6 +89,11 @@ function EditProjectModal({ show }) {
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
 
+  const filteredProjects = useMemo(
+    () => projectList.filter(project => project !== projectName),
+    [projectName, projectList?.length],
+  )
+
   useEffect(() => {
     if (projectName) {
       setValuesFromApi({
@@ -127,9 +132,13 @@ function EditProjectModal({ show }) {
 
   const validationSchema = Yup.object().shape({
     projectName: Yup.string()
+      .trim()
       .required('Project Name field is required.')
       .max(50, 'The project name can\'t be longer, than 50 symbols.')
-      .matches(/[а-яА-Яa-zA-Z0-9_]/gi, 'Invalid name for project.')
+      .matches(/^[а-яА-Яa-zA-Z0-9]/gmi, 'Invalid name for project.')
+      .matches(/[а-яА-Яa-zA-Z0-9,.\-_!?]/gmi, 'Invalid name for project.')
+      .test('projectName', 'Invalid name for project.', (value) => !value?.match(/[^а-яА-Яa-zA-Z0-9,.\-_!?]/gmi))
+      .notOneOf(filteredProjects, 'The project with the same name exists.')
   });
 
   const handleClose = () => dispatch(setShowEditModal(false))
