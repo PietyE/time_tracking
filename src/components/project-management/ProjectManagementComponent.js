@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import {
   Grid,
@@ -107,6 +107,8 @@ const ProjectManagementComponent = () => {
   const onSelectProject = (data) => {
     dispatch(setShownProject(data))
   }
+
+  const projectNamesList = useMemo(() => rows.map(item => item.project), [rows.length])
 
   const reformatProj = () => {
     return filteredProjects.map((project) => ({
@@ -233,7 +235,10 @@ const ProjectManagementComponent = () => {
       </div>
 
       <CreateProjectModal show={isCreateModalShow} />
-      <EditProjectModal show={isEditModalShow} />
+      <EditProjectModal
+        show={isEditModalShow}
+        projectList={projectNamesList}
+      />
     </>
   )
 }

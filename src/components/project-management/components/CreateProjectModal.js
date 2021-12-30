@@ -47,7 +47,10 @@ function CreateProjectModal({ show }) {
       errorMessage = `The project can't be created with an empty "Project Name"`;
     }
 
-    if (!projectName.match(/[а-яА-Яa-zA-Z0-9_]/gi)) {
+    if (!projectName.match(/^[а-яА-Яa-zA-Z0-9]/gm)
+      || !projectName.match(/[а-яА-Яa-zA-Z0-9,.\-_!?]/gmi)
+      || projectName.match(/[^а-яА-Яa-zA-Z0-9,.\-_!?]/gmi)
+    ) {
       errorMessage = 'Invalid name for project.';
     }
 
