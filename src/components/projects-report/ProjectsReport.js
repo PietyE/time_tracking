@@ -255,6 +255,15 @@ function ProjectsReport() {
         />
       </div>
 
+      {  roleUser !== PM && (<TotalValue
+        totalUsd={total_usd}
+        totalUah={total_uah}
+        setExchangeRates={handleOnSelect(setExchangeRates)}
+        prevExchangeRate={exchange_rate}
+        selectedDate={selectedDate}
+      />)}
+      {roleUser !== DEVELOPER && roleUser !== PM && (<ActualRates/>)}
+
       {roleUser === PM && (
         <div
           key="Second Grid Element"
