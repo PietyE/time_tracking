@@ -649,12 +649,12 @@
     height: 18px;
     margin-top: 10px;
     margin-right: 10px;
-    fill: red;
+    filter: invert(19%) sepia(17%) saturate(0%) hue-rotate(298deg) brightness(94%) contrast(77%);
     font-weight: 500;
 
     &:hover {
       cursor: pointer;
-      color: #969595;
+      filter: invert(61%) sepia(6%) saturate(5%) hue-rotate(341deg) brightness(97%) contrast(80%);
     }
   }
 }
