@@ -272,7 +272,7 @@ function ProjectsReport() {
               defaultExpandedRowIds={[]}
             />
             <Table
-              columnExtensions={isScrollTable && columnExtensions}
+              columnExtensions={!isScrollTable && columnExtensions}
               rowComponent={CustomTableRow}
               cellComponent={CustomCell}
               messages={{
