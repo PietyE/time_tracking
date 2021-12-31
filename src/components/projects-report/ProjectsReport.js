@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
 import TotalValue from './components/TotalValue'
 import { getProfileId, getRoleUser } from 'selectors/user'
-import { getDevelopersSelector } from 'selectors/developers'
 import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
-import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
   setSelectedDeveloper,
@@ -19,14 +17,11 @@ import {
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
 import {
-  getProjectInTimeReportSelector,
   getSelectedProjectSelector,
-  getEditingUserIdSelector,
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
   selectUsersReports,
-
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
@@ -61,11 +56,8 @@ function ProjectsReport() {
   const profileId = useEqualSelector(getProfileId);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
   const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
-  const developersList = useEqualSelector(getDevelopersSelector);
-  const projectList = useEqualSelector(getProjectInTimeReportSelector);
   const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector);
   const selectedProject = useEqualSelector(getSelectedProjectSelector);
-  const editingUserId = useEqualSelector(getEditingUserIdSelector);
   const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport);
   const selectedReports = useEqualSelector(selectUsersReports);
 
@@ -79,20 +71,21 @@ function ProjectsReport() {
   const [rows, setRows] = useState([]);
   const allDevelopers = useSelector(getDevelopersList);
   const allProjects = useSelector(getProjectsList);
-  const errorStatus = useSelector(getProjectReportError, shallowEqual);
 
-  const handlerChangeProcessedStatusInput = (userId) => (e) => {
-    if (isFetchingReports) {
-      return;
-    }
-    e.stopPropagation()
+  const handlerChangeProcessedStatusInput = useCallback(
+    (userId) => (e) => {
+      if (isFetchingReports) {
+        return;
+      }
+      e.stopPropagation()
 
-    const proceedStatus = {
-      id: userId, month: selectedDate.month + 1, year: selectedDate.year,
-    };
+      const proceedStatus = {
+        id: userId, month: selectedDate.month + 1, year: selectedDate.year,
+      };
 
-    dispatch(setProcessedStatus(proceedStatus));
-  };
+      dispatch(setProcessedStatus(proceedStatus));
+    }, [isFetchingReports, dispatch, selectedDate]
+  );
 
   const handlerCloseModalEdit = () => {
     dispatch(setEditUserId(''));
@@ -109,13 +102,13 @@ function ProjectsReport() {
 
   };
 
-  const errorProjectReport = useMemo(() => {
-    if (errorStatus) {
-      return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
-    } else {
-      return <p className='table_body_container_text'> There are no users in this project yet</p>
-    }
-  }, [errorStatus]);
+  // const errorProjectReport = useMemo(() => {
+  //   if (errorStatus) {
+  //     return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
+  //   } else {
+  //     return <p className='table_body_container_text'> There are no users in this project yet</p>
+  //   }
+  // }, [errorStatus]);
 
   const handleOnSelect = useCallback((selector) => (data) => {
     dispatch(selector(data));
@@ -142,13 +135,12 @@ function ProjectsReport() {
     />
   );
 
-  const formatedUsers = useMemo(
+  const formattedUsers = useMemo(
     () => users.map(({
                        name,
                        developer_projects,
                        salary_uah,
                        rate_uah,
-                       totalHoursOvertime,
                        total_overtimes,
                        total,
                        total_expenses,
@@ -191,7 +183,7 @@ function ProjectsReport() {
         </span>),
       id,
     })),
-    [users]);
+    [users, handlerChangeProcessedStatusInput]);
 
   useEffect(() => {
     if (roleUser && roleRestrictions?.[roleUser]) {
@@ -202,8 +194,8 @@ function ProjectsReport() {
   }, [roleUser]);
 
   useEffect(() => {
-    setRows(formatedUsers)
-  }, [formatedUsers]);
+    setRows(formattedUsers)
+  }, [formattedUsers]);
 
   useEffect(() => {
       if(roleUser){
@@ -213,7 +205,7 @@ function ProjectsReport() {
           dispatch(getConsolidateProjectReport());
       }
 
-  }, [roleUser]);
+  }, [roleUser, dispatch]);
 
   return (<>
     {isFetchingReports && <Spinner/>}
@@ -231,7 +223,7 @@ function ProjectsReport() {
             onSelected={handleOnSelect(setSelectedProjectInProjectReports)}
             // onClear={clearSelectedProjectInProjectReports}
             // disabled={!_.isEmpty(selectedDeveloper)}
-            disabled={selectedDeveloper.name !== 'All Developers' ? true : false}
+            disabled={selectedDeveloper.name !== 'All Developers'}
             initialChoice={selectedProject}
 
           />
@@ -245,7 +237,7 @@ function ProjectsReport() {
             onSelected={handleOnSelect(setSelectedDeveloper)}
             // disabled={!_.isEmpty(selectedProject)}
             // onClear={clearDeveloperSelected}
-            disabled={selectedProject.name !== 'All Projects' ? true : false}
+            disabled={selectedProject.name !== 'All Projects'}
             initialChoice={selectedDeveloper}
           />
         </div>)}
