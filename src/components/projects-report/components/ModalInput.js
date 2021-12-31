@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
@@ -12,15 +12,14 @@ export const ModalInput = ({
   prevValue,
   handleSaveChange,
   CisEdit,
-  setIsCEdit,
   row,
   handleCancelChange,
 }) => {
-  const [isEdit, setIsEdit] = useState(false)
-  const [value, setIsvalue] = useState(+prevValue)
+  const [isEdit, setEdit] = useState(false)
+  const [value, setValue] = useState(+prevValue)
   const [isFetching, setIsFetching] = useState(false)
   const [disabledBtn, setDisabled] = useState(false)
-  const dispath = useDispatch()
+  const dispatch = useDispatch()
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
   useEffect(() => {
@@ -30,13 +29,14 @@ export const ModalInput = ({
   }, [fetchingStatus, isFetching])
 
   const handleChangeValue = (event) => {
-    const filteredStr = event.target.value.replace(/[^\d+.\d]/g, '')
+    const filteredStr = event.target.value.replace(/[^\d+.]/g, '')
+
     if (filteredStr !== Number(prevValue)) {
-      setIsEdit(true)
+      setEdit(true)
     }
 
     if (filteredStr.length > 6) {
-      dispath(
+      dispatch(
         showAler({
           type: WARNING_ALERT,
           title: 'Fields can not be empty',
@@ -49,29 +49,29 @@ export const ModalInput = ({
       return
     } else {
       setDisabled(false)
-      dispath(hideAlert())
+      dispatch(hideAlert())
     }
     // if(filteredStr === ''){
     //   setIsEdit(false)
     // }
-    setIsvalue(filteredStr)
+    setValue(filteredStr)
   }
 
   const handleClickEditButton = () => {
-    setIsEdit(true)
+    setEdit(true)
   }
 
   const handleClickSave = () => {
     if (Number(value) !== Number(prevValue) || CisEdit) {
       handleSaveChange(value)
       setIsFetching(true)
-      setIsEdit(false)
+      setEdit(false)
     }
   }
 
   const handleCancel = (row) => {
     handleCancelChange && handleCancelChange(row)
-    setIsEdit(false)
+    setEdit(false)
   }
 
   return (
@@ -96,7 +96,7 @@ export const ModalInput = ({
         {(isEdit || (CisEdit && CisEdit[row] === row)) && !isFetching && (
           <>
             <button
-              variant={'success'}
+              // variant={'success'}
               onClick={handleClickSave}
               className={
                 'edit_user_button save ' + (disabledBtn ? 'disabled' : '')
@@ -105,7 +105,7 @@ export const ModalInput = ({
               <FontAwesomeIcon icon={faCheck} />
             </button>
             <button
-              variant="secondary"
+              // variant="secondary"
               onClick={() => {
                 handleCancel(row)
               }}
