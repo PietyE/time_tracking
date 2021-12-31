@@ -40,7 +40,7 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 
 import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
-import useEqualSelector from "../../custom-hook/useEqualSelector";
+import useEqualSelector from '../../custom-hook/useEqualSelector';
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
@@ -89,10 +89,13 @@ const ProjectManagementComponent = () => {
     [dispatch]
   )
 
-  const openEditModal = (id) => {
-    _setSelectedProjectId(id)
-    dispatch(setShowEditModal(true))
-  }
+  const openEditModal = useCallback(
+    (id) => {
+      _setSelectedProjectId(id)
+      dispatch(setShowEditModal(true))
+    },
+    [_setSelectedProjectId, dispatch]
+  )
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
@@ -108,13 +111,15 @@ const ProjectManagementComponent = () => {
     dispatch(setShownProject(data))
   }
 
-  const projectNamesList = useMemo(() => rows.map(item => item.project), [rows.length])
+  const projectNamesList = useMemo(() => rows.map(item => item.project), [rows])
 
-  const reformatProj = () => {
+  const reformatProj = useMemo(() => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      hours: convertMinutesToHours(project?.total_minutes),
+      //This should be when field  total_minutes appears in BE response
+      // hours: convertMinutesToHours(project?.total_minutes),
+      hours: convertMinutesToHours(''),
       report: (
         <Button
           variant="outline-*"
@@ -131,17 +136,17 @@ const ProjectManagementComponent = () => {
       ),
       id: project.id,
     }))
-  }
+  }, [filteredProjects, _downloadAllTeamProjectReport, openEditModal])
 
   useEffect(() => {
     if (filteredProjects?.length) {
-      setRows(reformatProj())
+      setRows(reformatProj)
     }
-  }, [filteredProjects])
+  }, [filteredProjects, reformatProj])
 
   useEffect(() => {
     dispatch(getAllProjects())
-  }, [isEditModalShow, isCreateModalShow])
+  }, [isEditModalShow, isCreateModalShow, dispatch])
 
   const projectManagerSelectList = [
     {
