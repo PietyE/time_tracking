@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 
 import AlertStyled from 'components/ui/alert'
 import StatusPage from 'components/common/StatusPage'
