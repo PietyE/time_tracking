@@ -64,7 +64,7 @@ function EditProjectModal({ show, projectList }) {
   )
 
   const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
-  const currentProject = useSelector((getSelectedProjectSelector, isEqual))
+  const currentProject = useSelector(getSelectedProjectSelector, isEqual)
   const projectName = useSelector(getProjectName, isEqual)
 
   const projectManagersList = useSelector(
@@ -91,7 +91,7 @@ function EditProjectModal({ show, projectList }) {
 
   const filteredProjects = useMemo(
     () => projectList.filter(project => project !== projectName),
-    [projectName, projectList?.length],
+    [projectName, projectList],
   )
 
   useEffect(() => {
@@ -110,13 +110,13 @@ function EditProjectModal({ show, projectList }) {
         _getProjectReportById(currentProjectId)
       }
     }
-  }, [_getProjectReportById, currentProjectId, show])
+  }, [_getProjectReportById, currentProjectId, show, currentProject])
 
   useEffect(() => {
     if (currentProject) {
       _setSelectedProject(currentProject)
     }
-  }, [currentProject])
+  }, [currentProject, _setSelectedProject])
 
   const pmInitialValue = {
     name: '',
@@ -210,6 +210,8 @@ function EditProjectModal({ show, projectList }) {
               }
             }
 
+            const isSameProject = values.projectName === valuesFromApi?.projectName
+
             return (
               <Form className="pm_create_modal_form">
                 {/*Change project name*/}
@@ -233,9 +235,9 @@ function EditProjectModal({ show, projectList }) {
 
                 <div className="pm_create_team_buttons_container pm_edit_team_button_container">
                   <button
-                    className={!isValid ? "pm_create_team_button_disable" : "pm_create_team_button"}
+                    className={!isValid || isSameProject ? 'pm_create_team_button_disable' : 'pm_create_team_button'}
                     type="submit"
-                    disabled={!isValid}
+                    disabled={!isValid || isSameProject}
                   >
                     Change
                   </button>
@@ -279,7 +281,7 @@ function EditProjectModal({ show, projectList }) {
                     as="select"
                     onChange={handleAddMemberToProject}
                   >
-                    <option label="Select PM"></option>
+                    <option label="Select PM"/>
                     {!!availableProjectManagersList.length &&
                       availableProjectManagersList.map((pm) => (
                         <option key={pm?.id} data-id={pm.id} value={pm?.name}>
