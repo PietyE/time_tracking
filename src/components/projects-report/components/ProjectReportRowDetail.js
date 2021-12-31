@@ -51,7 +51,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
       is_processed: '',
       id: idDeveloperProjects,
     })),
-    [projects.length]);
+    [projects, row, selectedDate, userRole]);
 
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
 
   useEffect(() => {
     dispatch(getUsersProjectReport(row.id));
-  }, [row.id]);
+  }, [row.id, dispatch]);
 
   useEffect(() => {
     if (userRole && roleRestrictions?.[userRole]) {
@@ -70,7 +70,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
 
       setChildColumns(filteredColumns);
     }
-  }, [userRole]);
+  }, [userRole, pmDetailed]);
 
   return (
     <div>
