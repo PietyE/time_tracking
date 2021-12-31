@@ -37,7 +37,7 @@ const RowDetail = ({ row }) => {
 
   useEffect(() => {
     _getProjectReportById(row?.id)
-  }, [])
+  }, [_getProjectReportById, row])
 
   useEffect(() => {
     if (currentProjectReport) {
@@ -64,7 +64,7 @@ const RowDetail = ({ row }) => {
       }))
       setChildRows(reformatProjects)
     }
-  }, [currentProjectReport])
+  }, [currentProjectReport, _downloadProjectReport])
 
   const childColumns = [{name: 'user', title: 'User'}, {
     name: 'occupancy', title: 'Occupancy'
