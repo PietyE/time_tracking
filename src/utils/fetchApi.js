@@ -40,8 +40,7 @@ export const fetchApi = async ({
       ...rest,
     }
 
-    const response = await axios(options)
-    return response
+    return await axios(options)
   } catch (error) {
     const { response = {}, message: error_message } = error
 
@@ -49,9 +48,11 @@ export const fetchApi = async ({
 
     const { detail, title, non_field_errors, duration } = data
 
+    const currentTitle = title && title[0]
+    const currentNonFieldError = non_field_errors && non_field_errors[0]
     const errorData = {
       status,
-      messages: (title && title[0]) || duration || non_field_errors && non_field_errors[0] || error_message || statusText ,
+      messages: currentTitle || duration || currentNonFieldError || error_message || statusText ,
       detail: typeof data === 'object' ? detail : '',
     }
 

@@ -1,6 +1,5 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  SET_DEV_CONSOLIDATE_PROJECT_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -29,15 +28,15 @@ const initialState = {
     exchange_rate: '',
   },
   selectedProject: {
-    email: "",
-    id: "",
-    name: "All Projects",
+    email: '',
+    id: '',
+    name: 'All Projects',
     role: null
   },
   selectedDeveloper: {
-    email: "",
-    id: "",
-    name: "All Developers",
+    email: '',
+    id: '',
+    name: 'All Developers',
     role: null
   },
   isFetchingReports: false,

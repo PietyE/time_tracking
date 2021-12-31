@@ -47,7 +47,7 @@
         }
         .export_btn_text {
           color: #ffffff;
-          font-family: Montserrat;
+          font-family: Montserrat, sans-serif;
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;
@@ -84,7 +84,7 @@
     }
   }
 
-  .time_repord_checkbox {
+  .time_report_checkbox {
     align-self: flex-end;
     order: 2;
     label {
@@ -110,7 +110,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
+    box-shadow: 0 0 5px 2px rgba(158, 167, 171, 0.3);
     border-radius: 5px;
     padding: 10px;
     &.below {
@@ -309,7 +309,7 @@
 
 @keyframes createTimeReport {
   from {
-    height: 0px;
+    height: 0;
   }
   to {
     height: 60px;
@@ -536,7 +536,7 @@
   }
   .drag_button {
     position: absolute;
-    left: 0px;
+    left: 0;
     width: 7px;
     height: 100%;
     border-radius: 4px 0 0 4px;

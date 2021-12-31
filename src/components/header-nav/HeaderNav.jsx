@@ -17,7 +17,7 @@ function HeaderNav() {
     } else {
       setPermission(true)
     }
-  }, [])
+  }, [userRole])
 
   const activeTabStale = {
     color: '#249c98',
@@ -67,7 +67,7 @@ function HeaderNav() {
         </li>
         <li className="nav_item">
           <NavLink
-            to={`/timereport`}
+            to="/timereport"
             className="nav_item_link"
             activeStyle={activeTabStale}
           >

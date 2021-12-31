@@ -11,7 +11,7 @@ function Modal({ children }) {
     return () => {
       element.classList.remove('active')
     }
-  }, [])
+  }, [element.classList])
 
   return ReactDOM.createPortal(
     <div className="modal_container">{children}</div>,

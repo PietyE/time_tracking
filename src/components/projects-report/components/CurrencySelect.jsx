@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { selectCurrencyList } from '../../../selectors/currency'
 import { useSelector } from 'react-redux'
 import Select from 'components/ui/select'
