@@ -31,20 +31,21 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     if (type === 'update') {
       onChangeDev(e)
     }
-    const checkResult = values.team.find(el => el.name === data)
+    const checkResult = values?.team?.find(el => el.name === data)
     let currentDev
     if (!checkResult) {
       currentDev = users.find(el => el.name === data)
     }
-    const result = checkResult ? [...values.team] : [...values.team, {
-      name: data,
-      is_full_time: true,
-      is_active: true,
-      user_id: currentDev.id,
-    }]
-    setFieldValue('team', result)
+    if(values.team){
+      const result = checkResult ? [...values.team] : [...values.team, {
+        name: data,
+        is_full_time: true,
+        is_active: true,
+        user_id: currentDev.id,
+      }]
+      setFieldValue('team', result)
     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
-    
+    }
   }
 
   const onSelectItem = (data) => {

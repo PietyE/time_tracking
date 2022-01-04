@@ -97,6 +97,11 @@
 .pm_create_modal_form{
   display: flex;
   flex-direction: column;
+
+  .select_title_text{
+    color: #949494!important;
+    font-size: 16px;
+  }
 }
 .pm_create_modal_label{
   font-weight: bold;
@@ -113,6 +118,13 @@
   width: 100%;
   padding-left: 8px;
   appearance: none;
+  color: #949494 !important;
+
+  option{
+    color: #222;
+  }
+
+
   &::-webkit-scrollbar-track {
     background: #EEEEEE;
   }
@@ -122,7 +134,6 @@
     height: 10px;
     background: rgba(0, 0, 0, 0.15);
     border-radius: 35px;
-
   }
 
   &::-webkit-scrollbar-thumb {
@@ -176,9 +187,6 @@
   margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
-  &:last-child{
-    margin-bottom: 30px;
-  }
 }
 .pm_create_team_text{
   font-weight: 500;
@@ -198,9 +206,7 @@
 .pm_edit_team_button_container{
   margin-left: auto;
 }
-.pm_create_team_item_pm{
-  margin-bottom: 30px;
-}
+
 .pm_create_team_button{
   all: unset;
   cursor: pointer;
