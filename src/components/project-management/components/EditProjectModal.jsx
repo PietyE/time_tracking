@@ -137,7 +137,7 @@ function EditProjectModal({ show, projectList }) {
       .max(50, 'The project name can\'t be longer, than 50 symbols.')
       .matches(/^[а-яА-Яa-zA-Z0-9]/gmi, 'Invalid name for project.')
       .matches(/[а-яА-Яa-zA-Z0-9,.\-_!?]/gmi, 'Invalid name for project.')
-      .test('projectName', 'Invalid name for project.', (value) => !value?.match(/[^а-яА-Яa-zA-Z0-9,.\-_!?]/gmi))
+      .test('projectName', 'Invalid name for project.', (value) => !value?.match(/[^а-яА-Яa-zA-Z0-9,.\-_!? ]/gmi))
       .notOneOf(filteredProjects, 'The project with the same name exists.')
   });
 
