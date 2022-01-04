@@ -43,17 +43,19 @@ function CreateProjectModal({ show }) {
       errorMessage = 'Project Manager should be chosen';
     }
 
-    if (!projectName.trim()) {
-      errorMessage = `The project can't be created with an empty "Project Name"`;
+    if (!projectName) {
+      errorMessage = `Enter the name of the project`;
     }
 
-    if (!projectName.match(/^[а-яА-Яa-zA-Z0-9]/gm)
+    if(projectName){
+      if (!projectName.match(/^[а-яА-Яa-zA-Z0-9]/gm)
       || !projectName.match(/[а-яА-Яa-zA-Z0-9,.\-_!?]/gmi)
       || projectName.match(/[^а-яА-Яa-zA-Z0-9,.\-_!?]/gmi)
-    ) {
-      errorMessage = 'Invalid name for project.';
+      ) {
+        errorMessage = 'Invalid name for project.';
+      }
     }
-
+    
     if (projectName.length > 50) {
       errorMessage = 'The project name can\'t be longer, than 50 symbols.';
     }
