@@ -41,11 +41,13 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
 import useEqualSelector from '../../custom-hook/useEqualSelector';
+import useSorting from '../../custom-hook/useSorting'
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
-
   const [rows, setRows] = useState([])
+
+  const { sorting, handleSortingChange } = useSorting();
 
   const columns = [
     { name: 'project', title: 'Project' },
@@ -204,9 +206,8 @@ const ProjectManagementComponent = () => {
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
             <SortingState
-              defaultSorting={[
-                { columnName: 'project', direction: 'asc' },
-              ]}
+              sorting={sorting}
+              onSortingChange={handleSortingChange}
               columnExtensions={[
                 { columnName: 'project', sortingEnabled: true },
                 { columnName: 'occupancy', sortingEnabled: false },
