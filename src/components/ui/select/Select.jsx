@@ -21,6 +21,7 @@ function Select(props) {
     isSearch = false,
     isTeamSearch =false,
     disabled,
+    selectedTeam =[]
   } = props
 
 
@@ -30,6 +31,8 @@ function Select(props) {
   const [searchValue, setSearchValue] = useState('')
 
   const prevList = usePrevious(listItems)
+
+  console.log('selected Team', selectedTeam)
 
   const handlerClickOpen = (e) => {
     e.preventDefault()
@@ -172,7 +175,7 @@ function Select(props) {
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
-                  item.name === _title
+                  item.name === _title || selectedTeam.find((e)=> e.user_id === item.id)
                     ? 'select_list_item choice'
                     : 'select_list_item'
                 }

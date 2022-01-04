@@ -193,7 +193,7 @@ function EditProjectModal({ show, projectList }) {
                   })
                 }
               }
-              const wasDeactivated = deactivatedUsers.find(
+              const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
               if (wasDeactivated) {
