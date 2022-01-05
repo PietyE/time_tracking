@@ -32,8 +32,8 @@ function CreateProjectModal({ show }) {
   )
 
   const checkExistingProjects = useCallback(
-    (data) => {
-      return projects.find((project) => project.name === data)
+    (projectName) => {
+      return projects.find((project) => project.name === projectName)
     }, [projects]
   )
 
