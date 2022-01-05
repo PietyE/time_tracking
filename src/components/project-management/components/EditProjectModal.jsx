@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap'
 import { Field, Form, Formik } from 'formik'
 import TeamInput from './TeamInput'
 import TeamMemberItem from './TeamMemberItem'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   getSelectedProjectIdSelector,
   getProjectName,
@@ -12,9 +12,8 @@ import {
   getActiveDevSelector,
   getDeactivatedMembersSelector,
   getSelectedProjectSelector,
-  getIsFetchingPmPageSelector,
+  getIsFetchingPmPageSelector, getActivePmSelector,
 } from '../../../reducers/projects-management'
-import { isEqual } from 'lodash'
 import {
   getProjectReportById,
   setSelectedProject,
@@ -27,7 +26,7 @@ import SpinnerStyled from '../../ui/spinner'
 
 import * as Yup from 'yup';
 import cn from 'classnames';
-import useEqualSelector from "../../../custom-hook/useEqualSelector";
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
@@ -67,15 +66,12 @@ function EditProjectModal({ show, projectList }) {
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
   const currentProject = useEqualSelector(getSelectedProjectSelector)
   const projectName = useEqualSelector(getProjectName)
-
-  console.log('current p', currentProject);
-
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector)
+  const pmList = useEqualSelector(getActivePmSelector)
   const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector)
   const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
-
-  const isFetching = useSelector(getIsFetchingPmPageSelector)
+  const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
 
   const availableProjectManagersList = projectManagersList.filter(
     (pm) => pm?.id !== activeProjectManager?.user_id
@@ -87,7 +83,6 @@ function EditProjectModal({ show, projectList }) {
     () => projectList.filter(project => project !== projectName),
     [projectName, projectList],
   )
-
 
   useEffect(() => {
     if (projectName) {
@@ -106,10 +101,6 @@ function EditProjectModal({ show, projectList }) {
       }
     }
   }, [_getProjectReportById, currentProjectId, show, currentProject])
-
-  useEffect(() => {
-    _getProjectReportById(currentProjectId)
-  }, [show])
 
   useEffect(() => {
     if (currentProject) {
@@ -192,7 +183,7 @@ function EditProjectModal({ show, projectList }) {
                   })
                 }
               }
-              const wasDeactivated = deactivatedUsers?.find(
+              const wasDeactivated = deactivatedUsers.find(
                 (user) => user.user_id === targetUserId
               )
               if (wasDeactivated) {
@@ -291,25 +282,28 @@ function EditProjectModal({ show, projectList }) {
                 </label>
 
                 {/*Show selected PM*/}
-                {values?.projectManager?.name && (
-                  <div className="pm_create_team_item  pm_create_team_item_pm">
+                { !!pmList?.length && pmList.map((pm, idx) => (
+                  <div
+                    key={`PM${pm?.projectReportId}${idx}`}
+                    className="pm_create_team_item  pm_create_team_item_pm"
+                  >
                     <span className="pm_create_team_text">
-                      {values.projectManager.name}
+                      {pm.name}
                     </span>
 
                     <label className="pm_create_team_checkbox_label">
                       <Field
                         type="checkbox"
                         name="values.projectManager.is_full_time"
-                        checked={!values.projectManager?.is_full_time}
-                        data-id={values.projectManager.projectReportId}
+                        checked={!pm?.is_full_time}
+                        data-id={pm.projectReportId}
                         onChange={handleChangePmFullTime}
                         className="pm_create_team_checkbox"
                       />
                       Part-time
                     </label>
                   </div>
-                )}
+                ))}
               </Form>
             )
           }}

@@ -36,7 +36,7 @@ const initialState = {
   shownProject: {},
 }
 const setProjectsWithReports = (state, action) => {
-  let projectsWithReports = []
+  let projectsWithReports
   const index = state.projectsWithReports.findIndex(
     (el) => el.projectId === action.payload.projectId
   )
@@ -100,8 +100,8 @@ export const getProjectManagerListSelector = (state) => {
 }
 
 export const getUserListSelector = (state) => {
-  const users = getUsersSelector(state)
-  return users
+
+  return getUsersSelector(state)
 }
 
 export const getDeveloperSelector = (state) => {
@@ -205,6 +205,16 @@ export const getActiveDevSelector = (state) => {
   if (activeUsers) {
     const pmIdArray = activePm.map((pm) => pm.user_id)
     return activeUsers.filter((user) => !pmIdArray.includes(user.user_id))
+  }
+}
+
+export const getActivePmSelector = (state) => {
+  const activeUsers = getProjectActiveUsersSelector(state)
+  const activePm = getActiveProjectManagerSelector(state)
+
+  if (activeUsers) {
+    const pmIdArray = activePm.map((pm) => pm.user_id)
+    return activeUsers.filter((user) => pmIdArray.includes(user.user_id))
   }
 }
 
