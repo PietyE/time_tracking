@@ -27,6 +27,7 @@ import SpinnerStyled from '../../ui/spinner'
 
 import * as Yup from 'yup';
 import cn from 'classnames';
+import useEqualSelector from "../../../custom-hook/useEqualSelector";
 
 function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
@@ -63,23 +64,16 @@ function EditProjectModal({ show, projectList }) {
     [dispatch]
   )
 
-  const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
-  const currentProject = useSelector(getSelectedProjectSelector, isEqual)
-  const projectName = useSelector(getProjectName, isEqual)
+  const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
+  const currentProject = useEqualSelector(getSelectedProjectSelector)
+  const projectName = useEqualSelector(getProjectName)
 
-  const projectManagersList = useSelector(
-    getProjectManagerListSelector,
-    isEqual
-  )
-  const activeProjectManager = useSelector(
-    getActivePmInCurrentProjectSelector,
-    isEqual
-  )
-  const currentProjectActiveDevelopers = useSelector(
-    getActiveDevSelector,
-    isEqual
-  )
-  const deactivatedUsers = useSelector(getDeactivatedMembersSelector, isEqual)
+  console.log('current p', currentProject);
+
+  const projectManagersList = useEqualSelector(getProjectManagerListSelector)
+  const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector)
+  const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector)
+  const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
 
   const isFetching = useSelector(getIsFetchingPmPageSelector)
 
@@ -93,6 +87,7 @@ function EditProjectModal({ show, projectList }) {
     () => projectList.filter(project => project !== projectName),
     [projectName, projectList],
   )
+
 
   useEffect(() => {
     if (projectName) {
@@ -111,6 +106,10 @@ function EditProjectModal({ show, projectList }) {
       }
     }
   }, [_getProjectReportById, currentProjectId, show, currentProject])
+
+  useEffect(() => {
+    _getProjectReportById(currentProjectId)
+  }, [show])
 
   useEffect(() => {
     if (currentProject) {
