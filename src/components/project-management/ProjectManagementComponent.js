@@ -27,6 +27,7 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
+  getProjectReportById,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -113,6 +114,11 @@ const ProjectManagementComponent = () => {
     dispatch(setShownProject(data))
   }
 
+  const handleOpenEditModal = useCallback((projectId) => {
+    dispatch(getProjectReportById(projectId));
+    openEditModal(projectId);
+  }, [dispatch, openEditModal])
+
   const projectNamesList = useMemo(() => rows.map(item => item.project), [rows])
 
   const reformatProj = useMemo(() => {
@@ -133,12 +139,12 @@ const ProjectManagementComponent = () => {
       actions: (
         <span
           className="oi oi-pencil"
-          onClick={() => openEditModal(project.id)}
+          onClick={() => handleOpenEditModal(project.id)}
         />
       ),
       id: project.id,
     }))
-  }, [filteredProjects, _downloadAllTeamProjectReport, openEditModal])
+  }, [filteredProjects, _downloadAllTeamProjectReport, handleOpenEditModal])
 
   useEffect(() => {
     if (filteredProjects?.length) {
