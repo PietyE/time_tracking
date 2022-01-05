@@ -32,8 +32,6 @@ function Select(props) {
 
   const prevList = usePrevious(listItems)
 
-  console.log('selected Team', selectedTeam)
-
   const handlerClickOpen = (e) => {
     e.preventDefault()
     if (isOpen) {
@@ -129,6 +127,8 @@ function Select(props) {
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length;
 
+  console.log('Selected', selectedTeam );
+
   return (
     <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
@@ -176,7 +176,7 @@ function Select(props) {
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
-                  item.name === _title || selectedTeam.find((e)=> e.user_id === item.id)
+                  item.name === _title || selectedTeam .filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
                     ? 'select_list_item choice'
                     : 'select_list_item'
                 }
