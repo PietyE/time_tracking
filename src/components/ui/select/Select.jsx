@@ -127,8 +127,6 @@ function Select(props) {
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length;
 
-  console.log('Selected', selectedTeam );
-
   return (
     <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${

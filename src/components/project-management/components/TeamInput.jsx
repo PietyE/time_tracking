@@ -1,18 +1,18 @@
 import React, {useState} from 'react'
-import {useSelector} from 'react-redux'
+
 import {
     getDeveloperSelector,
     getActiveDevSelector,
     getUserListSelector,
 } from '../../../reducers/projects-management'
-import {isEqual} from 'lodash'
 import Select from '../../ui/select';
+import useEqualSelector from "../../../custom-hook/useEqualSelector";
 
 
 const TeamInput = ({setFieldValue, values, onChangeDev, type}) => {
-    const users = useSelector(getUserListSelector, isEqual)
-    const developers = useSelector(getDeveloperSelector, isEqual)
-    const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
+    const users = useEqualSelector(getUserListSelector)
+    const developers = useEqualSelector(getDeveloperSelector)
+    const currentProjectDevelopers = useEqualSelector(getActiveDevSelector)
     const [selectedItem, setSelectedItem] = useState('')
 
     let availableDevelopers = developers
