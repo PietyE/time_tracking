@@ -267,3 +267,9 @@
 .pm_create_modal_colored_border {
   border-color: tomato;
 }
+
+.pm_checkbox_and_remove_block {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

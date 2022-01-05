@@ -58,6 +58,7 @@ function Select(props) {
     if (classNameOpen) {
       setClassNameOpen('')
       setIsOpen(false)
+      setTitle(title)
     }
   }
 
@@ -93,12 +94,12 @@ function Select(props) {
   // }, [initialChoice])
   ///////////////////////////////////////////////////////////
   useEffect(()=>{
- if (initialChoice && initialChoice[valueKey]){
-    setTitle(initialChoice[valueKey])
-  } else if(!initialChoice && listItems?.length){
-    setTitle(title)
-  }
-    },[listItems,initialChoice, title, valueKey])
+    if (initialChoice && initialChoice[valueKey]){
+      setTitle(initialChoice[valueKey])
+    } else if(!initialChoice && listItems?.length){
+      setTitle(title)
+    }
+  },[listItems,initialChoice, title, valueKey])
 
   useEffect(() => {
     if(initTitle?.name){
