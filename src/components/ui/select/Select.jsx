@@ -60,7 +60,10 @@ function Select(props) {
 
   const handlerClickItem = (e) => {
     e.preventDefault()
-    setTitle(e.currentTarget.dataset.value)
+    if(initialChoice){
+      setTitle(e.currentTarget.dataset.value)
+    }
+
   }
 
   const handlerChangeSearchValue = (e) => {

@@ -49,7 +49,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   }
 
   const onSelectItem = (data) => {
-    setSelectedItem(data)
+   setSelectedItem(data)
     handleChangeDev(data)
   }
 
@@ -63,7 +63,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
           extraClassContainer={'developer_select pm_select'}
           isSearch={true}
           onSelected={onSelectItem}
-          initialChoice={selectedItem}
+         // initialChoice={selectedItem}
           isTeamSearch={true}
       />
     </div>
