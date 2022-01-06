@@ -112,8 +112,7 @@ export function* getProjectReportById(action) {
     let projectId = action?.payload
 
     if (!action) {
-      const currentProjectId = yield select(getSelectedProjectIdSelector)
-      projectId = currentProjectId
+      projectId = yield select(getSelectedProjectIdSelector)
     }
 
     const { data } = yield call([pm, 'getProjectsReportById'], {
@@ -223,7 +222,7 @@ export function* createProject({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getAllProjects)
+    yield call(getProjectsSagaWorker)
   } catch (error) {
     const { response = {}, message: error_message } = error
 
