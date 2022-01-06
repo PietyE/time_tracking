@@ -5,8 +5,9 @@ const CustomCell = ({ value, style, ...restProps }) => (
   <Table.Cell
     {...restProps}
     style={{
+      alignItems: 'center',
+      justifyContent: 'center',
       verticalAlign: 'middle',
-      textAlign: 'start',
       ...style,
     }}
   >
@@ -16,6 +17,7 @@ const CustomCell = ({ value, style, ...restProps }) => (
         overflow: 'hidden',
         textOverflow: 'fade',
         whiteSpace: 'nowrap',
+        alignContent: 'center',
       }}
     >
       {value}
