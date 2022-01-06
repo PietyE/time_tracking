@@ -31,6 +31,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+import useEqualSelector from "../../custom-hook/useEqualSelector";
 
 function TimeReport(props) {
   const {
@@ -51,6 +52,20 @@ function TimeReport(props) {
   } = props
 
   const [showEmpty, setShowEmpty] = useState(true)
+
+  const projectsL = useEqualSelector(getProjectsSelector);
+
+  const projectsSelectList = [
+    {
+      developer_project_id:selectedDeveloper?.id,
+      id: 'select-all',
+      name: 'Select All',
+
+    },
+          ...projectsL,
+  ]
+
+  console.log('developer', projectsSelectList);
 
   const { state: routeState } = useLocation()
 
@@ -153,7 +168,7 @@ function TimeReport(props) {
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
-      selectProject(projects[0])
+      selectProject(projectsSelectList[0])
     }
     if (!projects.length) {
       selectProject({})
@@ -188,7 +203,7 @@ function TimeReport(props) {
               />
             )}
             <ProjectSelect
-              projectList={projects}
+              projectList={projectsSelectList}
               clearSelectedProject={clearSelectedProject}
               selectProject={selectProject}
               selectedProject={selectedProject}

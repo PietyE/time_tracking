@@ -71,6 +71,8 @@ const ProjectManagementComponent = () => {
   const currentPm = useEqualSelector(getCurrentUserSelector)
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
 
+
+
   const _downloadAllTeamProjectReport = useCallback(
     (data) => {
       dispatch(downloadAllTeamProjectReport(data))
@@ -111,6 +113,7 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
+
     dispatch(setShownProject(data))
   }
 
@@ -166,6 +169,8 @@ const ProjectManagementComponent = () => {
     ...projectManagers,
   ]
 
+
+
   return (
     <>
       {isFetching && <SpinnerStyled />}
@@ -183,7 +188,7 @@ const ProjectManagementComponent = () => {
           />
 
           <Select
-            title="choose project..."
+            title={projects[0].name}
             listItems={projects}
             onSelected={onSelectProject}
             valueKey="name"
