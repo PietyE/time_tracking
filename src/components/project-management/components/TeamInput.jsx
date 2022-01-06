@@ -64,6 +64,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
           isSearch={true}
           onSelected={onSelectItem}
           isTeamSearch={true}
+          selectedTeam={values.team}
       />
     </div>
   )
