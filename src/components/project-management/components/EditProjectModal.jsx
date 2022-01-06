@@ -144,6 +144,7 @@ function EditProjectModal({ show, projectList }) {
       onHide={handleClose}
       backdrop={false}
       centered={true}
+      animation={false}
       className="pm_page_modal"
     >
       <Modal.Header closeButton className="pm_modal_header">
