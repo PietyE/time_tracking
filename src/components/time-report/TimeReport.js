@@ -126,7 +126,6 @@ function TimeReport(props) {
             (project) =>
               project.developer_project_id === route_developer_project_id
           )
-
           selectProject(newSelectedProject)
         }
       }
@@ -167,7 +166,7 @@ function TimeReport(props) {
     //   clearSelectedProject()
     //   resetSelectedDate()
     // }
-  }, [])
+  }, [bootstrapWidthRouteState])
 
   return (
     <>

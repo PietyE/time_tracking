@@ -47,7 +47,6 @@ import { columnExtensions, initialColumns, roleRestrictions } from './projectRep
 import ProjectReportRowDetail from './components/ProjectReportRowDetail'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import useWindowDimensions from '../../custom-hook/useWIndowDimensions'
-import useSorting from '../../custom-hook/useSorting'
 
 function ProjectsReport() {
   const dispatch = useDispatch();
@@ -72,7 +71,6 @@ function ProjectsReport() {
   const [rows, setRows] = useState([]);
   const allDevelopers = useSelector(getDevelopersList);
   const allProjects = useSelector(getProjectsList);
-  const { sorting, handleSortingChange } = useSorting();
 
   const handlerChangeProcessedStatusInput = useCallback(
     (userId) => (e) => {
@@ -303,8 +301,7 @@ function ProjectsReport() {
           columns={columns}
         >
           <SortingState
-            sorting={sorting}
-            onSortingChange={handleSortingChange}
+            defaultSorting={[{columnName: 'name', direction: 'asc'},]}
             columnExtensions={[
               { columnName: 'developer_projects', sortingEnabled: false },
               { columnName: 'salary_uah', sortingEnabled: false },

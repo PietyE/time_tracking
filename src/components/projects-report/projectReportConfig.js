@@ -19,8 +19,8 @@ export const initialColumns = [
 ];
 
 export const columnExtensions = [
-  { columnName: 'name', width: 'auto', align: 'center', wordWrapEnabled: false},
-  { columnName: 'developer_projects', width: 'auto', align: 'center', wordWrapEnabled: false},
+  { columnName: 'name', width: 'auto', align: 'left', wordWrapEnabled: false},
+  { columnName: 'developer_projects', width: 'auto', align: 'left', wordWrapEnabled: false},
   { columnName: 'salary_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'rate_uah', width: 'auto', align: 'center', wordWrapEnabled: false},
   { columnName: 'totalHours', width: 'auto', align: 'center', wordWrapEnabled: false},
