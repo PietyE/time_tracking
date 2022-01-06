@@ -166,7 +166,7 @@ function TimeReport(props) {
     //   clearSelectedProject()
     //   resetSelectedDate()
     // }
-  }, [bootstrapWidthRouteState])
+  }, [])
 
   return (
     <>

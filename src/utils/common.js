@@ -93,6 +93,7 @@ const formatToNumber = (uahStr) => {
   return parseInt(result[0].split(' ').join(''));
 }
 
+
 export const compareForTimeColumns = (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
     return 0;

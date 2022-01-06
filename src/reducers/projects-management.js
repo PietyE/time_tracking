@@ -100,7 +100,6 @@ export const getProjectManagerListSelector = (state) => {
 }
 
 export const getUserListSelector = (state) => {
-
   return getUsersSelector(state)
 }
 

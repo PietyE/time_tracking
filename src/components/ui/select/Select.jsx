@@ -62,7 +62,10 @@ function Select(props) {
 
   const handlerClickItem = (e) => {
     e.preventDefault()
-    setTitle(e.currentTarget.dataset.value)
+    if(initialChoice){
+      setTitle(e.currentTarget.dataset.value)
+    }
+
   }
 
   const handlerChangeSearchValue = (e) => {
@@ -174,7 +177,7 @@ function Select(props) {
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
-                  item.name === _title || selectedTeam .filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
+                  item.name === _title || selectedTeam.filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
                     ? 'select_list_item choice'
                     : 'select_list_item'
                 }
