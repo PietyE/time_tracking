@@ -21,6 +21,7 @@ function Select(props) {
     isSearch = false,
     isTeamSearch =false,
     disabled,
+    selectedTeam =[]
   } = props
 
 
@@ -55,7 +56,7 @@ function Select(props) {
     if (classNameOpen) {
       setClassNameOpen('')
       setIsOpen(false)
-      isTeamSearch && setTitle(title)
+      setTitle(title)
     }
   }
 
@@ -94,12 +95,12 @@ function Select(props) {
   // }, [initialChoice])
   ///////////////////////////////////////////////////////////
   useEffect(()=>{
- if (initialChoice && initialChoice[valueKey]){
-    setTitle(initialChoice[valueKey])
-  } else if(!initialChoice && listItems?.length){
-    setTitle(title)
-  }
-    },[listItems,initialChoice, title, valueKey])
+    if (initialChoice && initialChoice[valueKey]){
+      setTitle(initialChoice[valueKey])
+    } else if(!initialChoice && listItems?.length){
+      setTitle(title)
+    }
+  },[listItems,initialChoice, title, valueKey])
 
   useEffect(() => {
     if(initTitle?.name){
@@ -176,7 +177,7 @@ function Select(props) {
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
-                  item.name === _title
+                  item.name === _title || selectedTeam.filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
                     ? 'select_list_item choice'
                     : 'select_list_item'
                 }
