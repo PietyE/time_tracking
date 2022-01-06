@@ -146,12 +146,13 @@ function EditProjectModal({ show, projectList }) {
       centered={true}
       className="pm_page_modal"
     >
-      {!!isFetching && <SpinnerStyled />}
       <Modal.Header closeButton className="pm_modal_header">
         <Modal.Title>Edit Project</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
+        {!!isFetching && <SpinnerStyled />}
+
         <Formik
           initialValues={valuesFromApi || initialValues}
           validationSchema={validationSchema}
