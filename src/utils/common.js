@@ -8,7 +8,7 @@ export const parseMinToHoursAndMin = (min) => {
   const HOUR = 60
   let minToNumber = +min
   let strHours = '00'
-  let strMin = '00'
+  let strMin
 
   if (minToNumber < HOUR) {
     strMin = minToNumber < 10 ? `0${minToNumber}` : `${minToNumber}`
@@ -87,6 +87,13 @@ const formatUAHToNumber = (uahStr) => {
   return parseInt(result.join(''));
 }
 
+const formatToNumber = (uahStr) => {
+  const result = uahStr.split(' ');
+
+  return parseInt(result[0].split(' ').join(''));
+}
+
+
 export const compareForTimeColumns = (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
     return 0;
@@ -108,6 +115,21 @@ export const compareForUAHColumns = (a, b) => {
   }
   const first = formatUAHToNumber(a);
   const second = formatUAHToNumber(b);
+
+  if (first === second) {
+    return 0;
+  }
+
+  return first < second ? -1 : 1;
+}
+
+export const compareForSalaryAndRateColumns = (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') {
+
+    return 0;
+  }
+  const first = formatToNumber(a);
+  const second = formatToNumber(b);
 
   if (first === second) {
     return 0;

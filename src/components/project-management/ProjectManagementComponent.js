@@ -212,9 +212,6 @@ const ProjectManagementComponent = () => {
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
             <SortingState
-              defaultSorting={[
-                { columnName: 'project', direction: 'asc' },
-              ]}
               sorting={sorting}
               onSortingChange={handleSortingChange}
               columnExtensions={[

@@ -6,7 +6,7 @@ const CustomCell = ({ value, style, ...restProps }) => (
     {...restProps}
     style={{
       verticalAlign: 'middle',
-      textAlign: 'start',
+      textAlign: 'left',
       ...style,
     }}
   >
@@ -16,6 +16,7 @@ const CustomCell = ({ value, style, ...restProps }) => (
         overflow: 'hidden',
         textOverflow: 'fade',
         whiteSpace: 'nowrap',
+        margin: 0,
       }}
     >
       {value}
