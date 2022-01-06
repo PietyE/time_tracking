@@ -168,7 +168,7 @@ const ProjectManagementComponent = () => {
 
   return (
     <>
-      {isFetching && <SpinnerStyled />}
+      {!!isFetching && !isEditModalShow && <SpinnerStyled />}
       <div className="container project_management_container">
         <div className="flex row justify-content-between">
           <Select
