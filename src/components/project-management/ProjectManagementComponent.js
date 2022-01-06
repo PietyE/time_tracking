@@ -42,6 +42,8 @@ import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common
 
 import useEqualSelector from '../../custom-hook/useEqualSelector';
 
+import CustomCell from './components/CustomCell'
+
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
 
@@ -205,11 +207,11 @@ const ProjectManagementComponent = () => {
           <Grid rows={rows} columns={columns}>
             <SortingState
               defaultSorting={[
-                { columnName: 'project', direction: 'asc' },
+                { columnName: 'project', direction: 'asc'},
               ]}
               columnExtensions={[
-                { columnName: 'project', sortingEnabled: true },
-                { columnName: 'occupancy', sortingEnabled: false },
+                { columnName: 'project', sortingEnabled: true},
+                { columnName: 'occupancy', sortingEnabled: false},
                 { columnName: 'hours', sortingEnabled: true},
                 { columnName: 'report', sortingEnabled: false},
                 { columnName: 'actions', sortingEnabled: false},
@@ -227,6 +229,14 @@ const ProjectManagementComponent = () => {
               defaultExpandedRowIds={[]}
             />
             <Table
+             columnExtensions={[
+               { columnName: 'project', align: 'left', wordWrapEnabled: false},
+               { columnName: 'occupancy', align: 'center', wordWrapEnabled: false},
+               { columnName: 'hours', align: 'center', wordWrapEnabled: false},
+               { columnName: 'report', align: 'center', wordWrapEnabled: false},
+               { columnName: 'actions', align: 'center', wordWrapEnabled: false},
+             ]}
+              cellComponent={CustomCell}
               messages={{
                 noData: isFetching
                   ? ''
