@@ -27,6 +27,8 @@ import SpinnerStyled from '../../ui/spinner'
 import * as Yup from 'yup';
 import cn from 'classnames';
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
@@ -290,18 +292,30 @@ function EditProjectModal({ show, projectList }) {
                     <span className="pm_create_team_text">
                       {pm.name}
                     </span>
+                    <div className="pm_checkbox_and_remove_block">
+                      <label className="pm_create_team_checkbox_label">
+                        <Field
+                          type="checkbox"
+                          name="values.projectManager.is_full_time"
+                          checked={!pm?.is_full_time}
+                          data-id={pm.projectReportId}
+                          onChange={handleChangePmFullTime}
+                          className="pm_create_team_checkbox"
+                        />
+                        Part-time
+                      </label>
+                      <FontAwesomeIcon
+                        icon={faTimesCircle}
+                        onClick={() => {
+                              _changeUserOnProject(pm.user_id, { is_active: false })
 
-                    <label className="pm_create_team_checkbox_label">
-                      <Field
-                        type="checkbox"
-                        name="values.projectManager.is_full_time"
-                        checked={!pm?.is_full_time}
-                        data-id={pm.projectReportId}
-                        onChange={handleChangePmFullTime}
-                        className="pm_create_team_checkbox"
+
+                        }
+                          // setSelectedPm(prev => prev.filter(item => item.id !== pm.id))
+                        }
+                        className="pm_create_team_close"
                       />
-                      Part-time
-                    </label>
+                    </div>
                   </div>
                 ))}
               </Form>
