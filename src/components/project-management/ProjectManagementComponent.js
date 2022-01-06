@@ -42,12 +42,15 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
 
 import useEqualSelector from '../../custom-hook/useEqualSelector';
+import useSorting from '../../custom-hook/useSorting'
 
 import CustomCell from './components/CustomCell'
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
   const [rows, setRows] = useState([])
+
+  const { sorting, handleSortingChange } = useSorting();
 
   const columns = [
     { name: 'project', title: 'Project' },
@@ -214,6 +217,8 @@ const ProjectManagementComponent = () => {
               defaultSorting={[
                 { columnName: 'project', direction: 'asc'},
               ]}
+              sorting={sorting}
+              onSortingChange={handleSortingChange}
               columnExtensions={[
                 { columnName: 'project', sortingEnabled: true},
                 { columnName: 'occupancy', sortingEnabled: false},
