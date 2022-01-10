@@ -14,7 +14,7 @@
   }
 
   .table-active {
-    padding: 0 0 0 40px;
+    padding: 0px;
   }
 
   .card {
@@ -60,6 +60,13 @@
     tr:hover {
       background-color: rgba(0, 140, 129, 0.1);
       transition: all 0.3s;
+    }
+    tbody {
+      tr {
+        td {
+          padding-left: 40px;
+        }
+      }
     }
   }
 
