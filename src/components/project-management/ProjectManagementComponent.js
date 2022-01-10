@@ -71,8 +71,6 @@ const ProjectManagementComponent = () => {
   const currentPm = useEqualSelector(getCurrentUserSelector)
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
 
-
-
   const _downloadAllTeamProjectReport = useCallback(
     (data) => {
       dispatch(downloadAllTeamProjectReport(data))
@@ -113,8 +111,11 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
-
-    dispatch(setShownProject(data))
+    if(data.id ==='0'){
+      dispatch(setShownProject({}))
+    }else {
+      dispatch(setShownProject(data))
+    }
   }
 
   const handleOpenEditModal = useCallback((projectId) => {
@@ -168,8 +169,6 @@ const ProjectManagementComponent = () => {
     },
     ...projectManagers,
   ]
-
-
 
   return (
     <>
