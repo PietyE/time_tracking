@@ -43,6 +43,8 @@ import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common
 
 import useEqualSelector from '../../custom-hook/useEqualSelector';
 import useSorting from '../../custom-hook/useSorting'
+import CustomCell from './components/CustomCell'
+import { columnExtensions } from './ProjectManagementConfig'
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
@@ -234,6 +236,8 @@ const ProjectManagementComponent = () => {
               defaultExpandedRowIds={[]}
             />
             <Table
+              columnExtensions={columnExtensions}
+              cellComponent={CustomCell}
               messages={{
                 noData: isFetching
                   ? ''
