@@ -12,7 +12,7 @@ import {
   getActiveDevSelector,
   getDeactivatedMembersSelector,
   getSelectedProjectSelector,
-  getIsFetchingPmPageSelector, getActivePmSelector,
+  getIsFetchingPmPageSelector,
 } from '../../../reducers/projects-management'
 import {
   getProjectReportById,
@@ -27,8 +27,6 @@ import SpinnerStyled from '../../ui/spinner'
 import * as Yup from 'yup';
 import cn from 'classnames';
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
 function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
@@ -70,7 +68,6 @@ function EditProjectModal({ show, projectList }) {
   const projectName = useEqualSelector(getProjectName)
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector)
-  const pmList = useEqualSelector(getActivePmSelector)
   const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector)
   const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
   const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
@@ -175,18 +172,21 @@ function EditProjectModal({ show, projectList }) {
             const handleAddMemberToProject = (e) => {
               const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
-              const isPm = projectManagersList.find(
-                (pm) => pm.id === targetUserId
-              )
+              if (e.target?.name === 'projectManager.name') {
+                const isPm = projectManagersList.find(
+                  (pm) => pm.id === targetUserId
+                )
 
-              if (isPm) {
-                setFieldValue('projectManager.name', e.target.value)
-                if (activeProjectManager) {
-                  _changeUserOnProject(activeProjectManager.projectReportId, {
-                    is_active: false,
-                  })
+                if (isPm) {
+                  setFieldValue('projectManager.name', e.target.value)
+                  if (activeProjectManager) {
+                    _changeUserOnProject(activeProjectManager.projectReportId, {
+                      is_active: false,
+                    })
+                  }
                 }
               }
+
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
@@ -284,42 +284,25 @@ function EditProjectModal({ show, projectList }) {
                       ))}
                   </Field>
                 </label>
-
-                {/*Show selected PM*/}
-                { !!pmList?.length && pmList.map((pm, idx) => (
-                  <div
-                    key={`PM${pm?.projectReportId}${idx}`}
-                    className="pm_create_team_item  pm_create_team_item_pm"
-                  >
+                {values?.projectManager?.name && (
+                  <div className="pm_create_team_item  pm_create_team_item_pm">
                     <span className="pm_create_team_text">
-                      {pm.name}
+                      {values.projectManager.name}
                     </span>
-                    <div className="pm_checkbox_and_remove_block">
-                      <label className="pm_create_team_checkbox_label">
-                        <Field
-                          type="checkbox"
-                          name="values.projectManager.is_full_time"
-                          checked={!pm?.is_full_time}
-                          data-id={pm.projectReportId}
-                          onChange={handleChangePmFullTime}
-                          className="pm_create_team_checkbox"
-                        />
-                        Part-time
-                      </label>
-                      <FontAwesomeIcon
-                        icon={faTimesCircle}
-                        onClick={() => {
-                              _changeUserOnProject(pm.user_id, { is_active: false })
 
-
-                        }
-                          // setSelectedPm(prev => prev.filter(item => item.id !== pm.id))
-                        }
-                        className="pm_create_team_close"
+                    <label className="pm_create_team_checkbox_label">
+                      <Field
+                        type="checkbox"
+                        name="values.projectManager.is_full_time"
+                        checked={!values.projectManager?.is_full_time}
+                        data-id={values.projectManager.projectReportId}
+                        onChange={handleChangePmFullTime}
+                        className="pm_create_team_checkbox"
                       />
-                    </div>
+                      Part-time
+                    </label>
                   </div>
-                ))}
+                )}
               </Form>
             )
           }}
