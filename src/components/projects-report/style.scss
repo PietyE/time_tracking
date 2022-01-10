@@ -5,6 +5,12 @@
   align-self: center;
 }
 
+.dx-g-bs4-no-data-cell {
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
 .project_report_container {
   padding-top: 40px;
 
