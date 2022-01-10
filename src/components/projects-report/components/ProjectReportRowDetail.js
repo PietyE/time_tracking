@@ -27,21 +27,25 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
   const formattedProjects = useMemo(
     () => projects.map(({ name, total, is_full_time, working_time, idDeveloperProjects }) => ({
       name: '',
-      developer_projects: (
-        <Link
-          to={{
-            pathname: '/timereport',
-            state: {
-              userId: row.id,
-              developer_project_id: idDeveloperProjects,
-              selectedDate,
-            },
-          }}
-        >
-        {name}
-        </Link>
-      ),
-      salary_uah: '',
+      developer_projects:{
+          link:(
+              <Link
+                  to={{
+                      pathname: '/timereport',
+                      state: {
+                          userId: row.id,
+                          developer_project_id: idDeveloperProjects,
+                          selectedDate,
+                      },
+                  }}
+              >
+                  {name}
+              </Link>),
+          title:name
+
+
+      } ,
+        salary_uah: '',
       rate_uah: '',
       total_hours: is_full_time ? 'fulltime' : `${working_time || 0} `,
       total: userRole === PM ? '' : UAHFormat.format(total),
