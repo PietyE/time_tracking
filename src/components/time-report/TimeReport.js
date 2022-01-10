@@ -53,20 +53,6 @@ function TimeReport(props) {
 
   const [showEmpty, setShowEmpty] = useState(true)
 
-  const projectsL = useEqualSelector(getProjectsSelector);
-
-  const projectsSelectList = [
-    {
-      developer_project_id:selectedDeveloper?.id,
-      id: 'select-all',
-      name: 'Select All',
-
-    },
-          ...projectsL,
-  ]
-
-  console.log('developer', projectsSelectList);
-
   const { state: routeState } = useLocation()
 
   const todayDate = new Date()
@@ -141,7 +127,6 @@ function TimeReport(props) {
             (project) =>
               project.developer_project_id === route_developer_project_id
           )
-
           selectProject(newSelectedProject)
         }
       }
@@ -168,7 +153,7 @@ function TimeReport(props) {
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject) && !routeState) {
-      selectProject(projectsSelectList[0])
+      selectProject(projects[0])
     }
     if (!projects.length) {
       selectProject({})
@@ -203,7 +188,7 @@ function TimeReport(props) {
               />
             )}
             <ProjectSelect
-              projectList={projectsSelectList}
+              projectList={projects}
               clearSelectedProject={clearSelectedProject}
               selectProject={selectProject}
               selectedProject={selectedProject}
