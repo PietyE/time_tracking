@@ -36,7 +36,7 @@ function MainScreen({
   const date = getSelectedMonth;
   useEffect(
     () => {
-      if (isAuth && profileName) {
+      if (isAuth) {
         if (roleUser !== DEVELOPER) {
           selectDevelopers({
             id: profileId,
