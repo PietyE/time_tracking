@@ -16,7 +16,7 @@ import {
   getIsShowCreateModalSelector,
   getProjectManagerListSelector,
   getSelectedPmSelector,
-  getFilteredProjectSelector,
+  getFilteredProjectSelector, getSelectedProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -72,6 +72,15 @@ const ProjectManagementComponent = () => {
   const selectedPm = useEqualSelector(getSelectedPmSelector)
   const currentPm = useEqualSelector(getCurrentUserSelector)
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
+  const selectedProject = useEqualSelector(getSelectedProjectSelector)
+
+  const projectList = [
+    {
+      id:0,
+      name:"Select all"
+    },
+    ...projects
+  ]
 
   const _downloadAllTeamProjectReport = useCallback(
     (data) => {
@@ -113,7 +122,11 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
-    dispatch(setShownProject(data))
+    if(data.id ==='0'){
+      dispatch(setShownProject({}))
+    }else {
+      dispatch(setShownProject(data))
+    }
   }
 
   const handleOpenEditModal = useCallback((projectId) => {
@@ -168,6 +181,7 @@ const ProjectManagementComponent = () => {
     ...projectManagers,
   ]
 
+
   return (
     <>
       {!!isFetching && !isEditModalShow && <SpinnerStyled />}
@@ -185,15 +199,15 @@ const ProjectManagementComponent = () => {
           />
 
           <Select
-            title="choose project..."
-            listItems={projects}
+            title={'Select all'}
+            listItems={projectList}
             onSelected={onSelectProject}
             valueKey="name"
             idKey="id"
             extraClassContainer={'project_select project_select'}
             onClear={clearSelectedProject}
             disabled={!projects?.length}
-            isSearch
+            initialChoice={selectedProject}
           />
 
           <SelectMonth

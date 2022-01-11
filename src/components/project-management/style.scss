@@ -100,7 +100,7 @@
 
   .select_title_text{
     color: #949494!important;
-    font-size: 16px;
+    font-weight: 400!important;
   }
 }
 .pm_create_modal_label{
@@ -119,6 +119,9 @@
   padding-left: 8px;
   appearance: none;
   color: #949494 !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
 
   option{
     color: #222;
@@ -152,6 +155,7 @@
     .select_title_text{
       font-size: 18px;
       color: #222;
+      font-width: 400!important;
     }
 
     .select_list_container{
