@@ -113,11 +113,7 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
-    if(data.id ==='0'){
-      dispatch(setShownProject({}))
-    }else {
-      dispatch(setShownProject(data))
-    }
+    dispatch(setShownProject(data))
   }
 
   const handleOpenEditModal = useCallback((projectId) => {
@@ -189,7 +185,7 @@ const ProjectManagementComponent = () => {
           />
 
           <Select
-            title={projects[0].name}
+            title="choose project..."
             listItems={projects}
             onSelected={onSelectProject}
             valueKey="name"
