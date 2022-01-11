@@ -56,7 +56,7 @@ function Select(props) {
     if (classNameOpen) {
       setClassNameOpen('')
       setIsOpen(false)
-      setTitle(title)
+      isTeamSearch && setTitle(title)
     }
   }
 
