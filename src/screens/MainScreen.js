@@ -36,7 +36,7 @@ function MainScreen({
   const date = getSelectedMonth;
   useEffect(
     () => {
-      if (isAuth) {
+      if (isAuth && profileName) {
         if (roleUser !== DEVELOPER) {
           selectDevelopers({
             id: profileId,
@@ -67,7 +67,7 @@ function MainScreen({
       selectDevelopers,
       profileId,
       getCurrenciesList,
-      profileName
+      profileName,
     ]
   )
 
