@@ -31,7 +31,6 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
-import useEqualSelector from "../../custom-hook/useEqualSelector";
 
 function TimeReport(props) {
   const {

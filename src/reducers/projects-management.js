@@ -20,11 +20,7 @@ const initialState = {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
   },
-  projects: [
-    {
-      id: '0',
-      name: 'Select All',
-  }],
+  projects: [],
   projectsWithReports: [],
   selectedProjectId: '',
   selectedProject: {},
@@ -58,7 +54,7 @@ export const projectsManagement = (state = initialState, action) => {
     case CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT:
       return { ...state, selectedDateForPM: action.payload }
     case SET_ALL_PROJECTS:
-      return { ...state, projects:state.projects.concat(action.payload)}
+      return { ...state, projects: action.payload }
     case SET_PROJECT_REPORTS:
       return setProjectsWithReports(state, action)
     case SET_SELECTED_PROJECT_ID:
