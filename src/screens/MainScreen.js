@@ -67,7 +67,7 @@ function MainScreen({
       selectDevelopers,
       profileId,
       getCurrenciesList,
-      profileName
+      profileName,
     ]
   )
 
