@@ -68,6 +68,7 @@ function ProjectsReport() {
 
   const [columns, setColumns] = useState(initialColumns);
   const [expandedRowIds, setExpandedRowIds] = useState([]);
+  const [expandedRowIdForPm, setExpandedRowIdsForPm] = useState([]);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [rows, setRows] = useState([]);
   const allDevelopers = useSelector(getDevelopersList);
@@ -270,8 +271,8 @@ function ProjectsReport() {
             }
           >
             <RowDetailState
-              expandedRowIds={expandedRowIds}
-              onExpandedRowIdsChange={setExpandedRowIds}
+              expandedRowIds={expandedRowIdForPm}
+              onExpandedRowIdsChange={setExpandedRowIdsForPm}
               defaultExpandedRowIds={[]}
             />
             <Table
