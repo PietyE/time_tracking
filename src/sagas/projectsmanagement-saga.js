@@ -91,7 +91,7 @@ export function* getProjectsSagaWorker() {
     const response = yield call([pm, 'getProjectsTotalHours'], {
       month,
       year,
-      selectedPmId,
+      user_id: selectedPmId,
     })
     yield put(setAllProjects(response.data))
 
