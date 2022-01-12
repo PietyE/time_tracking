@@ -43,7 +43,7 @@ class PmCRUD extends CRUD {
   getProjectsTotalHours(params) {
     const url = `/projects/total_minutes/${params.year}/${
       params.month + 1
-    }/?user_id=${params.selectedPmId}`
+    }${params?.selectedPmId ? '/?user_id=' + params.selectedPmId : ''}`
     return this.request({
       url,
       method: 'GET',
