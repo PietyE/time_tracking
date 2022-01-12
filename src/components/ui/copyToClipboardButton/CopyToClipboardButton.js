@@ -1,5 +1,5 @@
-import React from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
+import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import copy from 'images/copy.svg'
 
 const CopyToClipboardButton = (props) => {
