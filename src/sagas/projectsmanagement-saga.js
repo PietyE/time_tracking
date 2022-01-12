@@ -84,11 +84,20 @@ export function* getProjectsSagaWorker() {
 
     const selectPm = yield select(getSelectedPmIdSelector)
 
-    let params = selectPm === 'select-all' ? {} : { user_id: selectPm }
+    let selectedPmId = selectPm === 'select-all' ? undefined : selectPm
+    const { month, year } = yield select(
+      (state) => state.projectsManagement.selectedDateForPM
+    )
+    const response = yield call([pm, 'getProjectsTotalHours'], {
+      month,
+      year,
+      user_id: selectedPmId,
+    })
+    yield put(setAllProjects(response.data))
 
-    const { data } = yield call([pm, 'getProjectsApi'], params)
-
-    yield put(setAllProjects(data))
+    // const { data } = yield call([pm, 'getProjectsApi'], params)
+    //
+    // yield put(setAllProjects(data))
   } catch (error) {
     yield put(
       showAler({

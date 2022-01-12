@@ -77,7 +77,7 @@ const ProjectManagementComponent = () => {
   const projectList = [
     {
       id:0,
-      name:"Select all"
+      name:'Select all',
     },
     ...projects
   ]
@@ -142,9 +142,7 @@ const ProjectManagementComponent = () => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      //This should be when field  total_minutes appears in BE response
-      // hours: convertMinutesToHours(project?.total_minutes),
-      hours: convertMinutesToHours(''),
+      hours: convertMinutesToHours(project?.total_minutes || ''),
       report: (
         <Button
           variant="outline-*"
