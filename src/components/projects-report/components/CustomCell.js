@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from '@devexpress/dx-react-grid-bootstrap4'
-import _ from "lodash";
+import _ from 'lodash';
 
 const CustomCell = ({ value, style, ...restProps }) => {
 

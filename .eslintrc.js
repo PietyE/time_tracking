@@ -18,9 +18,8 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'no-unused-vars': 'warn',
     'jsx/uses-factory': [1, {'pragma': 'JSX'}],
-    'jsx/factory-in-scope': [1, {'pragma': 'JSX'}],
+    'jsx/factory-in-scope': 'off',
     'jsx/mark-used-vars': 1,
-    // 'jsx/no-undef': 1,
   },
   globals: {
     fetch: false,
