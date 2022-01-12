@@ -74,8 +74,6 @@ const ProjectManagementComponent = () => {
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
 
-  console.log('selected Project',  selectedProject)
-
   const projectList = [
     {
       id:0,
