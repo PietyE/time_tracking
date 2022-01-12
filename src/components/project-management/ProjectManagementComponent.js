@@ -27,7 +27,7 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
-  getProjectReportById,
+  getProjectReportById, setSelectedProject,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -74,6 +74,8 @@ const ProjectManagementComponent = () => {
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
 
+  console.log('selected Project',  selectedProject)
+
   const projectList = [
     {
       id:0,
@@ -115,6 +117,7 @@ const ProjectManagementComponent = () => {
     dispatch(setPm(data))
     dispatch(setShownProject({}))
     setExpandedRowIds([])
+    dispatch(setSelectedProject(projectList[0]))
   }
 
   const clearSelectedProject = () => {
@@ -127,6 +130,7 @@ const ProjectManagementComponent = () => {
     }else {
       dispatch(setShownProject(data))
     }
+    dispatch( dispatch(setSelectedProject(data)))
   }
 
   const handleOpenEditModal = useCallback((projectId) => {
