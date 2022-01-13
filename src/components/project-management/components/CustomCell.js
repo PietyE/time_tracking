@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from '@devexpress/dx-react-grid-bootstrap4';
+import { Table } from '@devexpress/dx-react-grid-bootstrap4'
 
 const CustomCell = ({ value, style, ...restProps }) => (
   <Table.Cell

@@ -16,7 +16,7 @@ function ProfileAvatar({ profileFoto, className }) {
     }
   }
 
-  const handleImgError = () => {
+  const handleImgError = error => {
     setStateError(true)
   }
 
