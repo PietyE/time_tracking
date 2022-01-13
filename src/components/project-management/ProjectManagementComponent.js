@@ -118,9 +118,10 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(projectList[0]))
   }
 
-  const clearSelectedProject = () => {
-    dispatch(setShownProject({}))
-  }
+  // eslint-disable-next-line no-unused-vars
+  // const clearSelectedProject = () => {
+  //   dispatch(setShownProject({}))
+  // }
 
   const onSelectProject = (data) => {
     if(data.id ==='0'){
@@ -205,9 +206,10 @@ const ProjectManagementComponent = () => {
             valueKey="name"
             idKey="id"
             extraClassContainer={'project_select project_select'}
-            onClear={clearSelectedProject}
+            // onClear={clearSelectedProject}
             disabled={!projects?.length}
             initialChoice={selectedProject}
+            isSearch
           />
 
           <SelectMonth
