@@ -145,7 +145,7 @@ const ProjectManagementComponent = ({
     }
 
     const projectsList = p.map((e, i) => {
-        return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+        return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal}/>
     });
 
     console.log('Project R', projects)
@@ -191,50 +191,22 @@ const ProjectManagementComponent = ({
             {isFetching && <SpinnerStyled/>}
             <div className="container ">
                 <div className="flex row  justify-content-between">
+                    <Select
+                        title="Search by PM or developer"
+                        listItems={projectManagers}
+                        onSelected={onSelectPm}
+                        valueKey="name"
+                        idKey="id"
+                        extraClassContainer={' search search-manger'}
+                        initialChoice={selectedPm || currentPm}
+                        isSearch
+                    />
+                    <SelectMonth
+                        extraClassNameContainer={'month_select'}
+                        selectedDate={selectedDateForPM}
+                        setNewData={changeSelectedDateProjectsManagement}
+                    />
 
-                        <Select
-                            title="Search by PM or developer"
-                            listItems={projectManagers}
-                            onSelected={onSelectPm}
-                            valueKey="name"
-                            idKey="id"
-                            extraClassContainer={' search search-manger'}
-                            initialChoice={selectedPm || currentPm}
-                            isSearch
-                        />
-                        {/*<div className='divider'>-</div>*/}
-                        {/*<Select*/}
-                        {/*    title="Projects"*/}
-                        {/*    listItems={projects}*/}
-                        {/*    onSelected={onSelectProject}*/}
-                        {/*    valueKey="name"*/}
-                        {/*    idKey="id"*/}
-                        {/*    extraClassContainer={'select-project'}*/}
-                        {/*    initialChoice={shownProject}*/}
-                        {/*    onClear={clearSelectedProject}*/}
-                        {/*    // disabled={!projects?.length}*/}
-                        {/*    isSearch*/}
-                        {/*/>*/}
-
-                        <SelectMonth
-                            extraClassNameContainer={'month_select'}
-                            selectedDate={selectedDateForPM}
-                            setNewData={changeSelectedDateProjectsManagement}
-                        />
-
-
-                    {/*<Select*/}
-                    {/*    title="Active"*/}
-                    {/*    listItems={typeProjects}*/}
-                    {/*    onSelected={showTypeProject}*/}
-                    {/*    valueKey="name"*/}
-                    {/*    idKey="id"*/}
-                    {/*    extraClassContainer={'filter'}*/}
-                    {/*    initialChoice={'Active'}*/}
-                    {/*    onClear={clearSelectedProject}*/}
-                    {/*    // disabled={!projects?.length}*/}
-                    {/*    isSearch*/}
-                    {/*/>*/}
                 </div>
                 <div className="row table__titles">
                     <div className="col-lg-7">
@@ -260,9 +232,6 @@ const ProjectManagementComponent = ({
                           </span>
                         </div>
                     </div>
-                    {/*<div className="col-lg-2">*/}
-                    {/*    ESTIMATE*/}
-                    {/*</div>*/}
                     <div className="col-lg-3">
                         HOURS WORKED
                     </div>

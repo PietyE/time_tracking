@@ -24,6 +24,7 @@ import {isEqual} from "lodash";
 import {getProjectsSelector} from "../../../selectors/developer-projects";
 import fileText from "../../../images/file-text1.svg"
 import ChekMark from "../../../images/check-mark1.svg"
+import UserIcon from "../../../images/user1.svg"
 
 
 function EditProjectModal2({show}) {
@@ -159,6 +160,10 @@ function EditProjectModal2({show}) {
                 <span className="info_data">
                 <a href="">vilmate.visualstudio.com/Careers...</a>
                 </span>
+            </InfoItemM>
+            <InfoItemM icon={UserIcon}>
+                <span className="info_text">PROJECT MANAGER</span>
+                <span className="info_data">Hanna Polishchuk</span>
             </InfoItemM>
             <InfoItemM icon={ChekMark}>
                 <span className="info_text">LAST SINCE</span>
