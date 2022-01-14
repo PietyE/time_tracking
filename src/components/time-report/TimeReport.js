@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -81,56 +81,67 @@ function TimeReport(props) {
     : 0
 
 
-  const bootstrapWidthRouteState = () => {
-    if (routeState) {
-      const {
-        selectedDate: routeDate,
-        developer_project_id: route_developer_project_id,
-        userId: route_user_id,
-      } = routeState
+  const bootstrapWidthRouteState = useCallback(
+    () => {
+      if (routeState) {
+        const {
+          selectedDate: routeDate,
+          developer_project_id: route_developer_project_id,
+          userId: route_user_id,
+        } = routeState
 
-      const { year: routeYear, month: routeMonth } = routeDate
+        const { year: routeYear, month: routeMonth } = routeDate
 
-      const { year: selectedYear, month: selectedMonth } = selectedDate
+        const { year: selectedYear, month: selectedMonth } = selectedDate
 
-      const { developer_project_id: selectedDeveloper_project_id } =
-        selectedProject
+        const { developer_project_id: selectedDeveloper_project_id } =
+          selectedProject
 
-      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
-        changeSelectedDateTimeReport({
-          year: Number(routeYear),
-          month: Number(routeMonth),
-        })
-      }
-
-      if (roleUser !== DEVELOPER) {
-        const developerData = developersList.find(
-          (dev) => dev.id === route_user_id
-        )
-        if (developerData) {
-          selectDevelopers(
-            {
-              id: developerData.id,
-              name: developerData.name,
-              email: developerData.email,
-            },
-            route_developer_project_id
-          )
+        if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+          changeSelectedDateTimeReport({
+            year: Number(routeYear),
+            month: Number(routeMonth),
+          })
         }
-        return
+
+        if (roleUser !== DEVELOPER) {
+          const developerData = developersList.find(
+            (dev) => dev.id === route_user_id
+          )
+          if (developerData) {
+            selectDevelopers(
+              {
+                id: developerData.id,
+                name: developerData.name,
+                email: developerData.email,
+              },
+              route_developer_project_id
+            )
+          }
+          return
+        }
+
+        if (route_developer_project_id !== selectedDeveloper_project_id) {
+          const newSelectedProject = projects.find(
+            (project) =>
+              project.developer_project_id === route_developer_project_id
+          )
+          selectProject(newSelectedProject)
+        }
       }
-
-      if (route_developer_project_id !== selectedDeveloper_project_id) {
-        const newSelectedProject = projects.find(
-          (project) =>
-            project.developer_project_id === route_developer_project_id
-        )
-        selectProject(newSelectedProject)
-      }
-    }
-  }
-
-
+    },
+    [
+      changeSelectedDateTimeReport,
+      developersList,
+      projects,
+      roleUser,
+      selectedDate,
+      routeState,
+      selectDevelopers,
+      selectedProject,
+      selectProject,
+    ]
+  )
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -155,6 +166,7 @@ function TimeReport(props) {
     //   clearSelectedProject()
     //   resetSelectedDate()
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -197,12 +209,12 @@ function TimeReport(props) {
           </div>
         </div>
         <div className="time_report_total_container">
-          <div className="time_repord_checkbox">
+          <div className="time_report_checkbox">
             <label>
               <input
                 type="checkbox"
                 onChange={() => setShowEmpty(!showEmpty)}
-                value={showEmpty}
+                checked={!showEmpty}
               />
               <span>Hide Empty Days</span>
             </label>

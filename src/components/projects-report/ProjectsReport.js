@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
 import TotalValue from './components/TotalValue'
 import { getProfileId, getRoleUser } from 'selectors/user'
-import { getDevelopersSelector } from 'selectors/developers'
 import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
-import { getProjectReportError } from 'selectors/project-report'
 import {
   changeSelectedDateProjectsReport,
   setSelectedDeveloper,
@@ -24,14 +22,19 @@ import {
   getSelectDeveloperInProjectReportSelector,
   getDevProjectConsolidateProjectReportsSelector,
   selectUsersReports,
-
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
 import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
-import { compareForTimeColumns, compareForUAHColumns, digitFormat, UAHFormat } from '../../utils/common'
+import {
+  compareForBoolean,
+  compareForTimeColumns,
+  compareForUAHColumns,
+  digitFormat,
+  UAHFormat
+} from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import { OverlayTrigger, Popover } from 'react-bootstrap'
@@ -43,9 +46,12 @@ import CustomHeaderCell from './components/CustomHeaderCell'
 import { columnExtensions, initialColumns, roleRestrictions } from './projectReportConfig'
 import ProjectReportRowDetail from './components/ProjectReportRowDetail'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
+import useWindowDimensions from '../../custom-hook/useWIndowDimensions'
+import useSorting from '../../custom-hook/useSorting'
 
 function ProjectsReport() {
   const dispatch = useDispatch();
+  const { width } = useWindowDimensions();
 
   const roleUser = useEqualSelector(getRoleUser);
   const profileId = useEqualSelector(getProfileId);
@@ -58,27 +64,31 @@ function ProjectsReport() {
 
   const {total_usd, total_uah, exchange_rate} = projectsReports
   const users = selectedReports;
+  const isScrollTable = width < 900;
 
   const [columns, setColumns] = useState(initialColumns);
   const [expandedRowIds, setExpandedRowIds] = useState([]);
+  const [expandedRowIdForPm, setExpandedRowIdsForPm] = useState([]);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [rows, setRows] = useState([]);
   const allDevelopers = useSelector(getDevelopersList);
   const allProjects = useSelector(getProjectsList);
-  const errorStatus = useSelector(getProjectReportError, shallowEqual);
+  const { sorting, handleSortingChange } = useSorting();
 
-  const handlerChangeProcessedStatusInput = (userId) => (e) => {
-    if (isFetchingReports) {
-      return;
-    }
-    e.stopPropagation()
+  const handlerChangeProcessedStatusInput = useCallback(
+    (userId) => (e) => {
+      if (isFetchingReports) {
+        return;
+      }
+      e.stopPropagation()
 
-    const proceedStatus = {
-      id: userId, month: selectedDate.month + 1, year: selectedDate.year,
-    };
+      const proceedStatus = {
+        id: userId, month: selectedDate.month + 1, year: selectedDate.year,
+      };
 
-    dispatch(setProcessedStatus(proceedStatus));
-  };
+      dispatch(setProcessedStatus(proceedStatus));
+    }, [isFetchingReports, dispatch, selectedDate]
+  );
 
   const handlerCloseModalEdit = () => {
     dispatch(setEditUserId(''));
@@ -94,6 +104,14 @@ function ProjectsReport() {
     dispatch(getRatesList(ratesParams));
 
   };
+
+  // const errorProjectReport = useMemo(() => {
+  //   if (errorStatus) {
+  //     return <p className='table_body_container_text'>{errorStatus.status} {errorStatus.text}</p>
+  //   } else {
+  //     return <p className='table_body_container_text'> There are no users in this project yet</p>
+  //   }
+  // }, [errorStatus]);
 
   const handleOnSelect = useCallback((selector) => (data) => {
     dispatch(selector(data));
@@ -120,7 +138,7 @@ function ProjectsReport() {
     />
   );
 
-  const formatedUsers = useMemo(
+  const formattedUsers = useMemo(
     () => users.map(({
                        name,
                        developer_projects,
@@ -136,7 +154,7 @@ function ProjectsReport() {
                        salaryCurrency,
                        rateCurrency,
                        is_full_time,
-                       total_hours
+                         total_hours
                      }) => ({
       name,
       developer_projects,
@@ -168,7 +186,7 @@ function ProjectsReport() {
         </span>),
       id,
     })),
-    [users]);
+    [users, handlerChangeProcessedStatusInput]);
 
   useEffect(() => {
     if (roleUser && roleRestrictions?.[roleUser]) {
@@ -179,15 +197,18 @@ function ProjectsReport() {
   }, [roleUser]);
 
   useEffect(() => {
-    setRows(formatedUsers)
-  }, [formatedUsers]);
+    setRows(formattedUsers)
+  }, [formattedUsers]);
 
   useEffect(() => {
-    if (roleUser !== DEVELOPER) {
-      dispatch(getDevelopersProjectInProjectReport());
-    }
-    dispatch(getConsolidateProjectReport());
-  }, [roleUser]);
+      if(roleUser){
+          if (roleUser !== DEVELOPER) {
+              dispatch(getDevelopersProjectInProjectReport());
+          }
+          dispatch(getConsolidateProjectReport());
+      }
+
+  }, [roleUser, dispatch]);
 
   return (<>
     {isFetchingReports && <Spinner/>}
@@ -205,7 +226,7 @@ function ProjectsReport() {
             onSelected={handleOnSelect(setSelectedProjectInProjectReports)}
             // onClear={clearSelectedProjectInProjectReports}
             // disabled={!_.isEmpty(selectedDeveloper)}
-            disabled={selectedDeveloper.name !== 'All Developers' ? true : false}
+            disabled={selectedDeveloper.name !== 'All Developers'}
             initialChoice={selectedProject}
 
           />
@@ -217,7 +238,9 @@ function ProjectsReport() {
             idKey="id"
             isSearch={true}
             onSelected={handleOnSelect(setSelectedDeveloper)}
-            disabled={selectedProject.name !== 'All Projects' ? true : false}
+            // disabled={!_.isEmpty(selectedProject)}
+            // onClear={clearDeveloperSelected}
+            disabled={selectedProject.name !== 'All Projects'}
             initialChoice={selectedDeveloper}
           />
         </div>)}
@@ -227,7 +250,7 @@ function ProjectsReport() {
         />
       </div>
 
-      {  roleUser !== PM && (<TotalValue
+      {  roleUser !== PM && roleUser && roleUser !== DEVELOPER  && (<TotalValue
         totalUsd={total_usd}
         totalUah={total_uah}
         setExchangeRates={handleOnSelect(setExchangeRates)}
@@ -248,12 +271,12 @@ function ProjectsReport() {
             }
           >
             <RowDetailState
-              expandedRowIds={expandedRowIds}
-              onExpandedRowIdsChange={setExpandedRowIds}
+              expandedRowIds={expandedRowIdForPm}
+              onExpandedRowIdsChange={setExpandedRowIdsForPm}
               defaultExpandedRowIds={[]}
             />
             <Table
-              columnExtensions={columnExtensions}
+              columnExtensions={!isScrollTable && columnExtensions}
               rowComponent={CustomTableRow}
               cellComponent={CustomCell}
               messages={{
@@ -281,11 +304,12 @@ function ProjectsReport() {
           columns={columns}
         >
           <SortingState
-            defaultSorting={[{columnName: 'name', direction: 'asc'},]}
+            sorting={sorting}
+            onSortingChange={handleSortingChange}
             columnExtensions={[
               { columnName: 'developer_projects', sortingEnabled: false },
               { columnName: 'salary_uah', sortingEnabled: false },
-              { columnName: 'rate', sortingEnabled: false},
+              { columnName: 'rate_uah', sortingEnabled: false},
             ]}
 
           />
@@ -297,6 +321,7 @@ function ProjectsReport() {
               { columnName: 'total', compare: compareForUAHColumns },
               { columnName: 'total_expenses', compare: compareForUAHColumns },
               { columnName: 'total_uah', compare: compareForUAHColumns },
+              { columnName: 'is_processed', compare: compareForBoolean },
             ]}
           />
 
@@ -306,7 +331,7 @@ function ProjectsReport() {
             defaultExpandedRowIds={[]}
           />
           <Table
-            columnExtensions={columnExtensions}
+            columnExtensions={!isScrollTable && columnExtensions}
             rowComponent={CustomTableRow}
             cellComponent={CustomCell}
             messages={{

@@ -47,7 +47,7 @@
         }
         .export_btn_text {
           color: #ffffff;
-          font-family: Montserrat;
+          font-family: Montserrat, sans-serif;
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;
@@ -84,7 +84,7 @@
     }
   }
 
-  .time_repord_checkbox {
+  .time_report_checkbox {
     align-self: flex-end;
     order: 2;
     label {
@@ -110,7 +110,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
+    box-shadow: 0 0 5px 2px rgba(158, 167, 171, 0.3);
     border-radius: 5px;
     padding: 10px;
     &.below {
@@ -309,7 +309,7 @@
 
 @keyframes createTimeReport {
   from {
-    height: 0px;
+    height: 0;
   }
   to {
     height: 60px;
@@ -499,6 +499,15 @@
   align-items: center;
   .change_project_body_current_project {
     margin-right: 15px;
+    display: flex;
+    strong{
+      display: inline-block;
+      max-width: 120px;
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0 5px;
+    }
   }
 }
 
@@ -536,7 +545,7 @@
   }
   .drag_button {
     position: absolute;
-    left: 0px;
+    left: 0;
     width: 7px;
     height: 100%;
     border-radius: 4px 0 0 4px;
@@ -649,7 +658,12 @@
     height: 18px;
     margin-top: 10px;
     margin-right: 10px;
-    color: #414141;
+    filter: invert(19%) sepia(17%) saturate(0%) hue-rotate(298deg) brightness(94%) contrast(77%);
     font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      filter: invert(61%) sepia(6%) saturate(5%) hue-rotate(341deg) brightness(97%) contrast(80%);
+    }
   }
 }

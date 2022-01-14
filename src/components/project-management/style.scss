@@ -97,6 +97,11 @@
 .pm_create_modal_form{
   display: flex;
   flex-direction: column;
+
+  .select_title_text{
+    color: #949494!important;
+    font-weight: 400!important;
+  }
 }
 .pm_create_modal_label{
   font-weight: bold;
@@ -110,10 +115,19 @@
   border: 1px solid #949494;
   border-radius: 4px;
   margin-top: 10px;
-  margin-bottom: 10px;
   width: 100%;
   padding-left: 8px;
   appearance: none;
+  color: #949494 !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+
+  option{
+    color: #222;
+  }
+
+
   &::-webkit-scrollbar-track {
     background: #EEEEEE;
   }
@@ -123,7 +137,6 @@
     height: 10px;
     background: rgba(0, 0, 0, 0.15);
     border-radius: 35px;
-
   }
 
   &::-webkit-scrollbar-thumb {
@@ -140,8 +153,9 @@
     color: #222;
     border: 1px solid #949494;
     .select_title_text{
-      font-size: 18px;
+      font-size: 17px;
       color: #222;
+      font-width: 400!important;
     }
 
     .select_list_container{
@@ -176,10 +190,8 @@
 .pm_create_team_item{
   margin-bottom: 8px;
   display: flex;
+  padding-left: 10px;
   justify-content: space-between;
-  &:last-child{
-    margin-bottom: 30px;
-  }
 }
 .pm_create_team_text{
   font-weight: 500;
@@ -199,9 +211,7 @@
 .pm_edit_team_button_container{
   margin-left: auto;
 }
-.pm_create_team_item_pm{
-  margin-bottom: 30px;
-}
+
 .pm_create_team_button{
   all: unset;
   cursor: pointer;
@@ -221,6 +231,19 @@
     transition: 0.3s;
   }
 }
+.pm_create_team_button_disable {
+  all: unset;
+  //cursor: pointer;
+  text-align: center;
+  width: 90px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #009c98;
+  opacity: 0.5;
+  border-color: #009c98;
+  color: #fff;
+}
+
 .pm_create_team_control_container{
   display: flex;
   align-items: center;
@@ -242,3 +265,22 @@
   opacity: .5;
 }
 
+.pm_error_message_block {
+  height: 15px;
+}
+
+.pm_name_error_message {
+  font-weight: 300;
+  font-size: 12px;
+  color: tomato;
+}
+
+.pm_create_modal_colored_border {
+  border-color: tomato;
+}
+
+.pm_checkbox_and_remove_block {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

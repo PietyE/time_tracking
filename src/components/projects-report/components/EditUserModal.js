@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +38,7 @@ const EditUserModal = (props) => {
   const _expense = editingUser.total_expenses
   const expenseId = editingUser.expensesId
   const currenciesList = useSelector(selectCurrencyList)
-  const [comment, setCommentLocal] = useState(_comment)
+  const [comment, setCommentLocal] = useState(_comment || '')
   const [isFetching, setIsFetching] = useState(false)
   const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
   const [selectedRateCurrency, setRateCurrency] = useState('Currency')
@@ -55,25 +55,25 @@ const EditUserModal = (props) => {
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
-  const setCurrentCurrency =()=>{
-    currenciesList.forEach((e)=>{
-      if(e.sign == editingUser.salaryCurrency ){
-        if(salary){
-          setSalaryCurrency(salary)
-        } else {
-        setSalaryCurrency(e.serverId)
+  const setCurrentCurrency = useCallback(()=>{
+      currenciesList.forEach((e)=>{
+        if(e.sign === editingUser.salaryCurrency ){
+          if(salary){
+            setSalaryCurrency(salary)
+          } else {
+            setSalaryCurrency(e.serverId)
+          }
         }
-      }
-      if( e.sign == editingUser.rateCurrency){
-        if(rate){
-          setRateCurrency(rate)
-        } else {
-        setRateCurrency(e.serverId)
+        if( e.sign === editingUser.rateCurrency){
+          if(rate){
+            setRateCurrency(rate)
+          } else {
+            setRateCurrency(e.serverId)
+          }
         }
-      }   
-    });
-  }
-
+      });
+    }, [currenciesList, rate, salary, editingUser]
+  )
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
     handlerCloseModalEdit()
@@ -128,7 +128,7 @@ const EditUserModal = (props) => {
     dispatch(setEditedCost(data))
   }
 
-  const handleChangeInputCommnent = (e) => {
+  const handleChangeInputComment = (e) => {
     setCommentLocal(e.target.value)
   }
 
@@ -162,11 +162,11 @@ const EditUserModal = (props) => {
     setCommentLocal(_comment)
   }
 
-  const handleChangeCurrency = (data, row=null) => {
-    if(row =='salary'){
+  const handleChangeCurrency = (data, row='') => {
+    if (row === 'salary'){
       setSalaryCurrency(data)
       setSalary(data)
-    }else{
+    } else {
       setRateCurrency(data)
       setRate(data)
     }
@@ -182,13 +182,13 @@ const EditUserModal = (props) => {
     }
     if(row === 'salary') {
       currenciesList.forEach((e)=>{
-        if(e.sign == editingUser.salaryCurrency ){
+        if (e.sign === editingUser.salaryCurrency ){
           setSalaryCurrency(e.serverId)
         }   
       });
     } else {
       currenciesList.forEach((e)=>{
-        if( e.sign == editingUser.rateCurrency){
+        if (e.sign === editingUser.rateCurrency){
           setRateCurrency(e.serverId)
         }
       })
@@ -199,11 +199,11 @@ const EditUserModal = (props) => {
     if (isFetching) {
       setIsFetching(fetchingStatus)
     }
-  }, [fetchingStatus])
+  }, [fetchingStatus, isFetching])
 
   useEffect(() => {
     setCurrentCurrency();
-  }, [currenciesList, editingUser])
+  }, [currenciesList, editingUser, setCurrentCurrency])
 
   return (
     <Modal>
@@ -283,7 +283,7 @@ const EditUserModal = (props) => {
             {comment !== _comment && !isFetching &&(
               <div className="edit_user_modal_button_container">
                 <button
-                  variant={'success'}
+                  // variant={'success'}
                   onClick={
                     commentId ? handleSaveEditedComment : handleSaveNewComment
                   }
@@ -292,7 +292,7 @@ const EditUserModal = (props) => {
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
                 <button
-                  variant="secondary"
+                  // variant="secondary"
                   onClick={handleCancelEditComment}
                   className="edit_user_button cancel"
                 >
@@ -303,8 +303,8 @@ const EditUserModal = (props) => {
           </div>
           <textarea
             rows="3"
-            onChange={handleChangeInputCommnent}
-            value={comment}
+            onChange={handleChangeInputComment}
+            value={comment + ''}
             className="edit_user_comment_textarea"
           />
         </ModalRow>

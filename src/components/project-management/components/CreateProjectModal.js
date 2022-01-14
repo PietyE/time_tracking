@@ -9,19 +9,18 @@ import {
   setShowCreateModal,
 } from '../../../actions/projects-management'
 import { Field, Form, Formik } from 'formik'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { isEqual } from 'lodash'
+import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 import { WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAler } from '../../../actions/alert'
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 function CreateProjectModal({ show }) {
   const dispatch = useDispatch()
 
-  const projectManagers = useSelector(getProjectManagerListSelector, isEqual)
-
-  const projects = useSelector(getProjectsList, shallowEqual)
+  const projectManagers = useEqualSelector(getProjectManagerListSelector)
+  const projects = useEqualSelector(getProjectsList)
 
   const _createProject = useCallback(
     (data) => {
@@ -30,11 +29,16 @@ function CreateProjectModal({ show }) {
     [dispatch]
   )
 
-  const checkExistingProjects = (data) => {
-    return projects.find((project) => project.name === data)
-  }
+  const checkExistingProjects = useCallback(
+    (projectName) => {
+      return projects.find((project) => project.name === projectName)
+    }, [projects]
+  )
 
-  const handleClose = () => dispatch(setShowCreateModal(false))
+  const handleClose = useCallback(
+    () => dispatch(setShowCreateModal(false)),
+    [dispatch]
+  )
 
   const onSubmit = (values) => {
     const { projectName, projectManager, team } = values
@@ -103,6 +107,7 @@ function CreateProjectModal({ show }) {
       }
     }
   }
+
   const pmInitialValue = {
     name: '',
     user_id: '',
@@ -135,6 +140,7 @@ function CreateProjectModal({ show }) {
             const freeProjectManagers = projectManagers.filter(
               (pm) => pm.name !== values?.projectManager?.name
             )
+
             return (
               <Form className="pm_create_modal_form">
                 <label className="pm_create_modal_project_label pm_create_modal_label">
@@ -177,10 +183,10 @@ function CreateProjectModal({ show }) {
                     as="select"
                     value=""
                   >
-                    <option label="Select PM" disabled={true}></option>
-                    {freeProjectManagers &&
+                    <option label="Select PM" disabled={true}/>
+                    {!!freeProjectManagers.length &&
                       freeProjectManagers.map((pm) => (
-                        <option key={pm.id} value={pm.name}>
+                        <option key={pm.id} data-id={pm.id} value={pm?.name}>
                           {pm.name}
                         </option>
                       ))}
@@ -192,32 +198,33 @@ function CreateProjectModal({ show }) {
                     <span className="pm_create_team_text">
                       {values.projectManager.name}
                     </span>
+                    <div className="pm_checkbox_and_remove_block">
+                      <label className="pm_create_team_checkbox_label">
+                        <Field
+                          type="checkbox"
+                          name="values.projectManager.is_full_time"
+                          checked={!values.projectManager?.is_full_time}
+                          onChange={() =>
+                            setFieldValue(
+                              'projectManager.is_full_time',
+                              !values.projectManager.is_full_time
+                            )
+                          }
+                          className="pm_create_team_checkbox"
+                        />
+                        Part-time
+                      </label>
 
-                    <label className="pm_create_team_checkbox_label">
-                      <Field
-                        type="checkbox"
-                        name="values.projectManager.is_full_time"
-                        checked={!values.projectManager?.is_full_time}
-                        onChange={() =>
-                          setFieldValue(
-                            'projectManager.is_full_time',
-                            !values.projectManager.is_full_time
-                          )
+                      <FontAwesomeIcon
+                        icon={faTimesCircle}
+                        onClick={() =>
+                          setFieldValue('projectManager', pmInitialValue)
                         }
-                        className="pm_create_team_checkbox"
+                        className="pm_create_team_close"
                       />
-                      Part-time
-                    </label>
-
-                    <FontAwesomeIcon
-                      icon={faTimesCircle}
-                      onClick={() =>
-                        setFieldValue('projectManager', pmInitialValue)
-                      }
-                      className="pm_create_team_close"
-                    />
+                    </div>
                   </div>
-                )}
+                  )}
 
                 <div className="pm_create_team_buttons_container">
                   <button

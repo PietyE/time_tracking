@@ -1,19 +1,17 @@
-import React, {useState} from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
 import {
   getDeveloperSelector,
   getActiveDevSelector,
   getUserListSelector,
 } from '../../../reducers/projects-management'
-import { isEqual } from 'lodash'
 import Select from '../../ui/select';
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
-  const users = useSelector( getUserListSelector, isEqual)
-  const developers = useSelector(getDeveloperSelector, isEqual)
-  const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
-  const [selectedItem, setSelectedItem] =useState('')
+  const users = useEqualSelector(getUserListSelector)
+  const developers = useEqualSelector(getDeveloperSelector)
+  const currentProjectDevelopers = useEqualSelector(getActiveDevSelector)
 
   let availableDevelopers = developers
   if (currentProjectDevelopers) {
@@ -31,24 +29,24 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     if (type === 'update') {
       onChangeDev(e)
     }
-    const checkResult = values.team.find(el => el.name === data)
+    const checkResult = values?.team?.find(el => el.name === data)
     let currentDev
     if (!checkResult) {
       currentDev = users.find(el => el.name === data)
     }
-    const result = checkResult ? [...values.team] : [...values.team, {
-      name: data,
-      is_full_time: true,
-      is_active: true,
-      user_id: currentDev.id,
-    }]
-    setFieldValue('team', result)
+    if(values.team){
+      const result = checkResult ? [...values.team] : [...values.team, {
+        name: data,
+        is_full_time: true,
+        is_active: true,
+        user_id: currentDev.id,
+      }]
+      setFieldValue('team', result)
     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
-    
+    }
   }
 
   const onSelectItem = (data) => {
-    setSelectedItem(data)
     handleChangeDev(data)
   }
 
@@ -62,8 +60,8 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
           extraClassContainer={'developer_select pm_select'}
           isSearch={true}
           onSelected={onSelectItem}
-          initialChoice={selectedItem}
           isTeamSearch={true}
+          selectedTeam={values.team}
       />
     </div>
   )

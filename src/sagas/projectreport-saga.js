@@ -23,7 +23,6 @@ import {
   setUsersProjectReport,
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
-import { getSelectedMonthSelector } from '../reducers/projects-report'
 import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from '../selectors/currency'
 
@@ -74,12 +73,12 @@ export function* getDeveloperProjects() {
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
-function* setExchangeRate({ payload, callback }) {
-  yield select(getSelectedMonthSelector)
+function* setExchangeRate({ payload }) {
+  const { data, callback } = payload
 
   try {
     const URL = 'exchange_rates/'
-    const response = yield call([Api, 'saveExchangeRate'], URL, payload)
+    const response = yield call([Api, 'saveExchangeRate'], URL, data)
     const status = `${response.status}`
     if(status[0] !== '2') {
       throw new Error()
@@ -94,7 +93,7 @@ function* setExchangeRate({ payload, callback }) {
     )
 
     callback()
-    const now = new Date(payload.date);
+    const now = new Date(data.date);
     const ratesParams = {
       is_active: true,
       year: now.getFullYear(),

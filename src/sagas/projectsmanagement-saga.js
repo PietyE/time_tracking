@@ -84,11 +84,20 @@ export function* getProjectsSagaWorker() {
 
     const selectPm = yield select(getSelectedPmIdSelector)
 
-    let params = selectPm === 'select-all' ? {} : { user_id: selectPm }
+    let selectedPmId = selectPm === 'select-all' ? undefined : selectPm
+    const { month, year } = yield select(
+      (state) => state.projectsManagement.selectedDateForPM
+    )
+    const response = yield call([pm, 'getProjectsTotalHours'], {
+      month,
+      year,
+      user_id: selectedPmId,
+    })
+    yield put(setAllProjects(response.data))
 
-    const { data } = yield call([pm, 'getProjectsApi'], params)
-
-    yield put(setAllProjects(data))
+    // const { data } = yield call([pm, 'getProjectsApi'], params)
+    //
+    // yield put(setAllProjects(data))
   } catch (error) {
     yield put(
       showAler({
@@ -112,8 +121,7 @@ export function* getProjectReportById(action) {
     let projectId = action?.payload
 
     if (!action) {
-      const currentProjectId = yield select(getSelectedProjectIdSelector)
-      projectId = currentProjectId
+      projectId = yield select(getSelectedProjectIdSelector)
     }
 
     const { data } = yield call([pm, 'getProjectsReportById'], {
@@ -223,7 +231,7 @@ export function* createProject({ payload }) {
         delay: 5000,
       })
     )
-    yield call(getAllProjects)
+    yield call(getProjectsSagaWorker)
   } catch (error) {
     const { response = {}, message: error_message } = error
 

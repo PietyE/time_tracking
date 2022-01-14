@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
 import {
   Grid,
@@ -16,7 +16,7 @@ import {
   getIsShowCreateModalSelector,
   getProjectManagerListSelector,
   getSelectedPmSelector,
-  getFilteredProjectSelector,
+  getFilteredProjectSelector, getSelectedProjectSelector,
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -27,6 +27,7 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
+  getProjectReportById, setSelectedProject,
 } from '../../actions/projects-management'
 import RowDetail from './components/RowDetail'
 import CreateProjectModal from './components/CreateProjectModal'
@@ -39,12 +40,17 @@ import SelectMonth from '../ui/select-month'
 import { getCurrentUserSelector } from '../../reducers/profile'
 
 import { compareForTimeColumns, convertMinutesToHours } from '../../utils/common'
-import useEqualSelector from '../../custom-hook/useEqualSelector'
+
+import useEqualSelector from '../../custom-hook/useEqualSelector';
+import useSorting from '../../custom-hook/useSorting'
+import CustomCell from './components/CustomCell'
+import { columnExtensions } from './ProjectManagementConfig'
 
 const ProjectManagementComponent = () => {
   const [expandedRowIds, setExpandedRowIds] = useState([])
-
   const [rows, setRows] = useState([])
+
+  const { sorting, handleSortingChange } = useSorting();
 
   const columns = [
     { name: 'project', title: 'Project' },
@@ -59,12 +65,22 @@ const ProjectManagementComponent = () => {
   const selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
   const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
+  // const month = useEqualSelector(getSelectedMonthForPMSelector)
   const isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
   const isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedPm = useEqualSelector(getSelectedPmSelector)
   const currentPm = useEqualSelector(getCurrentUserSelector)
   const filteredProjects =useEqualSelector(getFilteredProjectSelector)
+  const selectedProject = useEqualSelector(getSelectedProjectSelector)
+
+  const projectList = [
+    {
+      id:0,
+      name:'Select all',
+    },
+    ...projects
+  ]
 
   const _downloadAllTeamProjectReport = useCallback(
     (data) => {
@@ -72,6 +88,7 @@ const ProjectManagementComponent = () => {
     },
     [dispatch]
   )
+
   const _setSelectedProjectId = useCallback(
     (data) => {
       dispatch(setSelectedProjectId(data))
@@ -86,30 +103,47 @@ const ProjectManagementComponent = () => {
     [dispatch]
   )
 
-  const openEditModal = (id) => {
-    _setSelectedProjectId(id)
-    dispatch(setShowEditModal(true))
-  }
+  const openEditModal = useCallback(
+    (id) => {
+      _setSelectedProjectId(id)
+      dispatch(setShowEditModal(true))
+    },
+    [_setSelectedProjectId, dispatch]
+  )
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
     dispatch(setShownProject({}))
     setExpandedRowIds([])
+    dispatch(setSelectedProject(projectList[0]))
   }
 
-  const clearSelectedProject = () => {
-    dispatch(setShownProject({}))
-  }
+  // eslint-disable-next-line no-unused-vars
+  // const clearSelectedProject = () => {
+  //   dispatch(setShownProject({}))
+  // }
 
   const onSelectProject = (data) => {
-    dispatch(setShownProject(data))
+    if(data.id ==='0'){
+      dispatch(setShownProject({}))
+    }else {
+      dispatch(setShownProject(data))
+    }
+    dispatch( dispatch(setSelectedProject(data)))
   }
 
-  const reformatProj = () => {
+  const handleOpenEditModal = useCallback((projectId) => {
+    dispatch(getProjectReportById(projectId));
+    openEditModal(projectId);
+  }, [dispatch, openEditModal])
+
+  const projectNamesList = useMemo(() => rows.map(item => item.project), [rows])
+
+  const reformatProj = useMemo(() => {
     return filteredProjects.map((project) => ({
       project: project.name,
       occupancy: ' ',
-      hours: convertMinutesToHours(project?.total_minutes),
+      hours: convertMinutesToHours(project?.total_minutes || ''),
       report: (
         <Button
           variant="outline-*"
@@ -121,35 +155,22 @@ const ProjectManagementComponent = () => {
       actions: (
         <span
           className="oi oi-pencil"
-          onClick={() => openEditModal(project.id)}
+          onClick={() => handleOpenEditModal(project.id)}
         />
       ),
       id: project.id,
     }))
-  }
+  }, [filteredProjects, _downloadAllTeamProjectReport, handleOpenEditModal])
 
   useEffect(() => {
     if (filteredProjects?.length) {
-      setRows(reformatProj())
+      setRows(reformatProj)
     }
-  }, [filteredProjects])
-
-
-  // useEffect(() => {
-  //   if (isEmpty(selectedPm)) {
-  //     dispatch(setPm(currentPm))
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   dispatch(clearPmProjects())
-  //   setExpandedRowIds([])
-  //   dispatch(getAllProjects())
-  // }, [month])
+  }, [filteredProjects, reformatProj])
 
   useEffect(() => {
     dispatch(getAllProjects())
-  }, [])
+  }, [isEditModalShow, dispatch])
 
   const projectManagerSelectList = [
     {
@@ -161,9 +182,10 @@ const ProjectManagementComponent = () => {
     ...projectManagers,
   ]
 
+
   return (
     <>
-      {isFetching && <SpinnerStyled />}
+      {!!isFetching && !isEditModalShow && <SpinnerStyled />}
       <div className="container project_management_container">
         <div className="flex row justify-content-between">
           <Select
@@ -178,14 +200,15 @@ const ProjectManagementComponent = () => {
           />
 
           <Select
-            title="choose project..."
-            listItems={projects}
+            title={'Select all'}
+            listItems={projectList}
             onSelected={onSelectProject}
             valueKey="name"
             idKey="id"
             extraClassContainer={'project_select project_select'}
-            onClear={clearSelectedProject}
+            // onClear={clearSelectedProject}
             disabled={!projects?.length}
+            initialChoice={selectedProject}
             isSearch
           />
 
@@ -207,9 +230,8 @@ const ProjectManagementComponent = () => {
         <div className="card mt-5 mb-5">
           <Grid rows={rows} columns={columns}>
             <SortingState
-              defaultSorting={[
-                { columnName: 'project', direction: 'asc' },
-              ]}
+              sorting={sorting}
+              onSortingChange={handleSortingChange}
               columnExtensions={[
                 { columnName: 'project', sortingEnabled: true },
                 { columnName: 'occupancy', sortingEnabled: false },
@@ -230,6 +252,8 @@ const ProjectManagementComponent = () => {
               defaultExpandedRowIds={[]}
             />
             <Table
+              columnExtensions={columnExtensions}
+              cellComponent={CustomCell}
               messages={{
                 noData: isFetching
                   ? ''
@@ -243,7 +267,10 @@ const ProjectManagementComponent = () => {
       </div>
 
       <CreateProjectModal show={isCreateModalShow} />
-      <EditProjectModal show={isEditModalShow} />
+      <EditProjectModal
+        show={isEditModalShow}
+        projectList={projectNamesList}
+      />
     </>
   )
 }

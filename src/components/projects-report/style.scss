@@ -5,6 +5,12 @@
   align-self: center;
 }
 
+.dx-g-bs4-no-data-cell {
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
 .project_report_container {
   padding-top: 40px;
 
@@ -14,7 +20,7 @@
   }
 
   .table-active {
-    padding: 0 0 0 40px;
+    padding: 0px;
   }
 
   .card {
@@ -61,14 +67,19 @@
       background-color: rgba(0, 140, 129, 0.1);
       transition: all 0.3s;
     }
+    tbody {
+      tr {
+        td {
+          padding-left: 40px;
+        }
+      }
+    }
   }
 
   .project_reports_total_container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 25px;
-
     .edit_user_modal_title_container {
       flex-basis: unset;
     }

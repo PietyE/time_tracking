@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
@@ -21,6 +21,7 @@ function Select(props) {
     isSearch = false,
     isTeamSearch =false,
     disabled,
+    selectedTeam =[]
   } = props
 
 
@@ -40,9 +41,9 @@ function Select(props) {
     setIsOpen(true)
   }
 
-  const initTitle = ()=>{
-   return   listItems.find((item)=>item.serverId === initialChoice)
-  }
+  const initTitle = useMemo(()=>{
+    return   listItems.find((item)=>item.serverId === initialChoice)
+  }, [listItems, initialChoice])
 
   const handlerClickClear = (e) => {
     e.preventDefault()
@@ -55,12 +56,16 @@ function Select(props) {
     if (classNameOpen) {
       setClassNameOpen('')
       setIsOpen(false)
+      isTeamSearch && setTitle(title)
     }
   }
 
   const handlerClickItem = (e) => {
     e.preventDefault()
-    setTitle(e.currentTarget.dataset.value)
+    if(initialChoice){
+      setTitle(e.currentTarget.dataset.value)
+    }
+
   }
 
   const handlerChangeSearchValue = (e) => {
@@ -90,38 +95,37 @@ function Select(props) {
   // }, [initialChoice])
   ///////////////////////////////////////////////////////////
   useEffect(()=>{
- if (initialChoice && initialChoice[valueKey]){
-    setTitle(initialChoice[valueKey])
-  } else if(!initialChoice && listItems?.length){
-    setTitle(title)
-  }
-    },[listItems,initialChoice])
+    if (initialChoice && initialChoice[valueKey]){
+      setTitle(initialChoice[valueKey])
+    } else if(!initialChoice && listItems?.length){
+      setTitle(title)
+    }
+  },[listItems,initialChoice, title, valueKey])
 
   useEffect(() => {
-    if(initTitle()?.name){
-      setTitle(initTitle()?.name)
+    if(initTitle?.name){
+      setTitle(initTitle?.name)
     }
     if (
       prevList &&
       listItems &&
-      prevList.length &&
+      prevList?.length &&
       !_.isEqualWith(listItems, prevList, (i1, i2) => i1['id'] === i2['id'])
     ) {
       setTitle(title)
     } else if (!listItems.length) {
       setTitle('List is empty')
     }
-  }, [listItems, initialChoice])
+  }, [listItems, initialChoice, initTitle, prevList, title])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
   const classNameDisabled = !listItems.length ? 'disabled' : ''
 
   const searchedListItems = listItems.filter((item) => {
-    if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-      return true
-    }
-    return false
+    const searchedItem = item.name.toLowerCase().indexOf(searchValue.toLowerCase())
+
+    return searchedItem !== -1
   })
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length;
@@ -173,8 +177,8 @@ function Select(props) {
             <div className="select_list_item_container" key={item[idKey]}>
               <span
                 className={
-                  item.name === _title
-                    ? 'select_list_item choise'
+                  item.name === _title || selectedTeam.filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
+                    ? 'select_list_item choice'
                     : 'select_list_item'
                 }
                 data-value={item[valueKey]}
@@ -200,7 +204,7 @@ function Select(props) {
                 <span
                   className="select_clear_btn"
                   onClick={handlerClickClear}
-                ></span>
+                />
               )}
             </div>
           ))}

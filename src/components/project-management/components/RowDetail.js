@@ -12,6 +12,8 @@ import {
   getProjectReportByIdSelector,
 } from '../../../reducers/projects-management'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
+import CustomCell from './CustomCell'
+import { columnExtensions } from '../ProjectManagementConfig'
 
 const RowDetail = ({ row }) => {
   const dispatch = useDispatch()
@@ -37,7 +39,7 @@ const RowDetail = ({ row }) => {
 
   useEffect(() => {
     _getProjectReportById(row?.id)
-  }, [])
+  }, [_getProjectReportById, row])
 
   useEffect(() => {
     if (currentProjectReport) {
@@ -64,7 +66,7 @@ const RowDetail = ({ row }) => {
       }))
       setChildRows(reformatProjects)
     }
-  }, [currentProjectReport])
+  }, [currentProjectReport, _downloadProjectReport])
 
   const childColumns = [{name: 'user', title: 'User'}, {
     name: 'occupancy', title: 'Occupancy'
@@ -78,6 +80,8 @@ const RowDetail = ({ row }) => {
       <Grid rows={childRows} columns={childColumns}>
         <Table />
         <Table
+          columnExtensions={columnExtensions}
+          cellComponent={CustomCell}
           messages={{
             noData: isFetching
               ? ''
