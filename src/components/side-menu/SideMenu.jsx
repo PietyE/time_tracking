@@ -54,7 +54,7 @@ function SideMenu () {
           {icon: schedule, label: "Total overview", pathname: "/totaloverview"},
           {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport", subItems: [
             {icon: house, label: "In-house employees", pathname: "/inhouseemployees"},
-            {icon: arrowDownCircul, label: "Remote employees", pathname: "/remoteemployees"},
+            {icon: arrowDownCircul, label: "Remote contractors", pathname: "/remotecontractors"},
           ]},
           {icon: basket, label: "Other costs", pathname: "/othercosts"}
         ]

@@ -1,3 +1,3 @@
-import InHouseEmployees from './InHouseEmployees'
+import InHouseEmployees from "./InHouseEmployees"
 
 export default InHouseEmployees
