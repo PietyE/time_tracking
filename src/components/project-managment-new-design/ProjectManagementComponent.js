@@ -170,19 +170,28 @@ const ProjectManagementComponent = ({
             <div className="container">
                 <h1 className="page-title">
                     <span>Project management</span>
-                    <button
-                        type='submit'
-                        className='btn btn-add-new'
-                        onClick={() => setShowCreateModal(true)}
-                    >
-                        Add new project
-                    </button>
+                    <div className="buttons-cont">
+                        <button
+                            type='submit'
+                            className='btn btn-add-new mr-4'
+                            onClick={() => setShowCreateModal(true)}
+                        >
+                            Add new user
+                        </button>
+                        <button
+                            type='submit'
+                            className='btn btn-add-new '
+                            onClick={() => setShowCreateModal(true)}
+                        >
+                            Add new project
+                        </button>
+                    </div>
                 </h1>
             </div>
             {isFetching && <SpinnerStyled/>}
             <div className="container ">
                 <div className="flex row  justify-content-between">
-                    <div className={'left-cont'}>
+
                         <Select
                             title="Search by PM or developer"
                             listItems={projectManagers}
@@ -193,19 +202,19 @@ const ProjectManagementComponent = ({
                             initialChoice={selectedPm || currentPm}
                             isSearch
                         />
-                        <div className='divider'>-</div>
-                        <Select
-                            title="Projects"
-                            listItems={projects}
-                            onSelected={onSelectProject}
-                            valueKey="name"
-                            idKey="id"
-                            extraClassContainer={'select-project'}
-                            initialChoice={shownProject}
-                            onClear={clearSelectedProject}
-                            // disabled={!projects?.length}
-                            isSearch
-                        />
+                        {/*<div className='divider'>-</div>*/}
+                        {/*<Select*/}
+                        {/*    title="Projects"*/}
+                        {/*    listItems={projects}*/}
+                        {/*    onSelected={onSelectProject}*/}
+                        {/*    valueKey="name"*/}
+                        {/*    idKey="id"*/}
+                        {/*    extraClassContainer={'select-project'}*/}
+                        {/*    initialChoice={shownProject}*/}
+                        {/*    onClear={clearSelectedProject}*/}
+                        {/*    // disabled={!projects?.length}*/}
+                        {/*    isSearch*/}
+                        {/*/>*/}
 
                         <SelectMonth
                             extraClassNameContainer={'month_select'}
@@ -213,22 +222,22 @@ const ProjectManagementComponent = ({
                             setNewData={changeSelectedDateProjectsManagement}
                         />
 
-                    </div>
-                    <Select
-                        title="Active"
-                        listItems={typeProjects}
-                        onSelected={showTypeProject}
-                        valueKey="name"
-                        idKey="id"
-                        extraClassContainer={'filter'}
-                        initialChoice={'Active'}
-                        onClear={clearSelectedProject}
-                        // disabled={!projects?.length}
-                        isSearch
-                    />
+
+                    {/*<Select*/}
+                    {/*    title="Active"*/}
+                    {/*    listItems={typeProjects}*/}
+                    {/*    onSelected={showTypeProject}*/}
+                    {/*    valueKey="name"*/}
+                    {/*    idKey="id"*/}
+                    {/*    extraClassContainer={'filter'}*/}
+                    {/*    initialChoice={'Active'}*/}
+                    {/*    onClear={clearSelectedProject}*/}
+                    {/*    // disabled={!projects?.length}*/}
+                    {/*    isSearch*/}
+                    {/*/>*/}
                 </div>
                 <div className="row table__titles">
-                    <div className="col-lg-5 ">
+                    <div className="col-lg-7">
                         <div className="sort-by">
                                <span>
                              PROJECT NAME
@@ -251,9 +260,9 @@ const ProjectManagementComponent = ({
                           </span>
                         </div>
                     </div>
-                    <div className="col-lg-2">
-                        ESTIMATE
-                    </div>
+                    {/*<div className="col-lg-2">*/}
+                    {/*    ESTIMATE*/}
+                    {/*</div>*/}
                     <div className="col-lg-3">
                         HOURS WORKED
                     </div>

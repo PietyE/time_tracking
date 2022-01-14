@@ -21,16 +21,15 @@ function ReportItemProject({p, openEditModal}) {
     },[isEdit])
 
     return <div className="row report__item">
-        <div className="col-lg-5">
+        <div className="col-lg-7">
             <span className='report__item-title'>
                 {p.name}
             </span>
         </div>
-        <div className="col-lg-2">
-            150h 0m
-        </div>
         <div className="col-lg-3">
-            {parseMinToHoursAndMin(p.total_minutes,true)}
+            <span className="hours-worked">
+                 {parseMinToHoursAndMin(p.total_minutes,true)}
+            </span>
         </div>
         <div className="col-lg-2">
             <div className="row justify-content-end">

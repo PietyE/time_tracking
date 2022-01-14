@@ -22,6 +22,8 @@ import {
 } from "../../../reducers/projects-management";
 import {isEqual} from "lodash";
 import {getProjectsSelector} from "../../../selectors/developer-projects";
+import fileText from "../../../images/file-text1.svg"
+import ChekMark from "../../../images/check-mark1.svg"
 
 
 function EditProjectModal2({show}) {
@@ -152,34 +154,17 @@ function EditProjectModal2({show}) {
 
     return <div className={'edit-modal-container '+(show ? 'active':'')}>
         <WindowInfo close={handleClose } title={projectName}>
-            <InfoItemM>
+            <InfoItemM icon={fileText}>
+                <span className="info_text">DESCRIPTION</span>
+                <span className="info_data">
+                <a href="">vilmate.visualstudio.com/Careers...</a>
+                </span>
+            </InfoItemM>
+            <InfoItemM icon={ChekMark}>
                 <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
+                <span className="info_data">140h 59m</span>
             </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
-            <InfoItemM>
-                <span className="info_text">HOURS WORKED</span>
-                <span className="info_data">01 Sep, 2021</span>
-            </InfoItemM>
+
             <div className="projects_info">
                 <div className="project_data">
                     <div className="project_data_header">
