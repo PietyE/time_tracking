@@ -14,6 +14,10 @@
     display: none;
     &.active{
       display: block;
+
+      .main-container{
+        height: auto;
+      }
     }
   }
 
@@ -150,6 +154,7 @@
 
   .team-container{
     overflow-y: scroll;
+    max-height: 400px;
   }
 
   .edit-control{
@@ -361,6 +366,7 @@
       .team-container{
         margin:12px 15px 30px;
         padding: 0 20px;
+        max-width: 400px;
       }
 
       .plus{
