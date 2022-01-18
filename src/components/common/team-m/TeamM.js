@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import "./style.scss"
 import TrashImg from "../../../images/ic_trash .svg"
+import DowmloadIc from "../../../images/download_ic.svg"
+import TrashGrayIc from "../../../images/trash_cray_ic.svg"
 
 
 
@@ -22,6 +24,11 @@ function TeamM({e, del,d, hovers}) {
                 </div>
             </div>
             <form className={'team-m__type-work ' +(hovers ?'flex-column':'')}>
+                <div className="label-def">
+                    <span>
+                        Part-time
+                    </span>
+                </div>
                 <div className="team-m-input-cont">
                     <label htmlFor={e.id ||e.user_id}>
                         <input name="w-type" type="radio"
@@ -50,7 +57,8 @@ function TeamM({e, del,d, hovers}) {
                 </div>
             }
             <div className="trash-cont" onClick={()=>{del(e.id || e.user_id)}}>
-                <img src={TrashImg} alt=""/>
+                <img className={'gray-trash'} src={TrashGrayIc} alt=""/>
+                <img className={'download'} src={DowmloadIc} alt=""/>
             </div>
         </div>
     </div>

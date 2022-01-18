@@ -148,8 +148,6 @@ const ProjectManagementComponent = ({
         return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal}/>
     });
 
-    console.log('Project R', projects)
-
     const onSelectPm = (data) => {
         setPm(data)
         setShownProject(null)

@@ -24,10 +24,7 @@ function CreateProjectModal2({e, show}) {
     const projectTeamM = useSelector(getUsersSelector);
     const users = useSelector(getDevelopersSelector)
 
-
-
     const projects = useSelector(getAllProjectsSelector, isEqual)
-
     const [addM, setAddM]=useState(false);
     const [addD, setAddD]=useState(false);
 

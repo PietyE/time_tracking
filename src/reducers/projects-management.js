@@ -124,12 +124,18 @@ export const getProjectReportByIdSelector = (state, id) => {
 }
 export const getSelectedProjectIdSelector = state => state.projectsManagement.selectedProjectId
 export const getSelectedProjectSelector = state => state.projectsManagement.selectedProject
+export const getCurrentProjectSelector = state =>{
+  const id = getSelectedProjectIdSelector(state)
+  const projects = getAllProjectsSelector(state)
+  //console.log('projects', projects)
+  let currentProject =  projects.find(project => project.id === id);
+
+  return currentProject;
+}
 ///////////////////////////////////////////////////////
 
 export const getProjectName = state => {
-  const id = getSelectedProjectIdSelector(state)
-  const projects = getAllProjectsSelector(state)
-  const currentProject = projects.find(project => project.id === id)
+  const currentProject = getCurrentProjectSelector(state)
   return currentProject?.name
 }
 ///////////////////////////////////////////////////////
@@ -166,7 +172,6 @@ export const getActivePmInCurrentProjectSelector = state => {
 export const getActiveDevSelector = state => {
   const activeUsers = getProjectActiveUsersSelector(state)
   const activePm = getActiveProjectManagerSelector(state)
-
   if (activeUsers) {
     const pmIdArray = activePm.map(pm => pm.user_id)
     return activeUsers.filter(user => !pmIdArray.includes(user.user_id))

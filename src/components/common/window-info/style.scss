@@ -82,6 +82,7 @@
 
     .edit_btn {
       margin-left: 28px;
+      cursor: pointer;
     }
 
     .vert_row {
@@ -484,16 +485,65 @@
     flex-direction: row;
     position: relative;
 
-
     .team-m{
+      display: flex;
       max-width: 588px;
       padding-left: 40px;
+      min-height: 60px;
+      margin-left: 0;
+      .gray-trash,.team-m-input-cont{
+        display: none;
+      }
+
+      .label-def{
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.03em;
+        color: #222222;
+        margin-right: 50px;
+        width: 97px;
+      }
+
       .row{
         align-items: center;
-
+        .estimate-hours{
+          margin-left: 20px;
+        }
         .trash-cont{
-          margin-left: 40px;
-          padding-bottom: 14px;
+          padding-bottom: 4px;
+          display: flex;
+          justify-content: flex-end;
+          width: 65px;
+          margin-right: 0;
+        }
+      }
+
+      &:hover{
+        height: 60px;
+        background: rgba(87, 108, 108, 0.1);
+        .gray-trash{
+          display:block;
+          margin-right: 15px;
+        }
+
+        .team-m-input-cont{
+          display: block;
+          width: 97px;
+          height: 22px;
+          padding-left: 18px;
+          label{
+            font-size: 12px;
+            line-height: 20px;
+          }
+        }
+
+        .label-def{
+          display: none;
         }
       }
     }
