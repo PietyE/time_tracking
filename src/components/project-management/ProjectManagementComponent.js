@@ -129,7 +129,7 @@ const ProjectManagementComponent = () => {
     }else {
       dispatch(setShownProject(data))
     }
-    dispatch( dispatch(setSelectedProject(data)))
+    dispatch(setSelectedProject(data))
   }
 
   const handleOpenEditModal = useCallback((projectId) => {
@@ -171,6 +171,17 @@ const ProjectManagementComponent = () => {
   useEffect(() => {
     dispatch(getAllProjects())
   }, [isEditModalShow, dispatch])
+
+  useEffect(() => {
+    if(selectedProject.id) {
+      const currentProject = (projectList.find((item) => {
+        return item.id === selectedProject.id
+      }))
+      if(currentProject) {
+        onSelectProject(currentProject)
+      }
+    }
+  }, [selectedProject, projectList])
 
   const projectManagerSelectList = [
     {
