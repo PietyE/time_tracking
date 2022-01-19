@@ -1,46 +1,52 @@
 import React from "react";
 import "./style.scss"
+import 'react-tippy/dist/tippy.css';
+import {
+    Tooltip,
+} from 'react-tippy';
+
+
 import closeButton from "../../../images/projectReportIcons/closeButton.svg";
 import calendar from "../../../images/inHouseEmployees/calendar-userData.svg";
 import dot from "../../../images/inHouseEmployees/dot.svg";
 import cash from "../../../images/inHouseEmployees/cash.svg";
 import ProjectData from "../../project-report-new-design/components/ProjectData/ProjectData";
 import CreateComment from "../../in-house-employees/components/CreateComment/CreateComment";
+import DownloadIc from "../../../images/download_ic.svg"
+import ArchiveIc from "../../../images/archive1.svg"
 
 
-
-
-function WindowInfo({title, children, close, editToggle}) {
-    return  <div className="main_container">
+function WindowInfo({title, children, close, download, id}) {
+    return <div className="main_container">
         <div className="header">
-            <span className="title">{title}</span>
-            <div className="chat_img">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-8">
+                        <div className="title">{title}</div>
+                    </div>
+                    <div className="col-lg-4">
+                        <div className="row align-content-center">
+                            <div className="control_btn" onClick={() => {
+                                download(id)
+                            }}>
+                                <img src={DownloadIc} alt=""/>
+                            </div>
+                            <div className="control_btn archive-modal">
+                                <Tooltip
+                                    // options
+                                    title="Archive the project"
+                                    position="top"
 
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.9062 9.49219C14.4456 9.49219 14.8828 9.05497 14.8828 8.51562C14.8828 7.97628 14.4456 7.53906 13.9062 7.53906C13.3669 7.53906 12.9297 7.97628 12.9297 8.51562C12.9297 9.05497 13.3669 9.49219 13.9062 9.49219Z" fill="#222222B2"/>
-                    <path d="M10 9.49219C10.5393 9.49219 10.9766 9.05497 10.9766 8.51562C10.9766 7.97628 10.5393 7.53906 10 7.53906C9.46066 7.53906 9.02344 7.97628 9.02344 8.51562C9.02344 9.05497 9.46066 9.49219 10 9.49219Z" fill="#222222B2"/>
-                    <path d="M6.09375 9.49219C6.63309 9.49219 7.07031 9.05497 7.07031 8.51562C7.07031 7.97628 6.63309 7.53906 6.09375 7.53906C5.55441 7.53906 5.11719 7.97628 5.11719 8.51562C5.11719 9.05497 5.55441 9.49219 6.09375 9.49219Z" fill="#222222B2"/>
-                    <path d="M19.2188 0H0.78125C0.349766 0 0 0.349766 0 0.78125V16.25C0 16.6815 0.349766 17.0312 0.78125 17.0312H7.69441L9.33945 19.6359C9.48262 19.8626 9.73195 20 10 20C10.268 20 10.5174 19.8626 10.6605 19.6359L12.3056 17.0312H19.2188C19.6502 17.0312 20 16.6815 20 16.25V0.78125C20 0.349766 19.6502 0 19.2188 0ZM18.4375 15.4688H11.875C11.607 15.4688 11.3576 15.6062 11.2145 15.8328L10 17.7557L8.78555 15.8328C8.64238 15.6062 8.39305 15.4688 8.125 15.4688H1.5625V1.5625H18.4375V15.4688Z" fill="#222222B2"/>
-                </svg>
+                                >
+                                    <img src={ArchiveIc} alt=""/>
+                                </Tooltip>
+                            </div>
+                            <div className="vert_row"/>
+                            <img src={closeButton} className="close_button" onClick={close}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className=''></div>
-
-
-            <div className="edit_btn" onClick={editToggle}>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clipPath="url(#clip0_807_967)">
-                        <path d="M14.7855 9.00032C14.4305 9.00032 14.1426 9.28813 14.1426 9.64318V16.0716C14.1426 16.4267 13.8548 16.7145 13.4998 16.7145H1.92855C1.5735 16.7145 1.28568 16.4267 1.28568 16.0716V3.21468C1.28568 2.85963 1.5735 2.57182 1.92855 2.57182H9.64273C9.99778 2.57182 10.2856 2.284 10.2856 1.92896C10.2856 1.57391 9.99778 1.28613 9.64273 1.28613H1.92855C0.863439 1.28613 0 2.14957 0 3.21468V16.0716C0 17.1367 0.863439 18.0002 1.92855 18.0002H13.4998C14.5649 18.0002 15.4284 17.1367 15.4284 16.0716V9.64314C15.4284 9.28813 15.1406 9.00032 14.7855 9.00032Z" fill="#222222B2"/>
-                        <path d="M17.2794 0.72088C16.8178 0.259234 16.1918 -6.51633e-05 15.539 1.01705e-05C14.8858 -0.00187318 14.2591 0.257878 13.7988 0.721294L5.33115 9.18821C5.2609 9.25899 5.20791 9.34502 5.17623 9.43956L3.89054 13.2967C3.77834 13.6335 3.96045 13.9975 4.29731 14.1097C4.36266 14.1315 4.4311 14.1426 4.49996 14.1427C4.56896 14.1425 4.63755 14.1315 4.7031 14.1099L8.56019 12.8242C8.65492 12.7926 8.74099 12.7393 8.81154 12.6686L17.2791 4.20104C18.2402 3.24008 18.2403 1.68195 17.2794 0.72088ZM16.3702 3.29266L8.01311 11.6497L5.51629 12.4835L6.34748 9.98984L14.7077 1.63283C15.1673 1.17413 15.9118 1.17488 16.3705 1.63449C16.5896 1.85405 16.7131 2.15128 16.7141 2.46147C16.7148 2.77331 16.591 3.07254 16.3702 3.29266Z" fill="#222222B2"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_807_967">
-                            <rect width="18" height="18" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
-            </div>
-            <div className="vert_row" />
-            <img src={closeButton} className="close_button" onClick={close}/>
         </div>
         {children}
     </div>

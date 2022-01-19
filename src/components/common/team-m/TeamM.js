@@ -1,13 +1,23 @@
-import React, {useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import "./style.scss"
-import TrashImg from "../../../images/ic_trash .svg"
-import DowmloadIc from "../../../images/download_ic.svg"
+import DownloadIc from "../../../images/download_ic.svg"
 import TrashGrayIc from "../../../images/trash_cray_ic.svg"
+import { downloadProjectReport} from "../../../actions/projects-management";
+import {useDispatch} from "react-redux";
 
 
 
-function TeamM({e, del,d, hovers}) {
+
+function TeamM({e, del,d, hovers, projectId}) {
     let [fulTime, setFullTime] = useState(e.is_full_time);
+    const dispatch = useDispatch()
+
+    const _downloadProjectReport = useCallback(
+        (data) => {
+            dispatch(downloadProjectReport(data))
+        },
+        [dispatch],
+    )
 
 
     return <div className='container team-m'>
@@ -56,9 +66,9 @@ function TeamM({e, del,d, hovers}) {
                     {hovers}
                 </div>
             }
-            <div className="trash-cont" onClick={()=>{del(e.id || e.user_id)}}>
-                <img className={'gray-trash'} src={TrashGrayIc} alt=""/>
-                <img className={'download'} src={DowmloadIc} alt=""/>
+            <div className="trash-cont" >
+                <img className={'gray-trash'} onClick={()=>{del(e.id || e.user_id)}} src={TrashGrayIc} alt=""/>
+                <img className={'download'} onClick={()=>{_downloadProjectReport(e.projectReportId)}}  src={DownloadIc} alt=""/>
             </div>
         </div>
     </div>

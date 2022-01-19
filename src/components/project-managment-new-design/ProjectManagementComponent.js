@@ -90,12 +90,7 @@ const ProjectManagementComponent = ({
         {name: 'Archive', count: 3},
     ])
 
-    const _downloadAllTeamProjectReport = useCallback(
-        (data) => {
-            dispatch(downloadAllTeamProjectReport(data))
-        },
-        [dispatch],
-    )
+
     const _getProjectReportById = useCallback(
         (data) => {
             dispatch(getProjectReportById(data))
@@ -119,9 +114,9 @@ const ProjectManagementComponent = ({
             project: project.name,
             occupancy: ' ',
             hours: convertMinutesToHours(project?.total_minutes) || 0,
-            report: <Button variant="outline-*" onClick={() => _downloadAllTeamProjectReport(project.id)}>
-                <span className="oi oi-cloud-download"/>
-            </Button>,
+            // report: <Button variant="outline-*" onClick={() => _downloadAllTeamProjectReport(project.id)}>
+            //     <span className="oi oi-cloud-download"/>
+            // </Button>,
             actions: <span className="oi oi-pencil" onClick={() => openEditModal(project.id)}/>,
             id: project.id,
         }))
@@ -239,7 +234,7 @@ const ProjectManagementComponent = ({
 
             <CreateProjectModal2 show={isCreateModalShow} e={projectManagers}/>
             {/*<EditProjectModal show={isEditModalShow}/>*/}
-            <EditProjectModal2 show={isEditModalShow}/>
+            <EditProjectModal2 show={isEditModalShow} />
 
         </div>)
 }

@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addUsersOnProject,
     changeProjectName,
-    changeUserOnProject,
+    changeUserOnProject, downloadAllTeamProjectReport,
     getProjectReportById, setPm,
     setSelectedProject, setShowEditModal
 } from "../../../actions/projects-management";
@@ -33,14 +33,12 @@ import ProjectIcon from "../../../images/card-text1.svg"
 import {parseMinToHoursAndMin} from "../../../utils/common";
 import Select from "../../ui/select";
 import {selectProject} from "../../../actions/times-report";
+import Textarea from "../../ui/textarea";
 
 
 function EditProjectModal2({show}) {
     const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
     const projects = useSelector(getProjectsSelector, isEqual);
-    const [isEdit, setEdit] = useState(false);
-
-
     let [addMember, setAddMember] = useState(false);
     const [checkedUsers, setCheckedUsers] = useState([]);
     const [currentEditedTeam, setEditedTeam] = useState([]);
@@ -68,6 +66,7 @@ function EditProjectModal2({show}) {
         setAddMember(false)
     }
 
+
     const addSelected = (e) => {
         e.preventDefault();
         setEditedTeam([...new Set(currentEditedTeam.concat(checkedUsers))])
@@ -90,11 +89,7 @@ function EditProjectModal2({show}) {
     }
 
     const onSelectProject = (data) => {
-        dispatch(selectProject(data))
-    }
-
-    const editToggle = () => {
-      setEdit(!isEdit)
+        // dispatch(selectProject(data))
     }
 
     const _getProjectReportById = useCallback(
@@ -121,12 +116,26 @@ function EditProjectModal2({show}) {
         },
         [dispatch],
     )
+
     const _addUsersOnProject = useCallback(
         (data) => {
             dispatch(addUsersOnProject({data}))
         },
         [dispatch],
     )
+
+    const _downloadAllTeamProjectReport = useCallback(
+        (data) => {
+            dispatch(downloadAllTeamProjectReport(data))
+        },
+        [dispatch],
+    )
+
+    const _submitEditData = () => {
+
+    }
+
+
     useEffect(() => {
         if (projectName) {
             setValuesFromApi({
@@ -172,112 +181,86 @@ function EditProjectModal2({show}) {
         _changeProjectName(currentProjectId, values.projectName)
     }
 
-    let teamMList = valuesFromApi?.team?.map((e) => {
+    let teamMList = currentEditedTeam?.map((e) => {
         return <div key={e.user_id}>
-            <TeamM e={e} hovers={'120h 50m'} del={deleteItem}/>
+            <TeamM e={e} hovers={'120h 50m'} del={deleteItem} projectId={currentApiProject.id}/>
         </div>
     });
 
     return <div className={'edit-modal-container ' + (show ? 'active' : '')}>
-        <WindowInfo close={handleClose} title={valuesFromApi?.projectName} editToggle={editToggle}>
-            <InfoItemM icon={ProjectIcon}>
-                <span className="info_text">PROJECT NAME</span>
-                {!isEdit ?
-                    <span className="info_data">{valuesFromApi?.projectName}</span>
-                    :
-                    <span className="info_data">
-                        <Select
-                            title={valuesFromApi?.projectName}
-                            listItems={projects}
-                            onSelected={onSelectProject}
-                            valueKey="name"
-                            idKey="id"
-                            extraClassContainer={' search search-manger'}
-                            initialChoice={currentApiProject}
-                            isSearch
-                        />
-                    </span>
-                }
-            </InfoItemM>
-            <InfoItemM icon={UserIcon}>
-                <span className="info_text">PROJECT OWNER</span>
-                {!isEdit ?
-                    <span className="info_data">{valuesFromApi?.projectManager?.name}</span>
-                    :
-                    <span className="info_data">
-                        <Select
-                            title={valuesFromApi?.projectManager?.name}
-                            listItems={projectManagersList}
-                            onSelected={onSelectPm}
-                            valueKey="name"
-                            idKey="id"
-                            extraClassContainer={' search search-manger'}
-                            initialChoice={valuesFromApi?.projectManager}
-                            isSearch
-                        />
-                    </span>
-                }
-            </InfoItemM>
-            <InfoItemM icon={ChekMark}>
-                <span className="info_text">LAST SINCE</span>
-                <span className="info_data">{parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}</span>
-            </InfoItemM>
+        <WindowInfo close={handleClose} title={valuesFromApi?.projectName} download={_downloadAllTeamProjectReport}
+                    id={currentProjectId}>
+            <form className="pm_create_modal_form" id="editFrom">
+                <InfoItemM icon={ProjectIcon} title={'PROJECT NAME'} editValue={
+                    <Select
+                        title={valuesFromApi?.projectName}
+                        listItems={projects}
+                        onSelected={onSelectProject}
+                        valueKey="name"
+                        idKey="id"
+                        extraClassContainer={' search search-manger'}
+                        initialChoice={currentApiProject}
+                    />
+                } value={valuesFromApi?.projectName}/>
+                <InfoItemM icon={UserIcon} title={'PROJECT OWNER'} editValue={
+                    <Select
+                        title={valuesFromApi?.projectManager?.name}
+                        listItems={projectManagersList}
+                        onSelected={onSelectPm}
+                        valueKey="name"
+                        idKey="id"
+                        extraClassContainer={' search search-manger'}
+                        initialChoice={valuesFromApi?.projectManager}
+                    />}
+                           value={valuesFromApi?.projectManager?.name}
+                />
+                <InfoItemM icon={ChekMark} title={'LAST SINCE'}
+                           value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}/>
+                <InfoItemM title={'DESCRIPTION'}
+                           icon={ProjectIcon}
+                           editValue={
+                               <Textarea placeholer={'Some info about the project'} value={'Some text...'}/>
+                           }
+                           value={'Some text...'}
+                           customClass={'project-description'}
+                />
 
-            <div className="description-cont">
-                <h3 className="info_text">DESCRIPTION</h3>
-                {!isEdit?
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequatur cumque dicta dolorem
-                        dolores eos harum ipsam iusto laudantium, modi nemo nobis obcaecati saepe sit voluptatibus.
-                        Dolore
-                        quo rerum unde?
-                    </p>
-                    :
-                    <textarea className={'project-description'} name="" id="" cols="30" rows="10">
-
-                    </textarea>
-                }
-
-            </div>
-            <div className="projects_info">
-                <div className="project_data">
-                    <div className="project_data_header">
-                        <span className="headers project">DEVELOPER NAME</span>
-                        <span className="headers">OCCUPANCY</span>
-                        <span className="headers">HOURS</span>
-                    </div>
-                    <div className="team-container">
-                        {teamMList}
-                    </div>
-                    <div className="edit-control container">
-                        <div className="row">
-                            <div className="col-5 add-new " onClick={() => {
-                                setAddMember(!addMember)
-                            }}>
-                                       <span className="row align-items-center">
-                                             <Plus/>
+                <div className="projects_info">
+                    <div className="project_data">
+                        <div className="project_data_header">
+                            <span className="headers project">DEVELOPER NAME</span>
+                            <span className="headers">OCCUPANCY</span>
+                            <span className="headers">HOURS</span>
+                        </div>
+                        <div className="team-container">
+                            {teamMList}
+                        </div>
+                        <div className="edit-control container">
+                            <div className="row">
+                                <div className="col-5 add-new " onClick={() => {
+                                    setAddMember(!addMember)
+                                }}>
+                                       <span className={'row align-items-center ' + (addMember ? 'add-member' : '')}>
+                                             <Plus isActive={addMember}/>
                                         <span>
                                              Add new developers
                                         </span>
                                         </span>
+                                </div>
                             </div>
-                            {/*<div className="col-6">*/}
-                            {/*    <button className="btn btn-add">Save changes</button>*/}
-                            {/*    <button className="btn btn-cancel" onClick={handleClose}>Cancel</button>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
+                    {addMember &&
+                    <AddSelectedM
+                        teamM={projectTeamM}
+                        closeAddUser={closeAddUser}
+                        checkedUsers={checkedUsers}
+                        setCheckedUsers={setCheckedUsers}
+                        addSelected={addSelected}
+                    />
+                    }
                 </div>
-                {addMember &&
-                <AddSelectedM
-                    teamM={projectTeamM}
-                    closeAddUser={closeAddUser}
-                    checkedUsers={checkedUsers}
-                    setCheckedUsers={setCheckedUsers}
-                    addSelected={addSelected}
-                />
-                }
-            </div>
+            </form>
         </WindowInfo>
     </div>
 }
