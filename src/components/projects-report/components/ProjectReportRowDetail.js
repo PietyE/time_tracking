@@ -47,7 +47,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
       } ,
         salary_uah: '',
       rate_uah: '',
-      total_hours: is_full_time ? 'fulltime' : `${working_time || 0} `,
+      totalHours: working_time,
       total: userRole === PM ? '' : UAHFormat.format(total),
       total_expenses: '',
       total_uah: '',
