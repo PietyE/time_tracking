@@ -70,7 +70,8 @@ export const usersProjectReportMapper = (response) => {
       id: lodashGet(item, 'project.id', ''),
       total: lodashGet(item, 'total_overtime_amount_uah', ''),
       is_full_time: lodashGet(item, 'is_full_time', ''),
-      idDeveloperProjects: lodashGet(item, 'id', '')
+      idDeveloperProjects: lodashGet(item, 'id', ''),
+      is_active: lodashGet(item, 'is_active', '')
     };
   });
 }
