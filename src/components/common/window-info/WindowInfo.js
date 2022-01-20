@@ -1,9 +1,9 @@
 import React from "react";
 import "./style.scss"
-import 'react-tippy/dist/tippy.css';
-import {
-    Tooltip,
-} from 'react-tippy';
+// import 'react-tippy/dist/tippy.css';
+// import {
+//     Tooltip,
+// } from 'react-tippy';
 
 
 import closeButton from "../../../images/projectReportIcons/closeButton.svg";
@@ -32,14 +32,14 @@ function WindowInfo({title, children, close, download, id}) {
                                 <img src={DownloadIc} alt=""/>
                             </div>
                             <div className="control_btn archive-modal">
-                                <Tooltip
-                                    // options
-                                    title="Archive the project"
-                                    position="top"
+                                {/*<Tooltip*/}
+                                {/*    // options*/}
+                                {/*    title="Archive the project"*/}
+                                {/*    position="top"*/}
 
-                                >
+                                {/*>*/}
                                     <img src={ArchiveIc} alt=""/>
-                                </Tooltip>
+                                {/*</Tooltip>*/}
                             </div>
                             <div className="vert_row"/>
                             <img src={closeButton} className="close_button" onClick={close}/>

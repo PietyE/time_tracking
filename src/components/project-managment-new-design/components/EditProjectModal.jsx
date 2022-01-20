@@ -17,8 +17,10 @@ import {
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 
+
 function EditProjectModal({ show }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
 
   const _getProjectReportById = useCallback(
     (data) => {

@@ -26,7 +26,7 @@ import {
 } from "../../../reducers/projects-management";
 import {isEqual} from "lodash";
 import {getProjectsSelector} from "../../../selectors/developer-projects";
-import fileText from "../../../images/file-text1.svg"
+
 import ChekMark from "../../../images/check-mark1.svg"
 import UserIcon from "../../../images/user1.svg"
 import ProjectIcon from "../../../images/card-text1.svg"
@@ -34,15 +34,23 @@ import {parseMinToHoursAndMin} from "../../../utils/common";
 import Select from "../../ui/select";
 import {selectProject} from "../../../actions/times-report";
 import Textarea from "../../ui/textarea";
+import {useFormik} from "formik";
 
 
 function EditProjectModal2({show}) {
     const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
     const projects = useSelector(getProjectsSelector, isEqual);
+    const formik = useFormik({
+        initialValues:{
+            projectDescription:'Same description'
+        }
+    })
+
     let [addMember, setAddMember] = useState(false);
     const [checkedUsers, setCheckedUsers] = useState([]);
     const [currentEditedTeam, setEditedTeam] = useState([]);
-
+    const [selectedPrlject, setSelectedPr]= useState({});
+    const [selectedOwner, setSelectedOwner] = useState({});
 
     const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
     const currentProject = useSelector((getSelectedProjectSelector, isEqual))
@@ -81,16 +89,19 @@ function EditProjectModal2({show}) {
         setEditedTeam(res);
     }
 
-
     const dispatch = useDispatch()
 
-    const onSelectPm = (data) => {
+    const onSelectPm =  useCallback( (data) => {
         dispatch(setPm(data))
-    }
+        setSelectedOwner(data)
+    })
 
-    const onSelectProject = (data) => {
-        // dispatch(selectProject(data))
-    }
+    const onSelectProject = useCallback(
+        (data) => {
+            //dispatch(selectProject(data))
+            setSelectedPr(data)
+        }
+    )
 
     const _getProjectReportById = useCallback(
         (data) => {
@@ -110,19 +121,6 @@ function EditProjectModal2({show}) {
         },
         [dispatch],
     )
-    const _changeUserOnProject = useCallback(
-        (id, data) => {
-            dispatch(changeUserOnProject({id, data}))
-        },
-        [dispatch],
-    )
-
-    const _addUsersOnProject = useCallback(
-        (data) => {
-            dispatch(addUsersOnProject({data}))
-        },
-        [dispatch],
-    )
 
     const _downloadAllTeamProjectReport = useCallback(
         (data) => {
@@ -131,9 +129,31 @@ function EditProjectModal2({show}) {
         [dispatch],
     )
 
-    const _submitEditData = () => {
-
+    const _submitEditData = () =>  {
+       return {
+            project:selectedPrlject,
+            description:formik.values.projectDescription,
+            projectManager: selectedOwner,
+            team:currentEditedTeam
+        }
     }
+
+    const setTypeWork =useCallback((userId, workType)=>{
+        let resArr = currentEditedTeam.map((e)=>{
+            if(userId ===e.user_id || e.id){
+                 e.is_full_time = workType
+            }
+            return  e;
+        });
+
+        setEditedTeam(resArr);
+    })
+
+    window.addEventListener('keyup', (e)=>{
+        if(e.key === 'Enter'){
+            console.log('edit data', _submitEditData());
+        }
+    })
 
 
     useEffect(() => {
@@ -183,14 +203,19 @@ function EditProjectModal2({show}) {
 
     let teamMList = currentEditedTeam?.map((e) => {
         return <div key={e.user_id}>
-            <TeamM e={e} hovers={'120h 50m'} del={deleteItem} projectId={currentApiProject.id}/>
+            <TeamM key={e.user_id} e={e}
+                   hovers={'120h 50m'}
+                   del={deleteItem}
+                   projectId={currentApiProject.id}
+                   setWorkType={setTypeWork }
+            />
         </div>
     });
 
     return <div className={'edit-modal-container ' + (show ? 'active' : '')}>
         <WindowInfo close={handleClose} title={valuesFromApi?.projectName} download={_downloadAllTeamProjectReport}
                     id={currentProjectId}>
-            <form className="pm_create_modal_form" id="editFrom">
+
                 <InfoItemM icon={ProjectIcon} title={'PROJECT NAME'} editValue={
                     <Select
                         title={valuesFromApi?.projectName}
@@ -219,7 +244,7 @@ function EditProjectModal2({show}) {
                 <InfoItemM title={'DESCRIPTION'}
                            icon={ProjectIcon}
                            editValue={
-                               <Textarea placeholer={'Some info about the project'} value={'Some text...'}/>
+                               <Textarea placeholer={'Some info about the project'} value={'Some text...'} formik ={formik}/>
                            }
                            value={'Some text...'}
                            customClass={'project-description'}
@@ -260,7 +285,7 @@ function EditProjectModal2({show}) {
                     />
                     }
                 </div>
-            </form>
+
         </WindowInfo>
     </div>
 }

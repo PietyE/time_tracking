@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import "./style.scss"
 import DownloadIc from "../../../images/download_ic.svg"
 import TrashGrayIc from "../../../images/trash_cray_ic.svg"
@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 
 
 
-function TeamM({e, del,d, hovers, projectId}) {
+function TeamM({e, del,d, hovers, setWorkType}) {
     let [fulTime, setFullTime] = useState(e.is_full_time);
     const dispatch = useDispatch()
 
@@ -18,6 +18,10 @@ function TeamM({e, del,d, hovers, projectId}) {
         },
         [dispatch],
     )
+
+    useEffect(()=>{
+        setWorkType(e.user_id || e.id , fulTime)
+    },[fulTime]);
 
 
     return <div className='container team-m'>
