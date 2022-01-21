@@ -130,6 +130,8 @@ const ProjectManagementComponent = ({
         setP(projects);
     }, [projects]);
 
+
+
     const showTypeProject = (item) => {
         if (item.name == 'Active') {
             let activeP = projects.filter(e => e.isActive == true);

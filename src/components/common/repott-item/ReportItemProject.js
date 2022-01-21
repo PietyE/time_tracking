@@ -20,7 +20,20 @@ function ReportItemProject({p, openEditModal}) {
         closeEditMenu(isEdit, setIsEdit)
     },[isEdit])
 
-    return <div className="row report__item">
+    const optEditM = (e)=>{
+        if(e.target.parentNode.classList.contains('edit_dots') ||
+            e.target.classList.contains('edit_dots') ||
+            e.target.parentNode.classList.contains('menu') ||
+            e.target.classList.contains('menu')
+        ){
+            return
+        }else{
+            openEditModal(p.id);
+        }
+
+    }
+
+    return <div className="row report__item" onClick={optEditM}>
         <div className="col-lg-7">
             <span className='report__item-title'>
                 {p.name}
@@ -44,18 +57,6 @@ function ReportItemProject({p, openEditModal}) {
                     isEdit &&
                     <div className={'menu'}>
                         <button
-                            className="button edit_button"
-                            type={'button'}
-                            form="edit_form"
-                            onClick={()=>{openEditModal(p.id)}}
-                        >
-                            <FontAwesomeIcon
-                                icon={ faEdit}
-                                className="icon pencil_icon"
-                            />
-                            Edit
-                        </button>
-                        <button
                             className="button"
                             type={'button'}
                             form="edit_form"
@@ -74,7 +75,6 @@ function ReportItemProject({p, openEditModal}) {
                         </button>
                     </div>
                 }
-
             </div>
         </div>
     </div>
