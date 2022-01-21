@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Select from 'components/ui/select'
 import SelectMonth from 'components/ui/select-month'
 import EditUserModal from './components/EditUserModal'
-import TotalValue from './components/TotalValue'
+// import TotalValue from './components/TotalValue'
 import { getProfileId, getRoleUser } from 'selectors/user'
 import { ACCOUNTANT, ADMIN, DEVELOPER, PM } from 'constants/role-constant'
 import {
@@ -12,7 +12,7 @@ import {
   setSelectedProjectInProjectReports,
   getDevelopersProjectInProjectReport,
   setEditUserId,
-  setExchangeRates,
+  // setExchangeRates,
   getConsolidateProjectReport,
 } from 'actions/projects-report'
 import { setProcessedStatus } from 'actions/users'
@@ -20,13 +20,13 @@ import {
   getSelectedProjectSelector,
   getSelectedMonthSelector,
   getSelectDeveloperInProjectReportSelector,
-  getDevProjectConsolidateProjectReportsSelector,
+  // getDevProjectConsolidateProjectReportsSelector,
   selectUsersReports,
 } from 'reducers/projects-report'
 import { getDevelopersList } from '../../selectors/developers'
 import { getIsFetchingProjectsReport, getProjectsList } from '../../selectors/developer-projects'
 import Spinner from '../ui/spinner'
-import ActualRates from '../ui/actual-rates/ActualRates'
+// import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
 import {
   compareForBoolean,
@@ -56,13 +56,13 @@ function ProjectsReport() {
   const roleUser = useEqualSelector(getRoleUser);
   const profileId = useEqualSelector(getProfileId);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
-  const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
+  // const projectsReports = useEqualSelector(getDevProjectConsolidateProjectReportsSelector);
   const selectedDeveloper = useEqualSelector(getSelectDeveloperInProjectReportSelector);
   const selectedProject = useEqualSelector(getSelectedProjectSelector);
   const isFetchingReports = useEqualSelector(getIsFetchingProjectsReport);
   const selectedReports = useEqualSelector(selectUsersReports);
 
-  const {total_usd, total_uah, exchange_rate} = projectsReports
+  // const { total_usd, total_uah, exchange_rate } = projectsReports
   const users = selectedReports;
   const isScrollTable = width < 900;
 
@@ -250,14 +250,14 @@ function ProjectsReport() {
         />
       </div>
 
-      {  roleUser !== PM && roleUser && roleUser !== DEVELOPER  && (<TotalValue
+      {/* {  roleUser !== PM && roleUser && roleUser !== DEVELOPER  && (<TotalValue
         totalUsd={total_usd}
         totalUah={total_uah}
         setExchangeRates={handleOnSelect(setExchangeRates)}
         prevExchangeRate={exchange_rate}
         selectedDate={selectedDate}
       />)}
-      {roleUser !== DEVELOPER && roleUser !== PM && (<ActualRates/>)}
+      {roleUser !== DEVELOPER && roleUser !== PM && (<ActualRates/>)} */}
 
       {roleUser === PM && (
         <div
