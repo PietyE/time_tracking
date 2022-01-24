@@ -148,3 +148,6 @@ export const compareForBoolean = (a, b) => {
   return first < second ? -1 : 1;
 }
 
+export const sortUserProjectReport = (a, b) => {
+  return a.is_active - b.is_active
+}
