@@ -46,7 +46,6 @@
       text-overflow: inherit;
       white-space: normal;
       vertical-align: middle;
-
     }
 
     span {
@@ -55,7 +54,6 @@
 
     .text-primary {
       color: #fff !important;
-
     }
   }
 
@@ -69,7 +67,7 @@
     }
     tbody {
       tr {
-        td {
+        td:not(:last-child) {
           padding-left: 40px;
         }
       }
@@ -500,7 +498,7 @@
 }
 
 .disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed !important;
 }
 
