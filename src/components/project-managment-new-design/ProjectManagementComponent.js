@@ -1,15 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import SelectMonth from '../ui/select-month'
-import {
-    RowDetailState,
-} from '@devexpress/dx-react-grid'
-import {
-    Grid,
-    Table,
-    TableHeaderRow,
-    TableRowDetail,
-} from '@devexpress/dx-react-grid-bootstrap4'
-import {connect, useDispatch} from 'react-redux'
+import { useDispatch} from 'react-redux'
 import {
     getAllProjectsSelector,
     getSelectedDateForPMSelector,
@@ -18,77 +9,60 @@ import {
     getIsShowEditModalSelector,
     getIsShowCreateModalSelector,
     getProjectManagerListSelector,
-    getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector,
+    getSelectedPmSelector, getShownProjectSelector, getFilteredProjectSelector, getIsShowCreateUserModalSelector,
 } from '../../reducers/projects-management'
 import {
     changeSelectedDateProjectsManagement, clearPmProjects,
     getAllProjects, setSelectedProjectId,
-    downloadAllTeamProjectReport,
     setShowCreateModal, setShowEditModal,
-    setPm, setShownProject, getProjectReportById, getActiveProjects,
+    setPm, setShownProject, getProjectReportById, getActiveProjects, setShowCreateUserModal,
 } from '../../actions/projects-management'
-import RowDetail from './components/RowDetail'
-import CreateProjectModal from './components/CreateProjectModal'
-//import EditProjectModal from './components/EditProjectModal'
 
 import './style.scss'
-import {Button} from 'react-bootstrap'
 import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
 import {getCurrentUserSelector} from '../../reducers/profile'
 import {isEmpty} from 'lodash'
-import {convertMinutesToHours} from '../../utils/common'
-
 import ReportItemProject from "../common/repott-item/ReportItemProject";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretUp, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
+import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 import CreateProjectModal2 from "./components/CreateProjectModal2";
-import WindowInfo from "../common/window-info/WindowInfo";
-import InfoItemM from "../common/window-info/components/InfoItemM";
-import TeamM from "../common/team-m/TeamM";
-import Plus from "../ui/plus";
 import EditProjectModal2 from "./components/EditProjectModal2";
+import useEqualSelector from "../../custom-hook/useEqualSelector";
+import CreateProjectModal3 from "./components/CreateProjectModal3";
+import CreateUserModal from "./components/CreateUserModal";
+import Plus from "../ui/plus";
 
-const ProjectManagementComponent = ({
-                                        selectedDateForPM,
-                                        changeSelectedDateProjectsManagement,
-                                        getAllProjects,
-                                        projects,
-                                        clearPmProjects,
-                                        isFetching,
-                                        month,
-                                        setShowCreateModal,
-                                        setShowEditModal,
-                                        isEditModalShow,
-                                        isCreateModalShow,
-                                        projectManagers,
-                                        selectedPm,
-                                        setPm,
-                                        currentPm,
-                                        shownProject,
-                                        setShownProject,
-                                        filteredProjects,
-                                        getActiveProjects
+const ProjectManagementComponent = () => {
 
-                                    }) => {
+    const [p, setP] = useState([])
     const dispatch = useDispatch()
+
+    let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector);
+    let isFetching =useEqualSelector(getIsFetchingPmPageSelector);
+    let month = useEqualSelector(getSelectedMonthForPMSelector);
+    let isEditModalShow = useEqualSelector(getIsShowEditModalSelector);
+    let isCreateModalShow =useEqualSelector(getIsShowCreateModalSelector);
+    let isShowCreateUserModal =useEqualSelector(getIsShowCreateUserModalSelector);
+    let selectedPm =useEqualSelector(getSelectedPmSelector);
+    let currentPm =useEqualSelector(getCurrentUserSelector);
+    const  projects = useEqualSelector(getAllProjectsSelector);
+    const projectManagers = useEqualSelector(getProjectManagerListSelector)
 
     useEffect(() => {
         if (isEmpty(selectedPm)) {
-            setPm(currentPm)
+            dispatch(setPm(currentPm))
         }
     }, [])
 
     useEffect(() => {
-        clearPmProjects()
-        setExpandedRowIds([])
-        getAllProjects()
+        dispatch(clearPmProjects())
+        dispatch(getAllProjects())
     }, [month])
 
-    const [typeProjects] = useState([
-        {name: 'Active', count: 5},
-        {name: 'Archive', count: 3},
-    ])
+    useEffect(() => {
+        setP(projects);
+    }, [projects]);
 
 
     const _getProjectReportById = useCallback(
@@ -105,33 +79,8 @@ const ProjectManagementComponent = ({
     )
     const openEditModal = (id) => {
         _setSelectedProjectId(id)
-        setShowEditModal(true)
+        dispatch(setShowEditModal(true))
     }
-
-    const [rows, setRows] = useState([])
-    useEffect(() => {
-        const reformatProjects = filteredProjects.map(project => ({
-            project: project.name,
-            occupancy: ' ',
-            hours: convertMinutesToHours(project?.total_minutes) || 0,
-            // report: <Button variant="outline-*" onClick={() => _downloadAllTeamProjectReport(project.id)}>
-            //     <span className="oi oi-cloud-download"/>
-            // </Button>,
-            actions: <span className="oi oi-pencil" onClick={() => openEditModal(project.id)}/>,
-            id: project.id,
-        }))
-        setRows(reformatProjects)
-    }, [filteredProjects, projects])
-
-    const [expandedRowIds, setExpandedRowIds] = useState([])
-
-    let [p, setP] = useState([])
-    useEffect(() => {
-        setP(projects);
-    }, [projects]);
-
-
-
     const showTypeProject = (item) => {
         if (item.name == 'Active') {
             let activeP = projects.filter(e => e.isActive == true);
@@ -146,17 +95,16 @@ const ProjectManagementComponent = ({
     });
 
     const onSelectPm = (data) => {
-        setPm(data)
-        setShownProject(null)
-        setExpandedRowIds([])
-        getAllProjects()
+        dispatch(setPm(data))
+        dispatch( setShownProject(null))
+        dispatch( getAllProjects())
     }
 
     const clearSelectedProject = () => {
-        setShownProject(null)
+        dispatch(setShownProject(null))
     }
     const onSelectProject = (data) => {
-        setShownProject(data)
+        dispatch(setShownProject(data))
         _getProjectReportById(data.id)
     }
 
@@ -168,15 +116,15 @@ const ProjectManagementComponent = ({
                     <div className="buttons-cont">
                         <button
                             type='submit'
-                            className='btn btn-add-new mr-4'
-                            onClick={() => setShowCreateModal(true)}
+                            className={'btn btn-add-new mr-4 '+(isShowCreateUserModal || isCreateModalShow ?'':'user')}
+                            onClick={() => dispatch(setShowCreateUserModal(true))}
                         >
                             Add new user
                         </button>
                         <button
                             type='submit'
-                            className='btn btn-add-new '
-                            onClick={() => setShowCreateModal(true)}
+                            className='btn btn-add-new  '
+                            onClick={() => dispatch(setShowCreateModal(true))}
                         >
                             Add new project
                         </button>
@@ -201,7 +149,6 @@ const ProjectManagementComponent = ({
                         selectedDate={selectedDateForPM}
                         setNewData={changeSelectedDateProjectsManagement}
                     />
-
                 </div>
                 <div className="row table__titles">
                     <div className="col-lg-7">
@@ -234,36 +181,12 @@ const ProjectManagementComponent = ({
                 {projectsList}
             </div>
 
-            <CreateProjectModal2 show={isCreateModalShow} e={projectManagers}/>
-            {/*<EditProjectModal show={isEditModalShow}/>*/}
+            {/*<CreateProjectModal2 show={isCreateModalShow} e={projectManagers}/>*/}
+            <CreateProjectModal3 show={isCreateModalShow}/>
+            <CreateUserModal show={isShowCreateUserModal} e={projectManagers}/>
             <EditProjectModal2 show={isEditModalShow} />
 
         </div>)
 }
 
-const mapStateToProps = (state) => ({
-    selectedDateForPM: getSelectedDateForPMSelector(state),
-    projects: getAllProjectsSelector(state),
-    isFetching: getIsFetchingPmPageSelector(state),
-    month: getSelectedMonthForPMSelector(state),
-    isEditModalShow: getIsShowEditModalSelector(state),
-    isCreateModalShow: getIsShowCreateModalSelector(state),
-    projectManagers: getProjectManagerListSelector(state),
-    selectedPm: getSelectedPmSelector(state),
-    currentPm: getCurrentUserSelector(state),
-    shownProject: getShownProjectSelector(state),
-    filteredProjects: getFilteredProjectSelector(state),
-})
-const actions = {
-    changeSelectedDateProjectsManagement,
-    getAllProjects,
-    clearPmProjects,
-    setShowEditModal,
-    setShowCreateModal,
-    setPm,
-    setShownProject,
-    getActiveProjects
-}
-
-
-export default connect(mapStateToProps, actions)(ProjectManagementComponent)
+export default ProjectManagementComponent

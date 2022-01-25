@@ -132,6 +132,7 @@ function Select(props) {
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
+      type='button'
       onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
       //disabled={!listItems.length}

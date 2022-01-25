@@ -2,7 +2,7 @@ import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
   CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE, SET_SHOW_EDIT_MODAL, SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS
+  SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS, SET_SHOW_CREATE_USER_MODAL
 } from 'constants/actions-constant'
 import {isEmpty} from 'lodash'
 
@@ -22,6 +22,7 @@ const initialState = {
   isFetchingPmPage:false,
   isShowEditModal:false,
   isShowCreateModal: false,
+  isShowCreateUserModal:false,
   selectedPm: {},
   shownProject:null,
 }
@@ -57,6 +58,8 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, isShowEditModal: action.payload }
     case SET_SHOW_CREATE_MODAL:
       return { ...state, isShowCreateModal: action.payload }
+    case SET_SHOW_CREATE_USER_MODAL:
+      return { ...state, isShowCreateUserModal: action.payload }
     case SET_SELECTED_PM:
       return { ...state, selectedPm: action.payload }
     case SET_SHOWN_PROJECT:
@@ -80,6 +83,7 @@ export const getSelectedPmIdSelector = state => state.projectsManagement.selecte
 export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
 export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
 export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal
+export const getIsShowCreateUserModalSelector = state => state.projectsManagement.isShowCreateUserModal
 
 export const getUsersSelector = state => state.developers.developersList
 

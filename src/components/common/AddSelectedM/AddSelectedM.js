@@ -4,7 +4,14 @@ import Search from "../../ui/search/Search";
 import CheckItem from "./component/CheckItem";
 
 
-function AddSelectedM({teamM, location, checkedUsers, setCheckedUsers, addSelected, closeAddUser}) {
+function AddSelectedM({teamM,
+                          location,
+                          checkedUsers,
+                          setCheckedUsers,
+                          addSelected,
+                          closeAddUser,
+                          customClass
+}) {
     const [searchTerm, setSearchTerm] = useState("")
     const teamMList = teamM?.filter((val)=>{
         if(searchTerm ==""){
@@ -23,7 +30,7 @@ function AddSelectedM({teamM, location, checkedUsers, setCheckedUsers, addSelect
         }
     });
     return<div>
-        <div className={'add-selected '+(location?'members':'') }>
+        <div className={'add-selected '+(location?'members ':'')+(customClass ? customClass:'') }>
             <Search setSearchTerm={setSearchTerm} />
             <div className="check-items-box">
                 {teamMList}

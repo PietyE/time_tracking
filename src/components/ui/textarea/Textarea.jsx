@@ -2,11 +2,13 @@ import React from "react";
 
 
 
-function Textarea({placeholer, value='', formik}) {
+function Textarea({placeholder,value='', setDescription, customClass }) {
     return(
         <div>
-            <textarea placeholder={placeholer} name='projectDescription' onChange={formik.handleChange} defaultValue={formik.values.projectDescription}/>
-
+            <textarea placeholder={placeholder}
+                      className={customClass}
+                      onChange={(e)=>{setDescription(e.target.value)}}
+                      defaultValue={value}/>
         </div>
     )
 }

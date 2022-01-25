@@ -8,8 +8,6 @@ import {Link} from "react-router-dom";
 import {getSelectedDateForPMSelector} from "../../../reducers/projects-management";
 
 
-
-
 function TeamM({e, del,d, hovers, setWorkType}) {
     let [fulTime, setFullTime] = useState(e.is_full_time);
     const dispatch = useDispatch()
@@ -24,7 +22,7 @@ function TeamM({e, del,d, hovers, setWorkType}) {
     )
 
     useEffect(()=>{
-        setWorkType(e.user_id || e.id , fulTime)
+      setWorkType && setWorkType(e.user_id || e.id , fulTime)
     },[fulTime]);
 
     let userId = e.id ||e.user_id;

@@ -90,8 +90,18 @@
       padding-right: 16px;
       font-weight: 600;
       font-size: 14px;
+      cursor: pointer;
       &:hover{
         color: #fff;
+      }
+
+      &.user{
+        background: transparent;
+        background-image: url("../../images/green_plus_ic.svg");
+        background-repeat: no-repeat;
+        background-position: left 16px center;
+        border: solid 1px #009C98;
+        color:#009C98;
       }
     }
 
@@ -265,6 +275,8 @@
   backdrop-filter: blur(5px);
 }
 
+
+
 .btn-outline-secondary{
   border-radius: 6px;
   background-color: #009c98;
@@ -435,19 +447,24 @@
           letter-spacing: 0.03em;
           color: #222222;
         }
+        .new-position{
+          width: 100%;
+          height: 48px;
+          .select_list_container{
+            width: 100%;
+          }
+        }
       }
+
 
       .team-container{
         margin:12px 15px 30px;
         padding: 0 20px;
-        max-width: 400px;
       }
 
       .plus{
         margin-bottom:4px;
       }
-
-
 
       &-submit{
         width: 100%;
@@ -466,6 +483,17 @@
     }
   }
 
+  .new-user-project{
+    left: -250px;
+  }
+
+  .users-project{
+    display: flex;
+    justify-content: space-between;
+    img{
+      cursor: pointer;
+    }
+  }
 }
 
 .pm_create_modal_label{
@@ -573,5 +601,10 @@
   margin-right: 10px;
   height: 18px;
   width: 18px;
+}
+
+.error{
+  color: red;
+  width: 100%;
 }
 

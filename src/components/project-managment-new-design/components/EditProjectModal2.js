@@ -35,22 +35,19 @@ import Select from "../../ui/select";
 import {selectProject} from "../../../actions/times-report";
 import Textarea from "../../ui/textarea";
 import {useFormik} from "formik";
+import * as Yup from "yup";
 
 
 function EditProjectModal2({show}) {
     const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
     const projects = useSelector(getProjectsSelector, isEqual);
-    const formik = useFormik({
-        initialValues:{
-            projectDescription:'Same description'
-        }
-    })
 
     let [addMember, setAddMember] = useState(false);
     const [checkedUsers, setCheckedUsers] = useState([]);
     const [currentEditedTeam, setEditedTeam] = useState([]);
     const [selectedPrlject, setSelectedPr]= useState({});
     const [selectedOwner, setSelectedOwner] = useState({});
+    const [description, setDescription] =useState('')
 
     const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
     const currentProject = useSelector((getSelectedProjectSelector, isEqual))
@@ -132,7 +129,7 @@ function EditProjectModal2({show}) {
     const _submitEditData = () =>  {
        return {
             project:selectedPrlject,
-            description:formik.values.projectDescription,
+            description:description,
             projectManager: selectedOwner,
             team:currentEditedTeam
         }
@@ -148,13 +145,6 @@ function EditProjectModal2({show}) {
 
         setEditedTeam(resArr);
     })
-
-    window.addEventListener('keyup', (e)=>{
-        if(e.key === 'Enter'){
-            console.log('edit data', _submitEditData());
-        }
-    })
-
 
     useEffect(() => {
         if (projectName) {
@@ -183,23 +173,32 @@ function EditProjectModal2({show}) {
         }
     }, [currentProject])
 
-    const pmInitialValue = {
-        name: '',
-        user_id: '',
-        is_full_time: true,
-        is_active: true,
-    }
-    let initialValues = {
-        projectName: '',
-        team: [],
-        projectManager: pmInitialValue,
-    }
+    // const pmInitialValue = {
+    //     name: '',
+    //     user_id: '',
+    //     is_full_time: true,
+    //     is_active: true,
+    // }
+    // let initialValues = {
+    //     projectName: '',
+    //     team: [],
+    //     projectManager: pmInitialValue,
+    // }
 
     const handleClose = () => dispatch(setShowEditModal(false))
 
-    const onSubmit = values => {
-        _changeProjectName(currentProjectId, values.projectName)
-    }
+    // const onSubmit = values => {
+    //     _changeProjectName(currentProjectId, values.projectName)
+    // }
+
+
+
+    window.addEventListener('keyup', (e)=>{
+        console.log('class list')
+        if(e.key === 'Enter' && !e?.target?.classList?.contains('projectDescription')){
+            console.log('edit data',_submitEditData())
+        }
+    })
 
     let teamMList = currentEditedTeam?.map((e) => {
         return <div key={e.user_id}>
@@ -212,7 +211,7 @@ function EditProjectModal2({show}) {
         </div>
     });
 
-    return <div className={'edit-modal-container ' + (show ? 'active' : '')}>
+    return <form className={'edit-modal-container ' + (show ? 'active' : '')}>
         <WindowInfo close={handleClose} title={valuesFromApi?.projectName} download={_downloadAllTeamProjectReport}
                     id={currentProjectId}>
 
@@ -244,7 +243,10 @@ function EditProjectModal2({show}) {
                 <InfoItemM title={'DESCRIPTION'}
                            icon={ProjectIcon}
                            editValue={
-                               <Textarea placeholer={'Some info about the project'} value={'Some text...'} formik ={formik}/>
+                               <Textarea placeholder={'Some info about the project'}
+                                         value={description}
+                                         customClass={'projectDescription'}
+                                         setDescription={setDescription}/>
                            }
                            value={'Some text...'}
                            customClass={'project-description'}
@@ -287,7 +289,7 @@ function EditProjectModal2({show}) {
                 </div>
 
         </WindowInfo>
-    </div>
+    </form>
 }
 
 
