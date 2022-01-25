@@ -149,5 +149,5 @@ export const compareForBoolean = (a, b) => {
 }
 
 export const sortUserProjectReport = (a, b) => {
-  return a.is_active - b.is_active
+  return b.active_project - a.active_project
 }
