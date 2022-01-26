@@ -6,6 +6,7 @@ import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { getSelectedMonthSelector } from '../../../reducers/projects-report'
 import { Link } from 'react-router-dom'
 import { getUsersProjectReport } from '../../../actions/projects-report'
+import { sortUserProjectReport } from '../../../utils/common'
 import { useDispatch } from 'react-redux'
 import CustomCell from './CustomCell'
 
@@ -20,7 +21,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
   const [childRows, setChildRows] = useState([]);
 
   const formattedProjects = useMemo(
-    () => projects.map(({ name, working_time, idDeveloperProjects }) => ({
+    () => projects.map(({ name, total, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
       name: '',
       developer_projects:{
           link:(
@@ -42,12 +43,14 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
       },
       totalHours: working_time,
       id: idDeveloperProjects,
+      active_project: is_active,
     })),
     [projects, row, selectedDate]);
 
 
   useEffect(() => {
-      setChildRows(formattedProjects)
+    const sortFormattedProjects = [...formattedProjects].sort(sortUserProjectReport);
+    setChildRows(sortFormattedProjects)
   }, [formattedProjects]);
 
   useEffect(() => {

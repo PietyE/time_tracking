@@ -112,6 +112,7 @@ function CreateProjectModal({ show }) {
     name: '',
     user_id: '',
     is_full_time: true,
+    is_project_manager: true,
   }
   const initialValues = {
     projectName: '',

@@ -125,6 +125,7 @@ function ProjectsReport() {
       name,
       developer_projects,
       totalHours: is_full_time ? 'fulltime' : `${total_hours || 0} `,
+      active_project: true,
       id,
     })),
     [users]);
@@ -133,20 +134,20 @@ function ProjectsReport() {
     setRows(formattedUsers)
   }, [formattedUsers]);
 
-  useEffect(() => {
-      if(roleUser){
-          if (roleUser !== DEVELOPER) {
-              dispatch(getDevelopersProjectInProjectReport());
-          }
-          dispatch(getConsolidateProjectReport());
+  useEffect(() =>{
+    if (roleUser) {
+      if (roleUser !== DEVELOPER) {
+        dispatch(getDevelopersProjectInProjectReport());
       }
+      dispatch(getConsolidateProjectReport());
+    }
 
   }, [roleUser, dispatch]);
 
   return (<>
-    {isFetchingReports && <Spinner/>}
+    {isFetchingReports && <Spinner />}
     <div className="container project_report_container">
-      {isOpenEdit && (<EditUserModal handlerCloseModalEdit={handlerCloseModalEdit}/>)}
+      {/* {isOpenEdit && (<EditUserModal handlerCloseModalEdit={handlerCloseModalEdit}/>)} */}
       <div className="project_report_header_container">
         {roleUser !== DEVELOPER && roleUser !== PM && (<div className="project_report_header_choice">
           <Select
@@ -218,7 +219,7 @@ function ProjectsReport() {
             />
             <TableRowDetail
               contentComponent={
-                (props) => <ProjectReportRowDetail {...props} pmDetailed/>
+                (props) => <ProjectReportRowDetail {...props} pmDetailed />
               }
             />
           </Grid>
@@ -266,7 +267,7 @@ function ProjectsReport() {
             showSortingControls={roleUser !== DEVELOPER}
             cellComponent={CustomHeaderCell}
           />
-          <TableRowDetail contentComponent={ProjectReportRowDetail}/>
+          <TableRowDetail contentComponent={ProjectReportRowDetail} />
         </Grid>
       </div>
     </div>
