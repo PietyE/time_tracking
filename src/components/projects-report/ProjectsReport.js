@@ -213,7 +213,7 @@ function ProjectsReport() {
   return (<>
     {isFetchingReports && <Spinner/>}
     <div className="container project_report_container">
-      {isOpenEdit && (<EditUserModal handlerCloseModalEdit={handlerCloseModalEdit}/>)}
+      {/* {isOpenEdit && (<EditUserModal handlerCloseModalEdit={handlerCloseModalEdit}/>)} */}
       <div className="project_report_header_container">
         {roleUser !== DEVELOPER && roleUser !== PM && (<div className="project_report_header_choice">
           <Select
