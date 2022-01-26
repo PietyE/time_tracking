@@ -2,8 +2,8 @@ import React from 'react';
 import { Table } from '@devexpress/dx-react-grid-bootstrap4'
 import _ from "lodash";
 
-const CustomCell = ({ value, style, ...restProps }) => {
-    const { active_project } = restProps.row;
+const CustomCell = ({ value, style, row, ...restProps }) => {
+    const { active_project } = row;
 
    // let tooltip = typeof value === 'string'?value:'';
     let val= value;
