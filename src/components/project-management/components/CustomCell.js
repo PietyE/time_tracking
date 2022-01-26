@@ -16,7 +16,7 @@ const CustomCell = ({ value, style, ...restProps }) => (
         overflow: 'hidden',
         textOverflow: 'fade',
         whiteSpace: 'nowrap',
-        margin: 0,
+        margin: '0 20px 0 0',
       }}
     >
       {value}
