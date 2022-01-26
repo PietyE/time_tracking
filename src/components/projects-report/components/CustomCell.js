@@ -2,7 +2,8 @@ import React from 'react';
 import { Table } from '@devexpress/dx-react-grid-bootstrap4'
 import _ from "lodash";
 
-const CustomCell = ({ value, style, ...restProps }) => {
+const CustomCell = ({ value, style, row, ...restProps }) => {
+    const { active_project } = row;
 
    // let tooltip = typeof value === 'string'?value:'';
     let val= value;
@@ -18,7 +19,9 @@ const CustomCell = ({ value, style, ...restProps }) => {
                 verticalAlign: 'middle',
                 textAlign: 'start',
                 ...style,
-            }}
+            },
+                active_project ? { opacity: '1' } : { opacity: '0.5' }
+            }
         >
     <span
         title={title}

@@ -165,6 +165,7 @@ function ProjectsReport() {
       total: UAHFormat.format(total),
       total_expenses: UAHFormat.format(total_expenses),
       total_uah: UAHFormat.format(total_uah),
+      active_project: true,
       comments: (comments ? (<OverlayTrigger
         placement="left"
         containerPadding={20}
