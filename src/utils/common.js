@@ -119,4 +119,9 @@ export  function paginationWithDots(c, m) {
   return rangeWithDots;
 }
 
+export function setElementTop(top, elementSelector) {
+  let elem = document.querySelector(elementSelector)
+  elem.style.top = top +'px';
+}
+
 

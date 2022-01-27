@@ -14,10 +14,11 @@
     display: none;
     &.active{
       display: block;
+      position: fixed;
+      top:10%;
+      right: -50px;
       .main_container{
         height: auto;
-        position: fixed;
-        top:10%;
       }
 
       .description-cont{

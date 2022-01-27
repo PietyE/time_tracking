@@ -1,6 +1,11 @@
+body{
+  background: #F3F5F5;;
+}
+
 .app {
   text-align: center;
   background: #F3F5F5;
+
 }
 .app_without_scroll{
   text-align: center;
