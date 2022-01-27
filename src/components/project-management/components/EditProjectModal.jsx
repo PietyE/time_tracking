@@ -72,6 +72,7 @@ function EditProjectModal({ show, projectList }) {
   const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
   const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
 
+
   const availableProjectManagersList = projectManagersList.filter(
     (pm) => pm?.id !== activeProjectManager?.user_id
   )
@@ -112,6 +113,7 @@ function EditProjectModal({ show, projectList }) {
     user_id: '',
     is_full_time: true,
     is_active: true,
+    is_project_manager: false
   }
   let initialValues = {
     projectName: '',
@@ -172,20 +174,27 @@ function EditProjectModal({ show, projectList }) {
             const handleAddMemberToProject = (e) => {
               const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
-              if (e.target?.name === 'projectManager.name') {
-                const isPm = projectManagersList.find(
-                  (pm) => pm.id === targetUserId
-                )
-
-                if (isPm) {
-                  setFieldValue('projectManager.name', e.target.value)
-                  if (activeProjectManager) {
-                    _changeUserOnProject(activeProjectManager.projectReportId, {
-                      is_active: false,
-                    })
-                  }
-                }
-              }
+              // const isPm = projectManagersList.find(
+              //   (pm) => pm.id === targetUserId
+              // )
+              // if (e.target?.name === 'projectManager.name') {
+              //   if (isPm) {
+              //     setFieldValue('projectManager.name', e.target.value)
+              //     _addUsersOnProject({
+              //       project: currentProjectId,
+              //       user: isPm.id,
+              //       is_full_time: true,
+              //       is_active: true,
+              //       is_project_manager: true,
+              //     })
+              //     if (activeProjectManager) {
+              //       _changeUserOnProject(activeProjectManager.projectReportId, {
+              //         is_active: false,
+              //         is_project_manager: false,
+              //       })
+              //     }
+              //   }
+              // }
 
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
@@ -194,14 +203,49 @@ function EditProjectModal({ show, projectList }) {
                 _changeUserOnProject(wasDeactivated.projectReportId, {
                   is_active: true,
                 })
-              } else {
+              } 
+              else {
                 _addUsersOnProject({
                   project: currentProjectId,
                   user: targetUserId,
                   is_full_time: true,
                   is_active: true,
+                  is_project_manager: false,
+                })
+              }     
+            }
+
+            const handleAddProjectManagerToProject = async (e) => {
+              // console.log(e.target.value)
+              const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
+              const isPm = projectManagersList.find(
+                (pm) => pm.id === targetUserId
+              )
+              console.log(activeProjectManager)
+              if (activeProjectManager) {
+                _changeUserOnProject(activeProjectManager.projectReportId, {
+                  is_active: false,
+                  is_project_manager: false,
                 })
               }
+              _addUsersOnProject({
+                project: currentProjectId,
+                user: isPm.id,
+                is_full_time: true,
+                is_active: true,
+                is_project_manager: true,
+              })
+
+              const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
+                (user) => user.user_id === targetUserId
+              )
+              if (wasDeactivated) {
+                _changeUserOnProject(wasDeactivated.projectReportId, {
+                  is_active: true,
+                  is_project_manager: true,
+                })
+              } 
+              
             }
 
             const isSameProject = values.projectName === valuesFromApi?.projectName
@@ -251,7 +295,7 @@ function EditProjectModal({ show, projectList }) {
                 {values.team?.length > 0 && (
                   <ul>
                     {values.team
-                      .filter((el) => el.is_active === true)
+                      .filter((el) => {return el.is_active === true && el.is_project_manager === false})
                       .map((el) => (
                         <TeamMemberItem
                           key={el.user_id}
@@ -273,7 +317,7 @@ function EditProjectModal({ show, projectList }) {
                     className="pm_create_modal_input"
                     name="projectManager.name"
                     as="select"
-                    onChange={handleAddMemberToProject}
+                    onChange={handleAddProjectManagerToProject}
                   >
                     <option label="Select PM"/>
                     {!!availableProjectManagersList.length &&
@@ -284,7 +328,7 @@ function EditProjectModal({ show, projectList }) {
                       ))}
                   </Field>
                 </label>
-                {values?.projectManager?.name && (
+                {values?.projectManager?.is_project_manager && values?.projectManager?.name && (
                   <div className="pm_create_team_item  pm_create_team_item_pm">
                     <span className="pm_create_team_text">
                       {values.projectManager.name}

@@ -57,7 +57,6 @@ const RowDetail = ({ row }) => {
             variant="outline-*"
             onClick={() => _downloadProjectReport(user.projectReportId)}
           >
-            {' '}
             <span
           className="oi oi-cloud-download" />
           </Button>

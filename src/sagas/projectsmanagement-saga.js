@@ -137,6 +137,7 @@ export function* getProjectReportById(action) {
       minutes: el.total_minutes,
       is_full_time: el.is_full_time,
       is_active: el.is_active,
+      is_project_manager: el.is_project_manager,
     }))
     const projectReport = {
       projectId: projectId,
