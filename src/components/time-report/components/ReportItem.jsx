@@ -238,7 +238,7 @@ function ReportItem({
       ref={containerRef}
       onDragStart={() => false}
     >
-      <span className="drag_button" onMouseDown={handleDragAndDrop}></span>
+      <span className="drag_button" /*onMouseDown={handleDragAndDrop}*/></span>
       {showModalChangeProject && (
         <ChangeProjectModal
           onClickClose={hanldeClickToggleShowModalChangeProject}
@@ -291,7 +291,7 @@ function ReportItem({
       <div className="time_report_day_edit">
         <div className={'time_report_day_menu'}>
           <CopyToClipboardButton text={text} onCopy={onCopy}/>
-          {idEditingWorkItem !== id && isOneProject && (
+          {/* {idEditingWorkItem !== id && isOneProject && (
             <button
               onClick={hanldeClickToggleShowModalChangeProject}
               className="button change_project_button"
@@ -300,7 +300,7 @@ function ReportItem({
             >
               <FaExchangeAlt className="icon" />
             </button>
-          )}
+          )} */}
           <button
             onClick={
               idEditingWorkItem === id ? () => null : handlerClickEditMode
