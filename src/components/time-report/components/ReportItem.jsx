@@ -238,7 +238,7 @@ function ReportItem({
       ref={containerRef}
       onDragStart={() => false}
     >
-      <span className="drag_button" onMouseDown={handleDragAndDrop}></span>
+      <span className="drag_button" /*onMouseDown={handleDragAndDrop}*/></span>
       {showModalChangeProject && (
         <ChangeProjectModal
           onClickClose={hanldeClickToggleShowModalChangeProject}
