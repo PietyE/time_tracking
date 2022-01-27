@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import SelectMonth from '../ui/select-month'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
@@ -37,6 +37,14 @@ import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal3 from './components/CreateProjectModal3'
 import CreateUserModal from './components/CreateUserModal'
+import { currentItemsGets } from '../../utils/common'
+import { setCurrentItems, setPageSize } from '../../actions/pagination'
+import {
+  getCurrentItems,
+  getCurrentPage,
+  getPageSize,
+} from '../../selectors/pagination'
+import Pagination from '../ui/pagination/Pagination'
 
 const ProjectManagementComponent = () => {
   const [p, setP] = useState([])
@@ -52,11 +60,18 @@ const ProjectManagementComponent = () => {
   let currentPm = useEqualSelector(getCurrentUserSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
+  let currentPage = useEqualSelector(getCurrentPage)
+  let currentItems = useEqualSelector(getCurrentItems)
+  let pageSize = useEqualSelector(getPageSize)
+  let totalCount = p.length || 0
+
+  console.log('current items', currentItems)
 
   useEffect(() => {
     if (isEmpty(selectedPm)) {
       dispatch(setPm(currentPm))
     }
+    dispatch(setPageSize(10))
   }, [])
 
   useEffect(() => {
@@ -67,6 +82,11 @@ const ProjectManagementComponent = () => {
   useEffect(() => {
     setP(projects)
   }, [projects])
+
+  useEffect(() => {
+    let items = currentItemsGets(pageSize, currentPage, p)
+    dispatch(setCurrentItems(items))
+  }, [pageSize, currentPage, p])
 
   const _setSelectedProjectId = useCallback(
     (data) => {
@@ -87,7 +107,7 @@ const ProjectManagementComponent = () => {
     }
   }
 
-  const projectsList = p.map((e, i) => {
+  const projectsList = currentItems.map((e, i) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -167,6 +187,12 @@ const ProjectManagementComponent = () => {
           <div className="col-lg-3">HOURS WORKED</div>
         </div>
         {projectsList}
+        <Pagination
+          totalCount={totalCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          paginationDeiplayed={5}
+        />
       </div>
       <CreateProjectModal3 show={isCreateModalShow} />
       <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
