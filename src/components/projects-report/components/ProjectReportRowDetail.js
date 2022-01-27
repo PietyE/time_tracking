@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { Grid, Table } from '@devexpress/dx-react-grid-bootstrap4'
-import { UAHFormat } from '../../../utils/common'
 import { selectUserProjects } from '../../../selectors/project-report-details'
-import { getRoleUser } from '../../../selectors/user'
-import { columnExtensions, initialColumns, roleRestrictions } from '../projectReportConfig'
+import { columnExtensions, initialColumns } from '../projectReportConfig'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { getSelectedMonthSelector } from '../../../reducers/projects-report'
-import { DEVELOPER, PM } from '../../../constants/role-constant'
 import { Link } from 'react-router-dom'
 import { getUsersProjectReport } from '../../../actions/projects-report'
+import { sortUserProjectReport } from '../../../utils/common'
 import { useDispatch } from 'react-redux'
 import CustomCell from './CustomCell'
 
@@ -16,16 +14,14 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
   const dispatch = useDispatch();
   const userDetails = useEqualSelector(selectUserProjects);
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
-  const userRole = useEqualSelector(getRoleUser);
   const user = userDetails[row.id]
 
   const {  projects = [] } = user || {};
 
-  const [childColumns, setChildColumns] = useState(initialColumns);
   const [childRows, setChildRows] = useState([]);
 
   const formattedProjects = useMemo(
-    () => projects.map(({ name, total, is_full_time, working_time, idDeveloperProjects }) => ({
+    () => projects.map(({ name, total, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
       name: '',
       developer_projects:{
           link:(
@@ -44,43 +40,28 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
           title:name
 
 
-      } ,
-        salary_uah: '',
-      rate_uah: '',
-      total_hours: is_full_time ? 'fulltime' : `${working_time || 0} `,
-      total: userRole === PM ? '' : UAHFormat.format(total),
-      total_expenses: '',
-      total_uah: '',
-      comments: '',
-      is_processed: '',
+      },
+      totalHours: working_time,
       id: idDeveloperProjects,
+      active_project: is_active,
     })),
-    [projects, row, selectedDate, userRole]);
+    [projects, row, selectedDate]);
 
 
   useEffect(() => {
-      setChildRows(formattedProjects)
+    const sortFormattedProjects = [...formattedProjects].sort(sortUserProjectReport);
+    setChildRows(sortFormattedProjects)
   }, [formattedProjects]);
 
   useEffect(() => {
     dispatch(getUsersProjectReport(row.id));
   }, [row.id, dispatch]);
 
-  useEffect(() => {
-    if (userRole && roleRestrictions?.[userRole]) {
-      const filteredColumns = initialColumns.filter(
-        (column) => !roleRestrictions[pmDetailed ? DEVELOPER : userRole].includes(column.name),
-      );
-
-      setChildColumns(filteredColumns);
-    }
-  }, [userRole, pmDetailed]);
-
   return (
     <div>
       <Grid
-        rows = {childRows}
-        columns = {childColumns}
+        rows={childRows}
+        columns={initialColumns}
       >
         <Table
           columnExtensions={columnExtensions}

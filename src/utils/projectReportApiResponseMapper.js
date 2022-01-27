@@ -63,15 +63,16 @@ export const usersProjectReportMapper = (response) => {
   }
 
 
-  return  response.data.developer_projects.map(item => {
-      return {
-        name: lodashGet(item, 'project.name', ''),
-        working_time: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
-        id: lodashGet(item, 'project.id', ''),
-        total: lodashGet(item, 'total_overtime_amount_uah', ''),
-        is_full_time: lodashGet(item, 'is_full_time', ''),
-        idDeveloperProjects: lodashGet(item, 'id', '')
-      };
+  return response.data.developer_projects.map(item => {
+    return {
+      name: lodashGet(item, 'project.name', ''),
+      working_time: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'total_minutes', ''))),
+      id: lodashGet(item, 'project.id', ''),
+      total: lodashGet(item, 'total_overtime_amount_uah', ''),
+      is_full_time: lodashGet(item, 'is_full_time', ''),
+      idDeveloperProjects: lodashGet(item, 'id', ''),
+      is_active: lodashGet(item, 'is_active', '')
+    };
   });
 }
 
