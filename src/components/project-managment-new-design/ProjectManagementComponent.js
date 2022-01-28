@@ -65,8 +65,6 @@ const ProjectManagementComponent = () => {
   let pageSize = useEqualSelector(getPageSize)
   let totalCount = p.length || 0
 
-  console.log('current items', currentItems)
-
   useEffect(() => {
     if (isEmpty(selectedPm)) {
       dispatch(setPm(currentPm))
@@ -115,6 +113,22 @@ const ProjectManagementComponent = () => {
     dispatch(setPm(data))
     dispatch(setShownProject(null))
     dispatch(getAllProjects())
+  }
+
+  const sortArrayWithObj = (creteria, array, reverse = false) => {
+    let temp = [...array]
+    if (reverse) {
+      temp = temp.sort((a, b) => (a < b ? 1 : -1)).reverse()
+    } else {
+      temp = temp.sort((a, b) => (a > b ? 1 : -1))
+    }
+    return temp
+  }
+
+  const setSortedArr = (reverse = false, criteria) => {
+    let res = sortArrayWithObj(criteria, projects, reverse)
+    console.log('res', res)
+    setP(res)
   }
 
   return (
@@ -167,14 +181,24 @@ const ProjectManagementComponent = () => {
             <div className="sort-by">
               <span>PROJECT NAME</span>
               <span className="cart-cont">
-                <div className={'min'}>
+                <div
+                  className={'min'}
+                  onClick={() => {
+                    setSortedArr(true, 'name')
+                  }}
+                >
                   <FontAwesomeIcon
                     icon={faCaretUp}
                     color="#414141"
                     className="icon pencil_icon"
                   />
                 </div>
-                <div className={'max'}>
+                <div
+                  className={'max'}
+                  onClick={() => {
+                    setSortedArr(false, 'name')
+                  }}
+                >
                   <FontAwesomeIcon
                     icon={faCaretDown}
                     color="#414141"
@@ -184,7 +208,31 @@ const ProjectManagementComponent = () => {
               </span>
             </div>
           </div>
-          <div className="col-lg-3">HOURS WORKED</div>
+          <div className="col-lg-3">
+            <span>HOURS WORKED</span>
+            <span className="cart-cont">
+              <div
+                className={'min'}
+                onClick={() => setSortedArr(true, 'total_hovers')}
+              >
+                <FontAwesomeIcon
+                  icon={faCaretUp}
+                  color="#414141"
+                  className="icon pencil_icon"
+                />
+              </div>
+              <div
+                className={'max'}
+                onClick={() => setSortedArr(false, 'total_hovers')}
+              >
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  color="#414141"
+                  className="icon pencil_icon"
+                />
+              </div>
+            </span>
+          </div>
         </div>
         {projectsList}
         <Pagination
