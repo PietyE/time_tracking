@@ -37,7 +37,7 @@ import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal3 from './components/CreateProjectModal3'
 import CreateUserModal from './components/CreateUserModal'
-import { currentItemsGets } from '../../utils/common'
+import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
 import { setCurrentItems, setPageSize } from '../../actions/pagination'
 import {
   getCurrentItems,
@@ -48,6 +48,8 @@ import Pagination from '../ui/pagination/Pagination'
 
 const ProjectManagementComponent = () => {
   const [p, setP] = useState([])
+  const [maxNameFilter, setMaxNameFilter] = useState(false)
+  const [maxTimeFilter, setMaxTimeFilter] = useState(false)
   const dispatch = useDispatch()
 
   let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
@@ -115,21 +117,10 @@ const ProjectManagementComponent = () => {
     dispatch(getAllProjects())
   }
 
-  const sortArrayWithObj = (creteria, array, reverse = false) => {
-    let temp = [...array]
-    if (reverse) {
-      temp = temp.sort((a, b) => (a < b ? 1 : -1)).reverse()
-    } else {
-      temp = temp.sort((a, b) => (a > b ? 1 : -1))
-    }
-    return temp
-  }
-
-  const setSortedArr = (reverse = false, criteria) => {
+  const setSortedArr = useCallback((reverse = false, criteria) => {
     let res = sortArrayWithObj(criteria, projects, reverse)
-    console.log('res', res)
     setP(res)
-  }
+  })
 
   return (
     <div className="project">
@@ -179,12 +170,13 @@ const ProjectManagementComponent = () => {
         <div className="row table__titles">
           <div className="col-lg-7">
             <div className="sort-by">
-              <span>PROJECT NAME</span>
-              <span className="cart-cont">
+              <div className="sort-title">PROJECT NAME</div>
+              <div className="cart-cont">
                 <div
-                  className={'min'}
+                  className={'max ' + (maxNameFilter ? 'disable' : '')}
                   onClick={() => {
                     setSortedArr(true, 'name')
+                    setMaxNameFilter(true)
                   }}
                 >
                   <FontAwesomeIcon
@@ -194,9 +186,10 @@ const ProjectManagementComponent = () => {
                   />
                 </div>
                 <div
-                  className={'max'}
+                  className={'min ' + (!maxNameFilter ? 'disable' : '')}
                   onClick={() => {
                     setSortedArr(false, 'name')
+                    setMaxNameFilter(false)
                   }}
                 >
                   <FontAwesomeIcon
@@ -205,33 +198,41 @@ const ProjectManagementComponent = () => {
                     className="icon pencil_icon"
                   />
                 </div>
-              </span>
+              </div>
             </div>
           </div>
           <div className="col-lg-3">
-            <span>HOURS WORKED</span>
-            <span className="cart-cont">
-              <div
-                className={'min'}
-                onClick={() => setSortedArr(true, 'total_hovers')}
-              >
-                <FontAwesomeIcon
-                  icon={faCaretUp}
-                  color="#414141"
-                  className="icon pencil_icon"
-                />
+            <div className="sort-by">
+              <div className="sort-title">HOURS WORKED</div>
+              <div className="cart-cont">
+                <div
+                  className={'max ' + (maxTimeFilter ? 'disable' : '')}
+                  onClick={() => {
+                    setSortedArr(true, 'total_minutes')
+                    setMaxTimeFilter(true)
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCaretUp}
+                    color="#414141"
+                    className="icon pencil_icon"
+                  />
+                </div>
+                <div
+                  className={'min ' + (!maxTimeFilter ? 'disable' : '')}
+                  onClick={() => {
+                    setSortedArr(false, 'total_minutes')
+                    setMaxTimeFilter(false)
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    color="#414141"
+                    className="icon pencil_icon"
+                  />
+                </div>
               </div>
-              <div
-                className={'max'}
-                onClick={() => setSortedArr(false, 'total_hovers')}
-              >
-                <FontAwesomeIcon
-                  icon={faCaretDown}
-                  color="#414141"
-                  className="icon pencil_icon"
-                />
-              </div>
-            </span>
+            </div>
           </div>
         </div>
         {projectsList}

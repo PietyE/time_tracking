@@ -42,7 +42,7 @@ function EditProjectModal2({ show }) {
   let [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
   const [currentEditedTeam, setEditedTeam] = useState([])
-  const [selectedPrlject, setSelectedPr] = useState({})
+  const [selectedProject, setSelectedPr] = useState({})
   const [selectedOwner, setSelectedOwner] = useState({})
   const [description, setDescription] = useState('')
 
@@ -114,7 +114,7 @@ function EditProjectModal2({ show }) {
 
   const _submitEditData = () => {
     return {
-      project: selectedPrlject,
+      project: selectedProject,
       description: description,
       projectManager: selectedOwner,
       team: currentEditedTeam,
@@ -169,11 +169,11 @@ function EditProjectModal2({ show }) {
     }
   })
 
-  let teamMList = currentEditedTeam?.map((e) => {
+  let teamMList = currentEditedTeam?.map((e, i) => {
     return (
-      <div key={e.user_id}>
+      <div key={e.user_id || i}>
         <TeamM
-          key={e.user_id}
+          key={e.user_id || i}
           e={e}
           hovers={'120h 50m'}
           del={deleteItem}

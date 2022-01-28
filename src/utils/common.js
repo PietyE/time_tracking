@@ -4,7 +4,7 @@ export const getTokenKeyFromLocalStorage = () => {
   return data_user.key
 }
 
-export const parseMinToHoursAndMin = (min, Hformat=false) => {
+export const parseMinToHoursAndMin = (min, Hformat = false) => {
   const HOUR = 60
   let minToNumber = +min
   let strHours = '00'
@@ -20,7 +20,7 @@ export const parseMinToHoursAndMin = (min, Hformat=false) => {
     strMin = minutes < 10 ? `0${minutes}` : `${minutes}`
   }
 
-  return Hformat?`${strHours}h ${strMin}m`:`${strHours}:${strMin}`
+  return Hformat ? `${strHours}h ${strMin}m` : `${strHours}:${strMin}`
 }
 
 export const getUrlParams = (search) => {
@@ -32,54 +32,56 @@ export const getUrlParams = (search) => {
   }, {})
 }
 
-export const convertHours = (data) =>{
-  if(data){
-    const hours = Math.floor(data);
-    let minutes = Math.round((data - hours)*60);
-    if(minutes < 10){
+export const convertHours = (data) => {
+  if (data) {
+    const hours = Math.floor(data)
+    let minutes = Math.round((data - hours) * 60)
+    if (minutes < 10) {
       minutes = `0${minutes}`
     }
     return `${hours}:${minutes}`
-  }else{
+  } else {
     return 0
   }
 }
 export const convertMinutesToHours = (data) => {
-  if(data){
-    const hours = Math.floor(data/60);
-    let minutes = data - (hours*60);
-    if(minutes < 10){
+  if (data) {
+    const hours = Math.floor(data / 60)
+    let minutes = data - hours * 60
+    if (minutes < 10) {
       minutes = `0${minutes}`
     }
     return `${hours}:${minutes}`
-  }else{
+  } else {
     return 0
   }
 }
 
-export const  currentItemsGets =(pageSize, currentPage, totalItems)=>{
-  let from ;
-  let to ;
-  if(currentPage>1){
-    from = (currentPage-1) * pageSize;
-    to = currentPage * pageSize;
-  }else {
-    from = 0;
-    to = currentPage * pageSize;
+export const currentItemsGets = (pageSize, currentPage, totalItems) => {
+  let from
+  let to
+  if (currentPage > 1) {
+    from = (currentPage - 1) * pageSize
+    to = currentPage * pageSize
+  } else {
+    from = 0
+    to = currentPage * pageSize
   }
 
-  let res = totalItems.slice(from, to);
-  return res;
+  let res = totalItems.slice(from, to)
+  return res
 }
 
-export const closeEditMenu = (editMenu, setEditMenu)=>{
-  window.addEventListener('click', (event)=>{
-    if(editMenu){
-      if(event.target.parentNode?.classList.contains('edit_dots')
-          || event.target.parentNode.classList.contains('time_report_day_menu')
-          || event.target.parentNode.classList.contains('time_report_day_edit')
-          || event.target.classList.contains('time_report_day_menu')
-          || event.target.parentNode.classList.contains('svg-inline--fa')){
+export const closeEditMenu = (editMenu, setEditMenu) => {
+  window.addEventListener('click', (event) => {
+    if (editMenu) {
+      if (
+        event.target.parentNode?.classList.contains('edit_dots') ||
+        event.target.parentNode.classList.contains('time_report_day_menu') ||
+        event.target.parentNode.classList.contains('time_report_day_edit') ||
+        event.target.classList.contains('time_report_day_menu') ||
+        event.target.parentNode.classList.contains('svg-inline--fa')
+      ) {
         return
       }
       setEditMenu(false)
@@ -87,41 +89,48 @@ export const closeEditMenu = (editMenu, setEditMenu)=>{
   })
 }
 
-
-export  function paginationWithDots(c, m) {
+export function paginationWithDots(c, m) {
   var current = c,
-      last = m,
-      delta = 2,
-      left = current - delta,
-      right = current + delta + 1,
-      range = [],
-      rangeWithDots = [],
-      l;
+    last = m,
+    delta = 2,
+    left = current - delta,
+    right = current + delta + 1,
+    range = [],
+    rangeWithDots = [],
+    l
 
   for (let i = 1; i <= last; i++) {
-    if (i == 1 || i == last || i >= left && i < right) {
-      range.push(i);
+    if (i == 1 || i == last || (i >= left && i < right)) {
+      range.push(i)
     }
   }
 
   for (let i of range) {
     if (l) {
       if (i - l === 2) {
-        rangeWithDots.push(l + 1);
+        rangeWithDots.push(l + 1)
       } else if (i - l !== 1) {
-        rangeWithDots.push('...');
+        rangeWithDots.push('...')
       }
     }
-    rangeWithDots.push(i);
-    l = i;
+    rangeWithDots.push(i)
+    l = i
   }
 
-  return rangeWithDots;
+  return rangeWithDots
 }
 
 export function setElementTop(top, elementSelector) {
   let elem = document.querySelector(elementSelector)
-  elem.style.top = top +'px';
+  elem.style.top = top + 'px'
 }
 
-
+export function sortArrayWithObj(creteria, array, reverse = false) {
+  let temp = [...array]
+  if (reverse) {
+    temp = temp.sort((a, b) => (a < b ? 1 : -1)).reverse()
+  } else {
+    temp = temp.sort((a, b) => (a > b ? 1 : -1))
+  }
+  return temp
+}
