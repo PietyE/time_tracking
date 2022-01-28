@@ -39,6 +39,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
         name: data,
         is_full_time: true,
         is_active: true,
+        is_project_manager: false,
         user_id: currentDev.id,
       }]
       setFieldValue('team', result)
