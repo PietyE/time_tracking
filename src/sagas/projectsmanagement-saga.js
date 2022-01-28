@@ -11,6 +11,7 @@ import {
   ADD_USERS_ON_PROJECT,
   GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   SET_SELECTED_PM,
+  ADD_PROJECT_MANAGER_TO_PROJECT,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
@@ -344,6 +345,11 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
+export function* addProjectManagerToProject ({ payload }) {
+  yield put (CHANGE_USERS_ON_PROJECT)
+  yield put (ADD_USERS_ON_PROJECT)
+}
+
 export function* watchProjectsManagement() {
   yield takeEvery(
     [GET_ALL_PROJECTS, SET_SELECTED_PM],
@@ -360,4 +366,5 @@ export function* watchProjectsManagement() {
   yield takeEvery([CHANGE_PROJECT_NAME], changeProjName)
   yield takeEvery([CHANGE_USERS_ON_PROJECT], editUsersOnProject)
   yield takeEvery([ADD_USERS_ON_PROJECT], addUsersToProject)
+  yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
 }

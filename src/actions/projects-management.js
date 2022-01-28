@@ -7,7 +7,7 @@ import {
   CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, CLEAR_PM_PROJECTS,
   ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE
+  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE, ADD_PROJECT_MANAGER_TO_PROJECT
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
@@ -110,4 +110,7 @@ export const clearPmPageState = () => ({
   type: CLEAR_PM_PAGE,
 })
 
+export const addProjectManagerToProject = () => ({
+  type: ADD_PROJECT_MANAGER_TO_PROJECT,
+})
 

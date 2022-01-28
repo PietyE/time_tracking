@@ -21,6 +21,7 @@ import {
   changeUserOnProject,
   addUsersOnProject,
   setShowEditModal,
+  addProjectManagerToProject,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 
@@ -62,6 +63,13 @@ function EditProjectModal({ show, projectList }) {
     },
     [dispatch]
   )
+
+  // const _addProjectManagerToProject = useCallback(
+  //   (data) => {
+  //     dispatch(addProjectManagerToProject({ data }))
+  //   },
+  //   [dispatch]
+  // )
 
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
   const currentProject = useEqualSelector(getSelectedProjectSelector)
@@ -227,14 +235,24 @@ function EditProjectModal({ show, projectList }) {
                   is_active: false,
                   is_project_manager: false,
                 })
+
+                _addUsersOnProject({
+                  project: currentProjectId,
+                  user: isPm.id,
+                  is_full_time: true,
+                  is_active: true,
+                  is_project_manager: true,
+                })
+                // _addProjectManagerToProject()
+              } else {
+                _addUsersOnProject({
+                  project: currentProjectId,
+                  user: isPm.id,
+                  is_full_time: true,
+                  is_active: true,
+                  is_project_manager: true,
+                })
               }
-              _addUsersOnProject({
-                project: currentProjectId,
-                user: isPm.id,
-                is_full_time: true,
-                is_active: true,
-                is_project_manager: true,
-              })
 
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
