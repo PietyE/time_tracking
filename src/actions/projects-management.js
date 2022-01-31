@@ -110,7 +110,8 @@ export const clearPmPageState = () => ({
   type: CLEAR_PM_PAGE,
 })
 
-export const addProjectManagerToProject = () => ({
+export const addProjectManagerToProject = (payload) => ({
   type: ADD_PROJECT_MANAGER_TO_PROJECT,
+  payload
 })
 

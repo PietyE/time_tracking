@@ -1,4 +1,4 @@
-import { call, takeEvery, put, select } from 'redux-saga/effects'
+import { call, takeEvery, put, select, putResolve } from 'redux-saga/effects'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
@@ -119,6 +119,7 @@ export function* getProjectReportById(action) {
   )
   try {
     yield put(setFetchingPmPage(true))
+    debugger
     let projectId = action?.payload
 
     if (!action) {
@@ -302,7 +303,8 @@ export function* editUsersOnProject({ payload }) {
         })
       )
     }
-    yield call(getProjectReportById)
+    debugger
+    yield call(getProjectReportById )
   } catch (error) {
     yield put(
       showAler({
@@ -330,6 +332,7 @@ export function* addUsersToProject({ payload }) {
         })
       )
     }
+    debugger
     yield call(getProjectReportById)
   } catch (error) {
     yield put(
@@ -345,9 +348,12 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
-export function* addProjectManagerToProject ({ payload }) {
-  yield put (CHANGE_USERS_ON_PROJECT)
-  yield put (ADD_USERS_ON_PROJECT)
+export function* addProjectManagerToProject (action) {
+  debugger
+  const  {previousPm, newPm} = action?.payload
+  debugger
+  yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+  yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: newPm})
 }
 
 export function* watchProjectsManagement() {

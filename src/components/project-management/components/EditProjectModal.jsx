@@ -64,12 +64,12 @@ function EditProjectModal({ show, projectList }) {
     [dispatch]
   )
 
-  // const _addProjectManagerToProject = useCallback(
-  //   (data) => {
-  //     dispatch(addProjectManagerToProject({ data }))
-  //   },
-  //   [dispatch]
-  // )
+  const _addProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addProjectManagerToProject( data ))
+    },
+    [dispatch]
+  )
 
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
   const currentProject = useEqualSelector(getSelectedProjectSelector)
@@ -231,19 +231,33 @@ function EditProjectModal({ show, projectList }) {
               )
               console.log(activeProjectManager)
               if (activeProjectManager) {
-                _changeUserOnProject(activeProjectManager.projectReportId, {
+                // _changeUserOnProject(activeProjectManager.projectReportId, {
+                //   is_active: false,
+                //   is_project_manager: false,
+                // })
+
+                // _addUsersOnProject({
+                //   project: currentProjectId,
+                //   user: isPm.id,
+                //   is_full_time: true,
+                //   is_active: true,
+                //   is_project_manager: true,
+                // })
+                const previousPm = {
+                  id: activeProjectManager.projectReportId,
                   is_active: false,
                   is_project_manager: false,
-                })
+                }
 
-                _addUsersOnProject({
+                const newPm = {
                   project: currentProjectId,
                   user: isPm.id,
                   is_full_time: true,
                   is_active: true,
                   is_project_manager: true,
-                })
-                // _addProjectManagerToProject()
+                }
+
+                _addProjectManagerToProject({previousPm, newPm})
               } else {
                 _addUsersOnProject({
                   project: currentProjectId,
