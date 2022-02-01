@@ -22,6 +22,7 @@ import {
   addUsersOnProject,
   setShowEditModal,
   addProjectManagerToProject,
+  addInactiveProjectManagerToProject,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 
@@ -67,6 +68,13 @@ function EditProjectModal({ show, projectList }) {
   const _addProjectManagerToProject = useCallback(
     (data) => {
       dispatch(addProjectManagerToProject( data ))
+    },
+    [dispatch]
+  )
+
+  const _addInactiveProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addInactiveProjectManagerToProject( data ))
     },
     [dispatch]
   )
@@ -182,28 +190,6 @@ function EditProjectModal({ show, projectList }) {
             const handleAddMemberToProject = (e) => {
               const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
-              // const isPm = projectManagersList.find(
-              //   (pm) => pm.id === targetUserId
-              // )
-              // if (e.target?.name === 'projectManager.name') {
-              //   if (isPm) {
-              //     setFieldValue('projectManager.name', e.target.value)
-              //     _addUsersOnProject({
-              //       project: currentProjectId,
-              //       user: isPm.id,
-              //       is_full_time: true,
-              //       is_active: true,
-              //       is_project_manager: true,
-              //     })
-              //     if (activeProjectManager) {
-              //       _changeUserOnProject(activeProjectManager.projectReportId, {
-              //         is_active: false,
-              //         is_project_manager: false,
-              //       })
-              //     }
-              //   }
-              // }
-
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
@@ -223,61 +209,67 @@ function EditProjectModal({ show, projectList }) {
               }     
             }
 
-            const handleAddProjectManagerToProject = async (e) => {
-              // console.log(e.target.value)
+            const handleAddProjectManagerToProject = (e) => {
               const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
               const isPm = projectManagersList.find(
                 (pm) => pm.id === targetUserId
               )
-              console.log(activeProjectManager)
-              if (activeProjectManager) {
-                // _changeUserOnProject(activeProjectManager.projectReportId, {
-                //   is_active: false,
-                //   is_project_manager: false,
-                // })
-
-                // _addUsersOnProject({
-                //   project: currentProjectId,
-                //   user: isPm.id,
-                //   is_full_time: true,
-                //   is_active: true,
-                //   is_project_manager: true,
-                // })
-                const previousPm = {
-                  id: activeProjectManager.projectReportId,
-                  is_active: false,
-                  is_project_manager: false,
-                }
-
-                const newPm = {
-                  project: currentProjectId,
-                  user: isPm.id,
-                  is_full_time: true,
-                  is_active: true,
-                  is_project_manager: true,
-                }
-
-                _addProjectManagerToProject({previousPm, newPm})
-              } else {
-                _addUsersOnProject({
-                  project: currentProjectId,
-                  user: isPm.id,
-                  is_full_time: true,
-                  is_active: true,
-                  is_project_manager: true,
-                })
-              }
-
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
-              if (wasDeactivated) {
-                _changeUserOnProject(wasDeactivated.projectReportId, {
-                  is_active: true,
-                  is_project_manager: true,
-                })
-              } 
-              
+              if (activeProjectManager) {
+                if (wasDeactivated) {
+                  const previousPm = {
+                    id: activeProjectManager.projectReportId,
+                    data : {
+                      is_active: false,
+                      is_project_manager: false,
+                    }
+                  }
+
+                  const newPm = {
+                    id: wasDeactivated.projectReportId, 
+                    data : {
+                      is_active: true,
+                      is_project_manager: true,
+                    }
+                  }
+                  _addInactiveProjectManagerToProject({previousPm, newPm})
+                } else {
+                  const previousPm = {
+                    id: activeProjectManager.projectReportId,
+                    data : {
+                      is_active: false,
+                      is_project_manager: false,
+                    }
+                  }
+
+                  const newPm = {
+                    project: currentProjectId,
+                    user: isPm.id,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: true,
+                  }
+
+                  _addProjectManagerToProject({previousPm, newPm})
+                }
+              } else {
+                if (wasDeactivated) {
+                  _changeUserOnProject(wasDeactivated.projectReportId, {
+                    is_active: true,
+                    is_project_manager: true,
+                  })
+                } else {
+                  _addUsersOnProject({
+                    project: currentProjectId,
+                    user: isPm.id,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: true,
+                  })
+                }
+              }             
             }
 
             const isSameProject = values.projectName === valuesFromApi?.projectName

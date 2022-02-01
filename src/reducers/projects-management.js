@@ -194,7 +194,7 @@ export const getActiveProjectManagerSelector = (state) => {
 export const getActivePmInCurrentProjectSelector = (state) => {
   const projectManagers = getActiveProjectManagerSelector(state)
   if (projectManagers) {
-    return projectManagers.find((pm) => pm.is_active === true)
+    return projectManagers.find((pm) => pm.is_project_manager === true)
   }
 }
 
