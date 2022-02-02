@@ -214,7 +214,7 @@ function EditProjectModal({ show, projectList }) {
               const isPm = projectManagersList.find(
                 (pm) => pm.id === targetUserId
               )
-              const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
+              const wasDeactivated = deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
               if (activeProjectManager) {
