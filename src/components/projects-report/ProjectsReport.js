@@ -28,7 +28,7 @@ import Spinner from '../ui/spinner'
 // import ActualRates from '../ui/actual-rates/ActualRates'
 import { getRatesList } from '../../actions/currency'
 import {
-  compareForTimeColumns,
+  compareForTimeColumns, getDeveloperProjectsName
 } from '../../utils/common'
 import { Grid, Table, TableHeaderRow, TableRowDetail } from '@devexpress/dx-react-grid-bootstrap4'
 import { IntegratedSorting, RowDetailState, SortingState } from '@devexpress/dx-react-grid'
@@ -123,7 +123,7 @@ function ProjectsReport() {
       total_hours
     }) => ({
       name,
-      developer_projects,
+      developer_projects: getDeveloperProjectsName(developer_projects),
       totalHours: is_full_time ? 'fulltime' : `${total_hours || 0} `,
       active_project: true,
       id,
