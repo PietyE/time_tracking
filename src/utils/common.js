@@ -151,3 +151,10 @@ export const compareForBoolean = (a, b) => {
 export const sortUserProjectReport = (a, b) => {
   return b.active_project - a.active_project
 }
+
+export const getDeveloperProjectsName = (projects) => {
+  const allProjectsName = projects
+    .map((project) => project.name)
+    .join(', ')
+  return allProjectsName;
+}
