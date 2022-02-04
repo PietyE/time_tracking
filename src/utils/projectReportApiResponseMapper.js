@@ -40,8 +40,8 @@ export const consolidateReportMapper = (response, currentCurrency) => {
         // commentId: lodashGet(item, 'comment.id', ''),
         // total_uah: lodashGet(item, 'total_amount_uah', ''),
         // is_processed: lodashGet(item, 'is_processed', ''),
-        // totalHoursOvertime: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
-        total_hours: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'total_minutes', ''))),
+        totalHoursOvertime: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
+        // total_hours: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'total_minutes', ''))),
       }
       previous.push(reportItem)
       return previous
@@ -66,7 +66,7 @@ export const usersProjectReportMapper = (response) => {
   return response.data.developer_projects.map(item => {
     return {
       name: lodashGet(item, 'project.name', ''),
-      working_time: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'total_minutes', ''))),
+      working_time: minutesToHoursPipe(normalizeMinutes(lodashGet(item, 'overtime_minutes', ''))),
       id: lodashGet(item, 'project.id', ''),
       total: lodashGet(item, 'total_overtime_amount_uah', ''),
       is_full_time: lodashGet(item, 'is_full_time', ''),

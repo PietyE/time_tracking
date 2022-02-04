@@ -120,11 +120,11 @@ function ProjectsReport() {
       developer_projects,
       id,
       is_full_time,
-      total_hours
+      totalHoursOvertime
     }) => ({
       name,
       developer_projects: getDeveloperProjectsName(developer_projects),
-      totalHours: is_full_time ? 'fulltime' : `${total_hours || 0} `,
+      totalHours: is_full_time ? 'fulltime' : `${totalHoursOvertime || 0} `,
       active_project: true,
       id,
     })),
