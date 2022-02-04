@@ -75,6 +75,9 @@
     .dx-g-bs4-table-cell{
       text-align: left;
     }
+    .dx-g-bs4-table-cell:nth-child(2) span {
+      padding-left: 12px;
+    }
   }
 
   .project_reports_total_container {
