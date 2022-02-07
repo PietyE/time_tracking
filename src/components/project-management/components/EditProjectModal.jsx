@@ -30,6 +30,9 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
+import {showAler} from '../../../actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
+
 function EditProjectModal({ show, projectList }) {
   const dispatch = useDispatch();
   const form = useRef(null);
@@ -217,6 +220,10 @@ function EditProjectModal({ show, projectList }) {
               const wasDeactivated = deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
+
+              const wasInTeam = values?.team?.find(
+                (user) => user.user_id === targetUserId
+              )
               if (activeProjectManager) {
                 if (wasDeactivated) {
                   const previousPm = {
@@ -235,6 +242,14 @@ function EditProjectModal({ show, projectList }) {
                     }
                   }
                   _addInactiveProjectManagerToProject({previousPm, newPm})
+                } else if (wasInTeam) {
+                  dispatch(
+                    showAler({
+                      type: WARNING_ALERT,
+                      message: 'Project manager is already in the team',
+                      delay: 5000,
+                    })
+                  )
                 } else {
                   const previousPm = {
                     id: activeProjectManager.projectReportId,
@@ -260,6 +275,14 @@ function EditProjectModal({ show, projectList }) {
                     is_active: true,
                     is_project_manager: true,
                   })
+                } else if (wasInTeam) {
+                  dispatch(
+                    showAler({
+                      type: WARNING_ALERT,
+                      message: 'Project manager is already in the team',
+                      delay: 5000,
+                    })
+                  )
                 } else {
                   _addUsersOnProject({
                     project: currentProjectId,
