@@ -55,7 +55,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
 
   useEffect(() => {
     dispatch(getUsersProjectReport(row.id));
-  }, [row.id, dispatch]);
+  }, [row.id, selectedDate, dispatch]);
 
   return (
     <div>
