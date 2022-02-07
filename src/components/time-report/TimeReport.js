@@ -151,7 +151,7 @@ function TimeReport(props) {
   }
 
   useEffect(() => {
-    if (projects.length && _.isEmpty(selectedProject) && !routeState) {
+    if (projects.length && _.isEmpty(selectedProject)) {
       selectProject(projects[0])
     }
     if (!projects.length) {
@@ -161,7 +161,8 @@ function TimeReport(props) {
   }, [projects])
 
   useEffect(() => {
-    bootstrapWidthRouteState()
+    bootstrapWidthRouteState();
+    clearSelectedProject()
     // return () => {
     //   clearSelectedProject()
     //   resetSelectedDate()
