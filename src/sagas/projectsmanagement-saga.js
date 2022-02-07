@@ -23,7 +23,7 @@ import {
   setShownProject,
 } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
-import { SUCCES_ALERT, WARNING_ALERT, SHOW_ALERT } from '../constants/alert-constant'
+import { SUCCES_ALERT, WARNING_ALERT} from '../constants/alert-constant'
 import {
   getSelectedPmIdSelector,
   getSelectedProjectIdSelector,
