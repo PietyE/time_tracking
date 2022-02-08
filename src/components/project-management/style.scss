@@ -188,14 +188,17 @@
   pointer-events: none;
 }
 
-.pm_create_team_item{
+.pm_create_team_item {
   margin-bottom: 8px;
   display: flex;
   padding-left: 10px;
   justify-content: space-between;
 }
-.pm_create_team_text{
+.pm_create_team_text {
   font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .pm_create_team_close{
@@ -245,9 +248,10 @@
   color: #fff;
 }
 
-.pm_create_team_control_container{
+.pm_create_team_control_container {
   display: flex;
   align-items: center;
+  min-width: 145px;
 }
 .pm_create_team_checkbox_label{
   margin-right: 30px;
