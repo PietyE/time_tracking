@@ -162,7 +162,6 @@ function TimeReport(props) {
 
   useEffect(() => {
     bootstrapWidthRouteState();
-    clearSelectedProject()
     // return () => {
     //   clearSelectedProject()
     //   resetSelectedDate()
