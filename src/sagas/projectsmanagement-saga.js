@@ -353,7 +353,7 @@ export function* addUsersToProject({ payload }) {
 }
 
 export function* addProjectManagerToProject (action) {
-  const  {previousPm, newPm} = action?.payload
+  const  {previousPm, newPm} = action.payload
   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
@@ -362,7 +362,7 @@ export function* addProjectManagerToProject (action) {
 }
 
 export function* addInactiveProjectManagerToProject (action) {
-  const  {previousPm, newPm} = action?.payload
+  const  {previousPm, newPm} = action.payload
   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
