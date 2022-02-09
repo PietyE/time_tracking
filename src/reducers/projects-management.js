@@ -175,6 +175,7 @@ export const getProjectActiveUsersSelector = (state) => {
     name: report.userName,
     is_full_time: report?.is_full_time,
     is_active: report?.is_active,
+    is_project_manager: report?.is_project_manager,
     projectReportId: report?.projectReportId,
   }))
 }
@@ -193,17 +194,19 @@ export const getActiveProjectManagerSelector = (state) => {
 export const getActivePmInCurrentProjectSelector = (state) => {
   const projectManagers = getActiveProjectManagerSelector(state)
   if (projectManagers) {
-    return projectManagers.find((pm) => pm.is_active === true)
+    return projectManagers.find((pm) => pm.is_project_manager === true)
   }
 }
 
 export const getActiveDevSelector = (state) => {
   const activeUsers = getProjectActiveUsersSelector(state)
-  const activePm = getActiveProjectManagerSelector(state)
+  // const activePm = getActiveProjectManagerSelector(state)
 
   if (activeUsers) {
-    const pmIdArray = activePm.map((pm) => pm.user_id)
-    return activeUsers.filter((user) => !pmIdArray.includes(user.user_id))
+    // const pmIdArray = activePm.map((pm) => pm.user_id)
+    return activeUsers.filter((user) => {
+      return user.is_active && !user.is_project_manager
+    })
   }
 }
 

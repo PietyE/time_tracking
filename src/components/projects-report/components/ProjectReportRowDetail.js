@@ -41,7 +41,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
 
 
       },
-      totalHours: working_time,
+      totalHours: is_full_time ? 'fulltime' : `${working_time || 0} `,
       id: idDeveloperProjects,
       active_project: is_active,
     })),
@@ -55,7 +55,7 @@ const ProjectReportRowDetail = ({ row, pmDetailed = false }) => {
 
   useEffect(() => {
     dispatch(getUsersProjectReport(row.id));
-  }, [row.id, dispatch]);
+  }, [row.id, selectedDate, dispatch]);
 
   return (
     <div>
