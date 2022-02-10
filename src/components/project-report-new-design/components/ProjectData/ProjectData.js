@@ -34,7 +34,7 @@ function ProjectData (props) {
         <span className="headers project">PROJECT NAME</span>
         <span className="headers">OCCUPANCY</span>
         <span className="headers">HOURS</span>
-        <span className="headers total">TOTAL</span>
+        {/* <span className="headers total">TOTAL</span> */}
       </div>
       <div className="user_project">
           {userProjects.map(project => 

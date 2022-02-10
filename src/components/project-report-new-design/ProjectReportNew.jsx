@@ -98,7 +98,7 @@ function ProjectReportNew () {
 
   return (
     <div className="project_report_work_data">
-    <WorkData salary={salary_uah}
+    {/* <WorkData salary={salary_uah}
               salaryCur={salaryCurrency}
               currencyRate={rateCurrency}
               total_hours={totalHoursOvertime}
@@ -109,17 +109,17 @@ function ProjectReportNew () {
               firstBlockText={"SALARY"}
               secondBlockText={"HOURS WORKED"}
               thirdBlockText={"HOURLY RATE"}
-              fourthBlockText={"EXTRA COSTS"} />
+              fourthBlockText={"EXTRA COSTS"} /> */}
     <div className="component_project_data">
     <ProjectData projects={commonProjectsInfo}
                  overtime={totalHoursOvertime}
                  userId={id} />
     </div>             
-    {openComments &&            
+    {/* {openComments &&            
     <Comments comments={comments}
               commentId={commentId}
               avatarUrl={userAvatarUrl} />
-    }
+    } */}
     </div>
   )
 }

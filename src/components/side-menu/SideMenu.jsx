@@ -40,8 +40,8 @@ function SideMenu () {
       smallSize: true,
       items: [
         {icon: clock, label: "Time report", smallSize: true, pathname: "/timereport"},
-        {icon: people, label: "Vilmates", smallSize: true, pathname: "/profile"},
-        {icon: people, label: "People", smallSize: true, pathname: "/people"}
+        // {icon: people, label: "Vilmates", smallSize: true, pathname: "/profile"},
+        // {icon: people, label: "People", smallSize: true, pathname: "/people"}
       ]
     }]
     if((userRole === "Accountant" ||
@@ -51,21 +51,22 @@ function SideMenu () {
         panelId: "...",
         smallSize: true,
         items: [
-          {icon: schedule, label: "Total overview", pathname: "/totaloverview"},
+          // {icon: schedule, label: "Total overview", pathname: "/totaloverview"},
           {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport", subItems: [
             {icon: house, label: "In-house employees", pathname: "/inhouseemployees"},
             {icon: arrowDownCircul, label: "Remote contractors", pathname: "/remotecontractors"},
           ]},
-          {icon: basket, label: "Other costs", pathname: "/othercosts"}
+          // {icon: basket, label: "Other costs", pathname: "/othercosts"}
         ]
       },
-      {
-        panelName: "Management",
-        panelId: "...",
-        items: [
-          {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
-        ]
-      })
+      // {
+      //   panelName: "Management",
+      //   panelId: "...",
+      //   items: [
+      //     {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
+      //   ]
+      // }
+      )
     } else if (userRole === "Developer") {
       result.push({
         panelName: "Accounting",
@@ -85,13 +86,14 @@ function SideMenu () {
             {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport"}
           ]
         },
-        {
-          panelName: "Management",
-          panelId: "...",
-          items: [
-            {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
-          ]
-        })
+        // {
+        //   panelName: "Management",
+        //   panelId: "...",
+        //   items: [
+        //     {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
+        //   ]
+        // }
+        )
       }
       return result;
   }, [userRole])

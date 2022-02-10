@@ -93,6 +93,7 @@
           width: 35%;
           
           .name {
+            margin-left: 24px;
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis; 
@@ -102,7 +103,7 @@
         .occupancy {
           width: 25%;
           padding: 0 10px;
-          
+          margin-left: 20px;
         }
 
         .hours {
