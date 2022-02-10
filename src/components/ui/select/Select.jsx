@@ -132,6 +132,7 @@ function Select(props) {
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
+      type='button'
       onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
       //disabled={!listItems.length}
@@ -175,6 +176,10 @@ function Select(props) {
               {item.iconColor &&
                 <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
               }
+              {item.count&&
+              <span className={'count-container '+ (item.name === "Active"?'active':'')}>{item.count}</span>
+              }
+
               <span
                 className={
                   item.name === _title

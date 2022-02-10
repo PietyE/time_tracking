@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+//import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+//import { Doughnut } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+//ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 function MonthData (props) {
@@ -36,7 +36,7 @@ function MonthData (props) {
     <div className="row" />
     <div className="info_container">
         <div className="schedule">
-            <Doughnut data={data} />
+            {/*<Doughnut data={data} />*/}
             <div className="total_value_container">
                 <span className="total_header">Total</span>
                 <span className="total_sum">$148,941</span>

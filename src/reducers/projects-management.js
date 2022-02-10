@@ -1,8 +1,8 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
-  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE,SET_SHOW_EDIT_MODAL,SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM,SET_SHOWN_PROJECT, CLEAR_PM_PAGE
+  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE, SET_SHOW_EDIT_MODAL, SET_SHOW_CREATE_MODAL,
+  SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS, SET_SHOW_CREATE_USER_MODAL
 } from 'constants/actions-constant'
 import {isEmpty} from 'lodash'
 
@@ -14,12 +14,15 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   projects: [],
+  activeProjects:[],
+  archiveProjects:[],
   projectsWithReports: [],
   selectedProjectId: '',
   selectedProject: {},
   isFetchingPmPage:false,
   isShowEditModal:false,
   isShowCreateModal: false,
+  isShowCreateUserModal:false,
   selectedPm: {},
   shownProject:null,
 }
@@ -55,10 +58,14 @@ export const projectsManagement = (state = initialState, action) => {
       return { ...state, isShowEditModal: action.payload }
     case SET_SHOW_CREATE_MODAL:
       return { ...state, isShowCreateModal: action.payload }
+    case SET_SHOW_CREATE_USER_MODAL:
+      return { ...state, isShowCreateUserModal: action.payload }
     case SET_SELECTED_PM:
       return { ...state, selectedPm: action.payload }
     case SET_SHOWN_PROJECT:
       return { ...state, shownProject: action.payload }
+    case GET_ACTIVE_PROJECTS:
+      return {...state, activeProjects:action.payload}
     case CLEAR_PM_PAGE:
       return { ...initialState }
     default:
@@ -73,11 +80,10 @@ export const getSelectedPmSelector = state => state.projectsManagement.selectedP
 export const getSelectedPmIdSelector = state => state.projectsManagement.selectedPm?.id
 
 
-
-
 export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
 export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
 export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal
+export const getIsShowCreateUserModalSelector = state => state.projectsManagement.isShowCreateUserModal
 
 export const getUsersSelector = state => state.developers.developersList
 
@@ -85,6 +91,12 @@ export const getProjectManagerListSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 4)
 }
+
+export const getTeamMListSelector = state => {
+  const users = getUsersSelector(state)
+  return users.filter(user => user.role !== 4)
+}
+
 export const getDeveloperSelector = state => {
   const users = getUsersSelector(state)
   return users.filter(user => user.role === 1)
@@ -116,12 +128,18 @@ export const getProjectReportByIdSelector = (state, id) => {
 }
 export const getSelectedProjectIdSelector = state => state.projectsManagement.selectedProjectId
 export const getSelectedProjectSelector = state => state.projectsManagement.selectedProject
+export const getCurrentProjectSelector = state =>{
+  const id = getSelectedProjectIdSelector(state)
+  const projects = getAllProjectsSelector(state)
+  //console.log('projects', projects)
+  let currentProject =  projects.find(project => project.id === id);
+
+  return currentProject;
+}
 ///////////////////////////////////////////////////////
 
 export const getProjectName = state => {
-  const id = getSelectedProjectIdSelector(state)
-  const projects = getAllProjectsSelector(state)
-  const currentProject = projects.find(project => project.id === id)
+  const currentProject = getCurrentProjectSelector(state)
   return currentProject?.name
 }
 ///////////////////////////////////////////////////////
@@ -158,7 +176,6 @@ export const getActivePmInCurrentProjectSelector = state => {
 export const getActiveDevSelector = state => {
   const activeUsers = getProjectActiveUsersSelector(state)
   const activePm = getActiveProjectManagerSelector(state)
-
   if (activeUsers) {
     const pmIdArray = activePm.map(pm => pm.user_id)
     return activeUsers.filter(user => !pmIdArray.includes(user.user_id))

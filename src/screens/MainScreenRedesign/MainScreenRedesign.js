@@ -28,6 +28,8 @@ import InHouseEmployees from 'components/in-house-employees'
 import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 import PeopleScreen from "../PeopleScreen";
 import TotalOverview from 'components/total-overview/TotalOverview'
+import ProjectManagementComponent from "../../components/project-managment-new-design/ProjectManagementComponent";
+
 
 function MainScreen({
   isAuth,
@@ -82,6 +84,7 @@ function MainScreen({
         <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct />
         <Route path="/remotecontractors" component={RemoteContractors} exct />
+        <Route path="/projectmanagement" component={ProjectManagementComponent} exct />
         <Route path="/totaloverview" component={TotalOverview} exct />
         {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
 

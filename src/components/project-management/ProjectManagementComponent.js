@@ -103,19 +103,19 @@ const ProjectManagementComponent =({
       setShowEditModal(true)
     }
   const [rows, setRows] = useState([])
-  useEffect(() => {
-        const reformatProjects = filteredProjects.map(project => ({
-          project: project.name,
-          occupancy: ' ',
-          hours: convertMinutesToHours(project?.total_minutes) || 0,
-          report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
-            <span className = "oi oi-cloud-download"/>
-          </Button>,
-          actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
-          id: project.id,
-        }))
-        setRows(reformatProjects)
-    }, [filteredProjects, projects])
+  // useEffect(() => {
+  //       const reformatProjects = filteredProjects.map(project => ({
+  //         project: project.name,
+  //         occupancy: ' ',
+  //         hours: convertMinutesToHours(project?.total_minutes) || 0,
+  //         report: <Button variant = "outline-*" onClick = {() => _downloadAllTeamProjectReport(project.id)}>
+  //           <span className = "oi oi-cloud-download"/>
+  //         </Button>,
+  //         actions: <span className = "oi oi-pencil" onClick = {() => openEditModal(project.id)}/>,
+  //         id: project.id,
+  //       }))
+  //       setRows(reformatProjects)
+  //   }, [filteredProjects, projects])
 
     const [expandedRowIds, setExpandedRowIds] = useState([])
 
@@ -203,7 +203,7 @@ const ProjectManagementComponent =({
         </div>
 
         <CreateProjectModal show = {isCreateModalShow} />
-        <EditProjectModal show = {isEditModalShow} />
+        <EditProjectModal show={isEditModalShow} />
       </>
     )
   }

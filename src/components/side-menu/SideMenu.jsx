@@ -40,7 +40,7 @@ function SideMenu () {
       smallSize: true,
       items: [
         {icon: clock, label: "Time report", smallSize: true, pathname: "/timereport"},
-        {icon: people, label: "Vilmates", smallSize: true, pathname: "/vilmates"},
+        {icon: people, label: "Vilmates", smallSize: true, pathname: "/profile"},
         {icon: people, label: "People", smallSize: true, pathname: "/people"}
       ]
     }]
