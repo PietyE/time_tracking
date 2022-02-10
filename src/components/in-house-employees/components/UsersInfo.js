@@ -101,7 +101,7 @@ function UsersInfo (props) {
       }
     return usersData;
   }, [decreaseName, increaseName, decreaseToPay, increaseToPay, usersData])
-console.log(userInfo)
+
   return (
     <div className="users_table">
       <div className="users_table_header">
