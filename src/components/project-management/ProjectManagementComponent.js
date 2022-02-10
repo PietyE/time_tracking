@@ -170,7 +170,7 @@ const ProjectManagementComponent = () => {
 
   useEffect(() => {
     dispatch(getAllProjects())
-  }, [isEditModalShow, dispatch])
+  }, [isEditModalShow, dispatch, selectedDateForPM])
 
   useEffect(() => {
     if(selectedProject.id) {
