@@ -139,7 +139,7 @@ function UsersInfo (props) {
           </div>
         </div>
       </div>
-      { userInfo.map((user) => 
+      {userInfo.map((user) => 
         (<User name={user.name} 
                key={user.id}
                email={user.email}
@@ -147,7 +147,7 @@ function UsersInfo (props) {
                salary={user.salary_uah}
                overtime={user.total_overtimes}
                hours={user.totalHoursOvertime}
-               toPay={user.total_uah.toFixed(2)}
+               toPay={user?.total_uah ? user?.total_uah?.toFixed(2) : 0}
                currency={user.salaryCurrency}
                userData={user}
                selectedDate={selectedDate}
