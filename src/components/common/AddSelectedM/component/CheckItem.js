@@ -11,11 +11,9 @@ function CheckItem({e, checkedUsers, setCheckedUsers}) {
             setCheckedUsers(checkedUsers.filter(elem=>elem!==e))
         }
     }
-    const change = ()=>{
+    const change = () => {
         setChecked(!checked);
-        setTimeout(()=>{
-            isChecked()
-        },10);
+        isChecked();
     }
 
     return <div className={'check-item '+(checked ? 'checked':'')}>
