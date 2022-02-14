@@ -23,7 +23,12 @@ const initialState = {
   isShowEditModal:false,
   isShowCreateModal: false,
   isShowCreateUserModal:false,
-  selectedPm: {},
+  selectedPm: {
+    email: '',
+    id: 'select-all',
+    name: 'Select All',
+    role: null,
+  },
   shownProject:null,
 }
 const setProjectsWithReports = (state, action) => {

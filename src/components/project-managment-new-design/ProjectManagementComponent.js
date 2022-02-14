@@ -67,11 +67,29 @@ const ProjectManagementComponent = () => {
   let pageSize = useEqualSelector(getPageSize)
   let totalCount = p.length || 0
 
+  const projectList = [
+    {
+      id:0,
+      name:'Select all',
+    },
+    ...projects
+  ]
+
+  const projectManagerSelectList = [
+    {
+      email: '',
+      id: 'select-all',
+      name: 'Select All',
+      role: null,
+    },
+    ...projectManagers,
+  ]
+
   useEffect(() => {
     if (isEmpty(selectedPm)) {
       dispatch(setPm(currentPm))
     }
-    dispatch(setPageSize(10))
+    dispatch(setPageSize(5))
   }, [])
 
   useEffect(() => {
@@ -107,7 +125,7 @@ const ProjectManagementComponent = () => {
     }
   }
 
-  const projectsList = currentItems.map((e, i) => {
+  const projectsList = projects.map((e, i) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -150,10 +168,10 @@ const ProjectManagementComponent = () => {
       </div>
       {isFetching && <SpinnerStyled />}
       <div className="container ">
-        <div className="flex row  justify-content-between">
+        <div className="flex row  justify-content-between container__selects">
           <Select
             title="Search by PM or developer"
-            listItems={projectManagers}
+            listItems={projectManagerSelectList}
             onSelected={onSelectPm}
             valueKey="name"
             idKey="id"
@@ -161,6 +179,7 @@ const ProjectManagementComponent = () => {
             initialChoice={selectedPm || currentPm}
             isSearch
           />
+          
           <SelectMonth
             extraClassNameContainer={'month_select'}
             selectedDate={selectedDateForPM}
@@ -168,8 +187,8 @@ const ProjectManagementComponent = () => {
           />
         </div>
         <div className="row table__titles">
-          <div className="col-lg-7">
-            <div className="sort-by">
+          <div className="col-lg-8">
+            <div className="sort-by table__titles-sort__container">
               <div className="sort-title">PROJECT NAME</div>
               <div className="cart-cont">
                 <div
@@ -201,7 +220,7 @@ const ProjectManagementComponent = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-lg-3 table__titles-sort__container">
             <div className="sort-by">
               <div className="sort-title">HOURS WORKED</div>
               <div className="cart-cont">
@@ -236,12 +255,12 @@ const ProjectManagementComponent = () => {
           </div>
         </div>
         {projectsList}
-        <Pagination
+        {/* <Pagination
           totalCount={totalCount}
           pageSize={pageSize}
           currentPage={currentPage}
           paginationDeiplayed={5}
-        />
+        /> */}
       </div>
       <CreateProjectModal3 show={isCreateModalShow} />
       <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
