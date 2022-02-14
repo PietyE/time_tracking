@@ -86,7 +86,18 @@
     padding: 0 20px;
   }
   .container__selects{
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 40px;
+    .container__selects-progects__fields{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      
+      .select_container{
+          margin-right: 20px;
+      }  
+    }
   }
 
   .left-cont{

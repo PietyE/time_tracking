@@ -26,7 +26,7 @@ const initialState = {
   selectedPm: {
     email: '',
     id: 'select-all',
-    name: 'Select All',
+    name: 'Choose PM',
     role: null,
   },
   shownProject:null,

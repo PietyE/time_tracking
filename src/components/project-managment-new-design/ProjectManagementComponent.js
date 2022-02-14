@@ -168,18 +168,31 @@ const ProjectManagementComponent = () => {
       </div>
       {isFetching && <SpinnerStyled />}
       <div className="container ">
-        <div className="flex row  justify-content-between container__selects">
-          <Select
-            title="Search by PM or developer"
-            listItems={projectManagerSelectList}
-            onSelected={onSelectPm}
-            valueKey="name"
-            idKey="id"
-            extraClassContainer={' search search-manger'}
-            initialChoice={selectedPm || currentPm}
-            isSearch
-          />
-          
+        <div className="row  container__selects">
+          <div className='container__selects-progects__fields'>
+            <Select
+              title="Search by PM or developer"
+              listItems={projectManagerSelectList}
+              onSelected={onSelectPm}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={' search search-manger'}
+              initialChoice={selectedPm || currentPm}
+              isSearch
+            />
+            <Select
+              title={'Choose project'}
+              listItems={projectList}
+              // onSelected={onSelectProject}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={'project_select project_select'}
+              // onClear={clearSelectedProject}
+              disabled={!projects?.length}
+              // initialChoice={selectedProject}
+              isSearch
+            />
+          </div>
           <SelectMonth
             extraClassNameContainer={'month_select'}
             selectedDate={selectedDateForPM}
