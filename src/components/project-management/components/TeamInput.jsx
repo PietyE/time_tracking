@@ -3,6 +3,7 @@ import {
   getDeveloperSelector,
   getActiveDevSelector,
   getUserListSelector,
+  getActivePmInCurrentProjectSelector,
 } from '../../../reducers/projects-management'
 import Select from '../../ui/select';
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
@@ -12,6 +13,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   const users = useEqualSelector(getUserListSelector)
   const developers = useEqualSelector(getDeveloperSelector)
   const currentProjectDevelopers = useEqualSelector(getActiveDevSelector)
+  const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector)
 
   let availableDevelopers = developers
   if (currentProjectDevelopers) {
@@ -34,7 +36,7 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
     if (!checkResult) {
       currentDev = users.find(el => el.name === data)
     }
-    if(values.team){
+    if(values.team && activeProjectManager){
       const result = checkResult ? [...values.team] : [...values.team, {
         name: data,
         is_full_time: true,
