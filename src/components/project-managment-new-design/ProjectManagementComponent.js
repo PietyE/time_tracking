@@ -51,7 +51,7 @@ import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
-  const [p, setP] = useState([])
+  const [projectsForManagement, setProjectsForManagement] = useState([])
   const [maxNameFilter, setMaxNameFilter] = useState(false)
   const [maxTimeFilter, setMaxTimeFilter] = useState(false)
   const dispatch = useDispatch()
@@ -104,20 +104,18 @@ const ProjectManagementComponent = () => {
   }, [month])
 
   useEffect(() => {
-    setP(projects)
+    setProjectsForManagement(projects)
   }, [projects])
 
 
   useEffect(() => {
     if (selectedProject.id) {
-      const currentProject = [];
-      let item = projectList.find((item) => {
+      const currentProject = projectList.filter((item) => {
         return item.id === selectedProject.id
-      })
-      currentProject.push(item)
-      if (currentProject) {
+        })
+      if (currentProject.length) {
         onSelectProject(currentProject) 
-        setP(currentProject)
+        setProjectsForManagement(currentProject)
         }
     }
   }, [selectedProject, projectList])
@@ -143,13 +141,13 @@ const ProjectManagementComponent = () => {
   const showTypeProject = (item) => {
     if (item.name == 'Active') {
       let activeP = projects.filter((e) => e.isActive == true)
-      setP(activeP)
+      setProjectsForManagement(activeP)
     } else {
-      setP([])
+      setProjectsForManagement([])
     }
   }
 
-  const projectsList = p.map((e) => {
+  const projectsList = projectsForManagement.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -171,7 +169,7 @@ const ProjectManagementComponent = () => {
 
   const setSortedArr = useCallback((reverse = false, criteria) => {
     let res = sortArrayWithObj(criteria, projects, reverse)
-    setP(res)
+    setProjectsForManagement(res)
   })
 
   return (
