@@ -38,13 +38,15 @@ import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal3 from './components/CreateProjectModal3'
 import CreateUserModal from './components/CreateUserModal'
 import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
-import { setCurrentItems, setPageSize } from '../../actions/pagination'
-import {
-  getCurrentItems,
-  getCurrentPage,
-  getPageSize,
-} from '../../selectors/pagination'
-import Pagination from '../ui/pagination/Pagination'
+// // The pagination is commented out until the next iteration
+// import { setCurrentItems, setPageSize } from '../../actions/pagination'
+// import {
+ //   getCurrentItems,
+//   getCurrentPage,
+//   getPageSize,
+// } from '../../selectors/pagination'
+// import Pagination from '../ui/pagination/Pagination'
+// // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
   const [p, setP] = useState([])
@@ -62,16 +64,35 @@ const ProjectManagementComponent = () => {
   let currentPm = useEqualSelector(getCurrentUserSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
-  let currentPage = useEqualSelector(getCurrentPage)
-  let currentItems = useEqualSelector(getCurrentItems)
-  let pageSize = useEqualSelector(getPageSize)
-  let totalCount = p.length || 0
+  // // The pagination is commented out until the next iteration
+  // let currentPage = useEqualSelector(getCurrentPage)
+  // let currentItems = useEqualSelector(getCurrentItems)
+  // let pageSize = useEqualSelector(getPageSize)
+  // let totalCount = p.length || 0
+//  const PAGE_SIZE_LIMIT = 10
+  // // The pagination is commented out until the next iteration
+
+  const projectList = [
+    {
+      id:0,
+      name:'Select all',
+    },
+    ...projects
+  ]
+
+  const projectManagerSelectList = [
+    {
+      email: '',
+      id: 'select-all',
+      name: 'Select All',
+      role: null,
+    },
+    ...projectManagers,
+  ]
 
   useEffect(() => {
-    if (isEmpty(selectedPm)) {
-      dispatch(setPm(currentPm))
-    }
-    dispatch(setPageSize(10))
+    // // The pagination is commented out until the next iteration
+    // dispatch(setPageSize(PAGE_SIZE_LIMIT))
   }, [])
 
   useEffect(() => {
@@ -83,10 +104,10 @@ const ProjectManagementComponent = () => {
     setP(projects)
   }, [projects])
 
-  useEffect(() => {
-    let items = currentItemsGets(pageSize, currentPage, p)
-    dispatch(setCurrentItems(items))
-  }, [pageSize, currentPage, p])
+  // useEffect(() => {
+  //   let items = currentItemsGets(pageSize, currentPage, p)
+  //   dispatch(setCurrentItems(items))
+  // }, [pageSize, currentPage, p])
 
   const _setSelectedProjectId = useCallback(
     (data) => {
@@ -98,6 +119,7 @@ const ProjectManagementComponent = () => {
     _setSelectedProjectId(id)
     dispatch(setShowEditModal(true))
   }
+
   const showTypeProject = (item) => {
     if (item.name == 'Active') {
       let activeP = projects.filter((e) => e.isActive == true)
@@ -107,7 +129,7 @@ const ProjectManagementComponent = () => {
     }
   }
 
-  const projectsList = currentItems.map((e, i) => {
+  const projectsList = projects.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -150,17 +172,31 @@ const ProjectManagementComponent = () => {
       </div>
       {isFetching && <SpinnerStyled />}
       <div className="container ">
-        <div className="flex row  justify-content-between">
-          <Select
-            title="Search by PM or developer"
-            listItems={projectManagers}
-            onSelected={onSelectPm}
-            valueKey="name"
-            idKey="id"
-            extraClassContainer={' search search-manger'}
-            initialChoice={selectedPm || currentPm}
-            isSearch
-          />
+        <div className="row  container__selects">
+          <div className='container__selects-progects__fields'>
+            <Select
+              title="Search by PM or developer"
+              listItems={projectManagerSelectList}
+              onSelected={onSelectPm}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={' search search-manger'}
+              initialChoice={selectedPm || currentPm}
+              isSearch
+            />
+            <Select
+              title={'Choose project'}
+              listItems={projectList}
+              // onSelected={onSelectProject}
+              valueKey="name"
+              idKey="id"
+              extraClassContainer={'project_select project_select'}
+              // onClear={clearSelectedProject}
+              disabled={!projects?.length}
+              // initialChoice={selectedProject}
+              isSearch
+            />
+          </div>
           <SelectMonth
             extraClassNameContainer={'month_select'}
             selectedDate={selectedDateForPM}
@@ -168,8 +204,8 @@ const ProjectManagementComponent = () => {
           />
         </div>
         <div className="row table__titles">
-          <div className="col-lg-7">
-            <div className="sort-by">
+          <div className="col-lg-8">
+            <div className="sort-by table__titles-sort__container">
               <div className="sort-title">PROJECT NAME</div>
               <div className="cart-cont">
                 <div
@@ -201,7 +237,7 @@ const ProjectManagementComponent = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-lg-3 table__titles-sort__container">
             <div className="sort-by">
               <div className="sort-title">HOURS WORKED</div>
               <div className="cart-cont">
@@ -236,12 +272,14 @@ const ProjectManagementComponent = () => {
           </div>
         </div>
         {projectsList}
-        <Pagination
+        {/* The pagination is commented out until the next iteration */}
+        {/* <Pagination
           totalCount={totalCount}
           pageSize={pageSize}
           currentPage={currentPage}
           paginationDeiplayed={5}
-        />
+        /> */}
+        {/* The pagination is commented out until the next iteration */}
       </div>
       <CreateProjectModal3 show={isCreateModalShow} />
       <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />

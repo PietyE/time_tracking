@@ -48,7 +48,7 @@ function ReportItemProject({ p, openEditModal }) {
       }
       onClick={optEditM}
     >
-      <div className="col-lg-7">
+      <div className="col-lg-8 report__item-container_title">
         <span className="report__item-title">{p.name}</span>
       </div>
       <div className="col-lg-3">
@@ -56,7 +56,7 @@ function ReportItemProject({ p, openEditModal }) {
           {parseMinToHoursAndMin(p.total_minutes, true)}
         </span>
       </div>
-      <div className="col-lg-2">
+      {/* <div className="col-lg-2">
         <div className="row justify-content-end">
           <div className={'edit_dots '} onClick={toggleEdit}>
             <FontAwesomeIcon
@@ -81,7 +81,7 @@ function ReportItemProject({ p, openEditModal }) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

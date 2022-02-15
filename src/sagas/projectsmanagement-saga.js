@@ -3,7 +3,7 @@ import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
   GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, CREATE_PROJECT,
-  CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
+  CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT,  SET_SELECTED_PM, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
@@ -18,25 +18,44 @@ import {
   getSelectedProjectIdSelector,
   getShownProjectSelector,
 } from '../reducers/projects-management'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
+import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 
 
 export function* getAllProjects() {
   try {
     yield put(setFetchingPmPage(true))
     const selectedPmId = yield select(getSelectedPmIdSelector)
-      if(selectedPmId){
-      const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
-      const response = yield call([pm, 'getProjectsTotalHours'], { month, year, selectedPmId })
-      yield put(setAllProjects(response.data))
-      const selectedProject = yield select(getShownProjectSelector)
+    if (selectedPmId) {
+      if (selectedPmId === 'select-all') {
+        const response = yield select(getProjectInTimeReportSelector)
+        yield put(setAllProjects(response))
+        const selectedProject = yield select(getShownProjectSelector)
 
-      if(!isEmpty(selectedProject)){
-        const projectId = selectedProject?.id
-        const currentProject = response.data.find(el => el.id === projectId)
-        yield put(setShownProject(currentProject))
+        if (!isEmpty(selectedProject)) {
+          const projectId = selectedProject?.id
+          const currentProject = response.find((el) => el.id === projectId)
+          yield put(setShownProject(currentProject))
+        }
       }
+      if (selectedPmId !== 'select-all') {
+        const { month, year } = yield select(
+          (state) => state.projectsManagement.selectedDateForPM
+        )
+        const response = yield call([pm, 'getProjectsTotalHours'], {
+          month,
+          year,
+          selectedPmId,
+        })
+        yield put(setAllProjects(response.data))
+        const selectedProject = yield select(getShownProjectSelector)
 
+        if (!isEmpty(selectedProject)) {
+          const projectId = selectedProject?.id
+          const currentProject = response.data.find((el) => el.id === projectId)
+          yield put(setShownProject(currentProject))
+        }
+      }
     }
 
   } catch (error) {
@@ -53,6 +72,41 @@ export function* getAllProjects() {
     yield put(setFetchingPmPage(false))
   }
 
+}
+
+export function* getProjectsSagaWorker() {
+  try {
+    yield put(setFetchingPmPage(true))
+
+    const selectPm = yield select(getSelectedPmIdSelector)
+
+    let selectedPmId = selectPm === 'select-all' ? undefined : selectPm
+    const { month, year } = yield select(
+      (state) => state.projectsManagement.selectedDateForPM
+    )
+    const response = yield call([pm, 'getProjectsTotalHours'], {
+      month,
+      year,
+      user_id: selectedPmId,
+    })
+
+    yield put(setAllProjects(response.data))
+
+    // const { data } = yield call([pm, 'getProjectsApi'], params)
+    //
+    // yield put(setAllProjects(data))
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  } finally {
+    yield put(setFetchingPmPage(false))
+  }
 }
 
 export function* getProjectReportById(action) {
@@ -270,10 +324,28 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
+// export function* addProjectManagerToProject (action) {
+//   const  {previousPm, newPm} = action.payload
+//   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+//   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
+//   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
+//     yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: {data:newPm}})
+//   }
+// }
+
+// export function* addInactiveProjectManagerToProject (action) {
+//   const  {previousPm, newPm} = action.payload
+//   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+//   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
+//   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
+//     yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: newPm})
+//   }
+// }
+
 export function* watchProjectsManagement() {
   yield takeEvery(
-    [GET_ALL_PROJECTS],
-    getAllProjects,
+    [GET_ALL_PROJECTS, SET_SELECTED_PM],
+    getProjectsSagaWorker
     // getAllProjectsWithReport
   )
   yield  takeEvery(
@@ -298,5 +370,8 @@ export function* watchProjectsManagement() {
     [CHANGE_USERS_ON_PROJECT], editUsersOnProject)
   yield takeEvery(
     [ADD_USERS_ON_PROJECT], addUsersToProject)
+
+    // yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
+    // yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
 }
 

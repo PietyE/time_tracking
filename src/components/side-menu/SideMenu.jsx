@@ -59,13 +59,13 @@ function SideMenu () {
           // {icon: basket, label: "Other costs", pathname: "/othercosts"}
         ]
       },
-      // {
-      //   panelName: "Management",
-      //   panelId: "...",
-      //   items: [
-      //     {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
-      //   ]
-      // }
+      {
+        panelName: "Management",
+        panelId: "...",
+        items: [
+          {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
+        ]
+      }
       )
     } else if (userRole === "Developer") {
       result.push({
@@ -86,13 +86,13 @@ function SideMenu () {
             {icon: coin, label: "Project report", smallSize: true, pathname: "/projectreport"}
           ]
         },
-        // {
-        //   panelName: "Management",
-        //   panelId: "...",
-        //   items: [
-        //     {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
-        //   ]
-        // }
+        {
+          panelName: "Management",
+          panelId: "...",
+          items: [
+            {icon: fileCheck, label: "Project management", pathname: "/projectmanagement"}
+          ]
+        }
         )
       }
       return result;
