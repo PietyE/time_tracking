@@ -11,6 +11,7 @@ import {
   getProjectManagerListSelector,
   getSelectedPmSelector,
   getIsShowCreateUserModalSelector,
+  getSelectedProjectSelector
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -23,6 +24,7 @@ import {
   setShownProject,
   getProjectReportById,
   setShowCreateUserModal,
+  setSelectedProject
 } from '../../actions/projects-management'
 
 import './style.scss'
@@ -64,6 +66,7 @@ const ProjectManagementComponent = () => {
   let currentPm = useEqualSelector(getCurrentUserSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
+  const selectedProject = useEqualSelector(getSelectedProjectSelector)
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
   // let currentItems = useEqualSelector(getCurrentItems)
@@ -104,10 +107,27 @@ const ProjectManagementComponent = () => {
     setP(projects)
   }, [projects])
 
+
+  useEffect(() => {
+    if (selectedProject.id) {
+      const currentProject = [];
+      let item = projectList.find((item) => {
+        return item.id === selectedProject.id
+      })
+      currentProject.push(item)
+      if (currentProject) {
+        onSelectProject(currentProject) 
+        setP(currentProject)
+        }
+    }
+  }, [selectedProject, projectList])
+
+  // // The pagination is commented out until the next iteration
   // useEffect(() => {
   //   let items = currentItemsGets(pageSize, currentPage, p)
   //   dispatch(setCurrentItems(items))
   // }, [pageSize, currentPage, p])
+  // // The pagination is commented out until the next iteration
 
   const _setSelectedProjectId = useCallback(
     (data) => {
@@ -129,7 +149,7 @@ const ProjectManagementComponent = () => {
     }
   }
 
-  const projectsList = projects.map((e) => {
+  const projectsList = p.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -137,6 +157,16 @@ const ProjectManagementComponent = () => {
     dispatch(setPm(data))
     dispatch(setShownProject(null))
     dispatch(getAllProjects())
+    dispatch(setSelectedProject(projectList[0]))
+  }
+
+  const onSelectProject = (data) => {
+    if(data.id ==='0'){
+      dispatch(setShownProject({}))
+    }else {
+      dispatch(setShownProject(data))
+    }
+    dispatch(setSelectedProject(data))
   }
 
   const setSortedArr = useCallback((reverse = false, criteria) => {
@@ -187,13 +217,13 @@ const ProjectManagementComponent = () => {
             <Select
               title={'Choose project'}
               listItems={projectList}
-              // onSelected={onSelectProject}
+              onSelected={onSelectProject}
               valueKey="name"
               idKey="id"
               extraClassContainer={'project_select project_select'}
               // onClear={clearSelectedProject}
               disabled={!projects?.length}
-              // initialChoice={selectedProject}
+              initialChoice={selectedProject}
               isSearch
             />
           </div>
