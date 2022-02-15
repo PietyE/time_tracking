@@ -81,7 +81,6 @@ export function* getProjectsSagaWorker() {
     const selectPm = yield select(getSelectedPmIdSelector)
 
     let selectedPmId = selectPm === 'select-all' ? undefined : selectPm
-    console.log('selectedPmId', selectedPmId);
     const { month, year } = yield select(
       (state) => state.projectsManagement.selectedDateForPM
     )
