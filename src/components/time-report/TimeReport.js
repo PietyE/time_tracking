@@ -39,7 +39,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
-import FunnelSelect from "./components/FunnelSelect";
+// import FunnelSelect from "./components/FunnelSelect";
 
 function TimeReport(props) {
   const {
@@ -78,7 +78,9 @@ function TimeReport(props) {
       setShowEmpty(true);
     }
   }
+  
 
+  
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 
@@ -225,35 +227,32 @@ function TimeReport(props) {
           </div>
         </div>
         <div className="time_report_header">
-          <div className="time-report-prject-wrap">
-            {selectedProject.name} <span className="divider"></span>
-            {parseMinToHoursAndMin(selectedProjectHours, true)}
-          </div>
         </div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
+          <ProjectSelect
+              projectList={projects}
+              clearSelectedProject={clearSelectedProject}
+              selectProject={selectProject}
+              selectedProject={selectedProject}
+            />
             {roleUser !== DEVELOPER && (
               <DeveloperSelect
                 developersList={developersList}
                 selectedDeveloper={selectedDeveloper}
               />
             )}
-            <ProjectSelect
-              projectList={projects}
-              clearSelectedProject={clearSelectedProject}
-              selectProject={selectProject}
-              selectedProject={selectedProject}
-            />
             <SelectMonth
                 selectedDate={selectedDate}
                 setNewData={changeSelectedDateTimeReport}
+              showYear="true"
                 extraClassNameContainer="time_report_header_select_month"
             />
-            <FunnelSelect
+            {/* <FunnelSelect
                 days={selectedDays}
                 selectedDay={selectedDay}
                 setStatusDay={setStatusDayFromSlector}
-            />
+            /> */}
           </div>
           <div className="time_report_header_btn_section">
             <button className="export_btn" onClick={handlerExportCsv}>
@@ -268,7 +267,13 @@ function TimeReport(props) {
           <div className='time_report_activity_day'>DATE</div>
           <div className='title-status'>ACTIVITY STATUS</div>
           <div className='title-tasks'>TASKS</div>
-          <div className='title-hours'>HOURS</div>
+          <div className='title-hours'>
+            <span>HOURS</span>
+            <strong className="total_hours_month">{parseMinToHoursAndMin(totalHours, true)}</strong>
+          </div>
+          <div className="time-report-project-wrap">
+            <span className="divider"> </span>
+          </div>
         </div>
         <div className="time_report_body_container">
           {reports ? (

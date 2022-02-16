@@ -26,7 +26,9 @@ function HeaderDay({
                 }
             />
         </button>
-      <span className={`time_report_day_title ${weekEndClassName}`}>{`${todayStr} ${dayTitle}`}</span>
+      <span className={`time_report_day_title`}>
+        <span className={`${weekEndClassName}`}>{`${dayTitle} ${todayStr}`}</span>
+      </span>
     </div>
   )
 }
