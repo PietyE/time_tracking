@@ -149,11 +149,12 @@ const ProjectManagementComponent = () => {
           variant="outline-*"
           onClick={() => _downloadAllTeamProjectReport(project.id)}
         >
-          <span className="oi oi-cloud-download" />
+          <span className="oi oi-cloud-download" title='Export'/>
         </Button>
       ),
       actions: (
         <span
+          title='Edit'
           className="oi oi-pencil"
           onClick={() => handleOpenEditModal(project.id)}
         />
