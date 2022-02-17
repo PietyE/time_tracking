@@ -11,7 +11,8 @@ import {
   getProjectManagerListSelector,
   getSelectedPmSelector,
   getIsShowCreateUserModalSelector,
-  getSelectedProjectSelector
+  getSelectedProjectSelector,
+  getFilteredProjectSelector
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -67,6 +68,7 @@ const ProjectManagementComponent = () => {
   const projects = useEqualSelector(getAllProjectsSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
+  const filteredProjects =useEqualSelector(getFilteredProjectSelector)
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
   // let currentItems = useEqualSelector(getCurrentItems)
@@ -104,15 +106,16 @@ const ProjectManagementComponent = () => {
   }, [month])
 
   useEffect(() => {
-    setProjectsForManagement(projects)
-  }, [projects])
+    setProjectsForManagement(filteredProjects)
+  }, [filteredProjects])
 
 
   useEffect(() => {
     if (selectedProject.id) {
-      const currentProject = projectList.filter((item) => {
+      const currentProject = projectList.find((item) => {
         return item.id === selectedProject.id
-        })
+      })
+      // console.log(currentProject  );
       if (currentProject.length) {
         onSelectProject(currentProject) 
         setProjectsForManagement(currentProject)
@@ -149,7 +152,7 @@ const ProjectManagementComponent = () => {
 
   const projectsList = projectsForManagement.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  })
+  },[filteredProjects, month])
   
     
   
@@ -168,18 +171,18 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
-    if(data.id ==='0'){
+    if (data.id === 0) {
       dispatch(setShownProject({}))
-    }else {
+    } else {
       dispatch(setShownProject(data))
     }
     dispatch(setSelectedProject(data))
   }
 
   const setSortedArr = useCallback((reverse = false, criteria) => {
-    let res = sortArrayWithObj(criteria, projects, reverse)
+    let res = sortArrayWithObj(criteria, filteredProjects, reverse)
     setProjectsForManagement(res)
-  })
+  }, [filteredProjects])
 
   return (
     <div className="project">

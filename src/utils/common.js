@@ -127,10 +127,25 @@ export function setElementTop(top, elementSelector) {
 
 export function sortArrayWithObj(creteria, array, reverse = false) {
   let temp = [...array]
-  if (reverse) {
-    temp = temp.sort((a, b) => (a < b ? 1 : -1)).reverse()
+  if (creteria === 'name') {
+    if (reverse) {
+      return temp.sort((a, b) => {
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase()
+        return nameA > nameB ? 1 : -1
+      })
+     } else {
+      return temp.sort((a, b) => {
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase()
+        return nameA > nameB ? -1 : 1
+      })
+     }
   } else {
-    temp = temp.sort((a, b) => (a > b ? 1 : -1))
-  }
-  return temp
+    if (reverse) {
+      return temp.sort((a, b) => (a.total_minutes > b.total_minutes ? -1 : 1))
+     } else {
+      return temp.sort((a, b) => (a.total_minutes > b.total_minutes ? 1 : -1))
+     }
+}
 }
