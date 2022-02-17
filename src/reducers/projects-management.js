@@ -118,10 +118,14 @@ export const getAllProjectsSelector = (state) =>
 
 export const getShownProjectSelector = state => state.projectsManagement.shownProject
 
-export const getFilteredProjectSelector = state => {
-  const shownProject = getShownProjectSelector(state)
+export const getFilteredProjectSelector = (state) => {
   const allProjects = getAllProjectsSelector(state)
-  return isEmpty(shownProject)?allProjects:[shownProject]
+  const selectedProject = getShownProjectSelector(state)
+
+  return allProjects.filter((project) => {
+    if (!selectedProject?.id) return true
+    return project.id === selectedProject.id
+  })
 }
 
 

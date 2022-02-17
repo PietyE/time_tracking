@@ -53,7 +53,7 @@ import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
 
 const ProjectManagementComponent = () => {
   const [projectsForManagement, setProjectsForManagement] = useState([])
-  const [maxNameFilter, setMaxNameFilter] = useState(false)
+  const [maxNameFilter, setMaxNameFilter] = useState(true)
   const [maxTimeFilter, setMaxTimeFilter] = useState(false)
   const dispatch = useDispatch()
 
@@ -82,7 +82,7 @@ const ProjectManagementComponent = () => {
       id:0,
       name:'Select all',
     },
-    ...projects
+    ...filteredProjects
   ]
 
   const projectManagerSelectList = [
@@ -107,7 +107,7 @@ const ProjectManagementComponent = () => {
 
   useEffect(() => {
     setProjectsForManagement(filteredProjects)
-  }, [filteredProjects])
+  }, [filteredProjects, selectedDateForPM])
 
 
   useEffect(() => {
@@ -150,11 +150,11 @@ const ProjectManagementComponent = () => {
     }
   }
 
+  
   const projectsList = projectsForManagement.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  },[filteredProjects, month])
-  
-    
+  })
+
   
   const _changeSelectedDateProjectsManagement = useCallback(
     (data) => {
