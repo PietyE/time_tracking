@@ -75,7 +75,6 @@ function ReportItem({
     date,
   } = editableText
 
-  console.log(' dayTitle',  dayTitle);
   const containerRef = useRef(null)
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
