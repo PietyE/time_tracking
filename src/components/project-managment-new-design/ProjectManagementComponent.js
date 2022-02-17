@@ -150,6 +150,15 @@ const ProjectManagementComponent = () => {
   const projectsList = projectsForManagement.map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
+  
+    
+  
+  const _changeSelectedDateProjectsManagement = useCallback(
+    (data) => {
+      dispatch(changeSelectedDateProjectsManagement(data))
+    },
+    [dispatch]
+  )
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
@@ -228,7 +237,8 @@ const ProjectManagementComponent = () => {
           <SelectMonth
             extraClassNameContainer={'month_select'}
             selectedDate={selectedDateForPM}
-            setNewData={changeSelectedDateProjectsManagement}
+            setNewData={_changeSelectedDateProjectsManagement}
+            showYear="true"
           />
         </div>
         <div className="row table__titles">
