@@ -196,20 +196,28 @@ function EditProjectModal({ show, projectList }) {
               const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
                 (user) => user.user_id === targetUserId
               )
-              if (wasDeactivated) {
-                _changeUserOnProject(wasDeactivated.projectReportId, {
-                  is_active: true,
-                })
-              } 
-              else {
-                _addUsersOnProject({
-                  project: currentProjectId,
-                  user: targetUserId,
-                  is_full_time: true,
-                  is_active: true,
-                  is_project_manager: false,
-                })
-              }     
+              if(!activeProjectManager) {
+                dispatch(
+                  showAler({
+                    type: WARNING_ALERT,
+                    message: 'The project must have at least one project manager',
+                    delay: 5000,
+                  })
+                )
+              } else if (wasDeactivated) {
+                  _changeUserOnProject(wasDeactivated.projectReportId, {
+                    is_active: true,
+                  })
+                } 
+                else {
+                  _addUsersOnProject({
+                    project: currentProjectId,
+                    user: targetUserId,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: false,
+                  })
+                }                 
             }
 
             const handleAddProjectManagerToProject = (e) => {
