@@ -17,6 +17,7 @@ module.exports = {
     // "react/jsx-filename-extension": "on",
     // "react/prop-types": "on",
     'comma-dangle': 'off',
+    'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
   },
