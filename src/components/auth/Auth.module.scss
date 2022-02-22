@@ -17,7 +17,11 @@
   width: 535px;
   height: 530px;
   border-radius: 10px;
-  @extend %mainBorder
+  @extend %mainBorder;
+  @media only screen and (max-width: 480px) {
+    width: 80vw;
+    height: 70vh;
+  }
 }
 
 .imgContainer {
@@ -49,6 +53,9 @@
 
 .buttonsBlock {
   width: 415px;
+  @media only screen and (max-width: 480px) {
+    width: 70vw;
+  }
 }
 
 .googleButton {
