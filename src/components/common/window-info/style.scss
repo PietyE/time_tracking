@@ -8,6 +8,7 @@
   box-sizing: border-box;
   box-shadow: -10px -5px 35px rgba(0, 0, 0, 0.1);
   border-radius: 10px 0px 0px 0px;
+  max-width: 613px;
 
   .header {
     display: flex;
@@ -16,6 +17,8 @@
     border-radius: 9px 0px 0px 0px;
     width: 613px;
     padding: 25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     .title {
       font-family: Montserrat;
@@ -25,12 +28,13 @@
       line-height: 24px;
       letter-spacing: 0.018em;
       color: #222222;
-      width: 233px;
       margin: 0;
       padding: 0;
       text-align: left;
     }
-
+    .container-edit__modal{
+      width: 100%;
+    }
     .chat_img {
       margin-top: 27px;
       fill: #616161;
@@ -74,27 +78,41 @@
     }
 
     .download_img {
-      margin-left: 28px;
+      // margin-left: 28px;
     }
 
     .control_btn {
-      margin-left: 28px;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      border-radius: 5px;
       cursor: pointer;
+      background: transparent;
+      transition: background 0.3s linear;
+          img{
+            max-height: 20px;
+          }
+          &:hover{
+            background: rgba(87, 108, 108, 0.15);
+          }
+          &:not(:last-child){
+            margin-right:15px;
+          }
+          &:last-child{
+            margin-left: 15px;
+          }
     }
 
     .vert_row {
-      width: 24px;
-      height: 1px;
+      width: 2px;
+      height: 32px;
       background: #C4C4C4;
-      transform: rotate(-90deg);
-      margin-left: 20px;
-      margin-top: 13px;
-    }
+      }
 
     .close_button {
-      width: 16px;
-      height: 16px;
-      margin: 5px 0 0 10px;
+
       cursor: pointer;
     }
   }
@@ -484,10 +502,10 @@
 
     .team-m{
       display: flex;
-      max-width: 588px;
-      padding-left: 40px;
-      min-height: 60px;
-      margin-left: 0;
+      width: 100%;
+      max-width: 613px;
+      // min-height: 60px;
+      padding: 0 25px;
       .gray-trash,.team-m-input-cont{
         display: none;
       }
@@ -521,7 +539,7 @@
       }
 
       &:hover{
-        height: 60px;
+        // height: 60px;
         background: rgba(87, 108, 108, 0.1);
         .gray-trash{
           display:block;
@@ -531,7 +549,7 @@
         .team-m-input-cont{
           display: block;
           width: 97px;
-          height: 22px;
+          height: 20px;
           padding-left: 18px;
           label{
             font-size: 12px;

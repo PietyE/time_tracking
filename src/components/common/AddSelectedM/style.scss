@@ -1,7 +1,7 @@
 .add-selected{
   position: absolute;
-  left: 20px;
-  bottom:120px;
+  left:10px;
+  top: 60px;
   width: 272px;
   height: 356px;
   background: #FFFFFF;
@@ -12,7 +12,7 @@
   font-family: 'Montserrat';
 
   &.members{
-    top:220px;
+    top:320px;
   }
 
 
@@ -39,7 +39,9 @@
       align-items: flex-end;
       height: 40px;
       margin: 6px 0;
-
+      overflow: hidden;
+      white-space: nowrap;
+      
       &.checked{
         background: rgba(87, 108, 108, 0.12);
         border-radius: 5px;
@@ -80,16 +82,24 @@
         }
 
       }
+
       &-name{
         margin-left: 40px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
 
   }
 
   .btn-cont{
+
     border-top: 1px solid rgba(201, 201, 198, 0.7);
     margin:10px 16px;
     padding-top: 12px;
+
+    .btn-add{
+        white-space: nowrap
+    }
   }
 }

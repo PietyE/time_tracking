@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import SelectMonth from '../ui/select-month'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -11,7 +11,9 @@ import {
   getProjectManagerListSelector,
   getSelectedPmSelector,
   getIsShowCreateUserModalSelector,
-  getSelectedProjectSelector
+  getSelectedProjectSelector,
+  getFilteredProjectSelector,
+  getActivePmInCurrentProjectSelector
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -39,11 +41,12 @@ import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal3 from './components/CreateProjectModal3'
 import CreateUserModal from './components/CreateUserModal'
-import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
+import { currentItemsGets } from '../../utils/common'
+import useSorting from '../../custom-hook/useSorting'
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
 // import {
- //   getCurrentItems,
+//   getCurrentItems,
 //   getCurrentPage,
 //   getPageSize,
 // } from '../../selectors/pagination'
@@ -51,9 +54,11 @@ import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
-  const [projectsForManagement, setProjectsForManagement] = useState([])
-  const [maxNameFilter, setMaxNameFilter] = useState(false)
-  const [maxTimeFilter, setMaxTimeFilter] = useState(false)
+  const { sorting, handleSortingChange } = useSorting()
+  const [sortParams, setSortParams] = useState({
+    name: true,
+    total_minutes: null,
+  })
   const dispatch = useDispatch()
 
   let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
@@ -67,18 +72,18 @@ const ProjectManagementComponent = () => {
   const projects = useEqualSelector(getAllProjectsSelector)
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
+  const filteredProjects = useEqualSelector(getFilteredProjectSelector)
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
   // let currentItems = useEqualSelector(getCurrentItems)
   // let pageSize = useEqualSelector(getPageSize)
   // let totalCount = p.length || 0
-//  const PAGE_SIZE_LIMIT = 10
+  //  const PAGE_SIZE_LIMIT = 10
   // // The pagination is commented out until the next iteration
-
   const projectList = [
     {
-      id:0,
-      name:'Select all',
+      id: 0,
+      name: 'Select all',
     },
     ...projects
   ]
@@ -93,10 +98,14 @@ const ProjectManagementComponent = () => {
     ...projectManagers,
   ]
 
+
+  const setSortedArr = useCallback((sortParams) => {
+    handleSortingChange(filteredProjects, sortParams)
+  }, [filteredProjects])
+
   useEffect(() => {
-    // // The pagination is commented out until the next iteration
-    // dispatch(setPageSize(PAGE_SIZE_LIMIT))
-  }, [])
+    setSortedArr(sortParams);
+  }, [filteredProjects, selectedDateForPM, sortParams])
 
   useEffect(() => {
     dispatch(clearPmProjects())
@@ -104,19 +113,13 @@ const ProjectManagementComponent = () => {
   }, [month])
 
   useEffect(() => {
-    setProjectsForManagement(projects)
-  }, [projects])
-
-
-  useEffect(() => {
     if (selectedProject.id) {
-      const currentProject = projectList.filter((item) => {
+      const currentProject = projectList.find((item) => {
         return item.id === selectedProject.id
-        })
+      })
       if (currentProject.length) {
-        onSelectProject(currentProject) 
-        setProjectsForManagement(currentProject)
-        }
+        onSelectProject(currentProject)
+      }
     }
   }, [selectedProject, projectList])
 
@@ -125,6 +128,10 @@ const ProjectManagementComponent = () => {
   //   let items = currentItemsGets(pageSize, currentPage, p)
   //   dispatch(setCurrentItems(items))
   // }, [pageSize, currentPage, p])
+
+  // useEffect(() => {
+  //      dispatch(setPageSize(PAGE_SIZE_LIMIT))
+  // }, [])
   // // The pagination is commented out until the next iteration
 
   const _setSelectedProjectId = useCallback(
@@ -138,18 +145,12 @@ const ProjectManagementComponent = () => {
     dispatch(setShowEditModal(true))
   }
 
-  const showTypeProject = (item) => {
-    if (item.name == 'Active') {
-      let activeP = projects.filter((e) => e.isActive == true)
-      setProjectsForManagement(activeP)
-    } else {
-      setProjectsForManagement([])
-    }
-  }
-
-  const projectsList = projectsForManagement.map((e) => {
-    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  })
+  const _changeSelectedDateProjectsManagement = useCallback(
+    (data) => {
+      dispatch(changeSelectedDateProjectsManagement(data))
+    },
+    [dispatch]
+  )
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
@@ -159,17 +160,16 @@ const ProjectManagementComponent = () => {
   }
 
   const onSelectProject = (data) => {
-    if(data.id ==='0'){
+    if (data.id === 0) {
       dispatch(setShownProject({}))
-    }else {
+    } else {
       dispatch(setShownProject(data))
     }
     dispatch(setSelectedProject(data))
   }
 
-  const setSortedArr = useCallback((reverse = false, criteria) => {
-    let res = sortArrayWithObj(criteria, projects, reverse)
-    setProjectsForManagement(res)
+  const projectsList = sorting.map((e) => {
+    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
   return (
@@ -228,7 +228,8 @@ const ProjectManagementComponent = () => {
           <SelectMonth
             extraClassNameContainer={'month_select'}
             selectedDate={selectedDateForPM}
-            setNewData={changeSelectedDateProjectsManagement}
+            setNewData={_changeSelectedDateProjectsManagement}
+            showYear="true"
           />
         </div>
         <div className="row table__titles">
@@ -237,10 +238,13 @@ const ProjectManagementComponent = () => {
               <div className="sort-title">PROJECT NAME</div>
               <div className="cart-cont">
                 <div
-                  className={'max ' + (maxNameFilter ? 'disable' : '')}
+                  className={'max ' + (sortParams.name === null ? 'disable' : sortParams.name ? '' : 'disable')}
                   onClick={() => {
-                    setSortedArr(true, 'name')
-                    setMaxNameFilter(true)
+                    setSortParams({
+                      name: true,
+                      total_minutes: null,
+                    })
+                    setSortedArr(sortParams)
                   }}
                 >
                   <FontAwesomeIcon
@@ -250,10 +254,13 @@ const ProjectManagementComponent = () => {
                   />
                 </div>
                 <div
-                  className={'min ' + (!maxNameFilter ? 'disable' : '')}
+                  className={'min ' + (sortParams.name === null ? 'disable' : !sortParams.name ? '' : 'disable')}
                   onClick={() => {
-                    setSortedArr(false, 'name')
-                    setMaxNameFilter(false)
+                    setSortParams({
+                      name: false,
+                      total_minutes: null,
+                    })
+                    setSortedArr(sortParams)
                   }}
                 >
                   <FontAwesomeIcon
@@ -270,10 +277,13 @@ const ProjectManagementComponent = () => {
               <div className="sort-title">HOURS WORKED</div>
               <div className="cart-cont">
                 <div
-                  className={'max ' + (maxTimeFilter ? 'disable' : '')}
+                  className={'max ' + (sortParams.total_minutes === null ? 'disable' : sortParams.total_minutes ? '' : 'disable')}
                   onClick={() => {
-                    setSortedArr(true, 'total_minutes')
-                    setMaxTimeFilter(true)
+                    setSortParams({
+                      name: null,
+                      total_minutes: true,
+                    })
+                    setSortedArr(sortParams)
                   }}
                 >
                   <FontAwesomeIcon
@@ -283,10 +293,13 @@ const ProjectManagementComponent = () => {
                   />
                 </div>
                 <div
-                  className={'min ' + (!maxTimeFilter ? 'disable' : '')}
+                  className={'min ' + (sortParams.total_minutes === null ? 'disable' : !sortParams.total_minutes ? '' : 'disable')}
                   onClick={() => {
-                    setSortedArr(false, 'total_minutes')
-                    setMaxTimeFilter(false)
+                    setSortParams({
+                      name: null,
+                      total_minutes: false,
+                    })
+                    setSortedArr(sortParams)
                   }}
                 >
                   <FontAwesomeIcon
