@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import Auth from 'components/auth'
 
 const AuthScreen = () => <Auth />
 
-export default AuthScreen
+export default memo(AuthScreen);
