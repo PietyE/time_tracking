@@ -33,8 +33,8 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
     selectedDate,
   }
   return (
-    <form className="container team-m">
-      <div className="row ">
+    <form className=" team-m">
+      <div className="row container-team_modal">
         <div className={'avatar-cont'}>
           <img
             src="https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png"

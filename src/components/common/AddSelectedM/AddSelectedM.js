@@ -35,8 +35,8 @@ function AddSelectedM({teamM,
             <div className="check-items-box">
                 {teamMList}
             </div>
-            <div className={'btn-cont'}>
-                <div className="row justify-content-center">
+            <div className='btn-cont'>
+                <div className="d-flex justify-content-center">
                     <button className='btn btn-add' onClick={addSelected}>Add selected</button>
                     <button  className='btn btn-cancel' onClick={closeAddUser}>Cancel</button>
                 </div>

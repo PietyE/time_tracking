@@ -1,8 +1,15 @@
-.team-m{
 
+.team-m{
+  .container-team_modal{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0px;
+    border-bottom: 1px black;
+    }
   .avatar-cont{
     display: flex;
-    margin-right: 70px;
   }
   &-avatar{
     width: 36px;
