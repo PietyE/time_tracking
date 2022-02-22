@@ -124,28 +124,3 @@ export function setElementTop(top, elementSelector) {
   let elem = document.querySelector(elementSelector)
   elem.style.top = top + 'px'
 }
-
-export function sortArrayWithObj(creteria, array, reverse = false) {
-  let temp = [...array]
-  if (creteria === 'name') {
-    if (reverse) {
-      return temp.sort((a, b) => {
-        let nameA = a.name.toLowerCase();
-        let nameB = b.name.toLowerCase()
-        return nameA > nameB ? 1 : -1
-      })
-     } else {
-      return temp.sort((a, b) => {
-        let nameA = a.name.toLowerCase();
-        let nameB = b.name.toLowerCase()
-        return nameA > nameB ? -1 : 1
-      })
-     }
-  } else {
-    if (reverse) {
-      return temp.sort((a, b) => (a.total_minutes > b.total_minutes ? -1 : 1))
-     } else {
-      return temp.sort((a, b) => (a.total_minutes > b.total_minutes ? 1 : -1))
-     }
-}
-}

@@ -41,7 +41,7 @@ import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal3 from './components/CreateProjectModal3'
 import CreateUserModal from './components/CreateUserModal'
-import { currentItemsGets, sortArrayWithObj } from '../../utils/common'
+import { currentItemsGets } from '../../utils/common'
 import useSorting from '../../custom-hook/useSorting'
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
