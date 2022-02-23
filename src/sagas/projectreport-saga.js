@@ -189,21 +189,3 @@ export function* watchDeveloperProjects() {
   )
   yield takeEvery(SET_EXCHANGE_RATES, setExchangeRate)
 }
-
-// export function* getCommentHistoryHandler (action) {
-//  const {commentId} = action.payload;
-//  try {
-//    debugger
-//   const response = yield call([Api, 'getData'], `comments/${commentId}/history/`)
-//   yield put (setReportHistory(response.data))
-//  } catch (e) {
-
-//  }
-// }
-// export function* watchReportsV2() {
-//   yield all(
-//     [
-//       takeEvery(GET_COMMENTS_HISTORY, getCommentHistoryHandler),
-//     ],
-//   )
-// }

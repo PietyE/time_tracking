@@ -5,24 +5,278 @@
   background-color: #f3f5f5;
   flex-direction: column;
   margin-top: 35px;
+  padding-left: 40px;
   
   .diw_row {
     position: relative;
-    width: 911px;
+    width: 971px;
     height: 0px;
     border: 1px solid rgba(201, 201, 198, 0.7);
-    margin: 25px 0 0 40px;
+    margin: 25px 0 0 0;
   }
 
   .project_report_date {
-    margin: 30px 0 0 40px;
+    margin: 30px 0 0 0;
+    display: flex;
+    flex-direction: row;
+
+    .row {
+      display: flex;
+      margin: 20px 5px 0 5px;
+    }
+
+    .select_container {
+      border-color: rgba(0, 0, 0, 0.2);;
+    }
+
+    .select_month {
+      margin-left: 300px;
+      border-radius: none;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      padding: 0;
+
+      .select_month_container {
+        border: 0;
+
+        .prev_month {
+          border-radius: 0;
+          border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .next_month {
+          border-radius: 0;
+          border-color: rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
   }
+
+  .users_table {
+    margin-top: 40px;
+    position: relative;
+
+    .users_table_header {
+      display: flex;
+      flex-direction: row;
+
+      .name_ordering {
+        display: flex;
+        flex-direction: row;
+        height: 24px;
+        text-align: center;
+        margin-left: 30px;
+
+        .name {
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 13px;
+          line-height: 24px;
+          text-align: right;
+          letter-spacing: 0.02em;
+          color: rgba(34, 34, 34, 0.3);
+
+        }
+
+        .arrows {
+          display: flex;
+          flex-direction: column;
+          margin-top: -8px;
+          margin-left: 5px;
+          padding-top: 0;
+
+          .arrow {
+            height: 10px;
+
+            &.show {
+              opacity: 100%;
+            }
+
+            &.hide {
+              opacity: 0%;
+            }
+          }
+        }
+      }
+
+      .projects,
+      .overtime {
+        margin-left: 210px;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 24px;
+        text-align: right;
+        letter-spacing: 0.02em;
+        color: rgba(34, 34, 34, 0.3);
+      }
+
+      .overtime{
+        margin-left: 420px;
+      }
+    }
+
+    .user_info {
+      display: flex;
+      flex-direction: column;
+      // height: 74px;
+      width: 971px;
+      background: #FFFFFF;
+      border: 1px solid rgba(201, 201, 198, 0.4);
+      box-sizing: border-box;
+      border-radius: 6px;
+      margin-top: 15px;
+
+      &.selected {
+        background: #FFFFFF;
+        border: 1px solid #009C98;
+        box-sizing: border-box;
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+      }
+
+      .user_info_row {
+        flex-direction: row;
+        display: flex;
+        height: 74px;
+        width: 971px;
+
+        .user_avatar {
+          width: 44px;
+          height: 44px;
+          margin: 15px 0 0 30px;
+        }
   
+        .name_email {
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+          margin-left: 14px;
+          margin-top: 15px;
+  
+          .name {
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0.017em;
+            color: #222222;
+            width: 191px;
+            height: 24px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
+          }
+  
+          .email {
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 10px;
+            line-height: 12px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.018em;
+            color: #ADADA7;
+            margin-top: 5px;
+          }
+        }
+  
+        .projects {
+          margin: 25px 0 0 15px;
+          font-family: Montserrat;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 24px;
+          letter-spacing: 0.03em;
+          width: 465px;
+          height: 24px;
+          flex-direction: row;
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: pre;
+          // color: #009C98;
+  
+          .empty {
+            color: #ADADA7;
+          }
+        }
+  
+        .overtime_block {
+          display: flex;
+          width: 100px;
+          height: 72px;
+          padding-top: 25px;
+          margin-left: 31px;
+  
+          .hours {
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            letter-spacing: 0.02em;
+          }
+        }
+  
+        .upArrow {
+          width: 50px;
+          margin-left: 30px;
+          transform: rotate(180deg);
+          padding-top: 25px;
+  
+          &.selected {
+            transform: rotate(0deg);
+            padding-top: 23px;
+          }
+        }  
+      }
+
+      .project_by_current_user {
+        display: none;
+
+        &.selected {
+          display: block;
+          background: #F3F3F3;
+        }
+
+        .project_row {
+          border: 1px solid rgba(201, 201, 198, 0.5);
+        }
+
+        .project_list {
+          width: 969px;
+          height: 53px;
+          text-align: left;
+          padding-top: 15px;
+          display: flex;
+
+          &:hover {
+            background: #E7E7E7;
+          }
+
+          .project_name {
+            margin-left: 292px;
+            width: 446px;
+          }
+
+          .project_hours {
+            margin-left: 51px;
+          }
+        }
+      }
+    }
+  }
   .project_report_work_data {
     width: 910px;
     
     .component_project_data {
-      margin: 30px 0 0 40px;
+      margin: 30px 0 0 0;
       height: 312px;
       width: 911px;
       border: 1px solid rgba(201, 201, 198, 0.4);

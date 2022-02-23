@@ -2,9 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
-import WorkData from './components/WorkData/WorkData'
+// import WorkData from './components/WorkData/WorkData'
 import ProjectData from './components/ProjectData/ProjectData'
-import Comments from './components/Comments'
+// import Comments from './components/Comments'
+import SearchByProject from './components/SearchByProject';
+import SearchByDeveloper from './components/SearchByDeveloper';
+import UsersInfo from './components/UsersInfo';
 
 import SelectMonth from 'components/ui/select-month'
 import { changeSelectedDateTimeReport } from 'actions/times-report'
@@ -34,7 +37,10 @@ function ProjectReportNew () {
   const roleUser = useShallowEqualSelector(getUserRoleText);
   const currentUserId = useShallowEqualSelector(getProfileId);
   const userAvatarUrl = useShallowEqualSelector(getUserAvatarUrl);
+  const [openUserInfo, setOpenUserInfo] = useState(false);
   const [openComments, setOpenComments] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [userSelected, setUserSelected] = useState(null);
   const [selected, setSelected] = useState(null);
   const dispatch = useDispatch();
   const currentUser = useMemo(() => {
@@ -42,7 +48,9 @@ function ProjectReportNew () {
       return usersData.find(user => (user.id === currentUserId))
     }
   }, [currentUserId, usersData])
-  const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
+
+  // const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
+
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
       getDevelopersProject()
@@ -74,71 +82,53 @@ function ProjectReportNew () {
 
   const commentsOnOpen = () => {
     setOpenComments(!openComments)
-   }
+  }
 
-  const renderUserProjects = () => {
-    if(currentUser) {
-      const {
-        salary_uah,
-        id,
-        total_expenses,
-        total_overtimes,
-        total_salary,
-        // comments,
-        commentId,
-        totalHoursOvertime,
-        projects,
-        salaryCurrency,
-        rate_uah,
-        rateCurrency
-      } = currentUser
-  const commonProjectsInfo = {
-    name: '',
+  const userWindowInfoOpen = (e) => {
+    setOpenUserInfo(true)
+  }
+
+  const userWindowInfoClose = (e) => {
+    setOpenUserInfo(false)
+  }
+
+  const selectUser = (user) => {
+    if (user) {
+      setUserSelected(user)
+      setSelectedUserId(user.id)
+    }
   }
 
   return (
-    <div className="project_report_work_data">
-    {/* <WorkData salary={salary_uah}
-              salaryCur={salaryCurrency}
-              currencyRate={rateCurrency}
-              total_hours={totalHoursOvertime}
-              extra_costs={total_expenses} 
-              salaryPerHour={rate_uah}
-              comments_lenght={comments.length}
-              openComments={openComments}
-              firstBlockText={"SALARY"}
-              secondBlockText={"HOURS WORKED"}
-              thirdBlockText={"HOURLY RATE"}
-              fourthBlockText={"EXTRA COSTS"} /> */}
-    <div className="component_project_data">
-    <ProjectData projects={commonProjectsInfo}
-                 overtime={totalHoursOvertime}
-                 userId={id} />
-    </div>             
-    {/* {openComments &&            
-    <Comments comments={comments}
-              commentId={commentId}
-              avatarUrl={userAvatarUrl} />
-    } */}
-    </div>
-  )
-}
-  }
-
-  return (
-    <ProjectReportContext.Provider value={{selected, onItemClick: buttonFocusOn, openComments: commentsOnOpen}}>
+    <ProjectReportContext.Provider value={{selected,
+                                          selectedUserId, 
+                                          onItemClick: buttonFocusOn, 
+                                          openComments: commentsOnOpen,
+                                          showWindowWithUserInfo: userWindowInfoOpen,
+                                          closeWindowWithUserInfo: userWindowInfoClose,
+                                          chooseUser: selectUser,}}>
       <div className="project_report_container">
         <HeaderProjectReport id={currentUserId} name="Project report"/>
         <div className="diw_row" />
         <div className="project_report_date">
-          <SelectMonth
-            selectedDate={selectedDate}
-            setNewData={onSentNewData}
-            extraClassNameContainer="time_report_header_select_month"
-            showYear="true"
-          />
+         <SearchByDeveloper />
+          <div className="row">
+          <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="10" height="1.5" fill="#616161"/>
+          </svg>
+          </div>
+          <SearchByProject />
+          <div className="select_month">
+            <SelectMonth
+              selectedDate={selectedDate}
+              setNewData={onSentNewData}
+              extraClassNameContainer="time_report_header_select_month"
+              showYear="true"
+            />
+          </div>
         </div>
-           {renderUserProjects()}
+           {/* {renderUserProjects()} */}
+           <UsersInfo selectedDate={selectedDate}/>
       </div>
     </ProjectReportContext.Provider> 
   )
