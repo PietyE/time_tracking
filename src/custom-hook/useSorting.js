@@ -1,21 +1,25 @@
 import { useCallback, useState } from 'react'
 import { orderBy } from 'lodash'
 
-const useSorting = (data, parameter, order) => {
+const useSorting = (data, params) => {
   const [sorting, setSorting] = useState([]);
 
-  const handleSortingChange = useCallback((sortData, sortParameter) => {
+  const handleSortingChange = useCallback((data, params) => {
+    const keys = Object.keys(params);
 
+    const customFunc = (key) => (item) =>
+      (typeof item[key] === 'string') ? item[key].toUpperCase() : (item[key] === null) ? 0 : item[key];
+    
+      const iteratees = keys
+      .map(key => params[key] === null ? null : customFunc(key))
+      .filter(item => item !==null);
+  
+    const sortOrders = keys
+      .map(key => params[key] === null ? null : params[key] ? 'asc' : 'desc')
+      .filter(item => item !== null);
+    
     setSorting(() => {
-      return orderBy(sortData, [
-        (sortParameter.name !== null) && ((item) => item.name.toUpperCase()),
-        (sortParameter.total_minutes !== null) && ((item) => item.total_minutes === null ? 0 : item.total_minutes),
-      ],
-        [
-          (sortParameter.name !== null) && (sortParameter.name ? 'asc' : 'desc'),
-          (sortParameter.total_minutes !== null) && (sortParameter.total_minutes ? 'asc' : 'desc'),
-        ]
-      )
+      return orderBy(data, iteratees, sortOrders)
     })
   }, []);
 
