@@ -408,7 +408,7 @@
   background: rgba(34, 34, 34, 0.6);
   backdrop-filter:none;
   .modal-dialog{
-   min-width: 630px!important;
+   min-width: 630px !important;
 
     .modal-body{
       padding: 0;
@@ -452,6 +452,7 @@
     .pm_create_modal_form{
       display: flex;
       flex-direction: column;
+      position: relative;
 
       .form-container{
         padding: 0 35px;
@@ -460,7 +461,8 @@
       .input-cont{
         display: flex;
         flex-direction: column;
-        margin-bottom: 25px;
+        margin-bottom: 35px !important;
+        position: relative;
         &:last-child{
           margin-bottom: 20px;
         }
@@ -498,7 +500,6 @@
         }
       }
 
-
       .team-container{
         margin:12px 15px 30px;
         padding: 0 20px;
@@ -509,9 +510,13 @@
       }
 
       &-submit{
-        width: 100%;
+        position: relative;
+        left: -1px;
+        bottom: -1px;
+        width: calc(100% + 2px);
         background: #009C98;
         border-radius: 0px 0px 20px 20px;
+        border-color:#009C98;
         color: #fff;
         font-style: normal;
         font-weight: 600;
@@ -647,7 +652,11 @@
 }
 
 .error{
+  position: absolute;
+  bottom: -20px;
   color: red;
   width: 100%;
+  font-size: 14px;
+
 }
 

@@ -20,6 +20,7 @@ import {
 } from '../reducers/projects-management'
 import { isEmpty } from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
+import { setErrorData } from 'actions/error'
 
 
 export function* getAllProjects() {
@@ -204,29 +205,36 @@ export function* downloadAllTeamProjectReport({ payload }) {
 export function* createProject({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { projectName, users } = payload
+    const { projectName } = payload
     const { data } = yield call([pm, 'createProject'], { name: projectName })
-    yield call([pm, 'setUsersToProject'],
-      { project: data.id, users: users })
     yield put(
       showAler({
         type: SUCCES_ALERT,
         message: 'Project has been created',
         delay: 5000,
-      }),
+      })
     )
-    yield call(getAllProjects)
+    yield call(getProjectsSagaWorker)
   } catch (error) {
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      }),
-    )
-  }
-  finally {
+    const { response = {}, message: error_message } = error
+
+    const { data = {}, status, statusText } = response
+
+    const { detail, title, non_field_errors, duration } = data
+    const errorMessage =
+      (title && title[0]) ||
+      duration ||
+      (non_field_errors && non_field_errors[0]) ||
+      error_message ||
+      statusText
+    const errorData = {
+      status,
+      messages: errorMessage,
+      detail: typeof data === 'object' ? detail : '',
+    }
+
+    yield put(setErrorData(errorData))
+  } finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -348,30 +356,17 @@ export function* watchProjectsManagement() {
     getProjectsSagaWorker
     // getAllProjectsWithReport
   )
-  yield  takeEvery(
-    [GET_PROJECT_REPORT_BY_ID],
-    getProjectReportById,
-  )
-  yield  takeEvery(
-    [GET_DOWNLOAD_PROJECT_REPORT],
-    downloadProjectReport,
-  )
+  yield  takeEvery([GET_PROJECT_REPORT_BY_ID], getProjectReportById)
+  yield  takeEvery([GET_DOWNLOAD_PROJECT_REPORT], downloadProjectReport)
   yield  takeEvery(
     [GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT],
     downloadAllTeamProjectReport,
   )
-  yield  takeEvery(
-    [CREATE_PROJECT],
-    createProject,
-  )
-  yield takeEvery(
-    [CHANGE_PROJECT_NAME], changeProjName)
-  yield takeEvery(
-    [CHANGE_USERS_ON_PROJECT], editUsersOnProject)
-  yield takeEvery(
-    [ADD_USERS_ON_PROJECT], addUsersToProject)
-
-    // yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
-    // yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
+  yield  takeEvery([CREATE_PROJECT],  createProject)
+  yield takeEvery([CHANGE_PROJECT_NAME], changeProjName)
+  yield takeEvery([CHANGE_USERS_ON_PROJECT], editUsersOnProject)
+  yield takeEvery([ADD_USERS_ON_PROJECT], addUsersToProject)
+  // yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
+  // yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
 }
 

@@ -39,7 +39,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
-import CreateProjectModal3 from './components/CreateProjectModal3'
+import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
 import CreateUserModal from './components/CreateUserModal'
 import { currentItemsGets } from '../../utils/common'
 import useSorting from '../../custom-hook/useSorting'
@@ -322,7 +322,7 @@ const ProjectManagementComponent = () => {
         /> */}
         {/* The pagination is commented out until the next iteration */}
       </div>
-      <CreateProjectModal3 show={isCreateModalShow} />
+      <CreateProjectModal show={isCreateModalShow} />
       <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       <EditProjectModal2 show={isEditModalShow} />
     </div>
