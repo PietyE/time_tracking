@@ -10,7 +10,7 @@ import SearchByDeveloper from './components/SearchByDeveloper';
 import UsersInfo from './components/UsersInfo';
 
 import SelectMonth from 'components/ui/select-month'
-import { changeSelectedDateTimeReport } from 'actions/times-report'
+import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
 import { getProfileId, getUserRoleText, getUserAvatarUrl } from '../../selectors/user'
 import { DEVELOPER, PM } from 'constants/role-constant'
@@ -26,8 +26,6 @@ import {
 } from 'actions/projects-report'
 
 import './projectReportNew.scss'
-
-import {selectCommentsByUserId} from 'selectors/project-report-details'
 
 import { getSelectedDateTimeReport } from 'selectors/timereports'
 
@@ -58,9 +56,10 @@ function ProjectReportNew () {
     getConsolidateProject()
   }, [])
 
-  const onSentNewData = (data) => {
-    dispatch(changeSelectedDateTimeReport(data))
-  }
+  const handleChangeData = (data) => {
+    const { month, year } = data;
+    dispatch(changeSelectedDateProjectsReport(data));
+  };
 
   const getDevelopersProject = () => {
     dispatch(getDevelopersProjectInProjectReport())
@@ -121,7 +120,7 @@ function ProjectReportNew () {
           <div className="select_month">
             <SelectMonth
               selectedDate={selectedDate}
-              setNewData={onSentNewData}
+              setNewData={handleChangeData}
               extraClassNameContainer="time_report_header_select_month"
               showYear="true"
             />

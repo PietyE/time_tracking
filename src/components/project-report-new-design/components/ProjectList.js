@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -6,8 +6,19 @@ function ProjectList (props) {
   const {
     name,
     hours,
-    stateDataForLink
+    stateDataForLink,
+    is_full_time
   } = props;
+
+  const showHours = () => {
+    if (is_full_time) {
+        return 'full-time'
+    } else if (hours) {
+        return hours
+    } else {
+        return '0h 00m' 
+    }
+  }
 
   return (
     <>
@@ -23,7 +34,7 @@ function ProjectList (props) {
                     {name}
                 </Link>}
               </div>
-            <div className='project_hours'>{hours ? hours : 'full-time'}</div>
+            <div className='project_hours'>{showHours()}</div>
         </div>
     </>
   )

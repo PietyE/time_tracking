@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useMemo, useEffect, useContext } from 'react'
 import { useDispatch } from 'react-redux';
 
 import clock from 'images/sideMenuIcons/clock.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
+import { Link } from 'react-router-dom'
+
 import { selectProjectsByUserId } from 'selectors/project-report-details';
+import { getSelectedMonthSelector } from '../../../reducers/projects-report'
 import { getUsersProjectReport } from 'actions/projects-report';
-import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
+import { selectUserProjects } from '../../../selectors/project-report-details'
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context';
 import ProjectList from './ProjectList';
 
@@ -15,17 +19,13 @@ function User (props) {
     name,
     email,
     userId,
-    salary,
-    overtime,
     hours,
     userData,
-    selectedDate,
-    commentsOn
   } = props;
 
   const contextType = useContext(ProjectReportContext);
   const dispatch = useDispatch();
-  const [openArrow, setOpenArrow] = useState(false)
+  const selectedDate = useEqualSelector(getSelectedMonthSelector);
 
   const loadProjects = () => {
     dispatch(getUsersProjectReport(userId))
@@ -35,11 +35,46 @@ function User (props) {
     loadProjects()
   }, [])
 
-  const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
+  const userProjects = useEqualSelector((state) => selectProjectsByUserId(state, userId))
   const projectList = userProjects.map((project) => {
     return project.name
   }).join(', ')
-console.log(userProjects)
+
+  const userDetails = useEqualSelector(selectUserProjects);
+  const user = userDetails[userId];
+  const {  projects = [] } = user || {};
+
+  const loadProjectByTarget = useMemo(() => {
+    loadProjects()
+  }, [selectedDate])
+
+  const formattedProjects = useMemo(
+    () => projects.map(({ name, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
+      name: '',
+      developer_projects:{
+          link:(
+              <Link
+                  to={{
+                      pathname: '/timereport',
+                      state: {
+                          userId: userId,
+                          developer_project_id: idDeveloperProjects,
+                          selectedDate,
+                      },
+                  }}
+              >
+                  {name}
+              </Link>),
+          title:name
+
+
+      },
+      totalHours: is_full_time ? 'fulltime' : `${working_time || 0} `,
+      id: idDeveloperProjects,
+      active_project: is_active,
+    })),
+    [projects, selectedDate]);
+
   const chooseUser = (e) => {
     e.stopPropagation()
     contextType.chooseUser(userData)
@@ -65,10 +100,10 @@ console.log(userProjects)
         </div>
       </div> 
       <div className={`project_by_current_user ${contextType.selectedUserId === userId ? "selected" : ""}`}>
-        {userProjects.map((project) => 
-            (<ProjectList name={project.name} 
+        {formattedProjects.map((project) => 
+            (<ProjectList name={project.developer_projects.title} 
                 key={project.id}
-                hours={project.totalHoursOvertime}
+                hours={project.totalHours}
             />)
         )}
       </div>   

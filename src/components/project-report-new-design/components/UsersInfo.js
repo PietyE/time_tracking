@@ -6,7 +6,6 @@ import { getConsolidateProjectReport } from 'actions/projects-report';
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
 
 import User from './User'
-import { faClosedCaptioning } from '@fortawesome/free-regular-svg-icons';
 
 function UsersInfo (props) {
   const {
