@@ -70,6 +70,7 @@ function EditProjectModal2({ show }) {
   const addSelected = (e) => {
     e.preventDefault()
     setEditedTeam([...new Set(currentEditedTeam.concat(checkedUsers))])
+    setAddMember(false)
   }
 
   const deleteItem = (id) => {
@@ -247,9 +248,9 @@ function EditProjectModal2({ show }) {
         <div className="projects_info">
           <div className="project_data">
             <div className="project_data_header">
-              <span className="headers project">DEVELOPER NAME</span>
-              <span className="headers">OCCUPANCY</span>
-              <span className="headers">HOURS</span>
+              <span className="headers project edit_modal-team_title">DEVELOPER NAME</span>
+              <span className="headers edit_modal-team_title">OCCUPANCY</span>
+              <span className="headers edit_modal-team_title">HOURS</span>
             </div>
             <div className="team-container">{teamMList}</div>
             <div className="edit-control container">

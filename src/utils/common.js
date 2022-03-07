@@ -124,13 +124,3 @@ export function setElementTop(top, elementSelector) {
   let elem = document.querySelector(elementSelector)
   elem.style.top = top + 'px'
 }
-
-export function sortArrayWithObj(creteria, array, reverse = false) {
-  let temp = [...array]
-  if (reverse) {
-    temp = temp.sort((a, b) => (a < b ? 1 : -1)).reverse()
-  } else {
-    temp = temp.sort((a, b) => (a > b ? 1 : -1))
-  }
-  return temp
-}

@@ -49,6 +49,8 @@ function CreateUserModal({ show }) {
     } else {
       setSelectedM(checkedUsers)
     }
+    setAddM(false)
+    setAddD(false)
   }
 
   const deleteItem = (id) => {
