@@ -252,6 +252,7 @@
   display: flex;
   align-items: center;
   min-width: 145px;
+  white-space: nowrap;
 }
 .pm_create_team_checkbox_label{
   margin-right: 30px;
@@ -261,6 +262,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .pm_create_team_checkbox{
   margin-right: 10px;
