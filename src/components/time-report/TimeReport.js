@@ -270,14 +270,10 @@ function TimeReport(props) {
         </div>
         <div className="time_report_day_row_titles">
           <div className='time_report_activity_day'>DATE</div>
-          <div className='title-status'>ACTIVITY STATUS</div>
           <div className='title-tasks'>TASKS</div>
           <div className='title-hours'>
             <span>HOURS</span>
             <strong className="total_hours_month">{parseMinToHoursAndMin(selectedProjectHours, true)}</strong>
-          </div>
-          <div className="time-report-project-wrap">
-            <span className="divider"> </span>
           </div>
         </div>
         <div className="time_report_body_container">
