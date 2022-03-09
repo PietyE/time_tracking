@@ -453,9 +453,10 @@
   display: flex;
   justify-content: space-between;
   margin-left: auto;
-  width: 98%;
+  width: 100%;
   margin-bottom: 12px;
   margin-top: 45px;
+  padding: 0 25px;
   font-weight: 700;
 
   div{
@@ -463,19 +464,17 @@
   }
 
   .time_report_activity_day{
-    margin-left: 50px;
     flex-basis: 25%;
-  }
-  .title-status{
-    flex-basis: 17%;
   }
 
   .title-tasks{
-    flex-basis: 35%;
+    flex-basis: 55%;
   }
 
   .title-hours{
-    flex-basis: 13%;
+    flex-basis: 20%;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .total_hours_month{
