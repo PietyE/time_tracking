@@ -2,6 +2,7 @@ import {
   SET_IS_FETCHING_REPORTS,
   CHANGE_SELECTED_DATE_TIME_REPORT,
   SET_TIME_REPORTS,
+  SET_DEVELOPER_PROJECTS_TR,
   DELETE_TIME_REPORT,
   ADD_TIME_REPORT,
   EDIT_TIME_REPORT,
@@ -24,6 +25,11 @@ export const setIsFetchingReports = (payload) => ({
 
 export const setTimeReports = (payload) => ({
   type: SET_TIME_REPORTS,
+  payload,
+})
+
+export const setDeveloperProjectsTR = (payload) => ({
+  type: SET_DEVELOPER_PROJECTS_TR,
   payload,
 })
 

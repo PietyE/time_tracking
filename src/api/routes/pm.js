@@ -10,6 +10,14 @@ class PmCRUD extends CRUD {
     })
   }
 
+  getDeveloperProjectsById(params) {
+    const url = `${this.url}/report/${params.year}/${params.month + 1}/?user_id=${params.id}`
+    return this.request({
+      url,
+      method: 'GET',
+    })
+  }
+
   getProjectReportInExcel(params) {
     const url = `${this.url}/${params.payload}/export-excel/${params.year}/${params.month + 1}/`
     return this.request({
