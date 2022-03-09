@@ -13,6 +13,8 @@ const getSelectedProject = state => state.timereports.selectedProject
 
 const getSelecredDeveloper = state => state.timereports.selectedDeveloper
 
+const getDeveloperProjectsTR = state => state.timereports.selectedDeveloperProjectsTR
+
 const getTimeReports = createSelector(
   getTimeReportsSelector,
   reports => reports
@@ -39,5 +41,6 @@ export {
   getAllDays,
   getSelectedDay,
   getSelectDayStatus,
-  getSelectedDayStatus
+  getSelectedDayStatus,
+  getDeveloperProjectsTR
 }

@@ -1,6 +1,7 @@
 import {
   CHANGE_SELECTED_DATE_TIME_REPORT,
   SET_TIME_REPORTS,
+  SET_DEVELOPER_PROJECTS_TR,
   SELECT_PROJECT,
   SET_IS_FETCHING_REPORTS,
   SELECT_DEVELOPERS,
@@ -35,6 +36,7 @@ const initialState = {
   ],
   selectedDayStatus: {id:1, name:"Worked on", iconColor:'#009C98'},
   selectedDeveloper: null,
+  selectedDeveloperProjectsTR:[],
   idEditingWorkItem: null,
   isFetchingReports: false,
 }
@@ -46,6 +48,8 @@ export const timereports = (state = initialState, action) => {
       return { ...state, reports: action.payload }
     case SELECT_PROJECT:
       return { ...state, selectedProject: action.payload }
+      case SET_DEVELOPER_PROJECTS_TR:
+        return { ...state, selectedDeveloperProjectsTR: action.payload }
     case CLEAR_SELECTED_PROJECT:
       return {
         ...state,
