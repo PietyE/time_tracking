@@ -1,7 +1,8 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import _ from 'lodash'
+import { isEmpty } from 'lodash'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
@@ -22,6 +23,7 @@ import {
   setUserStatus
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
+import { getDeveloperProjectsById } from '../../actions/projects-management'
 import {
   getSelectedDateTimeReport,
   getTimeReports,
@@ -32,6 +34,7 @@ import {
   getSelectedDay,
   getSelectDayStatus,
   getSelectedDayStatus,
+  getDeveloperProjectsTR
 } from 'selectors/timereports'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getRoleUser } from 'selectors/user'
@@ -56,6 +59,7 @@ function TimeReport(props) {
     developersList = [],
     selectedDeveloper,
     selectDevelopers,
+    selectedDeveloperProjectsTR,
     getTimeReportCsv,
     selectedDays,
     selectedDay,
@@ -64,11 +68,9 @@ function TimeReport(props) {
 
   } = props
 
-
+  const dispatch = useDispatch()
   const [showEmpty, setShowEmpty] = useState(true)
-
   const { state: routeState } = useLocation()
-
   const todayDate = new Date()
 
   const setStatusDayFromSlector =(status)=>{
@@ -78,8 +80,6 @@ function TimeReport(props) {
       setShowEmpty(true);
     }
   }
-  
-
   
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -98,20 +98,24 @@ function TimeReport(props) {
   for (let i = 0; i < daySize; i++) {
     renderDaysArray.push(i)
   }
-  const totalHours = reports
-    ? reports.reduce((res, item) => {
-        return res + item.duration
+
+  useEffect(() => {
+    if (!isEmpty(selectedDeveloper)) {
+      const { id } = selectedDeveloper;
+      dispatch( getDeveloperProjectsById(id))
+    } 
+  },[selectedDeveloper, selectedDate, reports])
+
+  const totalHours = selectedDeveloperProjectsTR
+    ? selectedDeveloperProjectsTR.reduce((res, item) => {
+        return res + item.total_minutes
       }, 0)
     : 0
 
-  const selectedProjectHours = reports && selectedProject
-      ?reports.reduce((res, item)=>{
-        if(item.developer_project === selectedProject.developer_project_id){
-          return res + item.duration
-        }
-      }, 0)
-      :0
-
+    const selectedProjectHours = reports && selectedProject
+      ? reports.reduce((res, item) =>res + item.duration , 0)
+    : 0
+  
   const [currentPosition, setCurrentPosition] = useState(null)
   const savePosition = e => {
     setCurrentPosition(e?.target.offsetTop)
@@ -172,6 +176,7 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
+
   useEffect(()=>{
     if(currentPosition && !isFetchingReports){
       window.scrollTo(0, Number(currentPosition) - 100 )
@@ -269,7 +274,7 @@ function TimeReport(props) {
           <div className='title-tasks'>TASKS</div>
           <div className='title-hours'>
             <span>HOURS</span>
-            <strong className="total_hours_month">{parseMinToHoursAndMin(totalHours, true)}</strong>
+            <strong className="total_hours_month">{parseMinToHoursAndMin(selectedProjectHours, true)}</strong>
           </div>
           <div className="time-report-project-wrap">
             <span className="divider"> </span>
@@ -322,6 +327,7 @@ const mapStateToProps = (state) => ({
   selectedProject: getSelectedProject(state),
   developersList: getDevelopersSelector(state),
   selectedDeveloper: getSelecredDeveloper(state),
+  selectedDeveloperProjectsTR: getDeveloperProjectsTR(state),
   selectedDays:getAllDays(state),
   selectedDay:getSelectedDay(state),
   selectDayStatus: getSelectDayStatus(state),
@@ -336,7 +342,8 @@ const actions = {
   resetSelectedDate,
   selectDevelopers,
   getTimeReportCsv,
-  setUserStatus
+  setUserStatus,
+  getDeveloperProjectsTR
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))
