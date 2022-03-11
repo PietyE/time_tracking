@@ -6,6 +6,7 @@ import Plus from '../../ui/plus'
 import AddSelectedM from '../../common/AddSelectedM/AddSelectedM'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  changeProjectName,
   downloadAllTeamProjectReport,
   getProjectReportById,
   setPm,
@@ -15,7 +16,7 @@ import {
 import {
   getActiveDevSelector,
   getActivePmInCurrentProjectSelector,
-  getCurrentProjectSelector,
+  getCurrentProjectSelector, getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
   getProjectName,
   getSelectedProjectIdSelector,
@@ -30,7 +31,10 @@ import UserIcon from '../../../images/user1.svg'
 import ProjectIcon from '../../../images/card-text1.svg'
 import { parseMinToHoursAndMin } from '../../../utils/common'
 import Select from '../../ui/select'
-import Textarea from '../../ui/textarea'
+import { Form } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import Spinner from '../../time-report/components/Spinner'
+import useEventListener from '../../../custom-hook/useEventListener'
 
 function EditProjectModal2({ show }) {
   const currentProjectActiveDevelopers = useSelector(
@@ -44,12 +48,12 @@ function EditProjectModal2({ show }) {
   const [currentEditedTeam, setEditedTeam] = useState([])
   const [selectedProject, setSelectedPr] = useState({})
   const [selectedOwner, setSelectedOwner] = useState({})
-  const [description, setDescription] = useState('')
 
   const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
-  const currentProject = useSelector((getSelectedProjectSelector, isEqual))
+  const currentProject = useSelector(getSelectedProjectSelector, isEqual)
   const currentApiProject = useSelector(getCurrentProjectSelector, isEqual)
   const projectName = useSelector(getProjectName, isEqual)
+  const isFetchingPMPage = useSelector(getIsFetchingPmPageSelector, isEqual)
 
   const projectManagersList = useSelector(
     getProjectManagerListSelector,
@@ -60,8 +64,8 @@ function EditProjectModal2({ show }) {
     isEqual
   )
 
-  const [valuesFromApi, setValuesFromApi] = useState(null)
 
+  const [valuesFromApi, setValuesFromApi] = useState(null)
   const projectTeamM = useSelector(getUsersSelector)
   const closeAddUser = () => {
     setAddMember(false)
@@ -113,15 +117,6 @@ function EditProjectModal2({ show }) {
     [dispatch]
   )
 
-  const _submitEditData = () => {
-    return {
-      project: selectedProject,
-      description: description,
-      projectManager: selectedOwner,
-      team: currentEditedTeam,
-    }
-  }
-
   const setTypeWork = useCallback((userId, workType) => {
     let resArr = currentEditedTeam.map((e) => {
       if (userId === e.user_id || e.id) {
@@ -131,7 +126,7 @@ function EditProjectModal2({ show }) {
     })
 
     setEditedTeam(resArr)
-  })
+  }, [])
 
   useEffect(() => {
     if (projectName) {
@@ -140,35 +135,31 @@ function EditProjectModal2({ show }) {
         team: currentProjectActiveDevelopers,
         projectManager: activeProjectManager,
         total_minutes: currentApiProject.total_minutes,
-      })
+        description: currentApiProject.description,
+      });
     }
+
     setEditedTeam(currentProjectActiveDevelopers)
   }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
 
   useEffect(() => {
-    if (!!show) {
+    if (show) {
       if (!currentProject) {
-        _getProjectReportById(currentProjectId)
+        _getProjectReportById(currentProjectId);
       }
     }
   }, [_getProjectReportById, currentProjectId, show])
 
   useEffect(() => {
-    if (!!currentProject) {
-      _setSelectedProject(currentProject)
+    if (currentProject && show) {
+      _setSelectedProject(currentProject);
     }
-  }, [currentProject])
+  }, [currentProject, show]);
 
-  const handleClose = () => dispatch(setShowEditModal(false))
-
-  window.addEventListener('keyup', (e) => {
-    if (
-      e.key === 'Enter' &&
-      !e?.target?.classList?.contains('projectDescription')
-    ) {
-      console.log('edit data', _submitEditData())
-    }
-  })
+  const handleClose = () => {
+    resetForm();
+    dispatch(setShowEditModal(false));
+  }
 
   let teamMList = currentEditedTeam?.map((e, i) => {
     return (
@@ -185,6 +176,106 @@ function EditProjectModal2({ show }) {
     )
   })
 
+  const validate = (values) => {
+    const errors = {}
+
+    if (!values.projectName) {
+      errors.projectName = 'You should enter project name'
+    } else if (values.projectName.length > 30) {
+      errors.projectName = 'Project name should be less then 30 symbols'
+    }
+
+    if (values.description && values.description.length > 100) {
+      errors.description = 'Description should be less then 100 symbols'
+    }
+    return errors
+  }
+
+  const onSubmit = useCallback((values) => {
+    dispatch(changeProjectName({
+      id: currentProjectId,
+      name: values.projectName,
+    }))
+  }, [currentProjectId, changeProjectName]) ;
+
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    errors,
+    isValid,
+    touched,
+    resetForm,
+    setValues,
+  } = useFormik({
+    initialValues: currentApiProject ? {
+      projectName: currentApiProject?.name,
+      description: currentApiProject?.description,
+    } : {
+      projectName: '',
+      description: '',
+    },
+    onSubmit,
+    validate,
+  });
+
+  const handleEnterPress = useCallback((e) => {
+    e.stopPropagation();
+
+    if (e.key === 'Enter') {
+      if (e.target.id === 'projectName'
+        && !errors?.projectName
+        && values.projectName !== valuesFromApi?.projectName
+      ) {
+        dispatch(changeProjectName({
+          id: currentProjectId,
+          data : { name: values.projectName.trim() },
+          title: 'name',
+        }));
+        setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName }));
+      } else if (
+        e.target.id === 'description'
+        && !errors?.description
+        && values.description !== valuesFromApi?.description
+      ) {
+        dispatch(changeProjectName({
+          id: currentProjectId,
+          data : { description: values.description.trim() },
+          title: 'description',
+        }));
+        setValuesFromApi((prev) => ({ ...prev, description: values.description }));
+      }
+    }
+  }, [errors, currentProjectId, values]);
+
+
+  useEventListener('keyup', handleEnterPress);
+
+  useEffect(() => {
+    setValues(currentApiProject ? {
+      projectName: currentApiProject?.name,
+      description: currentApiProject?.description,
+    } : {
+      projectName: '',
+      description: '',
+    });
+
+  }, [valuesFromApi]);
+
+  // const _changeProjectName = useCallback(
+  //   (id, data) => {
+  //     dispatch(changeProjectName({ id, data }))
+  //   },
+  //   [dispatch]
+  // )
+  // const _changeUserOnProject = useCallback(
+  //   (id, data) => {
+  //     dispatch(changeUserOnProject({ id, data }))
+  //   },
+  //   [dispatch]
+  // )
+
   return (
     <div className={'edit-modal-container ' + (show ? 'active' : '')}>
       <WindowInfo
@@ -193,23 +284,55 @@ function EditProjectModal2({ show }) {
         download={_downloadAllTeamProjectReport}
         id={currentProjectId}
       >
+        {isFetchingPMPage && <Spinner />}
+
+        <Form
+          onSubmit={(e) => {e.preventDefault()} }
+            // handleSubmit}
+        >
+
         <InfoItemM
+          key="Project Name"
           icon={ProjectIcon}
           title={'PROJECT NAME'}
           editValue={
-            <Select
-              title={valuesFromApi?.projectName}
-              listItems={projects}
-              onSelected={onSelectProject}
-              valueKey="name"
-              idKey="id"
-              extraClassContainer={' search search-manger'}
-              initialChoice={currentApiProject}
-            />
+            <Form.Group
+              controlId="projectName"
+              name="projectName"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.projectName}
+              className="search-manger"
+            >
+              {/*<Form.Label>Email address</Form.Label>*/}
+              <Form.Control
+                // className={styles.emailInput}
+                type="projectName"
+                defaultValue={values.projectName}
+                placeholder="Type project name ..."
+              />
+
+                {errors.projectName && touched.projectName && (
+                  <Form.Text className="text-danger error_message">
+                    {errors.projectName}
+                  </Form.Text>
+                )}
+            </Form.Group>
+
+            // <Select
+            //   title={valuesFromApi?.projectName}
+            //   listItems={projects}
+            //   onSelected={onSelectProject}
+            //   valueKey="name"
+            //   idKey="id"
+            //   extraClassContainer={' search search-manger'}
+            //   initialChoice={currentApiProject}
+            // />
           }
           value={valuesFromApi?.projectName}
         />
         <InfoItemM
+          key="Project Owner"
           icon={UserIcon}
           title={'PROJECT OWNER'}
           editValue={
@@ -226,25 +349,51 @@ function EditProjectModal2({ show }) {
           value={valuesFromApi?.projectManager?.name}
         />
         <InfoItemM
+          key="SPEND HOURS"
           icon={ChekMark}
           title={'LAST SINCE'}
           value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}
         />
         <InfoItemM
+          key="Project Description"
           title={'DESCRIPTION'}
           icon={ProjectIcon}
           editValue={
-            <Textarea
-              placeholder={'Some info about the project'}
-              value={description}
-              customClass={'projectDescription'}
-              setDescription={setDescription}
-            />
+            <Form.Group
+              controlId="description"
+              name="description"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.description}
+              className="search-manger"
+            >
+              {/*<Form.Label>Email address</Form.Label>*/}
+              <Form.Control
+                // className={styles.emailInput}
+                as="textarea"
+                rows={3}
+                defaultValue={values.description}
+                placeholder="Some info about the project"
+              />
+
+              {errors.description && touched.description && (
+                <Form.Text className="text-danger error_message">
+                  {errors.description}
+                </Form.Text>
+              )}
+            </Form.Group>
+
+            // <Textarea
+            //   placeholder={'Some info about the project'}
+            //   value={description}
+            //   customClass={'projectDescription'}
+            //   setDescription={setDescription}
+            // />
           }
-          value={'Some text...'}
+          value={valuesFromApi?.description || 'Some info about the project'}
           customClass={'project-description'}
         />
-
+        </Form>
         <div className="projects_info">
           <div className="project_data">
             <div className="project_data_header">
