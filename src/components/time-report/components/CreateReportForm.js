@@ -9,7 +9,6 @@ import {setEditMode, setUserStatus} from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
-import ActivitySelect from "./ActivitySelect";
 
 function CreateReportForm({
   addTimeReport,
@@ -20,8 +19,9 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  savePosition, selectDayStatus, selectedDayStatus
-
+  savePosition,
+  selectDayStatus,
+  selectedDayStatus
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -29,7 +29,8 @@ function CreateReportForm({
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const selectedDay = useSelector(getSelectedDateTimeReport,isEqual)
+  const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
+
   useEffect(()=>{
     setBorderInputClassName('')
     setBorderInputHoursClassName('')
@@ -140,11 +141,6 @@ function CreateReportForm({
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
-      <ActivitySelect
-          statuses={selectDayStatus}
-          selectedStatus={selectedDayStatus}
-          setUserStatus={setUserStatus}
-      />
       <div className="description_input_container">
         <input
           type="text"

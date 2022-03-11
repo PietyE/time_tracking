@@ -33,7 +33,6 @@ export function* getDeveloperProjects({ payload, type, projectIdForSelect = null
   const { role } = yield select((state) => state.profile)
 
   let URL_DEVELOPER_PROJECT = `developer-projects/`
-
   if (role !== DEVELOPER) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
