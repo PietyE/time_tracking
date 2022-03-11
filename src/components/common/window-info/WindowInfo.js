@@ -1,17 +1,7 @@
 import React from "react";
 import "./style.scss"
-// import 'react-tippy/dist/tippy.css';
-// import {
-//     Tooltip,
-// } from 'react-tippy';
-
 
 import closeButton from "../../../images/projectReportIcons/closeButton.svg";
-import calendar from "../../../images/inHouseEmployees/calendar-userData.svg";
-import dot from "../../../images/inHouseEmployees/dot.svg";
-import cash from "../../../images/inHouseEmployees/cash.svg";
-import ProjectData from "../../project-report-new-design/components/ProjectData/ProjectData";
-import CreateComment from "../../in-house-employees/components/CreateComment/CreateComment";
 import DownloadIc from "../../../images/download_ic.svg"
 import ArchiveIc from "../../../images/archive1.svg"
 

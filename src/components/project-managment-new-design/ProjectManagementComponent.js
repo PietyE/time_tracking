@@ -110,7 +110,7 @@ const ProjectManagementComponent = () => {
   useEffect(() => {
     dispatch(clearPmProjects())
     dispatch(getAllProjects())
-  }, [month])
+  }, [month, isEditModalShow])
 
   useEffect(() => {
     if (selectedProject.id) {

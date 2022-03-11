@@ -168,6 +168,7 @@ export const getProjectActiveUsersSelector = state => {
 export const getActiveProjectManagerSelector = state => {
   const projectActiveUsers = getProjectActiveUsersSelector(state)
   const allProjectManagers = getProjectManagerListSelector(state)
+
   if (projectActiveUsers) {
     const managersIdArray = allProjectManagers.map(manager => manager.id)
     return projectActiveUsers.filter(user => managersIdArray.includes(user.user_id))
@@ -177,6 +178,7 @@ export const getActiveProjectManagerSelector = state => {
 
 export const getActivePmInCurrentProjectSelector = state => {
   const projectManagers = getActiveProjectManagerSelector(state)
+
   if (projectManagers) {
     return projectManagers.find(pm => pm.is_active === true)
   }

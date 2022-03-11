@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 
 
-function InfoItemM({ icon, title, value, editValue, customClass}) {
+function InfoItemM({ icon, title, value, editValue, customClass = ''}) {
     const [isEdit, setEdit] = useState(false);
+    useEffect(() => {
+        setEdit(false)
+    }, [value])
+
     return <>
-        <div className={'div_info_row ' + customClass} onClick={()=>setEdit(true)}>
+        <div className={'div_info_row ' + customClass} onClick={() => setEdit(true)}>
             <div>
                 <img src={icon || '/static/media/calendar-userData.b7cd0c61.svg'} className="calendar"/>
                 <span className="info_text">{title}</span>
