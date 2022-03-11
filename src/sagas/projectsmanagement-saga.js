@@ -242,12 +242,12 @@ export function* createProject({ payload }) {
 export function* changeProjName({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const result = yield call([pm, 'changeProjectName'], payload.id, { name: payload.data })
+    const result = yield call([pm, 'changeProjectName'], payload.id, payload.data)
     if (result.status === 200) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project name has been modify',
+          message: `Project ${payload.title} has been modify`,
           delay: 5000,
         }),
       )

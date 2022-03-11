@@ -15,7 +15,6 @@ import useEqualSelector from '../../custom-hook/useEqualSelector'
 import Separator from './Separator'
 import { useFormik } from 'formik'
 import { getAuthInProgressSelector } from '../../reducers/profile'
-
 function Auth() {
 
   const isAuth = useEqualSelector(getUserAuthStatusSelector);
@@ -58,7 +57,7 @@ function Auth() {
   const history = useHistory();
 
   if (isAuth) {
-    history.push("/")
+    history.push("/projectreport")
     // return <Redirect to="/projectreport" />
   }
 
