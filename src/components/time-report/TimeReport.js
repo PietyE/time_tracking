@@ -234,18 +234,18 @@ function TimeReport(props) {
         </div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
-          <ProjectSelect
-              projectList={projects}
-              clearSelectedProject={clearSelectedProject}
-              selectProject={selectProject}
-              selectedProject={selectedProject}
-            />
             {roleUser !== DEVELOPER && (
               <DeveloperSelect
                 developersList={developersList}
                 selectedDeveloper={selectedDeveloper}
               />
             )}
+            <ProjectSelect
+              projectList={projects}
+              clearSelectedProject={clearSelectedProject}
+              selectProject={selectProject}
+              selectedProject={selectedProject}
+            />
             <SelectMonth
                 selectedDate={selectedDate}
                 setNewData={changeSelectedDateTimeReport}
