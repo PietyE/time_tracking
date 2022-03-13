@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, useEffect, memo, useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +9,6 @@ import {setEditMode, setUserStatus} from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
-import ActivitySelect from "./ActivitySelect";
 
 function CreateReportForm({
   addTimeReport,
@@ -20,8 +19,9 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  savePosition, selectDayStatus, selectedDayStatus
-
+  // savePosition,
+  // selectDayStatus,
+  // selectedDayStatus
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -29,7 +29,7 @@ function CreateReportForm({
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const selectedDay = useSelector(getSelectedDateTimeReport,isEqual)
+  const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
   useEffect(()=>{
     setBorderInputClassName('')
     setBorderInputHoursClassName('')
@@ -38,8 +38,10 @@ function CreateReportForm({
   const MAX_SIZE = 1000
 
   const handlerClickAddButton = (e) => {
+    e.preventDefault()
     const [_hour, min] = hours.split(':')
     const takeTime = _hour ? +_hour * 60 + +min : +min
+
     if (!text && !hours) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
@@ -112,7 +114,7 @@ function CreateReportForm({
     })
     setText('')
     setHours('')
-    savePosition(e)
+    // savePosition(e)
   }
 
   const handlerChangeText = (e) => {
@@ -136,15 +138,11 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-    <div
+    <form
+      onSubmit={handlerClickAddButton}
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
-      <ActivitySelect
-          statuses={selectDayStatus}
-          selectedStatus={selectedDayStatus}
-          setUserStatus={setUserStatus}
-      />
       <div className="description_input_container">
         <input
           type="text"
@@ -177,7 +175,7 @@ function CreateReportForm({
           />
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 

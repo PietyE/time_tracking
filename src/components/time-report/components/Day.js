@@ -120,9 +120,9 @@ function Day({
             draganDroped={draganDroped}
           />
       ))}
-      {/*<FooterDay*/}
-      {/*    sumHours={sumHours}*/}
-      {/*/>*/}
+      {/* <FooterDay
+         sumHours={sumHours}
+      /> */}
     </div>
   )
 }

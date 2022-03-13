@@ -260,7 +260,7 @@ function ReportItem({
 
   return (
     <div
-      className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button ` + (index !==0?' top_line':'')}
+      className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button ` + (index !==0?' top_line':'') + (index ==0?'first_timereport':'')}
       ref={containerRef}
       onDragStart={() => false}
       onMouseDown={handleDragAndDrop}
@@ -316,25 +316,25 @@ function ReportItem({
           </>
       ) : (
         <>
-          <span className="time_report_day_add "  onClick={opneNewItem}>
+          {/* <span className="time_report_day_add "  onClick={opneNewItem}>
              {(index===0 && !isCreate)&&<FontAwesomeIcon
                  icon={faPlus}
                  className={
                    'add_icon delete_icon'
                  }
              />}
-          </span>
-           <span className="time_report_activity_day">
+          </span> */}
+           {/* <span className="time_report_activity_day">
               {index === 0 && !isCreate && dayTitle}
-          </span>
+          </span> */}
           <div className="report-description-wrapper">
-              <span className="time_report_activity_select" >
+              {/* <span className="time_report_activity_select" >
                 <span className="status-wrapper" >
                   <span  style={{
                     color:selectedDayStatus.iconColor}}>{selectedDayStatus.name}
                 </span>
                 </span>
-              </span>
+              </span> */}
               <span className="time_report_day_description">
                 <Linking text={text} />
               </span>
