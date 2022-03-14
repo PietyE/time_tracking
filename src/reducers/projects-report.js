@@ -1,5 +1,6 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
+  SET_DEV_CONSOLIDATE_PROJECT_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -10,7 +11,7 @@ import {
   SET_IS_FETCHING_PROJECT_REPORTS,
   SET_CONSOLIDATE_PROJECT_REPORT,
   LOG_OUT,
-  SET_ERROR_PROJECT_REPORT
+  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -28,21 +29,22 @@ const initialState = {
     exchange_rate: '',
   },
   selectedProject: {
-    email: '',
-    id: '',
-    name: 'All Projects',
+    email: "",
+    id: "",
+    name: "All Projects",
     role: null
   },
   selectedDeveloper: {
-    email: '',
-    id: '',
-    name: 'All Developers',
+    email: "",
+    id: "",
+    name: "All Developers",
     role: null
   },
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   editingUserId: '',
   userId: '',
+  // reportHistory: []
 }
 
 export const projectsReport = (state = initialState, action) => {
@@ -82,16 +84,17 @@ export const projectsReport = (state = initialState, action) => {
       return { ...state, editingUserId: action.payload }
     case SET_IS_FETCHING_PROJECT_REPORTS:
       return { ...state, isFetchingReports: action.payload }
-    case SET_ERROR_PROJECT_REPORT:
-      return {
-        ...state,
-        errorProjectReport: action.payload
-      }
     case LOG_OUT:
       return {
         ...state,
         reportsRefactored: [],
       }
+    // case SAVE_COMMENTS_HISTORY:
+    //   const {data} = action.payload
+    //   return {
+    //     ...state,
+    //     reportHistory: data
+    //   }  
     default:
       return state
   }

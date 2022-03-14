@@ -1,17 +1,17 @@
 import CRUD from '../base'
 
 class PmCRUD extends CRUD {
-  getProjectsApi(params) {
+
+  getProjectsReportById(params) {
+    const url = `${this.url}/report/${params.year}/${params.month + 1}/?project_id=${params.id}`
     return this.request({
-      url: 'projects/',
-      params,
+      url,
+      method: 'GET',
     })
   }
 
-  getProjectsReportById(params) {
-    const url = `${this.url}/report/${params.year}/${
-      params.month + 1
-    }/?project_id=${params.id}`
+  getDeveloperProjectsById(params) {
+    const url = `${this.url}/report/${params.year}/${params.month + 1}/?user_id=${params.id}`
     return this.request({
       url,
       method: 'GET',
@@ -19,9 +19,7 @@ class PmCRUD extends CRUD {
   }
 
   getProjectReportInExcel(params) {
-    const url = `${this.url}/${params.payload}/export-excel/${params.year}/${
-      params.month + 1
-    }/`
+    const url = `${this.url}/${params.payload}/export-excel/${params.year}/${params.month + 1}/`
     return this.request({
       url,
       method: 'GET',
@@ -30,9 +28,7 @@ class PmCRUD extends CRUD {
   }
 
   getAllTeamProjectReportsInExcel(params) {
-    const url = `/projects/${params.payload}/export-excel/${params.year}/${
-      params.month + 1
-    }/`
+    const url = `/projects/${params.payload}/export-excel/${params.year}/${params.month + 1}/`
     return this.request({
       url,
       method: 'GET',
@@ -41,9 +37,9 @@ class PmCRUD extends CRUD {
   }
 
   getProjectsTotalHours(data) {
-    const { year, month, ...params } = data;
+    const {year, month, ...params} = data
     const url = `/projects/total_minutes/${year}/${month + 1}`
-
+    
     return this.request({
       url,
       method: 'GET',
@@ -104,6 +100,8 @@ class PmCRUD extends CRUD {
   //     method: 'GET',
   //   })
   // }
+
+
 }
 
 export default function pmCRUD(request) {

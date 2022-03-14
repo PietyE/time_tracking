@@ -1,8 +1,9 @@
-import { call, takeEvery, put, select } from 'redux-saga/effects'
+import { call, takeEvery, put, select, all } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
+  GET_DEV_CONSOLIDATE_PROJECT_REPORT,
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
@@ -12,17 +13,21 @@ import {
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
   GET_CONSOLIDATE_PROJECT_REPORT,
-  SET_ERROR_PROJECT_REPORT
+  // GET_COMMENTS_HISTORY,
+  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 import {
   getConsolidateProjectReport,
   setConsolidateProjectReport,
+  // setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
   setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
+  // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
+import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
 import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from '../selectors/currency'
 
@@ -67,23 +72,21 @@ import { selectActualCurrencyForUserList } from '../selectors/currency'
 // }
 
 export function* getDeveloperProjects() {
-  const URL_DEVELOPER_PROJECT = 'projects/'
+  const URL_DEVELOPER_PROJECT = `projects/`
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
   yield put(setDevelopersProjectInProjectReport(data))
 }
 
-function* setExchangeRate({ payload }) {
-  const { data, callback } = payload
-
+function* setExchangeRate({ payload, callback }) {
+  const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
-    const response = yield call([Api, 'saveExchangeRate'], URL, data)
+    const response = yield call([Api, 'saveExchangeRate'], URL, payload)
     const status = `${response.status}`
     if(status[0] !== '2') {
       throw new Error()
     }
-
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -91,9 +94,8 @@ function* setExchangeRate({ payload }) {
         delay: 5000,
       })
     )
-
     callback()
-    const now = new Date(data.date);
+    const now = new Date();
     const ratesParams = {
       is_active: true,
       year: now.getFullYear(),
@@ -136,10 +138,6 @@ export function* handleGetConsolidatedReport() {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
   )
-  yield put ({
-    type: SET_ERROR_PROJECT_REPORT, 
-    payload: null
-  })
 
   yield put(setIsFetchingReports(true))
   const { email = '' } = yield select(
@@ -161,21 +159,10 @@ export function* handleGetConsolidatedReport() {
     }/?project_id=${searchProjectParam}`
   }
   const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
-  if(response.status > 400) {
-    let status = response.status
-    let text = 'something went wrong'
-    yield put ({
-      type: SET_ERROR_PROJECT_REPORT, 
-      payload: {
-        status,
-        text
-      }
-    })
-  }
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))
-  yield call(
+  const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT
   )

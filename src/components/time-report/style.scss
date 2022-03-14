@@ -1,8 +1,15 @@
+.container {
+  max-width: 971px;
+}
 .time_report_container {
   display: flex;
   flex: 1;
   padding-top: 40px;
+  align-items: flex-start;
   flex-direction: column;
+  width: 971px;
+  margin: 0 40px;
+  padding: 35px 15px 0;
   &.fetching {
     filter: blur(1px);
   }
@@ -14,8 +21,33 @@
     margin-bottom: 20px;
     .time_report_header_select_section {
       display: flex;
+      flex-wrap: wrap;
+
       .developer_select {
         margin-right: 20px;
+
+        .select_title_container {
+          position: relative;
+          max-width: 200px;
+          .select_title_text {
+            padding-left: 5px;
+          }
+
+          .select_title_icon {
+            position: absolute;
+            right: 12px;
+          }
+        }
+      }
+    }
+
+    .time-report-prject-wrap {
+      font-size: 20px;
+      .divider {
+        width: 1px;
+        height: 36px;
+        border: 1px solid rgba(34, 34, 34, 0.3);
+        margin: 0 16px;
       }
     }
 
@@ -26,8 +58,8 @@
         margin-right: 20px;
       }
       .export_btn {
-        height: 40px;
-        width: 140px;
+        height: 36px;
+        width: 167px;
         border-radius: 5px;
         background-color: #009c98;
         color: #fff;
@@ -47,7 +79,7 @@
         }
         .export_btn_text {
           color: #ffffff;
-          font-family: Montserrat, sans-serif;
+          font-family: Montserrat;
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;
@@ -67,24 +99,49 @@
       }
     }
   }
+  .activity_select {
+    width: 148px;
+    height: 42px;
+    background: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin-right: 20px;
+  }
   .time_report_total_container {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    h1 {
+      font-size: 24px;
+      font-family: "Montserrat";
+      font-style: normal;
+      color: #000;
+    }
+
     .time_report_total_hours {
       span {
-        color: #414141;
+        color: #616161;
         font-family: Montserrat, sans-serif;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 500;
         line-height: 19px;
+      }
+
+      strong {
+        margin-left: 10px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
       }
     }
   }
 
-  .time_report_checkbox {
+  .time_repord_checkbox {
     align-self: flex-end;
     order: 2;
     label {
@@ -97,11 +154,21 @@
   }
   .project_select {
     margin-right: 20px;
-    .select_list_item{
-      white-space: nowrap;
-      overflow: hidden;
-      max-width: 160px;
-      text-overflow: ellipsis;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 16px;
+      height: 16px;
+      background-image: url("../../images/projects.svg");
+      background-repeat: no-repeat;
+    }
+
+    .select_title_text {
+      margin-left: 10px;
     }
   }
 
@@ -110,30 +177,65 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    box-shadow: 0 0 5px 2px rgba(158, 167, 171, 0.3);
+    box-shadow: 0 0px 5px 2px rgba(158, 167, 171, 0.3);
     border-radius: 5px;
-    padding: 10px;
+    min-height: 74px;
+    justify-content: center;
+    &:not(:first-child) {
+      background: #fff;
+      .past {
+        padding-bottom: 12px;
+        position: relative;
+      }
+    }
+
+    &:first-child {
+      border: 1px solid #009c98;
+    }
+
+    &_create {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 16px 25px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     &.below {
       box-shadow: 0 0 5px 2px rgba(201, 234, 122, 0.5);
     }
     .time_report_day_header {
+      flex-basis: 15%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      width: 100%;
-      margin-bottom: 10px;
+      margin-right: 10px;
+
+      .time_report_day_add {
+        color: #adada7;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        background: transparent;
+        cursor: auto;
+        margin-left: 6px;
+      }
       .time_report_day_title {
-        color: #7e7e82;
+        color: #222222;
         font-family: Montserrat, sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 19px;
+        text-align: left;
+        width: 210px;
       }
+      .today_day {
+        color: #009c98;
+      }
+
       .time_report_day_addbtn {
         height: 28px;
-        width: 58px;
-        border: 1px dashed #d5d5d5;
-        border-radius: 3px;
+        width: 40px;
+        border: none;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -162,14 +264,45 @@
           }
         }
       }
+      .active .add_icon {
+        color: #009c98 !important;
+      }
+      .text-danger {
+        position: relative;
+        padding-right: 10px;
+      }
+      .text-danger::after {
+        content: " ";
+        position: absolute;
+        top: -1px;
+        right: -15px;
+        width: 20px;
+        height: 20px;
+        background-image: url("../../images/timereport/image 24.png");
+        background-repeat: no-repeat;
+      }
     }
 
     .time_report_day_row_create {
+      flex-basis: 75%;
       display: flex;
+      justify-content: space-between;
       align-items: stretch;
-      margin-bottom: 15px;
       animation: createTimeReport 0.3s 1 ease;
-      height: 60px;
+      height: 42px;
+
+      .select_title_container {
+        .select_circle-icon {
+          margin-left: 8px;
+          width: 6px;
+        }
+      }
+
+      .select_circle-icon {
+        width: 7px;
+        height: 6px;
+        border-radius: 50%;
+      }
 
       &.close {
         height: 0;
@@ -177,6 +310,7 @@
         margin-bottom: 0;
         animation: createTimeReportClose 0.3s 1 ease;
       }
+
       .time_report_day_row_create_right {
         display: contents;
       }
@@ -185,7 +319,7 @@
         border-radius: 5px;
         background-color: #ffffff;
         padding: 0 24px;
-        margin-right: 15px;
+        margin-right: 35px;
         color: #414141;
         font-family: Montserrat, sans-serif;
         font-size: 18px;
@@ -197,49 +331,86 @@
         }
       }
       .description_input_container {
-        flex: 1;
-        margin-right: 15px;
         position: relative;
+        width: 80%;
+        margin-right: 50px;
+        height: 44px;
         .description_input {
           width: 100%;
           height: 100%;
-          padding-right: 50px;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 24px;
+          padding: 0 12px;
+          margin: 0;
+          letter-spacing: 0.03em;
+          color: #adada7;
         }
 
         .left_size {
           position: absolute;
           top: 5px;
-          //transform: translateY(-50%);
           right: 10px;
           color: rgb(190, 6, 6);
           font-size: 12px;
         }
       }
 
+      .time_report_day_row_create_right {
+        width: 20%;
+        display: flex;
+      }
+
       .hours_input {
-        width: 120px;
+        width: 55px;
+        padding: 0 10px;
+        font-size: 14px;
+        margin-right: 30px;
       }
+
       .create_btn {
-        width: 120px;
-        border: unset;
-        border-radius: 5px;
-        background-color: #5a5145;
-        transition: 0.3s ease-out;
-        svg{
-          pointer-events: none;
-        }
-        &:hover {
-          background-color: #726b62;
-          transition: 0.3s ease-in;
-        }
-        &:focus {
-          filter: brightness(1.5);
-        }
-        .pencil_icon {
-          color: #fff;
-          font-size: 22px;
+        min-width: 41px;
+      }
+
+      .select_list_container {
+        overflow: auto;
+        max-width: 100%;
+
+        .select_list_item {
+          text-align: center;
         }
       }
+    }
+
+    .create_btn {
+      width: 42px;
+      height: 41px;
+      border: unset;
+      border-radius: 6px;
+      background-color: #009c98;
+      transition: 0.3s ease-out;
+      svg {
+        pointer-events: none;
+      }
+      &:hover {
+        background-color: #726b62;
+        transition: 0.3s ease-in;
+      }
+      &:focus {
+        filter: brightness(1.5);
+      }
+      .pencil_icon {
+        color: #fff;
+        font-size: 22px;
+      }
+    }
+    .reports_item_list {
+      border-top: 1px solid #c9c9c688;
+    }
+    .report-description-wrapper {
+      width: 60%;
+      display: flex;
+      justify-content: space-between;
     }
 
     .time_report_day_footer {
@@ -255,11 +426,102 @@
       line-height: 19px;
     }
   }
+  .time_report_body_container {
+    width: 100%;
+  }
+}
+
+.time_report_day_row_titles {
+  display: flex;
+  justify-content: space-between;
+  margin-left: auto;
+  width: 100%;
+  margin-bottom: 12px;
+  margin-top: 45px;
+  padding: 0 25px;
+  font-weight: 700;
+
+  div {
+    text-align: left;
+  }
+
+  .time_report_activity_day {
+    flex-basis: 20%;
+  }
+
+  .title-tasks {
+    flex-basis: 50%;
+  }
+
+  .title-hours {
+    flex-basis: 20%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .total_hours_month {
+    position: relative;
+    margin-left: 15px;
+    color: #222222d5;
+    text-transform: uppercase;
+  }
+  .total_hours_month::after {
+    content: "";
+    position: absolute;
+    left: -9px;
+    width: 3px;
+    height: 13px;
+    background-color: #22222257;
+    transform: translateY(25%);
+  }
+
+  div {
+    color: rgba(34, 34, 34, 0.3);
+    font-size: 13px;
+  }
 }
 
 .my-node-enter {
   opacity: 0;
 }
+
+.funnel_select {
+  width: 180px;
+  margin-left: 40px;
+  .select_title_container {
+    justify-content: center;
+    position: relative;
+
+    .fa-filter {
+      color: #fff;
+      background: #fff;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      background-image: url("../../images/filter2.svg");
+      background-repeat: no-repeat;
+    }
+
+    .select_title_icon {
+      position: absolute;
+      right: 10px;
+      top: 3px;
+    }
+  }
+  .select_list_container {
+    overflow: auto;
+    .select_list_item_container {
+      padding: 0 6px;
+    }
+  }
+}
+
 .my-node-enter-active {
   opacity: 1;
   transition: opacity 200ms;
@@ -309,7 +571,7 @@
 
 @keyframes createTimeReport {
   from {
-    height: 0;
+    height: 0px;
   }
   to {
     height: 60px;
@@ -326,6 +588,12 @@
     height: 0;
     opacity: 0;
     margin-bottom: 0;
+  }
+}
+
+@media screen and (min-device-width: 1030px) {
+  .funnel_select {
+    margin-left: 10px;
   }
 }
 
@@ -499,41 +767,87 @@
   align-items: center;
   .change_project_body_current_project {
     margin-right: 15px;
-    display: flex;
-    strong{
-      display: inline-block;
-      max-width: 120px;
-      overflow:hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      margin: 0 5px;
-    }
   }
 }
 
 .time_report_day_row {
-  padding: 10px 5px 10px 30px;
+  padding: 16px 25px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
-  min-height: 60px;
-  border: 1px solid #dedede;
+  min-height: 62px;
   border-radius: 5px;
-  background-color: #eefcfc;
+  background-color: #fff;
   position: relative;
-  margin-bottom: 15px;
-  overflow: hidden;
+
+  &.top_line {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 74%;
+      height: 1px;
+      background: rgba(201, 201, 198, 0.5);
+    }
+  }
+
+  .edit_dots {
+    width: 40px;
+    height: 40px;
+    margin-left: 25px;
+    padding: 6px 0;
+    background-image: url("../../images/projects.svg");
+    background-repeat: no-repeat;
+    &.dots-bg {
+      background: rgba(87, 108, 108, 0.15);
+      border-radius: 5px;
+    }
+  }
+
   &.active {
     box-shadow: 0 0 5px 2px rgba(230, 10, 10, 0.25);
   }
-  &.editing {
-    box-shadow: 0 0 5px 2px rgba(201, 198, 12, 0.5);
-  }
+
   &.full {
     .time_report_day_description {
       transition: max-height 0.4s;
       max-height: 60vh;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 24px;
+      letter-spacing: 0.03em;
+      color: #222222;
+    }
+
+    .time_report_activity_select {
+      flex-grow: 1;
+      .status-wrapper {
+        width: 100%;
+        padding: 4px 6px;
+        border-radius: 4px;
+        position: relative;
+        z-index: 1;
+        background: rgba(0, 156, 152, 0.1);
+      }
+    }
+
+    .time_report_activity_day {
+      flex-grow: 2;
+      text-align: left;
+      padding-left: 25px;
+      color: #222222;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .time_report_day_add {
+      color: #009c98;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      margin-left: 6px;
     }
   }
   &.shadow {
@@ -545,8 +859,8 @@
   }
   .drag_button {
     position: absolute;
-    left: 0;
-    width: 7px;
+    left: 0px;
+    width: 70px;
     height: 100%;
     border-radius: 4px 0 0 4px;
     background-color: #009c98;
@@ -557,18 +871,17 @@
     font-family: Montserrat, sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    flex: 0.9;
+    flex: 0.71;
     text-align: left;
     height: auto;
     transition: 0.4s;
-    //max-height: 38px;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: text;
     word-break: break-word;
     &.textarea {
       border: none;
-      border-bottom: 2px solid #009c98;
+      border: 1px solid #009c98;
       background-color: inherit;
       resize: none;
       font-size: 16px;
@@ -576,25 +889,35 @@
       padding: 0 5px;
       margin-left: -5px;
       margin-bottom: -2px;
+      width: 300px;
+      height: 42px !important;
+      padding: 8px;
+      border-radius: 6px;
+      margin-right: 40px;
+      margin-left: 0;
     }
   }
   .time_report_day_hours {
-    width: 60px;
+    width: 58px;
     color: #414141;
     font-family: Montserrat, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.5;
     text-align: center;
+    margin: 0 6px;
     &.hours_input {
       background-color: inherit;
       border: none;
-      border-bottom: 2px solid #009c98;
-      font-size: 16px;
+      border: 1px solid #009c98;
+      font-size: 15px;
       line-height: 1.5;
       padding: 0 5px;
-      margin-right: 6px;
+      margin-right: 20px;
       margin-bottom: -2px;
       text-align: center;
+      width: 55px;
+      height: 42px;
+      border-radius: 6px;
     }
   }
   .time_report_day_edit {
@@ -603,6 +926,7 @@
     align-items: center;
     position: relative;
     height: 100%;
+    cursor: pointer;
     &:hover {
       svg {
         color: slategray;
@@ -612,19 +936,46 @@
       border: unset;
       background-color: unset;
       width: 100%;
-      font-size: 18px;
+      font-size: 14px;
     }
     .time_report_day_menu {
-      background-color: #eefcfc;
+      background-color: #fff;
       display: flex;
+      flex-direction: column;
       align-items: stretch;
       justify-content: space-around;
       transition: 0.3s ease-out;
-      height: 100%;
+      position: absolute;
+      width: 224px;
+      height: 128px;
+      top: 100%;
+      left: -150px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
+      border-radius: 6px;
+      z-index: 99;
+      padding-left: 5px;
+      padding: 8px;
+
+      .change_project_button {
+        svg {
+          transform: rotate(90deg);
+        }
+      }
       .button {
         padding: 5px 10px;
         height: 100%;
+        text-align: left;
+
+        .icon {
+          margin-right: 10px;
+          font-size: 17px;
+        }
+
         &:hover {
+          background: rgba(87, 108, 108, 0.15);
+          border-radius: 5px;
           .icon {
             color: #969595;
           }
@@ -633,9 +984,6 @@
           .icon {
             color: #969595;
           }
-        }
-        &.edit_button {
-          //margin-right: 15px;
         }
         .icon {
           color: #414141;
@@ -652,18 +1000,12 @@
       }
     }
   }
+}
 
-  .copy_img {
-    width: 20px;
-    height: 18px;
-    margin-top: 10px;
-    margin-right: 10px;
-    filter: invert(19%) sepia(17%) saturate(0%) hue-rotate(298deg) brightness(94%) contrast(77%);
-    font-weight: 500;
+.select_container .select_title_container .select_title_icon {
+  font-size: 12px;
+}
 
-    &:hover {
-      cursor: pointer;
-      filter: invert(61%) sepia(6%) saturate(5%) hue-rotate(341deg) brightness(97%) contrast(80%);
-    }
-  }
+.disabled {
+  opacity: 0.5;
 }

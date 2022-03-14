@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
 
 import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
 
 function Select(props) {
   const {
@@ -19,13 +19,12 @@ function Select(props) {
     initialChoice = null,
     onClear,
     isSearch = false,
-    isTeamSearch =false,
     disabled,
-    selectedTeam =[]
   } = props
 
 
   const [_title, setTitle] = useState(title)
+  const [icon , setIcon] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -33,17 +32,12 @@ function Select(props) {
   const prevList = usePrevious(listItems)
 
   const handlerClickOpen = (e) => {
-    e.preventDefault()
     if (isOpen) {
       setClassNameOpen('select_close')
       return
     }
     setIsOpen(true)
   }
-
-  const initTitle = useMemo(()=>{
-    return   listItems.find((item)=>item.serverId === initialChoice)
-  }, [listItems, initialChoice])
 
   const handlerClickClear = (e) => {
     e.preventDefault()
@@ -56,16 +50,15 @@ function Select(props) {
     if (classNameOpen) {
       setClassNameOpen('')
       setIsOpen(false)
-      isTeamSearch && setTitle(title)
     }
   }
 
-  const handlerClickItem = (e) => {
+  const handlerClickItem = (e, icon=false) => {
     e.preventDefault()
-    if(initialChoice){
-      setTitle(e.currentTarget.dataset.value)
+    setTitle(e.currentTarget.dataset.value)
+    if(icon){
+      setIcon(icon);
     }
-
   }
 
   const handlerChangeSearchValue = (e) => {
@@ -95,37 +88,41 @@ function Select(props) {
   // }, [initialChoice])
   ///////////////////////////////////////////////////////////
   useEffect(()=>{
-    if (initialChoice && initialChoice[valueKey]){
-      setTitle(initialChoice[valueKey])
-    } else if(!initialChoice && listItems?.length){
-      setTitle(title)
-    }
-  },[listItems,initialChoice, title, valueKey])
+ if (initialChoice && initialChoice[valueKey]){
+   if(initialChoice.iconColor){
+     setIcon(initialChoice.iconColor)
+   }
+    setTitle(initialChoice[valueKey])
+  } else if(!initialChoice && listItems?.length){
+    setTitle(title)
+   if(initialChoice && initialChoice.iconColor){
+     setIcon(initialChoice.iconColor)
+   }
+ }
+    },[listItems,initialChoice])
 
   useEffect(() => {
-    if(initTitle?.name){
-      setTitle(initTitle?.name)
-    }
     if (
       prevList &&
       listItems &&
-      prevList?.length &&
+      prevList.length &&
       !_.isEqualWith(listItems, prevList, (i1, i2) => i1['id'] === i2['id'])
     ) {
       setTitle(title)
     } else if (!listItems.length) {
       setTitle('List is empty')
     }
-  }, [listItems, initialChoice, initTitle, prevList, title])
+  }, [listItems])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
   const classNameDisabled = !listItems.length ? 'disabled' : ''
 
   const searchedListItems = listItems.filter((item) => {
-    const searchedItem = item.name.toLowerCase().indexOf(searchValue.toLowerCase())
-
-    return searchedItem !== -1
+    if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+      return true
+    }
+    return false
   })
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length;
@@ -136,12 +133,15 @@ function Select(props) {
         disabled ? 'disabled' : ''
       }`}
       type='button'
-      onClick={handlerClickOpen}
+      onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
-      disabled={disabled}
+      //disabled={!listItems.length}
     >
       <div className="select_title_container">
+        {icon ?
+            <span className={'select_circle-icon'} style={{backgroundColor:icon}}></span>:''}
         {isSearch && isOpen && !disabled ? (
+
           <input
             className="select_title_text select_title_text_input"
             placeholder={_title}
@@ -150,41 +150,46 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
-          <span className={`select_title_text ${classNameDisabled}`} >
+
+
+          <span className={`select_title_text ${classNameDisabled}`}>
             {_title}
           </span>
         )}
-        {!isTeamSearch &&
-          <FontAwesomeIcon
-              icon={faCaretDown}
-              className={
-                isOpen && !classNameOpen
-                    ? 'select_title_icon active'
-                    : 'select_title_icon'
-              }
-          />
-        }
-
+        <FontAwesomeIcon
+            icon={faChevronDown}
+          className={
+            isOpen && !classNameOpen
+              ? 'select_title_icon active'
+              : 'select_title_icon'
+          }
+        />
       </div>
       {showContainer && (
         <div
           className={`select_list_container ${classNameOpen}`}
           onAnimationEnd={handlerAnimationEnd}
         >
-
           {searchedListItems.map((item) => (
 
-            <div className="select_list_item_container" key={item[idKey]}>
+            <div className={"select_list_item_container " +(item.name === _title ? 'selected':'')} key={item[idKey]}>
+              {item.iconColor &&
+                <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
+              }
+              {item.count&&
+              <span className={'count-container '+ (item.name === "Active"?'active':'')}>{item.count}</span>
+              }
+
               <span
                 className={
-                  item.name === _title || selectedTeam.filter((el) => el.is_active === true).find((e)=> e.user_id === item.id)
-                    ? 'select_list_item choice'
+                  item.name === _title
+                    ? 'select_list_item choise'
                     : 'select_list_item'
                 }
                 data-value={item[valueKey]}
                 onClick={(e) => {
                   if (_title !== e.currentTarget.dataset.value) {
-                    handlerClickItem(e)
+                    handlerClickItem(e, item.iconColor)
                     onSelected(item)
                   }
                 }}
@@ -204,7 +209,7 @@ function Select(props) {
                 <span
                   className="select_clear_btn"
                   onClick={handlerClickClear}
-                />
+                ></span>
               )}
             </div>
           ))}

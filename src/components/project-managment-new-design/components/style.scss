@@ -1,0 +1,21 @@
+
+.selected-user {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-user-controls {
+  display: flex;
+}
+
+.remove-user {
+  margin-left: 20px;
+}
+
+.h-20 {
+  height: 8px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-size: 32px;
+}

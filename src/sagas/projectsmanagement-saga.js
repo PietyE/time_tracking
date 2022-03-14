@@ -8,13 +8,10 @@ import {
   CREATE_PROJECT,
   CHANGE_PROJECT_NAME,
   CHANGE_USERS_ON_PROJECT,
+  SET_SELECTED_PM,
   ADD_USERS_ON_PROJECT,
   GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
-  SET_SELECTED_PM,
-  ADD_PROJECT_MANAGER_TO_PROJECT,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
-  USER_ADDED_FAILED,
-  USER_ADDED_SUCCESSFULLY
+  ADD_PROJECT_MANAGER_TO_PROJECT, ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT, USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
@@ -23,7 +20,7 @@ import {
   setShownProject,
 } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
-import { SUCCES_ALERT, WARNING_ALERT} from '../constants/alert-constant'
+import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
 import {
   getSelectedPmIdSelector,
   getSelectedProjectIdSelector,
@@ -32,6 +29,7 @@ import {
 import { isEmpty } from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import { setErrorData } from 'actions/error'
+
 
 export function* getAllProjects() {
   try {
@@ -68,6 +66,7 @@ export function* getAllProjects() {
         }
       }
     }
+
   } catch (error) {
     yield put(
       showAler({
@@ -75,11 +74,13 @@ export function* getAllProjects() {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
+
 }
 
 export function* getProjectsSagaWorker() {
@@ -97,6 +98,7 @@ export function* getProjectsSagaWorker() {
       year,
       user_id: selectedPmId,
     })
+
     yield put(setAllProjects(response.data))
 
     // const { data } = yield call([pm, 'getProjectsApi'], params)
@@ -117,32 +119,27 @@ export function* getProjectsSagaWorker() {
 }
 
 export function* getProjectReportById(action) {
-  const { month, year } = yield select(
-    (state) => state.projectsManagement.selectedDateForPM
-  )
+  const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
   try {
     yield put(setFetchingPmPage(true))
     let projectId = action?.payload
 
     if (!action) {
-      projectId = yield select(getSelectedProjectIdSelector)
+      const currentProjectId = yield select(getSelectedProjectIdSelector)
+      projectId = currentProjectId
     }
 
-    const { data } = yield call([pm, 'getProjectsReportById'], {
-      year,
-      month,
-      id: `${projectId}`,
-    })
-    const usersReport = data.map((el) => ({
-      projectReportId: el.id,
-      projectId: el.project.id,
-      userId: el.user.id,
-      userName: el.user.name,
-      minutes: el.total_minutes,
-      is_full_time: el.is_full_time,
-      is_active: el.is_active,
-      is_project_manager: el.is_project_manager,
-    }))
+    const { data } = yield call([pm, 'getProjectsReportById'], { year, month, id: `${projectId}` })
+    const usersReport = data.map(el => ({
+        projectReportId: el.id,
+        projectId: el.project.id,
+        userId: el.user.id,
+        userName: el.user.name,
+        minutes: el.total_minutes,
+        is_full_time: el.is_full_time,
+        is_active: el.is_active,
+      }),
+    )
     const projectReport = {
       projectId: projectId,
       users: usersReport,
@@ -155,9 +152,10 @@ export function* getProjectReportById(action) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -165,15 +163,9 @@ export function* getProjectReportById(action) {
 export function* downloadProjectReport({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { month, year } = yield select(
-      (state) => state.projectsManagement.selectedDateForPM
-    )
+    const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
-    const response = yield call([pm, 'getProjectReportInExcel'], {
-      year,
-      month,
-      payload,
-    })
+    const response = yield call([pm, 'getProjectReportInExcel'], { year, month, payload })
     const fileName = response.headers['content-disposition'].split('"')[1]
     if (response && response.data instanceof Blob) {
       saveAs(response.data, fileName)
@@ -185,9 +177,10 @@ export function* downloadProjectReport({ payload }) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -195,15 +188,9 @@ export function* downloadProjectReport({ payload }) {
 export function* downloadAllTeamProjectReport({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { month, year } = yield select(
-      (state) => state.projectsManagement.selectedDateForPM
-    )
+    const { month, year } = yield select((state) => state.projectsManagement.selectedDateForPM)
 
-    const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], {
-      year,
-      month,
-      payload,
-    })
+    const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], { year, month, payload })
     const fileName = response.headers['content-disposition'].split('"')[1]
     if (response && response.data instanceof Blob) {
       saveAs(response.data, fileName)
@@ -215,9 +202,10 @@ export function* downloadAllTeamProjectReport({ payload }) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -225,10 +213,8 @@ export function* downloadAllTeamProjectReport({ payload }) {
 export function* createProject({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { projectName, users } = payload
-    // const { data } = pm.createProject({name: projectName})
+    const { projectName } = payload
     const { data } = yield call([pm, 'createProject'], { name: projectName })
-    yield call([pm, 'setUsersToProject'], { project: data.id, users: users })
     yield put(
       showAler({
         type: SUCCES_ALERT,
@@ -264,19 +250,18 @@ export function* createProject({ payload }) {
 export function* changeProjName({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const result = yield call([pm, 'changeProjectName'], payload.id, {
-      name: payload.data,
-    })
+    const result = yield call([pm, 'changeProjectName'], payload.id, payload.data)
     if (result.status === 200) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project name has been modified',
+          message: `Project ${payload.title} has been modify`,
           delay: 5000,
-        })
+        }),
       )
-      yield call(getAllProjects)
+      // yield call(getAllProjects)
     }
+
   } catch (error) {
     yield put(
       showAler({
@@ -284,9 +269,10 @@ export function* changeProjName({ payload }) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -330,13 +316,13 @@ export function* addUsersToProject({ payload }) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project team has been modified',
+          message: 'Project team has been modify',
           delay: 5000,
-        })
+        }),
       )
-      yield put({type: USER_ADDED_SUCCESSFULLY})
     }
     yield call(getProjectReportById)
+
   } catch (error) {
     yield put(
       showAler({
@@ -344,20 +330,21 @@ export function* addUsersToProject({ payload }) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      })
+      }),
     )
-    yield put({type: USER_ADDED_FAILED})
-  } finally {
+  }
+  finally {
     yield put(setFetchingPmPage(false))
   }
 }
 
 export function* addProjectManagerToProject (action) {
   const  {previousPm, newPm} = action.payload
-  yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+  yield putResolve ({ type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
+
   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
-    yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: {data:newPm}})
+    yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: {data: newPm}})
   }
 }
 
@@ -366,7 +353,7 @@ export function* addInactiveProjectManagerToProject (action) {
   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
-    yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: newPm})
+    yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload:  newPm})
   }
 }
 
@@ -376,16 +363,17 @@ export function* watchProjectsManagement() {
     getProjectsSagaWorker
     // getAllProjectsWithReport
   )
-  yield takeEvery([GET_PROJECT_REPORT_BY_ID], getProjectReportById)
-  yield takeEvery([GET_DOWNLOAD_PROJECT_REPORT], downloadProjectReport)
-  yield takeEvery(
+  yield  takeEvery([GET_PROJECT_REPORT_BY_ID], getProjectReportById)
+  yield  takeEvery([GET_DOWNLOAD_PROJECT_REPORT], downloadProjectReport)
+  yield  takeEvery(
     [GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT],
-    downloadAllTeamProjectReport
+    downloadAllTeamProjectReport,
   )
-  yield takeEvery([CREATE_PROJECT], createProject)
+  yield  takeEvery([CREATE_PROJECT],  createProject)
   yield takeEvery([CHANGE_PROJECT_NAME], changeProjName)
   yield takeEvery([CHANGE_USERS_ON_PROJECT], editUsersOnProject)
   yield takeEvery([ADD_USERS_ON_PROJECT], addUsersToProject)
   yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
   yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
 }
+

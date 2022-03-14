@@ -1,11 +1,11 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, useEffect, memo, useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
 import {isEqual} from 'lodash'
 import {getSelectedDateTimeReport} from '../../../selectors/timereports'
-import { setEditMode } from 'actions/times-report'
+import {setEditMode, setUserStatus} from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
@@ -19,14 +19,17 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-                          }) {
+  // savePosition,
+  // selectDayStatus,
+  // selectedDayStatus
+}) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const selectedDay = useSelector(getSelectedDateTimeReport,isEqual)
+  const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
   useEffect(()=>{
     setBorderInputClassName('')
     setBorderInputHoursClassName('')
@@ -109,9 +112,9 @@ function CreateReportForm({
       description: text,
       tookHours: takeTime,
     })
-
     setText('')
     setHours('')
+    // savePosition(e)
   }
 
   const handlerChangeText = (e) => {
@@ -136,7 +139,7 @@ function CreateReportForm({
   }
   return (
     <form
-        onSubmit={handlerClickAddButton}
+      onSubmit={handlerClickAddButton}
       className={`time_report_day_row_create ${extraClassName}`}
       onAnimationEnd={handlerEndAnimation}
     >
@@ -156,7 +159,7 @@ function CreateReportForm({
 
       <div className="time_report_day_row_create_right">
         <InputMask
-          placeholder="HH"
+          placeholder="0:00"
           maskPlaceholder="0"
           className={`hours_input input ${borderInputHoursClassName}`}
           value={hours}
@@ -164,7 +167,7 @@ function CreateReportForm({
           mask="9:99"
           onFocus={handlerFocus}
         />
-        <button type='submit' className="create_btn">
+        <button className={'create_btn '+(hours && hours!=='0:00' && text ? '': 'disabled')} onClick={handlerClickAddButton}>
           <FontAwesomeIcon
             icon={faCheck}
             color="#414141"

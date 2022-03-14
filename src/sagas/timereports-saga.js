@@ -1,13 +1,15 @@
 import { select, call, takeEvery, put } from 'redux-saga/effects'
 import { isEmpty, cloneDeep } from 'lodash'
 import Api from 'utils/api'
-import { SUCCES_ALERT } from 'constants/alert-constant'
+import { pm } from '../api'
+import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import { saveAs } from 'file-saver'
 import {
   CHANGE_SELECTED_DATE_TIME_REPORT,
   ADD_TIME_REPORT,
   SELECT_PROJECT,
   GET_DEVELOPER_PROJECTS,
+  GET_DEVELOPER_PROJECTS_BY_ID,
   DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
   GET_PROJECTS,
@@ -23,6 +25,7 @@ import {
   selectProject,
 } from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
+import {setDeveloperProjectsTR} from 'actions/times-report'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
@@ -30,7 +33,6 @@ export function* getDeveloperProjects({ payload, type, projectIdForSelect = null
   const { role } = yield select((state) => state.profile)
 
   let URL_DEVELOPER_PROJECT = `developer-projects/`
-
   if (role !== DEVELOPER) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
@@ -56,6 +58,25 @@ export function* getDeveloperProjects({ payload, type, projectIdForSelect = null
         yield put(selectProject(routeProject))
       }
     }
+  }
+}
+
+
+export function* getDeveloperProjectsById(action) {
+const { month, year } = yield select((state) => state.timereports.selectedDate)
+  try {
+    let developerId = action?.payload
+    const { data } = yield call([pm, 'getDeveloperProjectsById'], { year, month, id: `${developerId}` })
+    yield put(setDeveloperProjectsTR(data))
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      }),
+    )
   }
 }
 
@@ -230,6 +251,7 @@ export function* watchTimereports() {
     getDeveloperProjects
   )
   yield takeEvery(GET_PROJECTS, getProjects)
+  yield takeEvery(GET_DEVELOPER_PROJECTS_BY_ID, getDeveloperProjectsById)
   yield takeEvery(GET_DEVELOPERS, getDevelopers)
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)
   yield takeEvery(DELETE_TIME_REPORT, deleteTimeReport)

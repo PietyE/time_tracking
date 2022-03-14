@@ -1,0 +1,103 @@
+
+.team-m{
+  .container-team_modal{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0px;
+    border-bottom: 1px black;
+    }
+  .avatar-cont{
+    display: flex;
+  }
+  &-avatar{
+    width: 36px;
+    height: 36px;
+  }
+
+  &-name{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.01em;
+    color: #222222;
+    margin-left: 10px;
+    width: 135px;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  &-email{
+    width: 135px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.018em;
+    color: #ADADA7;
+    overflow: hidden;
+    text-align: left;
+    margin-left: 10px;
+  }
+
+  &__type-work{
+    display: flex;
+
+  }
+
+  &-input-cont{
+    display: flex;
+    align-items:baseline;
+
+    &:first-child{
+      margin-right: 60px;
+    }
+
+    &:last-child{
+      margin-right: 52px;
+    }
+
+    label{
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.03em;
+      color: #222222;
+      position: relative;
+      cursor: pointer;
+
+      input{
+        display: none;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 5px;
+        left: -15px;
+        height: 12px;
+        width: 12px;
+        background-color: #fff;
+        border: 1px solid rgba(34, 34, 34, 0.7);
+        box-sizing: border-box;
+        border-radius: 50%;
+      }
+
+      input:checked +.checkmark {
+        background-color: #fff;
+        border: solid 3px #309C99;
+      }
+    }
+  }
+
+  .trash-cont{
+    cursor: pointer;
+  }
+}
