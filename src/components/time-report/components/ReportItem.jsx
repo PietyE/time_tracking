@@ -1,7 +1,7 @@
-import React, {memo, useState, useCallback, useRef, useEffect} from 'react'
+import React, { memo, useState, useCallback, useRef, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faTimes, faCheck, faPlus, faEllipsisH, faEllipsisV} from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck, faPlus, faEllipsisH, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { FaExchangeAlt } from 'react-icons/fa'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -12,7 +12,7 @@ import {
   editTimeReport,
   setEditMode,
 } from 'actions/times-report'
-import {closeEditMenu, parseMinToHoursAndMin} from 'utils/common'
+import { closeEditMenu, parseMinToHoursAndMin } from 'utils/common'
 import DeleteModal from './DeleteModal'
 import Linking from 'components/common/linking'
 import {
@@ -20,8 +20,8 @@ import {
   getIdEditingWorkItem,
 } from 'selectors/timereports'
 
- import {WARNING_ALERT} from '../../../constants/alert-constant'
- import {showAler} from '../../../actions/alert'
+import { WARNING_ALERT } from '../../../constants/alert-constant'
+import { showAler } from '../../../actions/alert'
 import ActivitySelect from "./ActivitySelect";
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
@@ -67,7 +67,7 @@ function ReportItem({
   opneNewItem,
   dayTitle,
   selectDayStatus, selectedDayStatus, isCreate, setUserStatus, setDraganDroped, draganDroped
-                    }) {
+}) {
   const {
     title: oldTitle,
     duration: oldDuration,
@@ -160,6 +160,13 @@ function ReportItem({
       || event.target.parentNode.classList.contains('edit_dots')
       || event.target.parentElement.classList.contains('time_report_day_menu')
       || event.target.parentElement.classList.contains('edit-form')
+      || event.target.parentNode.classList.contains('modal_container')
+      || event.target.classList.contains('modal_container')
+      || event.target.parentNode.classList.contains('modal-content')
+      || event.target.parentNode.classList.contains('modal-header')
+      || event.target.parentNode.classList.contains('modal-body')
+      || event.target.parentNode.classList.contains('modal-footer')
+      || event.target.parentNode.classList.contains('close')
       || event.target.parentNode.classList.contains('delete_modal_overlay')
       || event.target.parentNode.classList.contains('delete_modal_button_container')
       || event.target.parentNode.classList.contains('btn')
