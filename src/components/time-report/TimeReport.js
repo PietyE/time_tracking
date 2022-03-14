@@ -65,9 +65,8 @@ function TimeReport(props) {
     selectedDay,
     selectDayStatus,
     selectedDayStatus
-
   } = props
-
+  
   const dispatch = useDispatch()
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
@@ -214,16 +213,16 @@ function TimeReport(props) {
       >
         <div className="time_report_total_container">
           <h1>Time report</h1>
-          {/*<div className="time_repord_checkbox">*/}
-          {/*  <label>*/}
-          {/*    <input*/}
-          {/*      type="checkbox"*/}
-          {/*      onChange={() => setShowEmpty(!showEmpty)}*/}
-          {/*      value={showEmpty}*/}
-          {/*    />*/}
-          {/*    <span>Hide Empty Days</span>*/}
-          {/*  </label>*/}
-          {/*</div>*/}
+          {/* <div className="time_repord_checkbox">
+           <label>
+             <input
+               type="checkbox"
+               onChange={() => setShowEmpty(!showEmpty)}
+               value={showEmpty}
+             />
+             <span>Hide Empty Days</span>
+           </label>
+          </div> */}
           <div className="time_report_total_hours">
             <span>
               Total hours spend this month:{` `}
@@ -235,18 +234,18 @@ function TimeReport(props) {
         </div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
-          <ProjectSelect
-              projectList={projects}
-              clearSelectedProject={clearSelectedProject}
-              selectProject={selectProject}
-              selectedProject={selectedProject}
-            />
             {roleUser !== DEVELOPER && (
               <DeveloperSelect
                 developersList={developersList}
                 selectedDeveloper={selectedDeveloper}
               />
             )}
+            <ProjectSelect
+              projectList={projects}
+              clearSelectedProject={clearSelectedProject}
+              selectProject={selectProject}
+              selectedProject={selectedProject}
+            />
             <SelectMonth
                 selectedDate={selectedDate}
                 setNewData={changeSelectedDateTimeReport}

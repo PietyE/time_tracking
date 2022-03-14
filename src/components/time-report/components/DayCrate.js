@@ -28,36 +28,33 @@ function DayCrate({numberOfDay,
                       setUserStatus
                   }) {
     return<div >
-        {isCreate && (
-            <div className={'time_report_day_container_create '+(descriptions.length ?'past':'') }>
-                <HeaderDay
-                    handlerAddDayReport={handlerAddDayReport}
-                    isCreate={isCreate}
-                    isCrateList = {isCreateList}
-                    dayTitle={dayTitle}
-                    todayStr={todayStr}
-                    classNameForEndAnimation={classNameForEndAnimation}
-                    weekEndClassName={weekEndClassName}
-                />
-                <CreateReportForm
-                    addTimeReport={addTimeReport}
-                    numberOfDay={numberOfDay}
-                    selectedDate={selectedDate}
-                    setIsCreate={setIsCreate}
-                    isCreate={isCreate}
-                    isOpenCreate={isOpenCreate}
-                    extraClassName={classNameForEndAnimation}
-                    handlerEndAnimation={handlerEndAnimation}
-                    sumHours={sumHours}
-                    savePosition={savePosition}
-                    selectDayStatus={selectDayStatus}
-                    selectedDayStatus={selectedDayStatus}
-                    setUserStatus={setUserStatus}
-                />
-
-            </div>
-        )}
-    </div>
+                    <div className={'time_report_day_container_create '+(descriptions.length ?'past':'') }>
+                        <HeaderDay
+                            handlerAddDayReport={handlerAddDayReport}
+                            isCreate={isCreate}
+                            isCrateList = {isCreateList}
+                            dayTitle={dayTitle}
+                            todayStr={todayStr}
+                            classNameForEndAnimation={classNameForEndAnimation}
+                            weekEndClassName={weekEndClassName}
+                        />
+                        <CreateReportForm
+                            addTimeReport={addTimeReport}
+                            numberOfDay={numberOfDay}
+                            selectedDate={selectedDate}
+                            setIsCreate={setIsCreate}
+                            isCreate={isCreate}
+                            isOpenCreate={isOpenCreate}
+                            extraClassName={classNameForEndAnimation}
+                            handlerEndAnimation={handlerEndAnimation}
+                            sumHours={sumHours}
+                            savePosition={savePosition}
+                            selectDayStatus={selectDayStatus}
+                            selectedDayStatus={selectedDayStatus}
+                            setUserStatus={setUserStatus}
+                        />
+                    </div>
+                </div>
 
 
 

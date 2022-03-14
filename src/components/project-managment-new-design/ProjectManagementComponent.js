@@ -178,7 +178,7 @@ const ProjectManagementComponent = () => {
         <h1 className="page-title">
           <span>Project management</span>
           <div className="buttons-cont">
-            <button
+            {/* <button
               type="submit"
               className={
                 'btn btn-add-new mr-4 ' +
@@ -187,7 +187,7 @@ const ProjectManagementComponent = () => {
               onClick={() => dispatch(setShowCreateUserModal(true))}
             >
               Add new user
-            </button>
+            </button> */}
             <button
               type="submit"
               className="btn btn-add-new  "
