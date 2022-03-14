@@ -21,7 +21,7 @@ function CheckItem({e, checkedUsers, setCheckedUsers}) {
             <input type="checkbox" id={e ? e.id : ""} checked={checked}
                    onChange={ change}/>
             <span className="checkmark"></span>
-           <span className="check-item-name">{e?e.name : ""}</span>
+           <span className="check-item-name">{e ? e.name : ""}</span>
         </label>
     </div>
 }

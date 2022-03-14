@@ -4,17 +4,19 @@ import Search from "../../ui/search/Search";
 import CheckItem from "./component/CheckItem";
 
 
-function AddSelectedM({teamM,
-                          location,
-                          checkedUsers,
-                          setCheckedUsers,
-                          addSelected,
-                          closeAddUser,
-                          customClass
+function AddSelectedM({
+  teamM,
+  location,
+  checkedUsers,
+  setCheckedUsers,
+  addSelected,
+  closeAddUser,
+  customClass,
+  currentTeamIds,
 }) {
     const [searchTerm, setSearchTerm] = useState("")
-    const teamMList = teamM?.filter((val)=>{
-        if(searchTerm ==""){
+    const teamMList = teamM?.filter(e => !currentTeamIds.includes(e.id)).filter((val)=>{
+        if(searchTerm ===''){
             return val;
         }else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
             return  val;

@@ -1,9 +1,17 @@
-import { call, takeEvery, put, select } from 'redux-saga/effects'
+import { call, takeEvery, put, select, putResolve, take } from 'redux-saga/effects'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
-  GET_ALL_PROJECTS, GET_DOWNLOAD_PROJECT_REPORT, GET_PROJECT_REPORT_BY_ID, GET_DEVELOPER_PROJECTS_BY_ID, CREATE_PROJECT,
-  CHANGE_PROJECT_NAME, CHANGE_USERS_ON_PROJECT,  SET_SELECTED_PM, ADD_USERS_ON_PROJECT, GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
+  GET_ALL_PROJECTS,
+  GET_DOWNLOAD_PROJECT_REPORT,
+  GET_PROJECT_REPORT_BY_ID,
+  CREATE_PROJECT,
+  CHANGE_PROJECT_NAME,
+  CHANGE_USERS_ON_PROJECT,
+  SET_SELECTED_PM,
+  ADD_USERS_ON_PROJECT,
+  GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
+  ADD_PROJECT_MANAGER_TO_PROJECT, ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT, USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
@@ -251,7 +259,7 @@ export function* changeProjName({ payload }) {
           delay: 5000,
         }),
       )
-      yield call(getAllProjects)
+      // yield call(getAllProjects)
     }
 
   } catch (error) {
@@ -278,13 +286,13 @@ export function* editUsersOnProject({ payload }) {
       yield put(
         showAler({
           type: SUCCES_ALERT,
-          message: 'Project team has been modify',
+          message: 'Project team has been modified',
           delay: 5000,
-        }),
+        })
       )
-
+      yield put({type: USER_ADDED_SUCCESSFULLY})
     }
-    yield call(getProjectReportById)
+    yield call(getProjectReportById )
   } catch (error) {
     yield put(
       showAler({
@@ -292,10 +300,10 @@ export function* editUsersOnProject({ payload }) {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      }),
+      })
     )
-  }
-  finally {
+    yield put({type: USER_ADDED_FAILED})
+  } finally {
     yield put(setFetchingPmPage(false))
   }
 }
@@ -312,8 +320,6 @@ export function* addUsersToProject({ payload }) {
           delay: 5000,
         }),
       )
-
-
     }
     yield call(getProjectReportById)
 
@@ -332,23 +338,24 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
-// export function* addProjectManagerToProject (action) {
-//   const  {previousPm, newPm} = action.payload
-//   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
-//   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
-//   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
-//     yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: {data:newPm}})
-//   }
-// }
+export function* addProjectManagerToProject (action) {
+  const  {previousPm, newPm} = action.payload
+  yield putResolve ({ type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+  const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
 
-// export function* addInactiveProjectManagerToProject (action) {
-//   const  {previousPm, newPm} = action.payload
-//   yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
-//   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
-//   if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
-//     yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: newPm})
-//   }
-// }
+  if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
+    yield putResolve ({type: ADD_USERS_ON_PROJECT, payload: {data: newPm}})
+  }
+}
+
+export function* addInactiveProjectManagerToProject (action) {
+  const  {previousPm, newPm} = action.payload
+  yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload: previousPm})
+  const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
+  if(gotAction.type === USER_ADDED_SUCCESSFULLY) {
+    yield putResolve ({type: CHANGE_USERS_ON_PROJECT, payload:  newPm})
+  }
+}
 
 export function* watchProjectsManagement() {
   yield takeEvery(
@@ -366,7 +373,7 @@ export function* watchProjectsManagement() {
   yield takeEvery([CHANGE_PROJECT_NAME], changeProjName)
   yield takeEvery([CHANGE_USERS_ON_PROJECT], editUsersOnProject)
   yield takeEvery([ADD_USERS_ON_PROJECT], addUsersToProject)
-  // yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
-  // yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
+  yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
+  yield takeEvery([ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT], addInactiveProjectManagerToProject)
 }
 
