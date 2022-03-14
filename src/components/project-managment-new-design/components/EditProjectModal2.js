@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import WindowInfo from '../../common/window-info/WindowInfo'
 import InfoItemM from '../../common/window-info/components/InfoItemM'
 import TeamM from '../../common/team-m/TeamM'
@@ -6,7 +6,8 @@ import Plus from '../../ui/plus'
 import AddSelectedM from '../../common/AddSelectedM/AddSelectedM'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  changeProjectName,
+  addInactiveProjectManagerToProject, addProjectManagerToProject, addUsersOnProject,
+  changeProjectName, changeUserOnProject,
   downloadAllTeamProjectReport,
   getProjectReportById,
   setPm,
@@ -16,9 +17,9 @@ import {
 import {
   getActiveDevSelector,
   getActivePmInCurrentProjectSelector,
-  getCurrentProjectSelector, getIsFetchingPmPageSelector,
+  getCurrentProjectSelector, getDeactivatedMembersSelector, getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
-  getProjectName,
+  getProjectName, getProjectReportByIdSelector,
   getSelectedProjectIdSelector,
   getSelectedProjectSelector,
   getUsersSelector,
@@ -35,13 +36,13 @@ import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import Spinner from '../../time-report/components/Spinner'
 import useEventListener from '../../../custom-hook/useEventListener'
+import { showAler } from '../../../actions/alert'
+import { WARNING_ALERT } from '../../../constants/alert-constant'
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 function EditProjectModal2({ show }) {
-  const currentProjectActiveDevelopers = useSelector(
-    getActiveDevSelector,
-    isEqual
-  )
-  const projects = useSelector(getProjectsSelector, isEqual)
+  // const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector);
+  const projects = useEqualSelector(getProjectsSelector)
 
   let [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
@@ -49,44 +50,71 @@ function EditProjectModal2({ show }) {
   const [selectedProject, setSelectedPr] = useState({})
   const [selectedOwner, setSelectedOwner] = useState({})
 
-  const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
-  const currentProject = useSelector(getSelectedProjectSelector, isEqual)
-  const currentApiProject = useSelector(getCurrentProjectSelector, isEqual)
-  const projectName = useSelector(getProjectName, isEqual)
-  const isFetchingPMPage = useSelector(getIsFetchingPmPageSelector, isEqual)
+  const projectManagersList = useEqualSelector(getProjectManagerListSelector)
+  const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector);
 
-  const projectManagersList = useSelector(
-    getProjectManagerListSelector,
-    isEqual
-  )
-  const activeProjectManager = useSelector(
-    getActivePmInCurrentProjectSelector,
-    isEqual
-  )
+  const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
+  const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
+  const currentProjectReport = useEqualSelector(
+    state => getProjectReportByIdSelector(state, currentProjectId),
+  );
+
+  const currentProjectActiveDevelopers = useMemo(
+    () => currentProjectReport?.users
+      .filter(e => e.is_active && e.userName !== activeProjectManager?.name)
+      .map(e => ({...e, name: e.userName, id: e.userId})) || [],
+    [currentProjectReport, activeProjectManager]);
+
+  const currentTeamIds = useMemo(
+    () => currentProjectActiveDevelopers.map(e => e.id),
+    [currentProjectActiveDevelopers],
+  );
+
+  const currentProject = useEqualSelector(getSelectedProjectSelector)
+  const currentApiProject = useEqualSelector(getCurrentProjectSelector)
+  const projectName = useEqualSelector(getProjectName)
+  const isFetchingPMPage = useEqualSelector(getIsFetchingPmPageSelector)
 
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
-  const projectTeamM = useSelector(getUsersSelector)
+  const projectTeamM = useEqualSelector(getUsersSelector);
   const closeAddUser = () => {
     setAddMember(false)
   }
 
-  const addSelected = (e) => {
+  const dispatch = useDispatch()
+
+  const addSelected = useCallback((e) => {
     e.preventDefault()
     setEditedTeam([...new Set(currentEditedTeam.concat(checkedUsers))])
-    setAddMember(false)
-  }
+    setAddMember(false);
 
-  const deleteItem = (id) => {
-    let res = currentEditedTeam.filter((e) => {
-      if (e.user_id !== id && e.id !== id) {
-        return e
-      }
-    })
-    setEditedTeam(res)
-  }
+    if (checkedUsers.length) {
+      const addedUsers = checkedUsers.map(e => e.id);
 
-  const dispatch = useDispatch()
+      _addUsersOnProject({
+        project: [currentProjectId],
+        user: addedUsers,
+        is_full_time: true,
+        is_active: true,
+        is_project_manager: false,
+      })
+    }
+  }, [checkedUsers])
+
+  const _changeUserOnProject = useCallback(
+    (id, data) => {
+      dispatch(changeUserOnProject({ id, data }))
+    },
+    [dispatch]
+  );
+
+  const deleteItem = useCallback((id) => {
+    let res = currentEditedTeam.filter(e => e.projectReportId !== id);
+    setEditedTeam(res);
+    _changeUserOnProject(id, { is_active: false });
+
+  }, [currentEditedTeam, _changeUserOnProject])
 
   const onSelectPm = useCallback((data) => {
     dispatch(setPm(data))
@@ -125,28 +153,38 @@ function EditProjectModal2({ show }) {
       return e
     })
 
-    setEditedTeam(resArr)
-  }, [])
-
-  useEffect(() => {
-    if (projectName) {
-      setValuesFromApi({
-        projectName: projectName,
-        team: currentProjectActiveDevelopers,
-        projectManager: activeProjectManager,
-        total_minutes: currentApiProject.total_minutes,
-        description: currentApiProject.description,
-      });
-    }
-
-    setEditedTeam(currentProjectActiveDevelopers)
-  }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
+    setEditedTeam(resArr);
+  }, [currentEditedTeam, _changeUserOnProject])
 
   useEffect(() => {
     if (show) {
-      if (!currentProject) {
-        _getProjectReportById(currentProjectId);
+      if (projectName) {
+        setValuesFromApi({
+          projectName: projectName,
+          team: currentProjectActiveDevelopers,
+          projectManager: activeProjectManager,
+          total_minutes: currentApiProject.total_minutes,
+          description: currentApiProject.description,
+        });
       }
+
+      setEditedTeam(currentProjectActiveDevelopers)
+    }
+  },
+    [
+      projectName,
+      currentProjectActiveDevelopers,
+      activeProjectManager,
+      currentApiProject,
+      show,
+    ],
+  );
+
+  useEffect(() => {
+    if (show) {
+      // if (!currentProject) {
+        _getProjectReportById(currentProjectId);
+      // }
     }
   }, [_getProjectReportById, currentProjectId, show])
 
@@ -163,13 +201,13 @@ function EditProjectModal2({ show }) {
 
   let teamMList = currentEditedTeam?.map((e, i) => {
     return (
-      <div key={e.user_id || i}>
+      <div key={e.id || i}>
         <TeamM
-          key={e.user_id || i}
+          key={e.id || i}
           e={e}
-          hovers={'120h 50m'}
+          hovers={parseMinToHoursAndMin(e.minutes, true)}
           del={deleteItem}
-          projectId={currentApiProject.id}
+          projectId={currentApiProject?.id}
           setWorkType={setTypeWork}
         />
       </div>
@@ -223,7 +261,7 @@ function EditProjectModal2({ show }) {
   const handleEnterPress = useCallback((e) => {
     e.stopPropagation();
 
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       if (e.target.id === 'projectName'
         && !errors?.projectName
         && values.projectName !== valuesFromApi?.projectName
@@ -233,7 +271,7 @@ function EditProjectModal2({ show }) {
           data : { name: values.projectName.trim() },
           title: 'name',
         }));
-        setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName }));
+        setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName.trim() }));
       } else if (
         e.target.id === 'description'
         && !errors?.description
@@ -244,7 +282,7 @@ function EditProjectModal2({ show }) {
           data : { description: values.description.trim() },
           title: 'description',
         }));
-        setValuesFromApi((prev) => ({ ...prev, description: values.description }));
+        setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
       }
     }
   }, [errors, currentProjectId, values]);
@@ -263,18 +301,112 @@ function EditProjectModal2({ show }) {
 
   }, [valuesFromApi]);
 
-  // const _changeProjectName = useCallback(
-  //   (id, data) => {
-  //     dispatch(changeProjectName({ id, data }))
-  //   },
-  //   [dispatch]
-  // )
-  // const _changeUserOnProject = useCallback(
-  //   (id, data) => {
-  //     dispatch(changeUserOnProject({ id, data }))
-  //   },
-  //   [dispatch]
-  // )
+
+  const _addInactiveProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addInactiveProjectManagerToProject(data))
+    },
+    [dispatch]
+  );
+
+  const _addProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addProjectManagerToProject(data))
+    },
+    [dispatch]
+  )
+
+  const _addUsersOnProject = useCallback(
+    (data) => {
+      dispatch(addUsersOnProject({ data }))
+    },
+    [dispatch]
+  )
+
+
+  const handleAddProjectManagerToProject = (e) => {
+    const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
+    const isPm = projectManagersList.find(
+      (pm) => pm.id === targetUserId
+    )
+    const wasDeactivated = deactivatedUsers?.find(
+      (user) => user.user_id === targetUserId
+    )
+    const wasInTeam = values?.team?.find(
+      (user) => user.user_id === targetUserId
+    )
+    if (activeProjectManager) {
+      if (wasDeactivated) {
+        const previousPm = {
+          id: activeProjectManager.projectReportId,
+          data : {
+            is_active: false,
+            is_project_manager: false,
+          }
+        }
+
+        const newPm = {
+          id: wasDeactivated.projectReportId,
+          data : {
+            is_active: true,
+            is_project_manager: true,
+          }
+        }
+        _addInactiveProjectManagerToProject({previousPm, newPm})
+      } else if (wasInTeam) {
+        dispatch(
+          showAler({
+            type: WARNING_ALERT,
+            message: 'Project manager is already in the team',
+            delay: 5000,
+          })
+        )
+      } else {
+
+        const previousPm = {
+          id: activeProjectManager.projectReportId,
+          data : {
+            is_active: false,
+            is_project_manager: false,
+          }
+        }
+
+        const newPm = {
+          project: currentProjectId,
+          user: isPm.id,
+          is_full_time: true,
+          is_active: true,
+          is_project_manager: true,
+        }
+
+        _addProjectManagerToProject({previousPm, newPm})
+      }
+    } else {
+      if (wasDeactivated) {
+        _changeUserOnProject(wasDeactivated.projectReportId, {
+          is_active: true,
+          is_project_manager: true,
+        })
+      } else if (wasInTeam) {
+        dispatch(
+          showAler({
+            type: WARNING_ALERT,
+            message: 'Project manager is already in the team',
+            delay: 5000,
+          })
+        )
+      } else {
+        _addUsersOnProject({
+          project: currentProjectId,
+          user: isPm.id,
+          is_full_time: true,
+          is_active: true,
+          is_project_manager: true,
+        })
+      }
+    }
+  }
+
 
   return (
     <div className={'edit-modal-container ' + (show ? 'active' : '')}>
@@ -301,15 +433,17 @@ function EditProjectModal2({ show }) {
               name="projectName"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.projectName}
+              value={valuesFromApi?.projectName || values.projectName}
               className="search-manger"
             >
               {/*<Form.Label>Email address</Form.Label>*/}
               <Form.Control
                 // className={styles.emailInput}
                 type="projectName"
-                defaultValue={values.projectName}
+                defaultValue={valuesFromApi?.projectName || values.projectName}
                 placeholder="Type project name ..."
+                autoFocus
+                tabIndex={1}
               />
 
                 {errors.projectName && touched.projectName && (
@@ -339,7 +473,7 @@ function EditProjectModal2({ show }) {
             <Select
               title={valuesFromApi?.projectManager?.name}
               listItems={projectManagersList}
-              onSelected={onSelectPm}
+              onSelected={handleAddProjectManagerToProject}
               valueKey="name"
               idKey="id"
               extraClassContainer={' search search-manger'}
@@ -364,7 +498,7 @@ function EditProjectModal2({ show }) {
               name="description"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.description}
+              value={valuesFromApi?.description || values.description}
               className="search-manger"
             >
               {/*<Form.Label>Email address</Form.Label>*/}
@@ -372,8 +506,10 @@ function EditProjectModal2({ show }) {
                 // className={styles.emailInput}
                 as="textarea"
                 rows={3}
-                defaultValue={values.description}
+                defaultValue={valuesFromApi?.description || values.description}
                 placeholder="Some info about the project"
+                autoFocus
+                tabIndex={2}
               />
 
               {errors.description && touched.description && (
@@ -430,6 +566,7 @@ function EditProjectModal2({ show }) {
               checkedUsers={checkedUsers}
               setCheckedUsers={setCheckedUsers}
               addSelected={addSelected}
+              currentTeamIds={currentTeamIds}
             />
           )}
         </div>
