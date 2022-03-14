@@ -110,14 +110,24 @@ function ReportItem({
     const [_hour, min] = e.target.duration.value.split(':')
     const duration = _hour ? +_hour * 60 + +min : +min
     const title = e.target.title.value
-     if(duration === 0){
-       showAler({
-         type: WARNING_ALERT,
-         message: 'Worked time can\'t be 0',
-         delay: 5000,
-       })
-       return
-     }
+    if (duration === 0) {
+      showAler({
+        type: WARNING_ALERT,
+        message: 'Worked time can\'t be 0',
+        delay: 5000,
+      })
+      return
+    }
+
+    if (duration > 480) {
+      showAler({
+        type: WARNING_ALERT,
+        message: 'Worked time can\'t be more 8 hours',
+        delay: 5000,
+      })
+      return
+    }
+
     if (oldDuration !== duration || oldTitle !== title) {
       editTimeReport({
         developer_project,
@@ -139,36 +149,21 @@ function ReportItem({
   const activeClassNameContainerForEditting =
     idEditingWorkItem === id ? 'editing' : ''
 
-  useEffect(()=>{
+  useEffect(() => {
     closeEditMenu(editMenu, setEditMenu);
-  },[editMenu])
+  }, [editMenu])
 
 
   const handleDragAndDrop = (event) => {
-    if(event.target.classList.contains('time_report_day_add')
-        || event.target.parentNode.classList.contains('time_report_day_add')
-        || event.target.classList.contains('time_report_day_addbtn')
-        || event.target.parentNode.classList.contains('time_report_day_addbtn')
-        || event.target.classList.contains('time_report_day_edit')
-        || event.target.parentNode.classList.contains('time_report_day_edit')
-        || event.target.parentNode.classList.contains('edit_dots')
-        || event.target.parentElement.classList.contains('add_icon')
-        || event.target.parentElement.classList.contains('time_report_day_menu')
-        || event.target.parentElement.classList.contains('edit-form')
-        || event.target.parentNode.classList.contains('select_container')
-        || event.target.parentNode.classList.contains('select_title_container')
-        || event.target.parentNode.classList.contains('select_list_item_container')
-        || event.target.parentNode.classList.contains('modal_container')
-        || event.target.classList.contains('modal_container')
-        || event.target.parentNode.classList.contains('modal-content')
-        || event.target.parentNode.classList.contains('modal-header')
-        || event.target.parentNode.classList.contains('modal-body')
-        || event.target.parentNode.classList.contains('modal-footer')
-        || event.target.parentNode.classList.contains('close')
-        || event.target.parentNode.classList.contains('delete_modal_overlay')
-        || event.target.parentNode.classList.contains('delete_modal_button_container')
-        || event.target.parentNode.classList.contains('btn')
-    ){
+    if (event.target.classList.contains('time_report_day_edit')
+      || event.target.parentNode.classList.contains('time_report_day_edit')
+      || event.target.parentNode.classList.contains('edit_dots')
+      || event.target.parentElement.classList.contains('time_report_day_menu')
+      || event.target.parentElement.classList.contains('edit-form')
+      || event.target.parentNode.classList.contains('delete_modal_overlay')
+      || event.target.parentNode.classList.contains('delete_modal_button_container')
+      || event.target.parentNode.classList.contains('btn')
+    ) {
       return
     }
     setDraganDroped(!draganDroped);
@@ -260,7 +255,7 @@ function ReportItem({
 
   return (
     <div
-      className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button ` + (index !==0?' top_line':'') + (index ==0?'first_timereport':'')}
+      className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button` + (index !== 0 ? ' top_line' : '')}
       ref={containerRef}
       onDragStart={() => false}
       onMouseDown={handleDragAndDrop}
@@ -278,67 +273,40 @@ function ReportItem({
         />
       )}
       {idEditingWorkItem === id ? (
-          <>
-            <ActivitySelect
-                statuses={selectDayStatus}
-                selectedStatus={selectedDayStatus}
-                setUserStatus={setUserStatus}
-
+        <>
+          <form
+            style={{ display: 'flex' }}
+            onSubmit={handlerSubmit}
+            id="edit_form"
+            className={'edit-form'}
+          >
+            <TextareaAutosize
+              className="time_report_day_description textarea"
+              defaultValue={text}
+              autoFocus
+              onFocus={(e) => {
+                const temp_value = e.target.value
+                e.target.value = ''
+                e.target.value = temp_value
+              }}
+              style={{ height: '45px' }}
+              name="title"
             />
-            <form
-                style={{ display: 'flex' }}
-                onSubmit={handlerSubmit}
-                id="edit_form"
-                className={'edit-form'}
-            >
-
-              <TextareaAutosize
-                  className="time_report_day_description textarea"
-                  defaultValue={text}
-                  autoFocus
-                  onFocus={(e) => {
-                    const temp_value = e.target.value
-                    e.target.value = ''
-                    e.target.value = temp_value
-                  }}
-                  style={{height:'45px'}}
-                  name="title"
-              />
-              <InputMask
-                  placeholder="HH"
-                  maskPlaceholder="0"
-                  className="hours_input time_report_day_hours"
-                  mask="9:99"
-                  defaultValue={parseMinToHoursAndMin(hours)}
-                  name="duration"
-              />
-            </form>
-          </>
+            <InputMask
+              placeholder="HH"
+              maskPlaceholder="0"
+              className="hours_input time_report_day_hours"
+              mask="9:99"
+              defaultValue={parseMinToHoursAndMin(hours)}
+              name="duration"
+            />
+          </form>
+        </>
       ) : (
         <>
-          {/* <span className="time_report_day_add "  onClick={opneNewItem}>
-             {(index===0 && !isCreate)&&<FontAwesomeIcon
-                 icon={faPlus}
-                 className={
-                   'add_icon delete_icon'
-                 }
-             />}
-          </span> */}
-           {/* <span className="time_report_activity_day">
-              {index === 0 && !isCreate && dayTitle}
-          </span> */}
-          <div className="report-description-wrapper">
-              {/* <span className="time_report_activity_select" >
-                <span className="status-wrapper" >
-                  <span  style={{
-                    color:selectedDayStatus.iconColor}}>{selectedDayStatus.name}
-                </span>
-                </span>
-              </span> */}
-              <span className="time_report_day_description">
-                <Linking text={text} />
-              </span>
-          </div>
+          <span className="time_report_day_description">
+            <Linking text={text} />
+          </span>
           <span className="time_report_day_hours">
             {parseMinToHoursAndMin(hours)}
           </span>
@@ -346,69 +314,69 @@ function ReportItem({
       )}
 
       <div className="time_report_day_edit">
-        {!idEditingWorkItem?
-          <div className={'edit_dots ' +(editMenu?'dots-bg':'')} onClick={()=>{setEditMenu(!editMenu)}}>
+        {!idEditingWorkItem ?
+          <div className={'edit_dots ' + (editMenu ? 'dots-bg' : '')} onClick={() => { setEditMenu(!editMenu) }}>
             <FontAwesomeIcon
-                icon={faEllipsisV}
-                color="#414141"
-                className="icon pencil_icon"
+              icon={faEllipsisV}
+              color="#414141"
+              className="icon pencil_icon"
             />
-          </div>:
-          <button className="create_btn"  onClick={
+          </div> :
+          <button className="create_btn" onClick={
             idEditingWorkItem === id ? () => null : handlerClickEditMode}
             type={idEditingWorkItem === id ? 'submit' : 'button'}
             form="edit_form"
-           >
-          <FontAwesomeIcon
-          icon={faCheck}
-          color="#414141"
-          className="icon pencil_icon"
-          />
+          >
+            <FontAwesomeIcon
+              icon={faCheck}
+              color="#414141"
+              className="icon pencil_icon"
+            />
           </button>
         }
 
-        {editMenu&&!idEditingWorkItem&&
-        <div className={'time_report_day_menu'}>
-          <button
+        {editMenu && !idEditingWorkItem &&
+          <div className={'time_report_day_menu'}>
+            <button
               onClick={
                 idEditingWorkItem === id ? () => null : handlerClickEditMode
               }
               className="button edit_button"
               type={idEditingWorkItem === id ? 'submit' : 'button'}
               form="edit_form"
-          >
-            <FontAwesomeIcon
+            >
+              <FontAwesomeIcon
                 icon={idEditingWorkItem === id ? faCheck : faEdit}
                 className="icon pencil_icon"
-            />
-            Edit the report
-          </button>
-          {idEditingWorkItem !== id && isOneProject && (
+              />
+              Edit the report
+            </button>
+            {idEditingWorkItem !== id && isOneProject && (
               <button
-                  onClick={hanldeClickToggleShowModalChangeProject}
-                  className="button change_project_button"
-                  type={'button'}
-                  form="edit_form"
+                onClick={hanldeClickToggleShowModalChangeProject}
+                className="button change_project_button"
+                type={'button'}
+                form="edit_form"
               >
                 <FaExchangeAlt className="icon" />
                 Swap to other project
               </button>
-          )}
-          <button
+            )}
+            <button
               onClick={
                 idEditingWorkItem === id
-                    ? handlerCancelEditMode
-                    : handlerClickOpenDeleteModal
+                  ? handlerCancelEditMode
+                  : handlerClickOpenDeleteModal
               }
               className="button delete_button"
-          >
-            <FontAwesomeIcon
+            >
+              <FontAwesomeIcon
                 icon={idEditingWorkItem === id ? faTimes : faTrashAlt}
                 className="icon trash_icon"
-            />
-            Delete the report
-          </button>
-        </div>
+              />
+              Delete the report
+            </button>
+          </div>
         }
       </div>
     </div>

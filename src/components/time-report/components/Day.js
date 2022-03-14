@@ -80,46 +80,48 @@ function Day({
     <div className="time_report_day_container" data-day={numberOfDay}>
 
       <DayCrate
-          handlerAddDayReport={handlerAddDayReport}
-          isCreate={isCreate}
-          dayTitle={dayTitle}
-          todayStr={todayStr}
-          classNameForEndAnimation={classNameForEndAnimation}
-          weekEndClassName={weekEndClassName}
-          addTimeReport={addTimeReport}
-          numberOfDay={numberOfDay}
-          selectedDate={selectedDate}
-          setIsCreate={setIsCreate}
-          isOpenCreate={isOpenCreate}
-          extraClassName={classNameForEndAnimation}
-          handlerEndAnimation={handlerEndAnimation}
-          sumHours={sumHours}
-          savePosition={savePosition}
-          isCreateList = {isCreatedList}
-          selectDayStatus={selectDayStatus}
-          selectedDayStatus ={selectedDayStatus}
-          setUserStatus={setUserStatus}
-          descriptions={descriptions}
+        handlerAddDayReport={handlerAddDayReport}
+        isCreate={isCreate}
+        dayTitle={dayTitle}
+        todayStr={todayStr}
+        classNameForEndAnimation={classNameForEndAnimation}
+        weekEndClassName={weekEndClassName}
+        addTimeReport={addTimeReport}
+        numberOfDay={numberOfDay}
+        selectedDate={selectedDate}
+        setIsCreate={setIsCreate}
+        isOpenCreate={isOpenCreate}
+        extraClassName={classNameForEndAnimation}
+        handlerEndAnimation={handlerEndAnimation}
+        sumHours={sumHours}
+        savePosition={savePosition}
+        isCreateList={isCreatedList}
+        selectDayStatus={selectDayStatus}
+        selectedDayStatus={selectedDayStatus}
+        setUserStatus={setUserStatus}
+        descriptions={descriptions}
       />
-      {descriptions.map(({ title, duration, id }, index) => (
-        <ReportItem
+      {descriptions.length ? <div className='reports_item_list'>
+        {descriptions.map(({ title, duration, id }, index) => (
+          <ReportItem
             key={id}
             index={index}
             text={title}
             hours={duration}
             opneNewItem={openNewItem}
-            dayTitle={ dayTitle}
+            dayTitle={dayTitle}
             id={id}
             isOneProject={isOneProject}
             slecet
             selectDayStatus={selectDayStatus}
-            selectedDayStatus ={selectedDayStatus}
+            selectedDayStatus={selectedDayStatus}
             isCreate={isCreate}
             setUserStatus={setUserStatus}
             setDraganDroped={setDraganDroped}
             draganDroped={draganDroped}
           />
-      ))}
+        ))}
+      </div> : null}
       {/* <FooterDay
          sumHours={sumHours}
       /> */}
