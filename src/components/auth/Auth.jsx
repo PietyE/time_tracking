@@ -57,7 +57,7 @@ function Auth() {
   const history = useHistory();
 
   if (isAuth) {
-    history.push("/projectreport")
+    history.push("/timereport")
     // return <Redirect to="/projectreport" />
   }
 
