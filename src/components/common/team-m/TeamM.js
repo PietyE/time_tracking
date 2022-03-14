@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import './style.scss'
 import DownloadIc from '../../../images/download_ic.svg'
 import TrashGrayIc from '../../../images/trash_cray_ic.svg'
-import { downloadProjectReport } from '../../../actions/projects-management'
+import { changeUserOnProject, downloadProjectReport } from '../../../actions/projects-management'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getSelectedDateForPMSelector } from '../../../reducers/projects-management'
@@ -20,8 +20,20 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
     [dispatch]
   )
 
+  const _changeUserOnProject = useCallback(
+    (id, data) => {
+      dispatch(changeUserOnProject({ id, data }))
+    },
+    [dispatch]
+  );
+
+  const handleOccupancyChange = useCallback((isFullTime) => () => {
+    setFullTime(isFullTime);
+    _changeUserOnProject(e.projectReportId, { is_full_time: isFullTime });
+  }, [e])
+
   useEffect(() => {
-    setWorkType && setWorkType(e.user_id || e.id, fulTime)
+    setWorkType && setWorkType(e.projectReportId, fulTime)
   }, [fulTime])
 
   let userId = e.id || e.user_id
@@ -57,7 +69,7 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
         </div>
         <div className={'team-m__type-work ' + (hovers ? 'flex-column' : '')}>
           <div className="label-def">
-            <span>Part-time</span>
+            <span>{fulTime ? 'Full-time' : 'Part-time'}</span>
           </div>
           <div className="team-m-input-cont">
             <label htmlFor={e.id || e.user_id}>
@@ -66,9 +78,7 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
                 type="radio"
                 checked={!fulTime ? 'checked' : ''}
                 id={e.id || e.user_id}
-                onChange={() => {
-                  setFullTime(false)
-                }}
+                onChange={handleOccupancyChange(false)}
               />
               <span className="checkmark"></span>
               Part-time
@@ -80,9 +90,7 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
                 name="w-type"
                 type="radio"
                 checked={fulTime ? 'checked' : ''}
-                onChange={() => {
-                  setFullTime(true)
-                }}
+                onChange={handleOccupancyChange(true)}
                 id={e.id + 1 || e.user_id + 1}
               />
               <span className="checkmark"></span>
@@ -95,7 +103,7 @@ function TeamM({ e, del, d, hovers, setWorkType }) {
           <img
             className={'gray-trash'}
             onClick={() => {
-              del(e.id || e.user_id)
+              del(e.projectReportId)
             }}
             src={TrashGrayIc}
             alt=""

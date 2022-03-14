@@ -40,7 +40,7 @@ const setProjectsWithReports = (state, action) => {
     projectsWithReports = [...state.projectsWithReports]
     projectsWithReports[index] = action.payload
   }
-  return { ...state, projectsWithReports: projectsWithReports }
+  return { ...state, projectsWithReports }
 }
 
 export const projectsManagement = (state = initialState, action) => {
@@ -153,9 +153,10 @@ export const getProjectName = state => {
 }
 ///////////////////////////////////////////////////////
 export const getProjectActiveUsersSelector = state => {
-  const projectId = getSelectedProjectIdSelector(state)
-  const reports = getProjectsWithReportSelector(state, projectId)
-  const currentProjectReports = reports.find(rep => rep.projectId === projectId)
+  const projectId = getSelectedProjectIdSelector(state);
+  const reports = getProjectsWithReportSelector(state);
+  const currentProjectReports = reports.find(rep => rep.projectId === projectId);
+
   return currentProjectReports?.users?.map(report => ({
     user_id: report.userId,
     name: report.userName,
