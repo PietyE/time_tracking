@@ -1,7 +1,6 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  SET_DEV_CONSOLIDATE_PROJECT_REPORT,
-  GET_DEV_CONSOLIDATE_PROJECT_REPORT,
+  // SET_DEV_CONSOLIDATE_PROJECT_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -29,10 +28,10 @@ export const changeSelectedDateProjectsReport = (payload) => ({
 //   payload,
 // })
 
-export const setDeveloperConsolidateProjectReport = (payload) => ({
-  type: SET_DEV_CONSOLIDATE_PROJECT_REPORT,
-  payload,
-})
+// export const setDeveloperConsolidateProjectReport = (payload) => ({
+//   type: SET_DEV_CONSOLIDATE_PROJECT_REPORT,
+//   payload,
+// })
 
 export const setSelectedDeveloper = (payload) => ({
   type: SET_SELECTED_DEVELOPER,

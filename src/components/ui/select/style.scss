@@ -16,7 +16,7 @@
   }
   &.active {
     // box-shadow: 0px 0px 0px 2px #0062cc;
-    box-shadow: 0px 0px 10px 0px rgba(158, 167, 171, 0.3);
+    box-shadow: 0 0 10px 0 rgba(158, 167, 171, 0.3);
     transition: 0.2s ease-in;
   }
   &.disabled {
@@ -38,7 +38,7 @@
     padding: 0 10px;
     .select_title_text {
       color: #414141;
-      font-family: Montserrat;
+      font-family: Montserrat, sans-serif;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.5;
@@ -89,7 +89,7 @@
       position: relative;
       .select_list_item {
         color: #414141;
-        font-family: Montserrat;
+        font-family: Montserrat, sans-serif;
         font-size: 13px;
         font-weight: 500;
         line-height: 2.5;
@@ -97,7 +97,7 @@
         overflow: hidden;
         width: 100%;
         text-align: left;
-        &.choise {
+        &.choice {
           font-weight: 900;
         }
         &:hover {

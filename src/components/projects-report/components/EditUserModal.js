@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { connect, useSelector } from 'react-redux'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 import {
-  getEditingUserIdSelector,
   getEditingUser,
   getSelectedMonthSelector,
 } from 'reducers/projects-report'
@@ -25,36 +24,56 @@ import { Spinner } from 'react-bootstrap'
 import { getIsFetchingProjectsReport } from '../../../selectors/developer-projects'
 import { isEqual } from 'lodash'
 import CurrencySelect from './CurrencySelect'
+import {selectCurrencyList} from '../../../selectors/currency';
 
 const EditUserModal = (props) => {
   const {
     handlerCloseModalEdit,
-    editingUser = {},
-    selectedDate = {},
-    setNewSalary,
-    setNewRate,
-    setNewCost,
-    setNewComment,
-    setEditedComment,
-    setEditedCost,
   } = props
+
+  const editingUser = useSelector(getEditingUser, isEqual)
+  const selectedDate = useSelector(getSelectedMonthSelector, isEqual)
   const _comment = editingUser.comments
   const commentId = editingUser.commentId
   const _expense = editingUser.total_expenses
   const expenseId = editingUser.expensesId
-
-  const [comment, setCommentLocal] = useState(_comment)
+  const currenciesList = useSelector(selectCurrencyList)
+  const [comment, setCommentLocal] = useState(_comment || '')
   const [isFetching, setIsFetching] = useState(false)
-  const [selectedCurrency, setCurrency] = useState('')
+  const [selectedSalaryCurrency, setSalaryCurrency] = useState('Currency')
+  const [selectedRateCurrency, setRateCurrency] = useState('Currency')
+  const [salary, setSalary] = useState('')
+  const [rate, setRate] = useState('')
+
+  const dispatch = useDispatch()
+
+  const initialCurrencyState = {
+    salary: '',
+    rate:''
+  }
+  const [isCEdit, setIsCEdit] = useState(initialCurrencyState)
 
   const fetchingStatus = useSelector(getIsFetchingProjectsReport, isEqual)
 
-  useEffect(() => {
-    if (isFetching) {
-      setIsFetching(fetchingStatus)
-    }
-  }, [fetchingStatus])
-
+  const setCurrentCurrency = useCallback(()=>{
+      currenciesList.forEach((e)=>{
+        if(e.sign === editingUser.salaryCurrency ){
+          if(salary){
+            setSalaryCurrency(salary)
+          } else {
+            setSalaryCurrency(e.serverId)
+          }
+        }
+        if( e.sign === editingUser.rateCurrency){
+          if(rate){
+            setRateCurrency(rate)
+          } else {
+            setRateCurrency(e.serverId)
+          }
+        }
+      });
+    }, [currenciesList, rate, salary, editingUser]
+  )
   const handlerCloseEditModal = (e) => {
     e.stopPropagation()
     handlerCloseModalEdit()
@@ -67,9 +86,10 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       salary: newSalary,
-      currency: selectedCurrency
+      currency: selectedSalaryCurrency
     }
-    setNewSalary(data)
+    dispatch(setNewSalary(data))
+    setIsCEdit({ ...isCEdit, salary: ''})
   }
 
   const handlerOnClickSaveNewRate = (newRate) => {
@@ -79,9 +99,10 @@ const EditUserModal = (props) => {
         .toISOString()
         .slice(0, 10),
       rate: newRate,
-      currency: selectedCurrency
+      currency: selectedRateCurrency
     }
-    setNewRate(data)
+    dispatch(setNewRate(data))
+    setIsCEdit({ ...isCEdit, rate: ''})
   }
 
   const handleSaveCost = (newCoast) => {
@@ -92,7 +113,7 @@ const EditUserModal = (props) => {
         .slice(0, 10),
       amount: newCoast,
     }
-    setNewCost(data)
+    dispatch(setNewCost(data))
   }
 
   const handleEditCost = (newCoast) => {
@@ -104,10 +125,10 @@ const EditUserModal = (props) => {
       amount: newCoast,
       expenseId: expenseId,
     }
-    setEditedCost(data)
+    dispatch(setEditedCost(data))
   }
 
-  const handleChangeInputCommnent = (e) => {
+  const handleChangeInputComment = (e) => {
     setCommentLocal(e.target.value)
   }
 
@@ -119,7 +140,7 @@ const EditUserModal = (props) => {
         .slice(0, 10),
       text: comment,
     }
-    setNewComment(data)
+    dispatch(setNewComment(data))
     setIsFetching(true)
 
   }
@@ -133,7 +154,7 @@ const EditUserModal = (props) => {
       text: comment,
       commentId: commentId,
     }
-    setEditedComment(data)
+    dispatch(setEditedComment(data))
     setIsFetching(true)
   }
 
@@ -141,9 +162,48 @@ const EditUserModal = (props) => {
     setCommentLocal(_comment)
   }
 
-  const handleChangeCurrency = (data) => {
-    setCurrency(data)
+  const handleChangeCurrency = (data, row='') => {
+    if (row === 'salary'){
+      setSalaryCurrency(data)
+      setSalary(data)
+    } else {
+      setRateCurrency(data)
+      setRate(data)
+    }
+    let receive = {};
+     receive[row]= row;
+     let res = {...isCEdit, ...receive}
+     setIsCEdit(res);
   }
+
+  const handlerClickCancelButton = (row) => {
+    if(setIsCEdit){
+      setIsCEdit({...isCEdit, [row]: ''})
+    }
+    if(row === 'salary') {
+      currenciesList.forEach((e)=>{
+        if (e.sign === editingUser.salaryCurrency ){
+          setSalaryCurrency(e.serverId)
+        }   
+      });
+    } else {
+      currenciesList.forEach((e)=>{
+        if (e.sign === editingUser.rateCurrency){
+          setRateCurrency(e.serverId)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (isFetching) {
+      setIsFetching(fetchingStatus)
+    }
+  }, [fetchingStatus, isFetching])
+
+  useEffect(() => {
+    setCurrentCurrency();
+  }, [currenciesList, editingUser, setCurrentCurrency])
 
   return (
     <Modal>
@@ -155,13 +215,13 @@ const EditUserModal = (props) => {
           <FontAwesomeIcon icon={faTimes} />
         </span>
         <ModalRow>
-          <ModalTitle title={`Employee:  `} />
+          <ModalTitle title={'Employee:  '} />
           <div className="edit_user_modal_title_value_container">
             <span className="edit_user_modal_title_value_text bold">{`${editingUser.name} (${editingUser.email})`}</span>
           </div>
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Selected Date: `} />
+          <ModalTitle title={'Selected Date: '} />
           <div className="edit_user_modal_title_value_container">
             <span className="edit_user_modal_title_value_text">
               {new Date(
@@ -172,32 +232,41 @@ const EditUserModal = (props) => {
           </div>
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Salary`} />
+          <ModalTitle title={'Salary'} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
-            selectedCurrency={selectedCurrency}
+            selectedCurrency={selectedSalaryCurrency}
+            row={'salary'}
           />
           <ModalInput
             // prevValue={editingUser.current_salary}
             prevValue={editingUser.salary_uah}
-
+            CisEdit={isCEdit}
+            setIsCEdit={setIsCEdit}
+            row={'salary'}
             handleSaveChange={handlerOnClickSaveNewSalary}
+            handleCancelChange={handlerClickCancelButton}
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Rate`} />
+          <ModalTitle title={'Rate'} />
           <CurrencySelect
             parentHandler={handleChangeCurrency}
-            selectedCurrency={selectedCurrency}
+            selectedCurrency={selectedRateCurrency}
+            row={'rate'}
           />
           <ModalInput
             // prevValue={editingUser.current_rate}
             prevValue={editingUser.rate_uah}
             handleSaveChange={handlerOnClickSaveNewRate}
+            handleCancelChange={handlerClickCancelButton}
+            CisEdit={isCEdit}
+            setIsCEdit={setIsCEdit}
+            row={'rate'}
           />
         </ModalRow>
         <ModalRow>
-          <ModalTitle title={`Cost`} />
+          <ModalTitle title={'Cost'} />
           <ModalInput
             prevValue={_expense}
             handleSaveChange={expenseId ? handleEditCost : handleSaveCost}
@@ -205,7 +274,7 @@ const EditUserModal = (props) => {
         </ModalRow>
         <ModalRow direction={'column'}>
           <div className="comment_title_container">
-            <ModalTitle title={`Comment:`} />
+            <ModalTitle title={'Comment:'} />
             {isFetching &&
             <div className = 'spinner-small'>
               <Spinner animation = "border" variant = "success"/>
@@ -214,7 +283,7 @@ const EditUserModal = (props) => {
             {comment !== _comment && !isFetching &&(
               <div className="edit_user_modal_button_container">
                 <button
-                  variant={'success'}
+                  // variant={'success'}
                   onClick={
                     commentId ? handleSaveEditedComment : handleSaveNewComment
                   }
@@ -223,7 +292,7 @@ const EditUserModal = (props) => {
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
                 <button
-                  variant="secondary"
+                  // variant="secondary"
                   onClick={handleCancelEditComment}
                   className="edit_user_button cancel"
                 >
@@ -234,8 +303,8 @@ const EditUserModal = (props) => {
           </div>
           <textarea
             rows="3"
-            onChange={handleChangeInputCommnent}
-            value={comment}
+            onChange={handleChangeInputComment}
+            value={comment + ''}
             className="edit_user_comment_textarea"
           />
         </ModalRow>
@@ -244,19 +313,4 @@ const EditUserModal = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  editingUserId: getEditingUserIdSelector(state),
-  editingUser: getEditingUser(state),
-  selectedDate: getSelectedMonthSelector(state),
-})
-
-const actions = {
-  setNewSalary,
-  setNewRate,
-  setNewCost,
-  setNewComment,
-  setEditedComment,
-  setEditedCost,
-}
-
-export default connect(mapStateToProps, actions)(EditUserModal)
+export default EditUserModal

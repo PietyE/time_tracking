@@ -1,72 +1,107 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Field, Form, Formik } from 'formik'
 import TeamInput from './TeamInput'
 import TeamMemberItem from './TeamMemberItem'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   getSelectedProjectIdSelector,
   getProjectName,
-  getActivePmInCurrentProjectSelector, getProjectManagerListSelector, getActiveDevSelector,
-  getDeactivatedMembersSelector, getSelectedProjectSelector, getIsFetchingPmPageSelector,
+  getActivePmInCurrentProjectSelector,
+  getProjectManagerListSelector,
+  getActiveDevSelector,
+  getDeactivatedMembersSelector,
+  getSelectedProjectSelector,
+  getIsFetchingPmPageSelector,
 } from '../../../reducers/projects-management'
-import { isEqual } from 'lodash'
 import {
-  getProjectReportById, setSelectedProject,
-  changeProjectName, changeUserOnProject, addUsersOnProject, setShowEditModal,
+  getProjectReportById,
+  setSelectedProject,
+  changeProjectName,
+  changeUserOnProject,
+  addUsersOnProject,
+  setShowEditModal,
+  addProjectManagerToProject,
+  addInactiveProjectManagerToProject,
 } from '../../../actions/projects-management'
 import SpinnerStyled from '../../ui/spinner'
 
-function EditProjectModal({ show }) {
-  const dispatch = useDispatch()
+import * as Yup from 'yup';
+import cn from 'classnames';
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
+
+import {showAler} from '../../../actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
+
+function EditProjectModal({ show, projectList }) {
+  const dispatch = useDispatch();
+  const form = useRef(null);
 
   const _getProjectReportById = useCallback(
     (data) => {
       dispatch(getProjectReportById(data))
     },
-    [dispatch],
+    [dispatch]
   )
   const _setSelectedProject = useCallback(
     (data) => {
       dispatch(setSelectedProject(data))
     },
-    [dispatch],
+    [dispatch]
   )
   const _changeProjectName = useCallback(
     (id, data) => {
       dispatch(changeProjectName({ id, data }))
     },
-    [dispatch],
+    [dispatch]
   )
   const _changeUserOnProject = useCallback(
     (id, data) => {
       dispatch(changeUserOnProject({ id, data }))
     },
-    [dispatch],
+    [dispatch]
   )
   const _addUsersOnProject = useCallback(
     (data) => {
       dispatch(addUsersOnProject({ data }))
     },
-    [dispatch],
+    [dispatch]
   )
 
-  const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
-  const currentProject = useSelector((getSelectedProjectSelector, isEqual))
-  const projectName = useSelector(getProjectName, isEqual)
+  const _addProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addProjectManagerToProject( data ))
+    },
+    [dispatch]
+  )
 
-  const projectManagersList = useSelector(getProjectManagerListSelector, isEqual)
-  const activeProjectManager = useSelector(getActivePmInCurrentProjectSelector, isEqual)
-  const currentProjectActiveDevelopers = useSelector(getActiveDevSelector, isEqual)
-  const deactivatedUsers = useSelector(getDeactivatedMembersSelector, isEqual)
+  const _addInactiveProjectManagerToProject = useCallback(
+    (data) => {
+      dispatch(addInactiveProjectManagerToProject( data ))
+    },
+    [dispatch]
+  )
 
-  const isFetching = useSelector(getIsFetchingPmPageSelector)
+  const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
+  const currentProject = useEqualSelector(getSelectedProjectSelector)
+  const projectName = useEqualSelector(getProjectName)
+  const projectManagersList = useEqualSelector(getProjectManagerListSelector)
+  const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector)
+  const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector)
+  const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
+  const isFetching = useEqualSelector(getIsFetchingPmPageSelector)
 
-  const availableProjectManagersList = projectManagersList.filter(pm => pm?.id !== activeProjectManager?.user_id)
 
+  const availableProjectManagersList = projectManagersList.filter(
+    (pm) => pm?.id !== activeProjectManager?.user_id
+  )
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
 
+  const filteredProjects = useMemo(
+    () => projectList.filter(project => project !== projectName),
+    [projectName, projectList],
+  )
 
   useEffect(() => {
     if (projectName) {
@@ -79,24 +114,25 @@ function EditProjectModal({ show }) {
   }, [projectName, currentProjectActiveDevelopers, activeProjectManager])
 
   useEffect(() => {
-    if (!!show) {
+    if (show) {
       if (!currentProject) {
         _getProjectReportById(currentProjectId)
       }
     }
-  }, [_getProjectReportById, currentProjectId, show])
+  }, [_getProjectReportById, currentProjectId, show, currentProject])
 
   useEffect(() => {
-    if (!!currentProject) {
+    if (currentProject) {
       _setSelectedProject(currentProject)
     }
-  }, [currentProject])
+  }, [currentProject, _setSelectedProject])
 
   const pmInitialValue = {
     name: '',
     user_id: '',
     is_full_time: true,
     is_active: true,
+    is_project_manager: false
   }
   let initialValues = {
     projectName: '',
@@ -104,139 +140,271 @@ function EditProjectModal({ show }) {
     projectManager: pmInitialValue,
   }
 
+  const validationSchema = Yup.object().shape({
+    projectName: Yup.string()
+      .trim()
+      .required('Project Name field is required.')
+      .max(50, 'The project name can\'t be longer, than 50 symbols.')
+      .matches(/^[а-яА-Яa-zA-Z0-9]/gmi, 'Invalid name for project.')
+      .matches(/[а-яА-Яa-zA-Z0-9,.\-_!?]/gmi, 'Invalid name for project.')
+      .test('projectName', 'Invalid name for project.', (value) => !value?.match(/[^а-яА-Яa-zA-Z0-9,.\-_!? ]/gmi))
+      .notOneOf(filteredProjects, 'The project with the same name exists.')
+  });
+
   const handleClose = () => dispatch(setShowEditModal(false))
 
-  const onSubmit = values => {
-    _changeProjectName(currentProjectId, values.projectName)
+  const onSubmit = (values) => {
+    _changeProjectName(currentProjectId, values.projectName.trim())
   }
   return (
     <Modal
-      show = {show}
-      onHide = {handleClose}
-      backdrop = {false}
-      centered = {true}
-      className='pm_page_modal'
+      show={show}
+      onHide={handleClose}
+      backdrop={false}
+      centered={true}
+      animation={false}
+      className="pm_page_modal"
     >
-      {isFetching && <SpinnerStyled/>}
-      <Modal.Header closeButton className='pm_modal_header'>
+      <Modal.Header closeButton className="pm_modal_header">
         <Modal.Title>Edit Project</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
+        {!!isFetching && <SpinnerStyled />}
+
         <Formik
-          initialValues = {valuesFromApi || initialValues}
-          onSubmit = {onSubmit}
+          initialValues={valuesFromApi || initialValues}
+          validationSchema={validationSchema}
+          innerRef={form}
+          onSubmit={onSubmit}
           enableReinitialize
-
         >
-          {({ values, setFieldValue }) => {
-
-            const handleChangePmFullTime = e => {
-              _changeUserOnProject(e.target.dataset.id, { is_full_time: !values.projectManager.is_full_time })
-              setFieldValue('projectManager.is_full_time', !values.projectManager.is_full_time)
+          {({ values, setFieldValue, isValid , errors}) => {
+            const handleChangePmFullTime = (e) => {
+              _changeUserOnProject(e.target.dataset.id, {
+                is_full_time: !values.projectManager.is_full_time,
+              })
+              setFieldValue(
+                'projectManager.is_full_time',
+                !values.projectManager.is_full_time
+              )
             }
 
-            const handleAddMemberToProject = e => {
-              const targetUserId = e.target.selectedOptions[0].dataset.id
+            const handleAddMemberToProject = (e) => {
+              const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
 
-              const isPm = projectManagersList.find(pm => pm.id === targetUserId)
+              const wasDeactivated = deactivatedUsers&&deactivatedUsers?.find(
+                (user) => user.user_id === targetUserId
+              )
+              if(!activeProjectManager) {
+                dispatch(
+                  showAler({
+                    type: WARNING_ALERT,
+                    message: 'The project must have at least one project manager',
+                    delay: 5000,
+                  })
+                )
+              } else if (wasDeactivated) {
+                  _changeUserOnProject(wasDeactivated.projectReportId, {
+                    is_active: true,
+                  })
+                } 
+                else {
+                  _addUsersOnProject({
+                    project: currentProjectId,
+                    user: targetUserId,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: false,
+                  })
+                }                 
+            }
 
-              if (isPm) {
-                setFieldValue('projectManager.name', e.target.value)
-                if(activeProjectManager){
-                  _changeUserOnProject(activeProjectManager.projectReportId, { is_active: false })
+            const handleAddProjectManagerToProject = (e) => {
+              const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
+              const isPm = projectManagersList.find(
+                (pm) => pm.id === targetUserId
+              )
+              const wasDeactivated = deactivatedUsers?.find(
+                (user) => user.user_id === targetUserId
+              )
+
+              const wasInTeam = values?.team?.find(
+                (user) => user.user_id === targetUserId
+              )
+              if (activeProjectManager) {
+                if (wasDeactivated) {
+                  const previousPm = {
+                    id: activeProjectManager.projectReportId,
+                    data : {
+                      is_active: false,
+                      is_project_manager: false,
+                    }
+                  }
+
+                  const newPm = {
+                    id: wasDeactivated.projectReportId, 
+                    data : {
+                      is_active: true,
+                      is_project_manager: true,
+                    }
+                  }
+                  _addInactiveProjectManagerToProject({previousPm, newPm})
+                } else if (wasInTeam) {
+                  dispatch(
+                    showAler({
+                      type: WARNING_ALERT,
+                      message: 'Project manager is already in the team',
+                      delay: 5000,
+                    })
+                  )
+                } else {
+                  const previousPm = {
+                    id: activeProjectManager.projectReportId,
+                    data : {
+                      is_active: false,
+                      is_project_manager: false,
+                    }
+                  }
+
+                  const newPm = {
+                    project: currentProjectId,
+                    user: isPm.id,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: true,
+                  }
+
+                  _addProjectManagerToProject({previousPm, newPm})
                 }
-              }
-              const wasDeactivated = deactivatedUsers.find(user => user.user_id === targetUserId)
-              if (wasDeactivated) {
-                _changeUserOnProject(wasDeactivated.projectReportId, { is_active: true })
               } else {
-                _addUsersOnProject({
-                  project: currentProjectId,
-                  user: targetUserId,
-                  is_full_time: true,
-                  is_active: true,
-                })
-              }
+                if (wasDeactivated) {
+                  _changeUserOnProject(wasDeactivated.projectReportId, {
+                    is_active: true,
+                    is_project_manager: true,
+                  })
+                } else if (wasInTeam) {
+                  dispatch(
+                    showAler({
+                      type: WARNING_ALERT,
+                      message: 'Project manager is already in the team',
+                      delay: 5000,
+                    })
+                  )
+                } else {
+                  _addUsersOnProject({
+                    project: currentProjectId,
+                    user: isPm.id,
+                    is_full_time: true,
+                    is_active: true,
+                    is_project_manager: true,
+                  })
+                }
+              }             
             }
+
+            const isSameProject = values.projectName === valuesFromApi?.projectName
+
             return (
-              <Form className = "pm_create_modal_form">
+              <Form className="pm_create_modal_form">
                 {/*Change project name*/}
-                <label className = "pm_create_modal_project_label pm_create_modal_label">
+                <label className="pm_create_modal_project_label pm_create_modal_label">
                   Project name
-                  <br/>
+                  <br />
                   <Field
-                    className = "pm_create_modal_input"
-                    name = "projectName"
-                    placeholder = "Enter project name"
+                    className={cn(
+                      'pm_create_modal_input',
+                      errors?.projectName && 'pm_create_modal_colored_border',
+                    )}
+                    name="projectName"
+                    placeholder="Enter project name"
                   />
+                  <div className="pm_error_message_block">
+                    {errors?.projectName && (
+                      <span className="pm_name_error_message">{errors.projectName}</span>
+                  )}
+                  </div>
                 </label>
 
-                <div className = 'pm_create_team_buttons_container pm_edit_team_button_container'>
-                  <button className = 'pm_create_team_button ' type = 'submit'>Change</button>
+                <div className="pm_create_team_buttons_container pm_edit_team_button_container">
+                  <button
+                    className={!isValid || isSameProject ? 'pm_create_team_button_disable' : 'pm_create_team_button'}
+                    type="submit"
+                    disabled={!isValid || isSameProject}
+                  >
+                    Change
+                  </button>
                 </div>
                 {/*Change project developers*/}
 
-                <label className = "pm_create_modal_team_label pm_create_modal_label">
+                <label className="pm_create_modal_team_label pm_create_modal_label">
                   Team
-                  <br/>
-                  <TeamInput setFieldValue = {setFieldValue} values = {values} onChangeDev = {handleAddMemberToProject}
-                             type = 'update'/>
-
+                  <br />
+                  <TeamInput
+                    setFieldValue={setFieldValue}
+                    values={values}
+                    onChangeDev={handleAddMemberToProject}
+                    type="update"
+                  />
                 </label>
-                {values.team?.length > 0 &&
-                <ul>
-                  {values.team.filter(el => el.is_active === true).map(el => <TeamMemberItem key = {el.user_id}
-                                                                                             data = {el}
-                                                                                             data-id = {el.user_id}
-                                                                                             setFieldValue = {setFieldValue}
-                                                                                             values = {values}
-                                                                                             type = 'update'/>)}
-                </ul>
-                }
+                {values.team?.length > 0 && (
+                  <ul>
+                    {values.team
+                      .filter((el) => {return el.is_active === true && el.is_project_manager === false})
+                      .map((el) => (
+                        <TeamMemberItem
+                          key={el.user_id}
+                          data={el}
+                          data-id={el.user_id}
+                          setFieldValue={setFieldValue}
+                          values={values}
+                          type="update"
+                        />
+                      ))}
+                  </ul>
+                )}
                 {/*Change project pm*/}
 
-                <label className = "pm_create_modal_pm_label pm_create_modal_label">
+                <label className="pm_create_modal_pm_label pm_create_modal_label">
                   Project manager
-                  <br/>
+                  <br />
                   <Field
-                    className = "pm_create_modal_input"
-                    name = "projectManager.name"
-                    as = "select"
-                    onChange = {handleAddMemberToProject}
+                    className="pm_create_modal_input"
+                    name="projectManager.name"
+                    as="select"
+                    onChange={handleAddProjectManagerToProject}
                   >
-                    <option label = 'Select PM' ></option>
-                    {!!availableProjectManagersList.length && availableProjectManagersList.map(pm =>
-                      <option key = {pm?.id} data-id = {pm.id} value = {pm?.name}>{pm?.name}</option>,
-                    )
-                    }
+                    <option label="Select PM"/>
+                    {!!availableProjectManagersList.length &&
+                      availableProjectManagersList.map((pm) => (
+                        <option key={pm?.id} data-id={pm.id} value={pm?.name}>
+                          {pm?.name}
+                        </option>
+                      ))}
                   </Field>
                 </label>
+                {values?.projectManager?.is_project_manager && values?.projectManager?.name && (
+                  <div className="pm_create_team_item  pm_create_team_item_pm">
+                    <span className="pm_create_team_text">
+                      {values.projectManager.name}
+                    </span>
 
-                {/*Show selected PM*/}
-                {values?.projectManager?.name &&
-                <div className = 'pm_create_team_item  pm_create_team_item_pm'>
-
-                  <span className = 'pm_create_team_text'>{values.projectManager.name}</span>
-
-                  <label className = 'pm_create_team_checkbox_label'>
-                    <Field
-                      type = 'checkbox'
-                      name = 'values.projectManager.is_full_time'
-                      checked = {!values.projectManager?.is_full_time}
-                      data-id = {values.projectManager.projectReportId}
-                      onChange = {handleChangePmFullTime}
-                      className = 'pm_create_team_checkbox'/>
-                    Part-time
-                  </label>
-                </div>}
-
+                    <label className="pm_create_team_checkbox_label">
+                      <Field
+                        type="checkbox"
+                        name="values.projectManager.is_full_time"
+                        checked={!values.projectManager?.is_full_time}
+                        data-id={values.projectManager.projectReportId}
+                        onChange={handleChangePmFullTime}
+                        className="pm_create_team_checkbox"
+                      />
+                      Part-time
+                    </label>
+                  </div>
+                )}
               </Form>
             )
-          }
-          }
-
-
+          }}
         </Formik>
       </Modal.Body>
     </Modal>

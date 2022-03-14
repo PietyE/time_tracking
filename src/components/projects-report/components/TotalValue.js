@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { InputGroup, Spinner } from 'react-bootstrap'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Spinner } from 'react-bootstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons'
 import ModalTitle from './ModalTitle'
 import ModalRow from './ModalRow'
 import CurrencySelect from './CurrencySelect'
@@ -19,16 +19,22 @@ const TotalValue = (props) => {
   } = props
 
   const [isEdit, setIsEdit] = useState(false)
-  const [newExchangeRate, setNewExchengeRate] = useState('')
+  const [newExchangeRate, setNewExchangeRate] = useState('')
   const [selectedCurrency, setCurrency] = useState(null)
   const [formIsValid, setFormIsValid] = useState(false)
 
   const isFetchRateList = useSelector(selectIsFetchingRatesList)
 
+  const clearInput = () => {
+    setNewExchangeRate('')
+    setCurrency(null)
+  }
+
   const handleSaveExchangeRate = () => {
     if (!formIsValid) {
       return;
     }
+
     const data = {
       date: new Date(selectedDate.year, selectedDate.month + 1)
         .toISOString()
@@ -36,13 +42,13 @@ const TotalValue = (props) => {
       rate: newExchangeRate,
       currency: selectedCurrency
     }
-    setExchangeRates(data, clearInput)
+    setExchangeRates({ data, callback: clearInput })
     setIsEdit(false)
   }
 
-  const handleChangeExchengeRateInput = (event) => {
+  const handleChangeExchangeRateInput = (event) => {
     const filteredStr = event.target.value.replace(/[^0-9\\.]/gi, '')
-    setNewExchengeRate(filteredStr)
+    setNewExchangeRate(filteredStr)
   }
 
   const handleChangeCurrency = (data) => {
@@ -53,15 +59,10 @@ const TotalValue = (props) => {
     setIsEdit(true)
   }
 
-  const handleClickCancel = () => {
-    setNewExchengeRate(prevExchangeRate || '')
+  const handleClickCancel = useCallback(() => {
+    setNewExchangeRate(prevExchangeRate || '')
     setIsEdit(false)
-  }
-
-  const clearInput = () => {
-    setNewExchengeRate('')
-    setCurrency(null)
-  }
+  }, [prevExchangeRate])
 
   const usdFormat = new Intl.NumberFormat('ru', {
     style: 'currency',
@@ -77,7 +78,7 @@ const TotalValue = (props) => {
   })
 
   useEffect(() => {
-    setNewExchengeRate(prevExchangeRate || '')
+    setNewExchangeRate(prevExchangeRate || '')
   }, [prevExchangeRate])
 
   useEffect( () => {
@@ -85,12 +86,12 @@ const TotalValue = (props) => {
     setFormIsValid (
       status
     );
-  }, [selectedCurrency, newExchangeRate])
+  }, [selectedCurrency, prevExchangeRate, newExchangeRate])
 
   useEffect(()=>{
     handleClickCancel();
     clearInput();
-  },[selectedDate])
+  },[selectedDate, handleClickCancel])
 
   return (
     <>
@@ -111,7 +112,7 @@ const TotalValue = (props) => {
           <input
             className="project_reports_exchange_input"
             value={newExchangeRate || ''}
-            onChange={handleChangeExchengeRateInput}
+            onChange={handleChangeExchangeRateInput}
           />
 
         </div>

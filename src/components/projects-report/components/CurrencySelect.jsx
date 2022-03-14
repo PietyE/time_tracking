@@ -6,12 +6,12 @@ import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 function CurrencySelect(props) {
 
-  const {parentHandler, selectedCurrency} = props;
+  const {parentHandler, selectedCurrency, row} = props;
 
   const currenciesList = useShallowEqualSelector(selectCurrencyList)
 
   const result = currenciesList
-    .filter(item => item.numericCode !== '980')
+      //  .filter(item => item.numericCode !== '980')
     .map(item => {
       return {
         name: item.code,
@@ -22,7 +22,7 @@ function CurrencySelect(props) {
     })
   const handleOnChange = (event) => {
     const currencyId = event.serverId;
-    parentHandler(currencyId);
+    parentHandler(currencyId, row);
   }
 
 

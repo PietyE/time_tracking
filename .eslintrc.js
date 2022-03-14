@@ -15,11 +15,12 @@ module.exports = {
     quotes: [1, 'single', { avoidEscape: true }],
     'no-use-before-define': 'off',
     // "react/jsx-filename-extension": "on",
-    // "react/prop-types": "on",
+    "react/prop-types": "off",
     'comma-dangle': 'off',
     'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': 'off',
   },
   globals: {
     fetch: false,

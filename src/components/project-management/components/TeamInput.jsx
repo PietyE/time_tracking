@@ -1,12 +1,18 @@
 import React from 'react'
-import { Field } from 'formik'
-import { useSelector } from 'react-redux'
-import { getDeveloperSelector, getActiveDevSelector } from '../../../reducers/projects-management'
-import { isEqual } from 'lodash'
+import {
+  getDeveloperSelector,
+  getActiveDevSelector,
+  getUserListSelector,
+} from '../../../reducers/projects-management'
+import Select from '../../ui/select';
+import useEqualSelector from '../../../custom-hook/useEqualSelector'
+
 
 const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
-  const developers = useSelector(getDeveloperSelector, isEqual)
-  const currentProjectDevelopers = useSelector(getActiveDevSelector, isEqual)
+  const users = useEqualSelector(getUserListSelector)
+  const developers = useEqualSelector(getDeveloperSelector)
+  const currentProjectDevelopers = useEqualSelector(getActiveDevSelector)
+
   let availableDevelopers = developers
   if (currentProjectDevelopers) {
      const currentActiveProjectDevelopers = currentProjectDevelopers.filter(dev => dev.is_active === true)
@@ -19,39 +25,46 @@ const TeamInput = ({ setFieldValue, values, onChangeDev, type }) => {
   }
 
   const handleChangeDev = e => {
-    const data = e.target.value
+    const data = e?.target?.value || e.name
     if (type === 'update') {
       onChangeDev(e)
     }
-    const checkResult = values.team.find(el => el.name === data)
+    const checkResult = values?.team?.find(el => el.name === data)
     let currentDev
     if (!checkResult) {
-      currentDev = developers.find(el => el.name === data)
+      currentDev = users.find(el => el.name === data)
     }
-    const result = !!checkResult ? [...values.team] : [...values.team, {
-      name: data,
-      is_full_time: true,
-      is_active: true,
-      user_id: currentDev.id,
-    }]
-    setFieldValue('team', result)
+    if(values.team){
+      const result = checkResult ? [...values.team] : [...values.team, {
+        name: data,
+        is_full_time: true,
+        is_active: true,
+        is_project_manager: false,
+        user_id: currentDev.id,
+      }]
+      setFieldValue('team', result)
     availableDevelopers = availableDevelopers.filter(dev => dev?.name !== data)
-    
+    }
   }
-  return (
-    <Field
-      className = "pm_create_modal_input pm_create_select"
-      as = "select"
-      name = "team"
-      value = ''
-      onChange = {handleChangeDev}
-    >
-      <option label = 'Select developer' disabled = {true}></option>
-      {availableDevelopers.length > 0 && availableDevelopers.map(developer =>
-        <option key = {developer.id} data-id = {developer.id} value = {developer.name}>{developer.name}</option>
-      )}
 
-    </Field>
+  const onSelectItem = (data) => {
+    handleChangeDev(data)
+  }
+
+  return (
+      <div>
+      <Select
+          title="Select Team"
+          listItems={users}
+          valueKey="name"
+          idKey="id"
+          extraClassContainer={'developer_select pm_select'}
+          isSearch={true}
+          onSelected={onSelectItem}
+          isTeamSearch={true}
+          selectedTeam={values.team}
+      />
+    </div>
   )
 }
 

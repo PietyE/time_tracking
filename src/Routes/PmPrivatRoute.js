@@ -1,8 +1,8 @@
-import React from "react";
-import {Route, Redirect} from "react-router-dom";
-import {useSelector} from "react-redux";
+import React from 'react';
+import {Route, Redirect} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {getRoleUser} from '../selectors/user'
-import { ADMIN, DEVELOPER, PM } from 'constants/role-constant'
+import { ADMIN, PM } from 'constants/role-constant'
 
 
 
@@ -15,4 +15,3 @@ export default function PmPrivateRoute({component: Component, ...rest}) {
     />
   )
 }
-;

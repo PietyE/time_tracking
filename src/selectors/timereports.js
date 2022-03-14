@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 
 const getSelectedDateTimeReport = state => state.timereports.selectedDate
 
-const getTimeReportsSelector = state => state.timereports.reports.items
+const getTimeReportsSelector = state => state.timereports.reports?.items
 
 const getIsFetchingReport = state => state.timereports.isFetchingReports
 

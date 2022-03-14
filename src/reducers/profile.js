@@ -6,9 +6,9 @@ import {
 } from 'constants/actions-constant'
 
 const initial_state = {
-  isAuth: true,
+  isAuth: false,
   isFetchingUsers: false,
-  authInProgress: false
+  authInProgress: false,
 }
 
 export const profile = (state = initial_state, action) => {
@@ -39,9 +39,7 @@ export const getCurrentUserSelector = state => {
       name: state.profile.name,
       email: state.profile.email,
     })
-  }else{
-    return (null)
   }
 
-
+  return null
 }

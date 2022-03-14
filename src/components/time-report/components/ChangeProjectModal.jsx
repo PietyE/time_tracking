@@ -29,7 +29,7 @@ const ChangeProjectModal = ({ onClickClose, editableWorkItem }) => {
       })
     )
     onClickClose();
-  }, [dispatch, editableWorkItem, selectedProject])
+  }, [dispatch, editableWorkItem, selectedProject, onClickClose])
 
   return (
     <CustomModal>

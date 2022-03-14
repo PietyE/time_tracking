@@ -12,7 +12,7 @@ import {
 } from 'actions/users'
 import { getConsolidateProjectReport, setIsFetchingReports } from 'actions/projects-report'
 import { showAler } from 'actions/alert'
-import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT, SUCCES_ALERT, DANGER_ALERT } from 'constants/alert-constant'
 import {
   LOG_IN,
   LOG_OUT,
@@ -82,10 +82,14 @@ function* bootstrap() {
 }
 
 function* logIn({ payload: googleData }) {
-  try {
+    try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
-        throw new Error(googleData.error)
+        if(googleData.error === 'popup_closed_by_user'){
+          throw new Error('Popup closed by user')
+        }else{
+          throw new Error(googleData.error)
+        }
       }
 
       const google_token = googleData.tokenId
@@ -122,20 +126,24 @@ function* logIn({ payload: googleData }) {
       throw new Error()
     }
   } catch (error) {
-    yield put(setAuthStatus(false))
-    yield put(
-      showAler({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 6000,
-      })
-    )
+        yield put(setAuthStatus(false))
+    if(googleData.details !== 'Cookies are not enabled in current environment.'){
+        yield put(
+            showAler({
+                type: WARNING_ALERT,
+                title: 'Something went wrong',
+                message:error.message || 'Something went wrong',
+                delay: 6000,
+            })
+        )
+    }
+
   }
 }
 
 function* handleLoginWithCreds(userData) {
   const isAuthInProgress = yield select(getAuthInProgressSelector);
+  yield call([api, 'deleteToken'])
   if(isAuthInProgress) {
     return;
   }
@@ -174,9 +182,9 @@ function* handleLoginWithCreds(userData) {
     yield put(setAuthStatus(false))
     yield put(
       showAler({
-        type: WARNING_ALERT,
-        title: credentialError?credentialError:'Something went wrong' ,
-        message: error.message || 'Something went wrong',
+        type: DANGER_ALERT,
+        title: '',
+        message: credentialError,
         delay: 6000,
       })
     )
@@ -190,7 +198,6 @@ function* logOut() {
     yield call([users, 'logOut'])
   } finally {
     yield put(cleanUserOauthData())
-    yield put(setAuthStatus(false))
     yield call([localStorage, 'clear'])
     yield call([api, 'deleteToken'])
   }
