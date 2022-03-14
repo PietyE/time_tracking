@@ -124,3 +124,34 @@ export function setElementTop(top, elementSelector) {
   let elem = document.querySelector(elementSelector)
   elem.style.top = top + 'px'
 }
+
+export const sortUserProjectReport = (a, b) => {
+  return b.active_project - a.active_project
+}
+
+export const compareForTimeColumns = (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') {
+    return 0;
+  }
+  const first = formatTimeToNumber(a);
+  const second = formatTimeToNumber(b);
+
+  if (first === second) {
+    return 0;
+  }
+
+  return first < second ? -1 : 1;
+}
+
+export const getDeveloperProjectsName = (projects) => {
+  const allProjectsName = projects
+    .map((project) => project.name)
+    .join(', ')
+  return allProjectsName;
+}
+
+const formatTimeToNumber = (timeStr) => {
+  const result = timeStr.replace('h ', '').replace('m', '');
+
+  return parseInt(result);
+}
