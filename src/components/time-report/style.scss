@@ -1,4 +1,4 @@
-.container{
+.container {
   max-width: 971px;
 }
 .time_report_container {
@@ -26,34 +26,30 @@
       .developer_select {
         margin-right: 20px;
 
-        .select_title_container{
+        .select_title_container {
           position: relative;
           max-width: 200px;
-          .select_title_text{
+          .select_title_text {
             padding-left: 5px;
-
           }
 
-            .select_title_icon{
-              position: absolute;
-              right: 12px;
-            }
-
+          .select_title_icon {
+            position: absolute;
+            right: 12px;
+          }
         }
       }
-
     }
 
-    .time-report-prject-wrap{
+    .time-report-prject-wrap {
       font-size: 20px;
-      .divider{
+      .divider {
         width: 1px;
-        height:36px;
+        height: 36px;
         border: 1px solid rgba(34, 34, 34, 0.3);
         margin: 0 16px;
       }
     }
-
 
     .time_report_header_btn_section {
       display: flex;
@@ -103,10 +99,10 @@
       }
     }
   }
-  .activity_select{
+  .activity_select {
     width: 148px;
     height: 42px;
-    background: #FAFAFA;
+    background: #fafafa;
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     border-radius: 6px;
@@ -120,9 +116,9 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
 
-    h1{
+    h1 {
       font-size: 24px;
-      font-family: 'Montserrat';
+      font-family: "Montserrat";
       font-style: normal;
       color: #000;
     }
@@ -134,10 +130,9 @@
         font-size: 14px;
         font-weight: 500;
         line-height: 19px;
-
       }
 
-      strong{
+      strong {
         margin-left: 10px;
         font-size: 18px;
         font-weight: 400;
@@ -161,10 +156,10 @@
     margin-right: 20px;
     position: relative;
 
-    &:before{
+    &:before {
       content: "";
       position: absolute;
-      top:10px;
+      top: 10px;
       left: 10px;
       width: 16px;
       height: 16px;
@@ -172,10 +167,9 @@
       background-repeat: no-repeat;
     }
 
-    .select_title_text{
+    .select_title_text {
       margin-left: 10px;
     }
-
   }
 
   .time_report_day_container {
@@ -187,27 +181,25 @@
     border-radius: 5px;
     min-height: 74px;
     justify-content: center;
-    &:not(:first-child){
+    &:not(:first-child) {
       background: #fff;
-      .past{
+      .past {
         padding-bottom: 12px;
         position: relative;
       }
-
     }
 
-    &:first-child{
-      border: 1px solid #009C98;
+    &:first-child {
+      border: 1px solid #009c98;
     }
 
-    &_create{
+    &_create {
       display: flex;
       flex-wrap: wrap;
-      padding: 10px 25px;
+      padding: 16px 25px;
       justify-content: space-between;
       align-items: center;
     }
-
 
     &.below {
       box-shadow: 0 0 5px 2px rgba(201, 234, 122, 0.5);
@@ -218,8 +210,8 @@
       align-items: center;
       margin-right: 10px;
 
-      .time_report_day_add{
-        color: #ADADA7;
+      .time_report_day_add {
+        color: #adada7;
         width: 30px;
         height: 30px;
         border: 0;
@@ -236,14 +228,14 @@
         text-align: left;
         width: 210px;
       }
-      .today_day{
-        color:#009C98
+      .today_day {
+        color: #009c98;
       }
 
       .time_report_day_addbtn {
         height: 28px;
         width: 40px;
-        border:none;
+        border: none;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -272,22 +264,22 @@
           }
         }
       }
-      .active .add_icon{
-        color:#009C98!important;
+      .active .add_icon {
+        color: #009c98 !important;
       }
-      .text-danger{
+      .text-danger {
         position: relative;
-         padding-right: 10px;
+        padding-right: 10px;
       }
-      .text-danger::after{
-      content: " ";
-      position: absolute;
-      top: -1px;
-      right: -15px;
-      width: 20px;
-      height: 20px;
-      background-image: url('../../images/timereport/image 24.png');
-      background-repeat: no-repeat;
+      .text-danger::after {
+        content: " ";
+        position: absolute;
+        top: -1px;
+        right: -15px;
+        width: 20px;
+        height: 20px;
+        background-image: url("../../images/timereport/image 24.png");
+        background-repeat: no-repeat;
       }
     }
 
@@ -299,14 +291,14 @@
       animation: createTimeReport 0.3s 1 ease;
       height: 42px;
 
-      .select_title_container{
-        .select_circle-icon{
+      .select_title_container {
+        .select_circle-icon {
           margin-left: 8px;
           width: 6px;
         }
       }
 
-      .select_circle-icon{
+      .select_circle-icon {
         width: 7px;
         height: 6px;
         border-radius: 50%;
@@ -352,7 +344,7 @@
           padding: 0 12px;
           margin: 0;
           letter-spacing: 0.03em;
-          color: #ADADA7;
+          color: #adada7;
         }
 
         .left_size {
@@ -364,10 +356,9 @@
         }
       }
 
-      .time_report_day_row_create_right{
+      .time_report_day_row_create_right {
         width: 20%;
         display: flex;
-
       }
 
       .hours_input {
@@ -381,37 +372,24 @@
         min-width: 41px;
       }
 
-      .select_list_container{
+      .select_list_container {
         overflow: auto;
         max-width: 100%;
 
-        .select_list_item{
+        .select_list_item {
           text-align: center;
         }
       }
     }
 
-    .select_list_item_container{
-      padding: 0 6px;
-      overflow: hidden;
-      &.selected{
-        background: rgba(87, 108, 108, 0.15);
-        border-radius: 5px;
-        padding:0 8px;
-      }
-      .select_list_item{
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
     .create_btn {
       width: 42px;
       height: 41px;
       border: unset;
       border-radius: 6px;
-      background-color: #009C98;
+      background-color: #009c98;
       transition: 0.3s ease-out;
-      svg{
+      svg {
         pointer-events: none;
       }
       &:hover {
@@ -426,12 +404,13 @@
         font-size: 22px;
       }
     }
-
-    .report-description-wrapper{
+    .reports_item_list {
+      border-top: 1px solid #c9c9c688;
+    }
+    .report-description-wrapper {
       width: 60%;
       display: flex;
       justify-content: space-between;
-     
     }
 
     .time_report_day_footer {
@@ -447,12 +426,12 @@
       line-height: 19px;
     }
   }
-  .time_report_body_container{
+  .time_report_body_container {
     width: 100%;
   }
 }
 
-.time_report_day_row_titles{
+.time_report_day_row_titles {
   display: flex;
   justify-content: space-between;
   margin-left: auto;
@@ -462,45 +441,42 @@
   padding: 0 25px;
   font-weight: 700;
 
-  div{
+  div {
     text-align: left;
   }
 
-  .time_report_activity_day{
+  .time_report_activity_day {
     flex-basis: 20%;
   }
 
-  .title-tasks{
+  .title-tasks {
     flex-basis: 50%;
   }
 
-  .title-hours{
+  .title-hours {
     flex-basis: 20%;
     display: flex;
     justify-content: flex-end;
   }
 
-  .total_hours_month{
+  .total_hours_month {
     position: relative;
     margin-left: 15px;
-    color:#222222d5
-    ;
+    color: #222222d5;
     text-transform: uppercase;
   }
-  .total_hours_month::after{
+  .total_hours_month::after {
     content: "";
     position: absolute;
     left: -9px;
     width: 3px;
     height: 13px;
-    background-color: #22222257
-    ;
+    background-color: #22222257;
     transform: translateY(25%);
-
   }
 
-  div{
-   color: rgba(34, 34, 34, 0.3);
+  div {
+    color: rgba(34, 34, 34, 0.3);
     font-size: 13px;
   }
 }
@@ -509,39 +485,38 @@
   opacity: 0;
 }
 
-.funnel_select{
+.funnel_select {
   width: 180px;
   margin-left: 40px;
-  .select_title_container{
+  .select_title_container {
     justify-content: center;
     position: relative;
 
-    .fa-filter{
+    .fa-filter {
       color: #fff;
       background: #fff;
     }
 
-
-    &:before{
+    &:before {
       content: "";
       position: absolute;
       left: 11px;
-      top:2px;
+      top: 2px;
       width: 20px;
       height: 20px;
-      background-image: url('../../images/filter2.svg');
+      background-image: url("../../images/filter2.svg");
       background-repeat: no-repeat;
     }
 
-    .select_title_icon{
+    .select_title_icon {
       position: absolute;
       right: 10px;
-      top:3px;
+      top: 3px;
     }
   }
-  .select_list_container{
+  .select_list_container {
     overflow: auto;
-    .select_list_item_container{
+    .select_list_item_container {
       padding: 0 6px;
     }
   }
@@ -585,7 +560,6 @@
   }
 }
 
-
 @keyframes openMenu {
   from {
     opacity: 0;
@@ -618,7 +592,7 @@
 }
 
 @media screen and (min-device-width: 1030px) {
-  .funnel_select{
+  .funnel_select {
     margin-left: 10px;
   }
 }
@@ -634,7 +608,6 @@
 
         .developer_select {
           margin-bottom: 10px;
-
         }
       }
       .time_report_header_btn_section {
@@ -673,7 +646,6 @@
             // margin-bottom: 10px;
             height: 40px;
             font-size: 14px;
-
           }
         }
         .time_report_day_row_create_right {
@@ -799,7 +771,7 @@
 }
 
 .time_report_day_row {
-  padding: 10px 25px;
+  padding: 16px 25px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -809,28 +781,18 @@
   background-color: #fff;
   position: relative;
 
-  &.top_line{
-    &::before{
+  &.top_line {
+    &::before {
       content: "";
       position: absolute;
-      top:0;
+      top: 0;
       right: 0;
       width: 74%;
       height: 1px;
-      background: rgba(201, 201, 198, 0.5);;
+      background: rgba(201, 201, 198, 0.5);
     }
   }
-  &.first_timereport{
-    &::before{
-      content: "";
-      position: absolute;
-      top:0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: rgba(201, 201, 198, 0.5);;
-    }
-  }
+
   .edit_dots {
     width: 40px;
     height: 40px;
@@ -838,7 +800,7 @@
     padding: 6px 0;
     background-image: url("../../images/projects.svg");
     background-repeat: no-repeat;
-    &.dots-bg{
+    &.dots-bg {
       background: rgba(87, 108, 108, 0.15);
       border-radius: 5px;
     }
@@ -852,10 +814,6 @@
     .time_report_day_description {
       transition: max-height 0.4s;
       max-height: 60vh;
-      // flex-basis: 300px;
-      // max-width: 300px;
-      // margin-right: 50px;
-      // padding-left: 40px;
       font-weight: 500;
       font-size: 15px;
       line-height: 24px;
@@ -863,9 +821,9 @@
       color: #222222;
     }
 
-    .time_report_activity_select{
+    .time_report_activity_select {
       flex-grow: 1;
-      .status-wrapper{
+      .status-wrapper {
         width: 100%;
         padding: 4px 6px;
         border-radius: 4px;
@@ -875,7 +833,7 @@
       }
     }
 
-    .time_report_activity_day{
+    .time_report_activity_day {
       flex-grow: 2;
       text-align: left;
       padding-left: 25px;
@@ -884,8 +842,8 @@
       font-size: 16px;
     }
 
-    .time_report_day_add{
-      color: #009C98;
+    .time_report_day_add {
+      color: #009c98;
       width: 30px;
       height: 30px;
       cursor: pointer;
@@ -913,11 +871,10 @@
     font-family: Montserrat, sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    flex: 0.9;
+    flex: 0.71;
     text-align: left;
     height: auto;
     transition: 0.4s;
-    //max-height: 38px;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: text;
@@ -933,7 +890,7 @@
       margin-left: -5px;
       margin-bottom: -2px;
       width: 300px;
-      height: 42px!important;
+      height: 42px !important;
       padding: 8px;
       border-radius: 6px;
       margin-right: 40px;
@@ -991,7 +948,7 @@
       position: absolute;
       width: 224px;
       height: 128px;
-      top:100%;
+      top: 100%;
       left: -150px;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
@@ -1001,8 +958,8 @@
       padding-left: 5px;
       padding: 8px;
 
-      .change_project_button{
-        svg{
+      .change_project_button {
+        svg {
           transform: rotate(90deg);
         }
       }
@@ -1011,7 +968,7 @@
         height: 100%;
         text-align: left;
 
-        .icon{
+        .icon {
           margin-right: 10px;
           font-size: 17px;
         }
@@ -1045,12 +1002,10 @@
   }
 }
 
-.select_container .select_title_container .select_title_icon{
-   font-size: 12px;
- }
-
-.disabled{
-  opacity: .5;
+.select_container .select_title_container .select_title_icon {
+  font-size: 12px;
 }
 
-
+.disabled {
+  opacity: 0.5;
+}
