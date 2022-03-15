@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 
-function InfoItemM({ icon, title, value, editValue, customClass = ''}) {
+function InfoItemM({ icon, title, value, editValue, isArchived, customClass = ''}) {
     const [isEdit, setEdit] = useState(false);
     useEffect(() => {
         setEdit(false)
@@ -11,8 +11,8 @@ function InfoItemM({ icon, title, value, editValue, customClass = ''}) {
         <div
           id="Form Control Item"
           className={'div_info_row ' + customClass}
-          onClick={() => {setEdit(true)}}
-          onBlur={() => {setEdit(false)}}
+          onClick={() => {!isArchived && setEdit(true)}}
+          onBlur={() => {!isArchived && setEdit(false)}}
         >
             <div>
                 <img src={icon || '/static/media/calendar-userData.b7cd0c61.svg'} className="calendar"/>
