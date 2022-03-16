@@ -230,8 +230,8 @@ function EditProjectModal2({ show }) {
       errors.projectName = 'Project name should be less then 30 symbols'
     }
 
-    if (values.description && values.description.length > 100) {
-      errors.description = 'Description should be less then 100 symbols'
+    if (values.description && values.description.length > 1000) {
+      errors.description = 'Description should be less then 1000 symbols'
     }
     return errors
   }
