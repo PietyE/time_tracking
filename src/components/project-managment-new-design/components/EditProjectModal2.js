@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import WindowInfo from '../../common/window-info/WindowInfo'
 import InfoItemM from '../../common/window-info/components/InfoItemM'
 import TeamM from '../../common/team-m/TeamM'
@@ -41,12 +41,11 @@ import { WARNING_ALERT } from '../../../constants/alert-constant'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 
 function EditProjectModal2({ show }) {
-  // const currentProjectActiveDevelopers = useEqualSelector(getActiveDevSelector);
-  const projects = useEqualSelector(getProjectsSelector)
-
-  let [addMember, setAddMember] = useState(false)
+  const modalRef = useRef(null);
+  const [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
   const [currentEditedTeam, setEditedTeam] = useState([])
+  const [isArchivedProject, setArchivedProject] = useState(false)
   const [selectedProject, setSelectedPr] = useState({})
   const [selectedOwner, setSelectedOwner] = useState({})
 
@@ -168,7 +167,8 @@ function EditProjectModal2({ show }) {
         });
       }
 
-      setEditedTeam(currentProjectActiveDevelopers)
+      setEditedTeam(currentProjectActiveDevelopers);
+      setArchivedProject(currentApiProject?.is_archived || false)
     }
   },
     [
@@ -179,6 +179,13 @@ function EditProjectModal2({ show }) {
       show,
     ],
   );
+
+
+  useEffect(() => {
+    if (show) {
+      modalRef && modalRef.current.scrollIntoView();
+    }
+  }, [show, currentProjectId]);
 
   useEffect(() => {
     if (show) {
@@ -407,13 +414,26 @@ function EditProjectModal2({ show }) {
     }
   }
 
+  const handleArchivedPress = useCallback(() => {
+    dispatch(changeProjectName({
+      id: currentProjectId,
+      data : { is_archived: !isArchivedProject },
+      title: 'archived status',
+    }));
+
+    setArchivedProject(prev => !prev);
+  }, [currentProjectId, isArchivedProject]);
 
   return (
-    <div className={'edit-modal-container ' + (show ? 'active' : '')}>
+    <div
+      ref={modalRef}
+      className={'edit-modal-container ' + (show ? 'active' : '')}
+    >
       <WindowInfo
         close={handleClose}
         title={valuesFromApi?.projectName}
         download={_downloadAllTeamProjectReport}
+        onArchivedPress={handleArchivedPress}
         id={currentProjectId}
       >
         {isFetchingPMPage && <Spinner />}
@@ -427,6 +447,7 @@ function EditProjectModal2({ show }) {
           key="Project Name"
           icon={ProjectIcon}
           title={'PROJECT NAME'}
+          isArchived={isArchivedProject}
           editValue={
             <Form.Group
               controlId="projectName"
@@ -469,6 +490,7 @@ function EditProjectModal2({ show }) {
           key="Project Owner"
           icon={UserIcon}
           title={'PROJECT OWNER'}
+          isArchived={isArchivedProject}
           editValue={
             <Select
               title={valuesFromApi?.projectManager?.name}
@@ -485,6 +507,7 @@ function EditProjectModal2({ show }) {
         <InfoItemM
           key="SPEND HOURS"
           icon={ChekMark}
+          isArchived={isArchivedProject}
           title={'LAST SINCE'}
           value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}
         />
@@ -492,6 +515,7 @@ function EditProjectModal2({ show }) {
           key="Project Description"
           title={'DESCRIPTION'}
           icon={ProjectIcon}
+          isArchived={isArchivedProject}
           editValue={
             <Form.Group
               controlId="description"
@@ -543,16 +567,17 @@ function EditProjectModal2({ show }) {
                 <div
                   className="col-5 add-new "
                   onClick={() => {
-                    setAddMember(!addMember)
+                    !isArchivedProject && setAddMember(!addMember)
                   }}
                 >
                   <span
                     className={
                       'row align-items-center ' +
-                      (addMember ? 'add-member' : '')
+                      (addMember ? 'add-member' : '') +
+                      (isArchivedProject ? 'half-opacity' : '')
                     }
                   >
-                    <Plus isActive={addMember} />
+                    <Plus isActive={addMember || isArchivedProject} />
                     <span>Add new developers</span>
                   </span>
                 </div>

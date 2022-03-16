@@ -1,3 +1,4 @@
+@import "../../../styles/commonStyles";
 
 .report__item{
   background: #FFFFFF;
@@ -227,4 +228,8 @@
       margin-top: 6px;
     }
   }
+}
+
+.disabled {
+  color: $separatorColor;
 }

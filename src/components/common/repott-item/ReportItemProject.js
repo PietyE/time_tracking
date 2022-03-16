@@ -49,10 +49,10 @@ function ReportItemProject({ p, openEditModal }) {
       onClick={optEditM}
     >
       <div className="col-lg-8 report__item-container_title">
-        <span className="report__item-title">{p.name}</span>
+        <span className={`report__item-title ${p.is_archived ? 'disabled' : ''}`}>{p.name}</span>
       </div>
       <div className="col-lg-3">
-        <span className="hours-worked">
+        <span className={`hours-worked ${p.is_archived ? 'disabled' : ''}`}>
           {parseMinToHoursAndMin(p.total_minutes, true)}
         </span>
       </div>

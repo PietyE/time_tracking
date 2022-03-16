@@ -43,6 +43,7 @@ import CreateProjectModal from './components/createProjectModal/CreateProjectMod
 import CreateUserModal from './components/CreateUserModal'
 import { currentItemsGets } from '../../utils/common'
 import useSorting from '../../custom-hook/useSorting'
+import ArchivedSeparator from './components/ArchivedSeparator'
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
 // import {
@@ -168,7 +169,11 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(data))
   }
 
-  const projectsList = sorting.map((e) => {
+  const projectsListNotArchived = sorting.filter(e => !e.is_archived).map((e) => {
+    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+  });
+
+  const projectsListArchived = sorting.filter(e => e.is_archived).map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   })
 
@@ -312,7 +317,10 @@ const ProjectManagementComponent = () => {
             </div>
           </div>
         </div>
-        {projectsList}
+        <ArchivedSeparator/>
+        {projectsListNotArchived}
+        <ArchivedSeparator/>
+        {projectsListArchived}
         {/* The pagination is commented out until the next iteration */}
         {/* <Pagination
           totalCount={totalCount}
