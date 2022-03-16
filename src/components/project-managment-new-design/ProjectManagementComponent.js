@@ -317,7 +317,6 @@ const ProjectManagementComponent = () => {
             </div>
           </div>
         </div>
-        <ArchivedSeparator/>
         {projectsListNotArchived}
         <ArchivedSeparator/>
         {projectsListArchived}
