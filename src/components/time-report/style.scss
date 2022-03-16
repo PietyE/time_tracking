@@ -99,15 +99,7 @@
       }
     }
   }
-  .activity_select {
-    width: 148px;
-    height: 42px;
-    background: #fafafa;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    border-radius: 6px;
-    margin-right: 20px;
-  }
+  
   .time_report_total_container {
     display: flex;
     align-items: stretch;
@@ -152,6 +144,7 @@
       margin-right: 10px;
     }
   }
+
   .project_select {
     margin-right: 20px;
     position: relative;
@@ -202,7 +195,7 @@
     }
 
     &.below {
-      box-shadow: 0 0 5px 2px rgba(201, 234, 122, 0.5);
+      box-shadow: 0 0 5px 2px #009c97a9;
     }
     .time_report_day_header {
       flex-basis: 15%;
@@ -426,6 +419,7 @@
       line-height: 19px;
     }
   }
+
   .time_report_body_container {
     width: 100%;
   }
@@ -791,18 +785,29 @@
       height: 1px;
       background: rgba(201, 201, 198, 0.5);
     }
+
+
   }
 
   .edit_dots {
     width: 40px;
     height: 40px;
+    border-radius: 5px;
     margin-left: 25px;
-    padding: 6px 0;
+    padding: 6px 12px;
     background-image: url("../../images/projects.svg");
     background-repeat: no-repeat;
+    transition: background .3s linear;
     &.dots-bg {
       background: rgba(87, 108, 108, 0.15);
       border-radius: 5px;
+    }
+    &:hover{
+      background: rgba(87, 108, 108, 0.15);
+      border-radius: 5px;
+    }
+    svg{
+      vertical-align: -0.3em;
     }
   }
 
@@ -871,7 +876,7 @@
     font-family: Montserrat, sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    flex: 0.71;
+    flex: 0.7;
     text-align: left;
     height: auto;
     transition: 0.4s;
@@ -879,23 +884,6 @@
     text-overflow: ellipsis;
     cursor: text;
     word-break: break-word;
-    &.textarea {
-      border: none;
-      border: 1px solid #009c98;
-      background-color: inherit;
-      resize: none;
-      font-size: 16px;
-      line-height: 1.5;
-      padding: 0 5px;
-      margin-left: -5px;
-      margin-bottom: -2px;
-      width: 300px;
-      height: 42px !important;
-      padding: 8px;
-      border-radius: 6px;
-      margin-right: 40px;
-      margin-left: 0;
-    }
   }
   .time_report_day_hours {
     width: 58px;
@@ -948,7 +936,7 @@
       position: absolute;
       width: 224px;
       height: 128px;
-      top: 100%;
+      top: 110%;
       left: -150px;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
@@ -964,29 +952,31 @@
         }
       }
       .button {
+        font-family: Montserrat;
+        font-weight: 500;
         padding: 5px 10px;
         height: 100%;
         text-align: left;
+        color: #222222;;
 
         .icon {
           margin-right: 10px;
           font-size: 17px;
+          color: #414141;
+        }
+        .exchange_icon{
+          transform: rotate(0deg);
         }
 
         &:hover {
           background: rgba(87, 108, 108, 0.15);
           border-radius: 5px;
-          .icon {
-            color: #969595;
-          }
         }
+
         &:focus {
           .icon {
             color: #969595;
           }
-        }
-        .icon {
-          color: #414141;
         }
       }
       &.open {
@@ -998,6 +988,31 @@
           transition: 0.3s;
         }
       }
+    }
+  }
+  
+  .edit-form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    padding-right: 10px;
+    .textarea {
+      flex-basis: 80%;
+      max-width: 490px;
+      border: none;
+      border: 1px solid #009c98;
+      background-color: inherit;
+      resize: none;
+      font-size: 16px;
+      line-height: 1.5;
+      padding: 0 5px;
+      width: 700px;
+      height: 42px !important;
+      padding: 8px;
+      border-radius: 6px;
+      margin-right: 40px;
+      margin-left: 0;
     }
   }
 }
