@@ -92,9 +92,12 @@ function ProjectReportNew () {
   }
 
   const selectUser = (user) => {
-    if (user) {
+    if (user !== userSelected) {
       setUserSelected(user)
       setSelectedUserId(user.id)
+    } else {
+      setUserSelected(null)
+      setSelectedUserId(null)
     }
   }
 
