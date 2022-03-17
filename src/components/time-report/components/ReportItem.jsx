@@ -240,6 +240,8 @@ function ReportItem({
       || event.target.parentNode.classList.contains('modal-content')
       || event.target.parentNode.classList.contains('modal-header')
       || event.target.parentNode.classList.contains('modal-body')
+      || event.target.parentNode.classList.contains('change_project_body_container')
+      || event.target.parentNode.classList.contains('change_project_body_current_project')
       || event.target.parentNode.classList.contains('modal-footer')
       || event.target.parentNode.classList.contains('close')
       || event.target.parentNode.classList.contains('delete_modal_overlay')
@@ -248,6 +250,7 @@ function ReportItem({
       || event.target.parentNode.classList.contains('select_container')
       || event.target.parentNode.classList.contains('select_title_container')
       || event.target.parentNode.classList.contains('select_list_item_container')
+
     ) {
       return
     }
