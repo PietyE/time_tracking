@@ -25,7 +25,7 @@ function ProfileAvatar({ profileFoto, className }) {
       src={isError || !profileFoto ? userIcon : profileFoto}
       alt="avatar"
       className={
-        isError || !profileFoto ? `${defaultClassName} error` : defaultClassName
+        isError || !profileFoto ? `${defaultClassName} error_avatar` : defaultClassName
       }
       onError={handleImgError}
       onLoad={handlerLoad}
