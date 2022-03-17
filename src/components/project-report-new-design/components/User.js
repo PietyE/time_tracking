@@ -52,22 +52,13 @@ function User (props) {
     () => projects.map(({ name, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
       name: '',
       developer_projects:{
-          link:(
-              <Link
-                  to={{
-                      pathname: '/timereport',
-                      state: {
-                          userId: userId,
-                          developer_project_id: idDeveloperProjects,
-                          selectedDate,
-                      },
-                  }}
-              >
-                  {name}
-              </Link>),
-          title:name
-
-
+          title:name,
+          state_link:{
+          userId: userId,
+          developer_project_id: idDeveloperProjects,
+          selectedDate,
+      },
+      title:name
       },
       totalHours: is_full_time ? 'fulltime' : `${working_time || 0} `,
       id: idDeveloperProjects,
@@ -101,10 +92,12 @@ function User (props) {
       </div> 
       <div className={`project_by_current_user ${contextType.selectedUserId === userId ? "selected" : ""}`}>
         {formattedProjects.map((project) => 
-            (<ProjectList name={project.developer_projects.title} 
+            (<ProjectList
+                name={project.developer_projects.title} 
                 key={project.id}
                 hours={project.totalHours}
-            />)
+                stateDataForLink={project.developer_projects.state_link} 
+              />)
         )}
       </div>   
     </div>

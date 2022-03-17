@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo, useState, useEffect, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux'
 import _ from 'lodash'
@@ -120,54 +120,67 @@ function TimeReport(props) {
     setCurrentPosition(e?.target.offsetTop)
   }
   
-  const bootstrapWidthRouteState = () => {
-    if (routeState) {
-      const {
-        selectedDate: routeDate,
-        developer_project_id: route_developer_project_id,
-        userId: route_user_id,
-      } = routeState
+  const bootstrapWidthRouteState = useCallback(
+    () => {
+      if (routeState) {
+        const {
+          selectedDate: routeDate,
+          developer_project_id: route_developer_project_id,
+          userId: route_user_id,
+        } = routeState
 
-      const { year: routeYear, month: routeMonth } = routeDate
+        const { year: routeYear, month: routeMonth } = routeDate
 
-      const { year: selectedYear, month: selectedMonth } = selectedDate
+        const { year: selectedYear, month: selectedMonth } = selectedDate
 
-      const { developer_project_id: selectedDeveloper_project_id } =
-        selectedProject
+        const { developer_project_id: selectedDeveloper_project_id } =
+          selectedProject
 
-      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
-        changeSelectedDateTimeReport({
-          year: Number(routeYear),
-          month: Number(routeMonth),
-        })
-      }
-
-      if (roleUser !== DEVELOPER) {
-        const developerData = developersList.find(
-          (dev) => dev.id === route_user_id
-        )
-        if (developerData) {
-          selectDevelopers(
-            {
-              id: developerData.id,
-              name: developerData.name,
-              email: developerData.email,
-            },
-            route_developer_project_id
-          )
+        if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+          changeSelectedDateTimeReport({
+            year: Number(routeYear),
+            month: Number(routeMonth),
+          })
         }
-        return
-      }
 
-      if (route_developer_project_id !== selectedDeveloper_project_id) {
-        const newSelectedProject = projects.find(
-          (project) =>
-            project.developer_project_id === route_developer_project_id
-        )
-        selectProject(newSelectedProject)
+        if (roleUser !== DEVELOPER) {
+          const developerData = developersList.find(
+            (dev) => dev.id === route_user_id
+          )
+          if (developerData) {
+            selectDevelopers(
+              {
+                id: developerData.id,
+                name: developerData.name,
+                email: developerData.email,
+              },
+              route_developer_project_id
+            )
+          }
+          return
+        }
+
+        if (route_developer_project_id !== selectedDeveloper_project_id) {
+          const newSelectedProject = projects.find(
+            (project) =>
+              project.developer_project_id === route_developer_project_id
+          )
+          selectProject(newSelectedProject)
+        }
       }
-    }
-  }
+    },
+    [
+      changeSelectedDateTimeReport,
+      developersList,
+      projects,
+      roleUser,
+      selectedDate,
+      routeState,
+      selectDevelopers,
+      selectedProject,
+      selectProject,
+    ]
+  )
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -184,7 +197,7 @@ function TimeReport(props) {
   },[currentPosition,isFetchingReports])
 
   useEffect(() => {
-    if (projects.length && _.isEmpty(selectedProject) && !routeState) {
+    if (projects.length && _.isEmpty(selectedProject)) {
       selectProject(projects[0])
     }
     if (!projects.length) {

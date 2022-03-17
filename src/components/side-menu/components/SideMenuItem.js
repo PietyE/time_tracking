@@ -42,7 +42,7 @@ const SideMenuItem = (props) =>{
         opened
       })
     )
-  }, [isSelected])
+  }, [isSelected, isSelectedRoute])
 
   const hideSubitem = (e) => {
     e.stopPropagation()
