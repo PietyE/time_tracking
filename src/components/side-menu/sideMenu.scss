@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 35px;
-  
+
     .side_menu_company_logo {
       position: relative;
       height: 47.55439376831055px;
@@ -24,7 +24,7 @@
       margin-top: 2px;
       border-radius: 0px;
     }
-    
+
     .side_menu_company_name {
       position: relative;
       height: 18px;
@@ -37,7 +37,7 @@
     .side_menu_header_item_name {
       display: none;
     }
-    
+
     .side_menu_button {
       position: relative;
       height: 28px;
@@ -49,7 +49,7 @@
       cursor: pointer;
     }
   }
-  
+
   .side_menu_user_info {
     position: relative;
     display: flex;
@@ -59,16 +59,16 @@
     margin-left: 20px;
     margin-top: 50px;
     border-radius: 0px;
-    border: none; 
+    border: none;
     outline: none;
     background-color: white;
-  
+
     .user_avatar {
       position: relative;
       width: 50px;
       height: 50px;
     }
-    
+
     .user_info {
       position: relative;
       display: flex;
@@ -76,7 +76,7 @@
       justify-content: flex-start;
       margin-left: 15px;
     }
-    
+
     .user_role {
       position: relative;
       height: 20px;
@@ -87,7 +87,7 @@
       line-height: 20px;
       color: rgba(34, 34, 34, 0.3);
     }
-    
+
     .user_name {
       position: relative;
       width: 131px;
@@ -101,7 +101,7 @@
       color: #000000;
     }
   }
-  
+
   .div_row {
     position: relative;
     width: 100%;
@@ -109,7 +109,7 @@
     margin-top: 25px;
     border: 1px solid rgba(201, 201, 198, 0.6);
   }
-  
+
   .sidebar_menu {
     display: flex;
     position: relative;
@@ -150,14 +150,14 @@
           padding-left: 40px;
         }
       }
-    
+
       .sidebar_menu_button {
         display: flex;
         position: relative;
         align-items: center;
         width: auto;
         height: 46px;
-        border: none; 
+        border: none;
         outline: none;
         background-color: white;
         &.hasChildren {
@@ -226,7 +226,7 @@
       }
     }
   }
-  
+
   .div_row2 {
     position: relative;
     width: 100%;
@@ -245,7 +245,7 @@
       align-items: center;
       width: auto;
       height: 46px;
-      border: none; 
+      border: none;
       outline: none;
       background-color: white;
       &.hasChildren {
@@ -345,14 +345,14 @@
         margin-left: 0px;
         margin-top: 0px;
         border: 1px solid rgba(201, 201, 198, 0.6);
-      }    
+      }
     }
 
     .side_menu_user_info {
       height: 94px;
       margin: 0px;
       border: 1px solid rgba(201, 201, 198, 0.6);
-    
+
       .user_avatar {
         height: 44px;
         width: 44px;
@@ -371,7 +371,7 @@
     .sidebar_menu {
       width: 78px;
       margin-top: 14px;
-    
+
       .panel_name,
       .item {
         display: none;
@@ -469,14 +469,14 @@
         margin-left: 0px;
         margin-top: 0px;
         border: 1px solid rgba(201, 201, 198, 0.6);
-      }    
+      }
     }
 
     .side_menu_user_info {
       height: 94px;
       margin: 0px;
       border: 1px solid rgba(201, 201, 198, 0.6);
-    
+
       .user_avatar {
         height: 44px;
         width: 44px;
@@ -495,7 +495,7 @@
     .sidebar_menu {
       width: 78px;
       margin-top: 14px;
-    
+
       .panel_name,
       .item {
         display: none;
@@ -614,7 +614,7 @@
         .collapseButton {
           margin-top: 4px;
         }
-      }    
+      }
     }
 
     .side_menu_user_info {
@@ -622,7 +622,7 @@
       margin: 0px;
       border: 0;
       // padding: 25px 0 0 36px;
-    
+
       .user_avatar {
         height: 50px;
         width: 50px;
@@ -651,7 +651,7 @@
       .panel_name {
         display: none;
       }
-    
+
       .panel_name.smallSize,
       .item {
         display: flex;
@@ -694,4 +694,22 @@
       display: none;
     }
   }
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
 }
