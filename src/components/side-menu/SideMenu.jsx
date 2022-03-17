@@ -1,15 +1,11 @@
 import React, { useState, useMemo } from 'react'
-import { useSelector } from 'react-redux'
 
 import { getProfileName, getUserRoleText } from '../../selectors/user'
 
 import clock from 'images/sideMenuIcons/clock.svg'
-import people from 'images/sideMenuIcons/people.svg'
-import schedule from 'images/sideMenuIcons/schedule.svg'
 import coin from 'images/sideMenuIcons/coin.svg'
 import house from 'images/sideMenuIcons/house.svg'
 import arrowDownCircul from 'images/sideMenuIcons/arrowDownCircul.svg'
-import basket from 'images/sideMenuIcons/basket.svg'
 import fileCheck from 'images/sideMenuIcons/fileCheck.svg'
 import questionCircle from 'images/sideMenuIcons/questionCircle.svg'
 import door from 'images/sideMenuIcons/door.svg'
@@ -24,7 +20,10 @@ import Company from './components/Company'
 import SidemenuButton from './components/SidemenuButton'
 import SideBarMenu from './components/SideBarMenu'
 import HelpCenter from './components/HelpCenter'
-import Logout from './components/Logout'
+import Logout from './components/Logout';
+import { CSSTransition } from 'react-transition-group';
+import useEventListener from '../../custom-hook/useEventListener';
+import ArrowUp from '../ui/arrowUp'
 
 function SideMenu () {
 
@@ -112,64 +111,96 @@ function SideMenu () {
     }
   }
 
+  const [show, setShow] = useState(true);
+
+  const handleScroll = () => {
+    if (window.scrollY > 500) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  }
+
+  useEventListener('scroll', handleScroll, window);
+
   return(
     <SidebarContext.Provider value={{selected, onItemClick: buttonRouteTo, onOpenClick: sideMenuOnOpen}}>
-      {openSideMenu && (
-        <div className="side_menu_container">
-          <div className="side_menu_wrap">
-            <Logo />
-            <Company />
-            <SidemenuButton />
-          </div>
-          <div className="side_menu_user_info">
-            <div className="user_avatar">
-              <UserAvatar />
-            </div>
-            <div className="user_info">
-              <span className="user_role">{ userRole }</span>
-              <span className="user_name">{ userName }</span>
-            </div>
-          </div>
-          <div className="div_row" />
-            <div className="sidebar_menu">
-              <SideBarMenu panels={panels}/>
-            </div>
-            <div className="div_row2" />
-            <div className="sidebar_footer">
-              <HelpCenter img={questionCircle}/>
-              <Logout img={door}/>
-            </div> 
-        </div>
-      )} 
-      {!openSideMenu &&
-        <div className="side_menu_container_close">
-            {/* <SidemenuButton /> */}
-            <div className="side_menu_wrap">
-            <Logo />
-            {/* <Company /> */}
-            <SidemenuButton />
-          </div>
-          <div className="side_menu_user_info">
-            <div className="user_avatar">
-              <UserAvatar />
-            </div>
-            <div className="user_info">
-              <span className="user_role">{ userRole }</span>
-              <span className="user_name">{ userName }</span>
-            </div>
-          </div>
-          <div className="div_row" />
-            <div className="sidebar_menu">
-              <SideBarMenu panels={panels}/>
-            </div>
-            <div className="div_row2" />
-            <div className="sidebar_footer">
-              <HelpCenter img={questionCircle}/>
-              <Logout img={door}/>
-            </div> 
-        </div>
-      }
-    </SidebarContext.Provider> 
+        {/*<CSSTransition*/}
+        {/*  in={show}*/}
+        {/*  timeout={300}*/}
+        {/*  classNames="alert"*/}
+        {/*  unmountOnExit*/}
+        {/*  onEnter={() => setShow(false)}*/}
+        {/*  onExited={() => setShow(true)}*/}
+        {/*>*/}
+        {/*  <div>*/}
+
+      {show
+        ? (
+          openSideMenu
+            ? (
+              <div className="side_menu_container">
+                <div className="side_menu_wrap">
+                  <Logo />
+                  <Company />
+                  <SidemenuButton />
+                </div>
+                <div className="side_menu_user_info">
+                  <div className="user_avatar">
+                    <UserAvatar />
+                  </div>
+                  <div className="user_info">
+                    <span className="user_role">{ userRole }</span>
+                    <span className="user_name">{ userName }</span>
+                  </div>
+                </div>
+                <div className="div_row" />
+                <div className="sidebar_menu">
+                  <SideBarMenu panels={panels}/>
+                </div>
+                <div className="div_row2" />
+                <div className="sidebar_footer">
+                  <HelpCenter img={questionCircle}/>
+                  <Logout img={door}/>
+                </div>
+              </div>
+            )
+            : (
+              <div className="side_menu_container_close">
+                {/* <SidemenuButton /> */}
+                <div className="side_menu_wrap">
+                  <Logo />
+                  {/* <Company /> */}
+                  <SidemenuButton />
+                </div>
+                <div className="side_menu_user_info">
+                  <div className="user_avatar">
+                    <UserAvatar />
+                  </div>
+                  <div className="user_info">
+                    <span className="user_role">{ userRole }</span>
+                    <span className="user_name">{ userName }</span>
+                  </div>
+                </div>
+                <div className="div_row" />
+                <div className="sidebar_menu">
+                  <SideBarMenu panels={panels}/>
+                </div>
+                <div className="div_row2" />
+                <div className="sidebar_footer">
+                  <HelpCenter img={questionCircle}/>
+                  <Logout img={door}/>
+                </div>
+              </div>
+            )      )
+        : (
+          <ArrowUp isActive />
+        )}
+
+        {/*  </div>*/}
+
+        {/*</CSSTransition>*/}
+    </SidebarContext.Provider>
   )
 }
 

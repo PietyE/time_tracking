@@ -1,0 +1,21 @@
+.arrow-up {
+  position: sticky;
+  z-index: 100;
+  top: 5px;
+  left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #D6D6D3;
+  font-size: 22px;
+  //color:#616161;
+  &.active{
+    color: #009C98;
+    background: rgba(0, 156, 152, 0.1);
+    cursor: pointer;
+  }
+}
+
