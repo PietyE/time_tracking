@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 
-import { getProfileName, getUserRoleText } from '../../selectors/user'
+import { getProfileName, getProfileShowSideMenu, getUserRoleText } from '../../selectors/user'
 
 import clock from 'images/sideMenuIcons/clock.svg'
 import coin from 'images/sideMenuIcons/coin.svg'
@@ -24,11 +24,14 @@ import Logout from './components/Logout';
 import { CSSTransition } from 'react-transition-group';
 import useEventListener from '../../custom-hook/useEventListener';
 import ArrowUp from '../ui/arrowUp'
+import { useDispatch } from 'react-redux'
+import { SET_SIDE_MENU_OFF, SET_SIDE_MENU_ON } from '../../constants/actions-constant'
 
 function SideMenu () {
 
-  const userName = useShallowEqualSelector (getProfileName);
-  const userRole = useShallowEqualSelector (getUserRoleText);
+  const userName = useShallowEqualSelector(getProfileName);
+  const show = useShallowEqualSelector(getProfileShowSideMenu);
+  const userRole = useShallowEqualSelector(getUserRoleText);
   const [selected, setSelected] = useState(null);
   const [openSideMenu, setOpened] = useState(true);
 
@@ -111,13 +114,13 @@ function SideMenu () {
     }
   }
 
-  const [show, setShow] = useState(true);
+  const dispatch = useDispatch();
 
   const handleScroll = () => {
     if (window.scrollY > 500) {
-      setShow(false);
+      dispatch({ type: SET_SIDE_MENU_OFF })
     } else {
-      setShow(true);
+      dispatch({ type: SET_SIDE_MENU_ON })
     }
   }
 
@@ -194,7 +197,9 @@ function SideMenu () {
               </div>
             )      )
         : (
-          <ArrowUp isActive />
+          <div className="w-78">
+            <ArrowUp isActive />
+          </div>
         )}
 
         {/*  </div>*/}

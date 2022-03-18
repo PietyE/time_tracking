@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import WindowInfo from '../../common/window-info/WindowInfo'
 import InfoItemM from '../../common/window-info/components/InfoItemM'
 import TeamM from '../../common/team-m/TeamM'
@@ -39,8 +39,11 @@ import useEventListener from '../../../custom-hook/useEventListener'
 import { showAler } from '../../../actions/alert'
 import { WARNING_ALERT } from '../../../constants/alert-constant'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
+import { SidebarContext } from '../../../context/sidebar-context'
+import useShallowEqualSelector from '../../../custom-hook/useShallowEqualSelector'
+import { getProfileShowSideMenu } from '../../../selectors/user'
 
-function EditProjectModal2({ show }) {
+function EditProjectModal2({ show, offset }) {
   const modalRef = useRef(null);
   const [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
@@ -49,6 +52,7 @@ function EditProjectModal2({ show }) {
   const [selectedProject, setSelectedPr] = useState({})
   const [selectedOwner, setSelectedOwner] = useState({})
 
+  const isSideBarShow = useShallowEqualSelector(getProfileShowSideMenu);
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector);
 
@@ -154,6 +158,13 @@ function EditProjectModal2({ show }) {
 
     setEditedTeam(resArr);
   }, [currentEditedTeam, _changeUserOnProject])
+
+  useEffect(() => {
+    if (modalRef?.current?.style) {
+      modalRef.current.style.left = offset;
+    }
+  }, [offset]);
+
 
   useEffect(() => {
     if (show) {
@@ -428,6 +439,7 @@ function EditProjectModal2({ show }) {
     <div
       ref={modalRef}
       className={'edit-modal-container ' + (show ? 'active' : '')}
+        // + (isSideBarShow ? ' left-66' : ' left-56') }
     >
       <WindowInfo
         close={handleClose}
