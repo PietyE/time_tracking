@@ -103,8 +103,8 @@ function ProjectReportNew () {
 
   return (
     <ProjectReportContext.Provider value={{selected,
-                                          selectedUserId, 
-                                          onItemClick: buttonFocusOn, 
+                                          selectedUserId,
+                                          onItemClick: buttonFocusOn,
                                           openComments: commentsOnOpen,
                                           showWindowWithUserInfo: userWindowInfoOpen,
                                           closeWindowWithUserInfo: userWindowInfoClose,
@@ -132,7 +132,7 @@ function ProjectReportNew () {
            {/* {renderUserProjects()} */}
            <UsersInfo selectedDate={selectedDate}/>
       </div>
-    </ProjectReportContext.Provider> 
+    </ProjectReportContext.Provider>
   )
 }
 
