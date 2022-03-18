@@ -872,7 +872,6 @@
     cursor: move;
   }
   .time_report_day_description {
-    color: #414141;
     font-family: Montserrat, sans-serif;
     font-size: 16px;
     line-height: 1.5;
@@ -884,6 +883,13 @@
     text-overflow: ellipsis;
     cursor: text;
     word-break: break-word;
+    color: #414141;
+    a{
+      pointer-events: none; 
+      cursor: default; 
+      text-decoration: none;
+      color: #414141;
+    }
   }
   .time_report_day_hours {
     width: 58px;
