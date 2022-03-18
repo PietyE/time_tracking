@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react'
+import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react'
 import SelectMonth from '../ui/select-month'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -13,7 +13,6 @@ import {
   getIsShowCreateUserModalSelector,
   getSelectedProjectSelector,
   getFilteredProjectSelector,
-  getActivePmInCurrentProjectSelector
 } from '../../reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
@@ -24,8 +23,6 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
-  getProjectReportById,
-  setShowCreateUserModal,
   setSelectedProject
 } from '../../actions/projects-management'
 
@@ -41,9 +38,10 @@ import EditProjectModal2 from './components/EditProjectModal2'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
 import CreateUserModal from './components/CreateUserModal'
-import { currentItemsGets } from '../../utils/common'
 import useSorting from '../../custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
+import useShallowEqualSelector from '../../custom-hook/useShallowEqualSelector'
+import { getProfileShowSideMenu } from '../../selectors/user'
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
 // import {
@@ -60,7 +58,10 @@ const ProjectManagementComponent = () => {
     name: true,
     total_minutes: null,
   })
+  const [offset, setOffset] = useState(0);
   const dispatch = useDispatch()
+
+  const projectDivRef = useRef(null);
 
   let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
@@ -74,6 +75,7 @@ const ProjectManagementComponent = () => {
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
   const filteredProjects = useEqualSelector(getFilteredProjectSelector)
+  const isSideBarShow = useShallowEqualSelector(getProfileShowSideMenu);
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
   // let currentItems = useEqualSelector(getCurrentItems)
@@ -123,6 +125,14 @@ const ProjectManagementComponent = () => {
       }
     }
   }, [selectedProject, projectList])
+
+  useEffect(() => {
+    if (projectDivRef) {
+      setOffset(projectDivRef.current.clientWidth + projectDivRef.current.offsetLeft)
+    }
+  }, [isSideBarShow]);
+
+  console.log('REF: ', projectDivRef)
 
   // // The pagination is commented out until the next iteration
   // useEffect(() => {
@@ -178,12 +188,16 @@ const ProjectManagementComponent = () => {
   })
 
   return (
-    <div className="project">
-      <div className="container">
-        <h1 className="page-title">
-          <span>Project management</span>
-          <div className="buttons-cont">
-            {/* <button
+    <div className="common-container">
+      <div
+        ref={projectDivRef}
+        className={`project ${isEditModalShow ? 'show-modal' : ''}`}
+      >
+        <div className="container">
+          <h1 className="page-title">
+            <span>Project management</span>
+            <div className="buttons-cont">
+              {/* <button
               type="submit"
               className={
                 'btn btn-add-new mr-4 ' +
@@ -193,145 +207,148 @@ const ProjectManagementComponent = () => {
             >
               Add new user
             </button> */}
-            <button
-              type="submit"
-              className="btn btn-add-new  "
-              onClick={() => dispatch(setShowCreateModal(true))}
-            >
-              Add new project
-            </button>
-          </div>
-        </h1>
-      </div>
-      {isFetching && <SpinnerStyled />}
-      <div className="container ">
-        <div className="row  container__selects">
-          <div className='container__selects-progects__fields'>
-            <Select
-              title="Search by PM or developer"
-              listItems={projectManagerSelectList}
-              onSelected={onSelectPm}
-              valueKey="name"
-              idKey="id"
-              extraClassContainer={' search search-manger'}
-              initialChoice={selectedPm || currentPm}
-              isSearch
-            />
-            <Select
-              title={'Choose project'}
-              listItems={projectList}
-              onSelected={onSelectProject}
-              valueKey="name"
-              idKey="id"
-              extraClassContainer={'project_select project_select'}
-              // onClear={clearSelectedProject}
-              disabled={!projects?.length}
-              initialChoice={selectedProject}
-              isSearch
-            />
-          </div>
-          <SelectMonth
-            extraClassNameContainer={'month_select'}
-            selectedDate={selectedDateForPM}
-            setNewData={_changeSelectedDateProjectsManagement}
-            showYear="true"
-          />
+              <button
+                type="submit"
+                className="btn btn-add-new  "
+                onClick={() => dispatch(setShowCreateModal(true))}
+              >
+                Add new project
+              </button>
+            </div>
+          </h1>
         </div>
-        <div className="row table__titles">
-          <div className="col-lg-8">
-            <div className="sort-by table__titles-sort__container">
-              <div className="sort-title">PROJECT NAME</div>
-              <div className="cart-cont">
-                <div
-                  className={'max ' + (sortParams.name === null ? 'disable' : sortParams.name ? '' : 'disable')}
-                  onClick={() => {
-                    setSortParams({
-                      name: true,
-                      total_minutes: null,
-                    })
-                    setSortedArr(sortParams)
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCaretUp}
-                    color="#414141"
-                    className="icon pencil_icon"
-                  />
+        {isFetching && <SpinnerStyled />}
+        <div className="container ">
+          <div className="row  container__selects">
+            <div className='container__selects-progects__fields'>
+              <Select
+                title="Search by PM or developer"
+                listItems={projectManagerSelectList}
+                onSelected={onSelectPm}
+                valueKey="name"
+                idKey="id"
+                extraClassContainer={' search search-manger'}
+                initialChoice={selectedPm || currentPm}
+                isSearch
+              />
+              <Select
+                title={'Choose project'}
+                listItems={projectList}
+                onSelected={onSelectProject}
+                valueKey="name"
+                idKey="id"
+                extraClassContainer={'project_select project_select'}
+                // onClear={clearSelectedProject}
+                disabled={!projects?.length}
+                initialChoice={selectedProject}
+                isSearch
+              />
+            </div>
+            <SelectMonth
+              extraClassNameContainer={'month_select'}
+              selectedDate={selectedDateForPM}
+              setNewData={_changeSelectedDateProjectsManagement}
+              showYear="true"
+            />
+          </div>
+          <div className="row table__titles">
+            <div className="col-lg-8">
+              <div className="sort-by table__titles-sort__container">
+                <div className="sort-title">PROJECT NAME</div>
+                <div className="cart-cont">
+                  <div
+                    className={'max ' + (sortParams.name === null ? 'disable' : sortParams.name ? '' : 'disable')}
+                    onClick={() => {
+                      setSortParams({
+                        name: true,
+                        total_minutes: null,
+                      })
+                      setSortedArr(sortParams)
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCaretUp}
+                      color="#414141"
+                      className="icon pencil_icon"
+                    />
+                  </div>
+                  <div
+                    className={'min ' + (sortParams.name === null ? 'disable' : !sortParams.name ? '' : 'disable')}
+                    onClick={() => {
+                      setSortParams({
+                        name: false,
+                        total_minutes: null,
+                      })
+                      setSortedArr(sortParams)
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      color="#414141"
+                      className="icon pencil_icon"
+                    />
+                  </div>
                 </div>
-                <div
-                  className={'min ' + (sortParams.name === null ? 'disable' : !sortParams.name ? '' : 'disable')}
-                  onClick={() => {
-                    setSortParams({
-                      name: false,
-                      total_minutes: null,
-                    })
-                    setSortedArr(sortParams)
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    color="#414141"
-                    className="icon pencil_icon"
-                  />
+              </div>
+            </div>
+            <div className="col-lg-3 table__titles-sort__container">
+              <div className="sort-by">
+                <div className="sort-title">HOURS WORKED</div>
+                <div className="cart-cont">
+                  <div
+                    className={'max ' + (sortParams.total_minutes === null ? 'disable' : sortParams.total_minutes ? '' : 'disable')}
+                    onClick={() => {
+                      setSortParams({
+                        name: null,
+                        total_minutes: true,
+                      })
+                      setSortedArr(sortParams)
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCaretUp}
+                      color="#414141"
+                      className="icon pencil_icon"
+                    />
+                  </div>
+                  <div
+                    className={'min ' + (sortParams.total_minutes === null ? 'disable' : !sortParams.total_minutes ? '' : 'disable')}
+                    onClick={() => {
+                      setSortParams({
+                        name: null,
+                        total_minutes: false,
+                      })
+                      setSortedArr(sortParams)
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      color="#414141"
+                      className="icon pencil_icon"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-lg-3 table__titles-sort__container">
-            <div className="sort-by">
-              <div className="sort-title">HOURS WORKED</div>
-              <div className="cart-cont">
-                <div
-                  className={'max ' + (sortParams.total_minutes === null ? 'disable' : sortParams.total_minutes ? '' : 'disable')}
-                  onClick={() => {
-                    setSortParams({
-                      name: null,
-                      total_minutes: true,
-                    })
-                    setSortedArr(sortParams)
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCaretUp}
-                    color="#414141"
-                    className="icon pencil_icon"
-                  />
-                </div>
-                <div
-                  className={'min ' + (sortParams.total_minutes === null ? 'disable' : !sortParams.total_minutes ? '' : 'disable')}
-                  onClick={() => {
-                    setSortParams({
-                      name: null,
-                      total_minutes: false,
-                    })
-                    setSortedArr(sortParams)
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    color="#414141"
-                    className="icon pencil_icon"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {projectsListNotArchived}
-        <ArchivedSeparator/>
-        {projectsListArchived}
-        {/* The pagination is commented out until the next iteration */}
-        {/* <Pagination
+          {projectsListNotArchived}
+          <ArchivedSeparator/>
+          {projectsListArchived}
+          {/* The pagination is commented out until the next iteration */}
+          {/* <Pagination
           totalCount={totalCount}
           pageSize={pageSize}
           currentPage={currentPage}
           paginationDeiplayed={5}
         /> */}
-        {/* The pagination is commented out until the next iteration */}
+          {/* The pagination is commented out until the next iteration */}
+        </div>
+        <CreateProjectModal show={isCreateModalShow} />
+        <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
+        <EditProjectModal2 offset={offset + 'px'} show={isEditModalShow} />
       </div>
-      <CreateProjectModal show={isCreateModalShow} />
-      <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
-      <EditProjectModal2 show={isEditModalShow} />
+      <div className={`modal-container ${isEditModalShow ? 'active-modal-block' : ''}`}/>
+
     </div>
   )
 }
