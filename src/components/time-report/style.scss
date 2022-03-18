@@ -765,7 +765,7 @@
 }
 
 .time_report_day_row {
-  padding: 16px 25px;
+  padding: 10px 25px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -774,6 +774,7 @@
   border-radius: 5px;
   background-color: #fff;
   position: relative;
+  cursor: move;
 
   &.top_line {
     &::before {
@@ -884,11 +885,9 @@
     cursor: text;
     word-break: break-word;
     color: #414141;
+    padding: 10px 10px 10px 0;
     a{
-      pointer-events: none; 
-      cursor: default; 
-      text-decoration: none;
-      color: #414141;
+      cursor: pointer; 
     }
   }
   .time_report_day_hours {
