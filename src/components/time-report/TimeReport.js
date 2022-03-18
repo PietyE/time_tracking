@@ -66,7 +66,7 @@ function TimeReport(props) {
     selectDayStatus,
     selectedDayStatus
   } = props
-  
+
   const dispatch = useDispatch()
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
@@ -79,7 +79,7 @@ function TimeReport(props) {
       setShowEmpty(true);
     }
   }
-  
+
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 
@@ -102,8 +102,8 @@ function TimeReport(props) {
     if (!isEmpty(selectedDeveloper)) {
       const { id } = selectedDeveloper;
       dispatch( getDeveloperProjectsById(id))
-    } 
-  },[selectedDeveloper, selectedDate, reports])
+    }
+  },[])
 
   const totalHours = selectedDeveloperProjectsTR
     ? selectedDeveloperProjectsTR.reduce((res, item) => {
@@ -114,12 +114,12 @@ function TimeReport(props) {
     const selectedProjectHours = reports && selectedProject
       ? reports.reduce((res, item) =>res + item.duration , 0)
     : 0
-  
+
   const [currentPosition, setCurrentPosition] = useState(null)
   const savePosition = e => {
     setCurrentPosition(e?.target.offsetTop)
   }
-  
+
   const bootstrapWidthRouteState = useCallback(
     () => {
       if (routeState) {
