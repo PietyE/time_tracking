@@ -132,8 +132,6 @@ const ProjectManagementComponent = () => {
     }
   }, [isSideBarShow]);
 
-  console.log('REF: ', projectDivRef)
-
   // // The pagination is commented out until the next iteration
   // useEffect(() => {
   //   let items = currentItemsGets(pageSize, currentPage, p)

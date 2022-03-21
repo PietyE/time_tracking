@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 
 import { getProfileName, getProfileShowSideMenu, getUserRoleText } from '../../selectors/user'
 
@@ -26,6 +26,8 @@ import useEventListener from '../../custom-hook/useEventListener';
 import ArrowUp from '../ui/arrowUp'
 import { useDispatch } from 'react-redux'
 import { SET_SIDE_MENU_OFF, SET_SIDE_MENU_ON } from '../../constants/actions-constant'
+import { setShowSideMenu } from '../../actions/users'
+import { CLOSE_SIDE_MENU, SHOW_FULL_SIDE_MENU, SHOW_SHORT_SIDE_MENU } from '../../constants/side-menu-constant'
 
 function SideMenu () {
 
@@ -33,7 +35,7 @@ function SideMenu () {
   const show = useShallowEqualSelector(getProfileShowSideMenu);
   const userRole = useShallowEqualSelector(getUserRoleText);
   const [selected, setSelected] = useState(null);
-  const [openSideMenu, setOpened] = useState(true);
+  const [openSideMenu, setOpened] = useState(SHOW_FULL_SIDE_MENU);
 
   const panels = useMemo(()=>{
     const result = [{
@@ -101,9 +103,20 @@ function SideMenu () {
       return result;
   }, [userRole])
 
-  const sideMenuOnOpen = () => {
-   setOpened(!openSideMenu)
- }
+  const sideMenuOnOpen = useCallback(() => {
+    dispatch(setShowSideMenu(
+      openSideMenu === SHOW_FULL_SIDE_MENU ? SHOW_FULL_SIDE_MENU : SHOW_SHORT_SIDE_MENU
+    ));
+
+    setOpened(prev => {
+      if (prev === SHOW_FULL_SIDE_MENU) {
+        return SHOW_SHORT_SIDE_MENU;
+      }
+
+      return SHOW_FULL_SIDE_MENU;
+    });
+
+  }, [openSideMenu]);
 
   const buttonRouteTo = (item) => {
     if (item) {
@@ -117,13 +130,13 @@ function SideMenu () {
 
   const dispatch = useDispatch();
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (window.scrollY > 500) {
-      dispatch({ type: SET_SIDE_MENU_OFF })
+      dispatch(setShowSideMenu(CLOSE_SIDE_MENU))
     } else {
-      dispatch({ type: SET_SIDE_MENU_ON })
+      dispatch(setShowSideMenu(openSideMenu))
     }
-  }
+  }, [openSideMenu]);
 
   useEventListener('scroll', handleScroll, window);
 
@@ -139,9 +152,9 @@ function SideMenu () {
         {/*>*/}
         {/*  <div>*/}
 
-      {show
+      {show !== CLOSE_SIDE_MENU
         ? (
-          openSideMenu
+          openSideMenu === SHOW_FULL_SIDE_MENU
             ? (
               <div className="side_menu_container">
                 <div className="side_menu_wrap">

@@ -163,7 +163,7 @@ function EditProjectModal2({ show, offset }) {
     if (modalRef?.current?.style) {
       modalRef.current.style.left = offset;
     }
-  }, [offset]);
+  }, [offset, isSideBarShow]);
 
 
   useEffect(() => {
