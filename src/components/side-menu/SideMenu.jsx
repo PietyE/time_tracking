@@ -46,8 +46,7 @@ function SideMenu () {
         // {icon: people, label: "People", smallSize: true, pathname: "/people"}
       ]
     }]
-    if((userRole === "Accountant" ||
-      userRole === "Admin")){
+    if(userRole === "Admin"){
       result.push({
         panelName: "Accounting",
         panelId: "...",
@@ -71,7 +70,7 @@ function SideMenu () {
         ]
       }
       )
-    } else if (userRole === "Developer") {
+    } else if ((userRole === "Accountant" || userRole === "Developer")) {
       result.push({
         panelName: "Accounting",
         panelId: "...",
