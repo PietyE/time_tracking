@@ -24,7 +24,7 @@ import {
   SET_SHOW_CREATE_USER_MODAL,
   GET_DEVELOPER_PROJECTS_BY_ID,
   ADD_PROJECT_MANAGER_TO_PROJECT,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT
+  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT, ADD_DEVELOPER_TO_PROJECT
 } from 'constants/actions-constant'
 
 
@@ -152,4 +152,9 @@ export const addProjectManagerToProject = (payload) => ({
 export const addInactiveProjectManagerToProject = (payload) => ({
   type: ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   payload
+})
+
+export const addDeveloperToProject = (payload) => ({
+  type: ADD_DEVELOPER_TO_PROJECT,
+  payload,
 })
