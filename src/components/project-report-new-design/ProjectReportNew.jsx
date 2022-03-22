@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
@@ -18,7 +18,7 @@ import { DEVELOPER, PM } from 'constants/role-constant'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import {ProjectReportContext} from 'context/projectReport-context'
 
-import { selectUsersReports } from 'reducers/projects-report'
+import { selectUsersReports, getSelectedMonthSelector } from 'reducers/projects-report'
 
 import {
   getDevelopersProjectInProjectReport,
@@ -27,10 +27,8 @@ import {
 
 import './projectReportNew.scss'
 
-import { getSelectedDateTimeReport } from 'selectors/timereports'
-
 function ProjectReportNew () {
-  const selectedDate = useShallowEqualSelector(getSelectedDateTimeReport);
+  const selectedDate = useShallowEqualSelector(getSelectedMonthSelector);
   const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getUserRoleText);
   const currentUserId = useShallowEqualSelector(getProfileId);
@@ -56,10 +54,12 @@ function ProjectReportNew () {
     getConsolidateProject()
   }, [])
 
-  const handleChangeData = (data) => {
-    const { month, year } = data;
-    dispatch(changeSelectedDateProjectsReport(data));
-  };
+  const handleChangeData = useCallback(
+    (data) => {
+      dispatch(changeSelectedDateProjectsReport(data))
+    },
+    [dispatch]
+  )
 
   const getDevelopersProject = () => {
     dispatch(getDevelopersProjectInProjectReport())
