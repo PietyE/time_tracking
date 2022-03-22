@@ -12,7 +12,7 @@ import {
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
-  GET_CONSOLIDATE_PROJECT_REPORT,
+  GET_CONSOLIDATE_PROJECT_REPORT, ADD_DEVELOPER_TO_PROJECT,
   // GET_COMMENTS_HISTORY,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
@@ -30,6 +30,7 @@ import { getRatesList } from '../actions/currency'
 import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
 import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from '../selectors/currency'
+import { getSelectedProjectIdSelector } from '../reducers/projects-management'
 
 // export function* getDeveloperConsolidateProjectReport() {
 //   yield put(setIsFetchingReports(true))
@@ -115,6 +116,41 @@ function* setExchangeRate({ payload, callback }) {
   }
 }
 
+function* addDevelopersToProject({ payload = [] }) {
+  const project = yield select(getSelectedProjectIdSelector);
+  const data = {
+    project,
+    users: payload
+  }
+  try {
+    const URL = 'developer-projects/create-list/';
+    const response = yield call([Api, 'setUsersToProject'], URL, data);
+    const status = `${response.status}`;
+
+    if(status[0] !== '2') {
+      throw new Error()
+    }
+
+    yield put(
+      showAler({
+        type: SUCCES_ALERT,
+        message: 'Users have been added',
+        delay: 5000,
+      })
+    );
+
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
 function* usersProjectReport (action) {
   const { payload: userId } = action;
     const { month, year } = yield select(
@@ -183,6 +219,7 @@ export function* watchDeveloperProjects() {
     handleGetConsolidatedReport
   )
   yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
+  yield takeEvery (ADD_DEVELOPER_TO_PROJECT, addDevelopersToProject)
   yield takeEvery(
     [GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT],
     getDeveloperProjects
