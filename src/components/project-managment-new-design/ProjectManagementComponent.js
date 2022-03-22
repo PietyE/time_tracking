@@ -30,7 +30,6 @@ import './style.scss'
 import SpinnerStyled from '../ui/spinner'
 import Select from '../ui/select'
 import { getCurrentUserSelector } from '../../reducers/profile'
-import { isEmpty } from 'lodash'
 import ReportItemProject from '../common/repott-item/ReportItemProject'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
@@ -42,6 +41,7 @@ import useSorting from '../../custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import useShallowEqualSelector from '../../custom-hook/useShallowEqualSelector'
 import { getProfileShowSideMenu } from '../../selectors/user'
+
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
 // import {
