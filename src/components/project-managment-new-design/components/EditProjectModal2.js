@@ -6,6 +6,7 @@ import Plus from '../../ui/plus'
 import AddSelectedM from '../../common/AddSelectedM/AddSelectedM'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  addDeveloperToProject,
   addInactiveProjectManagerToProject, addProjectManagerToProject, addUsersOnProject,
   changeProjectName, changeUserOnProject,
   downloadAllTeamProjectReport,
@@ -88,22 +89,35 @@ function EditProjectModal2({ show, offset }) {
   const dispatch = useDispatch()
 
   const addSelected = useCallback((e) => {
-    e.preventDefault()
-    setEditedTeam([...new Set(currentEditedTeam.concat(checkedUsers))])
+    if (!checkedUsers.length) return;
+
+    e.preventDefault();
+    const mappedAddedUsers = checkedUsers.map(u => ({
+      id: u.id,
+      is_active: u.is_active,
+      minutes: 0,
+      name: u.name,
+      is_full_time: u.is_full_time || true,
+      userName: u.name,
+      userId: u.id,
+      projectId: currentProjectId,
+      projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
+    }));
+
+    setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
     setAddMember(false);
 
-    if (checkedUsers.length) {
-      const addedUsers = checkedUsers.map(e => e.id);
+    const payload = checkedUsers.map(developer => ({
+      user_id: developer.id,
+      is_active: developer.is_active,
+      is_full_time: developer.is_full_time || true,
+      is_project_manager: false,
+    }));
 
-      _addUsersOnProject({
-        project: [currentProjectId],
-        user: addedUsers,
-        is_full_time: true,
-        is_active: true,
-        is_project_manager: false,
-      })
-    }
-  }, [checkedUsers])
+    setCheckedUsers([]);
+
+    dispatch(addDeveloperToProject(payload))
+  }, [checkedUsers, currentProjectId, currentProjectReport])
 
   const _changeUserOnProject = useCallback(
     (id, data) => {
