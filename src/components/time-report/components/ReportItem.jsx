@@ -249,7 +249,10 @@ function ReportItem({
       || event.target.parentNode.classList.contains('btn')
       || event.target.parentNode.classList.contains('select_container')
       || event.target.parentNode.classList.contains('select_title_container')
+      || event.target.parentNode.classList.contains('select_title_text')
       || event.target.parentNode.classList.contains('select_list_item_container')
+      || event.target.parentNode.classList.contains('select_list_item')
+      || event.target.parentNode.classList.contains('select_title_icon')
       || event.target.parentNode.classList.contains('time_report_day_description')
       || event.target.classList.contains('time_report_day_description')
 
