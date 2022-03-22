@@ -10,6 +10,8 @@ import DownloadIcon from 'components/ui/svg-components/download-icon'
 import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
 import Spinner from 'components/ui/spinner'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { useEffectDebugger } from 'custom-hook/useEffectDebug'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
 
@@ -36,6 +38,7 @@ import {
   getSelectedDayStatus,
   getDeveloperProjectsTR
 } from 'selectors/timereports'
+import { getProfileId } from '../../selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
@@ -68,6 +71,7 @@ function TimeReport(props) {
   } = props
 
   const dispatch = useDispatch()
+  const developerId = useShallowEqualSelector(getProfileId);
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
   const todayDate = new Date()
@@ -98,12 +102,6 @@ function TimeReport(props) {
     renderDaysArray.push(i)
   }
 
-  useEffect(() => {
-    if (!isEmpty(selectedDeveloper)) {
-      const { id } = selectedDeveloper;
-      dispatch( getDeveloperProjectsById(id))
-    }
-  },[])
 
   const totalHours = selectedDeveloperProjectsTR
     ? selectedDeveloperProjectsTR.reduce((res, item) => {
@@ -115,6 +113,15 @@ function TimeReport(props) {
       ? reports.reduce((res, item) =>res + item.duration , 0)
     : 0
 
+    useEffect(() => {
+      if (!isEmpty(selectedDeveloper) ) {
+        const { id } = selectedDeveloper;
+        dispatch(getDeveloperProjectsById(id))
+      } else if (roleUser ===1) {
+        dispatch(getDeveloperProjectsById(developerId))
+      }
+    }, [selectedDeveloper, selectedDate, reports])
+  
   const [currentPosition, setCurrentPosition] = useState(null)
   const savePosition = e => {
     setCurrentPosition(e?.target.offsetTop)
@@ -194,7 +201,7 @@ function TimeReport(props) {
       window.scrollTo(0, Number(currentPosition) - 100 )
       setCurrentPosition(null)
     }
-  },[currentPosition,isFetchingReports])
+  },[currentPosition, isFetchingReports])
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject)) {
