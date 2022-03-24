@@ -117,7 +117,7 @@ function TimeReport(props) {
       if (!isEmpty(selectedDeveloper) ) {
         const { id } = selectedDeveloper;
         dispatch(getDeveloperProjectsById(id))
-      } else if (roleUser ===1) {
+      } else if (roleUser === DEVELOPER) {
         dispatch(getDeveloperProjectsById(developerId))
       }
     }, [selectedDeveloper, selectedDate, reports])
