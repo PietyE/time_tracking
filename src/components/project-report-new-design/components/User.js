@@ -4,15 +4,13 @@ import { useDispatch } from 'react-redux';
 import clock from 'images/sideMenuIcons/clock.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
-import { Link } from 'react-router-dom'
-
-import { selectProjectsByUserId } from 'selectors/project-report-details';
-import { getSelectedMonthSelector } from '../../../reducers/projects-report'
+import { getSelectedMonthSelector} from '../../../reducers/projects-report'
 import { getUsersProjectReport } from 'actions/projects-report';
 import { selectUserProjects } from '../../../selectors/project-report-details'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context';
 import ProjectList from './ProjectList';
+import { parseMinToHoursAndMin } from 'utils/common';
 
 function User (props) {
   const {
@@ -21,51 +19,39 @@ function User (props) {
     userId,
     hours,
     userData,
+    projects
   } = props;
 
   const contextType = useContext(ProjectReportContext);
-  const dispatch = useDispatch();
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
 
-  const loadProjects = () => {
-    dispatch(getUsersProjectReport(userId))
-  }
+  const userProjects = useMemo(() => {
+    return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== null))
+  }, [projects])
 
-  useEffect(() => {
-    loadProjects()
-  }, [])
-
-  const userProjects = useEqualSelector((state) => selectProjectsByUserId(state, userId))
-  const projectList = userProjects.map((project) => {
-    return project.name
-  }).join(', ')
-
-  const userDetails = useEqualSelector(selectUserProjects);
-  const user = userDetails[userId];
-  const {  projects = [] } = user || {};
-
-  const loadProjectByTarget = useMemo(() => {
-    loadProjects()
-  }, [selectedDate])
-
+  const projectList = useMemo(() => {
+    return  userProjects.map((project) => {
+      return project.project.name
+       }).join(', ')
+  }, [userProjects])
+ 
   const formattedProjects = useMemo(
-    () => projects.map(({ name, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
-      name: '',
+    () => userProjects.map(({ project: {  name }, is_active, is_full_time, total_minutes, id }) => ({
       developer_projects:{
           title:name,
           state_link:{
           userId: userId,
-          developer_project_id: idDeveloperProjects,
+          developer_project_id: id,
           selectedDate,
+          },
       },
-      title:name
-      },
-      totalHours: is_full_time ? 'fulltime' : `${working_time || 0} `,
-      id: idDeveloperProjects,
+      totalHours: (is_full_time || is_full_time === null) ? 'fulltime' : parseMinToHoursAndMin(total_minutes, true) || 0,
+      id: id,
       active_project: is_active,
     })),
-    [projects, selectedDate]);
-
+    [userProjects, selectedDate]);
+  console.log(userProjects);
+    console.log(formattedProjects);
   const chooseUser = (e) => {
     e.stopPropagation()
     contextType.chooseUser(userData)

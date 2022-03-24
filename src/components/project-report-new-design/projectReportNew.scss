@@ -16,10 +16,16 @@
   }
 
   .project_report_date {
+    width: 971px;
     margin: 30px 0 0 0;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
+    .block_select_elements{
+      display: flex;
+     
+    }
     .row {
       display: flex;
       margin: 20px 5px 0 5px;
@@ -30,7 +36,6 @@
     }
 
     .select_month {
-      margin-left: 300px;
       border-radius: none;
       border: 1px solid rgba(0, 0, 0, 0.2);
       padding: 0;

@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { selectUsersReports } from 'reducers/projects-report';
-import { getConsolidateProjectReport } from 'actions/projects-report';
-
+import { selectUsersReports, selectAllProjects } from 'reducers/projects-report';
+import { getConsolidateProjectReport, getAllDevelopersProjectsPR} from 'actions/projects-report';
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
 
 import User from './User'
@@ -15,11 +14,17 @@ function UsersInfo (props) {
   const [decreaseName, setDecreaseName] = useState(false);
   const [increaseName, setIncreaseName] = useState(false);
   const usersData = useShallowEqualSelector(selectUsersReports);
+  const usersProjects = useShallowEqualSelector(selectAllProjects);
+ 
   const dispatch = useDispatch();
 
   useEffect(() => {
     getConsolidateProject()
   }, [])
+
+  useEffect(() => {
+    dispatch(getAllDevelopersProjectsPR())
+  }, [selectedDate])
 
   const getConsolidateProject = () => {
     dispatch(getConsolidateProjectReport())
@@ -82,14 +87,15 @@ function UsersInfo (props) {
       </div>
       {userInfo.map((user) => 
         (<User name={user.name} 
-               key={user.id}
-               email={user.email}
-               userId={user.id}
-               overtime={user.total_overtimes}
-               hours={user.totalHoursOvertime}
-               userData={user}
-               selectedDate={selectedDate}
-               />)
+              key={user.id}
+              email={user.email}
+              userId={user.id}
+              overtime={user.total_overtimes}
+              hours={user.totalHoursOvertime}
+              userData={user}
+              selectedDate={selectedDate}
+              projects = {usersProjects}
+              />)
       )}
     </div>
   )

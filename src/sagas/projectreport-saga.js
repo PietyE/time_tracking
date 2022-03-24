@@ -1,5 +1,6 @@
 import { call, takeEvery, put, select, all } from 'redux-saga/effects'
 import Api from 'utils/api'
+import { pm } from '../api'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
@@ -12,7 +13,7 @@ import {
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
-  GET_CONSOLIDATE_PROJECT_REPORT, ADD_DEVELOPER_TO_PROJECT,
+  GET_CONSOLIDATE_PROJECT_REPORT, ADD_DEVELOPER_TO_PROJECT, GET_ALL_DEVELOPER_PROJECTS
   // GET_COMMENTS_HISTORY,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
@@ -24,6 +25,7 @@ import {
   setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
+  setAllDevelopersProjectsPR
   // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
@@ -77,6 +79,25 @@ export function* getDeveloperProjects() {
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
   yield put(setDevelopersProjectInProjectReport(data))
+}
+
+export function* getAllDevelopersProjectInProjectReport() {
+  const { month, year } = yield select(
+    (state) => state.projectsReport.selectedDate
+  )
+  try {
+    const { data } = yield call([pm, 'getAllDevelopersProjects'], { year, month })
+    yield put(setAllDevelopersProjectsPR(data))
+  } catch (error) {
+    yield put(
+      showAler({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      }),
+    )
+  }
 }
 
 function* setExchangeRate({ payload, callback }) {
@@ -169,7 +190,6 @@ function* usersProjectReport (action) {
       yield put(setUsersProjectReport(payload))
 }
 
-
 export function* handleGetConsolidatedReport() {
   const { month, year } = yield select(
     (state) => state.projectsReport.selectedDate
@@ -205,7 +225,6 @@ export function* handleGetConsolidatedReport() {
   yield put(setIsFetchingReports(false))
 }
 
-
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -218,6 +237,7 @@ export function* watchDeveloperProjects() {
     ],
     handleGetConsolidatedReport
   )
+  yield takeEvery(GET_ALL_DEVELOPER_PROJECTS, getAllDevelopersProjectInProjectReport)
   yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
   yield takeEvery (ADD_DEVELOPER_TO_PROJECT, addDevelopersToProject)
   yield takeEvery(
