@@ -163,12 +163,14 @@ const ProjectManagementComponent = () => {
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
+    dispatch(setShowEditModal(false));
     dispatch(setShownProject(null))
     dispatch(getAllProjects())
     dispatch(setSelectedProject(projectList[0]))
   }
 
   const onSelectProject = (data) => {
+    dispatch(setShowEditModal(false));
     if (data.id === 0) {
       dispatch(setShownProject({}))
     } else {
@@ -177,6 +179,14 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(data))
   }
 
+  const addNewProject = () => {
+    dispatch(setShowEditModal(false))
+    dispatch(setShowCreateModal(true))
+    dispatch(setSelectedProject(projectList[0]))
+    dispatch(setShownProject({}))
+    dispatch(setPm(projectManagerSelectList[0]))
+    dispatch(setSelectedProject(projectList[0]))
+  }
   const projectsListNotArchived = sorting.filter(e => !e.is_archived).map((e) => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   });
@@ -208,7 +218,7 @@ const ProjectManagementComponent = () => {
               <button
                 type="submit"
                 className="btn btn-add-new  "
-                onClick={() => dispatch(setShowCreateModal(true))}
+                onClick={addNewProject}
               >
                 Add new project
               </button>
