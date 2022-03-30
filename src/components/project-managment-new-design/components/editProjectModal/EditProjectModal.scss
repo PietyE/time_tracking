@@ -1,0 +1,77 @@
+.main_container{
+    form{
+        .div_info_row{
+            .info_data{
+                padding: 8px 10px;
+                border: 1px solid rgba(0, 156, 152, 1);
+                border-radius: 5px;
+                width: 240px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .info_data_focus{
+                border: none;
+                padding: 0;
+            }
+            input{
+                margin-top: 15px;
+                left: 220px;
+            }
+        }
+        .project-description{
+            flex-direction: column;
+            height: auto;
+            display: block;
+            .info_data{
+                font-family: Montserrat, sans-serif;
+                font-size: 14px;
+                left: 0;
+                height: 85px;
+                width: 100%;
+                position:inherit;
+                display: flex;
+                margin: 21px 5px;
+            }
+    
+            textarea{
+                width: 562px;
+                margin-top: 12px;
+                background: #FFFFFF;
+                border: 1px solid #009C98;
+                box-sizing: border-box;
+                border-radius: 4px;
+                resize: none;
+                font-family: Montserrat, sans-serif;
+                font-size: 14px;
+            }
+          }
+
+          .div_info_row:nth-child(3){
+            .info_data{
+                height: 39px;
+            }
+        }
+        .div_info_row:nth-child(5){
+            .info_data{
+                border: none;
+            }
+        }
+    }
+}      
+
+.project_data_header{
+    padding: 11px 25px;
+    .project_data_header-title{
+        text-align: left;
+    }
+    .edit_modal-team_name{   
+        width:  40%;
+    }
+    .edit_modal-team_occupancy{
+        width: 35%;
+    }
+    .edit_modal-team_hours{
+        width: 25%;
+    }
+}

@@ -1,15 +1,18 @@
 
 .team-m{
+  width: 100%;
+  min-height: 76px;
   .container-team_modal{
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 20px 0px;
     border-bottom: 1px black;
     }
   .avatar-cont{
     display: flex;
+    width: 40%;
   }
   &-avatar{
     width: 36px;
@@ -26,9 +29,14 @@
     letter-spacing: 0.01em;
     color: #222222;
     margin-left: 10px;
-    width: 135px;
     overflow: hidden;
     text-align: left;
+    a{
+      width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &-email{
@@ -48,12 +56,12 @@
 
   &__type-work{
     display: flex;
-
+    width: 30%;
   }
 
   &-input-cont{
     display: flex;
-    align-items:baseline;
+    align-items: baseline;
 
     &:first-child{
       margin-right: 60px;
@@ -97,7 +105,18 @@
     }
   }
 
+  .estimate-hours{
+    width: 20%;
+  }
+
   .trash-cont{
+    width: 10%;
+    display: flex;
+    justify-content: flex-end;
     cursor: pointer;
+    .gray-trash{
+      margin-right: 0;
+    }
+
   }
 }

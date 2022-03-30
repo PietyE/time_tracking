@@ -14,13 +14,9 @@
   letter-spacing: 0.02em;
   color: #222222;
   font-family: 'Montserrat';
-
+  padding: 0 20px;
   &.active{
     border: 1px solid #009C98;
-  }
-
-  &-title{
-    padding-left: 20px;
   }
 
   div{

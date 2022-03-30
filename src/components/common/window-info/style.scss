@@ -34,6 +34,14 @@
     }
     .container-edit__modal{
       width: 100%;
+      .row{
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .col-lg-4, .col-lg-8{
+        padding-right: 0;
+        padding-left: 0;
+      }
     }
     .chat_img {
       margin-top: 27px;
@@ -224,7 +232,7 @@
 
     .info_data {
       position: absolute;
-      left: 323px;
+      left: 313px;
       font-family: Montserrat;
       font-style: normal;
       font-weight: 500;
@@ -232,12 +240,21 @@
       // line-height: 24px;
       align-items: center;
       letter-spacing: 0.03em;
-      color: #222222;
+      color: #222222; 
+    }
+
+    .select_container{
+      width: 240px;
+      padding-left: 30px;
+    }
+    .select_list_container{
+      width: 240px;
+      left: 0;
     }
 
     .info_data_edited {
       position: absolute;
-      left: 323px;
+      left: 313px;
       font-family: Montserrat;
       font-style: normal;
       font-weight: 500;

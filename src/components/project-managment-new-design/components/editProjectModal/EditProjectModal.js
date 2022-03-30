@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import WindowInfo from '../../common/window-info/WindowInfo'
-import InfoItemM from '../../common/window-info/components/InfoItemM'
-import TeamM from '../../common/team-m/TeamM'
-import Plus from '../../ui/plus'
-import AddSelectedM from '../../common/AddSelectedM/AddSelectedM'
+import WindowInfo from '../../../common/window-info/WindowInfo'
+import InfoItemM from '../../../common/window-info/components/InfoItemM'
+import TeamM from '../../../common/team-m/TeamM'
+import Plus from '../../../ui/plus'
+import AddSelectedM from '../../../common/AddSelectedM/AddSelectedM'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addDeveloperToProject,
@@ -14,7 +14,8 @@ import {
   setPm,
   setSelectedProject,
   setShowEditModal,
-} from '../../../actions/projects-management'
+  getAllProjects
+} from '../../../../actions/projects-management'
 import {
   getActiveDevSelector,
   getActivePmInCurrentProjectSelector,
@@ -24,27 +25,29 @@ import {
   getSelectedProjectIdSelector,
   getSelectedProjectSelector,
   getUsersSelector,
-} from '../../../reducers/projects-management'
+} from '../../../../reducers/projects-management'
 import { isEqual } from 'lodash'
-import { getProjectsSelector } from '../../../selectors/developer-projects'
+import { getProjectsSelector } from '../../../../selectors/developer-projects'
 
-import ChekMark from '../../../images/check-mark1.svg'
-import UserIcon from '../../../images/user1.svg'
-import ProjectIcon from '../../../images/card-text1.svg'
-import { parseMinToHoursAndMin } from '../../../utils/common'
-import Select from '../../ui/select'
+import ChekMark from '../../../../images/check-mark1.svg'
+import UserIcon from '../../../../images/user1.svg'
+import ProjectIcon from '../../../../images/card-text1.svg'
+import { parseMinToHoursAndMin, setElementTop } from '../../../../utils/common'
+import Select from '../../../ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
-import Spinner from '../../time-report/components/Spinner'
-import useEventListener from '../../../custom-hook/useEventListener'
-import { showAler } from '../../../actions/alert'
-import { WARNING_ALERT } from '../../../constants/alert-constant'
-import useEqualSelector from '../../../custom-hook/useEqualSelector'
-import { SidebarContext } from '../../../context/sidebar-context'
-import useShallowEqualSelector from '../../../custom-hook/useShallowEqualSelector'
-import { getProfileShowSideMenu } from '../../../selectors/user'
+import Spinner from '../../../time-report/components/Spinner'
+import useEventListener from '../../../../custom-hook/useEventListener'
+import { showAler } from '../../../../actions/alert'
+import { WARNING_ALERT } from '../../../../constants/alert-constant'
+import useEqualSelector from '../../../../custom-hook/useEqualSelector'
+import { SidebarContext } from '../../../../context/sidebar-context'
+import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
+import { getProfileShowSideMenu } from '../../../../selectors/user'
 
-function EditProjectModal2({ show, offset }) {
+import './EditProjectModal.scss'
+
+function EditProjectModal({ show}) {
   const modalRef = useRef(null);
   const [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
@@ -103,7 +106,7 @@ function EditProjectModal2({ show, offset }) {
       projectId: currentProjectId,
       projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
     }));
-
+    console.log(mappedAddedUsers);
     setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
     setAddMember(false);
 
@@ -174,11 +177,10 @@ function EditProjectModal2({ show, offset }) {
   }, [currentEditedTeam, _changeUserOnProject])
 
   useEffect(() => {
-    if (modalRef?.current?.style) {
-      modalRef.current.style.left = offset;
+    if (show){
+      setElementTop(modalRef.current)
     }
-  }, [offset, isSideBarShow]);
-
+  }, [show, currentProjectId]);
 
   useEffect(() => {
     if (show) {
@@ -205,18 +207,9 @@ function EditProjectModal2({ show, offset }) {
     ],
   );
 
-
   useEffect(() => {
     if (show) {
-      modalRef && modalRef.current.scrollIntoView();
-    }
-  }, [show, currentProjectId]);
-
-  useEffect(() => {
-    if (show) {
-      // if (!currentProject) {
         _getProjectReportById(currentProjectId);
-      // }
     }
   }, [_getProjectReportById, currentProjectId, show])
 
@@ -235,6 +228,7 @@ function EditProjectModal2({ show, offset }) {
     return (
       <div key={e.id || i}>
         <TeamM
+          isArchived={isArchivedProject}
           key={e.id || i}
           e={e}
           hovers={parseMinToHoursAndMin(e.minutes, true)}
@@ -355,7 +349,6 @@ function EditProjectModal2({ show, offset }) {
     [dispatch]
   )
 
-
   const handleAddProjectManagerToProject = (e) => {
     const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
     const isPm = projectManagersList.find(
@@ -445,8 +438,9 @@ function EditProjectModal2({ show, offset }) {
       data : { is_archived: !isArchivedProject },
       title: 'archived status',
     }));
-
     setArchivedProject(prev => !prev);
+    dispatch(getAllProjects())
+    handleClose()
   }, [currentProjectId, isArchivedProject]);
 
   return (
@@ -534,7 +528,7 @@ function EditProjectModal2({ show, offset }) {
           key="SPEND HOURS"
           icon={ChekMark}
           isArchived={isArchivedProject}
-          title={'LAST SINCE'}
+          title={'HOURS WORKED'}
           value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}
         />
         <InfoItemM
@@ -583,9 +577,9 @@ function EditProjectModal2({ show, offset }) {
         <div className="projects_info">
           <div className="project_data">
             <div className="project_data_header">
-              <span className="headers project edit_modal-team_title">DEVELOPER NAME</span>
-              <span className="headers edit_modal-team_title">OCCUPANCY</span>
-              <span className="headers edit_modal-team_title">HOURS</span>
+              <span className="project_data_header-title edit_modal-team_name">DEVELOPER NAME</span>
+              <span className="project_data_header-title edit_modal-team_occupancy">OCCUPANCY</span>
+              <span className="project_data_header-title edit_modal-team_hours">HOURS</span>
             </div>
             <div className="team-container">{teamMList}</div>
             <div className="edit-control container">
@@ -626,4 +620,4 @@ function EditProjectModal2({ show, offset }) {
   )
 }
 
-export default EditProjectModal2
+export default EditProjectModal

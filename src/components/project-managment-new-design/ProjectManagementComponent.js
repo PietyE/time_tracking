@@ -33,7 +33,7 @@ import { getCurrentUserSelector } from '../../reducers/profile'
 import ReportItemProject from '../common/repott-item/ReportItemProject'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
-import EditProjectModal2 from './components/EditProjectModal2'
+import EditProjectModal from './components/editProjectModal/EditProjectModal'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
 import CreateUserModal from './components/CreateUserModal'
@@ -126,12 +126,6 @@ const ProjectManagementComponent = () => {
     }
   }, [selectedProject, projectList])
 
-  useEffect(() => {
-    if (projectDivRef) {
-      setOffset(projectDivRef.current.clientWidth + projectDivRef.current.offsetLeft)
-    }
-  }, [isSideBarShow]);
-
   // // The pagination is commented out until the next iteration
   // useEffect(() => {
   //   let items = currentItemsGets(pageSize, currentPage, p)
@@ -199,7 +193,7 @@ const ProjectManagementComponent = () => {
     <div className="common-container">
       <div
         ref={projectDivRef}
-        className={`project ${isEditModalShow ? 'show-modal' : ''}`}
+        className={`project_management-container ${isEditModalShow ? 'show-modal' : ''}`}
       >
         <div className="container">
           <h1 className="page-title">
@@ -260,7 +254,7 @@ const ProjectManagementComponent = () => {
             />
           </div>
           <div className="row table__titles">
-            <div className="col-lg-8">
+            <div className="col-8">
               <div className="sort-by table__titles-sort__container">
                 <div className="sort-title">PROJECT NAME</div>
                 <div className="cart-cont">
@@ -299,7 +293,7 @@ const ProjectManagementComponent = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-3 table__titles-sort__container">
+            <div className="col-3 table__titles-sort__container">
               <div className="sort-by">
                 <div className="sort-title">HOURS WORKED</div>
                 <div className="cart-cont">
@@ -353,9 +347,11 @@ const ProjectManagementComponent = () => {
         </div>
         <CreateProjectModal show={isCreateModalShow} />
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
-        <EditProjectModal2 offset={offset + 'px'} show={isEditModalShow} />
+        {/* <EditProjectModal2 offset={offset + 'px'} show={isEditModalShow} /> */}
       </div>
-      <div className={`modal-container ${isEditModalShow ? 'active-modal-block' : ''}`}/>
+      <div className={`modal-container`}>
+          <EditProjectModal show={isEditModalShow}/>
+      </div>
 
     </div>
   )
