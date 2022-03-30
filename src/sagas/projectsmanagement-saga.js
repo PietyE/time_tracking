@@ -11,13 +11,21 @@ import {
   SET_SELECTED_PM,
   ADD_USERS_ON_PROJECT,
   GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
-  ADD_PROJECT_MANAGER_TO_PROJECT, ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT, USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED,
+  ADD_PROJECT_MANAGER_TO_PROJECT,
+  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
+  USER_ADDED_SUCCESSFULLY,
+  USER_ADDED_FAILED,
+  SET_CREATE_PROJECT
 } from 'constants/actions-constant'
 import {
   setAllProjects,
   setProjectsWithReport,
   setFetchingPmPage,
   setShownProject,
+  setCreateProject,
+  setSelectedProjectId,
+  setShowEditModal
+
 } from '../actions/projects-management'
 import { showAler } from '../actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from '../constants/alert-constant'
@@ -29,6 +37,7 @@ import {
 import { isEmpty } from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import { setErrorData } from 'actions/error'
+
 
 
 export function* getAllProjects() {
@@ -215,6 +224,9 @@ export function* createProject({ payload }) {
     yield put(setFetchingPmPage(true))
     const { projectName } = payload
     const { data } = yield call([pm, 'createProject'], { name: projectName })
+    yield put(setSelectedProjectId(data.id))
+    yield call(getAllProjects)
+    yield put(setShowEditModal(true))
     yield put(
       showAler({
         type: SUCCES_ALERT,
