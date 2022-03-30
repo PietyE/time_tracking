@@ -21,7 +21,7 @@ function InfoItemM({ icon, title, value, editValue, isArchived, customClass = ''
             {!isEdit || !editValue?
                 <span id="Non Edit Data" className="info_data">{value}</span>
                 :
-                <span id="Edit Data" className="info_data" >{editValue}</span>
+                <span id="Edit Data" className="info_data info_data_focus">{editValue}</span>
             }
         </div>
         <div className="row2 grey"></div>

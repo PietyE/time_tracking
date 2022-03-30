@@ -11,10 +11,10 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
         <div className="header">
             <div className="container-edit__modal">
                 <div className="row align-items-center">
-                    <div className="col-lg-8">
+                    <div className="col-8">
                         <div className="title">{title}</div>
                     </div>
-                    <div className="col-lg-4">
+                    <div className="col-4">
                         <div className="row align-content-right justify-content-end">
                             <div className="control_btn" onClick={() => {
                                 download(id)

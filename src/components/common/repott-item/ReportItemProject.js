@@ -27,18 +27,7 @@ function ReportItemProject({ p, openEditModal }) {
   }, [isEdit])
 
   const optEditM = (e) => {
-    if (
-      e.target.parentNode.classList.contains('edit_dots') ||
-      e.target.classList.contains('edit_dots') ||
-      e.target.parentNode.classList.contains('menu') ||
-      e.target.classList.contains('menu')
-    ) {
-      return
-    } else {
-      let elemm = e.target.closest('.report__item')
-      setElementTop(elemm.offsetTop, '.edit-modal-container')
-      openEditModal(p.id)
-    }
+    openEditModal(p.id)
   }
 
   return (
@@ -48,40 +37,14 @@ function ReportItemProject({ p, openEditModal }) {
       }
       onClick={optEditM}
     >
-      <div className="col-lg-8 report__item-container_title">
+      <div className="col-8 report__item-container_title">
         <span className={`report__item-title ${p.is_archived ? 'disabled' : ''}`}>{p.name}</span>
       </div>
-      <div className="col-lg-3">
+      <div className="col-3">
         <span className={`hours-worked ${p.is_archived ? 'disabled' : ''}`}>
           {parseMinToHoursAndMin(p.total_minutes, true)}
         </span>
       </div>
-      {/* <div className="col-lg-2">
-        <div className="row justify-content-end">
-          <div className={'edit_dots '} onClick={toggleEdit}>
-            <FontAwesomeIcon
-              icon={faEllipsisV}
-              color="#414141"
-              className="icon pencil_icon"
-            />
-          </div>
-          {isEdit && (
-            <div className={'menu'}>
-              <button className="button" type={'button'} form="edit_form">
-                <img src={Archive} alt="" className={'archive'} />
-                Archive
-              </button>
-              <button className="button delete_button">
-                <FontAwesomeIcon
-                  icon={faTrashAlt}
-                  className="icon trash_icon"
-                />
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
-      </div> */}
     </div>
   )
 }

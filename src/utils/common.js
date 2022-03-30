@@ -120,9 +120,18 @@ export function paginationWithDots(c, m) {
   return rangeWithDots
 }
 
-export function setElementTop(top, elementSelector) {
-  let elem = document.querySelector(elementSelector)
-  elem.style.top = top + 'px'
+export function setElementTop(element) {
+  let top;
+  if (window.pageYOffset < 100) {
+    if (document.documentElement.clientWidth < 990) {
+      top = window.pageYOffset + document.documentElement.clientHeight/3 + 100
+    } else {
+      top = window.pageYOffset + document.documentElement.clientHeight/3
+    }
+  } else {
+    top = window.pageYOffset + document.documentElement.clientHeight/4
+  }
+  element.style.top = top + 'px'
 }
 
 export const sortUserProjectReport = (a, b) => {
