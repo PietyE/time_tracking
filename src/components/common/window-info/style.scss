@@ -42,6 +42,10 @@
         padding-right: 0;
         padding-left: 0;
       }
+      .title{
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
     .chat_img {
       margin-top: 27px;
