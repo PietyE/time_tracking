@@ -11,6 +11,7 @@
   line-height: 24px;
   letter-spacing: 0.02em;
   color: #222222;
+  z-index: 100;
 
   div{
     &:first-child{text-align: left;}

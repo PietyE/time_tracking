@@ -1,8 +1,9 @@
+
 .arrow-up {
   position: sticky;
   z-index: 100;
-  top: 5px;
-  left: 5px;
+  top: 39px;
+  left: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +12,7 @@
   border-radius: 50%;
   background: #D6D6D3;
   font-size: 22px;
+  transform: translateX(-25%);
   //color:#616161;
   &.active{
     color: #009C98;
@@ -18,4 +20,3 @@
     cursor: pointer;
   }
 }
-
