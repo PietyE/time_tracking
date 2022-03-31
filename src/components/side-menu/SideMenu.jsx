@@ -115,9 +115,7 @@ function SideMenu () {
 
       return SHOW_FULL_SIDE_MENU;
     });
-
   }, [openSideMenu]);
-
   const buttonRouteTo = (item) => {
     if (item) {
       if(item === selected){
@@ -139,7 +137,7 @@ function SideMenu () {
   }, [openSideMenu]);
 
   useEventListener('scroll', handleScroll, window);
-
+  
   return(
     <SidebarContext.Provider value={{selected, onItemClick: buttonRouteTo, onOpenClick: sideMenuOnOpen}}>
         {/*<CSSTransition*/}
@@ -203,7 +201,6 @@ function SideMenu () {
                 <div className="sidebar_menu">
                   <SideBarMenu panels={panels}/>
                 </div>
-                <div className="div_row2" />
                 <div className="sidebar_footer">
                   <HelpCenter img={questionCircle}/>
                   <Logout img={door}/>
@@ -211,7 +208,7 @@ function SideMenu () {
               </div>
             )      )
         : (
-          <div className="w-78">
+          <div className={!openSideMenu? 'openSideMenu' : 'closeSideMenu'}>
             <ArrowUp isActive />
           </div>
         )}
