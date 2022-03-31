@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from 'react'
+import React, { useState, useMemo, useContext, useRef } from 'react'
 
 import {SidebarContext} from 'context/sidebar-context'
 
@@ -7,9 +7,16 @@ import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
 import { Link, useRouteMatch } from 'react-router-dom'
 
+import HintWindow from 'components/ui/HintWindow'
+
 const SideMenuItem = (props) =>{
   const [opened, setOpened] = useState(true);
   const [hide, setHide] = useState(false)
+  const [showHint, setShowHint] = useState(false)
+
+  const sideMenuContainer = useRef()
+  const sideMenuWidth = sideMenuContainer.current?.clientWidth;
+  const WIDTH_SIDE_MENU = 78
 
   const { item } = props;
   const contextType = useContext(SidebarContext);
@@ -53,14 +60,20 @@ const SideMenuItem = (props) =>{
   return (
     <>
     <Link to={item.pathname} style={{ textDecoration: 'none' }}>
-      <div className={itemClasses} onClick={onClick}>
-        <img src={item.icon} className="sidebar_img" />
-        <span className="item">{item.label}</span>
-        <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} />
+      <div
+          className={itemClasses}
+          onClick={onClick}
+          ref={sideMenuContainer}
+          onMouseEnter={() => setShowHint(true)}
+          onMouseLeave={() => setShowHint(false)}>
+          <img src={item.icon} className="sidebar_img" />
+          {(showHint && sideMenuWidth === WIDTH_SIDE_MENU) && <HintWindow text={item.label} />}
+          <span className="item">{item.label}</span>
+          <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} />
       </div>
     </Link> 
       {item?.subItems &&
-       opened && (
+        opened && (
         <div className={`subitem ${hide ? "hide" : ""}`}>
           {item?.subItems.map((subItem) => (
             <SideMenuItem item={subItem} key={subItem.label} />
