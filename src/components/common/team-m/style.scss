@@ -114,6 +114,18 @@
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+    .control_btn{
+      position: relative;
+      display: flex;
+      align-items: center;
+      .hint-window{
+        top: -30px;
+        transform: translateX(-30%);
+      }
+    }
+    .control_btn:first-child{
+      margin-right: 20px;
+    }
     .gray-trash{
       margin-right: 0;
     }
