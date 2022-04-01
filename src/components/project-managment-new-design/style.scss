@@ -596,6 +596,7 @@
   }
   .edit-modal-container{
     display: none;
+    z-index: 9999;
     &.active{
       display: block;
       position: fixed;
