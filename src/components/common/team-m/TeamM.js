@@ -7,8 +7,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getSelectedDateForPMSelector } from '../../../reducers/projects-management'
 
+import HintWindow from 'components/ui/HintWindow'
+
 function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
   let [fulTime, setFullTime] = useState(e.is_full_time)
+  const [showHintExport, setShowHintExport] = useState(false)
+  const [showHintDelete, setShowHintDelete] = useState(false)
+
   const dispatch = useDispatch()
   let selectedData = useSelector(getSelectedDateForPMSelector)
 
@@ -43,6 +48,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
     developer_project_id,
     selectedDate,
   }
+
   return (
     <form className={'team-m' + (isArchived? ' archived':'')}>
       <div className="container-team_modal">
@@ -70,7 +76,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
           <div className="label-def">
             <span>{fulTime ? 'Full-time' : 'Part-time'}</span>
           </div>
-          <div class='team-m_input_block'>
+          <div className='team-m_input_block'>
               <div className="team-m-input-cont">
                 <label htmlFor={e.id || e.user_id}>
                   <input
@@ -103,21 +109,29 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
         </div>
         {hovers && <div className="estimate-hours">{hovers}</div>}
         <div className="trash-cont">
-          <img className={'gray-trash'}
-            onClick={() => {
-              del(e.projectReportId)
-            }}
-            src={TrashGrayIc}
-            alt=""
-          />
-          <img
-            className={'download'}
-            onClick={() => {
-              _downloadProjectReport(e.projectReportId)
-            }}
-            src={DownloadIc}
-            alt=""
-          />
+          <div className='control_btn'
+                  onClick={() => del(e.projectReportId)}
+                  onMouseEnter={() => setShowHintDelete(true)}
+                  onMouseLeave={() => setShowHintDelete(false)}      
+          >
+            <img className={'gray-trash'}
+              src={TrashGrayIc}
+              alt=""
+            />
+            {showHintDelete && <HintWindow text={'Delete'} />}
+          </div>
+          <div className='control_btn'
+                  onClick={() => _downloadProjectReport(e.projectReportId)}
+                  onMouseEnter={() => setShowHintExport(true)}
+                  onMouseLeave={() => setShowHintExport(false)}
+          >
+              <img
+                className={'download'}
+                src={DownloadIc}
+                alt=""
+              />
+            {showHintExport && <HintWindow text={'Export'} />}
+          </div>
         </div>
       </div>
     </form>

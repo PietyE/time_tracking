@@ -447,7 +447,6 @@ function EditProjectModal({ show}) {
     <div
       ref={modalRef}
       className={'edit-modal-container ' + (show ? 'active' : '')}
-        // + (isSideBarShow ? ' left-66' : ' left-56') }
     >
       <WindowInfo
         close={handleClose}
