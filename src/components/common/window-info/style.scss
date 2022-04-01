@@ -559,8 +559,13 @@
         }
       }
 
+      .team-m_input_block{
+        position: relative;
+        left: -7px;
+      }
+
       &:hover{
-        // height: 60px;
+        max-height: 76px;
         background: rgba(87, 108, 108, 0.1);
         .gray-trash{
           display:block;
@@ -584,6 +589,29 @@
       }
     }
 
+    .team-m.archived{
+        .trash-cont{
+          cursor: default;
+          .download{
+            cursor: pointer;
+          }
+        }
+        
+      &:hover{
+        background: rgba(255, 255, 255);
+        .gray-trash{
+          display:none;
+        }
+
+        .team-m-input-cont{
+          display: none;
+        }
+
+        .label-def{
+          display: flex;
+        }
+      }
+    }
   }
 
   .main_container_footer {

@@ -44,7 +44,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
     selectedDate,
   }
   return (
-    <form className=" team-m">
+    <form className={'team-m' + (isArchived? ' archived':'')}>
       <div className="container-team_modal">
         <div className={'avatar-cont'}>
           <img
@@ -70,46 +70,46 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
           <div className="label-def">
             <span>{fulTime ? 'Full-time' : 'Part-time'}</span>
           </div>
-          <div className="team-m-input-cont">
-            <label htmlFor={e.id || e.user_id}>
-              <input
-                name="w-type"
-                type="radio"
-                checked={!fulTime ? 'checked' : ''}
-                id={e.id || e.user_id}
-                onChange={handleOccupancyChange(false)}
-                disabled={isArchived}
-              />
-              <span className="checkmark"></span>
-              Part-time
-            </label>
-          </div>
-          <div className="team-m-input-cont">
-            <label htmlFor={e.id + 1 || e.user_id + 1}>
-              <input
-                name="w-type"
-                type="radio"
-                checked={fulTime ? 'checked' : ''}
-                onChange={handleOccupancyChange(true)}
-                id={e.id + 1 || e.user_id + 1}
-                disabled={isArchived}
-              />
-              <span className="checkmark"></span>
-              Full-time
-            </label>
+          <div class='team-m_input_block'>
+              <div className="team-m-input-cont">
+                <label htmlFor={e.id || e.user_id}>
+                  <input
+                    name="w-type"
+                    type="radio"
+                    checked={!fulTime ? 'checked' : ''}
+                    id={e.id || e.user_id}
+                    onChange={handleOccupancyChange(false)}
+                    disabled={isArchived}
+                  />
+                  <span className="checkmark"></span>
+                  Part-time
+                </label>
+              </div>
+              <div className="team-m-input-cont">
+                <label htmlFor={e.id + 1 || e.user_id + 1}>
+                  <input
+                    name="w-type"
+                    type="radio"
+                    checked={fulTime ? 'checked' : ''}
+                    onChange={handleOccupancyChange(true)}
+                    id={e.id + 1 || e.user_id + 1}
+                    disabled={isArchived}
+                  />
+                  <span className="checkmark"></span>
+                  Full-time
+                </label>
+              </div>
           </div>
         </div>
         {hovers && <div className="estimate-hours">{hovers}</div>}
         <div className="trash-cont">
-          {!isArchived &&  <img
-            className={'gray-trash'}
+          <img className={'gray-trash'}
             onClick={() => {
               del(e.projectReportId)
             }}
             src={TrashGrayIc}
             alt=""
           />
-          }
           <img
             className={'download'}
             onClick={() => {

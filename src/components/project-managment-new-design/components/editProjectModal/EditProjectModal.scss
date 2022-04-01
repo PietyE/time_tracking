@@ -28,16 +28,17 @@
                 font-family: Montserrat, sans-serif;
                 font-size: 14px;
                 left: 0;
-                height: 85px;
+                height: 75px;
                 width: 100%;
                 position:inherit;
-                display: flex;
+                display: block;
                 margin: 21px 5px;
+                white-space: pre-line;
+                text-overflow: ellipsis;
             }
     
             textarea{
                 width: 562px;
-                margin-top: 12px;
                 background: #FFFFFF;
                 border: 1px solid #009C98;
                 box-sizing: border-box;
@@ -45,6 +46,7 @@
                 resize: none;
                 font-family: Montserrat, sans-serif;
                 font-size: 14px;
+                height: 75px;
             }
           }
 
