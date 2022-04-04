@@ -347,10 +347,9 @@ const ProjectManagementComponent = () => {
         </div>
         <CreateProjectModal show={isCreateModalShow} />
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
-        {/* <EditProjectModal2 offset={offset + 'px'} show={isEditModalShow} /> */}
       </div>
       <div className={`modal-container`}>
-          <EditProjectModal show={isEditModalShow}/>
+        <EditProjectModal show={isEditModalShow} month={month}/>
       </div>
 
     </div>
