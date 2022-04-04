@@ -47,7 +47,7 @@ import { getProfileShowSideMenu } from '../../../../selectors/user'
 
 import './EditProjectModal.scss'
 
-function EditProjectModal({ show}) {
+function EditProjectModal({ show, month}) {
   const modalRef = useRef(null);
   const [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
@@ -106,7 +106,7 @@ function EditProjectModal({ show}) {
       projectId: currentProjectId,
       projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
     }));
-    console.log(mappedAddedUsers);
+    
     setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
     setAddMember(false);
 
@@ -211,7 +211,7 @@ function EditProjectModal({ show}) {
     if (show) {
         _getProjectReportById(currentProjectId);
     }
-  }, [_getProjectReportById, currentProjectId, show])
+  }, [_getProjectReportById, currentProjectId, show, month])
 
   useEffect(() => {
     if (currentProject && show) {
@@ -518,10 +518,10 @@ function EditProjectModal({ show}) {
               valueKey="name"
               idKey="id"
               extraClassContainer={' search search-manger'}
-              initialChoice={valuesFromApi?.projectManager}
+              initialChoice={valuesFromApi?.projectManager || activeProjectManager?.name}
             />
           }
-          value={valuesFromApi?.projectManager?.name}
+          value={valuesFromApi?.projectManager?.name || activeProjectManager?.name}
         />
         <InfoItemM
           key="SPEND HOURS"
