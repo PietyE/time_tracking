@@ -72,23 +72,6 @@ export const currentItemsGets = (pageSize, currentPage, totalItems) => {
   return res
 }
 
-export const closeEditMenu = (editMenu, setEditMenu) => {
-  window.addEventListener('click', (event) => {
-    if (editMenu) {
-      if (
-        event.target.parentNode?.classList.contains('edit_dots') ||
-        event.target.parentNode.classList.contains('time_report_day_menu') ||
-        event.target.parentNode.classList.contains('time_report_day_edit') ||
-        event.target.classList.contains('time_report_day_menu') ||
-        event.target.parentNode.classList.contains('svg-inline--fa')
-      ) {
-        return
-      }
-      setEditMenu(false)
-    }
-  })
-}
-
 export function paginationWithDots(c, m) {
   var current = c,
     last = m,
@@ -100,7 +83,7 @@ export function paginationWithDots(c, m) {
     l
 
   for (let i = 1; i <= last; i++) {
-    if (i == 1 || i == last || (i >= left && i < right)) {
+    if (i === 1 || i === last || (i >= left && i < right)) {
       range.push(i)
     }
   }
