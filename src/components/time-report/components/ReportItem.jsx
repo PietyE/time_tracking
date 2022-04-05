@@ -12,13 +12,15 @@ import {
   editTimeReport,
   setEditMode,
 } from 'actions/times-report'
-import { closeEditMenu, parseMinToHoursAndMin } from 'utils/common'
+import { parseMinToHoursAndMin } from 'utils/common'
 import DeleteModal from './DeleteModal'
 import Linking from 'components/common/linking'
 import {
   getTimeReportForEdit,
   getIdEditingWorkItem,
 } from 'selectors/timereports'
+
+import useMenuPresent from 'custom-hook/useMenuPresent'
 
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAler } from '../../../actions/alert'
@@ -79,17 +81,15 @@ function ReportItem({
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
-  const [editMenu, setEditMenu] = useState(false);
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
+
+  const [editMenu, handlerOpenMenu] = useMenuPresent();
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
     setIsDeleteRequest(!isDeleteRequest)
     setEditMode(null)
-    if (editMenu) {
-      setEditMenu(!editMenu) 
-    }
   }
 
   const handlerClickDelete = (e) => {
@@ -102,7 +102,6 @@ function ReportItem({
     e.preventDefault()
     e.stopPropagation()
     setEditMode(id);
-    setEditMenu(!editMenu) 
   }
 
   const handlerCancelEditMode = () => {
@@ -224,15 +223,11 @@ function ReportItem({
   const activeClassNameContainerForEditting =
     idEditingWorkItem === id ? 'editing' : ''
 
-  useEffect(() => {
-    closeEditMenu(editMenu, setEditMenu);
-  }, [editMenu])
-
-
   const handleDragAndDrop = (event) => {
     if (event.target.classList.contains('time_report_day_edit')
       || event.target.parentNode.classList.contains('time_report_day_edit')
       || event.target.parentNode.classList.contains('edit_dots')
+      || event.target.parentNode.classList.contains('svg-inline--fa')
       || event.target.parentElement.classList.contains('time_report_day_menu')
       || event.target.parentElement.classList.contains('edit-form')
       || event.target.parentNode.classList.contains('modal_container')
@@ -255,12 +250,10 @@ function ReportItem({
       || event.target.parentNode.classList.contains('select_title_icon')
       || event.target.parentNode.classList.contains('time_report_day_description')
       || event.target.classList.contains('time_report_day_description')
-
     ) {
       return
     }
     setDraganDroped(!draganDroped);
-
     const currentWorkItem = containerRef.current
     let _day = null
 
@@ -411,7 +404,7 @@ function ReportItem({
 
       <div className="time_report_day_edit">
         {idEditingWorkItem !== id?
-          <div className={'edit_dots ' + (editMenu ? 'dots-bg' : '')} onClick={() => { setEditMenu(!editMenu) }}>
+          <div className={'edit_dots ' + (editMenu ? 'dots-bg' : '')} onClick={handlerOpenMenu}>
             <FontAwesomeIcon
               icon={faEllipsisV}
               color="#414141"
