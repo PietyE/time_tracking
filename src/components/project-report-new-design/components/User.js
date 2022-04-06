@@ -26,7 +26,7 @@ function User (props) {
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
 
   const userProjects = useMemo(() => {
-    return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== null))
+    return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== 0))
   }, [projects])
 
   const projectList = useMemo(() => {
@@ -36,7 +36,7 @@ function User (props) {
   }, [userProjects])
  
   const formattedProjects = useMemo(
-    () => userProjects.map(({ project: {  name }, is_active, is_full_time, total_minutes, id }) => ({
+    () => userProjects.map(({ project: {  name }, is_active, is_full_time, overtime_minutes , id }) => ({
       developer_projects:{
           title:name,
           state_link:{
@@ -45,7 +45,7 @@ function User (props) {
           selectedDate,
           },
       },
-      totalHours: (is_full_time || is_full_time === null) ? 'fulltime' : parseMinToHoursAndMin(total_minutes, true) || 0,
+      totalHours: (is_full_time) ? 'fulltime' : parseMinToHoursAndMin(overtime_minutes , true) || 0,
       id: id,
       active_project: is_active,
     })),
