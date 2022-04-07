@@ -8,11 +8,13 @@ import ProjectData from './components/ProjectData/ProjectData'
 import SearchByProject from './components/SearchByProject';
 import SearchByDeveloper from './components/SearchByDeveloper';
 import UsersInfo from './components/UsersInfo';
+import SpinnerStyled from '../ui/spinner'
 
 import SelectMonth from 'components/ui/select-month'
 import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
 import { getProfileId, getRoleUser, getUserAvatarUrl } from '../../selectors/user'
+import { getIsFetchingProjectsReport } from 'selectors/developer-projects';
 import { DEVELOPER } from 'constants/role-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -28,6 +30,7 @@ import {
 import './projectReportNew.scss'
 
 function ProjectReportNew () {
+  const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport);
   const selectedDate = useShallowEqualSelector(getSelectedMonthSelector);
   const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser);
@@ -108,7 +111,9 @@ function ProjectReportNew () {
                                           openComments: commentsOnOpen,
                                           showWindowWithUserInfo: userWindowInfoOpen,
                                           closeWindowWithUserInfo: userWindowInfoClose,
-                                          chooseUser: selectUser,}}>
+                                          chooseUser: selectUser
+    }}>
+      {isFetchingReports && <SpinnerStyled />}
       <div className="project_report_container">
         <HeaderProjectReport id={currentUserId} name="Project report"/>
         <div className="diw_row" />
