@@ -6,14 +6,14 @@ function ProjectList (props) {
   const {
     name,
     hours,
+    hoursOvertime,
     stateDataForLink,
-    is_full_time
+    active_project,
+    full_time
   } = props;
 
   const showHours = () => {
-    if (is_full_time) {
-        return 'full-time'
-    } else if (hours) {
+   if (hours) {
         return hours
     } else {
         return '0h 00m' 
@@ -23,7 +23,7 @@ function ProjectList (props) {
   return (
     <>
         <div className='project_row' />
-        <div className='project_list'>
+        <div className={`project_list ${(!active_project || full_time === null)? 'not_active_project':''}`}>
             <div className='project_name'>
                 {<Link
                     to={{
@@ -34,7 +34,10 @@ function ProjectList (props) {
                     {name}
                 </Link>}
               </div>
-            <div className='project_hours'>{showHours()}</div>
+            <div className='project_hours'>
+              <span>{showHours()}</span>
+              { (full_time && hoursOvertime) ? (<span> | { hoursOvertime}</span>) : null}
+            </div>
         </div>
     </>
   )
