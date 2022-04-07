@@ -1,18 +1,13 @@
-import React, { useMemo, useEffect, useContext } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useEffect, useState, useContext } from 'react'
 
 import clock from 'images/sideMenuIcons/clock.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
-import { Link } from 'react-router-dom'
-
-import { selectProjectsByUserId } from 'selectors/project-report-details';
-import { getSelectedMonthSelector } from '../../../reducers/projects-report'
-import { getUsersProjectReport } from 'actions/projects-report';
-import { selectUserProjects } from '../../../selectors/project-report-details'
+import { getSelectedMonthSelector} from '../../../reducers/projects-report'
 import useEqualSelector from '../../../custom-hook/useEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context';
 import ProjectList from './ProjectList';
+import { parseMinToHoursAndMin, sortUserProjectReport } from 'utils/common';
 
 function User (props) {
   const {
@@ -21,51 +16,50 @@ function User (props) {
     userId,
     hours,
     userData,
+    projects
   } = props;
 
   const contextType = useContext(ProjectReportContext);
-  const dispatch = useDispatch();
   const selectedDate = useEqualSelector(getSelectedMonthSelector);
+  const [sortProjects, setSortProjects] = useState([]);
 
-  const loadProjects = () => {
-    dispatch(getUsersProjectReport(userId))
-  }
+  const userProjects = useMemo(() => {
+    return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== 0 ) && (project.is_full_time !== null || project.overtime_minutes !== 0))
+  }, [projects])
 
-  useEffect(() => {
-    loadProjects()
-  }, [])
-
-  const userProjects = useEqualSelector((state) => selectProjectsByUserId(state, userId))
-  const projectList = userProjects.map((project) => {
-    return project.name
-  }).join(', ')
-
-  const userDetails = useEqualSelector(selectUserProjects);
-  const user = userDetails[userId];
-  const {  projects = [] } = user || {};
-
-  const loadProjectByTarget = useMemo(() => {
-    loadProjects()
-  }, [selectedDate])
-
+  const projectList = useMemo(() => {
+    const activeProject = [...userProjects].filter((project) => (project.is_active && project.is_full_time !== null))
+    return  activeProject.map((project) => {
+      return project.project.name
+       }).join(', ')
+  }, [userProjects])
+ 
   const formattedProjects = useMemo(
-    () => projects.map(({ name, is_active, is_full_time, working_time, idDeveloperProjects }) => ({
-      name: '',
+    () => userProjects.map(({ project: {  name }, is_active, is_full_time, overtime_minutes , id }) => ({
       developer_projects:{
           title:name,
           state_link:{
           userId: userId,
-          developer_project_id: idDeveloperProjects,
+          developer_project_id: id,
           selectedDate,
+          },
       },
-      title:name
-      },
-      totalHours: is_full_time ? 'fulltime' : `${working_time || 0} `,
-      id: idDeveloperProjects,
+      totalHours: (is_full_time) ? 'fulltime' : parseMinToHoursAndMin(overtime_minutes, true) || 0,
+      totalOvertime: (overtime_minutes) ?  parseMinToHoursAndMin(overtime_minutes, true) : 0,
+      id: id,
       active_project: is_active,
+      full_time: is_full_time
     })),
-    [projects, selectedDate]);
+    [userProjects, selectedDate]);
+  
+  useEffect(() => {
+    const sortFormattedProjects = [...formattedProjects].sort(sortUserProjectReport);
+    const currentProjects = sortFormattedProjects.filter((project) => project.full_time !== null)
+    const pastProjects = sortFormattedProjects.filter((project) => project.full_time === null)
+      setSortProjects([...currentProjects, ...pastProjects])
+  }, [formattedProjects]);
 
+  
   const chooseUser = (e) => {
     e.stopPropagation()
     contextType.chooseUser(userData)
@@ -86,17 +80,20 @@ function User (props) {
         <div className="overtime_block">
             <span className="hours">{hours}</span>
         </div>
-        <div className={`upArrow ${contextType.selectedUserId === userId ? "selected" : ""}`}>
+        {userProjects.length ?(<div className={`upArrow ${contextType.selectedUserId === userId ? "selected" : ""}`}>
             <img src={upArrow} alt="" />
-        </div>
+        </div>): null}
       </div> 
       <div className={`project_by_current_user ${contextType.selectedUserId === userId ? "selected" : ""}`}>
-        {formattedProjects.map((project) => 
+        {sortProjects.map((project) => 
             (<ProjectList
                 name={project.developer_projects.title} 
                 key={project.id}
                 hours={project.totalHours}
                 stateDataForLink={project.developer_projects.state_link} 
+                active_project={project.active_project}
+                full_time={project.full_time}
+                hoursOvertime = {project.totalOvertime}
               />)
         )}
       </div>   

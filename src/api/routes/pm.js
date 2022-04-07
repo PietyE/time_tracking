@@ -2,6 +2,14 @@ import CRUD from '../base'
 
 class PmCRUD extends CRUD {
 
+  getAllDevelopersProjects(params) {
+    const url = `${this.url}/report/${params.year}/${params.month + 1}`
+    return this.request({
+      url,
+      method: 'GET',
+    })
+  }
+
   getProjectsReportById(params) {
     const url = `${this.url}/report/${params.year}/${params.month + 1}/?project_id=${params.id}`
     return this.request({

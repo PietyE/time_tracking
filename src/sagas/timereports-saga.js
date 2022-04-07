@@ -61,7 +61,6 @@ export function* getDeveloperProjects({ payload, type, projectIdForSelect = null
   }
 }
 
-
 export function* getDeveloperProjectsById(action) {
 const { month, year } = yield select((state) => state.timereports.selectedDate)
   try {

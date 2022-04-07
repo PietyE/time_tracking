@@ -12,8 +12,8 @@ import UsersInfo from './components/UsersInfo';
 import SelectMonth from 'components/ui/select-month'
 import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
-import { getProfileId, getUserRoleText, getUserAvatarUrl } from '../../selectors/user'
-import { DEVELOPER, PM } from 'constants/role-constant'
+import { getProfileId, getRoleUser, getUserAvatarUrl } from '../../selectors/user'
+import { DEVELOPER } from 'constants/role-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import {ProjectReportContext} from 'context/projectReport-context'
@@ -30,7 +30,7 @@ import './projectReportNew.scss'
 function ProjectReportNew () {
   const selectedDate = useShallowEqualSelector(getSelectedMonthSelector);
   const usersData = useShallowEqualSelector(selectUsersReports);
-  const roleUser = useShallowEqualSelector(getUserRoleText);
+  const roleUser = useShallowEqualSelector(getRoleUser);
   const currentUserId = useShallowEqualSelector(getProfileId);
   const userAvatarUrl = useShallowEqualSelector(getUserAvatarUrl);
   const [openUserInfo, setOpenUserInfo] = useState(false);
@@ -113,13 +113,16 @@ function ProjectReportNew () {
         <HeaderProjectReport id={currentUserId} name="Project report"/>
         <div className="diw_row" />
         <div className="project_report_date">
-         <SearchByDeveloper />
-          <div className="row">
-          <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="10" height="1.5" fill="#616161"/>
-          </svg>
-          </div>
-          <SearchByProject />
+          {roleUser !== DEVELOPER && (
+          <div className='block_select_elements'>
+            <SearchByDeveloper />
+            <div className="row">
+              <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="10" height="1.5" fill="#616161" />
+              </svg>
+            </div>
+            <SearchByProject />
+          </div>)}       
           <div className="select_month">
             <SelectMonth
               selectedDate={selectedDate}
@@ -129,8 +132,8 @@ function ProjectReportNew () {
             />
           </div>
         </div>
-           {/* {renderUserProjects()} */}
-           <UsersInfo selectedDate={selectedDate}/>
+        {/* {renderUserProjects()} */}
+        <UsersInfo selectedDate={selectedDate} />
       </div>
     </ProjectReportContext.Provider>
   )

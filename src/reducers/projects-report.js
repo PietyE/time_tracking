@@ -1,6 +1,7 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
   SET_DEV_CONSOLIDATE_PROJECT_REPORT,
+  SET_ALL_DEVELOPER_PROJECTS,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -42,6 +43,7 @@ const initialState = {
   },
   isFetchingReports: false,
   developerProjectInProjectReport: [],
+  selectAllDevelopersProject: [],
   editingUserId: '',
   userId: '',
   // reportHistory: []
@@ -95,6 +97,8 @@ export const projectsReport = (state = initialState, action) => {
     //     ...state,
     //     reportHistory: data
     //   }  
+    case SET_ALL_DEVELOPER_PROJECTS:
+      return { ...state, selectAllDevelopersProject: action.payload }
     default:
       return state
   }
@@ -127,3 +131,6 @@ export const getSelectDeveloperInProjectReportSelector = (state) =>
 
 export const selectUsersReports = (state) =>
   state.projectsReport.reportsRefactored
+
+  export const selectAllProjects = (state) =>
+  state.projectsReport.selectAllDevelopersProject
