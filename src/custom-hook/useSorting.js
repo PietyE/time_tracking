@@ -9,7 +9,7 @@ const useSorting = () => {
     const [prevParams] = Object.keys(sortingParameter)
     if (sortingParameter[nameParam] === null  || prevParams !== nameParam ) {
       setSortingParameters({[nameParam]: true}) 
-    } else if (sortingParameter[nameParam] === true) {
+    } else if (sortingParameter[nameParam]) {
       setSortingParameters({[nameParam]: false}) 
     } else {
       setSortingParameters({[nameParam]: null}) 
