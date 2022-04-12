@@ -54,7 +54,6 @@ function ProjectReportNew () {
     if (roleUser !== DEVELOPER) {
       getDevelopersProject()
     }
-    getConsolidateProject()
   }, [])
 
   const handleChangeData = useCallback(
@@ -66,10 +65,6 @@ function ProjectReportNew () {
 
   const getDevelopersProject = () => {
     dispatch(getDevelopersProjectInProjectReport())
-  }
-
-  const getConsolidateProject = () => {
-    dispatch(getConsolidateProjectReport())
   }
 
   const buttonFocusOn = (target) => {
