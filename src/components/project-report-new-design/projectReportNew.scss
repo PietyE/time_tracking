@@ -79,28 +79,37 @@
           font-size: 13px;
           line-height: 24px;
           text-align: right;
+          margin-right: 15px;
           letter-spacing: 0.02em;
+          
           color: rgba(34, 34, 34, 0.3);
+          
+        }
 
+        .name_sorting{
+          margin-right: 5px;
+          cursor: pointer;
+          transition: color 0.2s linear;
+        &:hover{
+          color: #14918da8;
+        }
         }
 
         .arrows {
           display: flex;
           flex-direction: column;
-          margin-top: -8px;
-          margin-left: 5px;
-          padding-top: 0;
-
+          height: 100%;
+          align-items: flex-start;
+          width: 9px;
+          transform: translateY(-23%);
+          
           .arrow {
-            height: 10px;
+            width: 14px;
+            height: 14px;
+          }
 
-            &.show {
-              opacity: 100%;
-            }
-
-            &.hide {
-              opacity: 0%;
-            }
+          .disable{
+            opacity: .5;
           }
         }
       }
@@ -113,6 +122,7 @@
         font-weight: bold;
         font-size: 13px;
         line-height: 24px;
+        white-space: nowrap;
         text-align: right;
         letter-spacing: 0.02em;
         color: rgba(34, 34, 34, 0.3);
