@@ -33,7 +33,7 @@ const useSorting = () => {
     setSorting(() => {
       return orderBy(data, iteratees, sortOrders)
     })
-  }, []);
+  }, [sortingParameter]);
 
   return {
     sorting,
