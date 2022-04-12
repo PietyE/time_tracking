@@ -53,12 +53,9 @@ import { getProfileShowSideMenu } from '../../selectors/user'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
-  const { sorting, handleSortingChange } = useSorting()
-  const [sortParams, setSortParams] = useState({
-    name: true,
-    total_minutes: null,
-  })
-  const [offset, setOffset] = useState(0);
+  const { sorting, sortingParameter, handleSortingChange, toggleSortingParameter } = useSorting()
+  const SORT_NAME = 'name'
+  const SORT_TIME = 'total_minutes'
   const dispatch = useDispatch()
 
   const projectDivRef = useRef(null);
@@ -101,14 +98,13 @@ const ProjectManagementComponent = () => {
     ...projectManagers,
   ]
 
-
-  const setSortedArr = useCallback((sortParams) => {
-    handleSortingChange(filteredProjects, sortParams)
-  }, [filteredProjects])
+  const setSortedArr = useCallback(() => {
+    handleSortingChange(filteredProjects)
+  }, [filteredProjects, sortingParameter])
 
   useEffect(() => {
-    setSortedArr(sortParams);
-  }, [filteredProjects, selectedDateForPM, sortParams])
+    setSortedArr();
+  }, [filteredProjects, selectedDateForPM, sortingParameter])
 
   useEffect(() => {
     dispatch(clearPmProjects())
@@ -256,17 +252,15 @@ const ProjectManagementComponent = () => {
           <div className="row table__titles">
             <div className="col-8">
               <div className="sort-by table__titles-sort__container">
-                <div className="sort-title">PROJECT NAME</div>
+                <div
+                  className="sort-title"
+                  onClick={() =>toggleSortingParameter(SORT_NAME)}
+                >
+                  PROJECT NAME
+                </div>
                 <div className="cart-cont">
                   <div
-                    className={'max ' + (sortParams.name === null ? 'disable' : sortParams.name ? '' : 'disable')}
-                    onClick={() => {
-                      setSortParams({
-                        name: true,
-                        total_minutes: null,
-                      })
-                      setSortedArr(sortParams)
-                    }}
+                    className={'max ' + ((sortingParameter?.name === null || sortingParameter?.name === undefined) ? 'disable' : sortingParameter.name ? '' : 'disable')}
                   >
                     <FontAwesomeIcon
                       icon={faCaretUp}
@@ -275,14 +269,7 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                   <div
-                    className={'min ' + (sortParams.name === null ? 'disable' : !sortParams.name ? '' : 'disable')}
-                    onClick={() => {
-                      setSortParams({
-                        name: false,
-                        total_minutes: null,
-                      })
-                      setSortedArr(sortParams)
-                    }}
+                    className={'min ' + ((sortingParameter?.name === null || sortingParameter?.name === undefined) ? 'disable' : !sortingParameter.name ? '' : 'disable')}
                   >
                     <FontAwesomeIcon
                       icon={faCaretDown}
@@ -295,17 +282,10 @@ const ProjectManagementComponent = () => {
             </div>
             <div className="col-3 table__titles-sort__container">
               <div className="sort-by">
-                <div className="sort-title">HOURS WORKED</div>
+                <div className="sort-title" onClick={() =>toggleSortingParameter(SORT_TIME)}>HOURS WORKED</div>
                 <div className="cart-cont">
                   <div
-                    className={'max ' + (sortParams.total_minutes === null ? 'disable' : sortParams.total_minutes ? '' : 'disable')}
-                    onClick={() => {
-                      setSortParams({
-                        name: null,
-                        total_minutes: true,
-                      })
-                      setSortedArr(sortParams)
-                    }}
+                    className={'max ' + ((sortingParameter?.total_minutes === null || sortingParameter?.total_minutes ===undefined) ? 'disable' : sortingParameter.total_minutes ? '' : 'disable')}
                   >
                     <FontAwesomeIcon
                       icon={faCaretUp}
@@ -314,14 +294,7 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                   <div
-                    className={'min ' + (sortParams.total_minutes === null ? 'disable' : !sortParams.total_minutes ? '' : 'disable')}
-                    onClick={() => {
-                      setSortParams({
-                        name: null,
-                        total_minutes: false,
-                      })
-                      setSortedArr(sortParams)
-                    }}
+                    className={'min ' + ((sortingParameter?.total_minutes === null || sortingParameter?.total_minutes ===undefined) ? 'disable' : !sortingParameter.total_minutes ? '' : 'disable')}
                   >
                     <FontAwesomeIcon
                       icon={faCaretDown}
