@@ -36,7 +36,7 @@ function ProjectList (props) {
               </div>
             <div className='project_hours'>
               <span>{showHours()}</span>
-              { (full_time && hoursOvertime) ? (<span> | { hoursOvertime}</span>) : null}
+              { (full_time && hoursOvertime) ? (<span> + { hoursOvertime}</span>) : null}
             </div>
         </div>
     </>
