@@ -20,7 +20,7 @@ function UsersInfo (props) {
   const usersData = useShallowEqualSelector(selectUsersReports);
   const usersProjects = useShallowEqualSelector(selectAllProjects);
   const roleUser = useShallowEqualSelector(getRoleUser);
-console.log(roleUser);
+
   const SORT_NAME = 'name'
 
   const dispatch = useDispatch();
