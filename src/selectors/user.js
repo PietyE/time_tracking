@@ -16,6 +16,8 @@ export const getProfileEmail = state => state.profile.email
 
 export const getProfileShowSideMenu = state => state.profile.sideMenuStatus
 
+export const getProfileShowSideMenuArrow = state => state.profile.sideMenuArrow
+
 export const getProfile = state =>state.profile;
 
 export const getUserAvatarUrl = createSelector(

@@ -1,9 +1,7 @@
 
 .arrow-up {
-  position: sticky;
-  z-index: 100;
-  top: 39px;
-  left: 50px;
+  position: relative;
+  left: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,11 +10,25 @@
   border-radius: 50%;
   background: #D6D6D3;
   font-size: 22px;
-  transform: translateX(-25%);
-  //color:#616161;
+  margin: 0;
   &.active{
     color: #009C98;
     background: rgba(0, 156, 152, 0.1);
     cursor: pointer;
+    animation: animate 2.5s linear infinite;
+  }
+}
+
+@keyframes animate {
+  0%, 100% {
+      transform: scale(1);
+  }
+
+25%, 75% {
+    transform: scale(1.1);
+}
+
+  50% {
+      transform: scale(1.2);
   }
 }
