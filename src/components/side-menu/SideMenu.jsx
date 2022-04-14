@@ -140,12 +140,9 @@ function SideMenu() {
     <SidebarContext.Provider value={{ selected, onItemClick: buttonRouteTo, onOpenClick: sideMenuOnOpen }}>
       <div className={`${openSideMenu === SHOW_FULL_SIDE_MENU ? 'side_menu_container' : 'side_menu_container_close'}`}>
         <div className='side_menu_container-wrapper'>
-        {openSideMenu === SHOW_FULL_SIDE_MENU
-          ? (
-            <>
               <div className="side_menu_wrap">
                 <Logo />
-                <Company />
+                {openSideMenu === SHOW_FULL_SIDE_MENU ? <Company /> : null}
                 <SidemenuButton />
               </div>
               <div className="side_menu_user_info">
@@ -161,37 +158,10 @@ function SideMenu() {
               <div className="sidebar_menu">
                 <SideBarMenu panels={panels} />
               </div>
-              <div className="div_row2" />
               <div className="sidebar_footer">
                 <HelpCenter img={questionCircle} />
                 <Logout img={door} />
               </div>
-            </>
-          )
-          : (<>
-            <div className="side_menu_wrap">
-              <Logo />
-              <SidemenuButton />
-            </div>
-            <div className="side_menu_user_info">
-              <div className="user_avatar">
-                <UserAvatar />
-              </div>
-              <div className="user_info">
-                <span className="user_role">{userRole}</span>
-                <span className="user_name">{userName}</span>
-              </div>
-            </div>
-            <div className="div_row" />
-            <div className="sidebar_menu">
-              <SideBarMenu panels={panels} />
-            </div>
-            <div className="sidebar_footer">
-              <HelpCenter img={questionCircle} />
-              <Logout img={door} />
-            </div>
-          </>
-            )}
           <div className='arrow_container'>
             {showArrow ? <ArrowUp isActive /> : null}
           </div>
