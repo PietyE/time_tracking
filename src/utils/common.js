@@ -142,6 +142,11 @@ export const getDeveloperProjectsName = (projects) => {
   return allProjectsName;
 }
 
+export const setHeight = (elem) => {
+  let vh = window.innerHeight * 0.01;
+  elem.style.setProperty('--vh', `${vh}px`);
+}
+
 const formatTimeToNumber = (timeStr) => {
   const result = timeStr.replace('h ', '').replace('m', '');
 

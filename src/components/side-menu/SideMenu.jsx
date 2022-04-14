@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 
 import { getProfileName, getProfileShowSideMenu, getUserRoleText, getProfileShowSideMenuArrow  } from '../../selectors/user'
 
@@ -23,6 +23,7 @@ import useEventListener from '../../custom-hook/useEventListener';
 import ArrowUp from '../ui/arrowUp'
 import { useDispatch } from 'react-redux'
 import { setShowSideMenu, setShowSideMenuArrow } from '../../actions/users'
+import { setHeight } from 'utils/common'
 import { SHOW_FULL_SIDE_MENU, SHOW_SHORT_SIDE_MENU } from '../../constants/side-menu-constant'
 
 function SideMenu() {
@@ -32,6 +33,11 @@ function SideMenu() {
   const userRole = useShallowEqualSelector(getUserRoleText);
   const [selected, setSelected] = useState(null);
   const [openSideMenu, setOpened] = useState(SHOW_FULL_SIDE_MENU);
+  const sideMenu = useRef()
+
+  useEffect(() => {
+    setHeight(sideMenu.current)
+  }, []);
 
   const panels = useMemo(() => {
     const result = [{
@@ -139,7 +145,7 @@ function SideMenu() {
   return (
     <SidebarContext.Provider value={{ selected, onItemClick: buttonRouteTo, onOpenClick: sideMenuOnOpen }}>
       <div className={`${openSideMenu === SHOW_FULL_SIDE_MENU ? 'side_menu_container' : 'side_menu_container_close'}`}>
-        <div className='side_menu_container-wrapper'>
+        <div ref = {sideMenu} className='side_menu_container-wrapper' >
               <div className="side_menu_wrap">
                 <Logo />
                 {openSideMenu === SHOW_FULL_SIDE_MENU ? <Company /> : null}
