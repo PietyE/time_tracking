@@ -250,6 +250,7 @@
       outline: none;
       background-color: white;
       margin-bottom: 3px;
+      cursor: pointer;
       &.hasChildren {
         .up_arrow {
           display: block;
@@ -380,6 +381,9 @@
       margin-top: 14px;
       padding-bottom: 85px;
       border-bottom: 1px solid rgba(201, 201, 198, 0.6);
+      @media screen and ( max-height: 699px ) { 
+        padding-bottom: 25px;
+      }
 
       .panel_name,
       .item {
@@ -457,6 +461,7 @@
           height: 44px;
           padding: 0 29px 0 27px;
           margin-bottom: 3px;
+          cursor: pointer;
 
         .sidebar_img {
           width: 22px;
@@ -509,11 +514,12 @@
 
 .side_menu_container-wrapper{
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
-  left: 0;
   display: flex;
   flex-direction: column;
-  height: calc(var(--vh, 1vh) * 100);
+  // height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
   background: white;
   box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1);
 }
@@ -584,6 +590,9 @@
       width: 78px;
       margin-top: 14px;
       padding-bottom:  85px;
+      @media screen and ( max-height: 699px ) { 
+        padding-bottom: 25px;
+      }
 
       .panel_name,
       .item {
