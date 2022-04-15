@@ -69,7 +69,7 @@ const SideMenuItem = (props) =>{
           <img src={item.icon} className="sidebar_img" />
           {(showHint && sideMenuWidth === WIDTH_SIDE_MENU) && <HintWindow text={item.label} />}
           <span className="item">{item.label}</span>
-          <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} />
+          {/* <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} /> */}
       </div>
     </Link> 
       {item?.subItems &&
