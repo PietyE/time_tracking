@@ -35,9 +35,9 @@ function SideMenu() {
   const [openSideMenu, setOpened] = useState(SHOW_FULL_SIDE_MENU);
   const sideMenu = useRef()
 
-  useEffect(() => {
-    setHeight(sideMenu.current)
-  }, []);
+  // useEffect(() => {
+  //   setHeight(sideMenu.current)
+  // }, []);
 
   const panels = useMemo(() => {
     const result = [{
@@ -165,7 +165,7 @@ function SideMenu() {
                 <SideBarMenu panels={panels} />
               </div>
               <div className="sidebar_footer">
-                <HelpCenter img={questionCircle} />
+                {/* <HelpCenter img={questionCircle} /> */}
                 <Logout img={door} />
               </div>
           <div className='arrow_container'>
