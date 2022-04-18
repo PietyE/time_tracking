@@ -15,3 +15,6 @@ html{
 button:focus {
   outline: 0;
 }
+body{
+  overflow-y: scroll;
+}
