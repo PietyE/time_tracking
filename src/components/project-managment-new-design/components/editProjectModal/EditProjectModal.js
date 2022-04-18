@@ -177,12 +177,6 @@ function EditProjectModal({ show, month}) {
   }, [currentEditedTeam, _changeUserOnProject])
 
   useEffect(() => {
-    if (show){
-      setElementTop(modalRef.current)
-    }
-  }, [show, currentProjectId]);
-
-  useEffect(() => {
     if (show) {
       if (projectName) {
         setValuesFromApi({
@@ -222,6 +216,7 @@ function EditProjectModal({ show, month}) {
   const handleClose = () => {
     resetForm();
     dispatch(setShowEditModal(false));
+    setAddMember(false);
   }
 
   let teamMList = currentEditedTeam?.map((e, i) => {
