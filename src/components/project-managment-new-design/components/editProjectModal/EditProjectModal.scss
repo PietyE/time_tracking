@@ -55,7 +55,15 @@
                 height: 39px;
             }
         }
+
+        .div_info_row:nth-child(4){
+            .info_data{
+                height: 39px;
+            }
+        }
+
         .div_info_row:nth-child(5){
+            cursor: default;
             .info_data{
                 border: none;
             }

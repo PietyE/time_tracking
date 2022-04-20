@@ -4,7 +4,6 @@ import {
   CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE, SET_SHOW_EDIT_MODAL, SET_SHOW_CREATE_MODAL,
   SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS, SET_SHOW_CREATE_USER_MODAL
 } from 'constants/actions-constant'
-import {isEmpty} from 'lodash'
 
 const todayDate = new Date()
 

@@ -35,7 +35,7 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
                                 onMouseEnter={() => setShowHintArchive(true)}
                                 onMouseLeave={() => setShowHintArchive(false)}
                             >
-                                <img src={ArchiveIc} alt="" />
+                                <img src={ArchiveIc} alt="Archive the project" />
                                 {showHintArchive && <HintWindow text={'Archive the project'} />}
                             </div>
                             <div className="vert_row" />
@@ -43,7 +43,7 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
                                 onClick={close}
                                 onMouseEnter={() => setShowHintClose(true)}
                                 onMouseLeave={() => setShowHintClose(false)}>
-                                <img src={closeButton} />
+                                <img src={closeButton} alt="Close" />
                                 {showHintClose && <HintWindow text={'Close'} />}
                             </div>
                         </div>
