@@ -554,17 +554,17 @@ function EditProjectModal({ show, month}) {
                 <div
                   className="col-5 add-new "
                   onClick={() => {
-                    !isArchivedProject && setAddMember(!addMember)
+                    !isArchivedProject && (valuesFromApi?.projectManager  || activeProjectManager?.name) && setAddMember(!addMember)
                   }}
                 >
                   <span
                     className={
                       'row align-items-center ' +
                       (addMember ? 'add-member' : '') +
-                      (isArchivedProject ? 'half-opacity' : '')
+                      (isArchivedProject ||  (!valuesFromApi?.projectManager || !activeProjectManager?.name)? 'half-opacity' : '')
                     }
                   >
-                    <Plus isActive={addMember || isArchivedProject} />
+                    <Plus isActive={addMember || isArchivedProject || (!valuesFromApi?.projectManager || !activeProjectManager?.name)} />
                     <span>Add new developers</span>
                   </span>
                 </div>
