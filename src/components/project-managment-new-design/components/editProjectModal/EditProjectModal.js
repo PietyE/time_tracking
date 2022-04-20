@@ -4,20 +4,18 @@ import InfoItemM from '../../../common/window-info/components/InfoItemM'
 import TeamM from '../../../common/team-m/TeamM'
 import Plus from '../../../ui/plus'
 import AddSelectedM from '../../../common/AddSelectedM/AddSelectedM'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   addDeveloperToProject,
   addInactiveProjectManagerToProject, addProjectManagerToProject, addUsersOnProject,
   changeProjectName, changeUserOnProject,
   downloadAllTeamProjectReport,
   getProjectReportById,
-  setPm,
   setSelectedProject,
   setShowEditModal,
   getAllProjects
 } from '../../../../actions/projects-management'
 import {
-  getActiveDevSelector,
   getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector, getDeactivatedMembersSelector, getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
@@ -26,8 +24,6 @@ import {
   getSelectedProjectSelector,
   getUsersSelector,
 } from '../../../../reducers/projects-management'
-import { isEqual } from 'lodash'
-import { getProjectsSelector } from '../../../../selectors/developer-projects'
 
 import ChekMark from '../../../../images/check-mark1.svg'
 import UserIcon from '../../../../images/user1.svg'
@@ -41,7 +37,6 @@ import useEventListener from '../../../../custom-hook/useEventListener'
 import { showAler } from '../../../../actions/alert'
 import { WARNING_ALERT } from '../../../../constants/alert-constant'
 import useEqualSelector from '../../../../custom-hook/useEqualSelector'
-import { SidebarContext } from '../../../../context/sidebar-context'
 import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
 import { getProfileShowSideMenu } from '../../../../selectors/user'
 
@@ -53,10 +48,7 @@ function EditProjectModal({ show, month}) {
   const [checkedUsers, setCheckedUsers] = useState([])
   const [currentEditedTeam, setEditedTeam] = useState([])
   const [isArchivedProject, setArchivedProject] = useState(false)
-  const [selectedProject, setSelectedPr] = useState({})
-  const [selectedOwner, setSelectedOwner] = useState({})
 
-  const isSideBarShow = useShallowEqualSelector(getProfileShowSideMenu);
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector);
 
@@ -136,15 +128,6 @@ function EditProjectModal({ show, month}) {
 
   }, [currentEditedTeam, _changeUserOnProject])
 
-  const onSelectPm = useCallback((data) => {
-    dispatch(setPm(data))
-    setSelectedOwner(data)
-  })
-
-  const onSelectProject = useCallback((data) => {
-    setSelectedPr(data)
-  })
-
   const _getProjectReportById = useCallback(
     (data) => {
       dispatch(getProjectReportById(data))
@@ -205,7 +188,7 @@ function EditProjectModal({ show, month}) {
     if (show) {
         _getProjectReportById(currentProjectId);
     }
-  }, [_getProjectReportById, currentProjectId, show, month])
+  }, [_getProjectReportById, currentProjectId, show, month, currentEditedTeam])
 
   useEffect(() => {
     if (currentProject && show) {
@@ -487,16 +470,6 @@ function EditProjectModal({ show, month}) {
                   </Form.Text>
                 )}
             </Form.Group>
-
-            // <Select
-            //   title={valuesFromApi?.projectName}
-            //   listItems={projects}
-            //   onSelected={onSelectProject}
-            //   valueKey="name"
-            //   idKey="id"
-            //   extraClassContainer={' search search-manger'}
-            //   initialChoice={currentApiProject}
-            // />
           }
           value={valuesFromApi?.projectName}
         />
