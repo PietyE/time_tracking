@@ -48,7 +48,7 @@ const RowDetail = ({ row }) => {
       )
       const reformatProjects = activeProjectReports.map((user) => ({
         user: user.userName,
-        occupancy: user.is_full_time ? 'Full-time' : 'Part-time',
+        occupancy: user.is_full_time ? 'Fulltime' : 'Overtime',
 
 
         hours: convertMinutesToHours(user.minutes) || 0,
