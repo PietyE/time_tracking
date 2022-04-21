@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import SelectMonth from '../ui/select-month'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
   getSelectedDateForPMSelector,
@@ -39,8 +39,6 @@ import CreateProjectModal from './components/createProjectModal/CreateProjectMod
 import CreateUserModal from './components/CreateUserModal'
 import useSorting from '../../custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
-import useShallowEqualSelector from '../../custom-hook/useShallowEqualSelector'
-import { getProfileShowSideMenu } from '../../selectors/user'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -72,7 +70,7 @@ const ProjectManagementComponent = () => {
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
   const filteredProjects = useEqualSelector(getFilteredProjectSelector)
-  const isSideBarShow = useShallowEqualSelector(getProfileShowSideMenu);
+
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
   // let currentItems = useEqualSelector(getCurrentItems)

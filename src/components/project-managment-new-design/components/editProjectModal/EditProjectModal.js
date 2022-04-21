@@ -28,7 +28,7 @@ import {
 import ChekMark from '../../../../images/check-mark1.svg'
 import UserIcon from '../../../../images/user1.svg'
 import ProjectIcon from '../../../../images/card-text1.svg'
-import { parseMinToHoursAndMin, setElementTop } from '../../../../utils/common'
+import { parseMinToHoursAndMin} from '../../../../utils/common'
 import Select from '../../../ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
@@ -37,8 +37,6 @@ import useEventListener from '../../../../custom-hook/useEventListener'
 import { showAler } from '../../../../actions/alert'
 import { WARNING_ALERT } from '../../../../constants/alert-constant'
 import useEqualSelector from '../../../../custom-hook/useEqualSelector'
-import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
-import { getProfileShowSideMenu } from '../../../../selectors/user'
 
 import './EditProjectModal.scss'
 
@@ -73,7 +71,6 @@ function EditProjectModal({ show, month}) {
   const currentApiProject = useEqualSelector(getCurrentProjectSelector)
   const projectName = useEqualSelector(getProjectName)
   const isFetchingPMPage = useEqualSelector(getIsFetchingPmPageSelector)
-
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
   const projectTeamM = useEqualSelector(getUsersSelector);
@@ -241,12 +238,9 @@ function EditProjectModal({ show, month}) {
   }, [currentProjectId, changeProjectName]) ;
 
   const {
-    handleSubmit,
     handleChange,
-    handleBlur,
     values,
     errors,
-    isValid,
     touched,
     resetForm,
     setValues,
@@ -291,9 +285,33 @@ function EditProjectModal({ show, month}) {
     }
   }, [errors, currentProjectId, values]);
 
-
+  
   useEventListener('keyup', handleEnterPress);
 
+  const handleLostFocus = (e) => {
+    if (e.target.id === 'projectName'
+    && !errors?.projectName
+    && values.projectName !== valuesFromApi?.projectName
+  ) {
+    dispatch(changeProjectName({
+      id: currentProjectId,
+      data : { name: values.projectName.trim() },
+      title: 'name',
+    }));
+    setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName.trim() }));
+  } else if (
+    e.target.id === 'description'
+    && !errors?.description
+    && values.description !== valuesFromApi?.description
+  ) {
+    dispatch(changeProjectName({
+      id: currentProjectId,
+      data : { description: values.description.trim() },
+      title: 'description',
+    }));
+    setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
+  }
+  }
   useEffect(() => {
     setValues(currentApiProject ? {
       projectName: currentApiProject?.name,
@@ -437,7 +455,6 @@ function EditProjectModal({ show, month}) {
 
         <Form
           onSubmit={(e) => {e.preventDefault()} }
-            // handleSubmit}
         >
 
         <InfoItemM
@@ -450,13 +467,11 @@ function EditProjectModal({ show, month}) {
               controlId="projectName"
               name="projectName"
               onChange={handleChange}
-              onBlur={handleBlur}
+              onBlur={handleLostFocus}
               value={valuesFromApi?.projectName || values.projectName}
               className="search-manger"
             >
-              {/*<Form.Label>Email address</Form.Label>*/}
               <Form.Control
-                // className={styles.emailInput}
                 type="projectName"
                 defaultValue={valuesFromApi?.projectName || values.projectName}
                 placeholder="Type project name ..."
@@ -508,13 +523,11 @@ function EditProjectModal({ show, month}) {
               controlId="description"
               name="description"
               onChange={handleChange}
-              onBlur={handleBlur}
+              onBlur={handleLostFocus}
               value={valuesFromApi?.description || values.description}
               className="search-manger"
             >
-              {/*<Form.Label>Email address</Form.Label>*/}
               <Form.Control
-                // className={styles.emailInput}
                 as="textarea"
                 rows={3}
                 defaultValue={valuesFromApi?.description || values.description}
@@ -530,12 +543,6 @@ function EditProjectModal({ show, month}) {
               )}
             </Form.Group>
 
-            // <Textarea
-            //   placeholder={'Some info about the project'}
-            //   value={description}
-            //   customClass={'projectDescription'}
-            //   setDescription={setDescription}
-            // />
           }
           value={valuesFromApi?.description || 'Some info about the project'}
           customClass={'project-description'}
