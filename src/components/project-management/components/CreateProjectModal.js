@@ -213,7 +213,7 @@ function CreateProjectModal({ show }) {
                           }
                           className="pm_create_team_checkbox"
                         />
-                        Part-time
+                        Overtime
                       </label>
 
                       <FontAwesomeIcon

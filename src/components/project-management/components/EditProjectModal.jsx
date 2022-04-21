@@ -398,7 +398,7 @@ function EditProjectModal({ show, projectList }) {
                         onChange={handleChangePmFullTime}
                         className="pm_create_team_checkbox"
                       />
-                      Part-time
+                      Overtime
                     </label>
                   </div>
                 )}
