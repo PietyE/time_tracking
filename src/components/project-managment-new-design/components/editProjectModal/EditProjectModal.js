@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import WindowInfo from '../../../common/window-info/WindowInfo'
 import InfoItemM from '../../../common/window-info/components/InfoItemM'
 import TeamM from '../../../common/team-m/TeamM'
@@ -96,6 +96,7 @@ function EditProjectModal({ show, month}) {
       projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
     }));
     
+    // eslint-disable-next-line no-undef
     setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
     setAddMember(false);
 
@@ -109,7 +110,7 @@ function EditProjectModal({ show, month}) {
     setCheckedUsers([]);
 
     dispatch(addDeveloperToProject(payload))
-  }, [checkedUsers, currentProjectId, currentProjectReport])
+  }, [checkedUsers, currentProjectId, currentProjectReport, currentEditedTeam, dispatch])
 
   const _changeUserOnProject = useCallback(
     (id, data) => {
@@ -154,7 +155,7 @@ function EditProjectModal({ show, month}) {
     })
 
     setEditedTeam(resArr);
-  }, [currentEditedTeam, _changeUserOnProject])
+  }, [currentEditedTeam])
 
   useEffect(() => {
     if (show) {
@@ -191,13 +192,14 @@ function EditProjectModal({ show, month}) {
     if (currentProject && show) {
       _setSelectedProject(currentProject);
     }
-  }, [currentProject, show]);
+  }, [currentProject, show, _setSelectedProject]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     resetForm();
     dispatch(setShowEditModal(false));
     setAddMember(false);
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch])
 
   let teamMList = currentEditedTeam?.map((e, i) => {
     return (
@@ -235,7 +237,7 @@ function EditProjectModal({ show, month}) {
       id: currentProjectId,
       name: values.projectName,
     }))
-  }, [currentProjectId, changeProjectName]) ;
+  }, [currentProjectId,  dispatch]) ;
 
   const {
     handleChange,
@@ -283,12 +285,12 @@ function EditProjectModal({ show, month}) {
         setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
       }
     }
-  }, [errors, currentProjectId, values]);
+  }, [errors, currentProjectId, values, valuesFromApi, dispatch]);
 
   
   useEventListener('keyup', handleEnterPress);
 
-  const handleLostFocus = (e) => {
+  const handleLostFocus = useCallback((e) => {
     if (e.target.id === 'projectName'
     && !errors?.projectName
     && values.projectName !== valuesFromApi?.projectName
@@ -311,7 +313,8 @@ function EditProjectModal({ show, month}) {
     }));
     setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
   }
-  }
+  }, [errors, currentProjectId, values, valuesFromApi, dispatch])
+
   useEffect(() => {
     setValues(currentApiProject ? {
       projectName: currentApiProject?.name,
@@ -320,8 +323,7 @@ function EditProjectModal({ show, month}) {
       projectName: '',
       description: '',
     });
-
-  }, [valuesFromApi]);
+  }, [currentApiProject, setValues, valuesFromApi]);
 
 
   const _addInactiveProjectManagerToProject = useCallback(
@@ -437,7 +439,7 @@ function EditProjectModal({ show, month}) {
     setArchivedProject(prev => !prev);
     dispatch(getAllProjects())
     handleClose()
-  }, [currentProjectId, isArchivedProject]);
+  }, [currentProjectId, dispatch, handleClose, isArchivedProject]);
 
   return (
     <div

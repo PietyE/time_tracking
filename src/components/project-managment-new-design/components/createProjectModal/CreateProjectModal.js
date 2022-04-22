@@ -1,20 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback} from 'react'
 import {Modal} from 'react-bootstrap'
-import {
-    getProjectManagerListSelector,
-    getAllProjectsSelector,
-    getUsersSelector
-} from '../../../../reducers/projects-management'
-import { getProjectsList } from 'selectors/developer-projects'
+import { getAllProjectsSelector } from '../../../../reducers/projects-management'
 import { createProject, setShowCreateModal } from '../../../../actions/projects-management'
 import { useFormik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { WARNING_ALERT } from '../../../../constants/alert-constant'
 import { showAler } from '../../../../actions/alert'
-import { isEqual } from 'lodash'
-import Cross from "../../../../images/ic_cros.svg"
+import Cross from '../../../../images/ic_cros.svg'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 import styles from './style.module.scss'
 
@@ -123,7 +117,7 @@ function CreateProjectModal({ show }) {
                     <button type="submit" className="pm_create_modal_form-submit">
                         Create the project
                     </button>
-                    <span className={styles.close} onClick={formik.handleReset}><img src={Cross} atl={'cross'}/></span>
+                    <span className={styles.close} onClick={formik.handleReset}><img src={Cross} alt='cross'/></span>
                 </form>
             </Modal.Body>
         </Modal>

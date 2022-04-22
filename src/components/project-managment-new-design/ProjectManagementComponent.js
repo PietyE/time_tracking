@@ -98,29 +98,18 @@ const ProjectManagementComponent = () => {
 
   const setSortedArr = useCallback(() => {
     handleSortingChange(filteredProjects)
-  }, [filteredProjects, sortingParameter])
+  }, [filteredProjects, handleSortingChange])
 
   useEffect(() => {
     setSortedArr();
-  }, [filteredProjects, selectedDateForPM, sortingParameter])
+  }, [filteredProjects, selectedDateForPM, sortingParameter, setSortedArr])
 
   useEffect(() => {
     dispatch(clearPmProjects())
     dispatch(getAllProjects())
-  }, [month, isEditModalShow])
+  }, [month, isEditModalShow, dispatch])
 
-  useEffect(() => {
-    if (selectedProject.id) {
-      const currentProject = projectList.find((item) => {
-        return item.id === selectedProject.id
-      })
-      if (currentProject.length) {
-        onSelectProject(currentProject)
-      }
-    }
-  }, [selectedProject, projectList])
-
-  // // The pagination is commented out until the next iteration
+    // // The pagination is commented out until the next iteration
   // useEffect(() => {
   //   let items = currentItemsGets(pageSize, currentPage, p)
   //   dispatch(setCurrentItems(items))
@@ -157,7 +146,7 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(projectList[0]))
   }
 
-  const onSelectProject = (data) => {
+  const onSelectProject = useCallback((data) => {
     dispatch(setShowEditModal(false));
     if (data.id === 0) {
       dispatch(setShownProject({}))
@@ -165,7 +154,18 @@ const ProjectManagementComponent = () => {
       dispatch(setShownProject(data))
     }
     dispatch(setSelectedProject(data))
-  }
+  }, [dispatch])
+
+  useEffect(() => {
+    if (selectedProject.id) {
+      const currentProject = projectList.find((item) => {
+        return item.id === selectedProject.id
+      })
+      if (currentProject.length) {
+        onSelectProject(currentProject)
+      }
+    }
+  }, [selectedProject, projectList, onSelectProject])
 
   const addNewProject = () => {
     dispatch(setShowEditModal(false))
@@ -319,7 +319,7 @@ const ProjectManagementComponent = () => {
         <CreateProjectModal show={isCreateModalShow} />
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
-      <div className={`modal-container`}>
+      <div className="modal-container">
         <EditProjectModal show={isEditModalShow} month={month}/>
       </div>
 

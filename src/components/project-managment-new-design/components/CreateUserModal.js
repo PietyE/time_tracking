@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { getAllProjectsSelector } from '../../../reducers/projects-management'
 import { setShowCreateUserModal } from '../../../actions/projects-management'
@@ -146,7 +146,7 @@ function CreateUserModal({ show }) {
       <Modal.Header className="pm_modal_header">
         <Modal.Title>Create a new user</Modal.Title>
         <span className="close" onClick={handleClose}>
-          <img src={Cross} atl={'cross'} />
+          <img src={Cross} alt='cross' />
         </span>
       </Modal.Header>
       <Modal.Body>
