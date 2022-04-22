@@ -2,7 +2,10 @@ pipeline {
 
     agent any
 
+    options { skipDefaultCheckout() }
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/stage']], extensions: [], userRemoteConfigs:
@@ -29,19 +32,20 @@ pipeline {
         }
     }
     post {
-        success {
-            slackSend channel: '#project_time_tracking',
-                      color: 'good',
-                      message: "The pipeline ${currentBuild.fullDisplayName} completed successfully",
-                      teamDomain: 'vilmateteam',
-                      tokenCredentialId: 'slack-token'
+        always {
+            cleanWs()
         }
+
+        success {
+            slackSend botUser: true, channel: '#project_time_tracking', color: 'good',
+            message: "The pipeline ${currentBuild.fullDisplayName} completed successfully",
+            teamDomain: 'vilmateteam', tokenCredentialId: 'jenkins_bot'
+        }
+
         failure {
-            slackSend channel: '#project_time_tracking',
-                      color: 'danger',
-                      message: "The pipeline ${currentBuild.fullDisplayName} failed",
-                      teamDomain: 'vilmateteam',
-                      tokenCredentialId: 'slack-token'
+            slackSend botUser: true, channel: '#project_time_tracking', color: 'danger',
+            message: "The pipeline ${currentBuild.fullDisplayName} failed",
+            teamDomain: 'vilmateteam', tokenCredentialId: 'jenkins_bot'
         }
     }
 }
