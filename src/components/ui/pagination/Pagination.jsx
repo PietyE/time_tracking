@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import './style.scss'
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 
-import {setCurrentPage} from "../../../actions/pagination";
-import {createPages, paginationWithDots} from "../../../utils/common";
+import {setCurrentPage} from '../../../actions/pagination';
+import {paginationWithDots} from '../../../utils/common';
 
 
 

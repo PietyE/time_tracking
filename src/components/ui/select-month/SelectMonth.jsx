@@ -101,7 +101,7 @@ function SelectMonth({
         }
     }
     return longMonthName
-  }, [selectedDate, longMonthName, showYear])
+  }, [selectedDate, longMonthName, showYear, year])
 
   const dissabledNextYearButton = currentYear === year
   const disabledNextMonthButton =
