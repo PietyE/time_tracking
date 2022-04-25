@@ -33,11 +33,13 @@ function EmployeesMainComponent (props) {
   const [selected, setSelected] = useState(null);
   const [userSelected, setUserSelected] = useState(null);
   const [userIsChecked, setUserIsChecked] = useState(false)
+  // eslint-disable-next-line no-unused-vars
   const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
   const selectedDate = useShallowEqualSelector(getSelectedDateTimeReport);
   const isFetchingProjects = useShallowEqualSelector(getIsFetchingProjectsReport);
-  const [projectState, setProjectState] = useState("Active")
+  const [projectState, setProjectState] = useState('Active')
   const [openChooseActiveState, setOpenChooseActiveState] = useState(false)
+  // eslint-disable-next-line no-unused-vars
   const [opened, setOpened] = useState(false);
   const [openUserInfo, setOpenUserInfo] = useState(false);
   const [commentsOn, setUserCommentsOn] = useState(false);
@@ -53,7 +55,7 @@ function EmployeesMainComponent (props) {
       setCurrencyValue(selected.rate)
       setCurrentCurrencyId(selected.currencyId)
     }
-  }, [selected])
+  }, [currencyValue, selected])
 
   const buttonRouteTo = useCallback((item) => {
     if (item) {
@@ -65,11 +67,11 @@ function EmployeesMainComponent (props) {
     setOpenChooseActiveState(!openChooseActiveState);
   }
 
-  const userWindowInfoOpen = (e) => {
+  const userWindowInfoOpen = () => {
     setOpenUserInfo(true)
   }
 
-  const userWindowInfoClose = (e) => {
+  const userWindowInfoClose = () => {
     setOpenUserInfo(false)
   }
 
@@ -92,11 +94,11 @@ function EmployeesMainComponent (props) {
   }
 
   const chooseActive = () => {
-    setProjectState("Active")
+    setProjectState('Active')
   }
 
   const chooseArchieve = () => {
-    setProjectState("Archieve")
+    setProjectState('Archieve')
   }
 
   return (
@@ -137,10 +139,10 @@ function EmployeesMainComponent (props) {
             />
           </div>
           <div className="choose_active" onClick={openChooseActive}>
-            <img src={filter} className="choose_active_img" />
+            <img src={filter} className="choose_active_img" alt="choose active"/>
             <span className="choose_active_text">{projectState}</span>
             <div className="up_arrow_box">
-              <img src={upArrow} className={`up_arrow ${openChooseActiveState ? "show_menu" : "close_menu"}`} />
+              <img src={upArrow} className={`up_arrow ${openChooseActiveState ? 'show_menu' : 'close_menu'}`} alt="arrow"/>
             </div>
           </div>
           {openChooseActiveState && 

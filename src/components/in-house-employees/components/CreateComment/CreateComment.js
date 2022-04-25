@@ -9,7 +9,7 @@ import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
 function CreateComment (props) {
     const { selectedDate, commentsId, id } = props;
     const dispatch = useDispatch();
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
     const [isFetching, setIsFetching] = useState(false);
     const fetchingStatus = useShallowEqualSelector(getIsFetchingProjectsReport)
 
@@ -17,7 +17,7 @@ function CreateComment (props) {
       if (isFetching) {
         setIsFetching(fetchingStatus)
       }
-    }, [fetchingStatus])
+    }, [fetchingStatus, isFetching])
 
     const handleSaveEditedComment = () => {
       const data = {
@@ -36,7 +36,7 @@ function CreateComment (props) {
       if(e.target.value) {
         setText(e.target.value)
       } else {
-        console.log("Invalid character entered")
+        console.log('Invalid character entered')
       }
     }
     

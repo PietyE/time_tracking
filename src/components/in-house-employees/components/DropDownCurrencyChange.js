@@ -10,6 +10,7 @@ import CurrencySelect from './CurrencySelect/CurrencySelect'
 import check from 'images/inHouseEmployees/check.svg'
 
 
+// eslint-disable-next-line no-unused-vars
 function DropDownCurrencyChange (props) {
   const [selected, setSelected] = useState(null);
   const [currencyValue, setCurrencyValue] = useState(0);
@@ -28,7 +29,7 @@ function DropDownCurrencyChange (props) {
         } else {
         setOpened(false)
       }
-  }, [selected])
+  }, [currencyValue, selected])
 
   useEffect(() => {
     if(selected && currencyValue !== selected.rate) {
@@ -36,7 +37,7 @@ function DropDownCurrencyChange (props) {
         } else {
         setOpened(false)
       }
-  }, [currencyValue])
+  }, [currencyValue, selected])
 
   const changeValue = useCallback((e) => {
     if(e.target.value >= 0) {
@@ -81,12 +82,12 @@ function DropDownCurrencyChange (props) {
         <input type="number" className="currency_value" value={currencyValue} onChange={changeValue}/>
         { opened &&
         <div className="check_button">
-            <img src={check} className="check" onClick={handleSaveExchangeRate}/>
+            <img src={check} className="check" onClick={handleSaveExchangeRate} alt="save exchange rate"/>
         </div>
         }
         { !opened &&
         <div className="check_button_disabled">
-            <img src={check} className="check"/>
+            <img src={check} className="check" alt="check button disabled"/>
         </div>
         }
     </>

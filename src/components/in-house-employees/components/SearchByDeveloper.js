@@ -16,7 +16,7 @@ function SearchByDeveloper () {
   const dispatch = useDispatch();
   const onSelectedDispatch = useCallback((e) => {
     dispatch(setSelectedDeveloper(e))
-   }, [])
+   }, [dispatch])
 
   return (
     <div>

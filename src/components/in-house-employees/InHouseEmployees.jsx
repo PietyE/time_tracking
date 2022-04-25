@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import EmployeesMainComponent from './components/EmployeesMainComponent/EmployeesMainComponent';
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report';
@@ -11,11 +11,11 @@ function InHouseEmployees () {
 
     const getDevelopersProjects = useCallback(() => {
         dispatch(getDevelopersProjectInProjectReport())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         getDevelopersProjects()
-      }, [])
+      }, [getDevelopersProjects])
   
   return (
     <EmployeesMainComponent getDevelopersProjects={getDevelopersProjects} pageName="In-house-employees"/>
