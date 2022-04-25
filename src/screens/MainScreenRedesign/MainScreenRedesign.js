@@ -9,7 +9,6 @@ import TimeReportScreen from '../TimeReportScreen'
 // import ProjectsScreen from '../ProjectsScreen'
 // import ProfileScreen from "../ProfileScreen";
 
-import Header from 'components/header'
 import {
   getUserAuthStatus,
   getRoleUser,
@@ -19,7 +18,6 @@ import {
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from '../../actions/currency'
 import { getSelectedMonthSelector } from '../../reducers/projects-report'
-import ProjectManagementScreen from '../ProjectManagementScreen'
 // import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
@@ -28,7 +26,7 @@ import InHouseEmployees from 'components/in-house-employees'
 import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
 // import TotalOverview from 'components/total-overview/TotalOverview'
-import ProjectManagementComponent from "../../components/project-managment-new-design/ProjectManagementComponent";
+import ProjectManagementComponent from '../../components/project-managment-new-design/ProjectManagementComponent';
 
 
 function MainScreen({
@@ -65,7 +63,18 @@ function MainScreen({
 
       }
     }
-  }, [])
+  }, [
+    date,
+      getRatesList,
+      getDeveloperProjects,
+      isAuth,
+      roleUser,
+      profileEmail,
+      selectDevelopers,
+      profileId,
+      getCurrenciesList,
+      profileName,
+  ])
 
   if (!isAuth) {
     return <Redirect to="/auth" />
@@ -74,10 +83,7 @@ function MainScreen({
   return (
     <div className="new_design">
       <SideMenu />
-      {/* <Header /> */}
       <Switch>
-        {/* <Route path="/old" component={Header} exct /> */}
-        {/* <Route path="/old/project" component={ProjectsScreen} exct /> */}
         <Route path="/projectreport" component={ProjectReportNew} exct />
         <Route path="/inhouseemployees" component={InHouseEmployees} exct />
         <Route path="/timereport" component={TimeReportScreen} exct />
@@ -86,7 +92,6 @@ function MainScreen({
         <Route path="/remotecontractors" component={RemoteContractors} exct />
         <Route path="/projectmanagement" component={ProjectManagementComponent} exct />
         {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
-        {/* <PmPrivateRoute path="/old/management" exct component={ProjectManagementScreen} /> */}
         <Redirect from="/" to="/timereport" />
       </Switch>
     </div>
