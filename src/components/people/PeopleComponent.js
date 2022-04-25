@@ -32,7 +32,7 @@ function PeopleComponent() {
             users
         )
        dispatch( setCurrentItems(items))
-    },[pageSize, currentPage, users])
+    },[pageSize, currentPage, users, dispatch])
 
 
     const usersList =currentItems.length&&currentItems.map((u)=>{
@@ -58,7 +58,7 @@ function PeopleComponent() {
                 <Filter type={'city'}/>
             </div>
             <div className="filters-block">
-                <a href="#" className='btn btn-reset'>Reset filters</a>
+                {/* <a href="#" className='btn btn-reset'>Reset filters</a> */}
             </div>
         </div>
         <div className="row">
