@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
 // import WorkData from './components/WorkData/WorkData'
-import ProjectData from './components/ProjectData/ProjectData'
 // import Comments from './components/Comments'
 import SearchByProject from './components/SearchByProject';
 import SearchByDeveloper from './components/SearchByDeveloper';
@@ -13,48 +12,52 @@ import SpinnerStyled from '../ui/spinner'
 import SelectMonth from 'components/ui/select-month'
 import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
-import { getProfileId, getRoleUser, getUserAvatarUrl } from '../../selectors/user'
+import { getProfileId, getRoleUser } from '../../selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects';
 import { DEVELOPER } from 'constants/role-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import {ProjectReportContext} from 'context/projectReport-context'
 
-import { selectUsersReports, getSelectedMonthSelector } from 'reducers/projects-report'
-
 import {
-  getDevelopersProjectInProjectReport,
-  getConsolidateProjectReport
-} from 'actions/projects-report'
+  // selectUsersReports,
+  getSelectedMonthSelector
+} from 'reducers/projects-report'
+
+import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 
 import './projectReportNew.scss'
 
 function ProjectReportNew () {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport);
   const selectedDate = useShallowEqualSelector(getSelectedMonthSelector);
-  const usersData = useShallowEqualSelector(selectUsersReports);
+  // const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser);
   const currentUserId = useShallowEqualSelector(getProfileId);
-  const userAvatarUrl = useShallowEqualSelector(getUserAvatarUrl);
   const [openUserInfo, setOpenUserInfo] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [userSelected, setUserSelected] = useState(null);
   const [selected, setSelected] = useState(null);
   const dispatch = useDispatch();
-  const currentUser = useMemo(() => {
-    if (usersData) {
-      return usersData.find(user => (user.id === currentUserId))
-    }
-  }, [currentUserId, usersData])
+  
+  // const currentUser = useMemo(() => {
+  //   if (usersData) {
+  //     return usersData.find(user => (user.id === currentUserId))
+  //   }
+  // }, [currentUserId, usersData])
 
   // const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
+  
+  const getDevelopersProject = useCallback(() => {
+    dispatch(getDevelopersProjectInProjectReport())
+  }, [dispatch])
 
   useEffect(() => {
     if (roleUser !== DEVELOPER) {
       getDevelopersProject()
     }
-  }, [])
+  }, [getDevelopersProject, roleUser])
 
   const handleChangeData = useCallback(
     (data) => {
@@ -62,10 +65,6 @@ function ProjectReportNew () {
     },
     [dispatch]
   )
-
-  const getDevelopersProject = () => {
-    dispatch(getDevelopersProjectInProjectReport())
-  }
 
   const buttonFocusOn = (target) => {
     if (target) {
@@ -81,11 +80,11 @@ function ProjectReportNew () {
     setOpenComments(!openComments)
   }
 
-  const userWindowInfoOpen = (e) => {
+  const userWindowInfoOpen = () => {
     setOpenUserInfo(true)
   }
 
-  const userWindowInfoClose = (e) => {
+  const userWindowInfoClose = () => {
     setOpenUserInfo(false)
   }
 

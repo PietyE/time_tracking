@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getUsersProjectReport } from '../../../../actions/projects-report'
 
@@ -8,11 +8,12 @@ import { selectProjectsByUserId } from 'selectors/project-report-details';
 import './projectData.scss'
 
 function ProjectData (props) {
-  const { projects,
-          overtime,
-          extraClass = '',
-          is_full_time = false,
-          selectedDate = {},
+  const {
+          // projects,
+          // overtime,
+          // extraClass = '',
+          // is_full_time = false,
+          // selectedDate = {},
           userId
         } = props;
 
@@ -24,6 +25,7 @@ function ProjectData (props) {
 
   useEffect(() => {
     loadProjects()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const userProjects = useShallowEqualSelector((state) => selectProjectsByUserId(state, userId))
