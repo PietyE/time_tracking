@@ -11,9 +11,6 @@ import SelectMonth from 'components/ui/select-month'
 import DeveloperSelect from './components/DeveloperSelect'
 import Spinner from 'components/ui/spinner'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import { useEffectDebugger } from 'custom-hook/useEffectDebug'
-import SideMenu from 'components/side-menu'
-import ProjectReportNew from 'components/project-report-new-design'
 
 import {
   changeSelectedDateTimeReport,
@@ -64,8 +61,8 @@ function TimeReport(props) {
     selectDevelopers,
     selectedDeveloperProjectsTR,
     getTimeReportCsv,
-    selectedDays,
-    selectedDay,
+    // selectedDays,
+    // selectedDay,
     selectDayStatus,
     selectedDayStatus
   } = props
@@ -76,13 +73,13 @@ function TimeReport(props) {
   const { state: routeState } = useLocation()
   const todayDate = new Date()
 
-  const setStatusDayFromSlector =(status)=>{
-    if(status.name === 'Hide empty days') {
-      setShowEmpty(false);
-    }else {
-      setShowEmpty(true);
-    }
-  }
+  // const setStatusDayFromSlector =(status)=>{
+  //   if(status.name === 'Hide empty days') {
+  //     setShowEmpty(false);
+  //   }else {
+  //     setShowEmpty(true);
+  //   }
+  // }
 
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -120,7 +117,7 @@ function TimeReport(props) {
       } else if (roleUser === DEVELOPER) {
         dispatch(getDeveloperProjectsById(developerId))
       }
-    }, [selectedDeveloper, selectedDate, reports])
+    }, [selectedDeveloper, selectedDate, reports, roleUser, dispatch, developerId])
   
   const [currentPosition, setCurrentPosition] = useState(null)
   const savePosition = e => {
@@ -219,6 +216,7 @@ function TimeReport(props) {
       clearSelectedProject()
       resetSelectedDate()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -245,7 +243,7 @@ function TimeReport(props) {
           </div> */}
           <div className="time_report_total_hours">
             <span>
-              Total hours spend this month:{` `}
+              Total hours spend this month:
               <strong>{parseMinToHoursAndMin(totalHours, true)}</strong>
             </span>
           </div>
