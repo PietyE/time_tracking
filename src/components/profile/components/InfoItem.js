@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 import Icon from '../../../images/email-icon.svg'
-import {FaVoicemail} from "react-icons/fa";
+// import {FaVoicemail} from "react-icons/fa";
 
 
 function InfoItem() {

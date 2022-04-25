@@ -1,6 +1,6 @@
-import React from "react";
-import CreateComment from "./CreateComment";
-import CommentItem from "./CommentItem";
+import React from 'react';
+import CreateComment from './CreateComment';
+import CommentItem from './CommentItem';
 
 
 
@@ -10,7 +10,7 @@ function Comments({profile}){
         <CreateComment profile={profile}/>
         <CommentItem/>
         <div className="row">
-            <a href="#" className="btn more">Show more</a>
+            <button className="btn more">Show more</button>
         </div>
     </div>
 }

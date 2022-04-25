@@ -1,7 +1,5 @@
-import React, {useState} from "react";
-import InfoItem from "./InfoItem";
-import emailI from '../../../images/email-icon.svg'
-
+import React, {useState} from 'react';
+import InfoItem from './InfoItem';
 
 function PersonalInfo(){
     let [longDescription, setLongDescription] = useState(false)
@@ -42,7 +40,7 @@ function PersonalInfo(){
 
                 </div>
                 <div className="row">
-                    <a onClick={()=>{setLongDescription(!longDescription)}} className="more">Read More <span className={'arrow '+ (longDescription ? 'open':'')}></span></a>
+                    <button onClick={()=>{setLongDescription(!longDescription)}} className="more">Read More <span className={'arrow '+ (longDescription ? 'open':'')}></span></button>
                 </div>
             </div>
 
