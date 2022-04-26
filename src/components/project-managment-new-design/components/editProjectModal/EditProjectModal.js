@@ -284,6 +284,7 @@ function EditProjectModal({ show, month}) {
         }));
         setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
       }
+      dispatch(getAllProjects())
     }
   }, [errors, currentProjectId, values, valuesFromApi, dispatch]);
 
@@ -312,7 +313,8 @@ function EditProjectModal({ show, month}) {
       title: 'description',
     }));
     setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
-  }
+    }
+    dispatch(getAllProjects())
   }, [errors, currentProjectId, values, valuesFromApi, dispatch])
 
   useEffect(() => {
