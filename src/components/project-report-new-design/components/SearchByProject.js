@@ -16,7 +16,7 @@ function SearchByProject () {
   const dispatch = useDispatch();
   const onSelectedDispatch = useCallback((e) => {
    dispatch(setSelectedProjectInProjectReports(e))
-  }, [])
+  }, [dispatch])
 
   return (
     <div>

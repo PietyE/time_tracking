@@ -1,17 +1,15 @@
 import React from 'react'
-import HeaderDay from "./HeaderDay";
-import ActivitySelect from "./ActivitySelect";
-import CreateReportForm from "./CreateReportForm";
-import {setUserStatus} from "../../../actions/times-report";
-
+import HeaderDay from './HeaderDay';
+// import ActivitySelect from "./ActivitySelect";
+import CreateReportForm from './CreateReportForm';
 
 function DayCrate({numberOfDay,
                       selectedDate,
                       descriptions = [],
                       addTimeReport,
-                      showEmpty,
+                    //   showEmpty,
                       isOpenCreate,
-                      isOneProject,
+                    //   isOneProject,
                       savePosition,
                       isCreate,
                       handlerAddDayReport,

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
-import "./style.scss"
-import Search from "../../ui/search/Search";
-import CheckItem from "./component/CheckItem";
+import React, { useState } from 'react';
+import './style.scss'
+import Search from '../../ui/search/Search';
+import CheckItem from './component/CheckItem';
 
 
 function AddSelectedM({
@@ -14,13 +14,14 @@ function AddSelectedM({
   customClass,
   currentTeamIds,
 }) {
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState('')
     const teamMList = teamM?.filter(e => !currentTeamIds.includes(e.id)).filter((val)=>{
         if(searchTerm ===''){
             return val;
         }else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
             return  val;
         }
+        return
     }).map((e)=>{
         if(e){
             return <CheckItem
@@ -30,6 +31,7 @@ function AddSelectedM({
                 e={e}
             />;
         }
+        return
     });
     return<div>
         <div className={'add-selected '+(location?'members ':'')+(customClass ? customClass:'') }>

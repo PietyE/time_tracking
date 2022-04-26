@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function Card({user}) {
     return(
@@ -9,7 +9,7 @@ function Card({user}) {
                 </div>
                 <h4 className="card__block-name">{user.name} </h4>
                 <p className="card__block-position">Project Manager</p>
-                <a href="#" className="btn profile-btn">View profile</a>
+                {/* <a href="#" className="btn profile-btn">View profile</a> */}
             </div>
         </div>
     )

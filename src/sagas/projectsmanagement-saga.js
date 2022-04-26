@@ -15,14 +15,12 @@ import {
   ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   USER_ADDED_SUCCESSFULLY,
   USER_ADDED_FAILED,
-  SET_CREATE_PROJECT
 } from 'constants/actions-constant'
 import {
   setAllProjects,
   setProjectsWithReport,
   setFetchingPmPage,
   setShownProject,
-  setCreateProject,
   setSelectedProjectId,
   setShowEditModal
 

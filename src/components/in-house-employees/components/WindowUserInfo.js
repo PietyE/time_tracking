@@ -20,7 +20,7 @@ import UserComment from 'components/project-report-new-design/components/UserCom
 import {
   setNewSalary,
   setNewRate,
-  setNewCost,
+  // setNewCost,
   setEditedCost
 } from 'actions/users'
 import CreateComment from './CreateComment/CreateComment'
@@ -29,7 +29,7 @@ function WindowUserInfo (props) {
   const {
     name,
     id,
-    check,
+    // check,
     salary,
     currency,
     hourlyRate,
@@ -62,26 +62,26 @@ function WindowUserInfo (props) {
   }, [is_processed])
 
   const checkCurrency = (currency) => {
-    if(currency === "$") {
-      return "USD"
-    } else if (currency === "€") {
-      return "EUR"
-    } else if (currency === "₴") {
-      return "UAH"
-    } else if (currency === "£") {
-      return "GBP"
+    if(currency === '$') {
+      return 'USD'
+    } else if (currency === '€') {
+      return 'EUR'
+    } else if (currency === '₴') {
+      return 'UAH'
+    } else if (currency === '£') {
+      return 'GBP'
     }
   }
 
   const checkCurrencyId = (currency) => {
-    if(currency === "$") {
-      return "2e791fbc-fe79-456a-abfe-a369d979641a"
-    } else if (currency === "€") {
-      return "8b5039d0-793c-4486-a180-282660b5e293"
-    } else if (currency === "₴") {
-      return "401ca775-3af1-4415-b2d6-348ca95b6653"
-    } else if (currency === "£") {
-      return "f6040151-9d91-4e00-b125-86c1632db310"
+    if(currency === '$') {
+      return '2e791fbc-fe79-456a-abfe-a369d979641a'
+    } else if (currency === '€') {
+      return '8b5039d0-793c-4486-a180-282660b5e293'
+    } else if (currency === '₴') {
+      return '401ca775-3af1-4415-b2d6-348ca95b6653'
+    } else if (currency === '£') {
+      return 'f6040151-9d91-4e00-b125-86c1632db310'
     }
   }
   const oldCurrencySalary = checkCurrency(currency);
@@ -92,29 +92,30 @@ function WindowUserInfo (props) {
   const [newExtraCostsFlag, setNewExtraCostsFlag] = useState(oldCurrencyExtraCosts);
   const [salaryCurrencyId, setSalaryCurrencyId] = useState(checkCurrencyId(currency));
   const [hourlyRateCurrencyId, sethourlyRateCurrencyId] = useState(checkCurrencyId(currencyRatePerHour));
+  // eslint-disable-next-line no-unused-vars
   const [extraCostsCurrencyId, setextraCostsCurrencyId] = useState(checkCurrencyId(extraCosts));
 
   const changeIcon = (value) => {
-    if(value === "USD") {
-      return "$"
-    } else if (value === "EUR") {
-      return "€"
-    } else if (value === "UAH") {
-      return "₴"
-    } else if (value === "GBP") {
-      return "£"
+    if(value === 'USD') {
+      return '$'
+    } else if (value === 'EUR') {
+      return '€'
+    } else if (value === 'UAH') {
+      return '₴'
+    } else if (value === 'GBP') {
+      return '£'
     }
   }
 
   const changeText = (value) => {
-    if(value === "USD") {
-      return "длр"
-    } else if (value === "EUR") {
-      return "евр"
-    } else if (value === "UAH") {
-      return "грн"
-    } else if (value === "GBP") {
-      return "фунт"
+    if(value === 'USD') {
+      return 'длр'
+    } else if (value === 'EUR') {
+      return 'евр'
+    } else if (value === 'UAH') {
+      return 'грн'
+    } else if (value === 'GBP') {
+      return 'фунт'
     }
   }
 
@@ -177,6 +178,7 @@ function WindowUserInfo (props) {
 
   const saveNewData = () => {
     if(newSalary !== salary || newSalaryFlag !== oldCurrencySalary) {
+      // eslint-disable-next-line no-extra-boolean-cast
       if(!!newSalary) {
         const data = {
           user: id,
@@ -193,6 +195,7 @@ function WindowUserInfo (props) {
       }
     }
     if(newHourlyRate !== hourlyRate || newHourlyRateFlag !== oldCurrencyHourlyRate) {
+       // eslint-disable-next-line no-extra-boolean-cast
       if(!!newHourlyRate) {
         const data = {
           user: id,
@@ -235,7 +238,7 @@ function WindowUserInfo (props) {
   return (
     <div className="main_container">
       <div className="header">
-        <span className="user_name">{`${contextType.commentsOn ? "Leave a comment" : name}`}</span>
+        <span className="user_name">{`${contextType.commentsOn ? 'Leave a comment' : name}`}</span>
         <div className="chat_img" onClick={showComments}>
           { !contextType.commentsOn &&
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +257,7 @@ function WindowUserInfo (props) {
           </svg>
           }
         </div>
-        <div className={`comments_counter ${comments.length ? "" : "empty_comments"} ${contextType.commentsOn ? "open" : "closed"}`}>{comments.length}</div>
+        <div className={`comments_counter ${comments.length ? '' : 'empty_comments'} ${contextType.commentsOn ? 'open' : 'closed'}`}>{comments.length}</div>
         <div className="download_img">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.46995 12.0303C7.53959 12.1 7.62227 12.1552 7.71327 12.1929C7.80427 12.2306 7.9018 12.25 8.00029 12.25C8.09879 12.25 8.19632 12.2306 8.28731 12.1929C8.37831 12.1552 8.46099 12.1 8.53064 12.0303L11.359 9.20191C11.4997 9.06125 11.5787 8.87049 11.5787 8.67158C11.5787 8.47267 11.4997 8.2819 11.359 8.14125C11.2184 8.0006 11.0276 7.92158 10.8287 7.92158C10.6298 7.92158 10.439 8.0006 10.2984 8.14125L8.75029 9.68934V1.5C8.75029 1.30109 8.67127 1.11032 8.53062 0.96967C8.38997 0.829018 8.19921 0.75 8.00029 0.75C7.80138 0.75 7.61061 0.829018 7.46996 0.96967C7.32931 1.11032 7.25029 1.30109 7.25029 1.5V9.68934L5.7022 8.14125C5.56155 8.0006 5.37078 7.92158 5.17187 7.92158C4.97296 7.92158 4.7822 8.0006 4.64154 8.14125C4.50089 8.2819 4.42188 8.47267 4.42188 8.67158C4.42188 8.87049 4.50089 9.06125 4.64154 9.20191L7.46995 12.0303Z" fill="#222222B2"/>
@@ -292,59 +295,59 @@ function WindowUserInfo (props) {
         </div>
         }
         <div className="vert_row" />
-        <img src={closeButton} className="close_button" onClick={closeWindow}/>
+        <img src={closeButton} className="close_button" onClick={closeWindow} alt='close button'/>
       </div>
       {!editOn && !contextType.commentsOn &&
       <>
       <div className="row" />
       <div className="div_info_row">
-        <img src={calendar} className="calendar" />
+        <img src={calendar} className="calendar" alt="calendar"/>
         <span className="info_text">LAST SINCE</span>
         <span className="info_data">01 Sep, 2021</span>
       </div>
       <div className="row2" />
       <div className="div_info_row">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot" alt="dot"/>
         <span className="info_text">SALARY ({checkCurrency(currency)})</span>
         <span className="info_data">{currency}{salary}</span>
       </div>
       <div className="row2 grey" />
       <div className="div_info_row grey">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot"  alt="dot"/>
         <span className="info_text">HOURLY RATE ({checkCurrency(currencyRatePerHour)})</span>
         <span className="info_data">{currencyRatePerHour}{hourlyRate}/h</span>
       </div>
       <div className="row2 grey" />
       <div className="div_info_row grey">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot"  alt="dot"/>
         <span className="info_text">HOURS WORKED</span>
         <span className="info_data">{totalHours}</span>
       </div>
       <div className="row2 grey" />
       <div className="div_info_row grey">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot"  alt="dot"/>
         <span className="info_text">OVERTIME SALARY ({checkCurrency(currency)})</span>
         <span className="info_data">{currency}{overtimeSalary}</span>
       </div>
       <div className="row2 grey" />
       <div className="div_info_row">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot"  alt="dot"/>
         <span className="info_text">TOTAL SALARY ({checkCurrency(currency)})</span>
         <span className="info_data">{currency}{totalSalary}</span>
       </div>
       <div className="row2" />
       <div className="div_info_row">
-        <img src={dot} className="dot" />
+        <img src={dot} className="dot"  alt="dot"/>
         <span className="info_text">EXTRA COASTS (UAH)</span>
         <div className="info_grn">
-          <span className="info_data">{extraCosts ? extraCosts : "0"}</span>
+          <span className="info_data">{extraCosts ? extraCosts : '0'}</span>
           <span className="grn">грн</span>
         </div>
         <span className="extra_costs">For the keyboard</span>
       </div>
       <div className="row2" />
       <div className="div_info_row">
-        <img src={cash} className="cash" />
+        <img src={cash} className="cash"  alt="cash"/>
         <span className="info_text">TO PAY (UAH)</span>
         <div className="info_grn">
           <span className="info_data">₴{toPaySalary}</span>
@@ -361,7 +364,7 @@ function WindowUserInfo (props) {
           <span className="payed checked">PAYED</span>
           <div className="checkbox_checked" onClick={toPayCheck}>
             <div className="checkbox_img">
-            <img src={checkImg} className="img" />
+            <img src={checkImg} className="img" alt="check button"/>
             </div>
           </div>
         </div>
@@ -376,85 +379,85 @@ function WindowUserInfo (props) {
         <>
         <div className="row" />
         <div className="div_info_row">
-          <img src={calendar} className="calendar" />
+          <img src={calendar} className="calendar" alt="calendar"/>
           <span className="info_text">LAST SINCE</span>
           <div className="info_container">
             <div className="info_data_edited data">
               <span>01 Sep, 2021</span>
-              <img src={upArrow} className="up_arrow"/>
+              <img src={upArrow} className="up_arrow" alt="up arrow"/>
             </div>
           </div>  
         </div>
         <div className="row2" />
-        <div className={`div_info_row ${salaryError ? "error" : ""}`}>
-          <img src={dot} className="dot" />
+        <div className={`div_info_row ${salaryError ? 'error' : ''}`}>
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">SALARY</span>
           <div className="currency_select_edited">
             <CurrencySelect currencyValue={newSalaryFlag} changeSalary={changeSalaryFlag}/>
           </div>
           <div className="info_container">
-            <div className={`info_data_edited ${salaryError ? "error" : ""}`}>
+            <div className={`info_data_edited ${salaryError ? 'error' : ''}`}>
               <span>{changeIcon(newSalaryFlag)}</span>
               <textarea className="change_currency_info" onChange={changeSalary} value={newSalary} />
             </div>
-            <span className={`error_show ${salaryError ? "show" : "hide"}`}>
+            <span className={`error_show ${salaryError ? 'show' : 'hide'}`}>
               Some error
             </span>
           </div>
         </div>
         <div className="row2 grey" />
-        <div className={`div_info_row grey ${hourlyRateError ? "error" : ""}`}>
-          <img src={dot} className="dot" />
+        <div className={`div_info_row grey ${hourlyRateError ? 'error' : ''}`}>
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">HOURLY RATE</span>
           <div className="currency_select_edited">
             <CurrencySelect currencyValue={newHourlyRateFlag} changeHourlyRate={changeHourlyRateFlag}/>
           </div>
           <div className="info_container">
-            <div className={`info_data_edited ${hourlyRateError ? "error" : ""}`}>
+            <div className={`info_data_edited ${hourlyRateError ? 'error' : ''}`}>
               <span>{changeIcon(newHourlyRateFlag)}</span>
               <textarea className="change_currency_info" onChange={changeHourlyRate} value={newHourlyRate} />
               <span>/h</span>
             </div>
-            <span className={`error_show ${hourlyRateError ? "show" : "hide"}`}>
+            <span className={`error_show ${hourlyRateError ? 'show' : 'hide'}`}>
               Some error
             </span>
           </div>
         </div>
         <div className="row2 grey" />
         <div className="div_info_row grey">
-          <img src={dot} className="dot" />
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">HOURS WORKED</span>
           <span className="info_data">{totalHours}</span>
         </div>
         <div className="row2 grey" />
         <div className="div_info_row grey">
-          <img src={dot} className="dot" />
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">OVERTIME SALARY ({checkCurrency(currency)})</span>
           <span className="info_data">{currency}{overtimeSalary}</span>
         </div>
         <div className="row2 grey" />
         <div className="div_info_row">
-          <img src={dot} className="dot" />
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">TOTAL SALARY ({checkCurrency(currency)})</span>
           <span className="info_data">{currency}{totalSalary}</span>
         </div>
         <div className="row2" />
         <div className="div_info_row">
-          <img src={dot} className="dot" />
+          <img src={dot} className="dot" alt="dot"/>
           <span className="info_text">EXTRA COASTS</span>
           <div className="currency_select_edited">
             <CurrencySelect currencyValue={newExtraCostsFlag} changeExtraCosts={changeExtraCostsFlag}/>
           </div>
           <div className="info_grn_edited">
-            <textarea className="change_currency_info" onChange={changeExtraCosts} value={newExtraCosts ? newExtraCosts : "0"} />
-            <span className={`grn ${newExtraCostsFlag ? "full" : "empty"}`}>{changeText(newExtraCostsFlag)}</span>
-            <span className={`grn ${newExtraCostsFlag ? "empty" : "full"}`}>грн</span>
+            <textarea className="change_currency_info" onChange={changeExtraCosts} value={newExtraCosts ? newExtraCosts : '0'} />
+            <span className={`grn ${newExtraCostsFlag ? 'full' : 'empty'}`}>{changeText(newExtraCostsFlag)}</span>
+            <span className={`grn ${newExtraCostsFlag ? 'empty' : 'full'}`}>грн</span>
           </div>
           <div className="extra_costs edited">For the keyboard</div>
         </div>
         <div className="row2" />
         <div className="div_info_row">
-          <img src={cash} className="cash" />
+          <img src={cash} className="cash" alt="cash"/>
           <span className="info_text">TO PAY (UAH)</span>
           <div className="info_grn">
             <span className="info_data">₴{toPaySalary}</span>

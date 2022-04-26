@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useRef, useEffect } from 'react'
+import React, { memo, useState, useCallback, useRef } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCheck, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
@@ -65,9 +65,14 @@ function ReportItem({
   isOneProject,
   showAler,
   index,
-  opneNewItem,
-  dayTitle,
-  selectDayStatus, selectedDayStatus, isCreate, setUserStatus, setDraganDroped, draganDroped
+  // opneNewItem,
+  // dayTitle,
+  // selectDayStatus,
+  // selectedDayStatus,
+  // isCreate,
+  // setUserStatus,
+  setDraganDroped,
+  draganDroped
 }) {
   const {
     title: oldTitle,
@@ -209,7 +214,7 @@ function ReportItem({
         } else {
           setBorderInputClassName('');
           containerHours.current.focus()
-         };
+         }
       }
     }
   }

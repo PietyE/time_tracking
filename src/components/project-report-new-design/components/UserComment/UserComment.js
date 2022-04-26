@@ -7,7 +7,7 @@ function UserComment (props) {
     return (
       <div className="user_comment">
         <div className="user_avatar">
-          <img src={url} className="img_avatar" />
+          <img src={url} className="img_avatar" alt='user avatar'/>
         </div>
         <div className="comment_container">
           <span className="comment_text_container">

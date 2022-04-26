@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import './style.scss'
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 
-import {setCurrentPage} from "../../../actions/pagination";
-import {createPages, paginationWithDots} from "../../../utils/common";
+import {setCurrentPage} from '../../../actions/pagination';
+import {paginationWithDots} from '../../../utils/common';
 
 
 
@@ -14,7 +14,7 @@ function Pagination({totalCount, pageSize, currentPage, paginationDeiplayed }){
 
     pages = paginationWithDots(currentPage, pagesCount)
     let pagesList = pages.map((p, i) => {
-        return <li key={i} className={currentPage === p ? 'active' : ''}><a onClick={()=>dispatch(setCurrentPage(p))} href="#">{p}</a></li>
+        return <li key={i} className={currentPage === p ? 'active' : ''}><a onClick={()=>dispatch(setCurrentPage(p))} href="/#">{p}</a></li>
     })
 
     return <div>

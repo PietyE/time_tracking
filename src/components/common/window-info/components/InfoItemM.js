@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 
 function InfoItemM({ icon, title, value, editValue, isArchived, customClass = ''}) {
@@ -15,7 +15,7 @@ function InfoItemM({ icon, title, value, editValue, isArchived, customClass = ''
           onBlur={() => {!isArchived && setEdit(false)}}
         >
             <div>
-                <img src={icon || '/static/media/calendar-userData.b7cd0c61.svg'} className="calendar"/>
+                <img src={icon || '/static/media/calendar-userData.b7cd0c61.svg'} className="calendar" alt='calendar'/>
                 <span className="info_text">{title}</span>
             </div>
             {!isEdit || !editValue?

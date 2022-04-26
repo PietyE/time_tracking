@@ -1,10 +1,9 @@
-import { call, takeEvery, put, select, all } from 'redux-saga/effects'
+import { call, takeEvery, put, select } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { pm } from '../api'
 import { showAler } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
-  GET_DEV_CONSOLIDATE_PROJECT_REPORT,
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
@@ -29,7 +28,7 @@ import {
   // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
-import { getSelectedMonthSelector, selectUsersId } from '../reducers/projects-report'
+import { getSelectedMonthSelector } from '../reducers/projects-report'
 import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from '../selectors/currency'
 import { getSelectedProjectIdSelector } from '../reducers/projects-management'
@@ -101,6 +100,7 @@ export function* getAllDevelopersProjectInProjectReport() {
 }
 
 function* setExchangeRate({ payload, callback }) {
+  // eslint-disable-next-line no-unused-vars
   const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
@@ -218,6 +218,7 @@ export function* handleGetConsolidatedReport() {
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))
+  // eslint-disable-next-line no-unused-vars
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT

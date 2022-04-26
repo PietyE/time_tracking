@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
 import { selectUsersReports, selectAllProjects } from 'reducers/projects-report';
 import { getConsolidateProjectReport, getAllDevelopersProjectsPR } from 'actions/projects-report';
@@ -27,23 +27,25 @@ function UsersInfo (props) {
 
   const setSortedReport = useCallback(() => {
     handleSortingChange(usersData)
-  }, [usersData, sortingParameter])
+  }, [usersData, handleSortingChange])
 
   useEffect(() => {
     setSortedReport();
-  }, [usersData, selectedDate, sortingParameter])
+  }, [usersData, selectedDate, sortingParameter, setSortedReport])
+
+  const getConsolidateProject = useCallback(() => {
+    dispatch(getConsolidateProjectReport())
+  }, [dispatch])
 
   useEffect(() => {
     getConsolidateProject()
-  }, [])
+  }, [getConsolidateProject])
 
   useEffect(() => {
     dispatch(getAllDevelopersProjectsPR())
-  }, [selectedDate])
+  }, [selectedDate, dispatch])
 
-  const getConsolidateProject = () => {
-    dispatch(getConsolidateProjectReport())
-  }
+
 
   return (
     <div className="users_table">

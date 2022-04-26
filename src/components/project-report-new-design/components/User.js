@@ -25,7 +25,7 @@ function User (props) {
 
   const userProjects = useMemo(() => {
     return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== 0 ) && (project.is_full_time !== null || project.overtime_minutes !== 0))
-  }, [projects])
+  }, [projects, userId])
 
   const projectList = useMemo(() => {
     const activeProject = [...userProjects].filter((project) => (project.is_active && project.is_full_time !== null))
@@ -50,7 +50,7 @@ function User (props) {
       active_project: is_active,
       full_time: is_full_time
     })),
-    [userProjects, selectedDate]);
+    [userProjects, selectedDate, userId]);
   
   useEffect(() => {
     const sortFormattedProjects = [...formattedProjects].sort(sortUserProjectReport);
@@ -67,7 +67,7 @@ function User (props) {
   }
 
   return (
-    <div className={`user_info ${contextType.selectedUserId === userId ? "selected" : ""}`} onClick={chooseUser}>
+    <div className={`user_info ${contextType.selectedUserId === userId ? 'selected' : ''}`} onClick={chooseUser}>
       <div className='user_info_row'> 
         <img src={clock} alt="avatar" className="user_avatar" />
         <div className="name_email">
@@ -75,16 +75,16 @@ function User (props) {
             <span className="email">{email}</span>
         </div>
         <div className="projects">
-            <span className={`${!!userProjects.length ? {} : "empty"}`}>{projectList}</span>
+            <span className={`${!!userProjects.length ? {} : 'empty'}`}>{projectList}</span>
         </div>
         <div className="overtime_block">
             <span className="hours">{hours}</span>
         </div>
-        {userProjects.length ?(<div className={`upArrow ${contextType.selectedUserId === userId ? "selected" : ""}`}>
+        {userProjects.length ?(<div className={`upArrow ${contextType.selectedUserId === userId ? 'selected' : ''}`}>
             <img src={upArrow} alt="" />
         </div>): null}
       </div> 
-      <div className={`project_by_current_user ${contextType.selectedUserId === userId ? "selected" : ""}`}>
+      <div className={`project_by_current_user ${contextType.selectedUserId === userId ? 'selected' : ''}`}>
         {sortProjects.map((project) => 
             (<ProjectList
                 name={project.developer_projects.title} 

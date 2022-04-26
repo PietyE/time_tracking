@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
-import {faChevronDown} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 
 function Select(props) {
   const {
@@ -99,7 +99,7 @@ function Select(props) {
      setIcon(initialChoice.iconColor)
    }
  }
-    },[listItems,initialChoice])
+    },[listItems, initialChoice, title, valueKey])
 
   useEffect(() => {
     if (
@@ -112,7 +112,7 @@ function Select(props) {
     } else if (!listItems.length) {
       setTitle('List is empty')
     }
-  }, [listItems])
+  }, [listItems, prevList, title])
 
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
@@ -172,12 +172,12 @@ function Select(props) {
         >
           {searchedListItems.map((item) => (
 
-            <div className={"select_list_item_container " +(item.name === _title ? 'selected':'')} key={item[idKey]}>
+            <div className={'select_list_item_container  '+(item.name === _title ? 'selected':'')} key={item[idKey]}>
               {item.iconColor &&
                 <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
               }
               {item.count&&
-              <span className={'count-container '+ (item.name === "Active"?'active':'')}>{item.count}</span>
+              <span className={'count-container '+ (item.name === 'Active'?'active':'')}>{item.count}</span>
               }
 
               <span

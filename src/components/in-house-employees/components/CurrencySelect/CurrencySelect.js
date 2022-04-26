@@ -2,14 +2,14 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react'
 
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
-import { selectRateList, selectCurrencyList } from 'selectors/currency'
+import { selectRateList } from 'selectors/currency'
 
 import { flags } from 'constants/currency-flag-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 import DropDownCurrency from '../DropDownCurrency/DropDownCurrency'
-import "./currencySelect.scss"
+import './currencySelect.scss'
 
 function CurrencySelect (props) {
   const {
@@ -20,7 +20,7 @@ function CurrencySelect (props) {
     changeExtraCosts
   } = props
 
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState('USD');
   const currenciesRateList = useShallowEqualSelector(selectRateList);
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -32,9 +32,10 @@ function CurrencySelect (props) {
   }, [currency, selected])
 
   useEffect(() => {
+    // eslint-disable-next-line no-empty
     if(selected && selected.rate !== currencyValue) {
     }
-  }, [selected])
+  }, [currencyValue, selected])
 
   useEffect(() => {
     if(currencyValue) {
@@ -67,14 +68,14 @@ function CurrencySelect (props) {
         changeExtraCosts(item)
       }
     }
-  }, [changeSelected])
+  }, [changeExtraCosts, changeHourlyRate, changeSalary, changeSelected])
 
   return (
     <>
-      <div className={`currency  ${opened ? "open_menu" : "close_menu"} `} onClick={onOpen}>
-        <img src={flags[currency]} className="flag" /> 
+      <div className={`currency  ${opened ? 'open_menu' : 'close_menu'} `} onClick={onOpen}>
+        <img src={flags[currency]} className="flag" alt="flags"/> 
         <span className="currency_name">{currency}</span>
-        <img src={upArrow} className="up_arrow"/>  
+        <img src={upArrow} className="up_arrow" alt="arrow"/>  
       </div>
       {!!opened &&
         <div className="drop_down_menu">

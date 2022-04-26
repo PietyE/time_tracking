@@ -1,12 +1,11 @@
 import React, { useState, memo, useEffect } from 'react'
 
-import HeaderDay from './HeaderDay'
-import CreateReportForm from './CreateReportForm'
+// import HeaderDay from './HeaderDay'
+// import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
-import FooterDay from './FooterDay'
-import ActivitySelect from "./ActivitySelect";
-import DayCrate from "./DayCrate";
-import {setUserStatus} from "../../../actions/times-report";
+// import FooterDay from './FooterDay'
+// import ActivitySelect from "./ActivitySelect";
+import DayCrate from './DayCrate';
 
 function Day({
                 numberOfDay,
@@ -40,7 +39,7 @@ function Day({
       setIsCreate(false)
       setIsCreatedList(true)
      }
-    },[descriptions]);
+    },[descriptions, isCreate]);
 
   const openNewItem = ()=>{
     setIsCreate(!isCreate)

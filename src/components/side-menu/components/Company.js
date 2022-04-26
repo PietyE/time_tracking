@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 
 import company from 'images/sideMenuIcons/companyName.svg'
 

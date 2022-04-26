@@ -1,7 +1,6 @@
 import {
   SET_CURRENT_ITEMS,
   SET_CURRENT_PAGE,
-  SET_TOTAL_ITEMS_COUNT,
   SET_PAGE_SIZE,
 } from 'constants/actions-constant'
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from 'react';
 
 const useMenuPresent = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -7,16 +7,16 @@ const useMenuPresent = () => {
         setIsOpen(!isOpen)
     }
 
-    const handlerCloseMenu = () => {
+    const handlerCloseMenu = useCallback(() => {
         setIsOpen(false)
         window.removeEventListener('click',  handlerCloseMenu)
-    }
+    }, [])
 
     useEffect(() => {
         if (isOpen) {
             window.addEventListener('click', handlerCloseMenu)
         }
-    }, [isOpen])
+    }, [handlerCloseMenu, isOpen])
 
     return [
         isOpen, 
