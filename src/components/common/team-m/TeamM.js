@@ -76,7 +76,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
         </div>
         <div className={'team-m__type-work ' + (hovers ? 'flex-column' : '')}>
           <div className="label-def">
-            <span>{fulTime ? 'Full-time' : 'Part-time'}</span>
+            <span>{fulTime ? 'Fulltime' : 'Overtime'}</span>
           </div>
           <div className='team-m_input_block'>
               <div className="team-m-input-cont">
@@ -90,7 +90,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
                     disabled={isArchived}
                   />
                   <span className="checkmark"></span>
-                  Part-time
+                  Overtime
                 </label>
               </div>
               <div className="team-m-input-cont">
@@ -104,7 +104,7 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
                     disabled={isArchived}
                   />
                   <span className="checkmark"></span>
-                  Full-time
+                  Fulltime
                 </label>
               </div>
           </div>
