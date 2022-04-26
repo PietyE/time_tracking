@@ -69,6 +69,7 @@ function TimeReport(props) {
 
   const dispatch = useDispatch()
   const developerId = useShallowEqualSelector(getProfileId);
+  // eslint-disable-next-line no-unused-vars
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
   const todayDate = new Date()

@@ -14,7 +14,7 @@ function Pagination({totalCount, pageSize, currentPage, paginationDeiplayed }){
 
     pages = paginationWithDots(currentPage, pagesCount)
     let pagesList = pages.map((p, i) => {
-        return <li key={i} className={currentPage === p ? 'active' : ''}><a onClick={()=>dispatch(setCurrentPage(p))} href="#">{p}</a></li>
+        return <li key={i} className={currentPage === p ? 'active' : ''}><a onClick={()=>dispatch(setCurrentPage(p))} href="/#">{p}</a></li>
     })
 
     return <div>

@@ -26,8 +26,8 @@ const Logout = (props) => {
       ref={sideMenuContainer}
       onMouseEnter={() => setShowHint(true)}
       onMouseLeave={() => setShowHint(false)}>
-      <img src={img} className="sidebar_img" />
-      {(showHint && sideMenuWidth === WIDTH_SIDE_MENU) && <HintWindow text={"Logout"} />}
+      <img src={img} className="sidebar_img" alt='sidebar img'/>
+      {(showHint && sideMenuWidth === WIDTH_SIDE_MENU) && <HintWindow text={'Logout'} />}
       <span className="item">Logout</span>
     </div>
   )

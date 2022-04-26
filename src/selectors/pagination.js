@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 
 export const getCurrentPage = state => state.pagination.currentPage
 export const getCurrentItems= state => state.pagination.currentItems

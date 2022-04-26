@@ -3,7 +3,7 @@ import React, { useState, useMemo, useContext, useRef } from 'react'
 import {SidebarContext} from 'context/sidebar-context'
 
 import classnames from 'classnames'
-import upArrow from 'images/sideMenuIcons/upArrow.svg'
+// import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
 import { Link, useRouteMatch } from 'react-router-dom'
 
@@ -11,6 +11,7 @@ import HintWindow from 'components/ui/HintWindow'
 
 const SideMenuItem = (props) =>{
   const [opened, setOpened] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [hide, setHide] = useState(false)
   const [showHint, setShowHint] = useState(false)
 
@@ -41,7 +42,7 @@ const SideMenuItem = (props) =>{
 
   const itemClasses = useMemo(() => {
     return (
-      classnames("sidebar_menu_button",
+      classnames('sidebar_menu_button',
       {
         selected: isSelected || isSelectedRoute,
         smallSize: item.smallSize,
@@ -49,13 +50,13 @@ const SideMenuItem = (props) =>{
         opened
       })
     )
-  }, [isSelected, isSelectedRoute])
+  }, [isSelected, isSelectedRoute, item.smallSize, item.subItems, opened])
 
-  const hideSubitem = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    setHide(!hide)
-  } 
+  // const hideSubitem = (e) => {
+  //   e.stopPropagation()
+  //   e.preventDefault()
+  //   setHide(!hide)
+  // } 
 
   return (
     <>
@@ -66,7 +67,7 @@ const SideMenuItem = (props) =>{
           ref={sideMenuContainer}
           onMouseEnter={() => setShowHint(true)}
           onMouseLeave={() => setShowHint(false)}>
-          <img src={item.icon} className="sidebar_img" />
+          <img src={item.icon} className="sidebar_img" alt='sidebar img'/>
           {(showHint && sideMenuWidth === WIDTH_SIDE_MENU) && <HintWindow text={item.label} />}
           <span className="item">{item.label}</span>
           {/* <img src={upArrow} className={`up_arrow ${hide ? "hide" : ""}`} onClick={hideSubitem} /> */}
@@ -74,7 +75,7 @@ const SideMenuItem = (props) =>{
     </Link> 
       {item?.subItems &&
         opened && (
-        <div className={`subitem ${hide ? "hide" : ""}`}>
+        <div className={`subitem ${hide ? 'hide' : ''}`}>
           {item?.subItems.map((subItem) => (
             <SideMenuItem item={subItem} key={subItem.label} />
           ))}
