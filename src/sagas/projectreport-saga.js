@@ -100,7 +100,8 @@ export function* getAllDevelopersProjectInProjectReport() {
 }
 
 function* setExchangeRate({ payload, callback }) {
-  // const { month, year } = yield select(getSelectedMonthSelector)
+  // eslint-disable-next-line no-unused-vars
+  const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -217,6 +218,7 @@ export function* handleGetConsolidatedReport() {
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
   yield put(setConsolidateProjectReport(mapperResponse))
+  // eslint-disable-next-line no-unused-vars
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
     URL_CONSOLIDATED_LIST_REPORT

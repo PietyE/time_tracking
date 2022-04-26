@@ -34,10 +34,12 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived}) {
   const handleOccupancyChange = useCallback((isFullTime) => () => {
     setFullTime(isFullTime);
     _changeUserOnProject(e.projectReportId, { is_full_time: isFullTime });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [e])
 
   useEffect(() => {
     setWorkType && setWorkType(e.projectReportId, fulTime)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fulTime])
 
   let userId = e.id || e.user_id

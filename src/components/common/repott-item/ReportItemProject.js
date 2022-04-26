@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import './style.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
-import Archive from '../../../images/archive1.svg'
 import {
   parseMinToHoursAndMin,
 } from '../../../utils/common'

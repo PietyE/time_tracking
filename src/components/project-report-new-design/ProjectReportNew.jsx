@@ -1,3 +1,4 @@
+  // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -34,6 +35,7 @@ function ProjectReportNew () {
   // const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser);
   const currentUserId = useShallowEqualSelector(getProfileId);
+  // eslint-disable-next-line no-unused-vars
   const [openUserInfo, setOpenUserInfo] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
