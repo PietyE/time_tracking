@@ -142,7 +142,7 @@ function CreateProjectModal({ show }) {
                         checked = {!values.projectManager?.is_full_time}
                         onChange = {() => setFieldValue('projectManager.is_full_time', !values.projectManager.is_full_time)}
                         className = 'pm_create_team_checkbox'/>
-                      Part-time
+                      Overtime
                     </label>
 
                     <FontAwesomeIcon icon = {faTimesCircle}
