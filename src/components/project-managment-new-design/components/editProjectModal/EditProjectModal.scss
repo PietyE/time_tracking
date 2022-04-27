@@ -48,9 +48,13 @@
                 font-size: 14px;
                 height: 75px;
             }
-          }
 
-          .div_info_row:nth-child(3){
+            & + .row2  {
+                display: none;
+            }
+        }
+
+        .div_info_row:nth-child(3){
             .info_data{
                 height: 39px;
             }
@@ -69,9 +73,33 @@
             }
         }
     }
+    .projects_info{
+        display: flex;
+        min-width: 100%;
+        }
+        .project_data{
+            width: 100%;
+        }
 }      
 
+
+
 .project_data_header{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 46px;
+    text-align: center;
+    padding: 11px 25px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    color: rgba(34, 34, 34, 0.4);
+    background: #F3F3F3;
     padding: 11px 25px;
     .project_data_header-title{
         text-align: left;
@@ -80,7 +108,7 @@
         width:  40%;
     }
     .edit_modal-team_occupancy{
-        width: 35%;
+        width: 32%;
     }
     .edit_modal-team_hours{
         width: 25%;
@@ -90,6 +118,30 @@
 .team-container{
     overflow-y: scroll;
     max-height: 228px;
+    .team-m{
+        .container-team_modal{
+            .avatar-cont{
+                div{
+                    display: flex;
+                    align-items: center;
+                    .team-m-name{
+                        margin-bottom: 0;
+                        a{
+                            font-family: Montserrat;
+                            font-weight: 600;
+                            font-size: 14px;
+                            color: #222222;
+                            cursor: pointer;
+                            &:hover{
+                              text-decoration: none;
+                            }
+                          }
+
+                    }
+                }
+            }
+        }
+    }
   }
 
   .team-container::-webkit-scrollbar {
