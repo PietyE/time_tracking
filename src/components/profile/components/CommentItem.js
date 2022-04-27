@@ -12,7 +12,7 @@ function CommentItem() {
                 <div className="item-cont">
                     <h5>Gleb Kondratiev</h5>
                     <p>
-                        @Larov Dmytro Simple but organized. Really like it. The colors do what they need to do, and it's not "overcolored".
+                        @Larov Dmytro Simple but organized. Really like it. The colors do what they need to do, and it is not overcolored.
                     </p>
                 </div>
                 <div className="row">

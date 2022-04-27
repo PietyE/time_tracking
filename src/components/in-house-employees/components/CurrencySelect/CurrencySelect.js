@@ -77,7 +77,7 @@ function CurrencySelect (props) {
         <span className="currency_name">{currency}</span>
         <img src={upArrow} className="up_arrow" alt="arrow"/>  
       </div>
-      {!!opened &&
+      {opened &&
         <div className="drop_down_menu">
           <DropDownCurrency currencyList={list} chooseCurrency={buttonRouteTo} />
         </div>
