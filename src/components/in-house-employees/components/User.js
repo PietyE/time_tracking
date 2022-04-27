@@ -103,7 +103,7 @@ function User (props) {
         <span className="email">{email}</span>
       </div>
       <div className="projects">
-        <span className={`${!!userProjects.length ? {} : 'empty'}`}>{userProjects.length} Active</span>
+        <span className={`${userProjects.length ? '' : 'empty'}`}>{userProjects.length} Active</span>
       </div>
       <span className="salary">{currency}{salary}</span>
       <div className="overtime_block">

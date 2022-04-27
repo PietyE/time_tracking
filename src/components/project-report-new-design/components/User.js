@@ -75,7 +75,7 @@ function User (props) {
             <span className="email">{email}</span>
         </div>
         <div className="projects">
-            <span className={`${!!userProjects.length ? {} : 'empty'}`}>{projectList}</span>
+            <span className={`${userProjects.length ? '' : 'empty'}`}>{projectList}</span>
         </div>
         <div className="overtime_block">
             <span className="hours">{hours}</span>
