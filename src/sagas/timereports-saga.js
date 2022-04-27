@@ -29,10 +29,11 @@ import {setDeveloperProjectsTR} from 'actions/times-report'
 import { showAler } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
-export function* getDeveloperProjects({ payload, type, projectIdForSelect = null }) {
+export function* getDeveloperProjects({ projectIdForSelect = null }) {
   const { role } = yield select((state) => state.profile)
 
-  let URL_DEVELOPER_PROJECT = `developer-projects/`
+  let URL_DEVELOPER_PROJECT = 'developer-projects/'
+
   if (role !== DEVELOPER) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
@@ -80,14 +81,14 @@ const { month, year } = yield select((state) => state.timereports.selectedDate)
 }
 
 export function* getProjects() {
-  const URL_PROJECT = `projects/`
+  const URL_PROJECT = 'projects/'
   const { data } = yield call([Api, 'developerProjects'], URL_PROJECT)
   yield put(setDeveloperProjects(data))
   yield call(getDevelopers)
 }
 
 export function* getDevelopers() {
-  const URL_USERS = `users/`
+  const URL_USERS = 'users/'
   const { data } = yield call([Api, 'developerProjects'], URL_USERS)
   yield put(setDevelopers(data))
 }
@@ -115,7 +116,7 @@ export function* workerTimeReports() {
 
       yield put(setIsFetchingReports(false))
     }
-  } catch (error) {}
+  } catch(e){}
 }
 
 export function* addTimeReport({ payload }) {
@@ -124,7 +125,7 @@ export function* addTimeReport({ payload }) {
 
     const { selectedProject } = yield select((state) => state.timereports)
 
-    const URL_WORK_ITEMS = `work_items/`
+    const URL_WORK_ITEMS = 'work_items/'
     const { reports } = yield select((state) => state.timereports)
     const newTimereport = [...reports.items]
 
@@ -222,8 +223,7 @@ export function* editTimeReport({ payload }) {
         })
       )
     }
-  } catch (error) {
-  }
+  } catch (e) {}
 }
 
 export function* downloadCSV() {
