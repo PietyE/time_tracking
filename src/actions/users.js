@@ -14,7 +14,7 @@ import {
   SET_NEW_COMMENT,
   SET_EDITED_COMMENT,
   SET_PROCESSED_STATUS,
-  LOG_IN_WITH_CREDENTIALS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS,
+  LOG_IN_WITH_CREDENTIALS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS, SET_SIDE_MENU, SET_SIDE_MENU_ARROW
 } from 'constants/actions-constant'
 
 export const setUsersOauthData = (payload) => ({
@@ -102,3 +102,13 @@ export const setProcessedStatus = (payload) => ({
   type: SET_PROCESSED_STATUS,
   payload,
 })
+
+export const setShowSideMenu = (payload) => ({
+  type: SET_SIDE_MENU,
+  payload,
+});
+
+export const setShowSideMenuArrow = (payload) => ({
+  type: SET_SIDE_MENU_ARROW,
+  payload,
+});

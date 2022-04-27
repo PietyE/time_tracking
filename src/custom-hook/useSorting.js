@@ -1,30 +1,45 @@
 import { useCallback, useState } from 'react'
+import { orderBy } from 'lodash'
 
 const useSorting = () => {
   const [sorting, setSorting] = useState([]);
+  const [sortingParameter, setSortingParameters] = useState({})
 
-  const handleSortingChange = useCallback((sortData) => {
-    setSorting((prev) => {
-      const ascSort = prev?.length === 0;
-      const descSort = prev?.[0]?.direction === 'asc';
+  const toggleSortingParameter = (nameParam) => {
+    const [prevParams] = Object.keys(sortingParameter)
+    if (sortingParameter[nameParam] === null  || prevParams !== nameParam ) {
+      setSortingParameters({[nameParam]: true}) 
+    } else if (sortingParameter[nameParam]) {
+      setSortingParameters({[nameParam]: false}) 
+    } else {
+      setSortingParameters({[nameParam]: null}) 
+    }
+  }
 
-      if (ascSort || descSort) {
+  const handleSortingChange = useCallback((data) => {
+    const keys = Object.keys(sortingParameter);
 
-        return sortData;
-      }
-
-      const noneSort = prev?.[0]?.direction === 'desc';
-
-      if (noneSort) {
-
-        return [];
-      }
+    const customFunc = (key) => (item) =>
+      (typeof item[key] === 'string') ? item[key].toUpperCase() : (item[key] === null) ? 0 : item[key];
+    
+      const iteratees = keys
+      .map(key => sortingParameter[key] === null ? null : customFunc(key))
+      .filter(item => item !==null);
+  
+    const sortOrders = keys
+      .map(key => sortingParameter[key] === null ? null : sortingParameter[key] ? 'asc' : 'desc')
+      .filter(item => item !== null);
+    
+    setSorting(() => {
+      return orderBy(data, iteratees, sortOrders)
     })
-  }, []);
+  }, [sortingParameter]);
 
   return {
     sorting,
-    handleSortingChange
+    sortingParameter,
+    handleSortingChange,
+    toggleSortingParameter
   }
 }
 

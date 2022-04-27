@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  width: 200px;
+  width: 248px;
   height: 40px;
   border: 1px solid #e8e8e8;
   border-radius: 7px;
@@ -74,6 +74,14 @@
       font-size: 13px;
       font-weight: 500;
       line-height: unset;
+    }
+    .data_title_year {
+      color: #414141;
+      font-family: Montserrat;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: unset;
+      margin: 0 0 0 4px;
     }
   }
   .select_month_wrap {

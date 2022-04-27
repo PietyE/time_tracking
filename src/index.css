@@ -5,8 +5,16 @@
   text-decoration: none;
   box-sizing: border-box;
   outline: 0;
+  font-family: Montserrat;
+}
+
+html{
+  scroll-behavior: smooth;
 }
 
 button:focus {
   outline: 0;
+}
+body{
+  overflow-y: scroll;
 }

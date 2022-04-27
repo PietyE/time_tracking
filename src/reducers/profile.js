@@ -2,13 +2,18 @@ import {
   SET_USER_OAUTH_DATA,
   CLEAN_USER_OAUTH_DATA,
   SET_AUTH_STATUS,
-  SET_FETCHING_PROFILE_STATUS, SET_AUTH_IN_PROGRESS, UNSET_AUTH_IN_PROGRESS,
+  SET_FETCHING_PROFILE_STATUS,
+  SET_AUTH_IN_PROGRESS,
+  UNSET_AUTH_IN_PROGRESS, SET_SIDE_MENU, SET_SIDE_MENU_ARROW
 } from 'constants/actions-constant'
+import { SHOW_FULL_SIDE_MENU } from '../constants/side-menu-constant'
 
 const initial_state = {
   isAuth: false,
   isFetchingUsers: false,
   authInProgress: false,
+  sideMenuStatus: SHOW_FULL_SIDE_MENU,
+  sideMenuArrow:  false,
 }
 
 export const profile = (state = initial_state, action) => {
@@ -25,6 +30,10 @@ export const profile = (state = initial_state, action) => {
       return { ...state, isAuth: action.payload }
     case SET_FETCHING_PROFILE_STATUS:
       return { ...state, isFetchingUsers: action.payload }
+    case SET_SIDE_MENU:
+      return { ...state, sideMenuStatus: action.payload }
+      case SET_SIDE_MENU_ARROW:
+        return { ...state, sideMenuArrow: action.payload }
     default:
       return state
   }

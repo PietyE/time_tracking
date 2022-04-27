@@ -1,0 +1,14 @@
+$authBackgroundColor: #E5E5E5;
+$mainBlack: #222222;
+$black: #000000;
+$white: #FFFFFF;
+$borderColor: rgba(0, 0, 0, 0.2);
+$separatorColor: rgba(121, 121, 117, 0.678);
+$separatorText: #ADADA7;
+$submitColor: #009C98;
+
+%mainBorder {
+  border-color: $borderColor;
+  border-width: 1px;
+  border-style: solid;
+}

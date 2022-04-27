@@ -6,7 +6,7 @@
   border: 1px solid #dedfe0;
 }
 
-.error {
-  width: 18px;
-  height: 18px;
+.error_avatar {
+  width: 100%;
+  height: auto;
 }

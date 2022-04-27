@@ -11,6 +11,7 @@ import Modal from 'components/ui/modal'
 
 const Auth = lazy(() => import('./AuthScreen'))
 const MainScreen = lazy(() => import('./MainScreen'))
+const MainScreenRedesign = lazy(() => import('./MainScreenRedesign/MainScreenRedesign'))
 
 const RootRouteComponent = ({ bootstrap, isFetchingUsers }) => {
   useEffect(() => {
@@ -30,7 +31,8 @@ const RootRouteComponent = ({ bootstrap, isFetchingUsers }) => {
       <Suspense fallback={<SpinnerStyled />}>
         <Switch>
           <Route path="/auth" component={Auth} exact />
-          <Route path="/" component={MainScreen} />
+          <Route path="/old" component={MainScreen} />
+          <Route path="/" component={MainScreenRedesign} />
         </Switch>
       </Suspense>
     </Router>

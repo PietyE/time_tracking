@@ -1,0 +1,11 @@
+.close{
+    position: absolute;
+    right: -45px;
+    top: -95px;
+    cursor: pointer;
+    opacity: .5;
+    transition: opacity .2s  linear;
+    &:hover{
+        opacity: 1;
+    }
+}

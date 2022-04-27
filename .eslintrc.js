@@ -16,6 +16,7 @@ module.exports = {
     'no-unused-vars': 'off',
     "react/prop-types": "off",
     'comma-dangle': 'off',
+    'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     // 'react-hooks/exhaustive-deps': 'on',
   },

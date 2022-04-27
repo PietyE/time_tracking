@@ -1,0 +1,47 @@
+@import "../../../styles/commonStyles";
+
+.selected-user {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selected-user-controls {
+  display: flex;
+}
+
+.remove-user {
+  margin-left: 20px;
+}
+
+.h-20 {
+  height: 8px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-size: 32px;
+}
+
+.separator-block {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  align-items: center;
+  color: $separatorColor;
+  margin: 10px 0;
+}
+
+.separatorLine {
+  flex-grow: 1;
+  border: 1px solid $separatorColor;
+  margin-left: 5px;
+}
+
+.half-opacity {
+  color: rgba(0, 156, 152, 0.2);
+  cursor: default;
+}
+

@@ -15,6 +15,9 @@ import {
   GET_USERS_PROJECT_REPORT,
   SET_ERROR_USER_PROJECT_REPORT,
   SET_SUCCESS_USERS_PROJECT_REPORT,
+  SET_ALL_DEVELOPER_PROJECTS,
+  GET_ALL_DEVELOPER_PROJECTS,
+  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
 export const changeSelectedDateProjectsReport = (payload) => ({
@@ -34,6 +37,16 @@ export const changeSelectedDateProjectsReport = (payload) => ({
 
 export const setSelectedDeveloper = (payload) => ({
   type: SET_SELECTED_DEVELOPER,
+  payload,
+})
+
+export const setAllDevelopersProjectsPR = (payload) => ({
+  type: SET_ALL_DEVELOPER_PROJECTS,
+  payload,
+})
+
+export const getAllDevelopersProjectsPR = (payload) => ({
+  type: GET_ALL_DEVELOPER_PROJECTS,
   payload,
 })
 
@@ -99,3 +112,8 @@ export const setErrorUsersProjectReport = (payload) => ({
   type: SET_ERROR_USER_PROJECT_REPORT,
   payload,
 })
+
+// export const setReportHistory = (data) => ({
+//   type: SAVE_COMMENTS_HISTORY,
+//   payload: {data},
+// })

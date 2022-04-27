@@ -4,11 +4,11 @@ export const getTokenKeyFromLocalStorage = () => {
   return data_user.key
 }
 
-export const parseMinToHoursAndMin = (min) => {
+export const parseMinToHoursAndMin = (min, Hformat = false) => {
   const HOUR = 60
   let minToNumber = +min
   let strHours = '00'
-  let strMin
+  let strMin = '00'
 
   if (minToNumber < HOUR) {
     strMin = minToNumber < 10 ? `0${minToNumber}` : `${minToNumber}`
@@ -20,7 +20,7 @@ export const parseMinToHoursAndMin = (min) => {
     strMin = minutes < 10 ? `0${minutes}` : `${minutes}`
   }
 
-  return `${strHours}:${strMin}`
+  return Hformat ? `${strHours}h ${strMin}m` : `${strHours}:${strMin}`
 }
 
 export const getUrlParams = (search) => {
@@ -32,67 +32,94 @@ export const getUrlParams = (search) => {
   }, {})
 }
 
-export const convertHours = (data) =>{
-  if(data){
-    const hours = Math.floor(data);
-    let minutes = Math.round((data - hours)*60);
-    if(minutes < 10){
+export const convertHours = (data) => {
+  if (data) {
+    const hours = Math.floor(data)
+    let minutes = Math.round((data - hours) * 60)
+    if (minutes < 10) {
       minutes = `0${minutes}`
     }
     return `${hours}:${minutes}`
-  }else{
+  } else {
     return 0
   }
 }
 export const convertMinutesToHours = (data) => {
-  if(data){
-    const hours = Math.floor(data/60);
-    let minutes = data - (hours*60);
-    if(minutes < 10){
+  if (data) {
+    const hours = Math.floor(data / 60)
+    let minutes = data - hours * 60
+    if (minutes < 10) {
       minutes = `0${minutes}`
     }
-    return `${hours}h ${minutes}m`
-  }else{
-    return '0h 00m'
+    return `${hours}:${minutes}`
+  } else {
+    return 0
   }
 }
 
-export const usdFormat = new Intl.NumberFormat('ru', {
-  style: 'currency',
-  currency: 'USD',
-  currencyDisplay: 'symbol',
-  minimumFractionDigits: 0,
-})
+export const currentItemsGets = (pageSize, currentPage, totalItems) => {
+  let from
+  let to
+  if (currentPage > 1) {
+    from = (currentPage - 1) * pageSize
+    to = currentPage * pageSize
+  } else {
+    from = 0
+    to = currentPage * pageSize
+  }
 
-export const UAHFormat = new Intl.NumberFormat('ru', {
-  style: 'currency',
-  currency: 'UAH',
-  minimumFractionDigits: 0,
-})
-
-export const digitFormat = new Intl.NumberFormat('ru', {
-  minimumFractionDigits: 0,
-});
-
-const formatTimeToNumber = (timeStr) => {
-  const result = timeStr.replace('h ', '').replace('m', '');
-
-  return parseInt(result);
+  let res = totalItems.slice(from, to)
+  return res
 }
 
-const formatUAHToNumber = (uahStr) => {
-  const result = uahStr.split(' ');
-  result.pop();
+export function paginationWithDots(c, m) {
+  var current = c,
+    last = m,
+    delta = 2,
+    left = current - delta,
+    right = current + delta + 1,
+    range = [],
+    rangeWithDots = [],
+    l
 
-  return parseInt(result.join(''));
+  for (let i = 1; i <= last; i++) {
+    if (i === 1 || i === last || (i >= left && i < right)) {
+      range.push(i)
+    }
+  }
+
+  for (let i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1)
+      } else if (i - l !== 1) {
+        rangeWithDots.push('...')
+      }
+    }
+    rangeWithDots.push(i)
+    l = i
+  }
+
+  return rangeWithDots
 }
 
-const formatToNumber = (uahStr) => {
-  const result = uahStr.split(' ');
-
-  return parseInt(result[0].split(' ').join(''));
+export function setElementTop(element) {
+  let top;
+  if (window.pageYOffset < 100) {
+    if (document.documentElement.clientWidth < 990) {
+      top = window.pageYOffset + document.documentElement.clientHeight/3 + 100
+    } else {
+      top = window.pageYOffset + document.documentElement.clientHeight/3
+    }
+  } else {
+    top = window.pageYOffset + document.documentElement.clientHeight/4
+  }
+  element.style.top = top + 'px'
 }
 
+export const sortUserProjectReport = (a, b) => {
+  return b.active_project - a.active_project
+}
 
 export const compareForTimeColumns = (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
@@ -108,53 +135,20 @@ export const compareForTimeColumns = (a, b) => {
   return first < second ? -1 : 1;
 }
 
-export const compareForUAHColumns = (a, b) => {
-  if (typeof a !== 'string' || typeof b !== 'string') {
-
-    return 0;
-  }
-  const first = formatUAHToNumber(a);
-  const second = formatUAHToNumber(b);
-
-  if (first === second) {
-    return 0;
-  }
-
-  return first < second ? -1 : 1;
-}
-
-export const compareForSalaryAndRateColumns = (a, b) => {
-  if (typeof a !== 'string' || typeof b !== 'string') {
-
-    return 0;
-  }
-  const first = formatToNumber(a);
-  const second = formatToNumber(b);
-
-  if (first === second) {
-    return 0;
-  }
-
-  return first < second ? -1 : 1;
-}
-
-export const compareForBoolean = (a, b) => {
-  const first = a?.props?.children?.props?.checked ? 1 : 0;
-  const second = b?.props?.children?.props?.checked ? 1 : 0;
-  if (first === second) {
-    return 0;
-  }
-
-  return first < second ? -1 : 1;
-}
-
-export const sortUserProjectReport = (a, b) => {
-  return b.active_project - a.active_project
-}
-
 export const getDeveloperProjectsName = (projects) => {
   const allProjectsName = projects
     .map((project) => project.name)
     .join(', ')
   return allProjectsName;
+}
+
+export const setHeight = (elem) => {
+  let vh = window.innerHeight * 0.01;
+  elem.style.setProperty('--vh', `${vh}px`);
+}
+
+const formatTimeToNumber = (timeStr) => {
+  const result = timeStr.replace('h ', '').replace('m', '');
+
+  return parseInt(result);
 }

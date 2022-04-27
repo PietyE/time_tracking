@@ -4,8 +4,11 @@ import { watchGetUserAsync } from './users-saga'
 import { watchshowAlert } from './alert-saga'
 import { watchErrorAlert } from './error-saga'
 import { watchTimereports } from './timereports-saga'
-import { watchDeveloperProjects } from './projectreport-saga'
-import { watchCurrencies } from './currency-saga'
+import {
+  watchDeveloperProjects,
+  // watchReportsV2 
+} from './projectreport-saga'
+// import { watchCurrencies } from './currency-saga'
 
 import { watchProjectsManagement } from './projectsmanagement-saga'
 
@@ -16,7 +19,8 @@ export function* rootSaga() {
     watchErrorAlert(),
     watchTimereports(),
     watchDeveloperProjects(),
-    watchCurrencies(),
+    // watchCurrencies(),
     watchProjectsManagement(),
+    // watchReportsV2()
   ])
 }

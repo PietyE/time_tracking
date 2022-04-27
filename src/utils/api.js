@@ -129,6 +129,15 @@ class Api {
     })
   }
 
+  setUsersToProject = (url, body) => {
+    return fetchApi({
+      url,
+      method: 'post',
+      body,
+    })
+  }
+
+
   saveEditedComments = (url, body) => {
     return fetchApi({
       url,
@@ -172,6 +181,12 @@ class Api {
   }
 
   getUsersProjectReports = (url) => {
+    return fetchApi({
+      url,
+    })
+  }
+
+  getData = (url) => {
     return fetchApi({
       url,
     })
