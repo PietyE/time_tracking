@@ -22,11 +22,12 @@ import { getSelectedMonthSelector } from '../../reducers/projects-report'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.css'
-import InHouseEmployees from 'components/in-house-employees'
-import RemoteContractors from 'components/remote-contractors/RemoteContractors'
+// import InHouseEmployees from 'components/in-house-employees'
+// import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import ProjectManagementComponent from '../../components/project-managment-new-design/ProjectManagementComponent';
+import PmPrivateRoute from 'Routes/PmPrivatRoute'
 
 
 function MainScreen({
@@ -85,12 +86,12 @@ function MainScreen({
       <SideMenu />
       <Switch>
         <Route path="/projectreport" component={ProjectReportNew} exct />
-        <Route path="/inhouseemployees" component={InHouseEmployees} exct />
+        {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
         <Route path="/timereport" component={TimeReportScreen} exct />
         {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
-        <Route path="/remotecontractors" component={RemoteContractors} exct />
-        <Route path="/projectmanagement" component={ProjectManagementComponent} exct />
+        {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
+        <PmPrivateRoute path="/projectmanagement" component={ProjectManagementComponent} exct />
         {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
         <Redirect from="/" to="/timereport" />
       </Switch>
