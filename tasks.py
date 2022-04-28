@@ -7,59 +7,45 @@ import paramiko
 from invoke import task
 
 # =====   Server IPs    =====
-DEV_SERVER_IP = "134.209.240.110"
+DEV_SERVER_IP = None
 TEST_SERVER_IP = None
-STAGE_SERVER_IP = None
-PROD_SERVER_IP = "157.230.98.201"
+STAGE_SERVER_IP = "159.89.4.200"
+PROD_SERVER_IP = None
 
 # =====    SSH Paths    =====
 # absolute path on your local machine
-DEV_SERVER_SSH_KEY_PATH = ".ssh/TimeTrackingFrontend.pem"
+DEV_SERVER_SSH_KEY_PATH = None
 TEST_SERVER_SSH_KEY_PATH = None
-STAGE_SERVER_SSH_KEY_PATH = None
-PROD_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\id_rsa"
+STAGE_SERVER_SSH_KEY_PATH = "C:\\Users\\viladmin\\.ssh\\id_rsa"
+PROD_SERVER_SSH_KEY_PATH = None
 
 # =====   HOST USERs   =====
-DEV_SERVER_HOST_USER = "root"
+DEV_SERVER_HOST_USER = None
 TEST_SERVER_HOST_USER = None
-STAGE_SERVER_HOST_USER = None
-PROD_SERVER_HOST_USER = "root"
+STAGE_SERVER_HOST_USER = "root"
+PROD_SERVER_HOST_USER = None
 
 CONFIG = {
-    "dev": {
-        "ip": DEV_SERVER_IP,
-        "ssh_key_path": DEV_SERVER_SSH_KEY_PATH,
-        "host_user": DEV_SERVER_HOST_USER,
+    "dev": {},
+    "test": {},
+    "stage": {
+        "ip": STAGE_SERVER_IP,
+        "ssh_key_path": STAGE_SERVER_SSH_KEY_PATH,
+        "host_user": STAGE_SERVER_HOST_USER,
         "project_name": "timetracking-front",
         "env_variables": {
-            "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
-            "NPM_CONFIG_PRODUCTION": "true",
-            "YARN_PRODUCTION": "true",
-            "NODE_OPTIONS": '"--max_old_space_size=4096"'
-        },
-        "remote_branch_name": "development",
-        "local_branch_name": "dev",
-        # http://mikebian.co/sending-dokku-container-logs-to-papertrail
-        "domain": "timetracking.vilmate.com",
-    },
-    "test": {},
-    "stage": {},
-    "prod": {
-    "ip": PROD_SERVER_IP,
-        "ssh_key_path": PROD_SERVER_SSH_KEY_PATH,
-        "host_user": PROD_SERVER_HOST_USER,
-        "project_name": "time-tracking-frontend",
-        "env_variables": {
+            "ENV_BUILD": ".env.stage",
             "DOKKU_LETSENCRYPT_EMAIL": "admin@vilmate.com",
             "NPM_CONFIG_PRODUCTION": "true",
             "YARN_PRODUCTION": "true",
             "NODE_OPTIONS": '"--max_old_space_size=2048"'
         },
-        "remote_branch_name": "master",
-        "local_branch_name": "master",
+        "remote_branch_name": "stage",
+        "local_branch_name": "stage",
         # http://mikebian.co/sending-dokku-container-logs-to-papertrail
-        "domain": "internal.vilmate.com",
+        "domain": "stage-timetracking.vilmate.com",
     },
+    "prod": {},
 }
 
 
@@ -152,7 +138,7 @@ def add_key_to_dokku(ctx, env):
     config = CONFIG[env]
 
     ctx.run(
-        f"cat ~/.ssh/id_rsa.pub | ssh -i {config['ssh_key_path']} "
+        f"cat ~/.ssh/timetrackingstage/id_rsa.pub | ssh -i {config['ssh_key_path']} "
         f"-o 'IdentitiesOnly yes' "
         f"{config['host_user']}@{config['ip']} sudo dokku ssh-keys:add $USER",
         pty=True,
@@ -191,7 +177,7 @@ def create_nginx_conf_files(ctx, env, client):
     if not project_name:
         print('"project_name" should be set in config')
 
-    print(f"Sniffing dirrectory /home/dokku/{project_name}/ ...")
+    print(f"Sniffing directory /home/dokku/{project_name}/ ...")
 
     stdin, stdout, stderr = client.exec_command(f"ls -la /home/dokku/{project_name}/")
     stdout = list(stdout)
@@ -425,7 +411,7 @@ def create_env_variables(ctx, env, client):
         print('"env_variables" and "project_name" should be set')
         return
 
-    stdin, stdout, stderr = client.exec_command(f"dokku config {project_name}")
+    stdin, stdout, stderr = client.exec_command(f"dokku config:show {project_name}")
 
     err = list(stderr)
     if err:
@@ -654,7 +640,7 @@ def install_letsencrypt_plugin(ctx, env, client):
     else:
         print("Letsencrypt plugin previously installed")
 
-    stdin, stdout, stderr = client.exec_command("sudo dokku letsencrypt:ls")
+    stdin, stdout, stderr = client.exec_command("sudo dokku letsencrypt:list")
     display_message(stderr)
     display_message(stdout)
 
