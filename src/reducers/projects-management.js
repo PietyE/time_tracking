@@ -139,7 +139,7 @@ export const getSelectedProjectSelector = state => state.projectsManagement.sele
 export const getCurrentProjectSelector = state =>{
   const id = getSelectedProjectIdSelector(state)
   const projects = getAllProjectsSelector(state)
-  //console.log('projects', projects)
+
   let currentProject =  projects.find(project => project.id === id);
 
   return currentProject;
@@ -162,6 +162,7 @@ export const getProjectActiveUsersSelector = state => {
     is_full_time: report?.is_full_time,
     is_active: report?.is_active,
     projectReportId: report?.projectReportId,
+    is_project_manager: report?.is_project_manager,
   }))
 }
 
@@ -180,7 +181,7 @@ export const getActivePmInCurrentProjectSelector = state => {
   const projectManagers = getActiveProjectManagerSelector(state)
 
   if (projectManagers) {
-    return projectManagers.find(pm => pm.is_active === true)
+    return projectManagers.find(pm => pm.is_project_manager === true)
   }
 }
 
