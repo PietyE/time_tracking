@@ -326,7 +326,7 @@ function WindowUserInfo (props) {
       <div className="row2 grey" />
       <div className="div_info_row grey">
         <img src={dot} className="dot"  alt="dot"/>
-        <span className="info_text">OVERTIME SALARY ({checkCurrency(currency)})</span>
+        <span className="info_text">HOURLY SALARY ({checkCurrency(currency)})</span>
         <span className="info_data">{currency}{overtimeSalary}</span>
       </div>
       <div className="row2 grey" />
@@ -432,7 +432,7 @@ function WindowUserInfo (props) {
         <div className="row2 grey" />
         <div className="div_info_row grey">
           <img src={dot} className="dot" alt="dot"/>
-          <span className="info_text">OVERTIME SALARY ({checkCurrency(currency)})</span>
+          <span className="info_text">HOURLY SALARY ({checkCurrency(currency)})</span>
           <span className="info_data">{currency}{overtimeSalary}</span>
         </div>
         <div className="row2 grey" />
