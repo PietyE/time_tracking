@@ -35,7 +35,7 @@ const RowDetail = ({ row, currentProjectReport, isFetching }) => {
       const activeProjectReports = currentProjectReport.users.filter(report => report.is_active === true || report.minutes)
       const reformatProjects = activeProjectReports.map(user => ({
         user: user.userName,
-        occupancy: user.is_full_time ? 'Fulltime' : 'Overtime',
+        occupancy: user.is_full_time ? 'Salary' : 'Hourly',
         hours: convertMinutesToHours(user.minutes) || 0,
         report: <Button variant = "outline-*" onClick={()=>_downloadProjectReport(user.projectReportId)}> <span className = "oi oi-cloud-download"/></Button>,
         actions: '',
