@@ -62,11 +62,20 @@ function EditProjectModal({ show, month}) {
       .map(e => ({...e, name: e.userName, id: e.userId})) || [],
     [currentProjectReport, activeProjectManager]);
 
-  const currentTeamIds = useMemo(
-    () => currentProjectActiveDevelopers.map(e => e.id),
-    [currentProjectActiveDevelopers],
-  );
+  const freeProjectManagersList = useMemo(() => {
+       let teamMateID = currentProjectActiveDevelopers.map(member => member.userId)
+    return  projectManagersList.filter(user => !teamMateID.includes(user.id))
+  }, [currentProjectActiveDevelopers, projectManagersList])
 
+  const currentTeamIds = useMemo(
+    () => {
+      let currentProjectActiveDevelopersID = currentProjectActiveDevelopers.map(e => e.id)
+      currentProjectActiveDevelopersID.push(activeProjectManager?.user_id)
+      return currentProjectActiveDevelopersID
+    },
+    [currentProjectActiveDevelopers, activeProjectManager]
+  );
+  
   const currentProject = useEqualSelector(getSelectedProjectSelector)
   const currentApiProject = useEqualSelector(getCurrentProjectSelector)
   const projectName = useEqualSelector(getProjectName)
@@ -96,7 +105,6 @@ function EditProjectModal({ show, month}) {
       projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
     }));
     
-    // eslint-disable-next-line no-undef
     setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
     setAddMember(false);
 
@@ -110,6 +118,7 @@ function EditProjectModal({ show, month}) {
     setCheckedUsers([]);
 
     dispatch(addDeveloperToProject(payload))
+    dispatch(getAllProjects())
   }, [checkedUsers, currentProjectId, currentProjectReport, currentEditedTeam, dispatch])
 
   const _changeUserOnProject = useCallback(
@@ -216,7 +225,7 @@ function EditProjectModal({ show, month}) {
       </div>
     )
   })
-
+  
   const validate = (values) => {
     const errors = {}
 
@@ -430,6 +439,7 @@ function EditProjectModal({ show, month}) {
         })
       }
     }
+    dispatch(getAllProjects())
   }
 
   const handleArchivedPress = useCallback(() => {
@@ -500,7 +510,7 @@ function EditProjectModal({ show, month}) {
           editValue={
             <Select
               title={valuesFromApi?.projectManager?.name}
-              listItems={projectManagersList}
+              listItems={freeProjectManagersList}
               onSelected={handleAddProjectManagerToProject}
               valueKey="name"
               idKey="id"

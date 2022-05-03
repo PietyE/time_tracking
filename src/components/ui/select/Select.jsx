@@ -78,6 +78,9 @@ function Select(props) {
     if (isOpen) {
       document.addEventListener('click', callbackEventListener)
     }
+    return () => {
+      document.removeEventListener('click', callbackEventListener)
+    }
   }, [isOpen, callbackEventListener])
 
   ///////////////////////////////////////////////////////////
