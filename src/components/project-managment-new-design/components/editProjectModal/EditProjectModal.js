@@ -83,6 +83,7 @@ function EditProjectModal({ show, month}) {
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
   const projectTeamM = useEqualSelector(getUsersSelector);
+  
   const closeAddUser = () => {
     setAddMember(false)
   }
@@ -193,7 +194,8 @@ function EditProjectModal({ show, month}) {
 
   useEffect(() => {
     if (show) {
-        _getProjectReportById(currentProjectId);
+      _getProjectReportById(currentProjectId);
+      closeAddUser();
     }
   }, [_getProjectReportById, currentProjectId, show, month, currentEditedTeam])
 
@@ -546,8 +548,13 @@ function EditProjectModal({ show, month}) {
                 rows={3}
                 defaultValue={valuesFromApi?.description || values.description}
                 placeholder="Some info about the project"
-                autoFocus
                 tabIndex={2}
+                autoFocus
+                onFocus={(e) =>
+                  e.currentTarget.setSelectionRange(
+                    e.currentTarget.value.length,
+                    e.currentTarget.value.length
+                  )}
               />
 
               {errors.description && touched.description && (
