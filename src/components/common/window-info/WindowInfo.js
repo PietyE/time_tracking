@@ -4,12 +4,12 @@ import HintWindow from "components/ui/HintWindow";
 
 import closeButton from "../../../images/projectReportIcons/closeButton.svg";
 import DownloadIc from "../../../images/download_ic.svg"
-import ArchiveIc from "../../../images/archive1.svg"
+// import ArchiveIc from "../../../images/archive1.svg"
 
 
 function WindowInfo({title, children, close, download, id, onArchivedPress}) {
     const [showHintExport, setShowHintExport] = useState(false)
-    const [showHintArchive, setShowHintArchive] = useState(false)
+    // const [showHintArchive, setShowHintArchive] = useState(false)
     const [showHintClose, setShowHintClose] = useState(false)
 
     return <div className="main_container">
@@ -29,7 +29,7 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
                                 <img src={DownloadIc} alt="" />
                                 {showHintExport && <HintWindow text={'Export'} />}
                             </div>
-                            <div
+                            {/* <div
                                 className="control_btn archive-modal"
                                 onClick={onArchivedPress}
                                 onMouseEnter={() => setShowHintArchive(true)}
@@ -37,7 +37,7 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
                             >
                                 <img src={ArchiveIc} alt="Archive the project" />
                                 {showHintArchive && <HintWindow text={'Archive the project'} />}
-                            </div>
+                            </div> */}
                             <div className="vert_row" />
                             <div className="control_btn close_button"
                                 onClick={close}
