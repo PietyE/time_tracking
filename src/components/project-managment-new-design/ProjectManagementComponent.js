@@ -38,7 +38,7 @@ import useEqualSelector from '../../custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
 import CreateUserModal from './components/CreateUserModal'
 import useSorting from '../../custom-hook/useSorting'
-import ArchivedSeparator from './components/ArchivedSeparator'
+// import ArchivedSeparator from './components/ArchivedSeparator'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -179,9 +179,9 @@ const ProjectManagementComponent = () => {
     return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
   });
 
-  const projectsListArchived = sorting.filter(e => e.is_archived).map((e) => {
-    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  })
+  // const projectsListArchived = sorting.filter(e => e.is_archived).map((e) => {
+  //   return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+  // })
 
   return (
     <div className="common-container">
@@ -305,8 +305,8 @@ const ProjectManagementComponent = () => {
             </div>
           </div>
           {projectsListNotArchived}
-          <ArchivedSeparator/>
-          {projectsListArchived}
+          {/* <ArchivedSeparator/>
+          {projectsListArchived} */}
           {/* The pagination is commented out until the next iteration */}
           {/* <Pagination
           totalCount={totalCount}
