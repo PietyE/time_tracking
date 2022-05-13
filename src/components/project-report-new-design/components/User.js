@@ -44,7 +44,7 @@ function User (props) {
           selectedDate,
           },
       },
-      totalHours: (is_full_time) ? 'fulltime' : parseMinToHoursAndMin(overtime_minutes, true) || 0,
+      totalHours: (is_full_time) ? 'Salary' : parseMinToHoursAndMin(overtime_minutes, true) || 0,
       totalOvertime: (overtime_minutes) ?  parseMinToHoursAndMin(overtime_minutes, true) : 0,
       id: id,
       active_project: is_active,

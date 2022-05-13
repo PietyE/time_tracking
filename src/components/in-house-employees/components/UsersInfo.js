@@ -122,7 +122,7 @@ function UsersInfo (props) {
         </div>
         <span className="projects">PROJECTS</span>
         <span className="salary">SALARY</span>
-        <span className="overtime">OVERTIME</span>
+        <span className="overtime">HOURLY</span>
         <div className="pay_ordering">
           <span className="name">TO PAY</span>
           <div className="arrows" onClick={sortToPay}>

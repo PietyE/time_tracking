@@ -53,7 +53,7 @@ const TeamMemberItem = ({ data, setFieldValue, values, type }) => {
             data-id = {data.projectReportId}
             onChange = {changeOccupancy}
             className = 'pm_create_team_checkbox'/>
-          Overtime
+          Hourly
         </label>
 
         <FontAwesomeIcon

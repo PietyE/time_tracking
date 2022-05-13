@@ -26,7 +26,7 @@ function Project (props) {
                 </Link>}
         </div>        
       </div>
-      <div className="occupancy">{project.is_full_time ? 'Fulltime' : 'Overtime'}</div>
+      <div className="occupancy">{project.is_full_time ? 'Salary' : 'Hourly'}</div>
       <div className="hours">{project.working_time}</div>
       {/* <div className="total">{isNull(project.total)}</div> */}
     </div>
