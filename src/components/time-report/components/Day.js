@@ -3,7 +3,7 @@ import React, { useState, memo, useEffect } from 'react'
 // import HeaderDay from './HeaderDay'
 // import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
-// import FooterDay from './FooterDay'
+import FooterDay from './FooterDay'
 // import ActivitySelect from "./ActivitySelect";
 import DayCrate from './DayCrate';
 
@@ -121,9 +121,9 @@ function Day({
           />
         ))}
       </div> : null}
-      {/* <FooterDay
+      {sumHours ?<FooterDay
          sumHours={sumHours}
-      /> */}
+      /> : null}
     </div>
   )
 }
