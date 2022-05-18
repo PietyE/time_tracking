@@ -408,15 +408,23 @@
 
     .time_report_day_footer {
       border-top: 1px solid #e8e8e8;
-      height: 35px;
       display: flex;
       justify-content: flex-end;
       align-items: flex-end;
-      color: #7e7e82;
+      color: rgba(34, 34, 34, 1);
       font-family: Montserrat, sans-serif;
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 600;
       line-height: 19px;
+      padding: 20px 25px ;
+      background-color: #fff;
+      border-end-start-radius: 5px;
+      border-end-end-radius: 5px;
+      span{
+        width: 115px;
+        text-align: left;
+      }
+
     }
   }
 

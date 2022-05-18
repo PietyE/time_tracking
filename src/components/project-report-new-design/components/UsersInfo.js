@@ -70,7 +70,7 @@ function UsersInfo (props) {
           </div>) : null}
         </div>
         <span className="projects">PROJECTS</span>
-        <span className="overtime">HOURSE WORKED</span>
+        <span className="overtime">HOURS WORKED</span>
       </div>
       {sorting.map((user) => 
         (<User name={user.name} 
