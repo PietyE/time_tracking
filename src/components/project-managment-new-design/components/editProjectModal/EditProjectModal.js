@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import WindowInfo from '../../../common/window-info/WindowInfo'
 import InfoItemM from '../../../common/window-info/components/InfoItemM'
 import TeamM from '../../../common/team-m/TeamM'
+import HintWindow from "components/ui/HintWindow";
 import Plus from '../../../ui/plus'
 import AddSelectedM from '../../../common/AddSelectedM/AddSelectedM'
 import { useDispatch } from 'react-redux'
@@ -46,6 +47,7 @@ function EditProjectModal({ show, month}) {
   const [checkedUsers, setCheckedUsers] = useState([])
   const [currentEditedTeam, setEditedTeam] = useState([])
   const [isArchivedProject, setArchivedProject] = useState(false)
+  const [showHintAddMember, setShowHintAddMember] = useState(false)
 
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector);
@@ -455,6 +457,14 @@ function EditProjectModal({ show, month}) {
     handleClose()
   }, [currentProjectId, dispatch, handleClose, isArchivedProject]);
 
+  const _handlerMouseEnter = useCallback(() => {
+    setShowHintAddMember(true)
+  }, [])
+
+  const _handlerMouseLeave = useCallback(() => {
+    setShowHintAddMember(false)
+  }, [])
+
   return (
     <div
       ref={modalRef}
@@ -591,7 +601,14 @@ function EditProjectModal({ show, month}) {
                       (addMember ? 'add-member' : '') +
                       (isArchivedProject ||  (!valuesFromApi?.projectManager || !activeProjectManager?.name)? 'half-opacity' : '')
                     }
+                    onMouseEnter={() => {
+                      (!valuesFromApi?.projectManager || !activeProjectManager?.name) && _handlerMouseEnter()
+                    }}
+                    onMouseLeave={() => {
+                      (!valuesFromApi?.projectManager || !activeProjectManager?.name) && _handlerMouseLeave()
+                    }}
                   >
+                    {showHintAddMember && <HintWindow text={'Assign a Project manager to the project first'} />}  
                     <Plus isActive={addMember || isArchivedProject || (!valuesFromApi?.projectManager || !activeProjectManager?.name)} />
                     <span>Add new developers</span>
                   </span>
