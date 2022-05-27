@@ -195,7 +195,7 @@ function TimeReport(props) {
   }
 
   useEffect(()=>{
-    if(currentPosition && !isFetchingReports){
+    if(!isFetchingReports){
       window.scrollTo(0, Number(currentPosition) - 100 )
       setCurrentPosition(null)
     }
