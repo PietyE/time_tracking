@@ -23,7 +23,7 @@ function ProjectList (props) {
   return (
     <>
         <div className='project_row' />
-        <div className={`project_list ${(!active_project || full_time === null)? 'not_active_project':''}`}>
+        <div className={`project_list ${(!active_project)? 'not_active_project':''}`}>
             <div className='project_name'>
                 {<Link
                     to={{

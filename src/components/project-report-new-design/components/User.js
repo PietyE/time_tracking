@@ -24,16 +24,15 @@ function User (props) {
   const [sortProjects, setSortProjects] = useState([]);
 
   const userProjects = useMemo(() => {
-    return projects.filter((project) => project.user.id === userId && (project.is_active || project.total_minutes !== 0 ) && (project.is_full_time !== null || project.overtime_minutes !== 0))
+    return projects.filter((project) => project.user.id === userId && (project.is_active || (!project.is_active && project.total_minutes)))
   }, [projects, userId])
-
   const projectList = useMemo(() => {
-    const activeProject = [...userProjects].filter((project) => (project.is_active && project.is_full_time !== null))
+    const activeProject = [...userProjects].filter((project) => (project.is_active))
     return  activeProject.map((project) => {
       return project.project.name
-       }).join(', ')
+      }).join(', ')
   }, [userProjects])
- 
+
   const formattedProjects = useMemo(
     () => userProjects.map(({ project: {  name }, is_active, is_full_time, overtime_minutes , id }) => ({
       developer_projects:{
@@ -54,8 +53,8 @@ function User (props) {
   
   useEffect(() => {
     const sortFormattedProjects = [...formattedProjects].sort(sortUserProjectReport);
-    const currentProjects = sortFormattedProjects.filter((project) => project.full_time !== null)
-    const pastProjects = sortFormattedProjects.filter((project) => project.full_time === null)
+    const currentProjects = sortFormattedProjects.filter((project) => project.active_project)
+    const pastProjects = sortFormattedProjects.filter((project) => project.active_project === false)
       setSortProjects([...currentProjects, ...pastProjects])
   }, [formattedProjects]);
 
