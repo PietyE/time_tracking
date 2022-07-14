@@ -17,9 +17,8 @@ const SearchByProject = () => {
   const selectedProject = useShallowEqualSelector(getSelectedProjectSelector)
   const dispatch = useDispatch()
   const onSelectedDispatch = useCallback(
-    (e) => {
-      dispatch(setSelectedProjectInProjectReports(e))
-    },
+    (e) => dispatch(setSelectedProjectInProjectReports(e)),
+
     [dispatch]
   )
 
@@ -33,7 +32,7 @@ const SearchByProject = () => {
         idKey="id"
         isSearch={true}
         onSelected={onSelectedDispatch}
-        disabled={selectedDeveloper.name !== 'All Developers' ? true : false}
+        disabled={selectedDeveloper.name !== 'All Developers'}
         initialChoice={selectedProject}
       />
     </div>
