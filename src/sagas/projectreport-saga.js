@@ -235,16 +235,14 @@ export function* handleGetConsolidatedReport() {
   )
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
-  //getting current select project from state
   const currentSelectedProject = yield select(getSelectedProjectSelector)
 
   //can be moved to separate helper function when we will refactor
   //filtering all developers by their projects and comparing with selectedProject
-  const developersOnSelectedProjects = mapperResponse.filter(
-    (developer) =>
-      developer.developer_projects.filter(
-        (proj) => proj.name === currentSelectedProject.name
-      ).length
+  const developersOnSelectedProjects = mapperResponse.filter((developer) =>
+    developer.developer_projects.some(
+      (proj) => proj.name === currentSelectedProject.name
+    )
   )
 
   //if we does not select the project it will be empty array of devs because func above has not anything to compare
