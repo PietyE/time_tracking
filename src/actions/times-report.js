@@ -1,19 +1,17 @@
 import {
-  SET_IS_FETCHING_REPORTS,
-  CHANGE_SELECTED_DATE_TIME_REPORT,
-  SET_TIME_REPORTS,
-  SET_DEVELOPER_PROJECTS_TR,
-  DELETE_TIME_REPORT,
   ADD_TIME_REPORT,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
+  CLEAR_SELECTED_PROJECT,
+  DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
+  GET_TIME_REPORT_CSV,
   RESET_SELECTED_DATE,
   SELECT_PROJECT,
-  CLEAR_SELECTED_PROJECT,
+  SET_DEVELOPER_PROJECTS_TR,
   SET_EDIT_MODE,
-  GET_TIME_REPORT_CSV,
+  SET_IS_FETCHING_REPORTS,
   SET_STATUS_USER,
-  GET_USERS_HOURS_AUTH_URL_REQUEST,
-  GET_USERS_HOURS_AUTH_URL_SUCCESS,
+  SET_TIME_REPORTS,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateTimeReport = (payload) => ({
@@ -76,15 +74,4 @@ export const getTimeReportCsv = () => ({
 export const setUserStatus = (payload) => ({
   type: SET_STATUS_USER,
   payload,
-})
-
-//only for accountant
-
-export const getUsersHoursAuthUrlRequest = () => ({
-  type: GET_USERS_HOURS_AUTH_URL_REQUEST,
-})
-
-export const getUsersHoursAuthUrlSuccess = (authUrl) => ({
-  type: GET_USERS_HOURS_AUTH_URL_SUCCESS,
-  payload: authUrl,
 })
