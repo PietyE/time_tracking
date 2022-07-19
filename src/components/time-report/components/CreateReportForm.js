@@ -1,11 +1,11 @@
-import React, { useState, useEffect, memo} from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import InputMask from 'react-input-mask'
-import {isEqual} from 'lodash'
-import {getSelectedDateTimeReport} from '../../../selectors/timereports'
-import {setEditMode} from 'actions/times-report'
+import { isEqual } from 'lodash'
+import { getSelectedDateTimeReport } from '../../../selectors/timereports'
+import { setEditMode } from 'actions/times-report'
 import { showAler } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
@@ -19,7 +19,6 @@ function CreateReportForm({
   setEditMode,
   showAler,
   sumHours,
-  // savePosition,
   // selectDayStatus,
   // selectedDayStatus
 }) {
@@ -30,10 +29,10 @@ function CreateReportForm({
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
   const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
-  useEffect(()=>{
+  useEffect(() => {
     setBorderInputClassName('')
     setBorderInputHoursClassName('')
-  },[selectedDay])
+  }, [selectedDay])
 
   const MAX_SIZE = 1000
 
@@ -83,7 +82,7 @@ function CreateReportForm({
       })
       return
     }
-    if ((takeTime % 15) !== 0) {
+    if (takeTime % 15 !== 0) {
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: WARNING_ALERT,
@@ -93,13 +92,14 @@ function CreateReportForm({
       })
       return
     }
-   
+
     if (takeTime > 480) {
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: WARNING_ALERT,
         title: 'Check the entered value',
-        message: error.message || 'Maximum working time is 8 hours for one work item',
+        message:
+          error.message || 'Maximum working time is 8 hours for one work item',
         delay: 5000,
       })
       return
@@ -114,7 +114,6 @@ function CreateReportForm({
     })
     setText('')
     setHours('')
-    // savePosition(e)
   }
 
   const handlerChangeText = (e) => {
@@ -167,7 +166,13 @@ function CreateReportForm({
           mask="9:99"
           onFocus={handlerFocus}
         />
-        <button className={'create_btn '+(hours && hours!=='0:00' && text ? '': 'disabled')} onClick={handlerClickAddButton}>
+        <button
+          className={
+            'create_btn ' +
+            (hours && hours !== '0:00' && text ? '' : 'disabled')
+          }
+          onClick={handlerClickAddButton}
+        >
           <FontAwesomeIcon
             icon={faCheck}
             color="#414141"
