@@ -12,6 +12,8 @@ import {
   SET_IS_FETCHING_PROJECT_REPORTS,
   SET_CONSOLIDATE_PROJECT_REPORT,
   LOG_OUT,
+  GET_USERS_HOURS_AUTH_URL_REQUEST,
+  GET_USERS_HOURS_AUTH_URL_SUCCESS,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
@@ -30,36 +32,35 @@ const initialState = {
     exchange_rate: '',
   },
   selectedProject: {
-    email: "",
-    id: "",
-    name: "All Projects",
-    role: null
+    email: '',
+    id: '',
+    name: 'All Projects',
+    role: null,
   },
   selectedDeveloper: {
-    email: "",
-    id: "",
-    name: "All Developers",
-    role: null
+    email: '',
+    id: '',
+    name: 'All Developers',
+    role: null,
   },
   isFetchingReports: false,
   developerProjectInProjectReport: [],
   selectAllDevelopersProject: [],
   editingUserId: '',
   userId: '',
+  accountantAuthUrl: '',
   // reportHistory: []
 }
 
 export const projectsReport = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_SELECTED_DATE_PROJECTS_REPORT:
-      return { ...state,
-        isFetchingReports: true,
-        selectedDate: action.payload }
+      return { ...state, isFetchingReports: true, selectedDate: action.payload }
     case SET_CONSOLIDATE_PROJECT_REPORT:
       return {
         ...state,
         isFetchingReports: false,
-        reportsRefactored: action.payload
+        reportsRefactored: action.payload,
       }
     case SET_PROCESSED_STATUS:
       return { ...state, isFetchingReports: true }
@@ -67,14 +68,16 @@ export const projectsReport = (state = initialState, action) => {
       return {
         ...state,
         isFetchingReports: true,
-        selectedDeveloper: action.payload }
+        selectedDeveloper: action.payload,
+      }
     case CLEAR_SELECTED_DEVELOPER:
       return { ...state, selectedDeveloper: initialState.selectedDeveloper }
     case SET_SELECTED_PROJECT_PROJECTREPORTS:
       return {
         ...state,
         isFetchingReports: false,
-        selectedProject: action.payload }
+        selectedProject: action.payload,
+      }
     case CLEAR_SELECTED_PROJECT_PROJECTREPORTS:
       return {
         ...state,
@@ -96,9 +99,20 @@ export const projectsReport = (state = initialState, action) => {
     //   return {
     //     ...state,
     //     reportHistory: data
-    //   }  
+    //   }
     case SET_ALL_DEVELOPER_PROJECTS:
       return { ...state, selectAllDevelopersProject: action.payload }
+    case GET_USERS_HOURS_AUTH_URL_REQUEST:
+      return {
+        ...state,
+        isFetchingReports: true,
+      }
+    case GET_USERS_HOURS_AUTH_URL_SUCCESS:
+      return {
+        ...state,
+        isFetchingReports: false,
+        accountantAuthUrl: action.payload,
+      }
     default:
       return state
   }
@@ -132,5 +146,5 @@ export const getSelectDeveloperInProjectReportSelector = (state) =>
 export const selectUsersReports = (state) =>
   state.projectsReport.reportsRefactored
 
-  export const selectAllProjects = (state) =>
+export const selectAllProjects = (state) =>
   state.projectsReport.selectAllDevelopersProject

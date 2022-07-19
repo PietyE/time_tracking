@@ -10,7 +10,10 @@ import {
   SELECT_PROJECT,
   CLEAR_SELECTED_PROJECT,
   SET_EDIT_MODE,
-  GET_TIME_REPORT_CSV, SET_STATUS_USER,
+  GET_TIME_REPORT_CSV,
+  SET_STATUS_USER,
+  GET_USERS_HOURS_AUTH_URL_REQUEST,
+  GET_USERS_HOURS_AUTH_URL_SUCCESS,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateTimeReport = (payload) => ({
@@ -70,7 +73,18 @@ export const getTimeReportCsv = () => ({
   type: GET_TIME_REPORT_CSV,
 })
 
-export const setUserStatus =(payload)=>({
+export const setUserStatus = (payload) => ({
   type: SET_STATUS_USER,
-  payload
+  payload,
+})
+
+//only for accountant
+
+export const getUsersHoursAuthUrlRequest = () => ({
+  type: GET_USERS_HOURS_AUTH_URL_REQUEST,
+})
+
+export const getUsersHoursAuthUrlSuccess = (authUrl) => ({
+  type: GET_USERS_HOURS_AUTH_URL_SUCCESS,
+  payload: authUrl,
 })
