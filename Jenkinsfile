@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/stage']], extensions: [], userRemoteConfigs:
-                [[credentialsId: 'azure_repos', url: 'https://vilmate.visualstudio.com/DefaultCollection/Time%20Tracking/_git/Time%20Tracking']]])
+                [[credentialsId: 'jenkins', url: 'vilmate@vs-ssh.visualstudio.com:v3/vilmate/Time%20Tracking/Time%20Tracking']]])
             }
         }
 
