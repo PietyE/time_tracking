@@ -1,8 +1,7 @@
-import React, { memo, useState, useEffect, useCallback } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux'
-import _ from 'lodash'
-import { isEmpty } from 'lodash'
+import _, { isEmpty } from 'lodash'
 
 import ProjectSelect from './components/ProjectSelect'
 import Day from './components/Day'
@@ -13,27 +12,27 @@ import Spinner from 'components/ui/spinner'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 import {
-  changeSelectedDateTimeReport,
   addTimeReport,
-  resetSelectedDate,
-  selectProject,
+  changeSelectedDateTimeReport,
   clearSelectedProject,
   getTimeReportCsv,
-  setUserStatus
+  resetSelectedDate,
+  selectProject,
+  setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
 import { getDeveloperProjectsById } from '../../actions/projects-management'
 import {
-  getSelectedDateTimeReport,
-  getTimeReports,
-  getIsFetchingReport,
-  getSelectedProject,
-  getSelecredDeveloper,
   getAllDays,
-  getSelectedDay,
+  getDeveloperProjectsTR,
+  getIsFetchingReport,
+  getSelecredDeveloper,
   getSelectDayStatus,
+  getSelectedDateTimeReport,
+  getSelectedDay,
   getSelectedDayStatus,
-  getDeveloperProjectsTR
+  getSelectedProject,
+  getTimeReports,
 } from 'selectors/timereports'
 import { getProfileId } from '../../selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
@@ -42,6 +41,7 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+
 // import FunnelSelect from "./components/FunnelSelect";
 
 function TimeReport(props) {
@@ -64,11 +64,11 @@ function TimeReport(props) {
     // selectedDays,
     // selectedDay,
     selectDayStatus,
-    selectedDayStatus
+    selectedDayStatus,
   } = props
 
   const dispatch = useDispatch()
-  const developerId = useShallowEqualSelector(getProfileId);
+  const developerId = useShallowEqualSelector(getProfileId)
   // eslint-disable-next-line no-unused-vars
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
@@ -100,92 +100,96 @@ function TimeReport(props) {
     renderDaysArray.push(i)
   }
 
-
   const totalHours = selectedDeveloperProjectsTR
     ? selectedDeveloperProjectsTR.reduce((res, item) => {
         return res + item.total_minutes
       }, 0)
     : 0
 
-    const selectedProjectHours = reports && selectedProject
-      ? reports.reduce((res, item) =>res + item.duration , 0)
-    : 0
+  const selectedProjectHours =
+    reports && selectedProject
+      ? reports.reduce((res, item) => res + item.duration, 0)
+      : 0
 
-    useEffect(() => {
-      if (!isEmpty(selectedDeveloper) ) {
-        const { id } = selectedDeveloper;
-        dispatch(getDeveloperProjectsById(id))
-      } else if (roleUser === DEVELOPER) {
-        dispatch(getDeveloperProjectsById(developerId))
-      }
-    }, [selectedDeveloper, selectedDate, reports, roleUser, dispatch, developerId])
-  
+  useEffect(() => {
+    if (!isEmpty(selectedDeveloper)) {
+      const { id } = selectedDeveloper
+      dispatch(getDeveloperProjectsById(id))
+    } else if (roleUser === DEVELOPER) {
+      dispatch(getDeveloperProjectsById(developerId))
+    }
+  }, [
+    selectedDeveloper,
+    selectedDate,
+    reports,
+    roleUser,
+    dispatch,
+    developerId,
+  ])
+
   const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = e => {
+  const savePosition = (e) => {
     setCurrentPosition(e?.target.offsetTop)
   }
 
-  const bootstrapWidthRouteState = useCallback(
-    () => {
-      if (routeState) {
-        const {
-          selectedDate: routeDate,
-          developer_project_id: route_developer_project_id,
-          userId: route_user_id,
-        } = routeState
+  const bootstrapWidthRouteState = useCallback(() => {
+    if (routeState) {
+      const {
+        selectedDate: routeDate,
+        developer_project_id: route_developer_project_id,
+        userId: route_user_id,
+      } = routeState
 
-        const { year: routeYear, month: routeMonth } = routeDate
+      const { year: routeYear, month: routeMonth } = routeDate
 
-        const { year: selectedYear, month: selectedMonth } = selectedDate
+      const { year: selectedYear, month: selectedMonth } = selectedDate
 
-        const { developer_project_id: selectedDeveloper_project_id } =
-          selectedProject
+      const { developer_project_id: selectedDeveloper_project_id } =
+        selectedProject
 
-        if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
-          changeSelectedDateTimeReport({
-            year: Number(routeYear),
-            month: Number(routeMonth),
-          })
-        }
-
-        if (roleUser !== DEVELOPER) {
-          const developerData = developersList.find(
-            (dev) => dev.id === route_user_id
-          )
-          if (developerData) {
-            selectDevelopers(
-              {
-                id: developerData.id,
-                name: developerData.name,
-                email: developerData.email,
-              },
-              route_developer_project_id
-            )
-          }
-          return
-        }
-
-        if (route_developer_project_id !== selectedDeveloper_project_id) {
-          const newSelectedProject = projects.find(
-            (project) =>
-              project.developer_project_id === route_developer_project_id
-          )
-          selectProject(newSelectedProject)
-        }
+      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+        changeSelectedDateTimeReport({
+          year: Number(routeYear),
+          month: Number(routeMonth),
+        })
       }
-    },
-    [
-      changeSelectedDateTimeReport,
-      developersList,
-      projects,
-      roleUser,
-      selectedDate,
-      routeState,
-      selectDevelopers,
-      selectedProject,
-      selectProject,
-    ]
-  )
+
+      if (roleUser !== DEVELOPER) {
+        const developerData = developersList.find(
+          (dev) => dev.id === route_user_id
+        )
+        if (developerData) {
+          selectDevelopers(
+            {
+              id: developerData.id,
+              name: developerData.name,
+              email: developerData.email,
+            },
+            route_developer_project_id
+          )
+        }
+        return
+      }
+
+      if (route_developer_project_id !== selectedDeveloper_project_id) {
+        const newSelectedProject = projects.find(
+          (project) =>
+            project.developer_project_id === route_developer_project_id
+        )
+        selectProject(newSelectedProject)
+      }
+    }
+  }, [
+    changeSelectedDateTimeReport,
+    developersList,
+    projects,
+    roleUser,
+    selectedDate,
+    routeState,
+    selectDevelopers,
+    selectedProject,
+    selectProject,
+  ])
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -194,12 +198,12 @@ function TimeReport(props) {
     getTimeReportCsv()
   }
 
-  useEffect(()=>{
-    if(!isFetchingReports){
-      window.scrollTo(0, Number(currentPosition) - 100 )
+  useEffect(() => {
+    if (!isFetchingReports) {
+      window.scrollTo(0, Number(currentPosition) - 100)
       setCurrentPosition(null)
     }
-  },[currentPosition, isFetchingReports])
+  }, [currentPosition, isFetchingReports])
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject)) {
@@ -249,8 +253,7 @@ function TimeReport(props) {
             </span>
           </div>
         </div>
-        <div className="time_report_header">
-        </div>
+        <div className="time_report_header"></div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
             {roleUser !== DEVELOPER && (
@@ -266,10 +269,10 @@ function TimeReport(props) {
               selectedProject={selectedProject}
             />
             <SelectMonth
-                selectedDate={selectedDate}
-                setNewData={changeSelectedDateTimeReport}
+              selectedDate={selectedDate}
+              setNewData={changeSelectedDateTimeReport}
               showYear="true"
-                extraClassNameContainer="time_report_header_select_month"
+              extraClassNameContainer="time_report_header_select_month"
             />
             {/* <FunnelSelect
                 days={selectedDays}
@@ -287,11 +290,13 @@ function TimeReport(props) {
           </div>
         </div>
         <div className="time_report_day_row_titles">
-          <div className='time_report_activity_day'>DATE</div>
-          <div className='title-tasks'>TASKS</div>
-          <div className='title-hours'>
+          <div className="time_report_activity_day">DATE</div>
+          <div className="title-tasks">TASKS</div>
+          <div className="title-hours">
             <span>HOURS</span>
-            <strong className="total_hours_month">{parseMinToHoursAndMin(selectedProjectHours, true)}</strong>
+            <strong className="total_hours_month">
+              {parseMinToHoursAndMin(selectedProjectHours, true)}
+            </strong>
           </div>
         </div>
         <div className="time_report_body_container">
@@ -342,10 +347,10 @@ const mapStateToProps = (state) => ({
   developersList: getDevelopersSelector(state),
   selectedDeveloper: getSelecredDeveloper(state),
   selectedDeveloperProjectsTR: getDeveloperProjectsTR(state),
-  selectedDays:getAllDays(state),
-  selectedDay:getSelectedDay(state),
+  selectedDays: getAllDays(state),
+  selectedDay: getSelectedDay(state),
   selectDayStatus: getSelectDayStatus(state),
-  selectedDayStatus: getSelectedDayStatus(state)
+  selectedDayStatus: getSelectedDayStatus(state),
 })
 
 const actions = {
@@ -357,7 +362,7 @@ const actions = {
   selectDevelopers,
   getTimeReportCsv,
   setUserStatus,
-  getDeveloperProjectsTR
+  getDeveloperProjectsTR,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))
