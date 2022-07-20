@@ -30,9 +30,7 @@ export const profile = (state = initial_state, action) => {
       return { ...state, isAuth: action.payload }
     case SET_FETCHING_PROFILE_STATUS:
       return { ...state, isFetchingUsers: action.payload }
-    case SET_SIDE_MENU:
-      return { ...state, sideMenuStatus: action.payload }
-      case SET_SIDE_MENU_ARROW:
+    case SET_SIDE_MENU_ARROW:
         return { ...state, sideMenuArrow: action.payload }
     default:
       return state

@@ -103,11 +103,6 @@ export const setProcessedStatus = (payload) => ({
   payload,
 })
 
-export const setShowSideMenu = (payload) => ({
-  type: SET_SIDE_MENU,
-  payload,
-});
-
 export const setShowSideMenuArrow = (payload) => ({
   type: SET_SIDE_MENU_ARROW,
   payload,
