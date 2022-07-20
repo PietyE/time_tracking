@@ -21,9 +21,11 @@ function Linking({ text }) {
     }
   })
 
+  const reportTextArray = arrString.join().split(' ')
+
   return (
     <>
-      {arrString.map((item) => {
+      {reportTextArray.map((item) => {
         if (item.search(REGEXP_FOR_LINK) !== -1) {
           const link =
             item.startsWith('http') || item.startsWith('https')
