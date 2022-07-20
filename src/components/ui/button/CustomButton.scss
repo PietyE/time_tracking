@@ -9,6 +9,10 @@
   p {
     margin: 0;
   }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 .custom-button.btn-outline-secondary {
