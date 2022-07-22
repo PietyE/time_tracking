@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useMemo, useCallback, useRef } from 'react'
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 
 import {
   getProfileName,
@@ -25,6 +25,7 @@ import useEventListener from '../../custom-hook/useEventListener'
 import ArrowUp from '../ui/arrowUp'
 import { useDispatch } from 'react-redux'
 import { setShowSideMenuArrow } from '../../actions/users'
+import useMediaQuery from 'custom-hook/useMediaQuery'
 
 function SideMenu() {
   const userName = useShallowEqualSelector(getProfileName)
@@ -36,10 +37,13 @@ function SideMenu() {
   const dispatch = useDispatch()
 
   // TODO: set normal breakpoint and move it to constants
-  const isDesktop = useRef(window.matchMedia('(min-width: 1025px)')).current
-    .matches
+  const isDesktop = useMediaQuery('(min-width: 1025px)')
 
   const [isOpen, setIsOpen] = useState(isDesktop)
+
+  useEffect(() => {
+    setIsOpen(isDesktop)
+  }, [isDesktop])
 
   const setIsOpenHandler = () => {
     setIsOpen((prevState) => !prevState)
