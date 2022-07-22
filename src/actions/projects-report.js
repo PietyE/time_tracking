@@ -126,7 +126,7 @@ export const getUsersHoursAuthUrlRequest = () => ({
   type: GET_USERS_HOURS_AUTH_URL_REQUEST,
 })
 
-export const getUsersHoursAuthUrlSuccess = (authUrl) => ({
+export const getUsersHoursAuthUrlSuccess = (googleSyncWithDrive) => ({
   type: GET_USERS_HOURS_AUTH_URL_SUCCESS,
-  payload: authUrl,
+  payload: googleSyncWithDrive,
 })

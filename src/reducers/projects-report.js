@@ -48,7 +48,10 @@ const initialState = {
   selectAllDevelopersProject: [],
   editingUserId: '',
   userId: '',
-  accountantAuthUrl: '',
+  googleSyncWithDrive: {
+    google_auth_url: '',
+    state: '',
+  },
   // reportHistory: []
 }
 
@@ -111,7 +114,7 @@ export const projectsReport = (state = initialState, action) => {
       return {
         ...state,
         isFetchingReports: false,
-        accountantAuthUrl: action.payload,
+        googleSyncWithDrive: action.payload,
       }
     default:
       return state
@@ -148,3 +151,6 @@ export const selectUsersReports = (state) =>
 
 export const selectAllProjects = (state) =>
   state.projectsReport.selectAllDevelopersProject
+
+export const getGoogleSyncWithDrive = (state) =>
+  state.projectsReport.googleSyncWithDrive

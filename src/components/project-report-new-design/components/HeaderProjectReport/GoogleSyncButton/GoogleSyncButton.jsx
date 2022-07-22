@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { ReactComponent as GoogleDrive } from '../../../../../images/googleDriveButton/googleDrive.svg'
 import { CustomButton } from '../../../../ui/button'
 import { useDispatch } from 'react-redux'
 import { getUsersHoursAuthUrlRequest } from '../../../../../actions/projects-report'
+import useShallowEqualSelector from '../../../../../custom-hook/useShallowEqualSelector'
+import { getGoogleSyncWithDrive } from '../../../../../reducers/projects-report'
 import './GoogleSyncButton.scss'
 
 export const GoogleSyncButton = () => {
+  const { google_auth_url, state } = useShallowEqualSelector(
+    getGoogleSyncWithDrive
+  )
   const dispatch = useDispatch()
-  const syncWithGoogleDrive = () => dispatch(getUsersHoursAuthUrlRequest())
 
+  useEffect(() => {
+    if (google_auth_url) window.location.href = google_auth_url
+  }, [google_auth_url])
+
+  const syncWithGoogleDrive = useCallback(
+    () => dispatch(getUsersHoursAuthUrlRequest()),
+    []
+  )
   return (
     <CustomButton
       type="button"
