@@ -5,27 +5,10 @@ const REGEXP_FOR_LINK =
 
 function Linking({ text }) {
   const result = text.split(/\s/)
-  const arrString = []
-  let index = 0
-  result.forEach((word) => {
-    const test = REGEXP_FOR_LINK.test(word)
-    if (arrString[index] === undefined) {
-      arrString.push(word)
-    } else {
-      if (test) {
-        arrString.push(word)
-        index = index + 2
-      } else {
-        arrString[0] = arrString[0] + ' ' + word
-      }
-    }
-  })
-
-  const reportTextArray = arrString.join().split(' ')
 
   return (
     <>
-      {reportTextArray.map((item) => {
+      {result.map((item) => {
         if (item.search(REGEXP_FOR_LINK) !== -1) {
           const link =
             item.startsWith('http') || item.startsWith('https')
@@ -38,11 +21,13 @@ function Linking({ text }) {
               rel="noopener noreferrer"
               key={Math.random(2).toString(16).substring(2)}
             >
-              {item}{' '}
+              {item}
             </a>
           )
         }
-        return <span key={item}>{item} </span>
+        return (
+          <span key={Math.random(2).toString(16).substring(2)}>{item} </span>
+        )
       })}
     </>
   )
