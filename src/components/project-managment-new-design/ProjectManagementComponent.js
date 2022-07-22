@@ -23,7 +23,7 @@ import {
   setShowEditModal,
   setPm,
   setShownProject,
-  setSelectedProject
+  setSelectedProject,
 } from '../../actions/projects-management'
 
 import './style.scss'
@@ -39,6 +39,7 @@ import CreateProjectModal from './components/createProjectModal/CreateProjectMod
 import CreateUserModal from './components/CreateUserModal'
 import useSorting from '../../custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
+import SortingButton from 'components/ui/sortingButton'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -51,12 +52,17 @@ import ArchivedSeparator from './components/ArchivedSeparator'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
-  const { sorting, sortingParameter, handleSortingChange, toggleSortingParameter } = useSorting()
+  const {
+    sorting,
+    sortingParameter,
+    handleSortingChange,
+    toggleSortingParameter,
+  } = useSorting()
   const SORT_NAME = 'name'
   const SORT_TIME = 'total_minutes'
   const dispatch = useDispatch()
 
-  const projectDivRef = useRef(null);
+  const projectDivRef = useRef(null)
 
   let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
@@ -83,7 +89,7 @@ const ProjectManagementComponent = () => {
       id: 0,
       name: 'Select all',
     },
-    ...projects
+    ...projects,
   ]
 
   const projectManagerSelectList = [
@@ -101,7 +107,7 @@ const ProjectManagementComponent = () => {
   }, [filteredProjects, handleSortingChange])
 
   useEffect(() => {
-    setSortedArr();
+    setSortedArr()
   }, [filteredProjects, selectedDateForPM, sortingParameter, setSortedArr])
 
   useEffect(() => {
@@ -109,7 +115,7 @@ const ProjectManagementComponent = () => {
     dispatch(getAllProjects())
   }, [month, isEditModalShow, dispatch])
 
-    // // The pagination is commented out until the next iteration
+  // // The pagination is commented out until the next iteration
   // useEffect(() => {
   //   let items = currentItemsGets(pageSize, currentPage, p)
   //   dispatch(setCurrentItems(items))
@@ -140,21 +146,24 @@ const ProjectManagementComponent = () => {
 
   const onSelectPm = (data) => {
     dispatch(setPm(data))
-    dispatch(setShowEditModal(false));
+    dispatch(setShowEditModal(false))
     dispatch(setShownProject(null))
     dispatch(getAllProjects())
     dispatch(setSelectedProject(projectList[0]))
   }
 
-  const onSelectProject = useCallback((data) => {
-    dispatch(setShowEditModal(false));
-    if (data.id === 0) {
-      dispatch(setShownProject({}))
-    } else {
-      dispatch(setShownProject(data))
-    }
-    dispatch(setSelectedProject(data))
-  }, [dispatch])
+  const onSelectProject = useCallback(
+    (data) => {
+      dispatch(setShowEditModal(false))
+      if (data.id === 0) {
+        dispatch(setShownProject({}))
+      } else {
+        dispatch(setShownProject(data))
+      }
+      dispatch(setSelectedProject(data))
+    },
+    [dispatch]
+  )
 
   useEffect(() => {
     if (selectedProject.id) {
@@ -175,19 +184,29 @@ const ProjectManagementComponent = () => {
     dispatch(setPm(projectManagerSelectList[0]))
     dispatch(setSelectedProject(projectList[0]))
   }
-  const projectsListNotArchived = sorting.filter(e => !e.is_archived).map((e) => {
-    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  });
+  const projectsListNotArchived = sorting
+    .filter((e) => !e.is_archived)
+    .map((e) => {
+      return (
+        <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+      )
+    })
 
-  const projectsListArchived = sorting.filter(e => e.is_archived).map((e) => {
-    return <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
-  })
+  const projectsListArchived = sorting
+    .filter((e) => e.is_archived)
+    .map((e) => {
+      return (
+        <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+      )
+    })
 
   return (
     <div className="common-container">
       <div
         ref={projectDivRef}
-        className={`project_management-container ${isEditModalShow ? 'show-modal' : ''}`}
+        className={`project_management-container ${
+          isEditModalShow ? 'show-modal' : ''
+        }`}
       >
         <div className="container">
           <h1 className="page-title">
@@ -216,7 +235,7 @@ const ProjectManagementComponent = () => {
         {isFetching && <SpinnerStyled />}
         <div className="container ">
           <div className="row  container__selects">
-            <div className='container__selects-progects__fields'>
+            <div className="container__selects-progects__fields">
               <Select
                 title="Search by PM or developer"
                 listItems={projectManagerSelectList}
@@ -249,16 +268,29 @@ const ProjectManagementComponent = () => {
           </div>
           <div className="row table__titles">
             <div className="col-8">
-              <div className="sort-by table__titles-sort__container">
+              <SortingButton
+                onClick={() => toggleSortingParameter(SORT_NAME)}
+                sortingType={sortingParameter?.name}
+                title="PROJECT NAME"
+              />
+              {/* <div className="sort-by table__titles-sort__container">
                 <div
                   className="sort-title"
-                  onClick={() =>toggleSortingParameter(SORT_NAME)}
+                  onClick={() => toggleSortingParameter(SORT_NAME)}
                 >
                   PROJECT NAME
                 </div>
                 <div className="cart-cont">
                   <div
-                    className={'max ' + ((sortingParameter?.name === null || sortingParameter?.name === undefined) ? 'disable' : sortingParameter.name ? '' : 'disable')}
+                    className={
+                      'max ' +
+                      (sortingParameter?.name === null ||
+                      sortingParameter?.name === undefined
+                        ? 'disable'
+                        : sortingParameter.name
+                        ? ''
+                        : 'disable')
+                    }
                   >
                     <FontAwesomeIcon
                       icon={faCaretUp}
@@ -267,7 +299,15 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                   <div
-                    className={'min ' + ((sortingParameter?.name === null || sortingParameter?.name === undefined) ? 'disable' : !sortingParameter.name ? '' : 'disable')}
+                    className={
+                      'min ' +
+                      (sortingParameter?.name === null ||
+                      sortingParameter?.name === undefined
+                        ? 'disable'
+                        : !sortingParameter.name
+                        ? ''
+                        : 'disable')
+                    }
                   >
                     <FontAwesomeIcon
                       icon={faCaretDown}
@@ -276,14 +316,32 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="col-3 table__titles-sort__container">
-              <div className="sort-by">
-                <div className="sort-title" onClick={() =>toggleSortingParameter(SORT_TIME)}>HOURS WORKED</div>
+              <SortingButton
+                onClick={() => toggleSortingParameter(SORT_TIME)}
+                sortingType={sortingParameter?.total_minutes}
+                title="HOURS WORKED"
+              />
+              {/* <div className="sort-by">
+                <div
+                  className="sort-title"
+                  onClick={() => toggleSortingParameter(SORT_TIME)}
+                >
+                  HOURS WORKED
+                </div>
                 <div className="cart-cont">
                   <div
-                    className={'max ' + ((sortingParameter?.total_minutes === null || sortingParameter?.total_minutes ===undefined) ? 'disable' : sortingParameter.total_minutes ? '' : 'disable')}
+                    className={
+                      'max ' +
+                      (sortingParameter?.total_minutes === null ||
+                      sortingParameter?.total_minutes === undefined
+                        ? 'disable'
+                        : sortingParameter.total_minutes
+                        ? ''
+                        : 'disable')
+                    }
                   >
                     <FontAwesomeIcon
                       icon={faCaretUp}
@@ -292,7 +350,15 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                   <div
-                    className={'min ' + ((sortingParameter?.total_minutes === null || sortingParameter?.total_minutes ===undefined) ? 'disable' : !sortingParameter.total_minutes ? '' : 'disable')}
+                    className={
+                      'min ' +
+                      (sortingParameter?.total_minutes === null ||
+                      sortingParameter?.total_minutes === undefined
+                        ? 'disable'
+                        : !sortingParameter.total_minutes
+                        ? ''
+                        : 'disable')
+                    }
                   >
                     <FontAwesomeIcon
                       icon={faCaretDown}
@@ -301,11 +367,11 @@ const ProjectManagementComponent = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           {projectsListNotArchived}
-          <ArchivedSeparator/>
+          <ArchivedSeparator />
           {projectsListArchived}
           {/* The pagination is commented out until the next iteration */}
           {/* <Pagination
@@ -320,9 +386,8 @@ const ProjectManagementComponent = () => {
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
       <div className="modal-container">
-        <EditProjectModal show={isEditModalShow} month={month}/>
+        <EditProjectModal show={isEditModalShow} month={month} />
       </div>
-
     </div>
   )
 }
