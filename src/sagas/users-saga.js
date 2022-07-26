@@ -11,7 +11,7 @@ import {
   unsetAuthInProgress,
 } from 'actions/users'
 import { getConsolidateProjectReport, setIsFetchingReports } from 'actions/projects-report'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT, DANGER_ALERT } from 'constants/alert-constant'
 import {
   LOG_IN,
@@ -129,7 +129,7 @@ function* logIn({ payload: googleData }) {
         yield put(setAuthStatus(false))
     if(googleData.details !== 'Cookies are not enabled in current environment.'){
         yield put(
-            showAler({
+            showAlert({
                 type: WARNING_ALERT,
                 title: 'Something went wrong',
                 message:error.message || 'Something went wrong',
@@ -181,7 +181,7 @@ function* handleLoginWithCreds(userData) {
     callback(false);
     yield put(setAuthStatus(false))
     yield put(
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: '',
         message: credentialError,
@@ -208,7 +208,7 @@ function* setUserSalary({ payload }) {
     yield put(setIsFetchingReports(true))
     yield call([users, 'createUserSalary'], payload)
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Salary has been changed',
         delay: 5000,
@@ -219,7 +219,7 @@ function* setUserSalary({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -234,7 +234,7 @@ function* setUserRate({ payload }) {
     yield put(setIsFetchingReports(true))
     yield call([users, 'createUserRate'], payload)
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Rate has been changed',
         delay: 5000,
@@ -245,7 +245,7 @@ function* setUserRate({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -265,7 +265,7 @@ function* setProcessedStatus({ payload }) {
   catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -286,7 +286,7 @@ function* setUserCost({ payload }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Cost has been create',
         delay: 5000,
@@ -297,7 +297,7 @@ function* setUserCost({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -317,7 +317,7 @@ function* setEditedCost({ payload }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Cost has been edited',
         delay: 5000,
@@ -328,7 +328,7 @@ function* setEditedCost({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -347,7 +347,7 @@ function* setUserComment({ payload }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Comment has been created',
         delay: 5000,
@@ -358,7 +358,7 @@ function* setUserComment({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -378,7 +378,7 @@ function* setEditedComment({ payload }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Comment has been edited',
         delay: 5000,
@@ -389,7 +389,7 @@ function* setEditedComment({ payload }) {
   } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',

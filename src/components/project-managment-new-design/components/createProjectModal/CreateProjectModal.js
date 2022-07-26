@@ -5,7 +5,7 @@ import { createProject, setShowCreateModal } from '../../../../actions/projects-
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { WARNING_ALERT } from '../../../../constants/alert-constant'
-import { showAler } from '../../../../actions/alert'
+import { showAlert } from '../../../../actions/alert'
 import Cross from '../../../../images/ic_cros.svg'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
 import * as Yup from 'yup';
@@ -58,7 +58,7 @@ function CreateProjectModal({ show }) {
                 handleClose()
             } else {
                 dispatch(
-                    showAler({
+                    showAlert({
                         type: WARNING_ALERT,
                         message: 'Such a name of the project already exists',
                         delay: 5000,

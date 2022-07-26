@@ -35,7 +35,7 @@ import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import Spinner from '../../../time-report/components/Spinner'
 import useEventListener from '../../../../custom-hook/useEventListener'
-import { showAler } from '../../../../actions/alert'
+import { showAlert } from '../../../../actions/alert'
 import { WARNING_ALERT } from '../../../../constants/alert-constant'
 import useEqualSelector from '../../../../custom-hook/useEqualSelector'
 
@@ -398,7 +398,7 @@ function EditProjectModal({ show, month}) {
         _addInactiveProjectManagerToProject({previousPm, newPm})
       } else if (wasInTeam) {
         dispatch(
-          showAler({
+          showAlert({
             type: WARNING_ALERT,
             message: 'Project manager is already in the team',
             delay: 5000,
@@ -432,7 +432,7 @@ function EditProjectModal({ show, month}) {
         })
       } else if (wasInTeam) {
         dispatch(
-          showAler({
+          showAlert({
             type: WARNING_ALERT,
             message: 'Project manager is already in the team',
             delay: 5000,
