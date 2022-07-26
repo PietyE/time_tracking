@@ -7,10 +7,12 @@ import DownloadIc from "../../../images/download_ic.svg"
 import ArchiveIc from "../../../images/archive1.svg"
 
 
-function WindowInfo({title, children, close, download, id, onArchivedPress}) {
+function WindowInfo({title, children, close, download, id, onArchivedPress, isProjectArchived}) {
     const [showHintExport, setShowHintExport] = useState(false)
     const [showHintArchive, setShowHintArchive] = useState(false)
     const [showHintClose, setShowHintClose] = useState(false)
+
+    const archiveButtonText = isProjectArchived ? "Unarchive the project" : "Archive the project"
 
     return <div className="main_container">
         <div className="header">
@@ -35,8 +37,8 @@ function WindowInfo({title, children, close, download, id, onArchivedPress}) {
                                 onMouseEnter={() => setShowHintArchive(true)}
                                 onMouseLeave={() => setShowHintArchive(false)}
                             >
-                                <img src={ArchiveIc} alt="Archive the project" />
-                                {showHintArchive && <HintWindow text={'Archive the project'} />}
+                                <img src={ArchiveIc} alt={archiveButtonText} />
+                                {showHintArchive && <HintWindow text={archiveButtonText} />}
                             </div>
                             <div className="vert_row" />
                             <div className="control_btn close_button"

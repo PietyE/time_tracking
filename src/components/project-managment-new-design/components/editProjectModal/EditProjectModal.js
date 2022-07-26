@@ -480,6 +480,7 @@ function EditProjectModal({ show, month}) {
         title={valuesFromApi?.projectName}
         download={_downloadAllTeamProjectReport}
         onArchivedPress={handleArchivedPress}
+        isProjectArchived={isArchivedProject}
         id={currentProjectId}
       >
         {isFetchingPMPage && <Spinner />}
