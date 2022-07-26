@@ -8,12 +8,16 @@ import './index.css'
 import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
 import store from 'store'
 import App from 'components/App'
+import { ThemeProvider } from '@material-ui/core'
+import { theme } from './material-ui/theme'
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
   </BrowserRouter>,
   document.getElementById('root')
 )
