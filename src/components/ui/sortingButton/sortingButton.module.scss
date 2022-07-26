@@ -1,0 +1,39 @@
+.sorting {
+  display: flex;
+  flex-direction: row;
+  height: 24px;
+  text-align: center;
+}
+.button {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 13px;
+  line-height: 24px;
+  letter-spacing: 0.02em;
+  color: rgba(34, 34, 34, 0.3);
+  border: none;
+  background-color: transparent;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s linear;
+  &:hover {
+    color: #14918da8;
+  }
+}
+.arrows {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: flex-start;
+  width: 9px;
+  transform: translateY(-23%);
+  .arrow {
+    width: 14px;
+    height: 14px;
+  }
+  .disable {
+    opacity: 0.5;
+  }
+}

@@ -1,28 +1,7 @@
 .header_google_drive_sync_button {
-  svg {
-    margin-right: 10px;
-  }
-  display: flex;
-  align-items: center;
   width: 183px;
   height: 40px;
-  padding: 16px 8px;
-  background-color: #ffffff;
-  border: 1px solid #009C98;
   border-radius: 4px;
-  transition: 0.3s ease-out;
-  &:hover, &:focus {
-  border: 1px solid #3bbbb7;
-    transition: 0.3s ease-in;
-  }
-  &_text {
-    margin: 0;
-    color: #009C98;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: 0.03em;
-  }
   @media screen and (max-device-width: 390px) {
     svg {
       margin: 0;

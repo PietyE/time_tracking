@@ -29,7 +29,7 @@ import {
 import ChekMark from '../../../../images/check-mark1.svg'
 import UserIcon from '../../../../images/user1.svg'
 import ProjectIcon from '../../../../images/card-text1.svg'
-import { parseMinToHoursAndMin} from '../../../../utils/common'
+import { parseMinToHoursAndMin, sortArrayOfObjectsAlphabetically} from '../../../../utils/common'
 import Select from '../../../ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
@@ -58,12 +58,17 @@ function EditProjectModal({ show, month}) {
     state => getProjectReportByIdSelector(state, currentProjectId),
   );
 
-  const currentProjectActiveDevelopers = useMemo(
-    () => currentProjectReport?.users
-      .filter(e => e.is_active && e.userName !== activeProjectManager?.name)
-      .map(e => ({...e, name: e.userName, id: e.userId})) || [],
-    [currentProjectReport, activeProjectManager]);
+  const sortArrayByUserName = (a,b) => {
+    return sortArrayOfObjectsAlphabetically(a, b, 'userName')
+  }
 
+  const currentProjectActiveDevelopers = useMemo(
+    () =>
+      currentProjectReport?.users
+        .filter((e) => e.is_active && e.userName !== activeProjectManager?.name)
+        .map((e) => ({ ...e, name: e.userName, id: e.userId })).sort(sortArrayByUserName) || [],
+    [currentProjectReport, activeProjectManager]
+  )
   const freeProjectManagersList = useMemo(() => {
        let teamMateID = currentProjectActiveDevelopers.map(member => member.userId)
     return  projectManagersList.filter(user => !teamMateID.includes(user.id))
