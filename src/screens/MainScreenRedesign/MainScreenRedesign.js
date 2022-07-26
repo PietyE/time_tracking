@@ -28,6 +28,7 @@ import './MainScreen.scss'
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import ProjectManagementComponent from 'components/project-managment-new-design/ProjectManagementComponent'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
+import { VilmatesPage } from 'components/vilmates-page'
 
 function MainScreen({
   isAuth,
@@ -82,16 +83,17 @@ function MainScreen({
     <div className="new_design">
       <SideMenu />
       <Switch>
-        <Route path="/projectreport" component={ProjectReportNew} exct />
+        <Route path="/projectreport" component={ProjectReportNew} exact />
         {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
-        <Route path="/timereport" component={TimeReportScreen} exct />
+        <Route path="/timereport" component={TimeReportScreen} exact />
+        <Route path="/vilmates" component={VilmatesPage} exact />
         {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
         {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
         <PmPrivateRoute
           path="/projectmanagement"
           component={ProjectManagementComponent}
-          exct
+          exact
         />
         {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
         <Redirect from="/" to="/timereport" />
