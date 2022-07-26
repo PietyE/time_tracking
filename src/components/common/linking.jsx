@@ -46,4 +46,6 @@ function Linking({ text }) {
   )
 }
 
-export default Linking
+const LinkingMemoized = React.memo(Linking)
+
+export default LinkingMemoized

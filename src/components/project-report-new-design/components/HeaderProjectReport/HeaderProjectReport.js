@@ -8,6 +8,7 @@ import { ACCOUNTANT } from '../../../../constants/role-constant'
 function HeaderProjectReport(props) {
   const { name } = props
 
+  //todo: delete false condition after creating google drive button functionality
   const role = useShallowEqualSelector(getRoleUser)
 
   const renderGoogleDriveSyncButton = role === ACCOUNTANT && (
@@ -18,7 +19,7 @@ function HeaderProjectReport(props) {
     <>
       <div className="project_report_header">
         <span className="header_title">{name}</span>
-        {renderGoogleDriveSyncButton}
+        {false && renderGoogleDriveSyncButton}
       </div>
     </>
   )
