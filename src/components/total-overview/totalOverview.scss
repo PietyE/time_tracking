@@ -1,3 +1,5 @@
+@import "../../styles/commonStyles.scss";
+
 .total_overview_main_container {
     padding-top: 35px;
     display: flex;
@@ -21,7 +23,7 @@
     .month_data {
         width: 910px;
         height: 465px;
-        background: #FFFFFF;
+        background: $whiteColor;
         border: 1px solid rgba(201, 201, 198, 0.4);
         box-sizing: border-box;
         border-radius: 10px;
@@ -33,13 +35,13 @@
             height: 60px;
             background: #FAFAFA;
             border-radius: 9px 9px 0px 0px;
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 600;
             font-size: 20px;
             line-height: 24px;
             letter-spacing: 0.018em;
-            color: #222222;
+            color: $mainBlackColor;
             padding: 18px 24px;
             text-align: left;
         }
@@ -73,7 +75,7 @@
                    top: 150px;
 
                    .total_header {
-                        font-family: Montserrat;
+                        
                         font-style: normal;
                         font-weight: 500;
                         font-size: 22px;
@@ -83,13 +85,13 @@
                     }
 
                    .total_sum {
-                        font-family: Montserrat;
+                        
                         font-style: normal;
                         font-weight: 600;
                         font-size: 24px;
                         line-height: 29px;
                         letter-spacing: 0.018em;
-                        color: #222222;                      
+                        color: $mainBlackColor;                      
                     }
                 }
             }
@@ -143,32 +145,32 @@
 
                     .text {
                         margin-left: 16px;
-                        font-family: Montserrat;
+                        
                         font-style: normal;
                         font-weight: 500;
                         font-size: 15px;
                         line-height: 24px;
                         letter-spacing: 0.016em;
-                        color: #222222;
+                        color: $mainBlackColor;
                     }
 
                     .value {
                         position: absolute;
                         right: 43px;
-                        font-family: Montserrat;
+                        
                         font-style: normal;
                         font-weight: 600;
                         font-size: 15px;
                         line-height: 24px;
                         text-align: right;
                         letter-spacing: 0.02em;
-                        color: #222222;
+                        color: $mainBlackColor;
                     }
                 }
 
                 .percent {
                     margin-left: 380px;
-                    font-family: Montserrat;
+                    
                     font-style: normal;
                     font-weight: 500;
                     font-size: 12px;

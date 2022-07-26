@@ -21,7 +21,7 @@ import { getSelectedMonthSelector } from '../../reducers/projects-report'
 // import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
-import './MainScreen.css'
+import './MainScreen.scss'
 // import InHouseEmployees from 'components/in-house-employees'
 // import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";

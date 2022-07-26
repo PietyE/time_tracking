@@ -1,3 +1,5 @@
+@import "../../styles/commonStyles.scss";
+
 .container {
   max-width: 971px;
 }
@@ -61,8 +63,8 @@
         height: 36px;
         width: 167px;
         border-radius: 5px;
-        background-color: #009c98;
-        color: #fff;
+        background-color: $mainGreenColor;
+        color: $whiteColor;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -78,8 +80,8 @@
           line-height: 18px;
         }
         .export_btn_text {
-          color: #ffffff;
-          font-family: Montserrat;
+          color: $whiteColor;
+          
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;
@@ -110,7 +112,6 @@
 
     h1 {
       font-size: 24px;
-      font-family: "Montserrat";
       font-style: normal;
       color: #000;
     }
@@ -118,7 +119,6 @@
     .time_report_total_hours {
       span {
         color: #616161;
-        font-family: Montserrat, sans-serif;
         font-size: 14px;
         font-weight: 500;
         line-height: 19px;
@@ -175,7 +175,7 @@
     min-height: 74px;
     justify-content: center;
     &:not(:first-child) {
-      background: #fff;
+      background: $whiteColor;
       .past {
         padding-bottom: 12px;
         position: relative;
@@ -183,7 +183,7 @@
     }
 
     &:first-child {
-      border: 1px solid #009c98;
+      border: 1px solid $mainGreenColor;
     }
 
     &_create {
@@ -204,7 +204,7 @@
       margin-right: 10px;
 
       .time_report_day_add {
-        color: #adada7;
+        color: $separatorTextColor;
         width: 30px;
         height: 30px;
         border: 0;
@@ -213,8 +213,7 @@
         margin-left: 6px;
       }
       .time_report_day_title {
-        color: #222222;
-        font-family: Montserrat, sans-serif;
+        color: $mainBlackColor;
         font-size: 16px;
         font-weight: 600;
         line-height: 19px;
@@ -222,7 +221,7 @@
         width: 210px;
       }
       .today_day {
-        color: #009c98;
+        color: $mainGreenColor;
       }
 
       .time_report_day_addbtn {
@@ -258,7 +257,7 @@
         }
       }
       .active .add_icon {
-        color: #009c98 !important;
+        color: $mainGreenColor !important;
       }
       .text-danger {
         position: relative;
@@ -310,11 +309,10 @@
       .input {
         border: 1px solid #d5d5d5;
         border-radius: 5px;
-        background-color: #ffffff;
+        background-color: $whiteColor;
         padding: 0 24px;
         margin-right: 35px;
         color: #414141;
-        font-family: Montserrat, sans-serif;
         font-size: 18px;
         font-weight: 500;
         transition: 0.3s ease-out;
@@ -380,7 +378,7 @@
       height: 41px;
       border: unset;
       border-radius: 6px;
-      background-color: #009c98;
+      background-color: $mainGreenColor;
       transition: 0.3s ease-out;
       svg {
         pointer-events: none;
@@ -393,7 +391,7 @@
         filter: brightness(1.5);
       }
       .pencil_icon {
-        color: #fff;
+        color: $whiteColor;
         font-size: 22px;
       }
     }
@@ -412,12 +410,11 @@
       justify-content: flex-end;
       align-items: flex-end;
       color: rgba(34, 34, 34, 1);
-      font-family: Montserrat, sans-serif;
       font-size: 15px;
       font-weight: 600;
       line-height: 19px;
       padding: 20px 25px ;
-      background-color: #fff;
+      background-color: $whiteColor;
       border-end-start-radius: 5px;
       border-end-end-radius: 5px;
       span{
@@ -464,7 +461,7 @@
   .total_hours_month {
     position: relative;
     margin-left: 15px;
-    color: #222222d5;
+    color: $mainBlackColor;
     text-transform: lowercase ;
   }
   .total_hours_month::after {
@@ -473,7 +470,7 @@
     left: -9px;
     width: 3px;
     height: 13px;
-    background-color: #22222257;
+    background-color: $mainBlackColor;
     transform: translateY(25%);
   }
 
@@ -495,8 +492,8 @@
     position: relative;
 
     .fa-filter {
-      color: #fff;
-      background: #fff;
+      color: $whiteColor;
+      background: $whiteColor;
     }
 
     &:before {
@@ -541,7 +538,7 @@
   max-width: 350px;
   height: 20vh;
   min-height: 190px;
-  background-color: #ffffff;
+  background-color: $whiteColor;
   box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.5);
   border-radius: 5px;
   display: flex;
@@ -780,7 +777,7 @@
   width: 100%;
   min-height: 62px;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: $whiteColor;
   position: relative;
   cursor: move;
 
@@ -834,7 +831,7 @@
       font-size: 15px;
       line-height: 24px;
       letter-spacing: 0.03em;
-      color: #222222;
+      color: $mainBlackColor;
     }
 
     .time_report_activity_select {
@@ -853,13 +850,13 @@
       flex-grow: 2;
       text-align: left;
       padding-left: 25px;
-      color: #222222;
+      color: $mainBlackColor;
       font-weight: 600;
       font-size: 16px;
     }
 
     .time_report_day_add {
-      color: #009c98;
+      color: $mainGreenColor;
       width: 30px;
       height: 30px;
       cursor: pointer;
@@ -879,11 +876,10 @@
     width: 70px;
     height: 100%;
     border-radius: 4px 0 0 4px;
-    background-color: #009c98;
+    background-color: $mainGreenColor;
     cursor: move;
   }
   .time_report_day_description {
-    font-family: Montserrat, sans-serif;
     font-size: 16px;
     line-height: 1.5;
     flex: 0.7;
@@ -903,7 +899,6 @@
   .time_report_day_hours {
     width: 58px;
     color: #414141;
-    font-family: Montserrat, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     text-align: center;
@@ -911,7 +906,7 @@
     &.hours_input {
       background-color: inherit;
       border: none;
-      border: 1px solid #009c98;
+      border: 1px solid $mainGreenColor;
       font-size: 15px;
       line-height: 1.5;
       padding: 0 5px;
@@ -942,7 +937,7 @@
       font-size: 14px;
     }
     .time_report_day_menu {
-      background-color: #fff;
+      background-color: $whiteColor;
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -953,7 +948,7 @@
       height: 128px;
       top: 110%;
       left: -150px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid $borderColor;
       box-sizing: border-box;
       box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
       border-radius: 6px;
@@ -967,12 +962,12 @@
         }
       }
       .button {
-        font-family: Montserrat;
+        
         font-weight: 500;
         padding: 5px 10px;
         height: 100%;
         text-align: left;
-        color: #222222;;
+        color: $mainBlackColor;;
 
         .icon {
           margin-right: 10px;
@@ -1016,7 +1011,7 @@
       flex-basis: 80%;
       max-width: 490px;
       border: none;
-      border: 1px solid #009c98;
+      border: 1px solid $mainGreenColor;
       background-color: inherit;
       resize: none;
       font-size: 16px;

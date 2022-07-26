@@ -1,3 +1,4 @@
+@import "../../../styles/commonStyles.scss";
 
 .arrow-up {
   position: relative;
@@ -12,7 +13,7 @@
   font-size: 22px;
   margin: 0;
   &.active{
-    color: #009C98;
+    color: $mainGreenColor;
     background: rgba(0, 156, 152, 0.1);
     cursor: pointer;
     animation: animate 2.5s linear infinite;

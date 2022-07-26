@@ -9,7 +9,7 @@ import { getErrorStatus } from 'selectors/error'
 
 
 
-import '../styles/App.css'
+import '../styles/App.scss'
 
 const App = ({ isShownAlert, errorStatus }) => {
 

@@ -1,3 +1,5 @@
+@import "../../../styles/commonStyles.scss";
+
 .custom-button {
   display: flex;
   align-items: center;
@@ -16,15 +18,15 @@
 }
 
 .custom-button.btn-outline-secondary {
-  background-color: #fff;
-  border: 1px solid #009C98;;
+  background-color: $whiteColor;
+  border: 1px solid $mainGreenColor;;
     &:hover, &:focus {
-      background-color: #fff;
+      background-color: $whiteColor;
       border: 1px solid #3bbbb7;
       transition: 0.3s ease-in;
     }
     p {
-      color: #009C98;
+      color: $mainGreenColor;
       font-size: 14px;
       font-weight: 600;
       line-height: 24px;

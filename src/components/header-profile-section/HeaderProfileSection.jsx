@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
-import './headerProfileSection.css'
+import './headerProfileSection.scss'
 import ProfileAvatar from 'components/ui/profile-avatar'
 import { Button } from 'react-bootstrap'
 import { logOut } from '../../actions/users'

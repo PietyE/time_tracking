@@ -1,3 +1,5 @@
+@import "../../styles/commonStyles.scss";
+
 :root {
   --vh: 1vh;
 }
@@ -81,7 +83,7 @@
     .user_role {
       position: relative;
       height: 20px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
@@ -93,7 +95,7 @@
       position: relative;
       width: 131px;
       top: 6px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 500;
       font-size: 16px;
@@ -125,7 +127,7 @@
       height: 20px;
       margin-left: 21px;
       margin-top: 25px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
@@ -192,7 +194,7 @@
             border-radius: 23%;
           }
           .item {
-            color: #009c98;
+            color: $mainGreenColor;
             cursor: pointer;
           }
           .sidebar_img {
@@ -218,12 +220,12 @@
           width: auto;
           height: 24px;
           margin-left: 14px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
           line-height: 24px;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .up_arrow {
@@ -276,7 +278,7 @@
           border-radius: 23%;
         }
         .item {
-          color: #009c98;
+          color: $mainGreenColor;
           cursor: pointer;
         }
         .sidebar_img {
@@ -301,12 +303,12 @@
         width: auto;
         height: 24px;
         margin-left: 14px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
-        color: #222222;
+        color: $mainBlackColor;
       }
     }
   }
@@ -493,7 +495,7 @@
         }
 
         .item {
-          color: #009c98;
+          color: $mainGreenColor;
           cursor: pointer;
         }
         .sidebar_img {

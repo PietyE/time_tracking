@@ -1,9 +1,11 @@
+@import "../../styles/commonStyles.scss";
+
 .project_management-container{
-  font-family: 'Montserrat';
+  
   margin: 0 20px;
   width: 100%;
   max-width: 971px;
-  font-family: 'Montserrat';
+  
   flex-grow: 1;
   z-index: 1;
 
@@ -57,7 +59,7 @@
       font-size: 14px;
       cursor: pointer;
       &:hover{
-        color: #fff;
+        color: $whiteColor;
       }
 
       &.user{
@@ -65,8 +67,8 @@
         background-image: url("../../images/green_plus_ic.svg");
         background-repeat: no-repeat;
         background-position: left 16px center;
-        border: solid 1px #009C98;
-        color:#009C98;
+        border: solid 1px $mainGreenColor;
+        color:$mainGreenColor;
       }
     }
 
@@ -124,7 +126,7 @@
         &:hover{
           background: #E6E9E9;
           border-radius: 6px;
-          color:#222222;
+          color: $mainBlackColor;
         }
         .count-container {
           background: rgba(34, 34, 34, 0.5);
@@ -139,10 +141,10 @@
           font-size: 12px;
           line-height: 15px;
           letter-spacing: 0.01em;
-          color: #FFFFFF;
+          color: $whiteColor;
 
           &.active{
-            background: #009C98;
+            background: $mainGreenColor;
           }
         }
         .select_list_item{
@@ -243,25 +245,25 @@
 
 .btn-outline-secondary{
   border-radius: 6px;
-  background-color: #009c98;
-  border-color: #009c98;
-  color: #fff;
+  background-color: $mainGreenColor;
+  border-color: $mainGreenColor;
+  color: $whiteColor;
   &:focus {
     filter: brightness(1);
-    background-color: #009c98;
-    border-color: #009c98;
+    background-color: $mainGreenColor;
+    border-color: $mainGreenColor;
     transition: 0.3s;
   }
   &:hover {
     filter: brightness(1.2);
-    background-color: #009c98;
-    border-color: #009c98;
+    background-color: $mainGreenColor;
+    border-color: $mainGreenColor;
     transition: 0.3s;
   }
   &:active{
     filter: brightness(1.2);
-    background-color: #009c98;
-    border-color: #009c98;
+    background-color: $mainGreenColor;
+    border-color: $mainGreenColor;
     transition: 0.3s;
   }
 }
@@ -299,9 +301,9 @@
   }
   thead{
     height: 70px;
-    background-color: #009c98;
-    color: #fff;
-    border: 1px solid #009c98;
+    background-color: $mainGreenColor;
+    color: $whiteColor;
+    border: 1px solid $mainGreenColor;
     .dx-rg-bs4-table-header-title{
       font-weight: 500;
 
@@ -311,7 +313,7 @@
     }
 
     .text-primary{
-      color: #fff !important;
+      color: $whiteColor !important;
 
     }
   }
@@ -342,12 +344,10 @@
       box-sizing: border-box;
       box-shadow: -10px 10px 35px rgba(0, 0, 0, 0.1);
       border-radius: 20px;
-
-      font-family: "Montserrat";
     }
 
     .pm_modal_header{
-      background-color: #fff;
+      background-color: $whiteColor;
       border-bottom: 1px solid rgba(201, 201, 198, 0.7);
       padding: 35px;
       padding-bottom: 20px;
@@ -395,16 +395,16 @@
           font-size: 16px;
           line-height: 24px;
           letter-spacing: 0.017em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .project-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         input{
-          background: #FFFFFF;
-          border: 1px solid rgba(0, 0, 0, 0.2);
+          background: $whiteColor;
+          border: 1px solid $borderColor;
           box-sizing: border-box;
           border-radius: 4px;
           padding: 10px;
@@ -412,7 +412,7 @@
           font-size: 16px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
         }
         .new-position{
           width: 100%;
@@ -437,10 +437,10 @@
         left: -1px;
         bottom: -1px;
         width: calc(100% + 2px);
-        background: #009C98;
+        background: $mainGreenColor;
         border-radius: 0px 0px 20px 20px;
-        border-color:#009C98;
-        color: #fff;
+        border-color:$mainGreenColor;
+        color: $whiteColor;
         font-style: normal;
         font-weight: 600;
         font-size: 18px;
@@ -475,7 +475,7 @@
 .pm_create_modal_input {
   position: relative;
   height: 48px;
-  background: #ffffff;
+  background: $whiteColor;
   border: 1px solid #949494;
   border-radius: 4px;
   margin-top: 10px;
@@ -545,9 +545,9 @@
   width: 90px;
   height: 40px;
   border-radius: 6px;
-  background-color: #009c98;
-  border-color: #009c98;
-  color: #fff;
+  background-color: $mainGreenColor;
+  border-color: $mainGreenColor;
+  color: $whiteColor;
   &:focus {
     filter: brightness(1);
     transition: 0.3s;
@@ -622,7 +622,7 @@
         margin-left: 50px;
 
         h3{
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: bold;
           font-size: 13px;
@@ -632,7 +632,7 @@
         }
 
         p{
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
@@ -643,7 +643,7 @@
 
       .info_data{
         .search{
-          border: 1px solid #009C98;
+          border: 1px solid $mainGreenColor;
           box-sizing: border-box;
           border-radius: 6px;
         }
@@ -664,7 +664,7 @@
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #009C98;
+        color: $mainGreenColor;
         cursor: pointer;
         top:-5px;
         &:hover{

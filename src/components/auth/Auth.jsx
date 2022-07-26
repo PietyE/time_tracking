@@ -10,7 +10,7 @@ import { CLIENT_ID } from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
 import styles from './Auth.module.scss'
 import logo from '../../images/logo-3.png';
-import './styles.css'
+import './styles.scss'
 import useEqualSelector from '../../custom-hook/useEqualSelector'
 import Separator from './Separator'
 import { useFormik } from 'formik'

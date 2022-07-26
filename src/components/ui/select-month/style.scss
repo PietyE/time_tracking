@@ -1,3 +1,5 @@
+@import "../../../styles/commonStyles.scss";
+
 .select_month_container {
   display: flex;
   justify-content: space-between;
@@ -6,7 +8,7 @@
   height: 40px;
   border: 1px solid #e8e8e8;
   border-radius: 7px;
-  background-color: #ffffff;
+  background-color: $whiteColor;
   position: relative;
   transition: 0.3s ease-out;
   &:focus {
@@ -24,7 +26,7 @@
     border: unset;
     outline: unset;
     cursor: pointer;
-    background-color: #fff;
+    background-color: $whiteColor;
     .icon_change_month_button {
       color: rgb(81, 81, 81);
     }
@@ -70,14 +72,14 @@
     }
     .data_title {
       color: #414141;
-      font-family: Montserrat;
+      
       font-size: 13px;
       font-weight: 500;
       line-height: unset;
     }
     .data_title_year {
       color: #414141;
-      font-family: Montserrat;
+      
       font-size: 13px;
       font-weight: 500;
       line-height: unset;
@@ -90,7 +92,7 @@
     position: absolute;
     top: 110%;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: $whiteColor;
     box-shadow: 0 3px 8px 0 rgba(158, 167, 171, 0.3);
     border-radius: 5px;
     z-index: 999;
@@ -118,7 +120,7 @@
         align-items: center;
         border: unset;
         outline: unset;
-        background-color: #fff;
+        background-color: $whiteColor;
         .icon_button {
           color: #515151;
           font-size: 24px;
@@ -154,7 +156,7 @@
         align-items: center;
         border: unset;
         outline: none;
-        background-color: #ffffff;
+        background-color: $whiteColor;
         cursor: pointer;
         line-height: 25px;
         margin-bottom: 5px;
@@ -165,13 +167,13 @@
         }
         &.active {
           background-color: rgb(0, 145, 141);
-          color: #fff;
+          color: $whiteColor;
         }
         &.disabled {
           color: #ccc;
           cursor: default;
           &:hover {
-            background-color: #ffffff;
+            background-color: $whiteColor;
           }
         }
       }

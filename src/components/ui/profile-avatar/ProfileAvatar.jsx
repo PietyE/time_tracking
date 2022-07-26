@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import userIcon from 'images/user-icon.svg'
 import { getUserAvatarUrl } from 'selectors/user'
 
-import './avatar.css'
+import './avatar.scss'
 
 function ProfileAvatar({ profileFoto, className }) {
   const defaultClassName = `header_profile_avatar ${className}`
