@@ -1,3 +1,5 @@
+@import './commonStyles.scss';
+
 body{
   background: #F3F5F5;;
 }
@@ -47,15 +49,15 @@ body{
   height: 40px;
   left: 1089px;
   top: 35px;
-  background: #009C98;
+  background: $mainGreenColor;
   border-radius: 4px;
-  color: #fff;
+  color: $whiteColor;
 
 }
 
 .search {
   background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid $borderColor;
   box-sizing: border-box;
   border-radius: 4px;
   width: 280px;
@@ -65,7 +67,7 @@ body{
   line-height: 24px;
   text-align: center;
   letter-spacing: 0.03em;
-  color: #ADADA7;
+  color: $separatorTextColor;
   text-align: left;
   background-image: url("../images/loupe1.svg");
   background-repeat: no-repeat;
@@ -79,9 +81,9 @@ body{
   height: 40px;
   left: 419px;
   top: 529px;
-  background: #009C98;
+  background: $mainGreenColor;
   border-radius: 4px;
-  color: #fff;
+  color: $whiteColor;
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
@@ -90,14 +92,14 @@ body{
 }
 
 .btn-add:hover{
-  color: #fff;
+  color: $whiteColor;
 }
 
 .btn-cancel{
   margin: 0 6px;
   width: 96px;
   height: 40px;
-  border: 1px solid #009C98;
+  border: 1px solid $mainGreenColor;
   box-sizing: border-box;
   border-radius: 4px;
   font-weight: 600;
@@ -105,7 +107,7 @@ body{
   line-height: 24px;
   text-align: center;
   letter-spacing: 0.03em;
-  color: #009C98;
+  color: $mainGreenColor;
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -113,7 +115,7 @@ body{
 }
 
 .btn-cancel:hover{
-  color: #009C98;
+  color: $mainGreenColor;
 }
 
 .error_page {
@@ -159,7 +161,7 @@ body{
 .more{
   display: flex;
   margin: 0 25px 25px;
-  color: #009C98;
+  color: $mainGreenColor;
   font-size: 14px;
   line-height: 24px;
   text-decoration: none;
@@ -169,6 +171,6 @@ body{
 }
 
 .more:hover{
-  color: #009C98;
+  color: $mainGreenColor;
   text-decoration: none;
 }

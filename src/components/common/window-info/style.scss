@@ -1,9 +1,11 @@
+@import "../../../styles/commonStyles.scss";
+
 .main_container {
   display: flex;
   flex-direction: column;
   width: 614px;
   height: 840px;
-  background: #FFFFFF;
+  background: $whiteColor;
   border: 1px solid rgba(201, 201, 198, 0.4);
   box-sizing: border-box;
   box-shadow: -10px -5px 35px rgba(0, 0, 0, 0.1);
@@ -21,13 +23,13 @@
     text-overflow: ellipsis;
 
     .title {
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 20px;
       line-height: 24px;
       letter-spacing: 0.018em;
-      color: #222222;
+      color: $mainBlackColor;
       margin: 0;
       padding: 0;
       text-align: left;
@@ -65,7 +67,7 @@
       text-align: center;
       line-height: 0px;
       cursor: pointer;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 12px;
@@ -75,13 +77,13 @@
 
 
       &.open {
-        color: #009C98;
-        background: #FFFFFF;
+        color: $mainGreenColor;
+        background: $whiteColor;
       }
 
       &.closed {
-        background: #F84242;
-        color: #FFFFFF;
+        background: $mainRedColor;
+        color: $whiteColor;
       }
 
       &.empty_comments {
@@ -159,7 +161,7 @@
     }
 
     .info_text {
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: bold;
       font-size: 13px;
@@ -173,7 +175,7 @@
     .currency_select_edited {
       position: absolute;
       left: 169px;
-      border: 1px solid #009C98;
+      border: 1px solid $mainGreenColor;
       box-sizing: border-box;
       border-radius: 4px;
       height: 40px;
@@ -181,8 +183,8 @@
 
       .drop_down_menu {
         width: 114px;
-        background: #FFFFFF;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: $whiteColor;
+        border: 1px solid $borderColor;
         box-sizing: border-box;
         box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
         border-radius: 6px;
@@ -196,7 +198,7 @@
 
         .currency_label {
           height: 40px;
-          background: #FFFFFF;
+          background: $whiteColor;
           border-radius: 5px;
           width: 98px;
           margin: 0;
@@ -214,14 +216,14 @@
 
           .name {
             margin-left: 10px;
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
             line-height: 24px;
             text-align: center;
             letter-spacing: 0.03em;
-            color: #222222;
+            color: $mainBlackColor;
           }
 
           .dash {
@@ -242,14 +244,14 @@
     .info_data {
       position: absolute;
       left: 313px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       // line-height: 24px;
       align-items: center;
       letter-spacing: 0.03em;
-      color: #222222; 
+      color: $mainBlackColor; 
     }
 
     .select_container{
@@ -264,22 +266,22 @@
     .info_data_edited {
       position: absolute;
       left: 313px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 24px;
       align-items: center;
       letter-spacing: 0.03em;
-      color: #222222;
+      color: $mainBlackColor;
       display: flex;
       flex-direction: row;
       // justify-content: center;
       padding: 8px 10px;
       width: 135px;
       height: 40px;
-      background: #FFFFFF;
-      border: 1px solid #009C98;
+      background: $whiteColor;
+      border: 1px solid $mainGreenColor;
       box-sizing: border-box;
       border-radius: 4px;
 
@@ -294,14 +296,14 @@
         outline: none;
         overflow: hidden;
         border: none;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         // line-height: 24px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         height: 24px;
         text-align: left;
         display: inline-block;
@@ -315,32 +317,32 @@
       left: 323px;
       align-items: center;
       letter-spacing: 0.03em;
-      color: #222222;
+      color: $mainBlackColor;
       display: flex;
       flex-direction: row;
 
       .info_data {
         position: relative;
         left: 0px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .grn {
         position: relative;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 13px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #ADADA7;
+        color: $separatorTextColor;
         margin-left: 2px;
       }
     }
@@ -350,7 +352,7 @@
       width: 102px;
       position: absolute;
       left: 323px;
-      border: 1px solid #009C98;
+      border: 1px solid $mainGreenColor;
       box-sizing: border-box;
       border-radius: 6px;
       padding: 8px 10px 8px 10px;
@@ -361,25 +363,25 @@
       .info_data {
         position: relative;
         left: 0px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .grn {
         position: relative;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 13px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #ADADA7;
+        color: $separatorTextColor;
         margin-left: 2px;
 
         &.empty {
@@ -396,13 +398,13 @@
         outline: none;
         overflow: hidden;
         border: none;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         height: 24px;
         text-align: left;
         display: inline-block;
@@ -414,7 +416,7 @@
 
     .extra_costs {
       position: absolute;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
@@ -425,7 +427,7 @@
 
       &.edited {
         height: 40px;
-        border: 1px solid #009C98;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         border-radius: 6px;
         padding: 8px 10px 8px 10px;
@@ -442,7 +444,7 @@
 
       .payed {
         position: relative;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: bold;
         font-size: 13px;
@@ -452,14 +454,14 @@
         color: #616161;
 
         &.checked {
-          color: #009C98;
+          color: $mainGreenColor;
         }
 
         &.edited {
-          color: #ADADA7;
+          color: $separatorTextColor;
 
           &.checked {
-            color: #ADADA7;
+            color: $separatorTextColor;
           }
         }
       }
@@ -475,7 +477,7 @@
         margin-left: 12px;
 
         &.edited {
-          border-color: #ADADA7;
+          border-color: $separatorTextColor;
         }
       }
 
@@ -485,7 +487,7 @@
         width: 20px;
         height: 20px;
         top: 0;
-        border: 0px solid #009C98;
+        border: 0px solid $mainGreenColor;
         border-radius: 4px;
         margin: 0;
         display: flex;
@@ -508,7 +510,7 @@
           }
 
           &.edited {
-            border-color: #ADADA7;
+            border-color: $separatorTextColor;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -537,7 +539,7 @@
       }
 
       .label-def{
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
@@ -545,7 +547,7 @@
         display: flex;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         margin-right: 50px;
         width: 97px;
       }
@@ -627,7 +629,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family: Montserrat;
+    
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -640,14 +642,14 @@
     .save_changes {
       margin-left: 336px;
       padding: 8px 16px;
-      background: #009C98;
+      background: $mainGreenColor;
       border-radius: 4px;
-      color: #FFFFFF;
-      border: 1px solid #009C98;
+      color: $whiteColor;
+      border: 1px solid $mainGreenColor;
 
       &:hover {
-        color: #009C98;
-        background: #FFFFFF;
+        color: $mainGreenColor;
+        background: $whiteColor;
         cursor: pointer;
       }
       .add-new{
@@ -656,17 +658,17 @@
     }
 
     .cancel_changes {
-      border: 1px solid #009C98;
+      border: 1px solid $mainGreenColor;
       box-sizing: border-box;
       border-radius: 4px;
-      background: #FFFFFF;
-      color: #009C98;
+      background: $whiteColor;
+      color: $mainGreenColor;
       margin-left: 14px;
       padding: 8px 24px;
 
       &:hover {
-        color: #FFFFFF;
-        background: #009C98;
+        color: $whiteColor;
+        background: $mainGreenColor;
         cursor: pointer;
       }
     }
@@ -694,23 +696,23 @@
         margin-left: 498px;
         width: 89px;
         height: 40px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 14px;
         line-height: 24px;
         text-align: center;
         letter-spacing: 0.03em;
-        color: #009C98;
+        color: $mainGreenColor;
         background: #F3F3F3;
         cursor: pointer;
-        border: 1px solid #009C98;
+        border: 1px solid $mainGreenColor;
         border-radius: 4px;
         padding: 8px 0;
 
         &:hover {
           color: #F3F3F3;
-          background: #009C98;
+          background: $mainGreenColor;
         }
       }
     }

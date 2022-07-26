@@ -1,26 +1,32 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import WindowInfo from '../../../common/window-info/WindowInfo'
-import InfoItemM from '../../../common/window-info/components/InfoItemM'
-import TeamM from '../../../common/team-m/TeamM'
-import HintWindow from "components/ui/HintWindow";
-import Plus from '../../../ui/plus'
-import AddSelectedM from '../../../common/AddSelectedM/AddSelectedM'
+import WindowInfo from 'components/common/window-info/WindowInfo'
+import InfoItemM from 'components/common/window-info/components/InfoItemM'
+import TeamM from 'components/common/team-m/TeamM'
+import HintWindow from 'components/ui/HintWindow'
+import Plus from 'components/ui/plus'
+import AddSelectedM from 'components/common/AddSelectedM/AddSelectedM'
 import { useDispatch } from 'react-redux'
 import {
   addDeveloperToProject,
-  addInactiveProjectManagerToProject, addProjectManagerToProject, addUsersOnProject,
-  changeProjectName, changeUserOnProject,
+  addInactiveProjectManagerToProject,
+  addProjectManagerToProject,
+  addUsersOnProject,
+  changeProjectName,
+  changeUserOnProject,
   downloadAllTeamProjectReport,
   getProjectReportById,
   setSelectedProject,
   setShowEditModal,
-  getAllProjects
+  getAllProjects,
 } from '../../../../actions/projects-management'
 import {
   getActivePmInCurrentProjectSelector,
-  getCurrentProjectSelector, getDeactivatedMembersSelector, getIsFetchingPmPageSelector,
+  getCurrentProjectSelector,
+  getDeactivatedMembersSelector,
+  getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
-  getProjectName, getProjectReportByIdSelector,
+  getProjectName,
+  getProjectReportByIdSelector,
   getSelectedProjectIdSelector,
   getSelectedProjectSelector,
   getUsersSelector,
@@ -29,7 +35,10 @@ import {
 import ChekMark from '../../../../images/check-mark1.svg'
 import UserIcon from '../../../../images/user1.svg'
 import ProjectIcon from '../../../../images/card-text1.svg'
-import { parseMinToHoursAndMin} from '../../../../utils/common'
+import {
+  parseMinToHoursAndMin,
+  sortArrayOfObjectsAlphabetically,
+} from '../../../../utils/common'
 import Select from '../../../ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
@@ -41,8 +50,8 @@ import useEqualSelector from '../../../../custom-hook/useEqualSelector'
 
 import './EditProjectModal.scss'
 
-function EditProjectModal({ show, month}) {
-  const modalRef = useRef(null);
+function EditProjectModal({ show, month }) {
+  const modalRef = useRef(null)
   const [addMember, setAddMember] = useState(false)
   const [checkedUsers, setCheckedUsers] = useState([])
   const [currentEditedTeam, setEditedTeam] = useState([])
@@ -50,93 +59,115 @@ function EditProjectModal({ show, month}) {
   const [showHintAddMember, setShowHintAddMember] = useState(false)
 
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
-  const activeProjectManager = useEqualSelector(getActivePmInCurrentProjectSelector);
+  const activeProjectManager = useEqualSelector(
+    getActivePmInCurrentProjectSelector
+  )
 
   const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
-  const currentProjectReport = useEqualSelector(
-    state => getProjectReportByIdSelector(state, currentProjectId),
-  );
+  const currentProjectReport = useEqualSelector((state) =>
+    getProjectReportByIdSelector(state, currentProjectId)
+  )
+
+  const sortArrayByUserName = (a, b) => {
+    return sortArrayOfObjectsAlphabetically(a, b, 'userName')
+  }
 
   const currentProjectActiveDevelopers = useMemo(
-    () => currentProjectReport?.users
-      .filter(e => e.is_active && e.userName !== activeProjectManager?.name)
-      .map(e => ({...e, name: e.userName, id: e.userId})) || [],
-    [currentProjectReport, activeProjectManager]);
-
+    () =>
+      currentProjectReport?.users
+        .filter((e) => e.is_active && e.userName !== activeProjectManager?.name)
+        .map((e) => ({ ...e, name: e.userName, id: e.userId }))
+        .sort(sortArrayByUserName) || [],
+    [currentProjectReport, activeProjectManager]
+  )
   const freeProjectManagersList = useMemo(() => {
-       let teamMateID = currentProjectActiveDevelopers.map(member => member.userId)
-    return  projectManagersList.filter(user => !teamMateID.includes(user.id))
+    let teamMateID = currentProjectActiveDevelopers.map(
+      (member) => member.userId
+    )
+    return projectManagersList.filter((user) => !teamMateID.includes(user.id))
   }, [currentProjectActiveDevelopers, projectManagersList])
 
-  const currentTeamIds = useMemo(
-    () => {
-      let currentProjectActiveDevelopersID = currentProjectActiveDevelopers.map(e => e.id)
-      currentProjectActiveDevelopersID.push(activeProjectManager?.user_id)
-      return currentProjectActiveDevelopersID
-    },
-    [currentProjectActiveDevelopers, activeProjectManager]
-  );
-  
+  const currentTeamIds = useMemo(() => {
+    let currentProjectActiveDevelopersID = currentProjectActiveDevelopers.map(
+      (e) => e.id
+    )
+    currentProjectActiveDevelopersID.push(activeProjectManager?.user_id)
+    return currentProjectActiveDevelopersID
+  }, [currentProjectActiveDevelopers, activeProjectManager])
+
   const currentProject = useEqualSelector(getSelectedProjectSelector)
   const currentApiProject = useEqualSelector(getCurrentProjectSelector)
   const projectName = useEqualSelector(getProjectName)
   const isFetchingPMPage = useEqualSelector(getIsFetchingPmPageSelector)
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
-  const projectTeamM = useEqualSelector(getUsersSelector);
-  
+  const projectTeamM = useEqualSelector(getUsersSelector)
+
   const closeAddUser = () => {
     setAddMember(false)
   }
 
   const dispatch = useDispatch()
 
-  const addSelected = useCallback((e) => {
-    if (!checkedUsers.length) return;
+  const addSelected = useCallback(
+    (e) => {
+      if (!checkedUsers.length) return
 
-    e.preventDefault();
-    const mappedAddedUsers = checkedUsers.map(u => ({
-      id: u.id,
-      is_active: u.is_active,
-      minutes: 0,
-      name: u.name,
-      is_full_time: u.is_full_time || true,
-      userName: u.name,
-      userId: u.id,
-      projectId: currentProjectId,
-      projectReportId: currentProjectReport.users.find(user => user.userId === u.id)?.projectReportId,
-    }));
-    
-    setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
-    setAddMember(false);
+      e.preventDefault()
+      const mappedAddedUsers = checkedUsers.map((u) => ({
+        id: u.id,
+        is_active: u.is_active,
+        minutes: 0,
+        name: u.name,
+        is_full_time: u.is_full_time || true,
+        userName: u.name,
+        userId: u.id,
+        projectId: currentProjectId,
+        projectReportId: currentProjectReport.users.find(
+          (user) => user.userId === u.id
+        )?.projectReportId,
+      }))
 
-    const payload = checkedUsers.map(developer => ({
-      user_id: developer.id,
-      is_active: developer.is_active,
-      is_full_time: developer.is_full_time || true,
-      is_project_manager: false,
-    }));
+      setEditedTeam([...new Set(currentEditedTeam.concat(mappedAddedUsers))])
+      setAddMember(false)
 
-    setCheckedUsers([]);
+      const payload = checkedUsers.map((developer) => ({
+        user_id: developer.id,
+        is_active: developer.is_active,
+        is_full_time: developer.is_full_time || true,
+        is_project_manager: false,
+      }))
 
-    dispatch(addDeveloperToProject(payload))
-    dispatch(getAllProjects())
-  }, [checkedUsers, currentProjectId, currentProjectReport, currentEditedTeam, dispatch])
+      setCheckedUsers([])
+
+      dispatch(addDeveloperToProject(payload))
+      dispatch(getAllProjects())
+    },
+    [
+      checkedUsers,
+      currentProjectId,
+      currentProjectReport,
+      currentEditedTeam,
+      dispatch,
+    ]
+  )
 
   const _changeUserOnProject = useCallback(
     (id, data) => {
       dispatch(changeUserOnProject({ id, data }))
     },
     [dispatch]
-  );
+  )
 
-  const deleteItem = useCallback((id) => {
-    let res = currentEditedTeam.filter(e => e.projectReportId !== id);
-    setEditedTeam(res);
-    _changeUserOnProject(id, { is_active: false });
-
-  }, [currentEditedTeam, _changeUserOnProject])
+  const deleteItem = useCallback(
+    (id) => {
+      let res = currentEditedTeam.filter((e) => e.projectReportId !== id)
+      setEditedTeam(res)
+      _changeUserOnProject(id, { is_active: false })
+    },
+    [currentEditedTeam, _changeUserOnProject]
+  )
 
   const _getProjectReportById = useCallback(
     (data) => {
@@ -158,16 +189,19 @@ function EditProjectModal({ show, month}) {
     [dispatch]
   )
 
-  const setTypeWork = useCallback((userId, workType) => {
-    let resArr = currentEditedTeam.map((e) => {
-      if (userId === e.user_id || e.id) {
-        e.is_full_time = workType
-      }
-      return e
-    })
+  const setTypeWork = useCallback(
+    (userId, workType) => {
+      let resArr = currentEditedTeam.map((e) => {
+        if (userId === e.user_id || e.id) {
+          e.is_full_time = workType
+        }
+        return e
+      })
 
-    setEditedTeam(resArr);
-  }, [currentEditedTeam])
+      setEditedTeam(resArr)
+    },
+    [currentEditedTeam]
+  )
 
   useEffect(() => {
     if (show) {
@@ -178,40 +212,38 @@ function EditProjectModal({ show, month}) {
           projectManager: activeProjectManager,
           total_minutes: currentApiProject.total_minutes,
           description: currentApiProject.description,
-        });
+        })
       }
 
-      setEditedTeam(currentProjectActiveDevelopers);
+      setEditedTeam(currentProjectActiveDevelopers)
       setArchivedProject(currentApiProject?.is_archived || false)
     }
-  },
-    [
-      projectName,
-      currentProjectActiveDevelopers,
-      activeProjectManager,
-      currentApiProject,
-      show,
-    ],
-  );
+  }, [
+    projectName,
+    currentProjectActiveDevelopers,
+    activeProjectManager,
+    currentApiProject,
+    show,
+  ])
 
   useEffect(() => {
     if (show) {
-      _getProjectReportById(currentProjectId);
-      closeAddUser();
+      _getProjectReportById(currentProjectId)
+      closeAddUser()
     }
   }, [_getProjectReportById, currentProjectId, show, month, currentEditedTeam])
 
   useEffect(() => {
     if (currentProject && show) {
-      _setSelectedProject(currentProject);
+      _setSelectedProject(currentProject)
     }
-  }, [currentProject, show, _setSelectedProject]);
+  }, [currentProject, show, _setSelectedProject])
 
   const handleClose = useCallback(() => {
-    resetForm();
-    dispatch(setShowEditModal(false));
-    setAddMember(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    resetForm()
+    dispatch(setShowEditModal(false))
+    setAddMember(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
   let teamMList = currentEditedTeam?.map((e, i) => {
@@ -229,7 +261,7 @@ function EditProjectModal({ show, month}) {
       </div>
     )
   })
-  
+
   const validate = (values) => {
     const errors = {}
 
@@ -245,108 +277,139 @@ function EditProjectModal({ show, month}) {
     return errors
   }
 
-  const onSubmit = useCallback((values) => {
-    dispatch(changeProjectName({
-      id: currentProjectId,
-      name: values.projectName,
-    }))
-  }, [currentProjectId,  dispatch]) ;
-
-  const {
-    handleChange,
-    values,
-    errors,
-    touched,
-    resetForm,
-    setValues,
-  } = useFormik({
-    initialValues: currentApiProject ? {
-      projectName: currentApiProject?.name,
-      description: currentApiProject?.description,
-    } : {
-      projectName: '',
-      description: '',
+  const onSubmit = useCallback(
+    (values) => {
+      dispatch(
+        changeProjectName({
+          id: currentProjectId,
+          name: values.projectName,
+        })
+      )
     },
-    onSubmit,
-    validate,
-  });
+    [currentProjectId, dispatch]
+  )
 
-  const handleEnterPress = useCallback((e) => {
-    e.stopPropagation();
+  const { handleChange, values, errors, touched, resetForm, setValues } =
+    useFormik({
+      initialValues: currentApiProject
+        ? {
+            projectName: currentApiProject?.name,
+            description: currentApiProject?.description,
+          }
+        : {
+            projectName: '',
+            description: '',
+          },
+      onSubmit,
+      validate,
+    })
 
-    if (e.key === 'Enter' && !e.shiftKey) {
-      if (e.target.id === 'projectName'
-        && !errors?.projectName
-        && values.projectName !== valuesFromApi?.projectName
+  const handleEnterPress = useCallback(
+    (e) => {
+      e.stopPropagation()
+
+      if (e.key === 'Enter' && !e.shiftKey) {
+        if (
+          e.target.id === 'projectName' &&
+          !errors?.projectName &&
+          values.projectName !== valuesFromApi?.projectName
+        ) {
+          dispatch(
+            changeProjectName({
+              id: currentProjectId,
+              data: { name: values.projectName.trim() },
+              title: 'name',
+            })
+          )
+          setValuesFromApi((prev) => ({
+            ...prev,
+            projectName: values.projectName.trim(),
+          }))
+        } else if (
+          e.target.id === 'description' &&
+          !errors?.description &&
+          values.description !== valuesFromApi?.description
+        ) {
+          dispatch(
+            changeProjectName({
+              id: currentProjectId,
+              data: { description: values.description.trim() },
+              title: 'description',
+            })
+          )
+          setValuesFromApi((prev) => ({
+            ...prev,
+            description: values.description.trim(),
+          }))
+        }
+        dispatch(getAllProjects())
+      }
+    },
+    [errors, currentProjectId, values, valuesFromApi, dispatch]
+  )
+
+  useEventListener('keyup', handleEnterPress)
+
+  const handleLostFocus = useCallback(
+    (e) => {
+      if (
+        e.target.id === 'projectName' &&
+        !errors?.projectName &&
+        values.projectName !== valuesFromApi?.projectName
       ) {
-        dispatch(changeProjectName({
-          id: currentProjectId,
-          data : { name: values.projectName.trim() },
-          title: 'name',
-        }));
-        setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName.trim() }));
+        dispatch(
+          changeProjectName({
+            id: currentProjectId,
+            data: { name: values.projectName.trim() },
+            title: 'name',
+          })
+        )
+        setValuesFromApi((prev) => ({
+          ...prev,
+          projectName: values.projectName.trim(),
+        }))
       } else if (
-        e.target.id === 'description'
-        && !errors?.description
-        && values.description !== valuesFromApi?.description
+        e.target.id === 'description' &&
+        !errors?.description &&
+        values.description !== valuesFromApi?.description
       ) {
-        dispatch(changeProjectName({
-          id: currentProjectId,
-          data : { description: values.description.trim() },
-          title: 'description',
-        }));
-        setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
+        dispatch(
+          changeProjectName({
+            id: currentProjectId,
+            data: { description: values.description.trim() },
+            title: 'description',
+          })
+        )
+        setValuesFromApi((prev) => ({
+          ...prev,
+          description: values.description.trim(),
+        }))
       }
       dispatch(getAllProjects())
-    }
-  }, [errors, currentProjectId, values, valuesFromApi, dispatch]);
-
-  
-  useEventListener('keyup', handleEnterPress);
-
-  const handleLostFocus = useCallback((e) => {
-    if (e.target.id === 'projectName'
-    && !errors?.projectName
-    && values.projectName !== valuesFromApi?.projectName
-  ) {
-    dispatch(changeProjectName({
-      id: currentProjectId,
-      data : { name: values.projectName.trim() },
-      title: 'name',
-    }));
-    setValuesFromApi((prev) => ({ ...prev, projectName: values.projectName.trim() }));
-  } else if (
-    e.target.id === 'description'
-    && !errors?.description
-    && values.description !== valuesFromApi?.description
-  ) {
-    dispatch(changeProjectName({
-      id: currentProjectId,
-      data : { description: values.description.trim() },
-      title: 'description',
-    }));
-    setValuesFromApi((prev) => ({ ...prev, description: values.description.trim() }));
-    }
-    dispatch(getAllProjects())
-  }, [errors, currentProjectId, values, valuesFromApi, dispatch])
+    },
+    [errors, currentProjectId, values, valuesFromApi, dispatch]
+  )
 
   useEffect(() => {
-    setValues(currentApiProject ? {
-      projectName: currentApiProject?.name,
-      description: currentApiProject?.description,
-    } : {
-      projectName: '',
-      description: '',
-    });
-  }, [currentApiProject, setValues, valuesFromApi]);
-
+    setValues(
+      currentApiProject
+        ? {
+            projectName: currentApiProject?.name,
+            description: currentApiProject?.description,
+          }
+        : {
+            projectName: '',
+            description: '',
+          }
+    )
+  }, [currentApiProject, setValues, valuesFromApi])
 
   const _addInactiveProjectManagerToProject = useCallback(
     (data) => {
       dispatch(addInactiveProjectManagerToProject(data))
     },
     [dispatch]
-  );
+  )
 
   const _addProjectManagerToProject = useCallback(
     (data) => {
@@ -364,9 +427,7 @@ function EditProjectModal({ show, month}) {
 
   const handleAddProjectManagerToProject = (e) => {
     const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
-    const isPm = projectManagersList.find(
-      (pm) => pm.id === targetUserId
-    )
+    const isPm = projectManagersList.find((pm) => pm.id === targetUserId)
     const wasDeactivated = deactivatedUsers?.find(
       (user) => user.user_id === targetUserId
     )
@@ -377,20 +438,20 @@ function EditProjectModal({ show, month}) {
       if (wasDeactivated) {
         const previousPm = {
           id: activeProjectManager.projectReportId,
-          data : {
+          data: {
             is_active: false,
             is_project_manager: false,
-          }
+          },
         }
 
         const newPm = {
           id: wasDeactivated.projectReportId,
-          data : {
+          data: {
             is_active: true,
             is_project_manager: true,
-          }
+          },
         }
-        _addInactiveProjectManagerToProject({previousPm, newPm})
+        _addInactiveProjectManagerToProject({ previousPm, newPm })
       } else if (wasInTeam) {
         dispatch(
           showAler({
@@ -400,13 +461,12 @@ function EditProjectModal({ show, month}) {
           })
         )
       } else {
-
         const previousPm = {
           id: activeProjectManager.projectReportId,
-          data : {
+          data: {
             is_active: false,
             is_project_manager: false,
-          }
+          },
         }
 
         const newPm = {
@@ -417,7 +477,7 @@ function EditProjectModal({ show, month}) {
           is_project_manager: true,
         }
 
-        _addProjectManagerToProject({previousPm, newPm})
+        _addProjectManagerToProject({ previousPm, newPm })
       }
     } else {
       if (wasDeactivated) {
@@ -447,15 +507,17 @@ function EditProjectModal({ show, month}) {
   }
 
   const handleArchivedPress = useCallback(() => {
-    dispatch(changeProjectName({
-      id: currentProjectId,
-      data : { is_archived: !isArchivedProject },
-      title: 'archived status',
-    }));
-    setArchivedProject(prev => !prev);
+    dispatch(
+      changeProjectName({
+        id: currentProjectId,
+        data: { is_archived: !isArchivedProject },
+        title: 'archived status',
+      })
+    )
+    setArchivedProject((prev) => !prev)
     dispatch(getAllProjects())
     handleClose()
-  }, [currentProjectId, dispatch, handleClose, isArchivedProject]);
+  }, [currentProjectId, dispatch, handleClose, isArchivedProject])
 
   const _handlerMouseEnter = useCallback(() => {
     setShowHintAddMember(true)
@@ -480,111 +542,126 @@ function EditProjectModal({ show, month}) {
         {isFetchingPMPage && <Spinner />}
 
         <Form
-          onSubmit={(e) => {e.preventDefault()} }
+          onSubmit={(e) => {
+            e.preventDefault()
+          }}
         >
-
-        <InfoItemM
-          key="Project Name"
-          icon={ProjectIcon}
-          title={'PROJECT NAME'}
-          isArchived={isArchivedProject}
-          editValue={
-            <Form.Group
-              controlId="projectName"
-              name="projectName"
-              onChange={handleChange}
-              onBlur={handleLostFocus}
-              value={valuesFromApi?.projectName || values.projectName}
-              className="search-manger"
-            >
-              <Form.Control
-                type="projectName"
-                defaultValue={valuesFromApi?.projectName || values.projectName}
-                placeholder="Type project name ..."
-                autoFocus
-                tabIndex={1}
-              />
+          <InfoItemM
+            key="Project Name"
+            icon={ProjectIcon}
+            title={'PROJECT NAME'}
+            isArchived={isArchivedProject}
+            editValue={
+              <Form.Group
+                controlId="projectName"
+                name="projectName"
+                onChange={handleChange}
+                onBlur={handleLostFocus}
+                value={valuesFromApi?.projectName || values.projectName}
+                className="search-manger"
+              >
+                <Form.Control
+                  type="projectName"
+                  defaultValue={
+                    valuesFromApi?.projectName || values.projectName
+                  }
+                  placeholder="Type project name ..."
+                  autoFocus
+                  tabIndex={1}
+                />
 
                 {errors.projectName && touched.projectName && (
                   <Form.Text className="text-danger error_message">
                     {errors.projectName}
                   </Form.Text>
                 )}
-            </Form.Group>
-          }
-          value={valuesFromApi?.projectName}
-        />
-        <InfoItemM
-          key="Project Owner"
-          icon={UserIcon}
-          title={'PROJECT OWNER'}
-          isArchived={isArchivedProject}
-          editValue={
-            <Select
-              title={valuesFromApi?.projectManager?.name}
-              listItems={freeProjectManagersList}
-              onSelected={handleAddProjectManagerToProject}
-              valueKey="name"
-              idKey="id"
-              extraClassContainer={' search search-manger'}
-              initialChoice={valuesFromApi?.projectManager || activeProjectManager?.name}
-            />
-          }
-          value={valuesFromApi?.projectManager?.name || activeProjectManager?.name}
-        />
-        <InfoItemM
-          key="SPEND HOURS"
-          icon={ChekMark}
-          isArchived={isArchivedProject}
-          title={'HOURS WORKED'}
-          value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}
-        />
-        <InfoItemM
-          key="Project Description"
-          title={'DESCRIPTION'}
-          icon={ProjectIcon}
-          isArchived={isArchivedProject}
-          editValue={
-            <Form.Group
-              controlId="description"
-              name="description"
-              onChange={handleChange}
-              onBlur={handleLostFocus}
-              value={valuesFromApi?.description || values.description}
-              className="search-manger"
-            >
-              <Form.Control
-                as="textarea"
-                rows={3}
-                defaultValue={valuesFromApi?.description || values.description}
-                placeholder="Some info about the project"
-                tabIndex={2}
-                autoFocus
-                onFocus={(e) =>
-                  e.currentTarget.setSelectionRange(
-                    e.currentTarget.value.length,
-                    e.currentTarget.value.length
-                  )}
+              </Form.Group>
+            }
+            value={valuesFromApi?.projectName}
+          />
+          <InfoItemM
+            key="Project Owner"
+            icon={UserIcon}
+            title={'PROJECT OWNER'}
+            isArchived={isArchivedProject}
+            editValue={
+              <Select
+                title={valuesFromApi?.projectManager?.name}
+                listItems={freeProjectManagersList}
+                onSelected={handleAddProjectManagerToProject}
+                valueKey="name"
+                idKey="id"
+                extraClassContainer={' search search-manger'}
+                initialChoice={
+                  valuesFromApi?.projectManager || activeProjectManager?.name
+                }
               />
+            }
+            value={
+              valuesFromApi?.projectManager?.name || activeProjectManager?.name
+            }
+          />
+          <InfoItemM
+            key="SPEND HOURS"
+            icon={ChekMark}
+            isArchived={isArchivedProject}
+            title={'HOURS WORKED'}
+            value={parseMinToHoursAndMin(valuesFromApi?.total_minutes, true)}
+          />
+          <InfoItemM
+            key="Project Description"
+            title={'DESCRIPTION'}
+            icon={ProjectIcon}
+            isArchived={isArchivedProject}
+            editValue={
+              <Form.Group
+                controlId="description"
+                name="description"
+                onChange={handleChange}
+                onBlur={handleLostFocus}
+                value={valuesFromApi?.description || values.description}
+                className="search-manger"
+              >
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  defaultValue={
+                    valuesFromApi?.description || values.description
+                  }
+                  placeholder="Some info about the project"
+                  tabIndex={2}
+                  autoFocus
+                  onFocus={(e) =>
+                    e.currentTarget.setSelectionRange(
+                      e.currentTarget.value.length,
+                      e.currentTarget.value.length
+                    )
+                  }
+                />
 
-              {errors.description && touched.description && (
-                <Form.Text className="text-danger error_message">
-                  {errors.description}
-                </Form.Text>
-              )}
-            </Form.Group>
-
-          }
-          value={valuesFromApi?.description || 'Some info about the project'}
-          customClass={'project-description'}
-        />
+                {errors.description && touched.description && (
+                  <Form.Text className="text-danger error_message">
+                    {errors.description}
+                  </Form.Text>
+                )}
+              </Form.Group>
+            }
+            value={valuesFromApi?.description || 'Some info about the project'}
+            customClass={'project-description'}
+          />
         </Form>
         <div className="projects_info">
           <div className="project_data">
             <div className="project_data_header">
-              <span className="project_data_header-title edit_modal-team_name">DEVELOPER NAME</span>
-              <span className="project_data_header-title edit_modal-team_occupancy">OCCUPANCY</span>
-              <span className="project_data_header-title edit_modal-team_hours">HOURS</span>
+              <span className="project_data_header-title edit_modal-team_name">
+                DEVELOPER NAME
+              </span>
+              <span className="project_data_header-title edit_modal-team_occupancy">
+                OCCUPANCY
+              </span>
+              <span className="project_data_header-title edit_modal-team_hours">
+                HOURS
+              </span>
             </div>
             <div className="team-container">{teamMList}</div>
             <div className="edit-control container">
@@ -592,24 +669,46 @@ function EditProjectModal({ show, month}) {
                 <div
                   className="col-5 add-new "
                   onClick={() => {
-                    !isArchivedProject && (valuesFromApi?.projectManager  || activeProjectManager?.name) && setAddMember(!addMember)
+                    !isArchivedProject &&
+                      (valuesFromApi?.projectManager ||
+                        activeProjectManager?.name) &&
+                      setAddMember(!addMember)
                   }}
                 >
                   <span
                     className={
                       'row align-items-center ' +
                       (addMember ? 'add-member' : '') +
-                      (isArchivedProject ||  (!valuesFromApi?.projectManager || !activeProjectManager?.name)? 'half-opacity' : '')
+                      (isArchivedProject ||
+                      !valuesFromApi?.projectManager ||
+                      !activeProjectManager?.name
+                        ? 'half-opacity'
+                        : '')
                     }
                     onMouseEnter={() => {
-                      (!valuesFromApi?.projectManager || !activeProjectManager?.name) && _handlerMouseEnter()
+                      ;(!valuesFromApi?.projectManager ||
+                        !activeProjectManager?.name) &&
+                        _handlerMouseEnter()
                     }}
                     onMouseLeave={() => {
-                      (!valuesFromApi?.projectManager || !activeProjectManager?.name) && _handlerMouseLeave()
+                      ;(!valuesFromApi?.projectManager ||
+                        !activeProjectManager?.name) &&
+                        _handlerMouseLeave()
                     }}
                   >
-                    {showHintAddMember && <HintWindow text={'Assign a Project manager to the project first'} />}  
-                    <Plus isActive={addMember || isArchivedProject || (!valuesFromApi?.projectManager || !activeProjectManager?.name)} />
+                    {showHintAddMember && (
+                      <HintWindow
+                        text={'Assign a Project manager to the project first'}
+                      />
+                    )}
+                    <Plus
+                      isActive={
+                        addMember ||
+                        isArchivedProject ||
+                        !valuesFromApi?.projectManager ||
+                        !activeProjectManager?.name
+                      }
+                    />
                     <span>Add new developers</span>
                   </span>
                 </div>

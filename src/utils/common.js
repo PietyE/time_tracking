@@ -152,3 +152,13 @@ const formatTimeToNumber = (timeStr) => {
 
   return parseInt(result);
 }
+
+export const sortArrayOfObjectsAlphabetically = (a, b, sortingField) => {
+  if (a[sortingField].toUpperCase() < b[sortingField].toUpperCase()) {
+    return -1
+  }
+  if (a[sortingField].toUpperCase() > b[sortingField].toUpperCase()) {
+    return 1
+  }
+  return 0
+}

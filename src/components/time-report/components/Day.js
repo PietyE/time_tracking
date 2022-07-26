@@ -5,43 +5,42 @@ import React, { useState, memo, useEffect } from 'react'
 import ReportItem from './ReportItem'
 import FooterDay from './FooterDay'
 // import ActivitySelect from "./ActivitySelect";
-import DayCrate from './DayCrate';
+import DayCrate from './DayCrate'
 
 function Day({
-                numberOfDay,
-                selectedDate,
-                descriptions = [],
-                addTimeReport,
-                showEmpty,
-                isOpenCreate,
-                isOneProject,
-                savePosition,
-                selectDayStatus,
-                selectedDayStatus,
-                 setUserStatus
+  numberOfDay,
+  selectedDate,
+  descriptions = [],
+  addTimeReport,
+  showEmpty,
+  isOpenCreate,
+  isOneProject,
+  selectDayStatus,
+  selectedDayStatus,
+  setUserStatus,
 }) {
-  const [isCreate, setIsCreate] = useState(true);
-  const [isCreatedList, setIsCreatedList] = useState(false);
-  const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('');
-  let [draganDroped , setDraganDroped] = useState(false);
+  const [isCreate, setIsCreate] = useState(true)
+  const [isCreatedList, setIsCreatedList] = useState(false)
+  const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
+  let [draganDroped, setDraganDroped] = useState(false)
 
   const handlerAddDayReport = (e) => {
     e.preventDefault()
     if (isCreate) {
-     setClassNameForEndAnimation('close')
+      setClassNameForEndAnimation('close')
       return
     }
     setIsCreate(true)
   }
 
-  useEffect(()=>{
-    if(isCreate && descriptions.length){
+  useEffect(() => {
+    if (isCreate && descriptions.length) {
       setIsCreate(false)
       setIsCreatedList(true)
-     }
-    },[descriptions, isCreate]);
+    }
+  }, [descriptions, isCreate])
 
-  const openNewItem = ()=>{
+  const openNewItem = () => {
     setIsCreate(!isCreate)
   }
 
@@ -54,7 +53,7 @@ function Day({
     //month: 'long',
   })
 
-    dayTitle = dayTitle.split(' ').reverse().join(', ');
+  dayTitle = dayTitle.split(' ').reverse().join(', ')
 
   const todayStr = isOpenCreate ? '(today)' : ''
   const weekEndClassName =
@@ -77,7 +76,6 @@ function Day({
 
   return (
     <div className="time_report_day_container" data-day={numberOfDay}>
-
       <DayCrate
         handlerAddDayReport={handlerAddDayReport}
         isCreate={isCreate}
@@ -93,37 +91,36 @@ function Day({
         extraClassName={classNameForEndAnimation}
         handlerEndAnimation={handlerEndAnimation}
         sumHours={sumHours}
-        savePosition={savePosition}
         isCreateList={isCreatedList}
         selectDayStatus={selectDayStatus}
         selectedDayStatus={selectedDayStatus}
         setUserStatus={setUserStatus}
         descriptions={descriptions}
       />
-      {descriptions.length ? <div className='reports_item_list'>
-        {descriptions.map(({ title, duration, id }, index) => (
-          <ReportItem
-            key={id}
-            index={index}
-            text={title}
-            hours={duration}
-            opneNewItem={openNewItem}
-            dayTitle={dayTitle}
-            id={id}
-            isOneProject={isOneProject}
-            slecet
-            selectDayStatus={selectDayStatus}
-            selectedDayStatus={selectedDayStatus}
-            isCreate={isCreate}
-            setUserStatus={setUserStatus}
-            setDraganDroped={setDraganDroped}
-            draganDroped={draganDroped}
-          />
-        ))}
-      </div> : null}
-      {sumHours ?<FooterDay
-         sumHours={sumHours}
-      /> : null}
+      {descriptions.length ? (
+        <div className="reports_item_list">
+          {descriptions.map(({ title, duration, id }, index) => (
+            <ReportItem
+              key={id}
+              index={index}
+              text={title}
+              hours={duration}
+              opneNewItem={openNewItem}
+              dayTitle={dayTitle}
+              id={id}
+              isOneProject={isOneProject}
+              slecet
+              selectDayStatus={selectDayStatus}
+              selectedDayStatus={selectedDayStatus}
+              isCreate={isCreate}
+              setUserStatus={setUserStatus}
+              setDraganDroped={setDraganDroped}
+              draganDroped={draganDroped}
+            />
+          ))}
+        </div>
+      ) : null}
+      {sumHours ? <FooterDay sumHours={sumHours} /> : null}
     </div>
   )
 }

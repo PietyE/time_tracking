@@ -1,10 +1,12 @@
+@import "../../../../styles/commonStyles.scss";
+
 .project_report_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     .header_title {
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
@@ -22,7 +24,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      background: #009C98;
+      background: $mainGreenColor;
       border-radius: 4px;
       cursor: pointer;
 
@@ -39,14 +41,14 @@
 
       .export_button_text {
         height: 24px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         text-align: center;
         letter-spacing: 0.03em;
-        color: #FFFFFF;
+        color: $whiteColor;
         margin: 8px 16px 8px 10px;
       }
     }

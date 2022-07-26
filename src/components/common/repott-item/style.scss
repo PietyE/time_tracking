@@ -1,7 +1,7 @@
 @import "../../../styles/commonStyles";
 
 .report__item{
-  background: #FFFFFF;
+  background: $whiteColor;
   border: 1px solid rgba(201, 201, 198, 0.4);
   box-sizing: border-box;
   border-radius: 6px;
@@ -12,11 +12,11 @@
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0.02em;
-  color: #222222;
-  font-family: 'Montserrat';
+  color: $mainBlackColor;
+  
   padding: 0 20px;
   &.active{
-    border: 1px solid #009C98;
+    border: 1px solid $mainGreenColor;
   }
 
   div{
@@ -26,7 +26,7 @@
       font-weight: 500;
 
       .difference{
-        color: #F84242;
+        color: $mainRedColor;
         font-weight: 600;
         background: #F3F3F3;
         height: 72px;
@@ -57,7 +57,7 @@
 
               &:checked + span{
                 &::before{
-                  border: 2px solid #009C98;
+                  border: 2px solid $mainGreenColor; 
                   background-repeat: no-repeat;
                   background-position: center;
                 }
@@ -66,7 +66,7 @@
             .check{
               &::before{
                 content: "";
-                background: #FFFFFF;
+                background: $whiteColor;
                 border: 2px solid #616161;
                 box-sizing: border-box;
                 border-radius: 6px;
@@ -88,7 +88,7 @@
     }
 
     .menu {
-      background-color: #fff;
+      background-color: $whiteColor;
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -99,7 +99,7 @@
       height: 128px;
       top:100%;
       left: 50px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid $borderColor;
       box-sizing: border-box;
       box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
       border-radius: 6px;
@@ -155,7 +155,7 @@
   font-size: 13px;
   line-height: 24px;
   letter-spacing: 0.03em;
-  color: #ADADA7;
+  color: $separatorTextColor;
   margin-left: 2px;
 }
 
@@ -191,7 +191,7 @@
       padding: 12px 16px 12px 16px;
 
       .comment_text_author {
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 14px;
@@ -199,28 +199,28 @@
         display: flex;
         align-items: center;
         letter-spacing: 0.01em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .comment_text {
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.004em;
-        color: #222222;
+        color: $mainBlackColor;
         margin-top: 7px;
       }
     }
 
     .comment_date {
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
       line-height: 20px;
-      color: #ADADA7;
+      color: $separatorTextColor;
       margin-top: 6px;
     }
   }

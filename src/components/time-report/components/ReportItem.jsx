@@ -26,8 +26,8 @@ import {
 
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
-import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
-import { showAler } from '../../../actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { showAler } from 'actions/alert'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'

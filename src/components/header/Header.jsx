@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import './header.css'
+import './header.scss'
 import logo from 'images/Logo2.svg'
 import HeaderNav from 'components/header-nav'
 import HeaderProfileSection from 'components/header-profile-section'

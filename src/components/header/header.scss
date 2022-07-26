@@ -1,6 +1,8 @@
+@import "../../styles/commonStyles.scss";
+
 .header_container {
   height: 70px;
-  background-color: #ffffff;
+  background-color: $whiteColor;
   box-shadow: 0 2px 12px 0 rgba(218, 219, 219, 0.5);
   margin-bottom: 20px;
   display: flex;
@@ -62,8 +64,7 @@
 }
 
 .nav_item_link {
-  color: #222222;
-  font-family: Montserrat, sans-serif;
+  color: $mainBlackColor;
   font-size: 12px;
   font-weight: 500;
   line-height: 15px;
@@ -106,7 +107,7 @@
     left: 0;
     transform: translateX(-100%);
     transition: all 0.3s ease-in-out;
-    background-color: #fff;
+    background-color: $whiteColor;
     box-shadow: 0 2px 12px 0 rgba(218, 219, 219, 0.5);
     padding-top: 127px;
     opacity: 1;

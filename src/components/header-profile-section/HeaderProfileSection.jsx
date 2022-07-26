@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
-import './headerProfileSection.css'
+import './headerProfileSection.scss'
 import ProfileAvatar from 'components/ui/profile-avatar'
 import { Button } from 'react-bootstrap'
-import { logOut } from '../../actions/users'
+import { logOut } from 'actions/users'
 import { connect } from 'react-redux'
 
 function HeaderProfileSection({ userName, logOut }) {
@@ -58,7 +58,7 @@ function HeaderProfileSection({ userName, logOut }) {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userName: state.profile.name,
 })
 

@@ -5,49 +5,51 @@ import {
   getProfileName,
   getUserRoleText,
   getProfileShowSideMenuArrow,
-} from '../../selectors/user'
+} from 'selectors/user'
 
 import clock from 'images/sideMenuIcons/clock.svg'
 import coin from 'images/sideMenuIcons/coin.svg'
 import fileCheck from 'images/sideMenuIcons/fileCheck.svg'
-// import questionCircle from 'images/sideMenuIcons/questionCircle.svg'
 import door from 'images/sideMenuIcons/door.svg'
 import vilmates from 'images/vilmates/vilmates.svg'
 
-import { SidebarContext } from 'context/sidebar-context'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 import './sideMenu.scss'
 import UserAvatar from 'components/ui/profile-avatar'
 import Logo from './components/Logo'
 import Company from './components/Company'
-import SidemenuButton from './components/SidemenuButton'
+import { SideMenuButton } from './components/SideMenuButton'
 import SideBarMenu from './components/SideBarMenu'
 // import HelpCenter from './components/HelpCenter'
 import Logout from './components/Logout'
-import useEventListener from '../../custom-hook/useEventListener'
-import ArrowUp from '../ui/arrowUp'
+import useEventListener from 'custom-hook/useEventListener';
+import ArrowUp from 'components/ui/arrowUp'
 import { useDispatch } from 'react-redux'
-import { setShowSideMenu, setShowSideMenuArrow } from '../../actions/users'
-// import { setHeight } from 'utils/common'
-import {
-  SHOW_FULL_SIDE_MENU,
-  SHOW_SHORT_SIDE_MENU,
-} from '../../constants/side-menu-constant'
+import { setShowSideMenuArrow } from 'actions/users'
+import useMediaQuery from 'custom-hook/useMediaQuery'
 
 function SideMenu() {
   const userName = useShallowEqualSelector(getProfileName)
   const showArrow = useShallowEqualSelector(getProfileShowSideMenuArrow)
   const userRole = useShallowEqualSelector(getUserRoleText)
   const [selected, setSelected] = useState(null)
-  const [openSideMenu, setOpened] = useState(SHOW_FULL_SIDE_MENU)
   const sideMenu = useRef()
 
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   setHeight(sideMenu.current)
-  // }, []);
+  // TODO: set normal breakpoint and move it to constants
+  const isDesktop = useMediaQuery('(min-width: 1025px)')
+
+  const [isOpen, setIsOpen] = useState(isDesktop)
+
+  useEffect(() => {
+    setIsOpen(isDesktop)
+  }, [isDesktop])
+
+  const setIsOpenHandler = () => {
+    setIsOpen((prevState) => !prevState)
+  }
 
   const panels = useMemo(() => {
     const result = [
@@ -150,24 +152,6 @@ function SideMenu() {
     return result
   }, [userRole])
 
-  const sideMenuOnOpen = useCallback(() => {
-    dispatch(
-      setShowSideMenu(
-        openSideMenu === SHOW_FULL_SIDE_MENU
-          ? SHOW_FULL_SIDE_MENU
-          : SHOW_SHORT_SIDE_MENU
-      )
-    )
-
-    setOpened((prev) => {
-      if (prev === SHOW_FULL_SIDE_MENU) {
-        return SHOW_SHORT_SIDE_MENU
-      }
-
-      return SHOW_FULL_SIDE_MENU
-    })
-  }, [dispatch, openSideMenu])
-
   const buttonRouteTo = (item) => {
     if (item) {
       if (item === selected) {
@@ -189,49 +173,38 @@ function SideMenu() {
   useEventListener('scroll', handleScroll, window)
 
   return (
-    <SidebarContext.Provider
-      value={{
-        selected,
-        onItemClick: buttonRouteTo,
-        onOpenClick: sideMenuOnOpen,
-      }}
+    <div
+      className={`${
+        isOpen ? 'side_menu_container' : 'side_menu_container_close'
+      }`}
     >
-      <div
-        className={`${
-          openSideMenu === SHOW_FULL_SIDE_MENU
-            ? 'side_menu_container'
-            : 'side_menu_container_close'
-        }`}
-      >
-        <div ref={sideMenu} className="side_menu_container-wrapper">
-          <div className="side_menu_wrap">
-            <Logo />
-            {openSideMenu === SHOW_FULL_SIDE_MENU ? <Company /> : null}
-            <SidemenuButton />
+      <div ref={sideMenu} className="side_menu_container-wrapper">
+        <div className="side_menu_wrap">
+          <Logo />
+          {isOpen ? <Company /> : null}
+          <SideMenuButton onClick={setIsOpenHandler} />
+        </div>
+        <div className="side_menu_user_info">
+          <div className="user_avatar">
+            <UserAvatar />
           </div>
-          <div className="side_menu_user_info">
-            <div className="user_avatar">
-              <UserAvatar />
-            </div>
-            <div className="user_info">
-              <span className="user_role">{userRole}</span>
-              <span className="user_name">{userName}</span>
-            </div>
-          </div>
-          <div className="div_row" />
-          <div className="sidebar_menu">
-            <SideBarMenu panels={panels} />
-          </div>
-          <div className="sidebar_footer">
-            {/* <HelpCenter img={questionCircle} /> */}
-            <Logout img={door} />
-          </div>
-          <div className="arrow_container">
-            {showArrow ? <ArrowUp isActive /> : null}
+          <div className="user_info">
+            <span className="user_role">{userRole}</span>
+            <span className="user_name">{userName}</span>
           </div>
         </div>
+        <div className="div_row" />
+        <div className="sidebar_menu">
+          <SideBarMenu panels={panels} />
+        </div>
+        <div className="sidebar_footer">
+          <Logout img={door} />
+        </div>
+        <div className="arrow_container">
+          {showArrow ? <ArrowUp isActive /> : null}
+        </div>
       </div>
-    </SidebarContext.Provider>
+    </div>
   )
 }
 

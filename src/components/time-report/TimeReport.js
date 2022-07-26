@@ -21,7 +21,7 @@ import {
   setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
-import { getDeveloperProjectsById } from '../../actions/projects-management'
+import { getDeveloperProjectsById } from 'actions/projects-management'
 import {
   getAllDays,
   getDeveloperProjectsTR,
@@ -34,7 +34,7 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId } from '../../selectors/user'
+import { getProfileId } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
@@ -128,9 +128,6 @@ function TimeReport(props) {
   ])
 
   const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = (e) => {
-    setCurrentPosition(e?.target.offsetTop)
-  }
 
   const bootstrapWidthRouteState = useCallback(() => {
     if (routeState) {
@@ -197,13 +194,6 @@ function TimeReport(props) {
     }
     getTimeReportCsv()
   }
-
-  useEffect(() => {
-    if (!isFetchingReports) {
-      window.scrollTo(0, Number(currentPosition) - 100)
-      setCurrentPosition(null)
-    }
-  }, [currentPosition, isFetchingReports])
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject)) {
@@ -318,7 +308,6 @@ function TimeReport(props) {
                   selectedDate={selectedDate}
                   descriptions={dataOfDay}
                   addTimeReport={addTimeReport}
-                  savePosition={savePosition}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}
