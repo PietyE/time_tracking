@@ -1,0 +1,15 @@
+.header_google_drive_sync_button {
+  width: 183px;
+  height: 40px;
+  border-radius: 4px;
+  @media screen and (max-device-width: 390px) {
+    svg {
+      margin: 0;
+    }
+    justify-content: center;
+    width: 66px;
+    &_text {
+      display: none;
+    }
+  }
+}

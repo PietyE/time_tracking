@@ -12,7 +12,9 @@ import {
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_EXCHANGE_RATES,
   GET_USERS_PROJECT_REPORT,
-  GET_CONSOLIDATE_PROJECT_REPORT, ADD_DEVELOPER_TO_PROJECT, GET_ALL_DEVELOPER_PROJECTS
+  GET_CONSOLIDATE_PROJECT_REPORT,
+  ADD_DEVELOPER_TO_PROJECT,
+  GET_ALL_DEVELOPER_PROJECTS,
   // GET_COMMENTS_HISTORY,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
@@ -24,12 +26,18 @@ import {
   setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
-  setAllDevelopersProjectsPR
+  setAllDevelopersProjectsPR,
   // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from '../actions/currency'
-import { getSelectedMonthSelector } from '../reducers/projects-report'
-import { consolidateReportMapper, usersProjectReportMapper } from '../utils/projectReportApiResponseMapper'
+import {
+  getSelectedMonthSelector,
+  getSelectedProjectSelector,
+} from '../reducers/projects-report'
+import {
+  consolidateReportMapper,
+  usersProjectReportMapper,
+} from '../utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from '../selectors/currency'
 import { getSelectedProjectIdSelector } from '../reducers/projects-management'
 
@@ -74,7 +82,7 @@ import { getSelectedProjectIdSelector } from '../reducers/projects-management'
 // }
 
 export function* getDeveloperProjects() {
-  const URL_DEVELOPER_PROJECT = `projects/`
+  const URL_DEVELOPER_PROJECT = 'projects/'
 
   const { data } = yield call([Api, 'developerProjects'], URL_DEVELOPER_PROJECT)
   yield put(setDevelopersProjectInProjectReport(data))
@@ -85,7 +93,10 @@ export function* getAllDevelopersProjectInProjectReport() {
     (state) => state.projectsReport.selectedDate
   )
   try {
-    const { data } = yield call([pm, 'getAllDevelopersProjects'], { year, month })
+    const { data } = yield call([pm, 'getAllDevelopersProjects'], {
+      year,
+      month,
+    })
     yield put(setAllDevelopersProjectsPR(data))
   } catch (error) {
     yield put(
@@ -94,7 +105,7 @@ export function* getAllDevelopersProjectInProjectReport() {
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      }),
+      })
     )
   }
 }
@@ -106,7 +117,7 @@ function* setExchangeRate({ payload, callback }) {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
     const status = `${response.status}`
-    if(status[0] !== '2') {
+    if (status[0] !== '2') {
       throw new Error()
     }
     yield put(
@@ -117,12 +128,12 @@ function* setExchangeRate({ payload, callback }) {
       })
     )
     callback()
-    const now = new Date();
+    const now = new Date()
     const ratesParams = {
       is_active: true,
       year: now.getFullYear(),
-      month: now.getMonth() + 1
-    };
+      month: now.getMonth() + 1,
+    }
     yield put(getRatesList(ratesParams))
     yield put(getConsolidateProjectReport())
   } catch (error) {
@@ -138,17 +149,17 @@ function* setExchangeRate({ payload, callback }) {
 }
 
 function* addDevelopersToProject({ payload = [] }) {
-  const project = yield select(getSelectedProjectIdSelector);
+  const project = yield select(getSelectedProjectIdSelector)
   const data = {
     project,
-    users: payload
+    users: payload,
   }
   try {
-    const URL = 'developer-projects/create-list/';
-    const response = yield call([Api, 'setUsersToProject'], URL, data);
-    const status = `${response.status}`;
+    const URL = 'developer-projects/create-list/'
+    const response = yield call([Api, 'setUsersToProject'], URL, data)
+    const status = `${response.status}`
 
-    if(status[0] !== '2') {
+    if (status[0] !== '2') {
       throw new Error()
     }
 
@@ -158,8 +169,7 @@ function* addDevelopersToProject({ payload = [] }) {
         message: 'Users have been added',
         delay: 5000,
       })
-    );
-
+    )
   } catch (error) {
     yield put(
       showAler({
@@ -172,22 +182,27 @@ function* addDevelopersToProject({ payload = [] }) {
   }
 }
 
-function* usersProjectReport (action) {
-  const { payload: userId } = action;
-    const { month, year } = yield select(
-      (state) => state.projectsReport.selectedDate
-    )
+function* usersProjectReport(action) {
+  const { payload: userId } = action
+  const { month, year } = yield select(
+    (state) => state.projectsReport.selectedDate
+  )
 
-    const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${month + 1}/`
-    const response = yield call([Api, 'getUsersProjectReports'], URL_USERS_PROJECT_REPORT)
-    const status = `${response.status}`
-    if(status[0] !== '2') {
-      yield put(setErrorUsersProjectReport(userId))
-      return;
-    }
-      const mapperResponse = usersProjectReportMapper(response)
-      const payload = { userId, mapperResponse };
-      yield put(setUsersProjectReport(payload))
+  const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${
+    month + 1
+  }/`
+  const response = yield call(
+    [Api, 'getUsersProjectReports'],
+    URL_USERS_PROJECT_REPORT
+  )
+  const status = `${response.status}`
+  if (status[0] !== '2') {
+    yield put(setErrorUsersProjectReport(userId))
+    return
+  }
+  const mapperResponse = usersProjectReportMapper(response)
+  const payload = { userId, mapperResponse }
+  yield put(setUsersProjectReport(payload))
 }
 
 export function* handleGetConsolidatedReport() {
@@ -214,10 +229,29 @@ export function* handleGetConsolidatedReport() {
       month + 1
     }/?project_id=${searchProjectParam}`
   }
-  const response = yield call([Api, 'getConsolidatedReport'], URL_CONSOLIDATED_LIST_REPORT)
+  const response = yield call(
+    [Api, 'getConsolidatedReport'],
+    URL_CONSOLIDATED_LIST_REPORT
+  )
   const currentCurrency = yield select(selectActualCurrencyForUserList)
   const mapperResponse = consolidateReportMapper(response, currentCurrency)
-  yield put(setConsolidateProjectReport(mapperResponse))
+  const currentSelectedProject = yield select(getSelectedProjectSelector)
+
+  //can be moved to separate helper function when we will refactor
+  //filtering all developers by their projects and comparing with selectedProject
+  const developersOnSelectedProjects = mapperResponse.filter((developer) =>
+    developer.developer_projects.some(
+      (proj) => proj.name === currentSelectedProject.name
+    )
+  )
+
+  //if we does not select the project it will be empty array of devs because func above has not anything to compare
+  //make condition if array empty we are dispatching all devs , other ways only devs on selected project
+  const listOfDevelopers = developersOnSelectedProjects.length
+    ? developersOnSelectedProjects
+    : mapperResponse
+
+  yield put(setConsolidateProjectReport(listOfDevelopers))
   // eslint-disable-next-line no-unused-vars
   const { data } = yield call(
     [Api, 'consolidateReportApi'],
@@ -234,13 +268,16 @@ export function* watchDeveloperProjects() {
       CLEAR_SELECTED_DEVELOPER,
       SET_SELECTED_PROJECT_PROJECTREPORTS,
       CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
-      GET_CONSOLIDATE_PROJECT_REPORT
+      GET_CONSOLIDATE_PROJECT_REPORT,
     ],
     handleGetConsolidatedReport
   )
-  yield takeEvery(GET_ALL_DEVELOPER_PROJECTS, getAllDevelopersProjectInProjectReport)
-  yield takeEvery (GET_USERS_PROJECT_REPORT, usersProjectReport)
-  yield takeEvery (ADD_DEVELOPER_TO_PROJECT, addDevelopersToProject)
+  yield takeEvery(
+    GET_ALL_DEVELOPER_PROJECTS,
+    getAllDevelopersProjectInProjectReport
+  )
+  yield takeEvery(GET_USERS_PROJECT_REPORT, usersProjectReport)
+  yield takeEvery(ADD_DEVELOPER_TO_PROJECT, addDevelopersToProject)
   yield takeEvery(
     [GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT],
     getDeveloperProjects
