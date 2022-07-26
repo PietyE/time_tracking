@@ -3,10 +3,9 @@ import {
   LOG_OUT,
   SET_ERROR_USER_PROJECT_REPORT,
   SET_SUCCESS_USERS_PROJECT_REPORT,
-} from '../constants/actions-constant'
+} from 'constants/actions-constant'
 
-const initialState = {};
-
+const initialState = {}
 
 export const projectReportDetails = (state = initialState, action) => {
   switch (action.type) {
@@ -18,7 +17,7 @@ export const projectReportDetails = (state = initialState, action) => {
           isFetching: true,
           success: false,
           error: false,
-        }
+        },
       }
     case SET_SUCCESS_USERS_PROJECT_REPORT:
       return {
@@ -28,7 +27,7 @@ export const projectReportDetails = (state = initialState, action) => {
           isFetching: false,
           success: true,
           error: false,
-        }
+        },
       }
     case SET_ERROR_USER_PROJECT_REPORT:
       return {
@@ -38,12 +37,12 @@ export const projectReportDetails = (state = initialState, action) => {
           isFetching: false,
           success: false,
           error: true,
-        }
+        },
       }
     case LOG_OUT:
       return {
-        ...initialState
-        }
+        ...initialState,
+      }
     default:
       return state
   }

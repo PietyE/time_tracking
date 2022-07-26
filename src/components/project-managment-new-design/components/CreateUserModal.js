@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
-import { getAllProjectsSelector } from '../../../reducers/projects-management'
-import { setShowCreateUserModal } from '../../../actions/projects-management'
+import { getAllProjectsSelector } from 'reducers/projects-management'
+import { setShowCreateUserModal } from 'actions/projects-management'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { isEqual } from 'lodash'
-import Cross from '../../../images/ic_cros.svg'
+import Cross from 'images/ic_cros.svg'
 
-import Plus from '../../ui/plus'
-import AddSelectedM from '../../common/AddSelectedM/AddSelectedM'
-import Select from '../../ui/select'
+import Plus from 'components/ui/plus'
+import AddSelectedM from 'components/common/AddSelectedM/AddSelectedM'
+import Select from 'components/ui/select'
 
 import * as Yup from 'yup'
-import TrashGrayIc from '../../../images/trash_cray_ic.svg'
+import TrashGrayIc from 'images/trash_cray_ic.svg'
 
 function CreateUserModal({ show }) {
   const dispatch = useDispatch()
@@ -146,7 +146,7 @@ function CreateUserModal({ show }) {
       <Modal.Header className="pm_modal_header">
         <Modal.Title>Create a new user</Modal.Title>
         <span className="close" onClick={handleClose}>
-          <img src={Cross} alt='cross' />
+          <img src={Cross} alt="cross" />
         </span>
       </Modal.Header>
       <Modal.Body>

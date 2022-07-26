@@ -1,7 +1,11 @@
 import React, { memo, useState, useCallback, useRef } from 'react'
 import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCheck, faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTimes,
+  faCheck,
+  faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons'
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { FaExchangeAlt } from 'react-icons/fa'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -22,8 +26,8 @@ import {
 
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
-import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
-import { showAler } from '../../../actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { showAler } from 'actions/alert'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -72,7 +76,7 @@ function ReportItem({
   // isCreate,
   // setUserStatus,
   setDraganDroped,
-  draganDroped
+  draganDroped,
 }) {
   const {
     title: oldTitle,
@@ -89,7 +93,7 @@ function ReportItem({
   const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const [editMenu, handlerOpenMenu] = useMenuPresent();
+  const [editMenu, handlerOpenMenu] = useMenuPresent()
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -106,7 +110,7 @@ function ReportItem({
   const handlerClickEditMode = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    setEditMode(id);
+    setEditMode(id)
   }
 
   const handlerCancelEditMode = () => {
@@ -133,23 +137,23 @@ function ReportItem({
     const duration = _hour ? +_hour * 60 + +min : +min
     const title = e.target.title.value
 
-    if (title.length===0 && duration === 0) {
+    if (title.length === 0 && duration === 0) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
-        message:  'Fields can not be empty',
+        message: 'Fields can not be empty',
         delay: 5000,
       })
       return
     }
 
-    if (title.length===0) {
+    if (title.length === 0) {
       setBorderInputClassName('border-danger')
       showAler({
         type: DANGER_ALERT,
-        message:  'Fields Task can not be empty',
+        message: 'Fields Task can not be empty',
         delay: 5000,
       })
       return
@@ -159,7 +163,7 @@ function ReportItem({
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: WARNING_ALERT,
-        message: 'Worked time can\'t be 0',
+        message: "Worked time can't be 0",
         delay: 5000,
       })
       return
@@ -169,12 +173,12 @@ function ReportItem({
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: WARNING_ALERT,
-        message: 'Worked time can\'t be more 8 hours',
+        message: "Worked time can't be more 8 hours",
         delay: 5000,
       })
       return
     }
-    if ((duration % 15) !== 0) {
+    if (duration % 15 !== 0) {
       setBorderInputHoursClassName('border-danger')
       showAler({
         type: WARNING_ALERT,
@@ -200,21 +204,21 @@ function ReportItem({
   }
 
   const handleEnterPress = (e) => {
-    if (e.key === 'Enter'&& !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       if (e.target.id === 'reportTask') {
         e.preventDefault()
         if (!e.target.value) {
           setBorderInputClassName('border-danger')
           showAler({
             type: DANGER_ALERT,
-            message:  'Field Task can not be empty',
+            message: 'Field Task can not be empty',
             delay: 5000,
           })
           return
         } else {
-          setBorderInputClassName('');
+          setBorderInputClassName('')
           containerHours.current.focus()
-         }
+        }
       }
     }
   }
@@ -229,41 +233,52 @@ function ReportItem({
     idEditingWorkItem === id ? 'editing' : ''
 
   const handleDragAndDrop = (event) => {
-    if (event.target.classList.contains('time_report_day_edit')
-      || event.target.parentNode.classList.contains('time_report_day_edit')
-      || event.target.parentNode.classList.contains('edit_dots')
-      || event.target.parentNode.classList.contains('svg-inline--fa')
-      || event.target.parentElement.classList.contains('time_report_day_menu')
-      || event.target.parentElement.classList.contains('edit-form')
-      || event.target.parentNode.classList.contains('modal_container')
-      || event.target.classList.contains('modal_container')
-      || event.target.parentNode.classList.contains('modal-content')
-      || event.target.parentNode.classList.contains('modal-header')
-      || event.target.parentNode.classList.contains('modal-body')
-      || event.target.parentNode.classList.contains('change_project_body_container')
-      || event.target.parentNode.classList.contains('change_project_body_current_project')
-      || event.target.parentNode.classList.contains('modal-footer')
-      || event.target.parentNode.classList.contains('close')
-      || event.target.parentNode.classList.contains('delete_modal_overlay')
-      || event.target.parentNode.classList.contains('delete_modal_button_container')
-      || event.target.parentNode.classList.contains('btn')
-      || event.target.parentNode.classList.contains('select_container')
-      || event.target.parentNode.classList.contains('select_title_container')
-      || event.target.parentNode.classList.contains('select_title_text')
-      || event.target.parentNode.classList.contains('select_list_item_container')
-      || event.target.parentNode.classList.contains('select_list_item')
-      || event.target.parentNode.classList.contains('select_title_icon')
-      || event.target.parentNode.classList.contains('time_report_day_description')
-      || event.target.classList.contains('time_report_day_description')
+    if (
+      event.target.classList.contains('time_report_day_edit') ||
+      event.target.parentNode.classList.contains('time_report_day_edit') ||
+      event.target.parentNode.classList.contains('edit_dots') ||
+      event.target.parentNode.classList.contains('svg-inline--fa') ||
+      event.target.parentElement.classList.contains('time_report_day_menu') ||
+      event.target.parentElement.classList.contains('edit-form') ||
+      event.target.parentNode.classList.contains('modal_container') ||
+      event.target.classList.contains('modal_container') ||
+      event.target.parentNode.classList.contains('modal-content') ||
+      event.target.parentNode.classList.contains('modal-header') ||
+      event.target.parentNode.classList.contains('modal-body') ||
+      event.target.parentNode.classList.contains(
+        'change_project_body_container'
+      ) ||
+      event.target.parentNode.classList.contains(
+        'change_project_body_current_project'
+      ) ||
+      event.target.parentNode.classList.contains('modal-footer') ||
+      event.target.parentNode.classList.contains('close') ||
+      event.target.parentNode.classList.contains('delete_modal_overlay') ||
+      event.target.parentNode.classList.contains(
+        'delete_modal_button_container'
+      ) ||
+      event.target.parentNode.classList.contains('btn') ||
+      event.target.parentNode.classList.contains('select_container') ||
+      event.target.parentNode.classList.contains('select_title_container') ||
+      event.target.parentNode.classList.contains('select_title_text') ||
+      event.target.parentNode.classList.contains(
+        'select_list_item_container'
+      ) ||
+      event.target.parentNode.classList.contains('select_list_item') ||
+      event.target.parentNode.classList.contains('select_title_icon') ||
+      event.target.parentNode.classList.contains(
+        'time_report_day_description'
+      ) ||
+      event.target.classList.contains('time_report_day_description')
     ) {
       return
     }
-    setDraganDroped(!draganDroped);
+    setDraganDroped(!draganDroped)
     const currentWorkItem = containerRef.current
     let _day = null
 
-    let shiftX = event.clientX - currentWorkItem.getBoundingClientRect().left;
-    let shiftY = event.clientY - currentWorkItem.getBoundingClientRect().top;
+    let shiftX = event.clientX - currentWorkItem.getBoundingClientRect().left
+    let shiftY = event.clientY - currentWorkItem.getBoundingClientRect().top
 
     const dragingWorkItem = currentWorkItem.cloneNode(true)
 
@@ -346,7 +361,10 @@ function ReportItem({
 
   return (
     <div
-      className={`time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button` + (index !== 0 ? ' top_line' : '')}
+      className={
+        `time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button` +
+        (index !== 0 ? ' top_line' : '')
+      }
       ref={containerRef}
       onDragStart={() => false}
       onMouseDown={handleDragAndDrop}
@@ -364,38 +382,38 @@ function ReportItem({
         />
       )}
       {idEditingWorkItem === id ? (
-          <form
-            style={{ display: 'flex' }}
-            onSubmit={handlerSubmit}
-            id="edit_form"
-            className={'edit-form'}
-          >
-            <TextareaAutosize
-              className={`time_report_day_description textarea ${borderInputClassName}`}
-              defaultValue={text}
-              autoFocus
-              onFocus={(e) => {
-                const temp_value = e.target.value
-                e.target.value = ''
-                e.target.value = temp_value
-              }}
-              onChange={handlerChangeTask}
-              onKeyPress = {handleEnterPress}
-              style={{ height: '45px' }}
-              name="title"
-              id ='reportTask'
-            />
-            <InputMask
-              placeholder="HH"
-              maskPlaceholder="0"
-              className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
-              mask="9:99"
-              defaultValue={parseMinToHoursAndMin(hours)}
-              name="duration"
-              ref={containerHours}
-              onChange={handlerChangeHours}
-            />
-          </form>
+        <form
+          style={{ display: 'flex' }}
+          onSubmit={handlerSubmit}
+          id="edit_form"
+          className={'edit-form'}
+        >
+          <TextareaAutosize
+            className={`time_report_day_description textarea ${borderInputClassName}`}
+            defaultValue={text}
+            autoFocus
+            onFocus={(e) => {
+              const temp_value = e.target.value
+              e.target.value = ''
+              e.target.value = temp_value
+            }}
+            onChange={handlerChangeTask}
+            onKeyPress={handleEnterPress}
+            style={{ height: '45px' }}
+            name="title"
+            id="reportTask"
+          />
+          <InputMask
+            placeholder="HH"
+            maskPlaceholder="0"
+            className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
+            mask="9:99"
+            defaultValue={parseMinToHoursAndMin(hours)}
+            name="duration"
+            ref={containerHours}
+            onChange={handlerChangeHours}
+          />
+        </form>
       ) : (
         <>
           <span className="time_report_day_description">
@@ -408,16 +426,23 @@ function ReportItem({
       )}
 
       <div className="time_report_day_edit">
-        {idEditingWorkItem !== id?
-          <div className={'edit_dots ' + (editMenu ? 'dots-bg' : '')} onClick={handlerOpenMenu}>
+        {idEditingWorkItem !== id ? (
+          <div
+            className={'edit_dots ' + (editMenu ? 'dots-bg' : '')}
+            onClick={handlerOpenMenu}
+          >
             <FontAwesomeIcon
               icon={faEllipsisV}
               color="#414141"
               className="icon pencil_icon"
             />
-          </div> :
-          <button className="create_btn" onClick={
-            idEditingWorkItem === id ? () => null : handlerClickEditMode}
+          </div>
+        ) : (
+          <button
+            className="create_btn"
+            onClick={
+              idEditingWorkItem === id ? () => null : handlerClickEditMode
+            }
             type={idEditingWorkItem === id ? 'submit' : 'button'}
             form="edit_form"
           >
@@ -427,9 +452,9 @@ function ReportItem({
               className="icon pencil_icon"
             />
           </button>
-        }
+        )}
 
-        {editMenu && !idEditingWorkItem &&
+        {editMenu && !idEditingWorkItem && (
           <div className={'time_report_day_menu'}>
             <button
               onClick={
@@ -471,7 +496,7 @@ function ReportItem({
               Delete the report
             </button>
           </div>
-        }
+        )}
       </div>
     </div>
   )

@@ -10,9 +10,16 @@ import {
   setAuthInProgress,
   unsetAuthInProgress,
 } from 'actions/users'
-import { getConsolidateProjectReport, setIsFetchingReports } from 'actions/projects-report'
+import {
+  getConsolidateProjectReport,
+  setIsFetchingReports,
+} from 'actions/projects-report'
 import { showAler } from 'actions/alert'
-import { WARNING_ALERT, SUCCES_ALERT, DANGER_ALERT } from 'constants/alert-constant'
+import {
+  WARNING_ALERT,
+  SUCCES_ALERT,
+  DANGER_ALERT,
+} from 'constants/alert-constant'
 import {
   LOG_IN,
   LOG_OUT,
@@ -28,8 +35,8 @@ import {
   SET_AUTH_IN_PROGRESS,
   UNSET_AUTH_IN_PROGRESS,
 } from 'constants/actions-constant'
-import { getAuthInProgressSelector } from '../reducers/profile'
-import { clearPmPageState } from '../actions/projects-management'
+import { getAuthInProgressSelector } from 'reducers/profile'
+import { clearPmPageState } from 'actions/projects-management'
 
 function* bootstrap() {
   try {
@@ -82,12 +89,12 @@ function* bootstrap() {
 }
 
 function* logIn({ payload: googleData }) {
-    try {
+  try {
     if (typeof googleData === 'object' && googleData) {
       if (googleData.error) {
-        if(googleData.error === 'popup_closed_by_user'){
+        if (googleData.error === 'popup_closed_by_user') {
           throw new Error('Popup closed by user')
-        }else{
+        } else {
           throw new Error(googleData.error)
         }
       }
@@ -126,59 +133,58 @@ function* logIn({ payload: googleData }) {
       throw new Error()
     }
   } catch (error) {
-        yield put(setAuthStatus(false))
-    if(googleData.details !== 'Cookies are not enabled in current environment.'){
-        yield put(
-            showAler({
-                type: WARNING_ALERT,
-                title: 'Something went wrong',
-                message:error.message || 'Something went wrong',
-                delay: 6000,
-            })
-        )
+    yield put(setAuthStatus(false))
+    if (
+      googleData.details !== 'Cookies are not enabled in current environment.'
+    ) {
+      yield put(
+        showAler({
+          type: WARNING_ALERT,
+          title: 'Something went wrong',
+          message: error.message || 'Something went wrong',
+          delay: 6000,
+        })
+      )
     }
-
   }
 }
 
 function* handleLoginWithCreds(userData) {
-  const isAuthInProgress = yield select(getAuthInProgressSelector);
+  const isAuthInProgress = yield select(getAuthInProgressSelector)
   yield call([api, 'deleteToken'])
-  if(isAuthInProgress) {
-    return;
+  if (isAuthInProgress) {
+    return
   }
-  yield put(setAuthInProgress());
-  const {payload, callback} = userData;
+  yield put(setAuthInProgress())
+  const { payload, callback } = userData
   try {
-      const response = yield call([users, 'logInWithCredentials'], payload)
+    const response = yield call([users, 'logInWithCredentials'], payload)
 
-      const { data, status } = response
-      const { user, token } = data
-      if (status !== 200) {
-        throw new Error()
-      }
-      const userObjforState = {
-        ...user,
-      }
+    const { data, status } = response
+    const { user, token } = data
+    if (status !== 200) {
+      throw new Error()
+    }
+    const userObjforState = {
+      ...user,
+    }
 
-      const userObjforLocalStorage = {
-        ...token,
-        name: user.name,
-      }
+    const userObjforLocalStorage = {
+      ...token,
+      name: user.name,
+    }
 
-      yield put(setUsersOauthData(userObjforState))
-      yield put(setAuthStatus(true))
+    yield put(setUsersOauthData(userObjforState))
+    yield put(setAuthStatus(true))
     yield put(clearPmPageState())
 
+    const authData = JSON.stringify(userObjforLocalStorage)
 
-      const authData = JSON.stringify(userObjforLocalStorage)
-
-      yield call([localStorage, 'setItem'], 'user_auth_data', authData)
-      yield call([api, 'setToken'], userObjforLocalStorage.key)
-
+    yield call([localStorage, 'setItem'], 'user_auth_data', authData)
+    yield call([api, 'setToken'], userObjforLocalStorage.key)
   } catch (error) {
     const credentialError = error?.response?.data?.non_field_errors[0]
-    callback(false);
+    callback(false)
     yield put(setAuthStatus(false))
     yield put(
       showAler({
@@ -189,7 +195,7 @@ function* handleLoginWithCreds(userData) {
       })
     )
   } finally {
-    yield put (unsetAuthInProgress())
+    yield put(unsetAuthInProgress())
   }
 }
 
@@ -261,8 +267,7 @@ function* setProcessedStatus({ payload }) {
     yield call([users, 'toggleProcessedStatus'], payload)
     yield put(setIsFetchingReports(false))
     yield put(getConsolidateProjectReport())
-  }
-  catch (error) {
+  } catch (error) {
     yield put(setIsFetchingReports(false))
     yield put(
       showAler({
@@ -275,14 +280,13 @@ function* setProcessedStatus({ payload }) {
   }
 }
 
-
 /////////// ref
 function* setUserCost({ payload }) {
   try {
     yield put(setIsFetchingReports(true))
     const URL = 'expenses/'
-    const {status} = yield call([Api, 'saveNewCost'], URL, payload)
-    if(status === 400){
+    const { status } = yield call([Api, 'saveNewCost'], URL, payload)
+    if (status === 400) {
       throw new Error()
     }
     yield put(
@@ -312,8 +316,8 @@ function* setEditedCost({ payload }) {
     yield put(setIsFetchingReports(true))
     const { expenseId, ...data } = payload
     const URL = `expenses/${expenseId}/`
-    const {status} = yield call([Api, 'saveEditedCost'], URL, data)
-    if(status === 400){
+    const { status } = yield call([Api, 'saveEditedCost'], URL, data)
+    if (status === 400) {
       throw new Error()
     }
     yield put(
@@ -342,8 +346,8 @@ function* setUserComment({ payload }) {
   try {
     yield put(setIsFetchingReports(true))
     const URL = 'comments/'
-    const {status} = yield call([Api, 'saveNewComments'], URL, payload)
-    if(status === 400){
+    const { status } = yield call([Api, 'saveNewComments'], URL, payload)
+    if (status === 400) {
       throw new Error()
     }
     yield put(
@@ -373,8 +377,8 @@ function* setEditedComment({ payload }) {
     yield put(setIsFetchingReports(true))
     const { commentId, ...data } = payload
     const URL = `comments/${commentId}`
-    const {status} = yield call([Api, 'saveEditedComments'], URL, data)
-    if(status === 400){
+    const { status } = yield call([Api, 'saveEditedComments'], URL, data)
+    if (status === 400) {
       throw new Error()
     }
     yield put(

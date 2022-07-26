@@ -5,7 +5,7 @@ import {
   getProfileName,
   getUserRoleText,
   getProfileShowSideMenuArrow,
-} from '../../selectors/user'
+} from 'selectors/user'
 
 import clock from 'images/sideMenuIcons/clock.svg'
 import coin from 'images/sideMenuIcons/coin.svg'
@@ -21,10 +21,10 @@ import Company from './components/Company'
 import { SideMenuButton } from './components/SideMenuButton'
 import SideBarMenu from './components/SideBarMenu'
 import Logout from './components/Logout'
-import useEventListener from '../../custom-hook/useEventListener'
-import ArrowUp from '../ui/arrowUp'
+import useEventListener from 'custom-hook/useEventListener'
+import ArrowUp from 'components/ui/arrowUp'
 import { useDispatch } from 'react-redux'
-import { setShowSideMenuArrow } from '../../actions/users'
+import { setShowSideMenuArrow } from 'actions/users'
 import useMediaQuery from 'custom-hook/useMediaQuery'
 
 function SideMenu() {

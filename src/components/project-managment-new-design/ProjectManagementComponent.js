@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import SelectMonth from '../ui/select-month'
+import SelectMonth from 'components/ui/select-month'
 import { useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
@@ -13,7 +13,7 @@ import {
   getIsShowCreateUserModalSelector,
   getSelectedProjectSelector,
   getFilteredProjectSelector,
-} from '../../reducers/projects-management'
+} from 'reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
   clearPmProjects,
@@ -24,20 +24,20 @@ import {
   setPm,
   setShownProject,
   setSelectedProject,
-} from '../../actions/projects-management'
+} from 'actions/projects-management'
 
 import './style.scss'
-import SpinnerStyled from '../ui/spinner'
-import Select from '../ui/select'
-import { getCurrentUserSelector } from '../../reducers/profile'
-import ReportItemProject from '../common/repott-item/ReportItemProject'
+import SpinnerStyled from 'components/ui/spinner'
+import Select from 'components/ui/select'
+import { getCurrentUserSelector } from 'reducers/profile'
+import ReportItemProject from 'components/common/repott-item/ReportItemProject'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import EditProjectModal from './components/editProjectModal/EditProjectModal'
-import useEqualSelector from '../../custom-hook/useEqualSelector'
+import useEqualSelector from 'custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
 import CreateUserModal from './components/CreateUserModal'
-import useSorting from '../../custom-hook/useSorting'
+import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
 

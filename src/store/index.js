@@ -9,9 +9,9 @@ import { timereports } from 'reducers/timereport'
 import { developerProjects } from 'reducers/developer-projects'
 import { developers } from 'reducers/developers'
 import { projectsReport } from 'reducers/projects-report'
-import {pagination} from "../reducers/pagination";
+import { pagination } from 'reducers/pagination'
 import { currencies } from 'reducers/currency'
-import { projectReportDetails } from '../reducers/project-report-details'
+import { projectReportDetails } from 'reducers/project-report-details'
 import { projectsManagement } from 'reducers/projects-management'
 
 const rootReducer = combineReducers({
@@ -25,8 +25,7 @@ const rootReducer = combineReducers({
   pagination,
   projectsManagement,
   currencies,
-  projectReportDetails
-
+  projectReportDetails,
 })
 
 const sagaMiddleware = createSagaMiddleware()
