@@ -1,4 +1,4 @@
-//todo: after we choose breakpoints make media for large , small and medium classes
+//todo: after we choose breakpoints make media for large , small and medium classes and add small container, if we will need more options can be edited container props
 .base-container.MuiContainer-root {
   &.large {
     padding: 35px 20px;
@@ -6,12 +6,8 @@
     margin: 0;
   }
   &.medium {
-    padding: 28px 16px;
-    max-width: 463px;
-  }
-  &.small {
-    padding: 30px 16px 16px;
-    max-width: 210px;
+    padding: 25px;
+    max-width: 610px;
   }
   &.left {
     text-align: left;

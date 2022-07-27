@@ -1,11 +1,4 @@
 import React from 'react'
-import { CardMedia } from '@material-ui/core'
+import { Avatar } from 'components/ui/avatar'
 
-export const CardHeader = () => (
-  <CardMedia
-    component="img"
-    height="140"
-    image="/static/images/cards/contemplative-reptile.jpg"
-    alt="green iguana"
-  />
-)
+export const CardHeader = ({ name }) => <Avatar name={name} />
