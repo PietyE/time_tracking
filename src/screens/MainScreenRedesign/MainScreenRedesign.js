@@ -1,20 +1,19 @@
 import React, { memo, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route, Redirect, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 
-import { getProjects, getDeveloperProjects } from 'actions/developer-projects'
+import { getDeveloperProjects, getProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import TimeReportScreen from '../TimeReportScreen'
 // import ProjectsScreen from '../ProjectsScreen'
 // import ProfileScreen from "../ProfileScreen";
-
 import {
-  getUserAuthStatus,
-  getRoleUser,
+  getProfileEmail,
   getProfileId,
   getProfileName,
-  getProfileEmail,
+  getRoleUser,
+  getUserAuthStatus,
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
@@ -28,7 +27,7 @@ import './MainScreen.scss'
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import ProjectManagementComponent from 'components/project-managment-new-design/ProjectManagementComponent'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
-import { VilmatesPage } from 'components/vilmates-page'
+import { VilmatesScreen } from '../VilmatesScreen'
 
 function MainScreen({
   isAuth,
@@ -86,7 +85,7 @@ function MainScreen({
         <Route path="/projectreport" component={ProjectReportNew} exact />
         {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
         <Route path="/timereport" component={TimeReportScreen} exact />
-        <Route path="/vilmates" component={VilmatesPage} exact />
+        <Route path="/vilmates" component={VilmatesScreen} exact />
         {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
         {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}

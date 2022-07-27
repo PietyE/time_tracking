@@ -8,7 +8,7 @@ export const CardContent = ({ name, position }) => (
       color="secondary.contrastText"
       variant="body2"
       component="p"
-      gutterBottom
+      className="vailmate-card-position-title"
     >
       {name}
     </Typography>
