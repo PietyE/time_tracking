@@ -19,8 +19,8 @@ function stringToColor(string) {
 }
 
 export const stringAvatar = (name) => ({
-  sx: {
-    bgcolor: stringToColor(name),
+  style: {
+    backgroundColor: stringToColor(name),
   },
   children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
 })
