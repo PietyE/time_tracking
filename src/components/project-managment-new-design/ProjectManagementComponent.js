@@ -188,7 +188,12 @@ const ProjectManagementComponent = () => {
     .filter((e) => !e.is_archived)
     .map((e) => {
       return (
-        <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+        <ReportItemProject
+          key={e.id}
+          p={e}
+          openEditModal={openEditModal}
+          isEditModalShown={isEditModalShow}
+        />
       )
     })
 
@@ -196,7 +201,12 @@ const ProjectManagementComponent = () => {
     .filter((e) => e.is_archived)
     .map((e) => {
       return (
-        <ReportItemProject key={e.id} p={e} openEditModal={openEditModal} />
+        <ReportItemProject
+          key={e.id}
+          p={e}
+          openEditModal={openEditModal}
+          isEditModalShown={isEditModalShow}
+        />
       )
     })
 
