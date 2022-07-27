@@ -21,7 +21,7 @@ import {
   setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
-import { getDeveloperProjectsById } from '../../actions/projects-management'
+import { getDeveloperProjectsById } from 'actions/projects-management'
 import {
   getAllDays,
   getDeveloperProjectsTR,
@@ -34,7 +34,7 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId } from '../../selectors/user'
+import { getProfileId } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'

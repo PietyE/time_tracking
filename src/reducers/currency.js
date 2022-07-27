@@ -5,7 +5,7 @@ import {
   GET_RATES_LIST,
   SET_SUCCESS_RATES_LIST,
   SET_ERROR_RATES_LIST,
-} from '../constants/actions-constant'
+} from 'constants/actions-constant'
 
 const initialState = {
   currenciesList: [],
@@ -25,14 +25,14 @@ export const currencies = (state = initialState, action) => {
         ...state,
         isFetchingCurrenciesList: true,
         errorFetchCurrenciesList: false,
-        successFetchCurrenciesList: false
+        successFetchCurrenciesList: false,
       }
     case SET_SUCCESS_CURRENCIES_LIST:
       return {
         ...state,
         isFetchingCurrenciesList: false,
         successFetchCurrenciesList: true,
-        currenciesList: action.payload
+        currenciesList: action.payload,
       }
     case SET_ERROR_CURRENCIES_LIST:
       return {
@@ -46,15 +46,14 @@ export const currencies = (state = initialState, action) => {
         ...state,
         isFetchingRatesList: true,
         errorFetchRatesList: false,
-        successFetchRatesList: false
-
+        successFetchRatesList: false,
       }
     case SET_SUCCESS_RATES_LIST:
       return {
         ...state,
         isFetchingRatesList: false,
         successFetchRatesList: true,
-        ratesList: action.payload
+        ratesList: action.payload,
       }
     case SET_ERROR_RATES_LIST:
       return {

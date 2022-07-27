@@ -9,24 +9,23 @@ import { getUserAuthStatusSelector } from 'selectors/user'
 import { CLIENT_ID } from 'constants/auth-constant'
 import googleIcon from 'images/google-icon.svg'
 import styles from './Auth.module.scss'
-import logo from '../../images/logo-3.png';
+import logo from 'images/logo-3.png'
 import './styles.scss'
-import useEqualSelector from '../../custom-hook/useEqualSelector'
+import useEqualSelector from 'custom-hook/useEqualSelector'
 import Separator from './Separator'
 import { useFormik } from 'formik'
-import { getAuthInProgressSelector } from '../../reducers/profile'
+import { getAuthInProgressSelector } from 'reducers/profile'
 function Auth() {
+  const isAuth = useEqualSelector(getUserAuthStatusSelector)
+  const dispatch = useDispatch()
 
-  const isAuth = useEqualSelector(getUserAuthStatusSelector);
-  const dispatch = useDispatch();
-
-  const isAuthInProgress = useSelector(getAuthInProgressSelector);
+  const isAuthInProgress = useSelector(getAuthInProgressSelector)
   const onSubmit = (values, { setSubmitting }) => {
-    if(isAuthInProgress) {
-      return;
+    if (isAuthInProgress) {
+      return
     }
-    setSubmitting(true);
-    dispatch(logInWithCredentials(values, setSubmitting));
+    setSubmitting(true)
+    dispatch(logInWithCredentials(values, setSubmitting))
   }
   const validate = (values) => {
     const errors = {}
@@ -44,20 +43,20 @@ function Auth() {
   }
 
   const GoogleButton = (renderProps) => (
-      <Button
-        className={styles.googleButton}
-        variant="outline-primary"
-        onClick={renderProps.onClick}
-      >
-        <img src={googleIcon} alt="google icon" className="auth-logo" />
-        <span className={styles.buttonTitle}>Sign in with Google account</span>
-      </Button>
+    <Button
+      className={styles.googleButton}
+      variant="outline-primary"
+      onClick={renderProps.onClick}
+    >
+      <img src={googleIcon} alt="google icon" className="auth-logo" />
+      <span className={styles.buttonTitle}>Sign in with Google account</span>
+    </Button>
   )
 
-  const history = useHistory();
+  const history = useHistory()
 
   if (isAuth) {
-    history.push("/timereport")
+    history.push('/timereport')
     // return <Redirect to="/projectreport" />
   }
 
@@ -91,7 +90,9 @@ function Auth() {
       <div className={styles.modalContainer}>
         <div className={styles.headerBlock}>
           <span className={styles.title}>Sign</span>
-          <span className={styles.subtitle}>Sign in into Vilmate time reporter</span>
+          <span className={styles.subtitle}>
+            Sign in into Vilmate time reporter
+          </span>
         </div>
         <div className={styles.buttonsBlock}>
           <GoogleLogin
@@ -102,7 +103,7 @@ function Auth() {
             cookiePolicy={'single_host_origin'}
           />
 
-          <Separator width={415}/>
+          <Separator width={415} />
 
           <Form onSubmit={handleSubmit}>
             <Form.Group
@@ -153,12 +154,10 @@ function Auth() {
               <span className={styles.submitButtonTitle}>Sign In</span>
             </Button>
           </Form>
-
         </div>
       </div>
     </div>
-
   )
 }
 
-export default Auth;
+export default Auth

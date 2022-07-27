@@ -1,52 +1,53 @@
-import React, {useCallback} from 'react'
-import {Modal} from 'react-bootstrap'
-import { getAllProjectsSelector } from '../../../../reducers/projects-management'
-import { createProject, setShowCreateModal } from '../../../../actions/projects-management'
+import React, { useCallback } from 'react'
+import { Modal } from 'react-bootstrap'
+import { getAllProjectsSelector } from 'reducers/projects-management'
+import { createProject, setShowCreateModal } from 'actions/projects-management'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
-import { WARNING_ALERT } from '../../../../constants/alert-constant'
-import { showAlert } from '../../../../actions/alert'
-import Cross from '../../../../images/ic_cros.svg'
-import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector';
-import * as Yup from 'yup';
+import { WARNING_ALERT } from 'constants/alert-constant'
+import { showAlert } from 'actions/alert'
+import Cross from 'images/ic_cros.svg'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import * as Yup from 'yup'
 
 import styles from './style.module.scss'
 
 function CreateProjectModal({ show }) {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-    const projects = useShallowEqualSelector(getAllProjectsSelector);
+  const projects = useShallowEqualSelector(getAllProjectsSelector)
 
-    const handleClose = useCallback(
-        () => dispatch(setShowCreateModal(false)),
-        [dispatch]
-    )
+  const handleClose = useCallback(
+    () => dispatch(setShowCreateModal(false)),
+    [dispatch]
+  )
 
-    const _createProject = useCallback(
-        (data) => {
-            dispatch(createProject(data))
-        },
-        [dispatch]
-    )
+  const _createProject = useCallback(
+    (data) => {
+      dispatch(createProject(data))
+    },
+    [dispatch]
+  )
 
-    const checkExistingProjects = useCallback(
-        (projectName) => {
-            return projects.find((project) => project.name === projectName)
-        }, [projects]
-    )
+  const checkExistingProjects = useCallback(
+    (projectName) => {
+      return projects.find((project) => project.name === projectName)
+    },
+    [projects]
+  )
 
-    const validationSchema = Yup.object().shape({
-        project_name: Yup.string()
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('Name is required'),
-    });
+  const validationSchema = Yup.object().shape({
+    project_name: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Name is required'),
+  })
 
-    const onSubmit = (values, resetForm) => {
-        const { project_name } = values;
+  const onSubmit = (values, resetForm) => {
+    const { project_name } = values
 
-        if (project_name) {
-            const existingProject = checkExistingProjects(project_name)
+    if (project_name) {
+      const existingProject = checkExistingProjects(project_name)
 
             if (!existingProject) {
                 const preparedData = {
@@ -72,16 +73,16 @@ function CreateProjectModal({ show }) {
         project_name: ''
     }
 
-    const formik = useFormik({
-        initialValues,
-        onSubmit: (values, { resetForm }) => {
-            onSubmit(values, resetForm);
-        },
-        validationSchema,
-        onReset: () => {
-            handleClose()
-        }
-    })
+  const formik = useFormik({
+    initialValues,
+    onSubmit: (values, { resetForm }) => {
+      onSubmit(values, resetForm)
+    },
+    validationSchema,
+    onReset: () => {
+      handleClose()
+    },
+  })
 
     return (
         <Modal

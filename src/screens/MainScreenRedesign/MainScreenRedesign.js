@@ -16,8 +16,8 @@ import {
   getProfileName,
   getProfileEmail,
 } from 'selectors/user'
-import { getCurrenciesList, getRatesList } from '../../actions/currency'
-import { getSelectedMonthSelector } from '../../reducers/projects-report'
+import { getCurrenciesList, getRatesList } from 'actions/currency'
+import { getSelectedMonthSelector } from 'reducers/projects-report'
 // import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
 import ProjectReportNew from 'components/project-report-new-design'
@@ -26,9 +26,8 @@ import './MainScreen.scss'
 // import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
 // import TotalOverview from 'components/total-overview/TotalOverview'
-import ProjectManagementComponent from '../../components/project-managment-new-design/ProjectManagementComponent';
+import ProjectManagementComponent from 'components/project-managment-new-design/ProjectManagementComponent'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
-
 
 function MainScreen({
   isAuth,
@@ -40,9 +39,9 @@ function MainScreen({
   profileEmail,
   getCurrenciesList,
   getRatesList,
-  getSelectedMonth
+  getSelectedMonth,
 }) {
-  const date = getSelectedMonth;
+  const date = getSelectedMonth
   useEffect(() => {
     if (isAuth) {
       if (roleUser !== DEVELOPER) {
@@ -54,27 +53,25 @@ function MainScreen({
         const ratesParams = {
           is_active: true,
           year: date.year || date.getFullYear(),
-          month: date.month + 1 || date.getMonth() + 1
-        };
+          month: date.month + 1 || date.getMonth() + 1,
+        }
         getCurrenciesList()
         getRatesList(ratesParams)
-
       } else {
         getDeveloperProjects()
-
       }
     }
   }, [
     date,
-      getRatesList,
-      getDeveloperProjects,
-      isAuth,
-      roleUser,
-      profileEmail,
-      selectDevelopers,
-      profileId,
-      getCurrenciesList,
-      profileName,
+    getRatesList,
+    getDeveloperProjects,
+    isAuth,
+    roleUser,
+    profileEmail,
+    selectDevelopers,
+    profileId,
+    getCurrenciesList,
+    profileName,
   ])
 
   if (!isAuth) {
@@ -91,7 +88,11 @@ function MainScreen({
         {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
         {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
-        <PmPrivateRoute path="/projectmanagement" component={ProjectManagementComponent} exct />
+        <PmPrivateRoute
+          path="/projectmanagement"
+          component={ProjectManagementComponent}
+          exct
+        />
         {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
         <Redirect from="/" to="/timereport" />
       </Switch>
@@ -104,7 +105,7 @@ const actions = {
   getDeveloperProjects,
   selectDevelopers,
   getCurrenciesList,
-  getRatesList
+  getRatesList,
 }
 
 const mapStateToProps = (state) => ({
@@ -113,7 +114,7 @@ const mapStateToProps = (state) => ({
   profileId: getProfileId(state),
   profileName: getProfileName(state),
   profileEmail: getProfileEmail(state),
-  getSelectedMonth: getSelectedMonthSelector(state)
+  getSelectedMonth: getSelectedMonthSelector(state),
 })
 
 export default connect(mapStateToProps, actions)(memo(MainScreen))

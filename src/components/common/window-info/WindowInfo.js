@@ -1,13 +1,12 @@
-import React, {useState} from "react";
-import "./style.scss"
-import HintWindow from "components/ui/HintWindow";
+import React, { useState } from 'react'
+import './style.scss'
+import HintWindow from 'components/ui/HintWindow'
 
-import closeButton from "../../../images/projectReportIcons/closeButton.svg";
-import DownloadIc from "../../../images/download_ic.svg"
-import ArchiveIc from "../../../images/archive1.svg"
+import closeButton from 'images/projectReportIcons/closeButton.svg'
+import DownloadIc from 'images/download_ic.svg'
+import ArchiveIc from 'images/archive1.svg'
 
-
-function WindowInfo({title, children, close, download, id, onArchivedPress, isProjectArchived}) {
+function WindowInfo({ title, children, close, download, id, onArchivedPress, isProjectArchived }) {
     const [showHintExport, setShowHintExport] = useState(false)
     const [showHintArchive, setShowHintArchive] = useState(false)
     const [showHintClose, setShowHintClose] = useState(false)
@@ -55,6 +54,7 @@ function WindowInfo({title, children, close, download, id, onArchivedPress, isPr
         </div>
         {children}
     </div>
+  )
 }
 
-export default WindowInfo;
+export default WindowInfo

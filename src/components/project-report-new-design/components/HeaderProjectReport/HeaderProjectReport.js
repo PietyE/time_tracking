@@ -1,9 +1,9 @@
 import React from 'react'
 import './headerProjectReport.scss'
 import { GoogleSyncButton } from './GoogleSyncButton'
-import { getRoleUser } from '../../../../selectors/user'
-import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
-import { ACCOUNTANT } from '../../../../constants/role-constant'
+import { getRoleUser } from 'selectors/user'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { ACCOUNTANT } from 'constants/role-constant'
 
 function HeaderProjectReport(props) {
   const { name } = props

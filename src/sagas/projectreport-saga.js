@@ -29,17 +29,17 @@ import {
   setAllDevelopersProjectsPR,
   // setReportHistory
 } from 'actions/projects-report'
-import { getRatesList } from '../actions/currency'
+import { getRatesList } from 'actions/currency'
 import {
   getSelectedMonthSelector,
   getSelectedProjectSelector,
-} from '../reducers/projects-report'
+} from 'reducers/projects-report'
 import {
   consolidateReportMapper,
   usersProjectReportMapper,
-} from '../utils/projectReportApiResponseMapper'
-import { selectActualCurrencyForUserList } from '../selectors/currency'
-import { getSelectedProjectIdSelector } from '../reducers/projects-management'
+} from 'utils/projectReportApiResponseMapper'
+import { selectActualCurrencyForUserList } from 'selectors/currency'
+import { getSelectedProjectIdSelector } from 'reducers/projects-management'
 
 // export function* getDeveloperConsolidateProjectReport() {
 //   yield put(setIsFetchingReports(true))
