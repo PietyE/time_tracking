@@ -11,6 +11,7 @@ import clock from 'images/sideMenuIcons/clock.svg'
 import coin from 'images/sideMenuIcons/coin.svg'
 import fileCheck from 'images/sideMenuIcons/fileCheck.svg'
 import door from 'images/sideMenuIcons/door.svg'
+import vilmates from 'images/vilmates/vilmates.svg'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
@@ -20,8 +21,9 @@ import Logo from './components/Logo'
 import Company from './components/Company'
 import { SideMenuButton } from './components/SideMenuButton'
 import SideBarMenu from './components/SideBarMenu'
+// import HelpCenter from './components/HelpCenter'
 import Logout from './components/Logout'
-import useEventListener from 'custom-hook/useEventListener'
+import useEventListener from 'custom-hook/useEventListener';
 import ArrowUp from 'components/ui/arrowUp'
 import { useDispatch } from 'react-redux'
 import { setShowSideMenuArrow } from 'actions/users'
@@ -62,6 +64,13 @@ function SideMenu() {
             smallSize: true,
             pathname: '/timereport',
           },
+          {
+            icon: vilmates,
+            label: 'Vilmates',
+            pathname: '/vilmates',
+          },
+          // {icon: people, label: "Vilmates", smallSize: true, pathname: "/profile"},
+          // {icon: people, label: "People", smallSize: true, pathname: "/people"}
         ],
       },
     ]
@@ -72,12 +81,18 @@ function SideMenu() {
           panelId: '...',
           smallSize: true,
           items: [
+            // {icon: schedule, label: "Total overview", pathname: "/totaloverview"},
             {
               icon: coin,
               label: 'Project report',
               smallSize: true,
               pathname: '/projectreport',
+              // , subItems: [
+              //   {icon: house, label: "In-house employees", pathname: "/inhouseemployees"},
+              //   {icon: arrowDownCircul, label: "Remote contractors", pathname: "/remotecontractors"},
+              // ]
             },
+            // {icon: basket, label: "Other costs", pathname: "/othercosts"}
           ],
         },
         {

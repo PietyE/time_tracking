@@ -17,6 +17,8 @@ import {
   SET_SUCCESS_USERS_PROJECT_REPORT,
   SET_ALL_DEVELOPER_PROJECTS,
   GET_ALL_DEVELOPER_PROJECTS,
+  GET_USERS_HOURS_AUTH_URL_REQUEST,
+  GET_USERS_HOURS_AUTH_URL_SUCCESS,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
@@ -80,7 +82,7 @@ export const setEditUserId = (payload) => ({
 export const setExchangeRates = (payload, callback) => ({
   type: SET_EXCHANGE_RATES,
   payload,
-  callback
+  callback,
 })
 
 export const setIsFetchingReports = (payload) => ({
@@ -117,3 +119,14 @@ export const setErrorUsersProjectReport = (payload) => ({
 //   type: SAVE_COMMENTS_HISTORY,
 //   payload: {data},
 // })
+
+//only for accountant
+
+export const getUsersHoursAuthUrlRequest = () => ({
+  type: GET_USERS_HOURS_AUTH_URL_REQUEST,
+})
+
+export const getUsersHoursAuthUrlSuccess = (googleSyncWithDrive) => ({
+  type: GET_USERS_HOURS_AUTH_URL_SUCCESS,
+  payload: googleSyncWithDrive,
+})
