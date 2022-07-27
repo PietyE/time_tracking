@@ -6,7 +6,7 @@ import InputMask from 'react-input-mask'
 import { isEqual } from 'lodash'
 import { getSelectedDateTimeReport } from '../../../selectors/timereports'
 import { setEditMode } from 'actions/times-report'
-import { showAler } from '../../../actions/alert'
+import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
 
@@ -17,7 +17,7 @@ function CreateReportForm({
   handlerEndAnimation,
   extraClassName,
   setEditMode,
-  showAler,
+  showAlert,
   sumHours,
   // selectDayStatus,
   // selectedDayStatus
@@ -44,7 +44,7 @@ function CreateReportForm({
     if (!text && !hours) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
         message: error.message || 'Fields can not be empty',
@@ -54,7 +54,7 @@ function CreateReportForm({
     }
     if (!text) {
       setBorderInputClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Task name can not be empty',
         message: error.message || 'Task name can not be empty',
@@ -64,7 +64,7 @@ function CreateReportForm({
     }
     if (!hours || hours === '0:00') {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Field of time can not be empty',
         message: error.message || 'Field of time can not be empty',
@@ -74,7 +74,7 @@ function CreateReportForm({
     }
     if (sumHours + takeTime > 1440) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Time limit exceeded',
         message: error.message || 'You can not log more than 24 hours per day',
@@ -84,7 +84,7 @@ function CreateReportForm({
     }
     if (takeTime % 15 !== 0) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
         message: error.message || 'The value must be a multiple of 15',
@@ -95,7 +95,7 @@ function CreateReportForm({
 
     if (takeTime > 480) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
         message:
@@ -186,7 +186,7 @@ function CreateReportForm({
 
 const actions = {
   setEditMode,
-  showAler,
+  showAlert,
 }
 
 export default connect(null, actions)(memo(CreateReportForm))
