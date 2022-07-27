@@ -27,7 +27,7 @@ import {
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
 import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -67,7 +67,7 @@ function ReportItem({
   idEditingWorkItem,
   setEditMode,
   isOneProject,
-  showAler,
+  showAlert,
   index,
   // opneNewItem,
   // dayTitle,
@@ -140,7 +140,7 @@ function ReportItem({
     if (title.length === 0 && duration === 0) {
       setBorderInputClassName('border-danger')
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
         message: 'Fields can not be empty',
@@ -151,7 +151,7 @@ function ReportItem({
 
     if (title.length === 0) {
       setBorderInputClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         message: 'Fields Task can not be empty',
         delay: 5000,
@@ -161,7 +161,7 @@ function ReportItem({
 
     if (duration === 0) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be 0",
         delay: 5000,
@@ -171,7 +171,7 @@ function ReportItem({
 
     if (duration > 480) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be more 8 hours",
         delay: 5000,
@@ -180,7 +180,7 @@ function ReportItem({
     }
     if (duration % 15 !== 0) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         message: 'The value must be a multiple of 15',
         delay: 5000,
@@ -209,7 +209,7 @@ function ReportItem({
         e.preventDefault()
         if (!e.target.value) {
           setBorderInputClassName('border-danger')
-          showAler({
+          showAlert({
             type: DANGER_ALERT,
             message: 'Field Task can not be empty',
             delay: 5000,
@@ -511,7 +511,7 @@ const actions = {
   deleteTimeReport,
   editTimeReport,
   setEditMode,
-  showAler,
+  showAlert,
 }
 
 export default connect(mapStateToProps, actions)(memo(ReportItem))

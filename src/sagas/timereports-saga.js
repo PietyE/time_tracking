@@ -26,7 +26,7 @@ import {
 } from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
 import {setDeveloperProjectsTR} from 'actions/times-report'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
 export function* getDeveloperProjects({ projectIdForSelect = null }) {
@@ -70,7 +70,7 @@ const { month, year } = yield select((state) => state.timereports.selectedDate)
     yield put(setDeveloperProjectsTR(data))
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -177,7 +177,7 @@ export function* deleteTimeReport({ payload: id }) {
   if (status === 204) {
     yield put(setTimeReports({ items: newTimereport }))
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'The report has been deleted!',
         delay: 5000,
@@ -216,7 +216,7 @@ export function* editTimeReport({ payload }) {
       yield put(setIsFetchingReports(false))
 
       yield put(
-        showAler({
+        showAlert({
           type: SUCCES_ALERT,
           message: 'The report has been edited!',
           delay: 5000,

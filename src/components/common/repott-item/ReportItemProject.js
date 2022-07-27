@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { getSelectedProjectIdSelector } from 'reducers/projects-management'
 import { isEqual } from 'lodash'
 
-function ReportItemProject({ p, openEditModal }) {
+function ReportItemProject({ p, openEditModal, isEditModalShown }) {
   const currentProjectId = useSelector(getSelectedProjectIdSelector, isEqual)
 
   const optEditM = (e) => {
@@ -16,7 +16,7 @@ function ReportItemProject({ p, openEditModal }) {
   return (
     <div
       className={
-        'row report__item ' + (p.id === currentProjectId ? 'active' : '')
+        'row report__item ' + ((p.id === currentProjectId && isEditModalShown) ? 'active' : '')
       }
       onClick={optEditM}
     >
