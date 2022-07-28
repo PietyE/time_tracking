@@ -1,7 +1,8 @@
 import React from 'react'
-import { Grid } from '@material-ui/core'
+import { Box, Grid, TextField, Typography } from '@material-ui/core'
 import { users } from 'mocks/users'
 import { UserItem } from './components/UserItem'
+import './UsersList.scss'
 
 export const UsersList = () => {
   const renderUsers = () =>
@@ -12,8 +13,20 @@ export const UsersList = () => {
     ))
 
   return (
-    <Grid container spacing={7}>
-      {renderUsers()}
-    </Grid>
+    <>
+      <Box className="vilmate-action-var-container">
+        <TextField
+          type="search"
+          variant="outlined"
+          InputProps={{
+            endAdornment: <Search />,
+          }}
+        />
+        <Typography>Reset filters</Typography>
+      </Box>
+      <Grid container spacing={7}>
+        {renderUsers()}
+      </Grid>
+    </>
   )
 }
