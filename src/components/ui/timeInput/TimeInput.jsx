@@ -1,21 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputMask from 'react-input-mask'
-import { TextField } from '@material-ui/core'
+import { Box, TextField } from '@material-ui/core'
 
-export const TimeInput = ({ value, onChange, onFocus }) => (
-  <InputMask
-    placeholder="0:00"
-    maskPlaceholder="0"
-    value={value}
-    onChange={onChange}
-    mask="9:99"
-    onFocus={onFocus}
+export const TimeInput = ({
+  value,
+  onChange,
+  onFocus,
+  mask,
+  maskPlaceholder,
+  placeholder,
+  error,
+}) => (
+  <Box
+    sx={{
+      width: '57px',
+      textAlign: 'center',
+    }}
   >
-    <TextField variant='outlined' fullWidth />
-  </InputMask>
+    <InputMask
+      placeholder={placeholder}
+      maskPlaceholder={maskPlaceholder}
+      value={value}
+      onChange={onChange}
+      mask={mask}
+      onFocus={onFocus}
+    >
+      <TextField
+        variant="outlined"
+        fullWidth
+        inputProps={{ style: { textAlign: 'center' } }}
+        error={error}
+      />
+    </InputMask>
+  </Box>
 )
 
-TimeInput.defaultProps = {}
-
-TimeInput.propTypes = {}
+TimeInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  mask: PropTypes.string,
+  placeholder: PropTypes.string,
+  maskPlaceholder: PropTypes.string,
+  error: PropTypes.bool,
+}

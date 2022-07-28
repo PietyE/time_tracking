@@ -28,6 +28,9 @@ export const theme = createTheme(basicTheme, {
   overrides: {
     MuiOutlinedInput: {
       root: {
+        boxSizing: "border-box",
+        padding: 12,
+        minHeight: 42,
         background: basicTheme.palette.common.white,
         '&:hover .MuiOutlinedInput-notchedOutline': {
           border: `1px solid ${basicTheme.palette.secondary.main}`,
@@ -36,20 +39,20 @@ export const theme = createTheme(basicTheme, {
         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
           borderStyle: 'solid',
           borderColor: basicTheme.palette.primary.main,
-          borderWidth: '1px',
+          borderWidth: 1
         },
       },
       input: {
-        fontWeight: '600',
-        fontSize: '14px',
-        padding: '13px 12px',
+        fontWeight: 600,
+        fontSize: 14,
+        padding: 0,
         '&::placeholder': {
           color: 'basicTheme.palette.text.disabled',
         },
       },
       multiline: {
-        padding: '12px',
-        fontSize: '14px',
+        padding: 12,
+        fontSize: 14,
       },
       notchedOutline: {
         border: `1px solid ${basicTheme.palette.secondary.main}`,
@@ -60,7 +63,7 @@ export const theme = createTheme(basicTheme, {
           '& .MuiOutlinedInput-notchedOutline': {
             borderStyle: 'solid',
             borderColor: basicTheme.palette.primary.main,
-            borderWidth: '1px',
+            borderWidth: 1,
           },
         },
       },

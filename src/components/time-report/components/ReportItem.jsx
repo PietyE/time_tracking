@@ -29,6 +29,7 @@ import useMenuPresent from 'custom-hook/useMenuPresent'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAlert } from '../../../actions/alert'
 import { Textarea } from 'components/ui/textarea/Textarea'
+import TimeInput from 'components/ui/timeInput'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -91,10 +92,13 @@ function ReportItem({
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
-  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
   const [textInputValue, setTextInputValue] = useState(text)
+  const [timeInputValue, setTimeInputValue] = useState(
+    parseMinToHoursAndMin(hours)
+  )
   const [isTextInputError, setIsTextInputError] = useState(false)
+  const [isTimeInputError, setIsTimeInputError] = useState(false)
 
   const [editMenu, handlerOpenMenu] = useMenuPresent();
 
@@ -125,22 +129,21 @@ function ReportItem({
     setIsTextInputError(false)
   }
 
-  const handlerChangeHours = (e) => {
-    const value = e.target.value
-    if (value) {
-      setBorderInputHoursClassName('')
-    }
+
+  const handleChangeTimeInputValue = (e) => {
+    setTimeInputValue(e.target.value)
+    setIsTimeInputError(false)
   }
 
   const handlerSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    const [_hour, min] = e.target.duration.value.split(':')
+    const [_hour, min] = timeInputValue.split(':')
     const duration = _hour ? +_hour * 60 + +min : +min
 
     if (textInputValue.length === 0 && duration === 0) {
       setIsTextInputError(true)
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
@@ -161,7 +164,8 @@ function ReportItem({
     }
 
     if (duration === 0) {
-      setBorderInputHoursClassName('border-danger')
+      ('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be 0",
@@ -171,7 +175,7 @@ function ReportItem({
     }
 
     if (duration > 480) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be more 8 hours",
@@ -180,7 +184,7 @@ function ReportItem({
       return
     }
     if (duration % 15 !== 0) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
         message: 'The value must be a multiple of 15',
@@ -190,7 +194,7 @@ function ReportItem({
     }
 
     if (oldDuration !== duration || oldTitle !== textInputValue) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       editTimeReport({
         developer_project,
         title: textInputValue,
@@ -200,8 +204,7 @@ function ReportItem({
       })
     }
     setEditMode(null)
-    setBorderInputHoursClassName('')
-    setBorderInputHoursClassName('')
+    setIsTimeInputError(false)
   }
 
   const hanldeClickToggleShowModalChangeProject = useCallback(() => {
@@ -380,16 +383,16 @@ function ReportItem({
                 error={isTextInputError}
                 />
             </div>
-            <InputMask
-              placeholder="HH"
-              maskPlaceholder="0"
-              className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
-              mask="9:99"
-              defaultValue={parseMinToHoursAndMin(hours)}
-              name="duration"
-              ref={containerHours}
-              onChange={handlerChangeHours}
-            />
+            <div style={{ marginRight: '25px' }}>
+              <TimeInput
+                placeholder="HH"
+                maskPlaceholder="0"
+                mask="9:99"
+                value={timeInputValue}
+                onChange={handleChangeTimeInputValue}
+                error={isTimeInputError}
+              />
+            </div>
           </form>
       ) : (
         <>

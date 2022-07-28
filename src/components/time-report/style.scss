@@ -1,4 +1,4 @@
-@import "../../styles/commonStyles.scss";
+@import '../../styles/commonStyles.scss';
 
 .container {
   max-width: 971px;
@@ -81,7 +81,7 @@
         }
         .export_btn_text {
           color: $whiteColor;
-          
+
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;
@@ -101,7 +101,7 @@
       }
     }
   }
-  
+
   .time_report_total_container {
     display: flex;
     align-items: stretch;
@@ -150,13 +150,13 @@
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       top: 10px;
       left: 10px;
       width: 16px;
       height: 16px;
-      background-image: url("../../images/projects.svg");
+      background-image: url('../../images/projects.svg');
       background-repeat: no-repeat;
     }
 
@@ -264,13 +264,13 @@
         padding-right: 10px;
       }
       .text-danger::after {
-        content: " ";
+        content: ' ';
         position: absolute;
         top: -1px;
         right: -15px;
         width: 20px;
         height: 20px;
-        background-image: url("../../images/timereport/image 24.png");
+        background-image: url('../../images/timereport/image 24.png');
         background-repeat: no-repeat;
       }
     }
@@ -360,6 +360,8 @@
       }
 
       .create_btn {
+        // TODO: Remove hardcoded margin
+        margin-left: 35px;
         min-width: 41px;
       }
 
@@ -413,15 +415,14 @@
       font-size: 15px;
       font-weight: 600;
       line-height: 19px;
-      padding: 20px 25px ;
+      padding: 20px 25px;
       background-color: $whiteColor;
       border-end-start-radius: 5px;
       border-end-end-radius: 5px;
-      span{
+      span {
         width: 115px;
         text-align: left;
       }
-
     }
   }
 
@@ -462,10 +463,10 @@
     position: relative;
     margin-left: 15px;
     color: $mainBlackColor;
-    text-transform: lowercase ;
+    text-transform: lowercase;
   }
   .total_hours_month::after {
-    content: "";
+    content: '';
     position: absolute;
     left: -9px;
     width: 3px;
@@ -497,13 +498,13 @@
     }
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 11px;
       top: 2px;
       width: 20px;
       height: 20px;
-      background-image: url("../../images/filter2.svg");
+      background-image: url('../../images/filter2.svg');
       background-repeat: no-repeat;
     }
 
@@ -783,7 +784,7 @@
 
   &.top_line {
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       right: 0;
@@ -791,8 +792,6 @@
       height: 1px;
       background: rgba(201, 201, 198, 0.5);
     }
-
-
   }
 
   .edit_dots {
@@ -803,18 +802,18 @@
     height: 40px;
     border-radius: 5px;
     margin-left: 25px;
-    background-image: url("../../images/projects.svg");
+    background-image: url('../../images/projects.svg');
     background-repeat: no-repeat;
-    transition: background .3s linear;
+    transition: background 0.3s linear;
     &.dots-bg {
       background: rgba(87, 108, 108, 0.15);
       border-radius: 5px;
     }
-    &:hover{
+    &:hover {
       background: rgba(87, 108, 108, 0.15);
       border-radius: 5px;
     }
-    svg{
+    svg {
       vertical-align: -0.3em;
     }
   }
@@ -892,11 +891,13 @@
     word-break: break-word;
     color: #414141;
     padding: 10px 10px 10px 0;
-    a{
-      cursor: pointer; 
+    a {
+      cursor: pointer;
     }
   }
   .time_report_day_hours {
+    // TODO: Remove hardcoded margin
+    margin-right: 8px;
     width: 58px;
     color: #414141;
     font-size: 14px;
@@ -961,19 +962,18 @@
         }
       }
       .button {
-        
         font-weight: 500;
         padding: 5px 10px;
         height: 100%;
         text-align: left;
-        color: $mainBlackColor;;
+        color: $mainBlackColor;
 
         .icon {
           margin-right: 10px;
           font-size: 17px;
           color: #414141;
         }
-        .exchange_icon{
+        .exchange_icon {
           transform: rotate(0deg);
         }
 
@@ -999,8 +999,8 @@
       }
     }
   }
-  
-  .edit-form{
+
+  .edit-form {
     display: flex;
     align-items: center;
     justify-content: space-between;

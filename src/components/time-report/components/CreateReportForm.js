@@ -10,6 +10,7 @@ import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
 import { Textarea } from 'components/ui/textarea/Textarea'
+import TimeInput from 'components/ui/timeInput'
 
 function CreateReportForm({
   addTimeReport,
@@ -26,13 +27,13 @@ function CreateReportForm({
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
-  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
   const [isTextInputError, setIsTextInputError] = useState(false)
+  const [isTimeInputError, setIsTimeInputError] = useState(false)
 
   const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
   useEffect(() => {
     setIsTextInputError(false)
-    setBorderInputHoursClassName('')
+    setIsTimeInputError(false)
   }, [selectedDay])
 
   const MAX_SIZE = 1000
@@ -44,7 +45,7 @@ function CreateReportForm({
 
     if (!text && !hours) {
       setIsTextInputError(true)
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
@@ -64,7 +65,7 @@ function CreateReportForm({
       return
     }
     if (!hours || hours === '0:00') {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: DANGER_ALERT,
         title: 'Field of time can not be empty',
@@ -74,7 +75,7 @@ function CreateReportForm({
       return
     }
     if (sumHours + takeTime > 1440) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: DANGER_ALERT,
         title: 'Time limit exceeded',
@@ -84,7 +85,7 @@ function CreateReportForm({
       return
     }
     if (takeTime % 15 !== 0) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
@@ -95,7 +96,7 @@ function CreateReportForm({
     }
 
     if (takeTime > 480) {
-      setBorderInputHoursClassName('border-danger')
+      setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
@@ -118,7 +119,7 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
-    console.log('changeHandler');
+    console.log('changeHandler')
     if (e.target.value) {
       setIsTextInputError(false)
     }
@@ -130,7 +131,7 @@ function CreateReportForm({
   const handlerChangeHours = (e) => {
     const value = e.target.value
     if (value) {
-      setBorderInputHoursClassName('')
+      setIsTimeInputError(false)
     }
     setHours(value)
   }
@@ -160,14 +161,14 @@ function CreateReportForm({
 
       {/* TODO: Replace InputMask with TextField MUI component */}
       <div className="time_report_day_row_create_right">
-        <InputMask
+        <TimeInput
           placeholder="0:00"
           maskPlaceholder="0"
-          className={`hours_input input ${borderInputHoursClassName}`}
+          mask="9:99"
           value={hours}
           onChange={handlerChangeHours}
-          mask="9:99"
           onFocus={handlerFocus}
+          error={isTimeInputError}
         />
         <button
           className={
