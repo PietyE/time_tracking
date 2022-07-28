@@ -687,12 +687,12 @@ function EditProjectModal({ show, month }) {
                         : '')
                     }
                     onMouseEnter={() => {
-                      ;(!valuesFromApi?.projectManager ||
+                      (!valuesFromApi?.projectManager ||
                         !activeProjectManager?.name) &&
                         _handlerMouseEnter()
                     }}
                     onMouseLeave={() => {
-                      ;(!valuesFromApi?.projectManager ||
+                      (!valuesFromApi?.projectManager ||
                         !activeProjectManager?.name) &&
                         _handlerMouseLeave()
                     }}

@@ -272,7 +272,7 @@ function* getUsersHoursAuthUrl() {
     }
     yield put(getUsersHoursAuthUrlSuccess(googleSyncWithDrive))
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Authentication URL have been successfully getting',
         delay: 5000,
@@ -280,7 +280,7 @@ function* getUsersHoursAuthUrl() {
     )
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',

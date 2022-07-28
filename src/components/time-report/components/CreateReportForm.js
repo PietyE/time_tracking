@@ -9,6 +9,7 @@ import { setEditMode } from 'actions/times-report'
 import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
+import { Textarea } from 'components/ui/textarea/Textarea'
 
 function CreateReportForm({
   addTimeReport,
@@ -25,12 +26,12 @@ function CreateReportForm({
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
-  const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
+  const [isTextInputError, setIsTextInputError] = useState(false)
 
   const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
   useEffect(() => {
-    setBorderInputClassName('')
+    setIsTextInputError(false)
     setBorderInputHoursClassName('')
   }, [selectedDay])
 
@@ -42,7 +43,7 @@ function CreateReportForm({
     const takeTime = _hour ? +_hour * 60 + +min : +min
 
     if (!text && !hours) {
-      setBorderInputClassName('border-danger')
+      setIsTextInputError(true)
       setBorderInputHoursClassName('border-danger')
       showAlert({
         type: DANGER_ALERT,
@@ -53,7 +54,7 @@ function CreateReportForm({
       return
     }
     if (!text) {
-      setBorderInputClassName('border-danger')
+      setIsTextInputError(true)
       showAlert({
         type: DANGER_ALERT,
         title: 'Task name can not be empty',
@@ -105,7 +106,7 @@ function CreateReportForm({
       return
     }
 
-    setBorderInputClassName('')
+    setIsTextInputError(false)
 
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
@@ -117,8 +118,9 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
+    console.log('changeHandler');
     if (e.target.value) {
-      setBorderInputClassName('')
+      setIsTextInputError(false)
     }
     setText(e.target.value)
     const size = e.target.value.split('').length
@@ -143,19 +145,20 @@ function CreateReportForm({
       onAnimationEnd={handlerEndAnimation}
     >
       <div className="description_input_container">
-        <input
-          type="text"
-          name="description"
-          placeholder="What did you work on?"
-          className={`description_input input ${borderInputClassName}`}
+        <Textarea
           value={text}
           onChange={handlerChangeText}
-          onFocus={handlerFocus}
+          // onFocus={handlerFocus}
+          placeholder="What did you work on?"
+          fullWidth
           maxLength={1000}
+          maxRows={10}
+          error={isTextInputError}
         />
         {leftSize < 50 && <span className="left_size">{leftSize}</span>}
       </div>
 
+      {/* TODO: Replace InputMask with TextField MUI component */}
       <div className="time_report_day_row_create_right">
         <InputMask
           placeholder="0:00"

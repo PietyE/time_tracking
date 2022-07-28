@@ -1,14 +1,11 @@
-export const whiteColor = 'rgba(255, 255, 255, 1)'
-export const blackColor = 'rgba(0, 0, 0, 1)'
-
-export const mainRedColor = "rgba(248, 66, 66, 1)"
-export const lightRedColor = "rgba(248, 66, 66, 0.1)"
-
-export const mainGrayColor = 'rgba(0, 0, 0, 0.2)'
-export const darkGrayColor = "rgba(34, 34, 34, 0.7)"
-export const lightGrayColor = 'rgba(229, 229, 229, 1)'
-
-export const mainBlackColor = 'rgba(34, 34, 34, 1)'
-
-export const mainGreenColor = 'rgba(0, 156, 152, 1)'
-export const lightGreenColor = 'rgba(0, 156, 152, 0.1)'
+export const COLORS = {
+  mainRed: 'rgba(248, 66, 66, 1)',
+  lightRed: 'rgba(248, 66, 66, 0.1)',
+  mainGray: 'rgba(0, 0, 0, 0.2)',
+  darkGray: 'rgba(34, 34, 34, 0.7)',
+  lightGray: 'rgba(229, 229, 229, 1)',
+  mainBlack: 'rgba(34, 34, 34, 1)',
+  mainGreen: 'rgba(0, 156, 152, 1)',
+  lightGreen: 'rgba(0, 156, 152, 0.1)',
+  textDisabled: 'rgba(173, 173, 167, 1)',
+}

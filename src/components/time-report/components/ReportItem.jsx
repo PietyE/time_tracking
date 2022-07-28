@@ -26,8 +26,9 @@ import {
 
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
-import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
-import { showAlert } from 'actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
+import { showAlert } from '../../../actions/alert'
+import { Textarea } from 'components/ui/textarea/Textarea'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -90,10 +91,12 @@ function ReportItem({
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
-  const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const [editMenu, handlerOpenMenu] = useMenuPresent()
+  const [textInputValue, setTextInputValue] = useState(text)
+  const [isTextInputError, setIsTextInputError] = useState(false)
+
+  const [editMenu, handlerOpenMenu] = useMenuPresent();
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -117,10 +120,9 @@ function ReportItem({
     setEditMode(null)
   }
 
-  const handlerChangeTask = (e) => {
-    if (e.target.value) {
-      setBorderInputClassName('')
-    }
+  const handleChangeTextInputValue = (e) => {
+    setTextInputValue(e.target.value)
+    setIsTextInputError(false)
   }
 
   const handlerChangeHours = (e) => {
@@ -135,10 +137,9 @@ function ReportItem({
     e.stopPropagation()
     const [_hour, min] = e.target.duration.value.split(':')
     const duration = _hour ? +_hour * 60 + +min : +min
-    const title = e.target.title.value
 
-    if (title.length === 0 && duration === 0) {
-      setBorderInputClassName('border-danger')
+    if (textInputValue.length === 0 && duration === 0) {
+      setIsTextInputError(true)
       setBorderInputHoursClassName('border-danger')
       showAlert({
         type: DANGER_ALERT,
@@ -149,8 +150,8 @@ function ReportItem({
       return
     }
 
-    if (title.length === 0) {
-      setBorderInputClassName('border-danger')
+    if (textInputValue.length === 0) {
+      setIsTextInputError(true)
       showAlert({
         type: DANGER_ALERT,
         message: 'Fields Task can not be empty',
@@ -188,11 +189,11 @@ function ReportItem({
       return
     }
 
-    if (oldDuration !== duration || oldTitle !== title) {
+    if (oldDuration !== duration || oldTitle !== textInputValue) {
       setBorderInputHoursClassName('border-danger')
       editTimeReport({
         developer_project,
-        title,
+        title: textInputValue,
         duration,
         date,
         id,
@@ -201,26 +202,6 @@ function ReportItem({
     setEditMode(null)
     setBorderInputHoursClassName('')
     setBorderInputHoursClassName('')
-  }
-
-  const handleEnterPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      if (e.target.id === 'reportTask') {
-        e.preventDefault()
-        if (!e.target.value) {
-          setBorderInputClassName('border-danger')
-          showAlert({
-            type: DANGER_ALERT,
-            message: 'Field Task can not be empty',
-            delay: 5000,
-          })
-          return
-        } else {
-          setBorderInputClassName('')
-          containerHours.current.focus()
-        }
-      }
-    }
   }
 
   const hanldeClickToggleShowModalChangeProject = useCallback(() => {
@@ -382,38 +363,34 @@ function ReportItem({
         />
       )}
       {idEditingWorkItem === id ? (
-        <form
-          style={{ display: 'flex' }}
-          onSubmit={handlerSubmit}
-          id="edit_form"
-          className={'edit-form'}
-        >
-          <TextareaAutosize
-            className={`time_report_day_description textarea ${borderInputClassName}`}
-            defaultValue={text}
-            autoFocus
-            onFocus={(e) => {
-              const temp_value = e.target.value
-              e.target.value = ''
-              e.target.value = temp_value
-            }}
-            onChange={handlerChangeTask}
-            onKeyPress={handleEnterPress}
-            style={{ height: '45px' }}
-            name="title"
-            id="reportTask"
-          />
-          <InputMask
-            placeholder="HH"
-            maskPlaceholder="0"
-            className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
-            mask="9:99"
-            defaultValue={parseMinToHoursAndMin(hours)}
-            name="duration"
-            ref={containerHours}
-            onChange={handlerChangeHours}
-          />
-        </form>
+          <form
+            style={{ display: 'flex' }}
+            onSubmit={handlerSubmit}
+            id="edit_form"
+            className={'edit-form'}
+          >
+            {/* TODO: Replace hardcoded styles with flex */}
+            <div style={{width: "80%", marginRight: "50px"}}>
+              <Textarea
+                multiline
+                fullWidth
+                autoFocus 
+                value={textInputValue}
+                onChange={handleChangeTextInputValue}
+                error={isTextInputError}
+                />
+            </div>
+            <InputMask
+              placeholder="HH"
+              maskPlaceholder="0"
+              className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
+              mask="9:99"
+              defaultValue={parseMinToHoursAndMin(hours)}
+              name="duration"
+              ref={containerHours}
+              onChange={handlerChangeHours}
+            />
+          </form>
       ) : (
         <>
           <span className="time_report_day_description">

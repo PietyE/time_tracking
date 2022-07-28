@@ -54,7 +54,6 @@ function WindowInfo({ title, children, close, download, id, onArchivedPress, isP
         </div>
         {children}
     </div>
-  )
 }
 
 export default WindowInfo
