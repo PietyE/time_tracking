@@ -1,0 +1,12 @@
+.custom-avatar.MuiAvatar-root {
+  &.small {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 24px;
+  }
+  &.large {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 20px;
+  }
+}

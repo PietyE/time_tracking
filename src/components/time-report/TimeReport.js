@@ -34,9 +34,8 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId } from 'selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
-import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
