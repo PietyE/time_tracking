@@ -16,7 +16,7 @@ import {
  * @returns {Action}
  */
 
-export const showAler = payload => ({
+export const showAlert = payload => ({
   type: SHOW_ALERT,
   payload,
 })

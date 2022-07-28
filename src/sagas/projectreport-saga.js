@@ -1,7 +1,7 @@
 import { call, takeEvery, put, select, takeLatest } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { pm } from '../api'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
@@ -102,7 +102,7 @@ export function* getAllDevelopersProjectInProjectReport() {
     yield put(setAllDevelopersProjectsPR(data))
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -123,7 +123,7 @@ function* setExchangeRate({ payload, callback }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Exchange Rate has been saved',
         delay: 5000,
@@ -140,7 +140,7 @@ function* setExchangeRate({ payload, callback }) {
     yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -166,7 +166,7 @@ function* addDevelopersToProject({ payload = [] }) {
     }
 
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Users have been added',
         delay: 5000,
@@ -174,7 +174,7 @@ function* addDevelopersToProject({ payload = [] }) {
     )
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -272,7 +272,7 @@ function* getUsersHoursAuthUrl() {
     }
     yield put(getUsersHoursAuthUrlSuccess(googleSyncWithDrive))
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Authentication URL have been successfully getting',
         delay: 5000,
@@ -280,7 +280,7 @@ function* getUsersHoursAuthUrl() {
     )
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',

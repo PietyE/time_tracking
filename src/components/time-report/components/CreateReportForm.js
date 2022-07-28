@@ -6,9 +6,10 @@ import InputMask from 'react-input-mask'
 import { isEqual } from 'lodash'
 import { getSelectedDateTimeReport } from '../../../selectors/timereports'
 import { setEditMode } from 'actions/times-report'
-import { showAler } from '../../../actions/alert'
+import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
+import { Textarea } from 'components/ui/textarea/Textarea'
 
 function CreateReportForm({
   addTimeReport,
@@ -17,7 +18,7 @@ function CreateReportForm({
   handlerEndAnimation,
   extraClassName,
   setEditMode,
-  showAler,
+  showAlert,
   sumHours,
   // selectDayStatus,
   // selectedDayStatus
@@ -25,12 +26,12 @@ function CreateReportForm({
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [leftSize, setLeftSize] = useState(1000)
-  const [borderInputClassName, setBorderInputClassName] = useState('')
   const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
+  const [isTextInputError, setIsTextInputError] = useState(false)
 
   const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
   useEffect(() => {
-    setBorderInputClassName('')
+    setIsTextInputError(false)
     setBorderInputHoursClassName('')
   }, [selectedDay])
 
@@ -42,9 +43,9 @@ function CreateReportForm({
     const takeTime = _hour ? +_hour * 60 + +min : +min
 
     if (!text && !hours) {
-      setBorderInputClassName('border-danger')
+      setIsTextInputError(true)
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
         message: error.message || 'Fields can not be empty',
@@ -53,8 +54,8 @@ function CreateReportForm({
       return
     }
     if (!text) {
-      setBorderInputClassName('border-danger')
-      showAler({
+      setIsTextInputError(true)
+      showAlert({
         type: DANGER_ALERT,
         title: 'Task name can not be empty',
         message: error.message || 'Task name can not be empty',
@@ -64,7 +65,7 @@ function CreateReportForm({
     }
     if (!hours || hours === '0:00') {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Field of time can not be empty',
         message: error.message || 'Field of time can not be empty',
@@ -74,7 +75,7 @@ function CreateReportForm({
     }
     if (sumHours + takeTime > 1440) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: DANGER_ALERT,
         title: 'Time limit exceeded',
         message: error.message || 'You can not log more than 24 hours per day',
@@ -84,7 +85,7 @@ function CreateReportForm({
     }
     if (takeTime % 15 !== 0) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
         message: error.message || 'The value must be a multiple of 15',
@@ -95,7 +96,7 @@ function CreateReportForm({
 
     if (takeTime > 480) {
       setBorderInputHoursClassName('border-danger')
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Check the entered value',
         message:
@@ -105,7 +106,7 @@ function CreateReportForm({
       return
     }
 
-    setBorderInputClassName('')
+    setIsTextInputError(false)
 
     addTimeReport({
       date: `${selectedDate.year}-${selectedDate.month + 1}-${numberOfDay}`,
@@ -117,8 +118,9 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
+    console.log('changeHandler');
     if (e.target.value) {
-      setBorderInputClassName('')
+      setIsTextInputError(false)
     }
     setText(e.target.value)
     const size = e.target.value.split('').length
@@ -143,19 +145,20 @@ function CreateReportForm({
       onAnimationEnd={handlerEndAnimation}
     >
       <div className="description_input_container">
-        <input
-          type="text"
-          name="description"
-          placeholder="What did you work on?"
-          className={`description_input input ${borderInputClassName}`}
+        <Textarea
           value={text}
           onChange={handlerChangeText}
-          onFocus={handlerFocus}
+          // onFocus={handlerFocus}
+          placeholder="What did you work on?"
+          fullWidth
           maxLength={1000}
+          maxRows={10}
+          error={isTextInputError}
         />
         {leftSize < 50 && <span className="left_size">{leftSize}</span>}
       </div>
 
+      {/* TODO: Replace InputMask with TextField MUI component */}
       <div className="time_report_day_row_create_right">
         <InputMask
           placeholder="0:00"
@@ -186,7 +189,7 @@ function CreateReportForm({
 
 const actions = {
   setEditMode,
-  showAler,
+  showAlert,
 }
 
 export default connect(null, actions)(memo(CreateReportForm))

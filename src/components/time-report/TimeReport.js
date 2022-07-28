@@ -40,6 +40,8 @@ import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+import { DANGER_ALERT } from 'constants/alert-constant'
+import { showAlert } from 'actions/alert'
 
 // import FunnelSelect from "./components/FunnelSelect";
 
@@ -64,6 +66,7 @@ function TimeReport(props) {
     // selectedDay,
     selectDayStatus,
     selectedDayStatus,
+    showAlert
   } = props
 
   const dispatch = useDispatch()
@@ -189,6 +192,12 @@ function TimeReport(props) {
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
+      showAlert({
+        type: DANGER_ALERT,
+        title: 'Error while exporting to XLSX',
+        message:  'You can not export time report in XLSX because there are no filled working hours',
+        delay: 5000,
+      })
       return
     }
     getTimeReportCsv()
@@ -351,6 +360,7 @@ const actions = {
   getTimeReportCsv,
   setUserStatus,
   getDeveloperProjectsTR,
+  showAlert
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

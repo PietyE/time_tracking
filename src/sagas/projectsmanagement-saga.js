@@ -31,7 +31,7 @@ import {
   setSelectedProjectId,
   setShowEditModal,
 } from 'actions/projects-management'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   getSelectedPmIdSelector,
@@ -41,6 +41,8 @@ import {
 import { isEmpty } from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import { setErrorData } from 'actions/error'
+
+
 
 export function* getAllProjects() {
   try {
@@ -79,7 +81,7 @@ export function* getAllProjects() {
     }
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -114,7 +116,7 @@ export function* getProjectsSagaWorker() {
     // yield put(setAllProjects(data))
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -161,7 +163,7 @@ export function* getProjectReportById(action) {
     yield put(setProjectsWithReport(projectReport))
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -191,7 +193,7 @@ export function* downloadProjectReport({ payload }) {
     }
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -221,7 +223,7 @@ export function* downloadAllTeamProjectReport({ payload }) {
     }
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -242,7 +244,7 @@ export function* createProject({ payload }) {
     yield call(getAllProjects)
     yield put(setShowEditModal(true))
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Project has been created',
         delay: 5000,
@@ -283,7 +285,7 @@ export function* changeProjName({ payload }) {
     )
     if (result.status === 200) {
       yield put(
-        showAler({
+        showAlert({
           type: SUCCES_ALERT,
           message: `Project ${payload.title} has been modify`,
           delay: 5000,
@@ -293,7 +295,7 @@ export function* changeProjName({ payload }) {
     }
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -312,7 +314,7 @@ export function* editUsersOnProject({ payload }) {
     const result = yield call([pm, 'changeProjectTeam'], id, data)
     if (result.status === 200) {
       yield put(
-        showAler({
+        showAlert({
           type: SUCCES_ALERT,
           message: 'Project team has been modified',
           delay: 5000,
@@ -323,7 +325,7 @@ export function* editUsersOnProject({ payload }) {
     yield call(getProjectReportById)
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -342,7 +344,7 @@ export function* addUsersToProject({ payload }) {
     const result = yield call([pm, 'createDeveloperProject'], payload.data)
     if (result.status === 200) {
       yield put(
-        showAler({
+        showAlert({
           type: SUCCES_ALERT,
           message: 'Project team has been modify',
           delay: 5000,
@@ -352,7 +354,7 @@ export function* addUsersToProject({ payload }) {
     yield call(getProjectReportById)
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
