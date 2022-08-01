@@ -1,11 +1,10 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, Suspense, lazy } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { getDeveloperProjects, getProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
-import TimeReportScreen from '../TimeReportScreen'
 // import ProjectsScreen from '../ProjectsScreen'
 // import ProfileScreen from "../ProfileScreen";
 import {
@@ -17,30 +16,38 @@ import {
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
-// import PmPrivateRoute from '../../Routes/PmPrivatRoute'
 import SideMenu from 'components/side-menu'
-import ProjectReportNew from 'components/project-report-new-design'
 import './MainScreen.scss'
 // import InHouseEmployees from 'components/in-house-employees'
 // import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
 // import TotalOverview from 'components/total-overview/TotalOverview'
-import ProjectManagementComponent from 'components/project-managment-new-design/ProjectManagementComponent'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
-import { VilmatesScreen } from '../VilmatesScreen'
+import SpinnerStyled from 'components/ui/spinner'
 
-function MainScreen({
-  isAuth,
-  roleUser,
-  getDeveloperProjects,
-  selectDevelopers,
-  profileName,
-  profileId,
-  profileEmail,
-  getCurrenciesList,
-  getRatesList,
-  getSelectedMonth,
-}) {
+const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
+const ProjectReportNew = lazy(() =>
+  import('components/project-report-new-design/ProjectReportNew')
+)
+const VilmatesScreen = lazy(() => import('screens/VilmatesScreen'))
+const ProjectManagementComponent = lazy(() =>
+  import('components/project-managment-new-design/ProjectManagementComponent')
+)
+
+function MainScreen(props) {
+  const {
+    isAuth,
+    roleUser,
+    getDeveloperProjects,
+    selectDevelopers,
+    profileName,
+    profileId,
+    profileEmail,
+    getCurrenciesList,
+    getRatesList,
+    getSelectedMonth,
+  } = props
+
   const date = getSelectedMonth
   useEffect(() => {
     if (isAuth) {
@@ -81,22 +88,24 @@ function MainScreen({
   return (
     <div className="new_design">
       <SideMenu />
-      <Switch>
-        <Route path="/projectreport" component={ProjectReportNew} exact />
-        {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
-        <Route path="/timereport" component={TimeReportScreen} exact />
-        <Route path="/vilmates" component={VilmatesScreen} exact />
-        {/* <Route path="/people" component={PeopleScreen}/>
+      <Suspense fallback={<SpinnerStyled />}>
+        <Switch>
+          <Route path="/projectreport" component={ProjectReportNew} exact />
+          {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
+          <Route path="/timereport" component={TimeReportScreen} exact />
+          <Route path="/vilmates" component={VilmatesScreen} exact />
+          {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
-        {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
-        <PmPrivateRoute
-          path="/projectmanagement"
-          component={ProjectManagementComponent}
-          exact
-        />
-        {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
-        <Redirect from="/" to="/timereport" />
-      </Switch>
+          {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
+          <PmPrivateRoute
+            path="/projectmanagement"
+            component={ProjectManagementComponent}
+            exact
+          />
+          {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
+          <Redirect from="/" to="/timereport" />
+        </Switch>
+      </Suspense>
     </div>
   )
 }
