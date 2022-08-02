@@ -1,0 +1,14 @@
+@import "src/styles/commonStyles";
+
+.vilmates-page-users-statistics-amount-main-text-container {
+  margin-right: 66px;
+  .vilmates-page-users-statistics-amount-main-text-title.MuiTypography-root {
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .vilmates-page-users-statistics-amount-main-text-subText.MuiTypography-root {
+    color: $separatorColor;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+}

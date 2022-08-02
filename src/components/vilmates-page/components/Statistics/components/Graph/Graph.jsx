@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box } from '@material-ui/core'
-import './Graph.scss'
 import { GraphInfo } from './components/GraphInfo'
 import { GraphRating } from './components/GraphRating'
 
