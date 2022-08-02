@@ -9,7 +9,7 @@ export const Graph = () => {
   const users = useShallowEqualSelector(getUsers)
   return (
     <Box className="vilmates-page-users-statistics-amount-container">
-      <GraphInfo amount={users.length} />
+      <GraphInfo amount={users.length} title="members" />
       <GraphRating />
     </Box>
   )
