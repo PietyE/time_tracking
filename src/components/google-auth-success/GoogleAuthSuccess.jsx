@@ -10,10 +10,9 @@ export const GoogleAuthSuccess = () => {
   const state = searchParams.get('state')
 
   useEffect(() => {
-    const google_auth_url = localStorage.getItem('google_auth_url')
     dispatch(
       getUsersHoursTokenRequest({
-        google_auth_url,
+        google_auth_url: window.location.href,
         state,
       })
     )
