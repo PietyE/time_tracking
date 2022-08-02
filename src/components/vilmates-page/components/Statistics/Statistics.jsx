@@ -7,10 +7,19 @@ export const Statistics = () => (
   <Box className="vilmates-page-users-statistics-container">
     <Box className="vilmates-page-users-statistics-amount-container">
       <Box className="vilmates-page-users-statistics-amount-main-text-container">
-        <Typography variant="h6" component="p">
+        <Typography
+          variant="h4"
+          component="p"
+          className="vilmates-page-users-statistics-amount-main-text-title"
+          gutterBottom
+        >
           150
         </Typography>
-        <Typography variant="body2" component="p">
+        <Typography
+          variant="body2"
+          component="p"
+          className="vilmates-page-users-statistics-amount-main-text-subText"
+        >
           Members
         </Typography>
       </Box>
