@@ -8,9 +8,7 @@ import { getGoogleSyncWithDrive } from '../../../../../reducers/projects-report'
 import './GoogleSyncButton.scss'
 
 export const GoogleSyncButton = () => {
-  const { google_auth_url, state } = useShallowEqualSelector(
-    getGoogleSyncWithDrive
-  )
+  const { google_auth_url } = useShallowEqualSelector(getGoogleSyncWithDrive)
   const dispatch = useDispatch()
 
   useEffect(() => {

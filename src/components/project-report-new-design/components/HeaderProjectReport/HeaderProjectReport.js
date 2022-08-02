@@ -12,13 +12,13 @@ function HeaderProjectReport(props) {
 
   const isHaveAccess = role === ADMIN || role === ACCOUNTANT
 
-  const renderGoogleDriveSyncButton = () => isHaveAccess && <GoogleSyncButton />
+  const renderGoogleDriveSyncButton = isHaveAccess && <GoogleSyncButton />
 
   return (
     <>
       <div className="project_report_header">
         <span className="header_title">{name}</span>
-        {renderGoogleDriveSyncButton()}
+        {renderGoogleDriveSyncButton}
       </div>
     </>
   )

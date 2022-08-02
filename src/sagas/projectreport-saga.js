@@ -266,11 +266,11 @@ function* getUsersHoursAuthUrl() {
   try {
     const URL = 'user-hours/get_auth_url/'
     const response = yield call([Api, 'getUsersHoursAuthUrl'], URL)
-    const { status, data: googleSyncWithDrive } = response
+    const { status, data } = response
     if (String(status)[0] !== '2') {
       throw new Error()
     }
-    yield put(getUsersHoursAuthUrlSuccess(googleSyncWithDrive))
+    yield put(getUsersHoursAuthUrlSuccess(data.google_auth_url))
     yield put(
       showAler({
         type: SUCCES_ALERT,
