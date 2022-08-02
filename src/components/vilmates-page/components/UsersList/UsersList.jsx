@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react'
-import { Box, Grid, Typography } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Box, Grid } from '@material-ui/core'
 import { users } from 'mocks/users'
 import { UserItem } from './components/UserItem'
 import { SearchField } from 'components/ui/search-field'
-import './UsersList.scss'
 import { useSearch } from 'custom-hook/useSearch'
+import './UsersList.scss'
 
 export const UsersList = () => {
   const [value, setValue] = useState('')
-  const [filteredUsers, setUsers] = useSearch(users, value)
+  const [filteredUsers] = useSearch(users, value)
 
   const handleChange = (event) => setValue(event.target.value)
 
@@ -27,7 +27,6 @@ export const UsersList = () => {
           value={value}
           onChange={handleChange}
         />
-        <Typography>Reset filters</Typography>
       </Box>
       <Grid container spacing={7}>
         {renderUsers()}
