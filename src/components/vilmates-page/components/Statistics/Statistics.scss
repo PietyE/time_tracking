@@ -1,0 +1,17 @@
+.vilmates-page-users-statistics-container {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.vilmates-page-users-statistics-amount-container {
+  margin-right: 40px;
+  padding: 28px 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:last-child {
+    margin-right: 0;
+  }
+}
