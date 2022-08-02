@@ -9,10 +9,12 @@ export const GoogleAuthSuccess = () => {
 
   const state = searchParams.get('state')
 
+  const url = window.location.href.replace('http', 'https')
+
   useEffect(() => {
     dispatch(
       getUsersHoursTokenRequest({
-        google_auth_url: window.location.href,
+        google_auth_url: url,
         state,
       })
     )
