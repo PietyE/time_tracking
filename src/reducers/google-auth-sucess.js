@@ -9,7 +9,7 @@ const initialState = {
   token: '',
 }
 
-export const googleAuthSuccess = (state, action) => {
+export const googleAuthSuccess = (state = initialState, action) => {
   switch (action.type) {
     case GET_USERS_HOURS_TOKEN_REQUEST:
       return {

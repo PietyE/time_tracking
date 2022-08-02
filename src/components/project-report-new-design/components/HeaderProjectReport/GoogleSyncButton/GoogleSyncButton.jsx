@@ -4,11 +4,11 @@ import { CustomButton } from '../../../../ui/button'
 import { useDispatch } from 'react-redux'
 import { getUsersHoursAuthUrlRequest } from '../../../../../actions/projects-report'
 import useShallowEqualSelector from '../../../../../custom-hook/useShallowEqualSelector'
-import { getGoogleSyncWithDrive } from '../../../../../reducers/projects-report'
+import { getGoogleSyncWithDriveUrl } from '../../../../../reducers/projects-report'
 import './GoogleSyncButton.scss'
 
 export const GoogleSyncButton = () => {
-  const { google_auth_url } = useShallowEqualSelector(getGoogleSyncWithDrive)
+  const google_auth_url = useShallowEqualSelector(getGoogleSyncWithDriveUrl)
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -149,5 +149,5 @@ export const selectUsersReports = (state) =>
 export const selectAllProjects = (state) =>
   state.projectsReport.selectAllDevelopersProject
 
-export const getGoogleSyncWithDrive = (state) =>
-  state.projectsReport.googleSyncWithDrive
+export const getGoogleSyncWithDriveUrl = (state) =>
+  state.projectsReport.google_auth_url

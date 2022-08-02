@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'utils/useSearchParams'
+import { useDispatch } from 'react-redux'
+import { GET_USERS_HOURS_TOKEN_REQUEST } from 'constants/google-auth-sucess-constants'
 
 export const GoogleAuthSuccess = () => {
-  // const location = useLocation()
-  // const params = new URLSearchParams(location.search)
-  // console.log(location)
-  // console.log(params.get('state'))
-  //
-  // useEffect(() => {}, [])
+  const dispatch = useDispatch()
+  const searchParams = useSearchParams()
+
+  const state = searchParams.get('state')
+
+  useEffect(() => {
+    // dispatch(GET_USERS_HOURS_TOKEN_REQUEST(state))
+  }, [])
+
   return <div>hello sucess</div>
 }
