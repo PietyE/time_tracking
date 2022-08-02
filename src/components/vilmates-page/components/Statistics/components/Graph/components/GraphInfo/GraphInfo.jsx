@@ -1,7 +1,8 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
+import './GraphInfo.scss'
 
-export const GraphInfo = () => (
+export const GraphInfo = ({ amount }) => (
   <Box className="vilmates-page-users-statistics-amount-main-text-container">
     <Typography
       variant="h4"
@@ -9,7 +10,7 @@ export const GraphInfo = () => (
       className="vilmates-page-users-statistics-amount-main-text-title"
       gutterBottom
     >
-      150
+      {amount}
     </Typography>
     <Typography
       variant="body2"
