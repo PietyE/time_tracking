@@ -16,6 +16,7 @@ export const UsersList = () => {
     dispatch(vilmatesPageGetUsersListRequest())
   }, [])
 
+  //todo: do not forget to ask what to if we have not any user
   const renderUsers = () =>
     users.length ? (
       users.map(({ id, name, position }) => (
@@ -24,7 +25,9 @@ export const UsersList = () => {
         </Grid>
       ))
     ) : (
-      <Typography>No users at the time</Typography>
+      <Typography variant="h1" component="p" className="vilmate-page-no-users">
+        No users at the time...
+      </Typography>
     )
 
   if (isLoading) return <SpinnerStyled />
