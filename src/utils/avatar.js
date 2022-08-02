@@ -18,9 +18,18 @@ function stringToColor(string) {
   return color
 }
 
-export const stringAvatar = (name) => ({
-  style: {
-    backgroundColor: stringToColor(name),
-  },
-  children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-})
+const getName = (name) => {
+  const fullName = name.split(' ')
+  return fullName.length > 1
+    ? `${fullName[0][0]}${fullName[1][0]}`
+    : `${fullName[0][0]}`
+}
+
+export const stringAvatar = (name) => {
+  return {
+    style: {
+      backgroundColor: stringToColor(name),
+    },
+    children: getName(name),
+  }
+}

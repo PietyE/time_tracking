@@ -6,7 +6,7 @@ import {
 } from 'actions/vilmates-page'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
-import Api from 'api'
+import Api from 'utils/api'
 
 function* getUsersList() {
   try {
