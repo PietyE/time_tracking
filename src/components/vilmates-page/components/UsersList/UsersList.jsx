@@ -17,24 +17,23 @@ export const UsersList = () => {
   }, [])
 
   //todo: do not forget to ask what to if we have not any user
-  const renderUsers = () =>
-    users.length ? (
-      users.map(({ id, name, position }) => (
-        <Grid item key={id} md={3}>
-          <UserItem name={name} position={position} />
-        </Grid>
-      ))
-    ) : (
-      <Typography variant="h1" component="p" className="vilmate-page-no-users">
-        No users at the time...
-      </Typography>
-    )
+  const renderUsers = users.length ? (
+    users.map(({ id, name, position }) => (
+      <Grid item key={id} md={3}>
+        <UserItem name={name} position={position} />
+      </Grid>
+    ))
+  ) : (
+    <Typography variant="h1" component="p" className="vilmate-page-no-users">
+      No users at the time...
+    </Typography>
+  )
 
-  if (isLoading) return <SpinnerStyled />
-
-  return (
+  return !isLoading ? (
     <Grid container spacing={7}>
-      {renderUsers()}
+      {renderUsers}
     </Grid>
+  ) : (
+    <SpinnerStyled />
   )
 }
