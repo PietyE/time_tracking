@@ -9,8 +9,7 @@ import { setEditMode } from 'actions/times-report'
 import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
-import { Textarea } from 'components/ui/textarea/Textarea'
-import TimeInput from 'components/ui/timeInput'
+import ReportItemForm from './ReportItemForm'
 
 function CreateReportForm({
   addTimeReport,
@@ -119,7 +118,6 @@ function CreateReportForm({
   }
 
   const handlerChangeText = (e) => {
-    console.log('changeHandler')
     if (e.target.value) {
       setIsTextInputError(false)
     }
@@ -140,51 +138,21 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-    <form
-      onSubmit={handlerClickAddButton}
-      className={`time_report_day_row_create ${extraClassName}`}
-      onAnimationEnd={handlerEndAnimation}
-    >
-      <div className="description_input_container">
-        <Textarea
-          value={text}
-          onChange={handlerChangeText}
-          // onFocus={handlerFocus}
-          placeholder="What did you work on?"
-          fullWidth
-          maxLength={1000}
-          maxRows={10}
-          error={isTextInputError}
-        />
-        {leftSize < 50 && <span className="left_size">{leftSize}</span>}
-      </div>
-
-      {/* TODO: Replace InputMask with TextField MUI component */}
-      <div className="time_report_day_row_create_right">
-        <TimeInput
-          placeholder="0:00"
-          maskPlaceholder="0"
-          mask="9:99"
-          value={hours}
-          onChange={handlerChangeHours}
-          onFocus={handlerFocus}
-          error={isTimeInputError}
-        />
-        <button
-          className={
-            'create_btn ' +
-            (hours && hours !== '0:00' && text ? '' : 'disabled')
-          }
-          onClick={handlerClickAddButton}
-        >
-          <FontAwesomeIcon
-            icon={faCheck}
-            color="#414141"
-            className="icon pencil_icon"
-          />
-        </button>
-      </div>
-    </form>
+      <ReportItemForm
+        textInputValue={text}
+        textInputPlaceholder="What did you work on?"
+        handleTextInputChange={handlerChangeText}
+        textInputError={isTextInputError}
+        timeInputValue={hours}
+        timeInputPlaceholder="0:00"
+        timeInputMaskPlaceholder="0"
+        timeInputMask="9:99"
+        handleTimeInputChange={handlerChangeHours}
+        handleTimeInputFocus={handlerFocus}
+        timeInputError={isTimeInputError}
+        isButtonDisabled={!(hours && hours !== '0:00' && text)}
+        handleFormSubmit={handlerClickAddButton}
+      />
   )
 }
 

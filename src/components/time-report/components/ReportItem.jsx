@@ -28,8 +28,7 @@ import useMenuPresent from 'custom-hook/useMenuPresent'
 
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAlert } from '../../../actions/alert'
-import { Textarea } from 'components/ui/textarea/Textarea'
-import TimeInput from 'components/ui/timeInput'
+import ReportItemForm from './ReportItemForm'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -366,34 +365,19 @@ function ReportItem({
         />
       )}
       {idEditingWorkItem === id ? (
-          <form
-            style={{ display: 'flex' }}
-            onSubmit={handlerSubmit}
-            id="edit_form"
-            className={'edit-form'}
-          >
-            {/* TODO: Replace hardcoded styles with flex */}
-            <div style={{width: "80%", marginRight: "50px"}}>
-              <Textarea
-                multiline
-                fullWidth
-                autoFocus 
-                value={textInputValue}
-                onChange={handleChangeTextInputValue}
-                error={isTextInputError}
-                />
-            </div>
-            <div style={{ marginRight: '25px' }}>
-              <TimeInput
-                placeholder="HH"
-                maskPlaceholder="0"
-                mask="9:99"
-                value={timeInputValue}
-                onChange={handleChangeTimeInputValue}
-                error={isTimeInputError}
-              />
-            </div>
-          </form>
+        <ReportItemForm
+          textInputValue={textInputValue}
+          handleTextInputChange={handleChangeTextInputValue}
+          textInputError={isTextInputError}
+          textInputAutofocus
+          timeInputValue={timeInputValue}
+          handleTimeInputChange={handleChangeTimeInputValue}
+          timeInputError={isTimeInputError}
+          timeInputPlaceholder="HH"
+          timeInputMaskPlaceholder="0"
+          timeInputMask="9:99"
+          handleFormSubmit={handlerSubmit}
+          />
       ) : (
         <>
           <span className="time_report_day_description">
@@ -406,7 +390,7 @@ function ReportItem({
       )}
 
       <div className="time_report_day_edit">
-        {idEditingWorkItem !== id ? (
+        {idEditingWorkItem !== id && (
           <div
             className={'edit_dots ' + (editMenu ? 'dots-bg' : '')}
             onClick={handlerOpenMenu}
@@ -417,21 +401,6 @@ function ReportItem({
               className="icon pencil_icon"
             />
           </div>
-        ) : (
-          <button
-            className="create_btn"
-            onClick={
-              idEditingWorkItem === id ? () => null : handlerClickEditMode
-            }
-            type={idEditingWorkItem === id ? 'submit' : 'button'}
-            form="edit_form"
-          >
-            <FontAwesomeIcon
-              icon={faCheck}
-              color="#414141"
-              className="icon pencil_icon"
-            />
-          </button>
         )}
 
         {editMenu && !idEditingWorkItem && (

@@ -7,41 +7,40 @@ export const TimeInput = ({
   value,
   onChange,
   onFocus,
+  onBlur,
   mask,
   maskPlaceholder,
   placeholder,
   error,
+  classes,
 }) => (
-  <Box
-    sx={{
-      width: '57px',
-      textAlign: 'center',
-    }}
+  <InputMask
+    placeholder={placeholder}
+    maskPlaceholder={maskPlaceholder}
+    value={value}
+    onChange={onChange}
+    mask={mask}
+    onFocus={onFocus}
+    onBlur={onBlur}
   >
-    <InputMask
-      placeholder={placeholder}
-      maskPlaceholder={maskPlaceholder}
-      value={value}
-      onChange={onChange}
-      mask={mask}
-      onFocus={onFocus}
-    >
-      <TextField
-        variant="outlined"
-        fullWidth
-        inputProps={{ style: { textAlign: 'center' } }}
-        error={error}
-      />
-    </InputMask>
-  </Box>
+    <TextField
+      variant="outlined"
+      fullWidth
+      inputProps={{ style: { textAlign: 'center' } }}
+      error={error}
+      classes={classes}
+    />
+  </InputMask>
 )
 
 TimeInput.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   mask: PropTypes.string,
   placeholder: PropTypes.string,
   maskPlaceholder: PropTypes.string,
   error: PropTypes.bool,
+  classes: PropTypes.object,
 }

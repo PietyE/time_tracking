@@ -6,6 +6,6 @@ export const COLORS = {
   lightGray: 'rgba(229, 229, 229, 1)',
   mainBlack: 'rgba(34, 34, 34, 1)',
   mainGreen: 'rgba(0, 156, 152, 1)',
-  lightGreen: 'rgba(0, 156, 152, 0.1)',
+  lightGreen: 'rgba(153, 215, 214, 1)',
   textDisabled: 'rgba(173, 173, 167, 1)',
 }
