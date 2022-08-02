@@ -1,46 +1,23 @@
 @import "src/styles/commonStyles";
 
+//main containers
+
 .vilmates-page-users-statistics-container {
-  margin-bottom: 40px;
   display: flex;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 40px;
   .vilmates-page-users-statistics-amount-container {
-    margin-right: 40px;
-    padding: 28px 16px 20px;
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
+    align-items: flex-start;
+    padding: 28px 16px 20px;
+    margin-right: 40px;
     background: $whiteColor;
     border: 1px solid $grayBorderColor(201, 201, 198, 0.4);
     border-radius: 10px;
-    .vilmates-page-users-statistics-amount-main-text-container {
-      margin-right: 66px;
-      .vilmates-page-users-statistics-amount-main-text-title.MuiTypography-root {
-        font-size: 26px;
-        font-weight: 600;
-      }
-      .vilmates-page-users-statistics-amount-main-text-subText.MuiTypography-root {
-        color: $separatorColor;
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-    }
     &:last-child {
       margin-right: 0;
-    }
-  }
-  .vilmates-page-users-statistics-amount-actions-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 8px;
-    p {
-      margin-right: 6.3px;
-    }
-    svg {
-      width: 7.5px;
-      height: 15px;
     }
   }
 }
