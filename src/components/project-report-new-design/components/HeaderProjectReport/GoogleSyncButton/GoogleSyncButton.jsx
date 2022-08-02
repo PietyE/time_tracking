@@ -12,6 +12,7 @@ export const GoogleSyncButton = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    localStorage.setItem('google_auth_url', google_auth_url)
     if (google_auth_url) window.location.href = google_auth_url
   }, [google_auth_url])
 
