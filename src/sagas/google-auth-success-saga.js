@@ -5,7 +5,7 @@ import {
   getUsersHoursTokenError,
   getUsersHoursTokenSuccess,
 } from 'actions/google-auth-success'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 
 function* createUsersHoursToken(action) {
@@ -26,7 +26,7 @@ function* createUsersHoursToken(action) {
 
     yield put(getUsersHoursTokenSuccess())
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Authentication successfully',
         delay: 4000,
@@ -35,7 +35,7 @@ function* createUsersHoursToken(action) {
   } catch (error) {
     yield put(getUsersHoursTokenError())
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
