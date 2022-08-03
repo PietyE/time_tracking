@@ -13,6 +13,7 @@ import { pagination } from 'reducers/pagination'
 import { currencies } from 'reducers/currency'
 import { projectReportDetails } from 'reducers/project-report-details'
 import { projectsManagement } from 'reducers/projects-management'
+import { vilmatesPage } from 'reducers/vilmates-page'
 
 const rootReducer = combineReducers({
   profile,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   projectsManagement,
   currencies,
   projectReportDetails,
+  vilmatesPage,
 })
 
 const sagaMiddleware = createSagaMiddleware()
