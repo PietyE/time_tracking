@@ -27,7 +27,8 @@ import {
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
-import { showAler } from '../../../actions/alert'
+import { showAlert } from '../../../actions/alert'
+import ReportItemForm from './ReportItemForm'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -67,7 +68,7 @@ function ReportItem({
   idEditingWorkItem,
   setEditMode,
   isOneProject,
-  showAler,
+  showAlert,
   index,
   // opneNewItem,
   // dayTitle,
@@ -90,10 +91,16 @@ function ReportItem({
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
-  const [borderInputClassName, setBorderInputClassName] = useState('')
-  const [borderInputHoursClassName, setBorderInputHoursClassName] = useState('')
 
-  const [editMenu, handlerOpenMenu] = useMenuPresent()
+  const [textInputValue, setTextInputValue] = useState(text)
+  const [timeInputValue, setTimeInputValue] = useState(
+    parseMinToHoursAndMin(hours)
+  )
+  const [isTextInputError, setIsTextInputError] = useState(false)
+  const [isTimeInputError, setIsTimeInputError] = useState(false)
+  const [isDraggable, setIsDraggable] = useState(true)
+
+  const [editMenu, handlerOpenMenu] = useMenuPresent();
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -117,30 +124,27 @@ function ReportItem({
     setEditMode(null)
   }
 
-  const handlerChangeTask = (e) => {
-    if (e.target.value) {
-      setBorderInputClassName('')
-    }
+  const handleChangeTextInputValue = (e) => {
+    setTextInputValue(e.target.value)
+    setIsTextInputError(false)
   }
 
-  const handlerChangeHours = (e) => {
-    const value = e.target.value
-    if (value) {
-      setBorderInputHoursClassName('')
-    }
+
+  const handleChangeTimeInputValue = (e) => {
+    setTimeInputValue(e.target.value)
+    setIsTimeInputError(false)
   }
 
   const handlerSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    const [_hour, min] = e.target.duration.value.split(':')
+    const [_hour, min] = timeInputValue.split(':')
     const duration = _hour ? +_hour * 60 + +min : +min
-    const title = e.target.title.value
 
-    if (title.length === 0 && duration === 0) {
-      setBorderInputClassName('border-danger')
-      setBorderInputHoursClassName('border-danger')
-      showAler({
+    if (textInputValue.length === 0 && duration === 0) {
+      setIsTextInputError(true)
+      setIsTimeInputError(true)
+      showAlert({
         type: DANGER_ALERT,
         title: 'Fields can not be empty',
         message: 'Fields can not be empty',
@@ -149,9 +153,9 @@ function ReportItem({
       return
     }
 
-    if (title.length === 0) {
-      setBorderInputClassName('border-danger')
-      showAler({
+    if (textInputValue.length === 0) {
+      setIsTextInputError(true)
+      showAlert({
         type: DANGER_ALERT,
         message: 'Fields Task can not be empty',
         delay: 5000,
@@ -160,8 +164,9 @@ function ReportItem({
     }
 
     if (duration === 0) {
-      setBorderInputHoursClassName('border-danger')
-      showAler({
+      ('border-danger')
+      setIsTimeInputError(true)
+      showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be 0",
         delay: 5000,
@@ -170,8 +175,8 @@ function ReportItem({
     }
 
     if (duration > 480) {
-      setBorderInputHoursClassName('border-danger')
-      showAler({
+      setIsTimeInputError(true)
+      showAlert({
         type: WARNING_ALERT,
         message: "Worked time can't be more 8 hours",
         delay: 5000,
@@ -179,8 +184,8 @@ function ReportItem({
       return
     }
     if (duration % 15 !== 0) {
-      setBorderInputHoursClassName('border-danger')
-      showAler({
+      setIsTimeInputError(true)
+      showAlert({
         type: WARNING_ALERT,
         message: 'The value must be a multiple of 15',
         delay: 5000,
@@ -188,44 +193,31 @@ function ReportItem({
       return
     }
 
-    if (oldDuration !== duration || oldTitle !== title) {
-      setBorderInputHoursClassName('border-danger')
+    if (oldDuration !== duration || oldTitle !== textInputValue) {
+      setIsTimeInputError(true)
       editTimeReport({
         developer_project,
-        title,
+        title: textInputValue,
         duration,
         date,
         id,
       })
     }
     setEditMode(null)
-    setBorderInputHoursClassName('')
-    setBorderInputHoursClassName('')
-  }
-
-  const handleEnterPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      if (e.target.id === 'reportTask') {
-        e.preventDefault()
-        if (!e.target.value) {
-          setBorderInputClassName('border-danger')
-          showAler({
-            type: DANGER_ALERT,
-            message: 'Field Task can not be empty',
-            delay: 5000,
-          })
-          return
-        } else {
-          setBorderInputClassName('')
-          containerHours.current.focus()
-        }
-      }
-    }
+    setIsTimeInputError(false)
   }
 
   const hanldeClickToggleShowModalChangeProject = useCallback(() => {
     setShowModalChangeProject((prev) => !prev)
   }, [setShowModalChangeProject])
+
+  const handleInputFocus = () => {
+    setIsDraggable(false)
+  }
+
+  const handleInputBlur = () => {
+    setIsDraggable(true)
+  }
 
   const activeClassNameContainerForDeletting =
     isDeleteRequest || showModalChangeProject ? 'active' : ''
@@ -366,8 +358,8 @@ function ReportItem({
         (index !== 0 ? ' top_line' : '')
       }
       ref={containerRef}
-      onDragStart={() => false}
-      onMouseDown={handleDragAndDrop}
+      onDragStart={handleDragAndDrop}
+      draggable={isDraggable}
     >
       {showModalChangeProject && (
         <ChangeProjectModal
@@ -382,38 +374,23 @@ function ReportItem({
         />
       )}
       {idEditingWorkItem === id ? (
-        <form
-          style={{ display: 'flex' }}
-          onSubmit={handlerSubmit}
-          id="edit_form"
-          className={'edit-form'}
-        >
-          <TextareaAutosize
-            className={`time_report_day_description textarea ${borderInputClassName}`}
-            defaultValue={text}
-            autoFocus
-            onFocus={(e) => {
-              const temp_value = e.target.value
-              e.target.value = ''
-              e.target.value = temp_value
-            }}
-            onChange={handlerChangeTask}
-            onKeyPress={handleEnterPress}
-            style={{ height: '45px' }}
-            name="title"
-            id="reportTask"
+        <ReportItemForm
+          textInputValue={textInputValue}
+          handleTextInputChange={handleChangeTextInputValue}
+          handleTextInputFocus={handleInputFocus}
+          handleTextInputBlur={handleInputBlur}
+          textInputError={isTextInputError}
+          textInputAutofocus
+          timeInputValue={timeInputValue}
+          handleTimeInputChange={handleChangeTimeInputValue}
+          handleTimeInputFocus={handleInputFocus}
+          handleTimeInputBlur={handleInputBlur}
+          timeInputError={isTimeInputError}
+          timeInputPlaceholder="HH"
+          timeInputMaskPlaceholder="0"
+          timeInputMask="9:99"
+          handleFormSubmit={handlerSubmit}
           />
-          <InputMask
-            placeholder="HH"
-            maskPlaceholder="0"
-            className={`hours_input time_report_day_hours ${borderInputHoursClassName}`}
-            mask="9:99"
-            defaultValue={parseMinToHoursAndMin(hours)}
-            name="duration"
-            ref={containerHours}
-            onChange={handlerChangeHours}
-          />
-        </form>
       ) : (
         <>
           <span className="time_report_day_description">
@@ -426,7 +403,7 @@ function ReportItem({
       )}
 
       <div className="time_report_day_edit">
-        {idEditingWorkItem !== id ? (
+        {idEditingWorkItem !== id && (
           <div
             className={'edit_dots ' + (editMenu ? 'dots-bg' : '')}
             onClick={handlerOpenMenu}
@@ -437,21 +414,6 @@ function ReportItem({
               className="icon pencil_icon"
             />
           </div>
-        ) : (
-          <button
-            className="create_btn"
-            onClick={
-              idEditingWorkItem === id ? () => null : handlerClickEditMode
-            }
-            type={idEditingWorkItem === id ? 'submit' : 'button'}
-            form="edit_form"
-          >
-            <FontAwesomeIcon
-              icon={faCheck}
-              color="#414141"
-              className="icon pencil_icon"
-            />
-          </button>
         )}
 
         {editMenu && !idEditingWorkItem && (
@@ -511,7 +473,7 @@ const actions = {
   deleteTimeReport,
   editTimeReport,
   setEditMode,
-  showAler,
+  showAlert,
 }
 
 export default connect(mapStateToProps, actions)(memo(ReportItem))

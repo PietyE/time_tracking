@@ -21,7 +21,7 @@ import {
   setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
-import { getDeveloperProjectsById } from '../../actions/projects-management'
+import { getDeveloperProjectsById } from 'actions/projects-management'
 import {
   getAllDays,
   getDeveloperProjectsTR,
@@ -34,13 +34,14 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId } from '../../selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
-import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+import { DANGER_ALERT } from 'constants/alert-constant'
+import { showAlert } from 'actions/alert'
 
 // import FunnelSelect from "./components/FunnelSelect";
 
@@ -65,6 +66,7 @@ function TimeReport(props) {
     // selectedDay,
     selectDayStatus,
     selectedDayStatus,
+    showAlert
   } = props
 
   const dispatch = useDispatch()
@@ -128,9 +130,6 @@ function TimeReport(props) {
   ])
 
   const [currentPosition, setCurrentPosition] = useState(null)
-  const savePosition = (e) => {
-    setCurrentPosition(e?.target.offsetTop)
-  }
 
   const bootstrapWidthRouteState = useCallback(() => {
     if (routeState) {
@@ -193,17 +192,16 @@ function TimeReport(props) {
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
+      showAlert({
+        type: DANGER_ALERT,
+        title: 'Error while exporting to XLSX',
+        message:  'You can not export time report in XLSX because there are no filled working hours',
+        delay: 5000,
+      })
       return
     }
     getTimeReportCsv()
   }
-
-  useEffect(() => {
-    if (!isFetchingReports) {
-      window.scrollTo(0, Number(currentPosition) - 100)
-      setCurrentPosition(null)
-    }
-  }, [currentPosition, isFetchingReports])
 
   useEffect(() => {
     if (projects.length && _.isEmpty(selectedProject)) {
@@ -318,7 +316,6 @@ function TimeReport(props) {
                   selectedDate={selectedDate}
                   descriptions={dataOfDay}
                   addTimeReport={addTimeReport}
-                  savePosition={savePosition}
                   showEmpty={showEmpty}
                   isOpenCreate={isOpenCreate}
                   isOneProject={projects.length > 1}
@@ -363,6 +360,7 @@ const actions = {
   getTimeReportCsv,
   setUserStatus,
   getDeveloperProjectsTR,
+  showAlert
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

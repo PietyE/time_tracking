@@ -1,5 +1,7 @@
+@import "../../../styles/commonStyles.scss";
+
 .pagination{
-  font-family: 'Montserrat';
+  
   li{
     width: 28px;
     height: 28px;
@@ -11,15 +13,15 @@
     }
     a{
       font-size: 15px;
-      color: #222222;
+      color: $mainBlackColor;
     }
   }
   .active{
-    background: #009C98;
+    background: $mainGreenColor;
     border-radius: 6px;
 
     a{
-      color: #fff;
+      color: $whiteColor;
     }
   }
 }

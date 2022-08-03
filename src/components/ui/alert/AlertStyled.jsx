@@ -12,7 +12,7 @@ import {
   getAlertTypeSelector,
 } from 'selectors/alert'
 
-import './alert.css'
+import './alert.scss'
 
 function AlertStyled({
   type,

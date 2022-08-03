@@ -1,0 +1,6 @@
+@import "src/styles/commonStyles";
+
+.vilmate-card-footer-button.MuiButton-root:hover {
+  background-color: $mainGreenColor;
+  color: $whiteColor;
+}

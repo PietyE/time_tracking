@@ -1,8 +1,10 @@
+@import "../../../../styles/commonStyles.scss";
+
 .project_data {
     position: relative;
     width: 100%;
     height: 100%;
-    background: #FFFFFF;
+    background: $whiteColor;
     flex-direction: column;
 
     .project_data_header {
@@ -13,7 +15,7 @@
       height: 46px;
       text-align: center;
       padding: 11px 25px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: bold;
       font-size: 13px;
@@ -47,7 +49,7 @@
       margin-top: 8px;
       a{
 
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 14px;
@@ -55,7 +57,7 @@
         display: flex;
         align-items: center;
         letter-spacing: 0.01em;
-        color: #222222;
+        color: $mainBlackColor;
         cursor: pointer;
         &:hover{
           text-decoration: none;
@@ -74,13 +76,13 @@
         justify-content: space-between;
         height: 46px;
         padding: 11px 43px 11px 24px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         border-radius: 9px 9px 0px 0px;
         align-content: flex-start;
         text-align: left;

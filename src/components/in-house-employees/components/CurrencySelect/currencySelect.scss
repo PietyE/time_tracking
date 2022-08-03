@@ -1,3 +1,6 @@
+@import "../../../../styles/";
+@import "../../../../styles/commonStyles.scss";
+
 .currency {
   // height: 40px;
   // background-color: #FFFFFF;
@@ -7,7 +10,7 @@
   justify-content: center;
   align-items: center;
   margin-left: 14px;
-  // border: 1px solid rgba(0, 0, 0, 0.2);
+  // border: 1px solid $borderColor;
   // box-sizing: border-box;
   // border-radius: 4px;
 
@@ -20,14 +23,14 @@
   .currency_name {
     width: 33px;
     height: 24px;
-    font-family: Montserrat;
+    
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
     text-align: center;
     letter-spacing: 0.03em;
-    color: #222222;
+    color: $mainBlackColor;
     margin: 0 0 0 10px;
   }
 

@@ -1,5 +1,7 @@
+@import "../../../styles/commonStyles.scss";
+
 .report__item{
-  background: #FFFFFF;
+  background: $whiteColor;
   border: 1px solid rgba(201, 201, 198, 0.4);
   box-sizing: border-box;
   border-radius: 6px;
@@ -10,7 +12,7 @@
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0.02em;
-  color: #222222;
+  color: $mainBlackColor;
   z-index: 100;
 
   div{
@@ -20,7 +22,7 @@
       font-weight: 500;
 
       .difference{
-        color: #F84242;
+        color: $mainRedColor;
         font-weight: 600;
         background: #F3F3F3;
         height: 72px;
@@ -42,7 +44,7 @@
           label{
             &::before{
               content: "";
-              background: #FFFFFF;
+              background: $whiteColor;
               border: 2px solid #616161;
               box-sizing: border-box;
               border-radius: 6px;
@@ -67,7 +69,7 @@
   font-size: 13px;
   line-height: 24px;
   letter-spacing: 0.03em;
-  color: #ADADA7;
+  color: $separatorTextColor;
   margin-left: 2px;
 }
 
@@ -75,13 +77,13 @@
   margin-top: 40px;
   width: 100%;
   height: 74px;
-  border: 1px dashed #009C98;
+  border: 1px dashed $mainGreenColor;
   box-sizing: border-box;
   border-radius: 6px;
 
   &__cont {
     height: 74px;
     letter-spacing: 0.03em;
-    color: #009C98;
+    color: $mainGreenColor;
   }
 }

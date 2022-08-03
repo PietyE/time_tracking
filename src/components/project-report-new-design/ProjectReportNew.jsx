@@ -8,12 +8,12 @@ import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectR
 import SearchByProject from './components/SearchByProject'
 import SearchByDeveloper from './components/SearchByDeveloper'
 import UsersInfo from './components/UsersInfo'
-import SpinnerStyled from '../ui/spinner'
+import SpinnerStyled from 'components/ui/spinner'
 
 import SelectMonth from 'components/ui/select-month'
 import { changeSelectedDateProjectsReport } from 'actions/projects-report'
 
-import { getProfileId, getRoleUser } from '../../selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
 

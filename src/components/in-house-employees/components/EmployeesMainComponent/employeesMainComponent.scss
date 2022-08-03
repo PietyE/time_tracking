@@ -1,3 +1,5 @@
+@import "../../../../styles/commonStyles.scss"
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -27,7 +29,7 @@ input, textarea {
 
     .header_text {
       display: flex;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
@@ -47,18 +49,18 @@ input, textarea {
         display: flex;
         height: 40px;
         align-items: center;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        border: 1px solid $borderColor;
         box-sizing: border-box;
         border-radius: 4px;
-        background-color: #FFFFFF;
+        background-color: $whiteColor;
         padding: 8px 10px 8px 0;
         // flex-direction: row;
         justify-content: center;
 
         .drop_down_menu {
           width: auto;
-          background: #FFFFFF;
-          border: 1px solid rgba(0, 0, 0, 0.2);
+          background: $whiteColor;
+          border: 1px solid $borderColor;
           box-sizing: border-box;
           box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
           border-radius: 6px;
@@ -72,7 +74,7 @@ input, textarea {
 
           .currency_label {
             height: 40px;
-            background: #FFFFFF;
+            background: $whiteColor;
             border-radius: 5px;
             width: auto;
             margin: 8px 8px 8px 8px;
@@ -92,14 +94,14 @@ input, textarea {
 
             .name {
               margin-left: 10px;
-              font-family: Montserrat;
+              
               font-style: normal;
               font-weight: 500;
               font-size: 14px;
               line-height: 24px;
               text-align: center;
               letter-spacing: 0.03em;
-              color: #222222;
+              color: $mainBlackColor;
             }
 
             .dash {
@@ -108,14 +110,14 @@ input, textarea {
 
             .value {
               margin-left: 5px;
-              font-family: Montserrat;
+              
               font-style: normal;
               font-weight: 600;
               font-size: 14px;
               line-height: 24px;
               text-align: center;
               letter-spacing: 0.03em;
-              color: #222222;
+              color: $mainBlackColor;
             }
           }
         }
@@ -133,18 +135,18 @@ input, textarea {
       justify-content: center;
       align-items: center;
       padding: 8px 16px;
-      background: #FFFFFF;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      background: $whiteColor;
+      border: 1px solid $borderColor;
       box-sizing: border-box;
       border-radius: 4px;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
       line-height: 24px;
       text-align: center;
       letter-spacing: 0.03em;
-      color: #222222;
+      color: $mainBlackColor;
       margin: 0 0 0 5px;
       height: 40px;
       width: 78px;
@@ -157,7 +159,7 @@ input, textarea {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      background: #009C98;
+      background: $mainGreenColor;
       border-radius: 4px;
       margin-left: 15px;
       width: 40px;
@@ -171,7 +173,7 @@ input, textarea {
     }
 
     .check_button_disabled {
-      background: #99D7D6;
+      background: $lightGreenColor;
       cursor: default;
     }
   }
@@ -194,13 +196,13 @@ input, textarea {
     }
 
     .select_container {
-      border-color: rgba(0, 0, 0, 0.2);;
+      border-color: $borderColor;
     }
 
     .select_month {
       margin-left: 25px;
       border-radius:none;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid $borderColor;
       padding: 0;
 
       .select_month_container {
@@ -208,12 +210,12 @@ input, textarea {
 
         .prev_month {
           border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.2);
+          border-color: $borderColor;
         }
 
         .next_month {
           border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.2);
+          border-color: $borderColor;
         }
       }
     }
@@ -226,8 +228,8 @@ input, textarea {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      background: #FFFFFF;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      background: $whiteColor;
+      border: 1px solid $borderColor;
       box-sizing: border-box;
       border-radius: 4px;
       margin-left: 177px;
@@ -239,14 +241,14 @@ input, textarea {
 
       .choose_active_text {
         margin-left: 10px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         text-align: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .up_arrow_box {
@@ -270,8 +272,8 @@ input, textarea {
       display: flex;
       flex-direction: column;
       text-align: left;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      background: #FFFFFF;
+      border: 1px solid $borderColor;
+      background: $whiteColor;
       border-radius: 4px;
       z-index: 2;
       left: 1125px;
@@ -279,13 +281,13 @@ input, textarea {
       padding: 0 0 10px 0;
 
       .choose_text {
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         margin-top: 7px;
         padding: 0 0 0 10px;
 
@@ -314,7 +316,7 @@ input, textarea {
         margin-left: 30px;
 
         .name {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: bold;
           font-size: 13px;
@@ -350,7 +352,7 @@ input, textarea {
       .salary,
       .overtime {
         margin-left: 231px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: bold;
         font-size: 13px;
@@ -378,15 +380,15 @@ input, textarea {
       flex-direction: row;
       height: 74px;
       width: 971px;
-      background: #FFFFFF;
+      background: $whiteColor;
       border: 1px solid rgba(201, 201, 198, 0.4);
       box-sizing: border-box;
       border-radius: 6px;
       margin-top: 15px;
 
       &.selected {
-        background: #FFFFFF;
-        border: 1px solid #009C98;
+        background: $whiteColor;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
@@ -406,19 +408,19 @@ input, textarea {
         margin-top: 15px;
 
         .name {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
           line-height: 24px;
           letter-spacing: 0.017em;
-          color: #222222;
+          color: $mainBlackColor;
           width: 191px;
           height: 24px;
         }
 
         .email {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 10px;
@@ -426,23 +428,23 @@ input, textarea {
           display: flex;
           align-items: center;
           letter-spacing: 0.018em;
-          color: #ADADA7;
+          color: $separatorTextColor;
           margin-top: 5px;
         }
       }
 
       .projects {
         margin: 25px 0 0 39px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 15px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #009C98;
+        color: $mainGreenColor;
 
         .empty {
-          color: #ADADA7;
+          color: $separatorTextColor;
         }
       }
       
@@ -450,13 +452,13 @@ input, textarea {
         position: absolute;
         left: 451px;
         padding-top: 25px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 15px;
         line-height: 24px;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .overtime_block {
@@ -471,17 +473,17 @@ input, textarea {
         margin: 0;
 
         .overtime {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 15px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .hours {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
@@ -500,23 +502,23 @@ input, textarea {
         overflow-x: auto;
 
         .pay {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .grn {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 13px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #ADADA7;
+          color: $separatorTextColor;
           margin-left: 3px;
         }
       }
@@ -541,7 +543,7 @@ input, textarea {
           text-align: center;
           line-height: 0px;
           cursor: pointer;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 12px;
@@ -550,13 +552,13 @@ input, textarea {
           top: 15px;
 
           &.open {
-            color: #009C98;
-            background: #FFFFFF;
+            color: $mainGreenColor;
+            background: $whiteColor;
           }
 
           &.closed {
-            background: #F84242;
-            color: #FFFFFF;
+            background: $mainRedColor;
+            color: $whiteColor;
           }
 
           &.empty_comments {
@@ -580,7 +582,7 @@ input, textarea {
           width: 20px;
           height: 20px;
           top: 27px;
-          border: 2px solid #009C98;
+          border: 2px solid $mainGreenColor;
           border-radius: 4px;
 
           .checkbox_img {
@@ -604,7 +606,7 @@ input, textarea {
     height: 840px;
     right: 0;
     top: 206px;
-    background: #FFFFFF;
+    background: $whiteColor;
     border: 1px solid rgba(201, 201, 198, 0.4);
     box-sizing: border-box;
     box-shadow: -10px -5px 35px rgba(0, 0, 0, 0.1);
@@ -621,13 +623,13 @@ input, textarea {
       padding-top: 25px;
 
       .user_name {
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 20px;
         line-height: 24px;
         letter-spacing: 0.018em;
-        color: #222222;
+        color: $mainBlackColor;
         width: 233px;
         margin: 0;
         padding: 0;
@@ -652,7 +654,7 @@ input, textarea {
         text-align: center;
         line-height: 0px;
         cursor: pointer;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
@@ -662,13 +664,13 @@ input, textarea {
 
 
         &.open {
-          color: #009C98;
-          background: #FFFFFF;
+          color: $mainGreenColor;
+          background: $whiteColor;
         }
 
         &.closed {
-          background: #F84242;
-          color: #FFFFFF;
+          background: $mainRedColor;
+          color: $whiteColor;
         }
 
         &.empty_comments {
@@ -737,7 +739,7 @@ input, textarea {
       }
 
       .info_text {
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: bold;
         font-size: 13px;
@@ -751,7 +753,7 @@ input, textarea {
       .currency_select_edited {
         position: absolute;
         left: 169px;
-        border: 1px solid #009C98;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         border-radius: 4px;
         height: 40px;
@@ -759,8 +761,8 @@ input, textarea {
 
         .drop_down_menu {
           width: 114px;
-          background: #FFFFFF;
-          border: 1px solid rgba(0, 0, 0, 0.2);
+          background: $whiteColor;
+          border: 1px solid $borderColor;
           box-sizing: border-box;
           box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);
           border-radius: 6px;
@@ -774,7 +776,7 @@ input, textarea {
   
           .currency_label {
             height: 40px;
-            background: #FFFFFF;
+            background: $whiteColor;
             border-radius: 5px;
             width: 98px;
             margin: 0;
@@ -792,14 +794,14 @@ input, textarea {
   
             .name {
               margin-left: 10px;
-              font-family: Montserrat;
+              
               font-style: normal;
               font-weight: 500;
               font-size: 14px;
               line-height: 24px;
               text-align: center;
               letter-spacing: 0.03em;
-              color: #222222;
+              color: $mainBlackColor;
             }
   
             .dash {
@@ -820,14 +822,14 @@ input, textarea {
       .info_data {
         position: absolute;
         left: 323px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
         // line-height: 24px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
       }
 
       .info_container {
@@ -835,22 +837,22 @@ input, textarea {
         left: 323px;
 
         .info_data_edited {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
           line-height: 24px;
           align-items: center;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
           display: flex;
           flex-direction: row;
           // justify-content: center;
           padding: 8px 10px;
           width: 135px;
           height: 40px;
-          background: #FFFFFF;
-          border: 1px solid #009C98;
+          background: $whiteColor;
+          border: 1px solid $mainGreenColor;
           box-sizing: border-box;
           border-radius: 4px;
 
@@ -870,14 +872,14 @@ input, textarea {
             outline: none;
             overflow: hidden;
             border: none;
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
             // line-height: 24px;
             align-items: center;
             letter-spacing: 0.03em;
-            color: #222222;
+            color: $mainBlackColor;
             height: 24px;
             text-align: left;
             display: inline-block;
@@ -887,13 +889,13 @@ input, textarea {
         }
 
         .error_show {
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 12px;
           line-height: 24px;
           letter-spacing: 0.01em;
-          color: #F84242;
+          color: $mainRedColor;
 
           &.show {
             display: block;
@@ -910,32 +912,32 @@ input, textarea {
         left: 323px;
         align-items: center;
         letter-spacing: 0.03em;
-        color: #222222;
+        color: $mainBlackColor;
         display: flex;
         flex-direction: row;
         
         .info_data {
           position: relative;
           left: 0px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
           line-height: 24px;
           align-items: center;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .grn {
           position: relative;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 13px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #ADADA7;
+          color: $separatorTextColor;
           margin-left: 2px; 
         }
       }
@@ -945,7 +947,7 @@ input, textarea {
         width: 102px;
         position: absolute;
         left: 323px;
-        border: 1px solid #009C98;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         border-radius: 6px;
         padding: 8px 10px 8px 10px;
@@ -956,25 +958,25 @@ input, textarea {
         .info_data {
           position: relative;
           left: 0px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
           line-height: 24px;
           align-items: center;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .grn {
           position: relative;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 13px;
           line-height: 24px;
           letter-spacing: 0.03em;
-          color: #ADADA7;
+          color: $separatorTextColor;
           margin-left: 2px; 
 
           &.empty {
@@ -991,13 +993,13 @@ input, textarea {
           outline: none;
           overflow: hidden;
           border: none;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
           align-items: center;
           letter-spacing: 0.03em;
-          color: #222222;
+          color: $mainBlackColor;
           height: 24px;
           text-align: left;
           display: inline-block;
@@ -1009,7 +1011,7 @@ input, textarea {
 
       .extra_costs {
         position: absolute;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
@@ -1020,7 +1022,7 @@ input, textarea {
 
         &.edited {
           height: 40px;
-          border: 1px solid #009C98;
+          border: 1px solid $mainGreenColor;
           box-sizing: border-box;
           border-radius: 6px;
           padding: 8px 10px 8px 10px;
@@ -1037,26 +1039,26 @@ input, textarea {
 
         .payed {
           position: relative;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: bold;
           font-size: 13px;
           line-height: 24px;
           text-align: right;
           letter-spacing: 0.02em;
-          color: #F84242;
+          color: $mainRedColor;
           height: 24px;
 
           &.checked {
-            color: #009C98;
+            color: $mainGreenColor;
             margin-left: 30px;
           }
 
           &.edited {
-            color: #ADADA7;
+            color: $separatorTextColor;
 
             &.checked {
-              color: #ADADA7;
+              color: $separatorTextColor;
               margin-left: 30px;
             }
           }
@@ -1068,12 +1070,12 @@ input, textarea {
           width: 20px;
           height: 20px;
           top: 0;
-          border: 2px solid #F84242;
+          border: 2px solid $mainRedColor;
           border-radius: 4px;
           margin-left: 12px;
 
           &.edited {
-            border-color: #ADADA7;
+            border-color: $separatorTextColor;
           }
         }
 
@@ -1083,7 +1085,7 @@ input, textarea {
           width: 20px;
           height: 20px;
           top: 0;
-          border: 0px solid #009C98;
+          border: 0px solid $mainGreenColor;
           border-radius: 4px;
           margin: 0;
           display: flex;
@@ -1106,7 +1108,7 @@ input, textarea {
             }
 
             &.edited {
-              border-color: #ADADA7;
+              border-color: $separatorTextColor;
               display: flex;
               align-items: center;
               justify-content: flex-start;
@@ -1134,7 +1136,7 @@ input, textarea {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-family: Montserrat;
+      
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
@@ -1147,30 +1149,30 @@ input, textarea {
       .save_changes {
         margin-left: 336px;
         padding: 8px 16px;
-        background: #009C98;
+        background: $mainGreenColor;
         border-radius: 4px;
-        color: #FFFFFF;
-        border: 1px solid #009C98;
+        color: $whiteColor;
+        border: 1px solid $mainGreenColor;
 
         &:hover {
-          color: #009C98;
-          background: #FFFFFF;
+          color: $mainGreenColor;
+          background: $whiteColor;
           cursor: pointer;
         }
       }
 
       .cancel_changes {
-        border: 1px solid #009C98;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         border-radius: 4px;
-        background: #FFFFFF;
-        color: #009C98;
+        background: $whiteColor;
+        color: $mainGreenColor;
         margin-left: 14px;
         padding: 8px 24px;
 
         &:hover {
-          color: #FFFFFF;
-          background: #009C98;
+          color: $whiteColor;
+          background: $mainGreenColor;
           cursor: pointer;
         }
       }
@@ -1198,23 +1200,23 @@ input, textarea {
           margin-left: 498px;
           width: 89px;
           height: 40px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 14px;
           line-height: 24px;
           text-align: center;
           letter-spacing: 0.03em;
-          color: #009C98;
+          color: $mainGreenColor;
           background: #F3F3F3;
           cursor: pointer;
-          border: 1px solid #009C98;
+          border: 1px solid $mainGreenColor;
           border-radius: 4px;
           padding: 8px 0;
 
           &:hover {
             color: #F3F3F3;
-            background: #009C98;
+            background: $mainGreenColor;
           }
         }
       }
