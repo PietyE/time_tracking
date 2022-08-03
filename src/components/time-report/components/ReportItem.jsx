@@ -98,6 +98,7 @@ function ReportItem({
   )
   const [isTextInputError, setIsTextInputError] = useState(false)
   const [isTimeInputError, setIsTimeInputError] = useState(false)
+  const [isDraggable, setIsDraggable] = useState(true)
 
   const [editMenu, handlerOpenMenu] = useMenuPresent();
 
@@ -209,6 +210,14 @@ function ReportItem({
   const hanldeClickToggleShowModalChangeProject = useCallback(() => {
     setShowModalChangeProject((prev) => !prev)
   }, [setShowModalChangeProject])
+
+  const handleInputFocus = () => {
+    setIsDraggable(false)
+  }
+
+  const handleInputBlur = () => {
+    setIsDraggable(true)
+  }
 
   const activeClassNameContainerForDeletting =
     isDeleteRequest || showModalChangeProject ? 'active' : ''
@@ -349,8 +358,8 @@ function ReportItem({
         (index !== 0 ? ' top_line' : '')
       }
       ref={containerRef}
-      onDragStart={() => false}
-      onMouseDown={handleDragAndDrop}
+      onDragStart={handleDragAndDrop}
+      draggable={isDraggable}
     >
       {showModalChangeProject && (
         <ChangeProjectModal
@@ -368,10 +377,14 @@ function ReportItem({
         <ReportItemForm
           textInputValue={textInputValue}
           handleTextInputChange={handleChangeTextInputValue}
+          handleTextInputFocus={handleInputFocus}
+          handleTextInputBlur={handleInputBlur}
           textInputError={isTextInputError}
           textInputAutofocus
           timeInputValue={timeInputValue}
           handleTimeInputChange={handleChangeTimeInputValue}
+          handleTimeInputFocus={handleInputFocus}
+          handleTimeInputBlur={handleInputBlur}
           timeInputError={isTimeInputError}
           timeInputPlaceholder="HH"
           timeInputMaskPlaceholder="0"
