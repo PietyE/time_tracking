@@ -15,7 +15,7 @@ export const UsersList = () => {
   const users = useEqualSelector(getUsers)
   const isLoading = useEqualSelector(getLoading)
   const [value, setValue] = useState('')
-  const filteredUsers = useSearch(users, value)
+  const filteredUsers = useSearch(users, value, 300)
 
   const handleChange = (event) => setValue(event.target.value)
 
