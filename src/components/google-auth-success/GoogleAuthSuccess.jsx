@@ -6,6 +6,7 @@ import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { getLoading } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { useHistory } from 'react-router-dom'
+import { Button, TextField } from '@material-ui/core'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
@@ -34,5 +35,12 @@ export const GoogleAuthSuccess = () => {
     })
   }
 
-  return isLoading ? <SpinnerStyled /> : <div>hello sucess</div>
+  return isLoading ? (
+    <SpinnerStyled />
+  ) : (
+    <div>
+      <TextField />
+      <Button>Sync</Button>
+    </div>
+  )
 }

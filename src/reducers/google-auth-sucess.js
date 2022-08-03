@@ -6,6 +6,8 @@ import {
 
 const initialState = {
   isLoading: false,
+  googleSheetUrl: '',
+  isAgree: true,
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
