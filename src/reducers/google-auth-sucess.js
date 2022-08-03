@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  googleSheetUrl: '',
+  googleSheetLink: '',
   isAgree: true,
 }
 
