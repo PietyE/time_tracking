@@ -14,8 +14,8 @@ export const GoogleAuthSuccess = () => {
   useEffect(() => {
     dispatch(
       getUsersHoursTokenRequest({
-        google_auth_url: url,
         state,
+        callback_url: url,
       })
     )
   }, [])

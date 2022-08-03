@@ -6,7 +6,6 @@ import {
 
 const initialState = {
   isLoading: false,
-  token: '',
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
@@ -20,10 +19,10 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        token: action.payload,
       }
     case GET_USERS_HOURS_TOKEN_ERROR:
       return {
+        ...state,
         isLoading: false,
       }
     default:

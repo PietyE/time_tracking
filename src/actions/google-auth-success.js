@@ -9,9 +9,8 @@ export const getUsersHoursTokenRequest = (googleDriveAuth) => ({
   payload: googleDriveAuth,
 })
 
-export const getUsersHoursTokenSuccess = (token) => ({
+export const getUsersHoursTokenSuccess = () => ({
   type: GET_USERS_HOURS_TOKEN_SUCCESS,
-  payload: token,
 })
 
 export const getUsersHoursTokenError = () => ({

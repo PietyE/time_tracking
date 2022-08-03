@@ -8,23 +8,28 @@ import {
 import { showAler } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 
-function* createUsersHoursToken(payload) {
+function* createUsersHoursToken(action) {
   try {
     const url = 'user-hours/create_token/'
 
-    const response = yield call([Api, 'getUsersHoursCreateToken'], url, payload)
-    const { status, data: token } = response
+    const response = yield call(
+      [Api, 'getUsersHoursCreateToken'],
+      url,
+      action.payload
+    )
+
+    const { status } = response
 
     if (String(status)[0] !== '2') {
       throw new Error()
     }
 
-    yield put(getUsersHoursTokenSuccess(token))
+    yield put(getUsersHoursTokenSuccess())
     yield put(
       showAler({
         type: SUCCES_ALERT,
-        message: 'Token has been created',
-        delay: 3000,
+        message: 'Authentication successfully',
+        delay: 4000,
       })
     )
   } catch (error) {
