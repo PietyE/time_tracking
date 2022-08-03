@@ -1,9 +1,12 @@
 .vilmate-card-main-content.MuiCardContent-root {
+  display: flex;
   flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   padding: 0;
   text-align: center;
   .vailmate-card-position-text.MuiTypography-root {
-    margin-bottom: 28px;
     font-size: 11px;
   }
   .vailmate-card-position-title {
