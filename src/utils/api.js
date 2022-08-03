@@ -194,6 +194,8 @@ class Api {
 
   getUsersHoursCreateToken = (url, data) =>
     fetchApi({ url, data, method: 'post' })
+
+  syncWithGoogleSheet = (url, data) => fetchApi({ url, data, method: 'post' })
 }
 
 export default new Api()
