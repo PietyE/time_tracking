@@ -5,12 +5,13 @@ import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { getLoading } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
-import Redirect from 'react-router-dom/es/Redirect'
+import { useHistory } from 'react-router-dom'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
+  const history = useHistory()
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -25,7 +26,12 @@ export const GoogleAuthSuccess = () => {
     )
   }, [])
 
-  if (!state) <Redirect to="/timereport" />
+  if (!state) {
+    history.push({
+      pathname: '/projectreport',
+      state: { from: 'google-sync-non-auth' },
+    })
+  }
 
   return isLoading ? <SpinnerStyled /> : <div>hello sucess</div>
 }

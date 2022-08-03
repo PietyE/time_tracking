@@ -38,7 +38,7 @@ const ProjectManagementComponent = lazy(() =>
   import('components/project-managment-new-design/ProjectManagementComponent')
 )
 
-const GoogleAuthSuccess = lazy(() => import('components/google-auth-success'))
+const GoogleAuthSuccess = lazy(() => import('screens/GoogleAuthSuccessScreen'))
 
 function MainScreen(props) {
   const {
