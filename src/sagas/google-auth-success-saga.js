@@ -1,5 +1,8 @@
-import { GET_USERS_HOURS_TOKEN_REQUEST } from 'constants/google-auth-sucess-constants'
-import { takeEvery, put, call } from 'redux-saga/effects'
+import {
+  GET_USERS_HOURS_TOKEN_REQUEST,
+  GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
+} from 'constants/google-auth-sucess-constants'
+import { takeEvery, put, call, takeLeading } from 'redux-saga/effects'
 import Api from 'utils/api'
 import {
   getUsersHoursTokenError,
@@ -49,6 +52,14 @@ function* createUsersHoursToken(action) {
   }
 }
 
+function* syncWithGoogleSheet() {
+  yield
+}
+
 export function* watchGoogleAuthCreateToken() {
   yield takeEvery(GET_USERS_HOURS_TOKEN_REQUEST, createUsersHoursToken)
+  yield takeLeading(
+    GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
+    syncWithGoogleSheet
+  )
 }
