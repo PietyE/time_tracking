@@ -36,6 +36,7 @@ import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 import './projectReportNew.scss'
 import { Button } from 'react-bootstrap'
 import { useHistory, useLocation } from 'react-router-dom'
+import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
@@ -50,8 +51,6 @@ function ProjectReportNew() {
   const [userSelected, setUserSelected] = useState(null)
   const [selected, setSelected] = useState(null)
   const dispatch = useDispatch()
-  const location = useLocation()
-  const history = useHistory()
 
   // const currentUser = useMemo(() => {
   //   if (usersData) {
@@ -61,16 +60,7 @@ function ProjectReportNew() {
 
   // const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
 
-  //useLayoutEffect because if we got error from google auth success we will have error page for a some secs before our page is reloading
-
-  useLayoutEffect(() => {
-    if (location.state.from === 'google-sync-non-auth') {
-      history.replace({
-        state: {},
-      })
-      window.location.reload()
-    }
-  }, [])
+  useCheckStateAfterRedirect('google-sync-non-auth')
 
   const getDevelopersProject = useCallback(() => {
     dispatch(getDevelopersProjectInProjectReport())
