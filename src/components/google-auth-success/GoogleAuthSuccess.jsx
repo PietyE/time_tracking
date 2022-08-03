@@ -15,6 +15,7 @@ export const GoogleAuthSuccess = () => {
 
   const state = useMemo(() => searchParams.get('state'), [])
 
+  //todo: delete for prod
   const url = window.location.href.replace('http', 'https')
 
   useEffect(() => {

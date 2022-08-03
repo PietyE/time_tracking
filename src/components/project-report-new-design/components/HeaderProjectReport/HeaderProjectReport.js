@@ -7,7 +7,6 @@ import { ACCOUNTANT, ADMIN } from 'constants/role-constant'
 
 const HeaderProjectReport = (props) => {
   const { name } = props
-
   const role = useShallowEqualSelector(getRoleUser)
 
   const isHaveAccess = role === ADMIN || role === ACCOUNTANT
