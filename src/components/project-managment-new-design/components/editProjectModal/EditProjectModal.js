@@ -59,6 +59,7 @@ function EditProjectModal({ show, month }) {
   const [showHintAddMember, setShowHintAddMember] = useState(false)
 
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
+  const usersList = useEqualSelector(getUsersSelector)
   const activeProjectManager = useEqualSelector(
     getActivePmInCurrentProjectSelector
   )
@@ -81,11 +82,11 @@ function EditProjectModal({ show, month }) {
         .sort(sortArrayByUserName) || [],
     [currentProjectReport, activeProjectManager]
   )
-  const freeProjectManagersList = useMemo(() => {
+  const freeUsersList = useMemo(() => {
     let teamMateID = currentProjectActiveDevelopers.map(
       (member) => member.userId
     )
-    return projectManagersList.filter((user) => !teamMateID.includes(user.id))
+    return usersList.filter((user) => !teamMateID.includes(user.id))
   }, [currentProjectActiveDevelopers, projectManagersList])
 
   const currentTeamIds = useMemo(() => {
@@ -427,7 +428,7 @@ function EditProjectModal({ show, month }) {
 
   const handleAddProjectManagerToProject = (e) => {
     const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
-    const isPm = projectManagersList.find((pm) => pm.id === targetUserId)
+    const isPm = usersList.find((pm) => pm.id === targetUserId)
     const wasDeactivated = deactivatedUsers?.find(
       (user) => user.user_id === targetUserId
     )
@@ -588,7 +589,7 @@ function EditProjectModal({ show, month }) {
             editValue={
               <Select
                 title={valuesFromApi?.projectManager?.name}
-                listItems={freeProjectManagersList}
+                listItems={freeUsersList}
                 onSelected={handleAddProjectManagerToProject}
                 valueKey="name"
                 idKey="id"

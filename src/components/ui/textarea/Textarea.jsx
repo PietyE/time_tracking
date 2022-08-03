@@ -6,6 +6,8 @@ export const Textarea = ({
   value,
   onChange,
   onFocus,
+  onBlur,
+  onSubmit,
   placeholder,
   minRows,
   maxRows,
@@ -13,27 +15,40 @@ export const Textarea = ({
   fullWidth,
   error,
   autoFocus,
-}) => (
-  <TextField
-    variant="outlined"
-    color="secondary"
-    value={value}
-    onChange={onChange}
-    onFocus={onFocus}
-    multiline
-    type="text"
-    fullWidth={fullWidth}
-    placeholder={placeholder}
-    maxRows={maxRows}
-    minRows={minRows}
-    maxLength={maxLength}
-    inputProps={{
-      maxLength: maxLength,
-    }}
-    error={error}
-    autoFocus={autoFocus}
-  />
-)
+  classes,
+}) => {
+  const handleKeyDown = (event) => {
+    if (event.which === 13 && !event.shiftKey) {
+      event.preventDefault()
+      onSubmit(event)
+    }
+  }
+
+  return (
+    <TextField
+      variant="outlined"
+      color="secondary"
+      value={value}
+      onChange={onChange}
+      onKeyDown={handleKeyDown}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      multiline
+      type="text"
+      fullWidth={fullWidth}
+      placeholder={placeholder}
+      maxRows={maxRows}
+      minRows={minRows}
+      maxLength={maxLength}
+      inputProps={{
+        maxLength: maxLength,
+      }}
+      error={error}
+      autoFocus={autoFocus}
+      classes={classes}
+    />
+  )
+}
 
 Textarea.defaultProps = {
   disabled: false,
@@ -48,6 +63,8 @@ Textarea.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onSubmit: PropTypes.func,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   maxRows: PropTypes.number,
@@ -57,4 +74,5 @@ Textarea.propTypes = {
   maxLength: PropTypes.number,
   error: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  classes: PropTypes.object,
 }

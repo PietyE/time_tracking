@@ -28,7 +28,7 @@ export const theme = createTheme(basicTheme, {
   overrides: {
     MuiOutlinedInput: {
       root: {
-        boxSizing: "border-box",
+        boxSizing: 'border-box',
         padding: 12,
         minHeight: 42,
         background: basicTheme.palette.common.white,
@@ -39,7 +39,7 @@ export const theme = createTheme(basicTheme, {
         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
           borderStyle: 'solid',
           borderColor: basicTheme.palette.primary.main,
-          borderWidth: 1
+          borderWidth: 1,
         },
       },
       input: {
@@ -66,6 +66,11 @@ export const theme = createTheme(basicTheme, {
             borderWidth: 1,
           },
         },
+      },
+    },
+    MuiButton: {
+      contained: {
+        boxShadow: 'none',
       },
     },
   },
