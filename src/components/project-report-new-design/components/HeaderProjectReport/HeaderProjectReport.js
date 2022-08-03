@@ -5,7 +5,7 @@ import { getRoleUser } from 'selectors/user'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ACCOUNTANT, ADMIN } from 'constants/role-constant'
 
-function HeaderProjectReport(props) {
+const HeaderProjectReport = (props) => {
   const { name } = props
 
   const role = useShallowEqualSelector(getRoleUser)
@@ -15,13 +15,13 @@ function HeaderProjectReport(props) {
   const renderGoogleDriveSyncButton = isHaveAccess && <GoogleSyncButton />
 
   return (
-    <>
-      <div className="project_report_header">
-        <span className="header_title">{name}</span>
-        {renderGoogleDriveSyncButton}
-      </div>
-    </>
+    <div className="project_report_header">
+      <span className="header_title">{name}</span>
+      {renderGoogleDriveSyncButton}
+    </div>
   )
 }
 
-export default HeaderProjectReport
+const HeaderProjectReportMemoized = React.memo(HeaderProjectReport)
+
+export default HeaderProjectReportMemoized

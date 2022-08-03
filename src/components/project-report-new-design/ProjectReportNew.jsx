@@ -43,7 +43,6 @@ function ProjectReportNew() {
   const selectedDate = useShallowEqualSelector(getSelectedMonthSelector)
   // const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser)
-  const currentUserId = useShallowEqualSelector(getProfileId)
   // eslint-disable-next-line no-unused-vars
   const [openUserInfo, setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
@@ -125,7 +124,7 @@ function ProjectReportNew() {
     >
       {isFetchingReports && <SpinnerStyled />}
       <div className="project_report_container">
-        <HeaderProjectReport id={currentUserId} name="Project report" />
+        <HeaderProjectReport name="Project report" />
         <div className="diw_row" />
         <div className="project_report_date">
           {roleUser !== DEVELOPER && (
