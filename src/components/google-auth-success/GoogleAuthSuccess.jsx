@@ -1,9 +1,18 @@
 import React, { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import { useDispatch } from 'react-redux'
-import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
+import {
+  getUsersHoursTokenRequest,
+  googleAuthChangeGoogleSheetIsAgree,
+  googleAuthChangeGoogleSheetLink,
+  googleAuthSendGoogleSheetSyncRequest,
+} from 'actions/google-auth-success'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import { getLoading } from 'selectors/google-auth-success'
+import {
+  getGoogleSheetSyncInputLink,
+  getLoading,
+  googleSheetSyncIsAgree,
+} from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { useHistory } from 'react-router-dom'
 import { Button, TextField } from '@material-ui/core'
@@ -13,6 +22,19 @@ export const GoogleAuthSuccess = () => {
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
   const history = useHistory()
+  const googleSheetSyncLink = useShallowEqualSelector(
+    getGoogleSheetSyncInputLink
+  )
+  const googleSheetSyncCurrentIsAgree = useShallowEqualSelector(
+    googleSheetSyncIsAgree
+  )
+
+  const onGoogleSheetSyncLinkChange = (event) =>
+    dispatch(googleAuthChangeGoogleSheetLink(event.target.value))
+  const onGoogleSheetSyncIsAgreeChange = (event) =>
+    dispatch(googleAuthChangeGoogleSheetIsAgree(event.target.checked))
+  const onGoogleSheetSync = () =>
+    dispatch(googleAuthSendGoogleSheetSyncRequest())
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -39,7 +61,15 @@ export const GoogleAuthSuccess = () => {
     <SpinnerStyled />
   ) : (
     <div>
-      <TextField />
+      <TextField
+        onChange={onGoogleSheetSyncLinkChange}
+        value={googleSheetSyncLink}
+      />
+      <TextField
+        type="checkbox"
+        value={googleSheetSyncCurrentIsAgree}
+        onChange={onGoogleSheetSyncIsAgreeChange}
+      />
       <Button>Sync</Button>
     </div>
   )

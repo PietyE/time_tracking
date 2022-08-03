@@ -32,9 +32,8 @@ export const googleAuthChangeGoogleSheetIsAgree = (isAgree) => ({
   payload: isAgree,
 })
 
-export const googleAuthSendGoogleSheetSyncRequest = (googleSheetData) => ({
+export const googleAuthSendGoogleSheetSyncRequest = () => ({
   type: GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
-  payload: googleSheetData,
 })
 
 export const googleAuthSyncGoogleSheetSuccess = () => ({
