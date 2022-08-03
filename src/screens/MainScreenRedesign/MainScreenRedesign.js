@@ -24,18 +24,21 @@ import './MainScreen.scss'
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
+import GoogleSyncPrivateRoot from '../../Routes/GoogleSyncPrivateRoot'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
+
 const ProjectReportNew = lazy(() =>
   import('components/project-report-new-design/ProjectReportNew')
 )
+
 const VilmatesScreen = lazy(() => import('screens/VilmatesScreen'))
+
 const ProjectManagementComponent = lazy(() =>
   import('components/project-managment-new-design/ProjectManagementComponent')
 )
-const GoogleAuthSuccess = lazy(() =>
-  import('components/google-auth-success')
-)
+
+const GoogleAuthSuccess = lazy(() => import('components/google-auth-success'))
 
 function MainScreen(props) {
   const {
@@ -97,7 +100,7 @@ function MainScreen(props) {
           {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
           <Route path="/vilmates" component={VilmatesScreen} exact />
-          <Route
+          <GoogleSyncPrivateRoot
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
             exact

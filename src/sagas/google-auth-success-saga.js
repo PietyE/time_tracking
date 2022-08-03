@@ -24,6 +24,10 @@ function* createUsersHoursToken(action) {
       throw new Error()
     }
 
+    if (String(status) === '500') {
+      throw new Error('First login with google drive button')
+    }
+
     yield put(getUsersHoursTokenSuccess())
     yield put(
       showAlert({
