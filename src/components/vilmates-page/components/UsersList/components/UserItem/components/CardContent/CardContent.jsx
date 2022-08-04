@@ -9,6 +9,7 @@ export const CardContent = ({ name, position }) => (
       variant="body2"
       component="p"
       className="vailmate-card-position-title"
+      noWrap
     >
       {name}
     </Typography>
@@ -16,6 +17,7 @@ export const CardContent = ({ name, position }) => (
       color="secondary.contrastText"
       component="p"
       className="vailmate-card-position-text"
+      noWrap
     >
       {position}
     </Typography>
