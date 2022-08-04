@@ -15,7 +15,7 @@ import {
 } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { useHistory } from 'react-router-dom'
-import { Button, TextField } from '@material-ui/core'
+import { Button, TextField, Checkbox } from '@material-ui/core'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
@@ -65,12 +65,12 @@ export const GoogleAuthSuccess = () => {
         onChange={onGoogleSheetSyncLinkChange}
         value={googleSheetSyncLink}
       />
-      <TextField
+      <Checkbox
         type="checkbox"
-        value={googleSheetSyncCurrentIsAgree}
+        checked={googleSheetSyncCurrentIsAgree}
         onChange={onGoogleSheetSyncIsAgreeChange}
       />
-      <Button>Sync</Button>
+      <Button onClick={onGoogleSheetSync}>Sync</Button>
     </div>
   )
 }
