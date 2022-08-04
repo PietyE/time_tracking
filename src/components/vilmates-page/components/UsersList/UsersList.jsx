@@ -15,7 +15,7 @@ export const UsersList = () => {
   const users = useEqualSelector(getUsers)
   const isLoading = useEqualSelector(getLoading)
   const [value, setValue] = useState('')
-  const [filteredUsers] = useSearch(users, value)
+  const filteredUsers = useSearch(users, value, 300)
 
   const handleChange = (event) => setValue(event.target.value)
 
@@ -31,8 +31,13 @@ export const UsersList = () => {
       </Grid>
     ))
   ) : (
-    <Typography variant="h1" component="p" className="vilmate-page-no-users">
-      No users at the time...
+    <Typography
+      variant="h3"
+      component="p"
+      className="vilmate-page-no-users"
+      style={{ padding: '20%' }}
+    >
+      Any founded user
     </Typography>
   )
 

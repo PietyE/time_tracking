@@ -1,15 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useDebounce } from './useDebounce'
 
-export const useSearch = (initialUsers, value) => {
-  const [users, setUsers] = useState(initialUsers)
-
-  const filteredUsers = useMemo(
+export const useSearch = (users, value, delay) => {
+  const debouncedValue = useDebounce(value, delay)
+  return useMemo(
     () =>
       users.filter(({ name }) =>
-        name.trim().toLowerCase().includes(value.trim().toLowerCase())
+        name.trim().toLowerCase().includes(debouncedValue.trim().toLowerCase())
       ),
-    [value]
+    [debouncedValue, users]
   )
-
-  return [filteredUsers, setUsers]
 }
