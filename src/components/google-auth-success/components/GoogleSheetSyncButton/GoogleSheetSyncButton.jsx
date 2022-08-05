@@ -8,7 +8,11 @@ const GoogleSheetSyncButton = () => {
 
   const onGoogleSheetSync = () =>
     dispatch(googleAuthSendGoogleSheetSyncRequest())
-  return <Button onClick={onGoogleSheetSync}>Sync</Button>
+  return (
+    <Button onClick={onGoogleSheetSync} variant="contained" color="primary">
+      Sync
+    </Button>
+  )
 }
 
 export const GoogleSheetSyncButtonMemoized = React.memo(GoogleSheetSyncButton)

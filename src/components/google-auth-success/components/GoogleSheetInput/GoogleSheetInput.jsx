@@ -4,6 +4,8 @@ import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { getGoogleSheetSyncInputLink } from 'selectors/google-auth-success'
 import { googleAuthChangeGoogleSheetLink } from 'actions/google-auth-success'
 import { useDispatch } from 'react-redux'
+import { ReactComponent as LinkIcon } from 'images/link.svg'
+import './GoogleSheetInput.scss'
 
 const GoogleSheetInput = () => {
   const googleSheetSyncLink = useShallowEqualSelector(
@@ -17,7 +19,19 @@ const GoogleSheetInput = () => {
     []
   )
 
-  return <TextField onChange={handleChange} value={googleSheetSyncLink} />
+  return (
+    <TextField
+      onChange={handleChange}
+      value={googleSheetSyncLink}
+      className="google-sheet-input"
+      variant="outlined"
+      placeholder="https://docs.google.com/spreadsheets/"
+      fullWidth
+      InputProps={{
+        startAdornment: <LinkIcon style={{ marginRight: '8px' }} />,
+      }}
+    />
+  )
 }
 
 export const GoogleSheetInputMemoized = React.memo(GoogleSheetInput)

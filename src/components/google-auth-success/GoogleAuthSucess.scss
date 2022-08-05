@@ -7,10 +7,13 @@
   background-color: $whiteColor;
   &-form {
       padding: 17px 24px 40px;
-      &-header-title.MuiTypography-root  {
+    &-header {
+      margin-bottom: 24px;
+      &-title.MuiTypography-root  {
         margin-bottom: 19px;
         font-weight: 600;
       }
+    }
       &-actions {
         display: flex;
         flex-direction: column;

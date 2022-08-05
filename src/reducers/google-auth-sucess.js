@@ -12,7 +12,7 @@ import {
 const initialState = {
   isLoading: false,
   googleSheetLink: '',
-  isAgree: true,
+  isAgree: false,
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
