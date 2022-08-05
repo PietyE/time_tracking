@@ -29,6 +29,7 @@ import useMenuPresent from 'custom-hook/useMenuPresent'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAlert } from '../../../actions/alert'
 import ReportItemForm from './ReportItemForm'
+import { ReportItemMenu } from './ReportItemMenu'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -100,7 +101,7 @@ function ReportItem({
   const [isTimeInputError, setIsTimeInputError] = useState(false)
   const [isDraggable, setIsDraggable] = useState(true)
 
-  const [editMenu, handlerOpenMenu] = useMenuPresent();
+  const [editMenu, handlerOpenMenu] = useMenuPresent()
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -128,7 +129,6 @@ function ReportItem({
     setTextInputValue(e.target.value)
     setIsTextInputError(false)
   }
-
 
   const handleChangeTimeInputValue = (e) => {
     setTimeInputValue(e.target.value)
@@ -164,7 +164,6 @@ function ReportItem({
     }
 
     if (duration === 0) {
-      ('border-danger')
       setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
@@ -390,74 +389,29 @@ function ReportItem({
           timeInputMaskPlaceholder="0"
           timeInputMask="9:99"
           handleFormSubmit={handlerSubmit}
-          />
+        />
       ) : (
-        <>
-          <span className="time_report_day_description">
-            <Linking text={text} />
-          </span>
-          <span className="time_report_day_hours">
-            {parseMinToHoursAndMin(hours)}
-          </span>
-        </>
+        <ReportItemForm
+          textInputValue={text}
+          timeInputValue={parseMinToHoursAndMin(hours)}
+          isEditing={false}
+          onButtonClick={handlerOpenMenu}
+        />
       )}
 
       <div className="time_report_day_edit">
-        {idEditingWorkItem !== id && (
-          <div
-            className={'edit_dots ' + (editMenu ? 'dots-bg' : '')}
-            onClick={handlerOpenMenu}
-          >
-            <FontAwesomeIcon
-              icon={faEllipsisV}
-              color="#414141"
-              className="icon pencil_icon"
-            />
-          </div>
-        )}
-
         {editMenu && !idEditingWorkItem && (
-          <div className={'time_report_day_menu'}>
-            <button
-              onClick={
-                idEditingWorkItem === id ? () => null : handlerClickEditMode
-              }
-              className="button edit_button"
-              type={idEditingWorkItem === id ? 'submit' : 'button'}
-              form="edit_form"
-            >
-              <FontAwesomeIcon
-                icon={idEditingWorkItem === id ? faCheck : faEdit}
-                className="icon pencil_icon"
-              />
-              Edit the report
-            </button>
-            {idEditingWorkItem !== id && isOneProject && (
-              <button
-                onClick={hanldeClickToggleShowModalChangeProject}
-                className="button change_project_button"
-                type={'button'}
-                form="edit_form"
-              >
-                <FaExchangeAlt className="icon exchange_icon" />
-                Swap to other project
-              </button>
-            )}
-            <button
-              onClick={
-                idEditingWorkItem === id
-                  ? handlerCancelEditMode
-                  : handlerClickOpenDeleteModal
-              }
-              className="button delete_button"
-            >
-              <FontAwesomeIcon
-                icon={idEditingWorkItem === id ? faTimes : faTrashAlt}
-                className="icon trash_icon"
-              />
-              Delete the report
-            </button>
-          </div>
+          <ReportItemMenu
+            idEditingWorkItem={idEditingWorkItem}
+            id={id}
+            handlerCancelEditMode={handlerClickEditMode}
+            isOneProject={isOneProject}
+            handlerClickOpenDeleteModal={handlerClickOpenDeleteModal}
+            handlerClickEditMode={handlerClickEditMode}
+            hanldeClickToggleShowModalChangeProject={
+              hanldeClickToggleShowModalChangeProject
+            }
+          />
         )}
       </div>
     </div>

@@ -89,6 +89,8 @@ export const theme = createTheme(basicTheme, {
         fontWeight: 500,
         fontSize: 14,
         padding: 0,
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
         '&::placeholder': {
           color: 'basicTheme.palette.text.disabled',
         },

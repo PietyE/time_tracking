@@ -150,7 +150,7 @@ function CreateReportForm({
         handleTimeInputChange={handlerChangeHours}
         handleTimeInputFocus={handlerFocus}
         timeInputError={isTimeInputError}
-        isButtonDisabled={!(hours && hours !== '0:00' && text)}
+        isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
         handleFormSubmit={handlerClickAddButton}
       />
   )
