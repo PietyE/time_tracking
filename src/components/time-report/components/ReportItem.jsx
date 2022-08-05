@@ -100,7 +100,7 @@ function ReportItem({
   const [isTimeInputError, setIsTimeInputError] = useState(false)
   const [isDraggable, setIsDraggable] = useState(true)
 
-  const [editMenu, handlerOpenMenu] = useMenuPresent();
+  const [editMenu, handlerOpenMenu] = useMenuPresent()
 
   const handlerClickOpenDeleteModal = (e) => {
     e.stopPropagation()
@@ -128,7 +128,6 @@ function ReportItem({
     setTextInputValue(e.target.value)
     setIsTextInputError(false)
   }
-
 
   const handleChangeTimeInputValue = (e) => {
     setTimeInputValue(e.target.value)
@@ -164,7 +163,7 @@ function ReportItem({
     }
 
     if (duration === 0) {
-      ('border-danger')
+      ;('border-danger')
       setIsTimeInputError(true)
       showAlert({
         type: WARNING_ALERT,
@@ -350,7 +349,6 @@ function ReportItem({
       }
     }
   }
-  //todo: check memo
   return (
     <div
       className={
@@ -390,7 +388,7 @@ function ReportItem({
           timeInputMaskPlaceholder="0"
           timeInputMask="9:99"
           handleFormSubmit={handlerSubmit}
-          />
+        />
       ) : (
         <>
           <span className="time_report_day_description">

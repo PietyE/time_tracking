@@ -1,12 +1,14 @@
 import React, { useEffect, useMemo } from 'react'
-import { useSearchParams } from 'custom-hook/useSearchParams'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { Button, TextField, Checkbox } from '@material-ui/core'
 import {
   getUsersHoursTokenRequest,
   googleAuthChangeGoogleSheetIsAgree,
   googleAuthChangeGoogleSheetLink,
   googleAuthSendGoogleSheetSyncRequest,
 } from 'actions/google-auth-success'
+import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import {
   getGoogleSheetSyncInputLink,
@@ -14,8 +16,6 @@ import {
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
-import { useHistory } from 'react-router-dom'
-import { Button, TextField, Checkbox } from '@material-ui/core'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
@@ -50,6 +50,7 @@ export const GoogleAuthSuccess = () => {
     )
   }, [])
 
+  //if you entered not from google auth
   if (!state) {
     history.push({
       pathname: '/projectreport',
