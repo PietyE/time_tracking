@@ -137,10 +137,9 @@ function ProjectReportNew() {
           )}
           <div className="select_month">
             <SelectMonth
-              selectedDate={selectedDate}
-              setNewData={handleChangeData}
-              extraClassNameContainer="time_report_header_select_month"
-              showYear="true"
+              value={selectedDate}
+              onChange={handleChangeData}
+              showYear
             />
           </div>
         </div>

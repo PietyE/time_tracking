@@ -267,10 +267,9 @@ function TimeReport(props) {
               selectedProject={selectedProject}
             />
             <SelectMonth
-              selectedDate={selectedDate}
-              setNewData={changeSelectedDateTimeReport}
-              showYear="true"
-              extraClassNameContainer="time_report_header_select_month"
+              value={selectedDate}
+              onChange={changeSelectedDateTimeReport}
+              showYear
             />
             {/* <FunnelSelect
                 days={selectedDays}
