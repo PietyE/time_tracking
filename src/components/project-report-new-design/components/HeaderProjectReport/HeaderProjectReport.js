@@ -5,8 +5,7 @@ import { getRoleUser } from 'selectors/user'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ACCOUNTANT, ADMIN } from 'constants/role-constant'
 
-const HeaderProjectReport = (props) => {
-  const { name } = props
+const HeaderProjectReport = ({ name }) => {
   const role = useShallowEqualSelector(getRoleUser)
 
   const isHaveAccess = role === ADMIN || role === ACCOUNTANT

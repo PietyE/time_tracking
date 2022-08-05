@@ -39,7 +39,7 @@ const ProjectManagementComponent = lazy(() =>
 
 const GoogleAuthSuccess = lazy(() => import('screens/GoogleAuthSuccessScreen'))
 
-function MainScreen(props) {
+function MainScreenRedesign(props) {
   const {
     isAuth,
     roleUser,

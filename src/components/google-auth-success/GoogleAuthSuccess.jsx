@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Button, TextField, Checkbox } from '@material-ui/core'
@@ -16,6 +16,9 @@ import {
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
+import { Container } from 'components/ui/container'
+import HeaderProjectReport from 'components/project-report-new-design/components/HeaderProjectReport/HeaderProjectReport'
+import { PageHeader } from '../common/PageHeader'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
@@ -61,7 +64,8 @@ export const GoogleAuthSuccess = () => {
   return isLoading ? (
     <SpinnerStyled />
   ) : (
-    <div>
+    <Container>
+      <PageHeader name="Project report" />
       <TextField
         onChange={onGoogleSheetSyncLinkChange}
         value={googleSheetSyncLink}
@@ -72,6 +76,6 @@ export const GoogleAuthSuccess = () => {
         onChange={onGoogleSheetSyncIsAgreeChange}
       />
       <Button onClick={onGoogleSheetSync}>Sync</Button>
-    </div>
+    </Container>
   )
 }
