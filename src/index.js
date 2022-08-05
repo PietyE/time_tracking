@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.scss'
 import '@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css';
+import "swiper/css/bundle";
 import store from 'store'
 import App from 'components/App'
 import { ThemeProvider } from '@material-ui/core'
