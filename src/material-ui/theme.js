@@ -1,5 +1,5 @@
 import { createTheme } from '@material-ui/core'
-import { COLORS } from './constants'
+import { BREAKPOINTS, COLORS } from './constants'
 
 const basicTheme = createTheme({
   palette: {
@@ -26,10 +26,10 @@ const basicTheme = createTheme({
   },
   breakpoints: {
     values: {
-      mobile: 0,
-      tablet: 768,
-      laptop: 1200,
-      desktop: 1680,
+      mobile: BREAKPOINTS.mobile,
+      tablet: BREAKPOINTS.tablet,
+      laptop: BREAKPOINTS.laptop,
+      desktop: BREAKPOINTS.desktop,
     },
   },
 })
@@ -39,12 +39,12 @@ export const theme = createTheme(basicTheme, {
     MuiAutocomplete: {
       root: {
         userSelect: 'none',
-        "& .MuiIconButton-root": {
+        '& .MuiIconButton-root': {
           borderRadius: 0,
-          "&:hover": {
-            backgroundColor: 'transparent'
-          }
-        }
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+        },
       },
       inputRoot: {
         '&&&&&': {
@@ -53,9 +53,9 @@ export const theme = createTheme(basicTheme, {
           paddingBottom: 8,
           paddingLeft: 16,
         },
-        "& .MuiInputAdornment-positionStart": {
-          color: basicTheme.palette.custom.mainGray
-        }
+        '& .MuiInputAdornment-positionStart': {
+          color: basicTheme.palette.custom.mainGray,
+        },
       },
       input: {
         '&&&': {
@@ -63,12 +63,11 @@ export const theme = createTheme(basicTheme, {
         },
       },
       popupIndicator: {
-        color: basicTheme.palette.common.black
+        color: basicTheme.palette.common.black,
       },
       clearIndicator: {
-        padding: 0
+        padding: 0,
       },
-      
     },
     MuiOutlinedInput: {
       root: {
@@ -117,10 +116,25 @@ export const theme = createTheme(basicTheme, {
         boxShadow: 'none',
       },
     },
+    MuiAppBar: {
+      root: {
+        zIndex: 1301,
+      },
+    },
+    MuiDrawer: {
+      paperAnchorTop: {
+        maxHeight: '100vh',
+      },
+    },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: 'transparent'
+      }
+    }
   },
   props: {
     MuiButtonBase: {
-      disableRipple: true
-    }
-  }
+      disableRipple: true,
+    },
+  },
 })

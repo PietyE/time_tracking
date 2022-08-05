@@ -16,14 +16,13 @@ import {
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
-import SideMenu from 'components/side-menu'
-import './MainScreen.scss'
 // import InHouseEmployees from 'components/in-house-employees'
 // import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
+import Layout from 'components/ui/layout'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
 const ProjectReportNew = lazy(() =>
@@ -34,7 +33,7 @@ const ProjectManagementComponent = lazy(() =>
   import('components/project-managment-new-design/ProjectManagementComponent')
 )
 
-function MainScreen(props) {
+function MainScreenRedesign(props) {
   const {
     isAuth,
     roleUser,
@@ -86,8 +85,7 @@ function MainScreen(props) {
   }
 
   return (
-    <div className="new_design">
-      <SideMenu />
+    <Layout>
       <Suspense fallback={<SpinnerStyled />}>
         <Switch>
           <Route path="/projectreport" component={ProjectReportNew} exact />
@@ -106,7 +104,7 @@ function MainScreen(props) {
           <Redirect from="/" to="/timereport" />
         </Switch>
       </Suspense>
-    </div>
+    </Layout>
   )
 }
 
@@ -127,4 +125,4 @@ const mapStateToProps = (state) => ({
   getSelectedMonth: getSelectedMonthSelector(state),
 })
 
-export default connect(mapStateToProps, actions)(memo(MainScreen))
+export default connect(mapStateToProps, actions)(memo(MainScreenRedesign))
