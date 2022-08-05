@@ -1,7 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Button, TextField, Checkbox } from '@material-ui/core'
+import {
+  Button,
+  TextField,
+  Checkbox,
+  Box,
+  Typography,
+  Divider,
+} from '@material-ui/core'
 import {
   getUsersHoursTokenRequest,
   googleAuthChangeGoogleSheetIsAgree,
@@ -17,27 +24,17 @@ import {
 } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { Container } from 'components/ui/container'
-import HeaderProjectReport from 'components/project-report-new-design/components/HeaderProjectReport/HeaderProjectReport'
-import { PageHeader } from '../common/PageHeader'
+import { PageHeader } from 'components/common/PageHeader'
+import './GoogleAuthSucess.scss'
+import { GoogleSheetInputMemoized as GoogleSheetInput } from './components/GoogleSheetInput'
+import { GoogleSheetCheckboxMemoized as GoogleSheetCheckbox } from './components/GoogleSheetCheckbox'
+import { GoogleSheetSyncButtonMemoized as GoogleSheetSyncButton } from './components/GoogleSheetSyncButton'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
   const history = useHistory()
-  const googleSheetSyncLink = useShallowEqualSelector(
-    getGoogleSheetSyncInputLink
-  )
-  const googleSheetSyncCurrentIsAgree = useShallowEqualSelector(
-    googleSheetSyncIsAgree
-  )
-
-  const onGoogleSheetSyncLinkChange = (event) =>
-    dispatch(googleAuthChangeGoogleSheetLink(event.target.value))
-  const onGoogleSheetSyncIsAgreeChange = (event) =>
-    dispatch(googleAuthChangeGoogleSheetIsAgree(event.target.checked))
-  const onGoogleSheetSync = () =>
-    dispatch(googleAuthSendGoogleSheetSyncRequest())
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -66,16 +63,25 @@ export const GoogleAuthSuccess = () => {
   ) : (
     <Container>
       <PageHeader name="Project report" />
-      <TextField
-        onChange={onGoogleSheetSyncLinkChange}
-        value={googleSheetSyncLink}
-      />
-      <Checkbox
-        type="checkbox"
-        checked={googleSheetSyncCurrentIsAgree}
-        onChange={onGoogleSheetSyncIsAgreeChange}
-      />
-      <Button onClick={onGoogleSheetSync}>Sync</Button>
+      <Box className="google-auth-success-container">
+        <Box className="google-auth-success-container-form">
+          <Box className="google-auth-success-container-form-header">
+            <Typography
+              variant="h6"
+              component="p"
+              className="google-auth-success-container-form-header-title"
+            >
+              Paste the link to google sheet
+            </Typography>
+            <Divider variant="fullWidth" />
+          </Box>
+          <Box className="google-auth-success-container-form-actions">
+            <GoogleSheetInput />
+            <GoogleSheetCheckbox />
+            <GoogleSheetSyncButton />
+          </Box>
+        </Box>
+      </Box>
     </Container>
   )
 }

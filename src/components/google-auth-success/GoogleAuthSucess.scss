@@ -1,0 +1,12 @@
+@import "src/styles/commonStyles";
+
+.google-auth-success-container {
+  max-width: 758px;
+  border: 1px solid $grayBorderColor;
+  border-radius: 10px;
+  background-color: $whiteColor ;
+}
+
+.google-auth-success-container-form {
+  padding: 17px 24px 40px;
+}
