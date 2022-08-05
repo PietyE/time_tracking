@@ -11,6 +11,7 @@ import {
 // import { watchCurrencies } from './currency-saga'
 
 import { watchProjectsManagement } from './projectsmanagement-saga'
+import { watchUsersListGetRequest } from './vilmates-page-saga'
 import { watchGoogleAuthCreateToken } from './google-auth-success-saga'
 
 export function* rootSaga() {
@@ -22,6 +23,7 @@ export function* rootSaga() {
     watchDeveloperProjects(),
     // watchCurrencies(),
     watchProjectsManagement(),
+    watchUsersListGetRequest(),
     watchGoogleAuthCreateToken(),
     // watchReportsV2()
   ])

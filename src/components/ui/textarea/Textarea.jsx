@@ -16,6 +16,7 @@ export const Textarea = ({
   error,
   autoFocus,
   classes,
+  ...rest
 }) => {
   const handleKeyDown = (event) => {
     if (event.which === 13 && !event.shiftKey) {
@@ -33,7 +34,7 @@ export const Textarea = ({
       onKeyDown={handleKeyDown}
       onFocus={onFocus}
       onBlur={onBlur}
-      multiline
+      multiline={true}
       type="text"
       fullWidth={fullWidth}
       placeholder={placeholder}
@@ -46,6 +47,7 @@ export const Textarea = ({
       error={error}
       autoFocus={autoFocus}
       classes={classes}
+      {...rest}
     />
   )
 }

@@ -1,0 +1,13 @@
+.large {
+  & svg {
+    width: 69px;
+    height: 48px;
+  }
+}
+
+.small {
+  & svg {
+    width: 44px;
+    height: 31px;
+  }
+}

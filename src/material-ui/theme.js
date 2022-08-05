@@ -1,5 +1,5 @@
 import { createTheme } from '@material-ui/core'
-import { COLORS } from './constants'
+import { BREAKPOINTS, COLORS } from './constants'
 
 const basicTheme = createTheme({
   palette: {
@@ -17,15 +17,58 @@ const basicTheme = createTheme({
     text: {
       disabled: COLORS.textDisabled,
     },
-    custom: {},
+    custom: {
+      mainGray: COLORS.mainGray,
+    },
   },
   typography: {
     fontFamily: 'Montserrat',
+  },
+  breakpoints: {
+    values: {
+      mobile: BREAKPOINTS.mobile,
+      tablet: BREAKPOINTS.tablet,
+      laptop: BREAKPOINTS.laptop,
+      desktop: BREAKPOINTS.desktop,
+    },
   },
 })
 
 export const theme = createTheme(basicTheme, {
   overrides: {
+    MuiAutocomplete: {
+      root: {
+        userSelect: 'none',
+        '& .MuiIconButton-root': {
+          borderRadius: 0,
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+        },
+      },
+      inputRoot: {
+        '&&&&&': {
+          paddingTop: 8,
+          paddingRight: 34,
+          paddingBottom: 8,
+          paddingLeft: 16,
+        },
+        '& .MuiInputAdornment-positionStart': {
+          color: basicTheme.palette.custom.mainGray,
+        },
+      },
+      input: {
+        '&&&': {
+          padding: '0 10px 0 0',
+        },
+      },
+      popupIndicator: {
+        color: basicTheme.palette.common.black,
+      },
+      clearIndicator: {
+        padding: 0,
+      },
+    },
     MuiOutlinedInput: {
       root: {
         boxSizing: 'border-box',
@@ -43,9 +86,11 @@ export const theme = createTheme(basicTheme, {
         },
       },
       input: {
-        fontWeight: 600,
+        fontWeight: 500,
         fontSize: 14,
         padding: 0,
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
         '&::placeholder': {
           color: 'basicTheme.palette.text.disabled',
         },
@@ -72,6 +117,26 @@ export const theme = createTheme(basicTheme, {
       contained: {
         boxShadow: 'none',
       },
+    },
+    MuiAppBar: {
+      root: {
+        zIndex: 1301,
+      },
+    },
+    MuiDrawer: {
+      paperAnchorTop: {
+        maxHeight: '100vh',
+      },
+    },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: 'transparent'
+      }
+    }
+  },
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
     },
   },
 })

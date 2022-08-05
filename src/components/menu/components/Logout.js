@@ -2,8 +2,7 @@ import React, {useRef, useState} from 'react'
 import { useDispatch } from 'react-redux'
 
 import HintWindow from 'components/ui/HintWindow'
-
-import { logOut } from '../../../actions/users'
+import { logOut } from 'actions/users';
 
 const Logout = (props) => {
   const { img } = props;

@@ -1,0 +1,18 @@
+.layout {
+  width: 100%;
+  max-width: 1920px;
+  min-height: 100vh;
+  display: flex;
+
+  scroll-behavior: smooth;
+}
+
+.verticalLayout {
+  @extend .layout;
+  flex-direction: column;
+}
+
+.horizontalLayout {
+  @extend .layout;
+  flex-direction: row;
+}

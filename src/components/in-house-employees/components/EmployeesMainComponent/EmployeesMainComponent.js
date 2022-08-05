@@ -132,10 +132,9 @@ function EmployeesMainComponent (props) {
           <SearchByProject />
           <div className="select_month">
             <SelectMonth
-              selectedDate={selectedDate}
-              setNewData={onSentNewData}
-              extraClassNameContainer="time_report_header_select_month"
-              showYear="true"
+              value={selectedDate}
+              onChange={onSentNewData}
+              showYear
             />
           </div>
           <div className="choose_active" onClick={openChooseActive}>
