@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputMask from 'react-input-mask'
-import { Box, TextField } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 
 export const TimeInput = ({
   value,
@@ -13,6 +13,7 @@ export const TimeInput = ({
   placeholder,
   error,
   classes,
+  ...rest
 }) => (
   <InputMask
     placeholder={placeholder}
@@ -22,6 +23,7 @@ export const TimeInput = ({
     mask={mask}
     onFocus={onFocus}
     onBlur={onBlur}
+    {...rest}
   >
     <TextField
       variant="outlined"
@@ -34,8 +36,8 @@ export const TimeInput = ({
 )
 
 TimeInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   mask: PropTypes.string,

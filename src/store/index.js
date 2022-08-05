@@ -14,6 +14,7 @@ import { currencies } from 'reducers/currency'
 import { projectReportDetails } from 'reducers/project-report-details'
 import { projectsManagement } from 'reducers/projects-management'
 import { googleAuthSuccess } from 'reducers/google-auth-sucess'
+import { vilmatesPage } from 'reducers/vilmates-page'
 
 const rootReducer = combineReducers({
   profile,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   currencies,
   projectReportDetails,
   googleAuthSuccess,
+  vilmatesPage,
 })
 
 const sagaMiddleware = createSagaMiddleware()

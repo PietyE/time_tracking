@@ -1,3 +1,3 @@
-import SelectMonth from './SelectMonth'
+import { SelectMonth } from './SelectMonth'
 
 export default SelectMonth

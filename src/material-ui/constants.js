@@ -9,3 +9,10 @@ export const COLORS = {
   lightGreen: 'rgba(153, 215, 214, 1)',
   textDisabled: 'rgba(173, 173, 167, 1)',
 }
+
+export const BREAKPOINTS = {
+  mobile: '0px',
+  tablet: '768px',
+  laptop: '1200px',
+  desktop: '1680px',
+}

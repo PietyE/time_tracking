@@ -11,7 +11,7 @@ import Modal from 'components/ui/modal'
 
 const Auth = lazy(() => import('./AuthScreen'))
 const MainScreen = lazy(() => import('./MainScreen'))
-const MainScreenRedesign = lazy(() => import('./MainScreenRedesign/MainScreenRedesign'))
+const MainScreenRedesign = lazy(() => import('./MainScreenRedesign'))
 
 const RootRouteComponent = ({ bootstrap, isFetchingUsers }) => {
   useEffect(() => {

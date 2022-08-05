@@ -270,10 +270,9 @@ const ProjectManagementComponent = () => {
               />
             </div>
             <SelectMonth
-              extraClassNameContainer={'month_select'}
-              selectedDate={selectedDateForPM}
-              setNewData={_changeSelectedDateProjectsManagement}
-              showYear="true"
+              value={selectedDateForPM}
+              onChange={_changeSelectedDateProjectsManagement}
+              showYear
             />
           </div>
           <div className="row table__titles">

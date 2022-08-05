@@ -1,34 +1,31 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   faCaretLeft,
   faCaretRight,
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
-
 import { monthsNamesLong, monthsNamesShort } from 'constants/months'
 
-import './style.scss'
+import styles from './SelectMonth.module.scss'
 
-function SelectMonth({
-  selectedDate = {},
-  setNewData,
-  extraClassNameContainer,
-  showYear
-}) {
+export const SelectMonth = ({
+  value,
+  onChange,
+  showYear,
+}) => {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
   const month = todayDate.getMonth()
 
   const selectMonthRef = useRef()
 
-  const [currentMonth, setCurrentMonth] = useState(selectedDate.month || month)
+  const [currentMonth, setCurrentMonth] = useState(value.month || month)
 
-  const [currentYear, setCurrentYear] = useState(selectedDate.year || year)
+  const [currentYear, setCurrentYear] = useState(value.year || year)
 
   const [isOpenPicker, setIsOpenPicker] = useState(false)
 
@@ -36,7 +33,7 @@ function SelectMonth({
     e.preventDefault()
     const selectedMonth = +e.target.dataset.month
     if (e.target.classList.contains('disabled')) return
-    setNewData({ month: selectedMonth, year: currentYear })
+    onChange({ month: selectedMonth, year: currentYear })
     setCurrentMonth(selectedMonth)
     setIsOpenPicker(false)
   }
@@ -54,16 +51,16 @@ function SelectMonth({
   const handlerSelectPrevMonth = (e) => {
     e.preventDefault()
     if (currentMonth === 0) {
-    if(currentYear === 2010){
-       return
-    }
+      if (currentYear === 2010) {
+        return
+      }
 
       setCurrentMonth(11)
-      setNewData({ month: 11, year: currentYear - 1 })
+      onChange({ month: 11, year: currentYear - 1 })
       setCurrentYear(currentYear - 1)
     } else {
       setCurrentMonth(currentMonth - 1)
-      setNewData({ month: currentMonth - 1, year: currentYear })
+      onChange({ month: currentMonth - 1, year: currentYear })
     }
   }
 
@@ -72,11 +69,11 @@ function SelectMonth({
     e.stopPropagation()
     if (currentMonth === 11) {
       setCurrentMonth(0)
-      setNewData({ month: 0, year: currentYear + 1 })
+      onChange({ month: 0, year: currentYear + 1 })
       setCurrentYear(currentYear + 1)
     } else {
       setCurrentMonth(currentMonth + 1)
-      setNewData({ month: currentMonth + 1, year: currentYear })
+      onChange({ month: currentMonth + 1, year: currentYear })
     }
   }
 
@@ -86,34 +83,29 @@ function SelectMonth({
 
   const longMonthName = monthsNamesLong[currentMonth]
 
-  // const longMonthNameText =
-  //   selectedDate.year && selectedDate.year !== year
-  //     ? `${longMonthName}, ${selectedDate.year}`
-  //     : longMonthName
-
-  const longMonthNameText = useMemo(()=>{
-    if(selectedDate){
-        if(showYear){
-          return `${longMonthName}, ${selectedDate.year} ` 
-        } 
-        if(selectedDate.year && selectedDate.year !== year)  {
-          return `${longMonthName}, ${selectedDate.year}`  
-        }
+  const longMonthNameText = useMemo(() => {
+    if (value) {
+      if (showYear) {
+        return `${longMonthName}, ${value.year} `
+      }
+      if (value.year && value.year !== year) {
+        return `${longMonthName}, ${value.year}`
+      }
     }
     return longMonthName
-  }, [selectedDate, longMonthName, showYear, year])
+  }, [value, longMonthName, showYear, year])
 
-  const dissabledNextYearButton = currentYear === year
+  const disabledNextYearButton = currentYear === year
   const disabledNextMonthButton =
-    selectedDate.month === month && dissabledNextYearButton
+    value.month === month && disabledNextYearButton
 
   const getClassNameForMonth = (index) => {
-    let className = 'day_button'
-    if (index > month && dissabledNextYearButton) {
-      className = className + ' disabled'
+    const className = styles.day_button
+    if (index > month && disabledNextYearButton) {
+      return `${className} ${styles.disabled}`
     }
-    if (selectedDate.month === index && currentYear === selectedDate.year) {
-      className = className + ' active'
+    if (value.month === index && currentYear === value.year) {
+      return `${className} ${styles.active}`
     }
     return className
   }
@@ -125,8 +117,8 @@ function SelectMonth({
     }
     if (
       child.parentElement &&
-      child.parentElement.classList.contains('select_month_container') ===
-        parent.classList.contains('select_month_container')
+      child.parentElement.classList.contains(styles.select_month_container) ===
+        parent.classList.contains(styles.select_month_container)
     ) {
       res = true
     } else {
@@ -155,65 +147,65 @@ function SelectMonth({
   }, [callbackEventListener, isOpenPicker])
 
   useEffect(() => {
-    setCurrentYear(selectedDate.year)
-    setCurrentMonth(selectedDate.month)
-  }, [selectedDate])
+    setCurrentYear(value.year)
+    setCurrentMonth(value.month)
+  }, [value])
 
   return (
     <div
-      className={`select_month_container ${
-        isOpenPicker ? 'open' : ''
-      } ${extraClassNameContainer}`}
+      className={`${styles.container} ${isOpenPicker && styles.open}`}
       ref={selectMonthRef}
     >
       <button
-        className="select_btn prev_month"
+        className={`${styles.prev_month_btn}`}
         onClick={handlerSelectPrevMonth}
       >
         <FontAwesomeIcon
           icon={faChevronLeft}
-          className="icon_change_month_button"
+          className={styles.icon_change_month_button}
         />
       </button>
-      <div className="data_title_container" onClick={handlerOpenPicker}>
-        <FontAwesomeIcon icon={faCalendar} className="calendar_icon" />
-        <span className="data_title">{longMonthNameText}</span>
+      <div className={styles.data_title_container} onClick={handlerOpenPicker}>
+        <FontAwesomeIcon icon={faCalendar} className={styles.calendar_icon} />
+        <span className={styles.data_title}>{longMonthNameText}</span>
       </div>
       <button
-        className={
-          disabledNextMonthButton
-            ? 'select_btn next_month disabled'
-            : 'select_btn next_month'
-        }
+        className={`${styles.next_month_btn} ${
+          disabledNextMonthButton && styles.disabled
+        }`}
         onClick={disabledNextMonthButton ? null : handlerSelectNextMonth}
       >
         <FontAwesomeIcon
           icon={faChevronRight}
-          className="icon_change_month_button"
+          className={styles.icon_change_month_button}
         />
       </button>
       {isOpenPicker && (
-        <div className="select_month_wrap">
-          <div className="select_year">
+        <div className={styles.select_month_container}>
+          <div className={styles.select_year}>
             <button
-              className="button button_left"
+              className={styles.prev_month_btn}
               onClick={handlerSelectPrevYear}
             >
-              <FontAwesomeIcon icon={faCaretLeft} className="icon_button" />
+              <FontAwesomeIcon
+                icon={faCaretLeft}
+                className={styles.icon_change_month_button}
+              />
             </button>
-            <span className="current_year">{currentYear}</span>
+            <span className={styles.current_year}>{currentYear}</span>
             <button
-              className={
-                dissabledNextYearButton
-                  ? 'button button_right disabled'
-                  : 'button button_right'
-              }
-              onClick={dissabledNextYearButton ? null : handlerSelectNextYear}
+              className={`${styles.next_month_btn} ${
+                disabledNextYearButton && styles.disabled
+              }`}
+              onClick={disabledNextYearButton ? null : handlerSelectNextYear}
             >
-              <FontAwesomeIcon icon={faCaretRight} className="icon_button" />
+              <FontAwesomeIcon
+                icon={faCaretRight}
+                className={styles.icon_change_month_button}
+              />
             </button>
           </div>
-          <div className="month_list_container">
+          <div className={styles.month_list_container}>
             {monthsNamesShort.map((item, index) => (
               <button
                 key={item}
@@ -231,4 +223,15 @@ function SelectMonth({
   )
 }
 
-export default SelectMonth
+SelectMonth.defaultProps = {
+  showYear: false,
+}
+
+SelectMonth.propTypes = {
+  value: PropTypes.shape({
+    month: PropTypes.number,
+    year: PropTypes.number,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+  showYear: PropTypes.bool,
+}
