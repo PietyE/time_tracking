@@ -4,9 +4,20 @@
   max-width: 758px;
   border: 1px solid $grayBorderColor;
   border-radius: 10px;
-  background-color: $whiteColor ;
+  background-color: $whiteColor;
+  &-form {
+      padding: 17px 24px 40px;
+      &-header-title.MuiTypography-root  {
+        margin-bottom: 19px;
+        font-weight: 600;
+      }
+      &-actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+  }
 }
 
-.google-auth-success-container-form {
-  padding: 17px 24px 40px;
-}
+

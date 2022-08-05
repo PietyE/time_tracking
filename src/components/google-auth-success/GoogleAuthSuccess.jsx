@@ -1,27 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import {
-  Button,
-  TextField,
-  Checkbox,
-  Box,
-  Typography,
-  Divider,
-} from '@material-ui/core'
-import {
-  getUsersHoursTokenRequest,
-  googleAuthChangeGoogleSheetIsAgree,
-  googleAuthChangeGoogleSheetLink,
-  googleAuthSendGoogleSheetSyncRequest,
-} from 'actions/google-auth-success'
+import { Box, Typography, Divider } from '@material-ui/core'
+import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import {
-  getGoogleSheetSyncInputLink,
-  getLoading,
-  googleSheetSyncIsAgree,
-} from 'selectors/google-auth-success'
+import { getLoading } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { Container } from 'components/ui/container'
 import { PageHeader } from 'components/common/PageHeader'
