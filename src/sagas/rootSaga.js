@@ -12,6 +12,7 @@ import {
 
 import { watchProjectsManagement } from './projectsmanagement-saga'
 import { watchUsersListGetRequest } from './vilmates-page-saga'
+import { watchGoogleAuthCreateToken } from './google-auth-success-saga'
 
 export function* rootSaga() {
   yield all([
@@ -23,6 +24,7 @@ export function* rootSaga() {
     // watchCurrencies(),
     watchProjectsManagement(),
     watchUsersListGetRequest(),
+    watchGoogleAuthCreateToken(),
     // watchReportsV2()
   ])
 }

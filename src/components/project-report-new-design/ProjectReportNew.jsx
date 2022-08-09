@@ -1,5 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useLayoutEffect,
+} from 'react'
 import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
@@ -29,13 +35,14 @@ import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 
 import './projectReportNew.scss'
 import { Button } from 'react-bootstrap'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
   const selectedDate = useShallowEqualSelector(getSelectedMonthSelector)
   // const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser)
-  const currentUserId = useShallowEqualSelector(getProfileId)
   // eslint-disable-next-line no-unused-vars
   const [openUserInfo, setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
@@ -51,6 +58,8 @@ function ProjectReportNew() {
   // }, [currentUserId, usersData])
 
   // const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
+
+  useCheckStateAfterRedirect('google-sync-non-auth')
 
   const getDevelopersProject = useCallback(() => {
     dispatch(getDevelopersProjectInProjectReport())
@@ -115,7 +124,7 @@ function ProjectReportNew() {
     >
       {isFetchingReports && <SpinnerStyled />}
       <div className="project_report_container">
-        <HeaderProjectReport id={currentUserId} name="Project report" />
+        <HeaderProjectReport name="Project report" />
         <div className="diw_row" />
         <div className="project_report_date">
           {roleUser !== DEVELOPER && (

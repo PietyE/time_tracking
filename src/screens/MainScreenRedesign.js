@@ -22,16 +22,22 @@ import { getSelectedMonthSelector } from 'reducers/projects-report'
 // import TotalOverview from 'components/total-overview/TotalOverview'
 import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
+import GoogleSyncPrivateRoot from 'Routes/GoogleSyncPrivateRoot'
 import Layout from 'components/ui/layout'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
+
 const ProjectReportNew = lazy(() =>
   import('components/project-report-new-design/ProjectReportNew')
 )
+
 const VilmatesScreen = lazy(() => import('screens/VilmatesScreen'))
+
 const ProjectManagementComponent = lazy(() =>
   import('components/project-managment-new-design/ProjectManagementComponent')
 )
+
+const GoogleAuthSuccess = lazy(() => import('screens/GoogleAuthSuccessScreen'))
 
 function MainScreenRedesign(props) {
   const {
@@ -92,6 +98,11 @@ function MainScreenRedesign(props) {
           {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
           <Route path="/vilmates" component={VilmatesScreen} exact />
+          <GoogleSyncPrivateRoot
+            path="/gsheets/auth-success"
+            component={GoogleAuthSuccess}
+            exact
+          />
           {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
           {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
