@@ -108,7 +108,7 @@ function MainScreenRedesign(props) {
             exact
           />
           <Route
-            path="/vilmates/:userId"
+            path="/vilmates/user/:userId"
             component={VilatesSinglePageScreen}
             exact
           />

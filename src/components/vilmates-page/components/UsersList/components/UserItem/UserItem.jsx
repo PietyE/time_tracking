@@ -7,7 +7,7 @@ import './UserItem.scss'
 
 export const UserItem = ({ name, position, id }) => {
   const history = useHistory()
-  const onUserClick = () => history.push(`/vilmates/user${id}`)
+  const onUserClick = () => history.push(`/vilmates/user/${id}`)
 
   return (
     <Card className="user-vilmate-card" onClick={onUserClick}>

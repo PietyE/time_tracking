@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PageHeader } from '../vilmates-page/components/PageHeader'
+import { PageHeader } from 'components/common/PageHeader'
 import { Container } from 'components/ui/container'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { useDispatch } from 'react-redux'
