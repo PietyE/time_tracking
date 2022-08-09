@@ -1,12 +1,12 @@
 import React from 'react'
 import { Container } from 'components/ui/container'
-import { PageHeader } from './components/PageHeader'
+import { PageHeader } from 'components/common/PageHeader'
 import { UsersList } from './components/UsersList'
 import { Statistics } from './components/Statistics'
 
 export const VilmatesPage = () => (
   <Container>
-    <PageHeader />
+    <PageHeader name="Vilmates" />
     <Statistics />
     <UsersList />
   </Container>
