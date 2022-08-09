@@ -55,6 +55,7 @@ export const theme = createTheme(basicTheme, {
         },
         '& .MuiInputAdornment-positionStart': {
           color: basicTheme.palette.custom.mainGray,
+          width: 20,
         },
       },
       input: {

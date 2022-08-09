@@ -769,18 +769,6 @@
   position: relative;
   cursor: move;
 
-  &.top_line {
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 74%;
-      height: 1px;
-      background: rgba(201, 201, 198, 0.5);
-    }
-  }
-
   .edit_dots {
     display: flex;
     justify-content: center;
@@ -934,7 +922,7 @@
       width: 224px;
       height: 128px;
       top: 110%;
-      left: -150px;
+      right: 0;
       border: 1px solid $borderColor;
       box-sizing: border-box;
       box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);

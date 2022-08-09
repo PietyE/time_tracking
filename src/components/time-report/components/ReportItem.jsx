@@ -1,33 +1,21 @@
-import React, { memo, useState, useCallback, useRef } from 'react'
-import { connect } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faTimes,
-  faCheck,
-  faEllipsisV,
-} from '@fortawesome/free-solid-svg-icons'
-import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
-import { FaExchangeAlt } from 'react-icons/fa'
-import TextareaAutosize from 'react-textarea-autosize'
-import InputMask from 'react-input-mask'
-import ChangeProjectModal from './ChangeProjectModal'
 import {
   deleteTimeReport,
   editTimeReport,
-  setEditMode,
+  setEditMode
 } from 'actions/times-report'
-import { parseMinToHoursAndMin } from 'utils/common'
-import DeleteModal from './DeleteModal'
-import Linking from 'components/common/linking'
+import React, { memo, useCallback, useRef, useState } from 'react'
+import { connect } from 'react-redux'
 import {
-  getTimeReportForEdit,
-  getIdEditingWorkItem,
+  getIdEditingWorkItem, getTimeReportForEdit
 } from 'selectors/timereports'
+import { parseMinToHoursAndMin } from 'utils/common'
+import ChangeProjectModal from './ChangeProjectModal'
+import DeleteModal from './DeleteModal'
 
 import useMenuPresent from 'custom-hook/useMenuPresent'
 
-import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { showAlert } from '../../../actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import ReportItemForm from './ReportItemForm'
 import { ReportItemMenu } from './ReportItemMenu'
 
@@ -71,12 +59,6 @@ function ReportItem({
   isOneProject,
   showAlert,
   index,
-  // opneNewItem,
-  // dayTitle,
-  // selectDayStatus,
-  // selectedDayStatus,
-  // isCreate,
-  // setUserStatus,
   setDraganDroped,
   draganDroped,
 }) {
@@ -88,7 +70,6 @@ function ReportItem({
   } = editableText
 
   const containerRef = useRef(null)
-  const containerHours = useRef()
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
@@ -120,11 +101,6 @@ function ReportItem({
     e.stopPropagation()
     setEditMode(id)
   }
-
-  const handlerCancelEditMode = () => {
-    setEditMode(null)
-  }
-
   const handleChangeTextInputValue = (e) => {
     setTextInputValue(e.target.value)
     setIsTextInputError(false)

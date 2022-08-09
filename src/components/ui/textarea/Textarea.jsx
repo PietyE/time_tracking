@@ -16,6 +16,7 @@ export const Textarea = ({
   error,
   autoFocus,
   classes,
+  disabled,
   ...rest
 }) => {
   const handleKeyDown = (event) => {
@@ -34,7 +35,7 @@ export const Textarea = ({
       onKeyDown={handleKeyDown}
       onFocus={onFocus}
       onBlur={onBlur}
-      multiline={true}
+      multiline={!disabled}
       type="text"
       fullWidth={fullWidth}
       placeholder={placeholder}
@@ -47,16 +48,13 @@ export const Textarea = ({
       error={error}
       autoFocus={autoFocus}
       classes={classes}
+      disabled={disabled}
       {...rest}
     />
   )
 }
 
 Textarea.defaultProps = {
-  disabled: false,
-  fullWidth: false,
-  multiline: false,
-  autoFocus: false,
   maxRows: 10,
   minRows: 1,
 }

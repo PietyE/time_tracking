@@ -1,8 +1,5 @@
 import React, { useState, useEffect, memo } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import InputMask from 'react-input-mask'
 import { isEqual } from 'lodash'
 import { getSelectedDateTimeReport } from '../../../selectors/timereports'
 import { setEditMode } from 'actions/times-report'
@@ -15,17 +12,12 @@ function CreateReportForm({
   addTimeReport,
   numberOfDay,
   selectedDate,
-  handlerEndAnimation,
-  extraClassName,
   setEditMode,
   showAlert,
   sumHours,
-  // selectDayStatus,
-  // selectedDayStatus
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
-  const [leftSize, setLeftSize] = useState(1000)
   const [isTextInputError, setIsTextInputError] = useState(false)
   const [isTimeInputError, setIsTimeInputError] = useState(false)
 
@@ -123,7 +115,6 @@ function CreateReportForm({
     }
     setText(e.target.value)
     const size = e.target.value.split('').length
-    setLeftSize(MAX_SIZE - size)
   }
 
   const handlerChangeHours = (e) => {

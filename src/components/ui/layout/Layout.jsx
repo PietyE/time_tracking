@@ -8,7 +8,7 @@ import styles from './Layout.module.scss'
 export const Layout = ({ children }) => {
   const { isDesktop, isLaptop, isTablet, isMobile } = useBreakpoints()
 
-  if (isDesktop || isLaptop) {
+  if (isDesktop || isLaptop || isTablet) {
     return (
       <div className={styles.horizontalLayout}>
         <SideMenu isDesktop={isDesktop} />

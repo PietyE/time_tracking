@@ -8,8 +8,6 @@ export const Autocomplete = ({
   options,
   value,
   onChange,
-  getOptionLabel,
-  getOptionSelected,
   placeholder,
   startIcon,
   ...rest
@@ -21,10 +19,8 @@ export const Autocomplete = ({
   return (
     <MUIAutocomplete
       options={options}
-      value={value || options[0]}
+      value={value}
       onChange={selectOptionHandler}
-      getOptionLabel={getOptionLabel}
-      getOptionSelected={getOptionSelected}
       popupIcon={<ExpandMoreIcon />}
       renderInput={(params) => (
         <TextField
@@ -47,17 +43,10 @@ export const Autocomplete = ({
   )
 }
 
-Autocomplete.defaultProps = {
-  getOptionLabel: (options) => options.label,
-  getOptionSelected: (option, value) => option.id === value.id
-}
-
 Autocomplete.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  getOptionLabel: PropTypes.func,
-  getOptionSelected: PropTypes.func,
   placeholder: PropTypes.string,
-  startIcon: PropTypes.node
+  startIcon: PropTypes.node.isRequired,
 }
