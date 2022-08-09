@@ -25,9 +25,9 @@ export const UsersList = () => {
 
   //todo: do not forget to ask what to if we have not any user
   const renderUsers = filteredUsers.length ? (
-    filteredUsers.map(({ id, name, position }) => (
-      <Grid item key={id} md={3}>
-        <UserItem name={name} position={position} />
+    filteredUsers.map((user) => (
+      <Grid item key={user.id} md={3}>
+        <UserItem user={user} />
       </Grid>
     ))
   ) : (
