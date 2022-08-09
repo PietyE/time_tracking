@@ -1,6 +1,5 @@
 import React from 'react'
 import { CardContent as CardMain, Typography } from '@material-ui/core'
-import './CardContent.scss'
 
 export const CardContent = ({ name, position, email }) => (
   <CardMain className="vilmate-card-main-content">
@@ -8,14 +7,14 @@ export const CardContent = ({ name, position, email }) => (
       color="secondary.contrastText"
       variant="body2"
       component="p"
-      className="vailmate-card-position-title"
+      className="vilmate-card-position-title"
     >
       {name}
     </Typography>
     <Typography
       color="secondary.contrastText"
       component="p"
-      className="vailmate-card-position-text"
+      className="vilmate-card-position-text"
     >
       {position}
     </Typography>
@@ -23,7 +22,7 @@ export const CardContent = ({ name, position, email }) => (
       color="secondary.contrastText"
       component="p"
       variant="body2"
-      className="vailmate-card-position-email"
+      className="vilmate-card-position-email"
     >
       {email}
     </Typography>

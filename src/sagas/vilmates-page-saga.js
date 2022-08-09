@@ -8,9 +8,9 @@ import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
 import Api from 'utils/api'
 
-function* getUsersList() {
+function* getUsersList(action) {
   try {
-    const url = 'users/'
+    const url = `users/?search=${action.payload}`
     const response = yield call([Api, 'users'], url)
     const { status, data: users } = response
     if (String(status)[0] !== '2') {
