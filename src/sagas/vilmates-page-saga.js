@@ -25,6 +25,7 @@ function* getUsersList() {
       showAlert({
         type: SUCCES_ALERT,
         title: 'Users successfully loaded',
+        message: 'Success',
         delay: 3000,
       })
     )
@@ -54,6 +55,7 @@ function* getSelectedUser(action) {
       showAlert({
         type: SUCCES_ALERT,
         title: 'User successfully loaded',
+        message: 'Success',
         delay: 3000,
       })
     )

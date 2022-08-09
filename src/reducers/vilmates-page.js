@@ -13,7 +13,7 @@ const initialState = {
   error: '',
   singlePage: {
     isLoading: false,
-    selectedUser: null,
+    selectedUser: '',
   },
 }
 

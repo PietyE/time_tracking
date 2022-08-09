@@ -37,7 +37,7 @@ export const UsersList = () => {
       className="vilmate-page-no-users"
       style={{ padding: '20%' }}
     >
-      Any founded user
+      No users found
     </Typography>
   )
 
