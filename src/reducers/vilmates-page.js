@@ -8,6 +8,10 @@ const initialState = {
   isLoading: false,
   users: [],
   error: '',
+  singlePage: {
+    isLoading: false,
+    selectedUser: null,
+  },
 }
 
 export const vilmatesPage = (state = initialState, action) => {
