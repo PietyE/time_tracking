@@ -20,12 +20,13 @@ function* getUsersList(action) {
     if (String(status)[0] !== '2') {
       throw new Error()
     }
+    const isUsersFounder = users.length
     yield put(vilmatesPageGetUsersListSuccess(users))
     yield put(
       showAlert({
-        type: SUCCES_ALERT,
-        title: 'Users successfully loaded',
-        message: 'Success',
+        type: isUsersFounder ? SUCCES_ALERT : WARNING_ALERT,
+        title: isUsersFounder ? 'Users successfully loaded' : 'No users found',
+        message: isUsersFounder ? 'Success' : 'Try to search other users',
         delay: 3000,
       })
     )
