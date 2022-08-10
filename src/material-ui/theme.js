@@ -36,6 +36,21 @@ const basicTheme = createTheme({
 
 export const theme = createTheme(basicTheme, {
   overrides: {
+    MuiRadio: {
+      root: {
+        '& .MuiSvgIcon-root.PrivateRadioButtonIcon-layer-7': {
+          transform: 'scale(0)',
+        },
+        '&.Mui-checked .MuiSvgIcon-root': {
+          stroke: basicTheme.palette.primary.main,
+          strokeWidth: 3,
+        },
+        '& .MuiSvgIcon-root': {
+          width: 12,
+          height: 12,
+        },
+      },
+    },
     MuiPaper: {
       root: {
         border: `1px solid ${basicTheme.palette.secondary.light}`,
