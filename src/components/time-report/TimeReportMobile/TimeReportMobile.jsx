@@ -4,9 +4,8 @@ import SelectMonth from 'components/ui/select-month'
 import SliderSelect from 'components/ui/sliderSelect'
 import { DEVELOPER } from 'constants/role-constant'
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 
-import { useState } from 'react'
 import { parseMinToHoursAndMin } from 'utils/common'
 import CreateReportForm from '../components/CreateReportForm'
 import ReportItem from '../components/ReportItem'
@@ -31,9 +30,9 @@ export const TimeReportMobile = ({
   handlerExportCsv,
   reports,
   renderDaysArray,
-  daySize,
   addTimeReport,
   selectDevelopers,
+  selectedProjectHours
 }) => {
   const isSelectedProjectChosen = useMemo(
     () => !!Object.entries(selectedProject).length,
@@ -57,17 +56,32 @@ export const TimeReportMobile = ({
     [renderDaysArray]
   )
 
-  const defaultDayNumber = new Date().getDate()
-  const [dayNumber, setDayNumber] = useState(defaultDayNumber)
+  const getDayNumber = () => {
+    const date = new Date()
+    if (
+      selectedDate.month === date.getMonth() &&
+      selectedDate.year === date.getFullYear()
+    ) {
+      return date.getDate()
+    }
+    return 1
+  }
+
+  const [selectedDayNumber, setSelectedDayNumber] = useState(getDayNumber)
 
   const dataOfDay = reports?.filter(
-    (report) => dayNumber === new Date(report.date).getDate()
+    (report) => selectedDayNumber === new Date(report.date).getDate()
   )
 
   const sumHours = dataOfDay?.reduce(
     (sum, item) => (sum = sum + item.duration),
     0
   )
+
+  useEffect(() => {
+    const newDayNumber = getDayNumber()
+    setSelectedDayNumber(newDayNumber)
+  }, [selectedDate])
 
   if (isFetchingReports || !isSelectedProjectChosen) {
     return <Spinner />
@@ -103,6 +117,7 @@ export const TimeReportMobile = ({
               getOptionLabel={(option) => option.name}
               getOptionSelected={(option, value) => option.id === value.id}
               startIcon={<WindowIcon />}
+              secondaryText={parseMinToHoursAndMin(selectedProjectHours, true)}
             />
           )}
           <Autocomplete
@@ -117,15 +132,16 @@ export const TimeReportMobile = ({
 
         <SliderSelect
           options={optionsForDaySelectSlider}
-          selectedValue={dayNumber}
-          onChange={setDayNumber}
+          selectedValue={selectedDayNumber}
+          onChange={setSelectedDayNumber}
+          initialSlide={selectedDayNumber - 1}
         />
 
         <div className={styles.reportItemsSection}>
           <Paper className={styles.createReportForm}>
             <CreateReportForm
               addTimeReport={addTimeReport}
-              numberOfDay={dayNumber}
+              numberOfDay={selectedDayNumber}
               selectedDate={selectedDate}
               sumHours={sumHours}
             />

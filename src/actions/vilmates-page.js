@@ -7,8 +7,9 @@ import {
   VILMATES_PAGE_SELECT_USER_SUCCESS,
 } from 'constants/vilmates-page'
 
-export const vilmatesPageGetUsersListRequest = () => ({
+export const vilmatesPageGetUsersListRequest = (searchWord) => ({
   type: VILMATES_PAGE_GET_USERS_LIST_REQUEST,
+  payload: searchWord,
 })
 
 export const vilmatesPageGetUsersListSuccess = (users) => ({

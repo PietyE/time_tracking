@@ -36,6 +36,32 @@ const basicTheme = createTheme({
 
 export const theme = createTheme(basicTheme, {
   overrides: {
+    MuiRadio: {
+      root: {
+        '& .MuiSvgIcon-root.PrivateRadioButtonIcon-layer-7': {
+          transform: 'scale(0)',
+        },
+        '&.Mui-checked .MuiSvgIcon-root': {
+          stroke: basicTheme.palette.primary.main,
+          strokeWidth: 3,
+        },
+        '& .MuiSvgIcon-root': {
+          width: 12,
+          height: 12,
+        },
+      },
+    },
+    MuiPaper: {
+      root: {
+        border: `1px solid ${basicTheme.palette.secondary.light}`,
+      },
+      elevation1: {
+        boxShadow: 'none',
+      },
+      rounded: {
+        borderRadius: '10px',
+      },
+    },
     MuiAutocomplete: {
       root: {
         userSelect: 'none',
@@ -115,6 +141,10 @@ export const theme = createTheme(basicTheme, {
       },
     },
     MuiButton: {
+      root: {
+        padding: '8px 16px',
+        textTransform: 'none',
+      },
       contained: {
         boxShadow: 'none',
       },
@@ -131,9 +161,9 @@ export const theme = createTheme(basicTheme, {
     },
     MuiBackdrop: {
       root: {
-        backgroundColor: 'transparent'
-      }
-    }
+        backgroundColor: 'transparent',
+      },
+    },
   },
   props: {
     MuiButtonBase: {

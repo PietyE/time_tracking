@@ -1,27 +1,29 @@
 import React from 'react'
 import { Autocomplete as MUIAutocomplete } from '@material-ui/lab'
 import { InputAdornment, TextField } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
+import styles from './Autocomplete.module.scss'
 
 export const Autocomplete = ({
+  placeholder,
   options,
   value,
   onChange,
-  placeholder,
+  searchable,
+  noOptionsText,
   startIcon,
+  secondaryText,
   ...rest
 }) => {
-  const selectOptionHandler = (event, newValue) => {
-    onChange(newValue)
+  const changeHandler = (event, newValue) => {
+    newValue && onChange(newValue)
   }
-
   return (
     <MUIAutocomplete
       options={options}
-      value={value}
-      onChange={selectOptionHandler}
-      popupIcon={<ExpandMoreIcon />}
+      value={value || ''}
+      onChange={changeHandler}
+      closeIcon=""
       renderInput={(params) => (
         <TextField
           {...params}
@@ -32,12 +34,19 @@ export const Autocomplete = ({
             startAdornment: (
               <InputAdornment position="start">{startIcon}</InputAdornment>
             ),
+            endAdornment: (
+              <>
+                <span className={styles.secondaryText}>{secondaryText}</span>
+                {params.InputProps.endAdornment}
+              </>
+            ),
           }}
         />
       )}
-      closeIcon=""
-      blurOnSelect
+      fullWidth
+      autoComplete
       autoHighlight
+      noOptionsText={noOptionsText}
       {...rest}
     />
   )
@@ -49,4 +58,5 @@ Autocomplete.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   startIcon: PropTypes.node.isRequired,
+  secondaryText: PropTypes.string,
 }

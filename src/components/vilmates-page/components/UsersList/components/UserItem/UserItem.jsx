@@ -5,14 +5,15 @@ import { CardContent } from './components/CardContent'
 import { useHistory } from 'react-router-dom'
 import './UserItem.scss'
 
-export const UserItem = ({ name, position, id }) => {
+export const UserItem = ({ user }) => {
+    const { name, email, id, position } = user
   const history = useHistory()
   const onUserClick = () => history.push(`/vilmates/user/${id}`)
 
   return (
     <Card className="user-vilmate-card" onClick={onUserClick}>
       <CardHeader name={name} />
-      <CardContent name={name} position={position} />
+      <CardContent name={name} position={position} email={email} />
     </Card>
   )
 }
