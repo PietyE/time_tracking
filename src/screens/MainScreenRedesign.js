@@ -39,6 +39,10 @@ const ProjectManagementComponent = lazy(() =>
 
 const GoogleAuthSuccess = lazy(() => import('screens/GoogleAuthSuccessScreen'))
 
+const VilatesSinglePageScreen = lazy(() =>
+  import('screens/VilmateSinglePageScreen')
+)
+
 function MainScreenRedesign(props) {
   const {
     isAuth,
@@ -101,6 +105,11 @@ function MainScreenRedesign(props) {
           <GoogleSyncPrivateRoot
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
+            exact
+          />
+          <Route
+            path="/vilmates/user/:userId"
+            component={VilatesSinglePageScreen}
             exact
           />
           {/* <Route path="/people" component={PeopleScreen}/>

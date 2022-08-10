@@ -6,8 +6,8 @@ import { getLoading, getUsers } from 'selectors/vilmates-page'
 import SpinnerStyled from 'components/ui/spinner'
 import { SearchField } from 'components/ui/search-field'
 import { vilmatesPageGetUsersListRequest } from 'actions/vilmates-page'
-import './UsersList.scss'
 import { useApiSearch } from 'custom-hook/useApiSearch'
+import './UsersList.scss'
 
 export const UsersList = () => {
   const users = useEqualSelector(getUsers)
@@ -31,7 +31,7 @@ export const UsersList = () => {
       className="vilmate-page-no-users"
       style={{ padding: '20%' }}
     >
-      Any founded user
+      No users found
     </Typography>
   )
 
