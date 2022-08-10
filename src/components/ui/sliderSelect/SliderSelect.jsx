@@ -7,6 +7,7 @@ export const SliderSelect = ({
   options,
   selectedValue,
   onChange,
+  initialSlide = 0,
 }) => {
   const slides = options.map((option) => (
     <SwiperSlide
@@ -26,7 +27,7 @@ export const SliderSelect = ({
   return (
     <Swiper
       slidesPerView={7}
-      initialSlide={options.length}
+      initialSlide={initialSlide}
       className={styles.container}
     >
       {slides}
@@ -43,4 +44,5 @@ SliderSelect.propTypes = {
   ).isRequired,
   selectedValue: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  initialSlide: PropTypes.number,
 }
