@@ -7,7 +7,7 @@ import Day from '../components/Day'
 import DeveloperSelect from '../components/DeveloperSelect'
 import ProjectSelect from '../components/ProjectSelect'
 import Spinner from '../components/Spinner'
-
+import { Container } from 'components/ui/container'
 import '../style.scss'
 
 // TODO: Refactor component and its render
@@ -36,13 +36,13 @@ export const TimeReportDesktop = ({
   setUserStatus,
 }) => {
   return (
-    <>
+    <Container>
       {isFetchingReports && <Spinner />}
       <div
         className={
           isFetchingReports
-            ? 'time_report_container container fetching'
-            : 'time_report_container container'
+            ? 'time_report_container fetching'
+            : 'time_report_container'
         }
       >
         <div className="time_report_total_container">
@@ -127,6 +127,6 @@ export const TimeReportDesktop = ({
           )}
         </div>
       </div>
-    </>
+    </Container>
   )
 }

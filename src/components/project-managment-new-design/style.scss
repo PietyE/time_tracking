@@ -1,14 +1,8 @@
 @import "../../styles/commonStyles.scss";
 
 .project_management-container{
-  
-  margin: 0 20px;
-  width: 100%;
-  max-width: 971px;
-  
   flex-grow: 1;
   z-index: 1;
-
     &.show-modal {
       max-width: 971px;
       transition: width 0.4ms ease-in;
@@ -23,9 +17,6 @@
     }
 
 
-  .container{
-    padding: 0 20px;
-  }
   .container__selects{
     display: flex;
     justify-content: space-between;
