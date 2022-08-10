@@ -36,6 +36,17 @@ const basicTheme = createTheme({
 
 export const theme = createTheme(basicTheme, {
   overrides: {
+    MuiPaper: {
+      root: {
+        border: `1px solid ${basicTheme.palette.secondary.light}`,
+      },
+      elevation1: {
+        boxShadow: 'none',
+      },
+      rounded: {
+        borderRadius: '10px',
+      },
+    },
     MuiAutocomplete: {
       root: {
         userSelect: 'none',
@@ -115,6 +126,10 @@ export const theme = createTheme(basicTheme, {
       },
     },
     MuiButton: {
+      root: {
+        padding: '8px 16px',
+        textTransform: 'none',
+      },
       contained: {
         boxShadow: 'none',
       },
@@ -131,9 +146,9 @@ export const theme = createTheme(basicTheme, {
     },
     MuiBackdrop: {
       root: {
-        backgroundColor: 'transparent'
-      }
-    }
+        backgroundColor: 'transparent',
+      },
+    },
   },
   props: {
     MuiButtonBase: {
