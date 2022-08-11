@@ -1,7 +1,7 @@
 @import "src/styles/commonStyles";
 
 .information {
-
+  margin-bottom: 35px;
 }
 
 .list {
@@ -26,9 +26,6 @@
       color: $mainBlackColor;
     }
   }
-  &:nth-last-of-type(-n+2) {
-    margin: 0;
-  }
 }
 
 .avatar {
@@ -40,4 +37,22 @@
   justify-content: center;
   margin-right: 12px;
   align-items: center;
+}
+
+.about {
+  p {
+    margin-bottom: 18px;
+  }
+  h5 {
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  button {
+    color: $mainGreenColor;
+    font-weight: 600;
+    padding: 0;
+    &:hover {
+      background: none;
+    }
+  }
 }
