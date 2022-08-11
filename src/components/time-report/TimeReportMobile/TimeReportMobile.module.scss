@@ -2,7 +2,6 @@
 
 .container {
   padding-top: 16px;
-  min-height: calc(100vh - 98px);
 }
 
 .filters {
@@ -23,12 +22,17 @@
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .button {
   padding: 8px 16px;
 }
 
 .reportItemsSection {
   padding: 16px;
+  margin-bottom: 50vh;
 }
 
 .createReportForm {
@@ -47,14 +51,15 @@
 }
 
 .footer {
-  position: sticky;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
   bottom: 0;
   padding: 10px 16px;
 
   background-color: $lightGreenColor;
   color: $mainBlackColor;
   border-top: 1px solid $mainGreenColor;
-  backdrop-filter: blur(15px);
   font-size: 12px;
 
   & > span {

@@ -32,8 +32,9 @@ export const TimeReportMobile = ({
   renderDaysArray,
   addTimeReport,
   selectDevelopers,
-  selectedProjectHours
+  selectedProjectHours,
 }) => {
+  const [isInputFocused, setIsInputFocused] = useState(false)
   const isSelectedProjectChosen = useMemo(
     () => !!Object.entries(selectedProject).length,
     [selectedProject]
@@ -56,6 +57,14 @@ export const TimeReportMobile = ({
     [renderDaysArray]
   )
 
+  const inputFocusHandler = () => {
+    setIsInputFocused(true)
+  }
+
+  const inputBlurHandler = () => {
+    setIsInputFocused(false)
+  }
+
   const getDayNumber = () => {
     const date = new Date()
     if (
@@ -77,6 +86,8 @@ export const TimeReportMobile = ({
     (sum, item) => (sum = sum + item.duration),
     0
   )
+
+  const footerStyles = `${styles.footer} ${isInputFocused && styles.hidden}`
 
   useEffect(() => {
     const newDayNumber = getDayNumber()
@@ -118,6 +129,8 @@ export const TimeReportMobile = ({
               getOptionSelected={(option, value) => option.id === value.id}
               startIcon={<WindowIcon />}
               secondaryText={parseMinToHoursAndMin(selectedProjectHours, true)}
+              onFocus={inputFocusHandler}
+              onBlur={inputBlurHandler}
             />
           )}
           <Autocomplete
@@ -127,6 +140,8 @@ export const TimeReportMobile = ({
             getOptionLabel={(option) => option.name}
             getOptionSelected={(option, value) => option.id === value?.id}
             startIcon={<PeopleIcon />}
+            onFocus={inputFocusHandler}
+            onBlur={inputBlurHandler}
           />
         </div>
 
@@ -144,6 +159,8 @@ export const TimeReportMobile = ({
               numberOfDay={selectedDayNumber}
               selectedDate={selectedDate}
               sumHours={sumHours}
+              handleFormFocus={inputFocusHandler}
+              handleFormBlur={inputBlurHandler}
             />
           </Paper>
           <div className={styles.createdReportsContainer}>
@@ -161,7 +178,7 @@ export const TimeReportMobile = ({
         </div>
       </div>
 
-      <footer className={styles.footer}>
+      <footer className={footerStyles}>
         Total hours spend this month:
         <span>{parseMinToHoursAndMin(totalHours, true)}</span>
       </footer>

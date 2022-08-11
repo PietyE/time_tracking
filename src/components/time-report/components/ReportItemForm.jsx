@@ -76,13 +76,15 @@ const ReportItemForm = ({
 
   isSubmitButtonDisabled,
   handleFormSubmit,
+  handleFormFocus,
+  handleFormBlur,
   onButtonClick,
   isEditing,
 }) => {
   const classes = useStyles()
 
   return (
-    <form className={classes.form} onSubmit={handleFormSubmit}>
+    <form className={classes.form} onSubmit={handleFormSubmit} onFocus={handleFormFocus} onBlur={handleFormBlur}>
       <Box className={classes.root}>
         <Textarea
           fullWidth
@@ -165,6 +167,8 @@ ReportItemForm.propTypes = {
 
   isSubmitButtonDisabled: PropTypes.bool,
   handleFormSubmit: PropTypes.func,
+  handleFormFocus: PropTypes.func,
+  handleFormBlur: PropTypes.func,
   onButtonClick: PropTypes.func,
   isEditing: PropTypes.bool,
 }

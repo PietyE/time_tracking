@@ -45,6 +45,7 @@ export const BurgerMenu = () => {
 
   return (
     <div className={styles.menu}>
+      <div className={styles.appBarGutter} />
       <AppBar className={styles.appBar}>
         <Toolbar>
           <IconButton
@@ -68,6 +69,7 @@ export const BurgerMenu = () => {
         open={isOpen}
         anchor="top"
         onClose={toggleDrawer(false)}
+        className={styles.drawer}
       >
         {dropdownMenu()}
       </Drawer>

@@ -61,9 +61,7 @@
   display: flex;
   flex-direction: row;
   text-align: left;
-  width: auto;
-  margin-left: 20px;
-  margin-top: 50px;
+  margin: 50px 20px 0 20px;
   border-radius: 0px;
   border: none;
   outline: none;
@@ -71,7 +69,7 @@
 
   .user_avatar {
     position: relative;
-    width: 50px;
+    min-width: 50px;
     height: 50px;
   }
 
@@ -96,7 +94,6 @@
 
   .user_name {
     position: relative;
-    width: 131px;
     top: 6px;
 
     font-style: normal;
@@ -104,7 +101,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #000000;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -242,7 +239,7 @@
 
 .sidebar_footer {
   position: relative;
-  margin-top: 25px;
+  margin: 25px 0 30px;
 
   .sidebar_menu_button {
     display: flex;

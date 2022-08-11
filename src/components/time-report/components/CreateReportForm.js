@@ -15,6 +15,8 @@ function CreateReportForm({
   setEditMode,
   showAlert,
   sumHours,
+  handleFormFocus,
+  handleFormBlur
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
@@ -129,21 +131,23 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-      <ReportItemForm
-        textInputValue={text}
-        textInputPlaceholder="What did you work on?"
-        handleTextInputChange={handlerChangeText}
-        textInputError={isTextInputError}
-        timeInputValue={hours}
-        timeInputPlaceholder="0:00"
-        timeInputMaskPlaceholder="0"
-        timeInputMask="9:99"
-        handleTimeInputChange={handlerChangeHours}
-        handleTimeInputFocus={handlerFocus}
-        timeInputError={isTimeInputError}
-        isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
-        handleFormSubmit={handlerClickAddButton}
-      />
+    <ReportItemForm
+      textInputValue={text}
+      textInputPlaceholder="What did you work on?"
+      handleTextInputChange={handlerChangeText}
+      textInputError={isTextInputError}
+      timeInputValue={hours}
+      timeInputPlaceholder="0:00"
+      timeInputMaskPlaceholder="0"
+      timeInputMask="9:99"
+      handleTimeInputChange={handlerChangeHours}
+      handleTimeInputFocus={handlerFocus}
+      timeInputError={isTimeInputError}
+      isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
+      handleFormSubmit={handlerClickAddButton}
+      handleFormFocus={handleFormFocus}
+      handleFormBlur={handleFormBlur}
+    />
   )
 }
 

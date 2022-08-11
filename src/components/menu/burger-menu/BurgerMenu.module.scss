@@ -1,20 +1,13 @@
 @import 'styles/commonStyles.scss';
 
-.menu {
-  position: sticky;
-  top: 0;
-  z-index: 3000;
-}
-
 .appBar {
   width: 100%;
-  position: sticky;
+  position: fixed;
   top: 0;
 
   background-color: $whiteColor;
   color: $black;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(20px);
 }
 
 .appBar_content {
@@ -34,10 +27,22 @@
   font-weight: 600;
 }
 
-.dropdownMenu {
+.drawer {
   height: 100vh;
-  // padding: 0 16px;
-  background-color: $burgerMenuBackgroundColor;
+  background-color: $whiteColor;
+  opacity: 1;
+
+  & :global .MuiPaper-elevation16 {
+    box-shadow: none;
+  }
+
+  & :global .MuiPaper-root {
+    border: none;
+  }
+}
+
+.dropdownMenu {
+  height: 100%;
 }
 
 .avatar {
