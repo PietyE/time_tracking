@@ -7,10 +7,13 @@ import door from 'images/sideMenuIcons/door.svg'
 import fileCheck from 'images/sideMenuIcons/fileCheck.svg'
 import vilmates from 'images/vilmates/vilmates.svg'
 import React, { useMemo } from 'react'
-import { getProfileName, getProfileShowSideMenuArrow, getUserRoleText } from 'selectors/user'
+import {
+  getProfileName,
+  getProfileShowSideMenuArrow,
+  getUserRoleText,
+} from 'selectors/user'
 import Logout from '../components/Logout'
 import SideBarMenu from '../components/SideBarMenu'
-
 
 export const MenuContent = () => {
   const userName = useShallowEqualSelector(getProfileName)
@@ -29,11 +32,6 @@ export const MenuContent = () => {
             label: 'Time report',
             smallSize: true,
             pathname: '/timereport',
-          },
-          {
-            icon: vilmates,
-            label: 'Vilmates',
-            pathname: '/vilmates',
           },
         ],
       },
@@ -106,6 +104,12 @@ export const MenuContent = () => {
           ],
         }
       )
+    } else if (userRole !== 'Developer') {
+      result.push({
+        icon: vilmates,
+        label: 'Vilmates',
+        pathname: '/vilmates',
+      })
     }
     return result
   }, [userRole])
