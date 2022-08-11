@@ -25,17 +25,21 @@ export const VilmateSinglePage = () => {
 
   if (isLoading) return <SpinnerStyled />
 
-  return user ? (
+  const isUserFound = user ? (
+    <PersonalInformationSection />
+  ) : (
+    <Typography variant="h6" style={{ padding: '20%' }}>
+      No found user by this id
+    </Typography>
+  )
+
+  return (
     <Container>
       <PageHeader name="Vilmates" />
       <Box className="vilmates-single-page-go-back">
         <Back /> <Link to="/vilmates">Back to people list</Link>
       </Box>
-      <PersonalInformationSection />
+      {isUserFound}
     </Container>
-  ) : (
-    <Typography variant="h6" style={{ padding: '20%' }}>
-      No found user by this id
-    </Typography>
   )
 }
