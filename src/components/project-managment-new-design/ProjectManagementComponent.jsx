@@ -40,7 +40,6 @@ import CreateUserModal from './components/CreateUserModal'
 import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
-import { Container } from '../ui/container'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -212,14 +211,14 @@ const ProjectManagementComponent = () => {
     })
 
   return (
-    <Container>
-      <div className="common-container">
-        <div
-          ref={projectDivRef}
-          className={`project_management-container ${
-            isEditModalShow ? 'show-modal' : ''
-          }`}
-        >
+    <div className="common-container">
+      <div
+        ref={projectDivRef}
+        className={`project_management-container ${
+          isEditModalShow ? 'show-modal' : ''
+        }`}
+      >
+        <div className="container">
           <h1 className="page-title">
             <span>Project management</span>
             <div className="buttons-cont">
@@ -242,47 +241,48 @@ const ProjectManagementComponent = () => {
               </button>
             </div>
           </h1>
-          {isFetching && <SpinnerStyled />}
-          <div className="container ">
-            <div className="row  container__selects">
-              <div className="container__selects-progects__fields">
-                <Select
-                  title="Search by PM or developer"
-                  listItems={projectManagerSelectList}
-                  onSelected={onSelectPm}
-                  valueKey="name"
-                  idKey="id"
-                  extraClassContainer={' search search-manger'}
-                  initialChoice={selectedPm || currentPm}
-                  isSearch
-                />
-                <Select
-                  title={'Choose project'}
-                  listItems={projectList}
-                  onSelected={onSelectProject}
-                  valueKey="name"
-                  idKey="id"
-                  extraClassContainer={'project_select project_select'}
-                  // onClear={clearSelectedProject}
-                  disabled={!projects?.length}
-                  initialChoice={selectedProject}
-                  isSearch
-                />
-              </div>
-              <SelectMonth
-                value={selectedDateForPM}
-                onChange={_changeSelectedDateProjectsManagement}
-                showYear
+        </div>
+        {isFetching && <SpinnerStyled />}
+        <div className="container ">
+          <div className="row  container__selects">
+            <div className="container__selects-progects__fields">
+              <Select
+                title="Search by PM or developer"
+                listItems={projectManagerSelectList}
+                onSelected={onSelectPm}
+                valueKey="name"
+                idKey="id"
+                extraClassContainer={' search search-manger'}
+                initialChoice={selectedPm || currentPm}
+                isSearch
+              />
+              <Select
+                title={'Choose project'}
+                listItems={projectList}
+                onSelected={onSelectProject}
+                valueKey="name"
+                idKey="id"
+                extraClassContainer={'project_select project_select'}
+                // onClear={clearSelectedProject}
+                disabled={!projects?.length}
+                initialChoice={selectedProject}
+                isSearch
               />
             </div>
-            <div className="row table__titles">
-              <div className="col-8">
-                <SortingButton
-                  onClick={() => toggleSortingParameter(SORT_NAME)}
-                  sortingType={sortingParameter?.name}
-                  title="PROJECT NAME"
-                />
-                {/* <div className="sort-by table__titles-sort__container">
+            <SelectMonth
+              value={selectedDateForPM}
+              onChange={_changeSelectedDateProjectsManagement}
+              showYear
+            />
+          </div>
+          <div className="row table__titles">
+            <div className="col-8">
+              <SortingButton
+                onClick={() => toggleSortingParameter(SORT_NAME)}
+                sortingType={sortingParameter?.name}
+                title="PROJECT NAME"
+              />
+              {/* <div className="sort-by table__titles-sort__container">
                 <div
                   className="sort-title"
                   onClick={() => toggleSortingParameter(SORT_NAME)}
@@ -326,14 +326,14 @@ const ProjectManagementComponent = () => {
                   </div>
                 </div>
               </div> */}
-              </div>
-              <div className="col-3 table__titles-sort__container">
-                <SortingButton
-                  onClick={() => toggleSortingParameter(SORT_TIME)}
-                  sortingType={sortingParameter?.total_minutes}
-                  title="HOURS WORKED"
-                />
-                {/* <div className="sort-by">
+            </div>
+            <div className="col-3 table__titles-sort__container">
+              <SortingButton
+                onClick={() => toggleSortingParameter(SORT_TIME)}
+                sortingType={sortingParameter?.total_minutes}
+                title="HOURS WORKED"
+              />
+              {/* <div className="sort-by">
                 <div
                   className="sort-title"
                   onClick={() => toggleSortingParameter(SORT_TIME)}
@@ -377,28 +377,27 @@ const ProjectManagementComponent = () => {
                   </div>
                 </div>
               </div> */}
-              </div>
             </div>
-            {projectsListNotArchived}
-            <ArchivedSeparator />
-            {projectsListArchived}
-            {/* The pagination is commented out until the next iteration */}
-            {/* <Pagination
+          </div>
+          {projectsListNotArchived}
+          <ArchivedSeparator />
+          {projectsListArchived}
+          {/* The pagination is commented out until the next iteration */}
+          {/* <Pagination
           totalCount={totalCount}
           pageSize={pageSize}
           currentPage={currentPage}
           paginationDeiplayed={5}
         /> */}
-            {/* The pagination is commented out until the next iteration */}
-          </div>
-          <CreateProjectModal show={isCreateModalShow} />
-          <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
+          {/* The pagination is commented out until the next iteration */}
         </div>
-        <div className="modal-container">
-          <EditProjectModal show={isEditModalShow} month={month} />
-        </div>
+        <CreateProjectModal show={isCreateModalShow} />
+        <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
-    </Container>
+      <div className="modal-container">
+        <EditProjectModal show={isEditModalShow} month={month} />
+      </div>
+    </div>
   )
 }
 
