@@ -1,0 +1,8 @@
+@import "src/styles/commonStyles";
+
+.container {
+  padding: 18px 25px 33px;
+  background: $whiteColor;
+  border: 1px solid $grayBorderColor;
+  border-radius: 10px;
+}
