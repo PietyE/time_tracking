@@ -26,14 +26,29 @@ export const MenuContent = () => {
         panelName: 'My work',
         panelId: '...',
         smallSize: true,
-        items: [
-          {
-            icon: clock,
-            label: 'Time report',
-            smallSize: true,
-            pathname: '/timereport',
-          },
-        ],
+        items:
+          userRole !== 'Developer'
+            ? [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  pathname: '/vilmates',
+                },
+              ]
+            : [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+              ],
       },
     ]
     if (userRole === 'Admin') {
@@ -104,12 +119,6 @@ export const MenuContent = () => {
           ],
         }
       )
-    } else if (userRole !== 'Developer') {
-      result.push({
-        icon: vilmates,
-        label: 'Vilmates',
-        pathname: '/vilmates',
-      })
     }
     return result
   }, [userRole])
