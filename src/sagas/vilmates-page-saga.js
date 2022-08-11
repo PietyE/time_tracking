@@ -25,7 +25,7 @@ function* getUsersList(action) {
     yield put(
       showAlert({
         type: isUsersFounder ? SUCCES_ALERT : WARNING_ALERT,
-        title: isUsersFounder ? 'Users successfully loaded' : 'No users found',
+        title: isUsersFounder ? 'Users successfully loaded' : 'Not found users',
         message: isUsersFounder ? 'Success' : 'Try to search other users',
         delay: 3000,
       })
