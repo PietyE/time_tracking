@@ -3,9 +3,11 @@ import { Box, Divider, Typography } from '@material-ui/core'
 import styles from './RightSessionContainer.module.scss'
 
 export const RightSessionContainer = ({ children, title }) => (
-  <Box className="container" component="section">
-    <Typography variant="h5">{title}</Typography>
-    <Divider variant="fullWidth" />
-    {children}
+  <Box className={styles.container} component="section">
+    <Typography className={styles.title} variant="h6">
+      {title}
+    </Typography>
+    <Divider variant="fullWidth" className={styles.divider} />
+    <Box className={styles.content_container}>{children}</Box>
   </Box>
 )

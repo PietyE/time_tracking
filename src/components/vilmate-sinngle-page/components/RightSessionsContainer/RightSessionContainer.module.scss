@@ -5,4 +5,22 @@
   background: $whiteColor;
   border: 1px solid $grayBorderColor;
   border-radius: 10px;
+  max-width: 626px;
+  position: relative;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.divider {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  margin-left: -25px;
+}
+
+.content_container {
+  padding-top: 30px;
 }

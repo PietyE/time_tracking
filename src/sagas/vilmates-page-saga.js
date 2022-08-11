@@ -6,6 +6,7 @@ import {
 import {
   vilmatesPageGetUsersListError,
   vilmatesPageGetUsersListSuccess,
+  vilmatesPageSelectUserError,
   vilmatesPageSelectUserSuccess,
 } from 'actions/vilmates-page'
 import { showAlert } from 'actions/alert'
@@ -61,7 +62,7 @@ function* getSelectedUser(action) {
       })
     )
   } catch (error) {
-    yield put(vilmatesPageGetUsersListError())
+    yield put(vilmatesPageSelectUserError())
     yield put(
       showAlert({
         type: WARNING_ALERT,
