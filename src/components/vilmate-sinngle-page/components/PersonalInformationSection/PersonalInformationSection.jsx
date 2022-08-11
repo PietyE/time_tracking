@@ -1,88 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RightSessionContainer } from '../RightSessionsContainer'
 import {
   Box,
+  Divider,
   List,
   ListItem,
-  ListItemText,
   ListItemAvatar,
-  Divider,
+  ListItemText,
+  TextField,
   Typography,
-  Button,
 } from '@material-ui/core'
-
-import { ReactComponent as Email } from 'images/personalInfo/Email.svg'
-import { ReactComponent as Geo } from 'images/personalInfo/Geo.svg'
-import { ReactComponent as Slack } from 'images/personalInfo/Slack.svg'
-import { ReactComponent as ReportTo } from 'images/personalInfo/ReportTo.svg'
-import { ReactComponent as Phone } from 'images/personalInfo/Phone.svg'
-import { ReactComponent as Calendar } from 'images/personalInfo/calendar.svg'
-import { ReactComponent as ReadMore } from 'images/vilmates/backArrow.svg'
+import { AboutInformation } from './components/AboutInformation/AboutInformation'
+import { personalInformation, updateInformation } from './mocks'
 import styles from './PersonalInformationSection.module.scss'
 
-const ReadMoreMemoized = React.memo(ReadMore)
+export const PersonalInformationSection = ({ user }) => {
+  const actualPersonalInformation = updateInformation(user, personalInformation)
+  const [disabled, setDisabled] = useState({
+    slack: false,
+    email: false,
+    phone: false,
+    reports_to: false,
+    location: false,
+    calendar: false,
+  })
 
-const personalInformationInfo = [
-  {
-    icon: <Email />,
-    title: 'Email',
-    text: 'larov.dmytro@vilmate.com',
-  },
-  {
-    icon: <Phone />,
-    title: 'Phone',
-    text: '+380999999999',
-  },
-  {
-    icon: <Geo />,
-    title: 'Location',
-    text: 'Kharkiv',
-  },
-  {
-    icon: <Slack />,
-    title: 'Slack',
-    text: '@LavrovDmytro',
-  },
-  {
-    icon: <ReportTo />,
-    title: 'Report To',
-    text: 'Anna Polishchuk',
-  },
-  {
-    icon: <Calendar />,
-    title: 'Date of birth',
-    text: '05.11.1996',
-  },
-]
+  console.log(disabled)
 
-export const PersonalInformationSection = () => {
-  const renderListItems = () =>
-    personalInformationInfo.map((item) => (
-      <ListItem key={item.text} className={styles.list_item}>
-        <ListItemAvatar className={styles.avatar}>{item.icon}</ListItemAvatar>
-        <ListItemText primary={item.title} secondary={item.text} />
-      </ListItem>
-    ))
+  const renderListItems = actualPersonalInformation.map((information) => (
+    <ListItem
+      key={information.text}
+      className={styles.list_item}
+      onClick={() => setDisabled(!disabled)}
+    >
+      <ListItemAvatar className={styles.avatar}>
+        {information.icon}
+      </ListItemAvatar>
+      <Box className={styles.info_text}>
+        <TextField
+          disabled={disabled[information.title]}
+          onBLur={() =>
+            setDisabled((prevState) => ({
+              ...prevState,
+              [information.title.toLowerCase()]:
+                !prevState[information.title.toLowerCase()],
+            }))
+          }
+          label={information.title}
+          variant={
+            !disabled[information.title.toLowerCase()] ? 'outlined' : 'standard'
+          }
+        />
+      </Box>
+    </ListItem>
+  ))
+
   return (
     <RightSessionContainer title="Personal information">
       <Box className={styles.information}>
-        <List className={styles.list}>{renderListItems()}</List>
+        <List className={styles.list}>{renderListItems}</List>
         <Divider />
       </Box>
-      <Box className={styles.about}>
-        <Typography variant="h5">About</Typography>
-        <Typography variant="body2" component="p">
-          Познакомьтесь с Димой, Python Developer из харьковской Project team.
-          Мы точно знаем, что Дима умеет отвечать на вопросы развёрнуто — из его
-          анкеты можно узнать про мечту знать и животные языки, кардинальный
-          разворот жизни всего за 1 год и восхищение женской красотой:)
-        </Typography>
-        <Button
-          endIcon={<ReadMoreMemoized style={{ transform: 'rotate(180deg)' }} />}
-        >
-          Read more
-        </Button>
-      </Box>
+      <AboutInformation />
     </RightSessionContainer>
   )
 }

@@ -1,17 +1,17 @@
 @import "src/styles/commonStyles";
 
 .container {
+  position: relative;
+  max-width: 626px;
   padding: 18px 25px 33px;
   background: $whiteColor;
   border: 1px solid $grayBorderColor;
   border-radius: 10px;
-  max-width: 626px;
-  position: relative;
 }
 
 .title {
-  font-weight: 600;
   margin-bottom: 18px;
+  font-weight: 600;
 }
 
 .divider {
