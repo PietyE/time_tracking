@@ -11,37 +11,31 @@ export const personalInformation = [
     icon: <Email />,
     title: 'Email',
     text: 'youremail@vilmate.com',
-    disabled: true,
   },
   {
     icon: <Phone />,
     title: 'Phone',
     text: '+380998768888',
-    disabled: true,
   },
   {
     icon: <Geo />,
     title: 'Location',
     text: 'Your location',
-    disabled: true,
   },
   {
     icon: <Slack />,
     title: 'Slack',
     text: '@YourUserName',
-    disabled: true,
   },
   {
     icon: <ReportTo />,
     title: 'Report To',
     text: 'Your PM',
-    disabled: true,
   },
   {
     icon: <Calendar />,
     title: 'Date of birth',
     text: '01.01.2001',
-    disabled: true,
   },
 ]
 
