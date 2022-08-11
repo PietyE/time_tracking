@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { useDispatch } from 'react-redux'
 import { Box, Typography } from '@material-ui/core'
 import { PageHeader } from 'components/common/PageHeader'
 import { Container } from 'components/ui/container'
@@ -10,18 +8,16 @@ import useEqualSelector from 'custom-hook/useEqualSelector'
 import { getSelectedUser, isSelectedUserLoading } from 'selectors/vilmates-page'
 import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
 import SpinnerStyled from 'components/ui/spinner'
-import './VilmatesSunglePage.scss'
 import { PersonalInformationSection } from './components/PersonalInformationSection'
+import './VilmatesSinglePage.scss'
+import useFetchUserById from './components/helpers/useFetchUser'
 
 export const VilmateSinglePage = () => {
-  const { userId } = useParams()
-  const dispatch = useDispatch()
-  const user = useEqualSelector(getSelectedUser)
-  const isLoading = useEqualSelector(isSelectedUserLoading)
-
-  useEffect(() => {
-    dispatch(vilmatesPageSelectUserRequest(userId))
-  }, [userId])
+  const [user, isLoading] = useFetchUserById(
+    vilmatesPageSelectUserRequest,
+    getSelectedUser,
+    isSelectedUserLoading
+  )
 
   if (isLoading) return <SpinnerStyled />
 
