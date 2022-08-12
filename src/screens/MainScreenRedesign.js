@@ -24,6 +24,7 @@ import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
 import GoogleSyncPrivateRoot from 'Routes/GoogleSyncPrivateRoot'
 import Layout from 'components/ui/layout'
+import VIlmatesPrivateRoute from 'Routes/VIlmatesPrivateRoute'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
 
@@ -101,7 +102,11 @@ function MainScreenRedesign(props) {
           <Route path="/projectreport" component={ProjectReportNew} exact />
           {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
-          <Route path="/vilmates" component={VilmatesScreen} exact />
+          <VIlmatesPrivateRoute
+            path="/vilmates"
+            component={VilmatesScreen}
+            exact
+          />
           <GoogleSyncPrivateRoot
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
