@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { TextField } from '@material-ui/core'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { getGoogleSheetSyncInputLink } from 'selectors/google-auth-success'
 import { googleAuthChangeGoogleSheetLink } from 'actions/google-auth-success'
-import { useDispatch } from 'react-redux'
 import { ReactComponent as LinkIcon } from 'images/link.svg'
 import './GoogleSheetInput.scss'
 

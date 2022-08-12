@@ -2,8 +2,8 @@ import {
   GET_USERS_HOURS_TOKEN_ERROR,
   GET_USERS_HOURS_TOKEN_REQUEST,
   GET_USERS_HOURS_TOKEN_SUCCESS,
-  GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_IS_AGREE,
   GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_LINK,
+  GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE,
   GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
   GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR,
   GOOGLE_AUTH_SYNC_GOOGLE_SHEET_SUCCESS,
@@ -13,6 +13,7 @@ const initialState = {
   isLoading: false,
   googleSheetLink: '',
   isAgree: false,
+  isOpenErrorList: false,
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
@@ -37,11 +38,6 @@ export const googleAuthSuccess = (state = initialState, action) => {
         ...state,
         googleSheetLink: action.payload,
       }
-    case GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_IS_AGREE:
-      return {
-        ...state,
-        isAgree: !state.isAgree,
-      }
     case GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST:
       return {
         ...state,
@@ -56,6 +52,11 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+      }
+    case GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE:
+      return {
+        ...state,
+        isOpenErrorList: !state.isOpenErrorList,
       }
     default:
       return state

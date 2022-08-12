@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Box, Typography, Divider } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -9,10 +9,11 @@ import { getLoading } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { Container } from 'components/ui/container'
 import { PageHeader } from 'components/common/PageHeader'
-import './GoogleAuthSucess.scss'
 import { GoogleSheetInputMemoized as GoogleSheetInput } from './components/GoogleSheetInput'
-import { GoogleSheetCheckboxMemoized as GoogleSheetCheckbox } from './components/GoogleSheetCheckbox'
 import { GoogleSheetSyncButtonMemoized as GoogleSheetSyncButton } from './components/GoogleSheetSyncButton'
+import { GoogleModal } from './components/Modal'
+import { GoogleSheetFormHeader } from './components/GoogleSheetFormHeader'
+import './GoogleAuthSucess.scss'
 
 export const GoogleAuthSuccess = () => {
   const dispatch = useDispatch()
@@ -49,23 +50,14 @@ export const GoogleAuthSuccess = () => {
       <PageHeader name="Project report" />
       <Box className="google-auth-success-container">
         <Box className="google-auth-success-container-form">
-          <Box className="google-auth-success-container-form-header">
-            <Typography
-              variant="h6"
-              component="p"
-              className="google-auth-success-container-form-header-title"
-            >
-              Paste the link to google sheet
-            </Typography>
-            <Divider variant="fullWidth" />
-          </Box>
+          <GoogleSheetFormHeader />
           <Box className="google-auth-success-container-form-actions">
             <GoogleSheetInput />
-            <GoogleSheetCheckbox />
             <GoogleSheetSyncButton />
           </Box>
         </Box>
       </Box>
+      <GoogleModal />
     </Container>
   )
 }
