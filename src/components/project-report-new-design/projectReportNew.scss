@@ -4,11 +4,14 @@
   display: flex;
   background-color: #f3f5f5;
   flex-direction: column;
+  padding-top: 35px;
+  padding-left: 40px;
   z-index: 1;
   
   .diw_row {
     position: relative;
-    height: 0;
+    width: 971px;
+    height: 0px;
     border: 1px solid rgba(201, 201, 198, 0.7);
     margin: 25px 0 0 0;
   }

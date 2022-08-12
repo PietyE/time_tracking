@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
@@ -11,7 +11,10 @@ import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
 
 import SelectMonth from 'components/ui/select-month'
-import { changeSelectedDateProjectsReport } from 'actions/projects-report'
+import {
+  changeSelectedDateProjectsReport,
+  getDevelopersProjectInProjectReport,
+} from 'actions/projects-report'
 
 import { getRoleUser } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
@@ -20,15 +23,10 @@ import { DEVELOPER } from 'constants/role-constant'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
 
-import {
-  // selectUsersReports,
-  getSelectedMonthSelector,
-} from 'reducers/projects-report'
+import { getSelectedMonthSelector } from 'reducers/projects-report'
 
-import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
-import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
-import { Container } from 'components/ui/container'
 import './projectReportNew.scss'
+import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
@@ -115,40 +113,38 @@ function ProjectReportNew() {
       }}
     >
       {isFetchingReports && <SpinnerStyled />}
-      <Container>
-        <div className="project_report_container">
-          <HeaderProjectReport name="Project report" />
-          <div className="diw_row" />
-          <div className="project_report_date">
-            {roleUser !== DEVELOPER && (
-              <div className="block_select_elements">
-                <SearchByDeveloper />
-                <div className="row">
-                  <svg
-                    width="10"
-                    height="2"
-                    viewBox="0 0 10 2"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="10" height="1.5" fill="#616161" />
-                  </svg>
-                </div>
-                <SearchByProject />
+      <div className="project_report_container">
+        <HeaderProjectReport name="Project report" />
+        <div className="diw_row" />
+        <div className="project_report_date">
+          {roleUser !== DEVELOPER && (
+            <div className="block_select_elements">
+              <SearchByDeveloper />
+              <div className="row">
+                <svg
+                  width="10"
+                  height="2"
+                  viewBox="0 0 10 2"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="10" height="1.5" fill="#616161" />
+                </svg>
               </div>
-            )}
-            <div className="select_month">
-              <SelectMonth
-                value={selectedDate}
-                onChange={handleChangeData}
-                showYear
-              />
+              <SearchByProject />
             </div>
+          )}
+          <div className="select_month">
+            <SelectMonth
+              value={selectedDate}
+              onChange={handleChangeData}
+              showYear
+            />
           </div>
-          {/* {renderUserProjects()} */}
-          <UsersInfo selectedDate={selectedDate} />
         </div>
-      </Container>
+        {/* {renderUserProjects()} */}
+        <UsersInfo selectedDate={selectedDate} />
+      </div>
     </ProjectReportContext.Provider>
   )
 }

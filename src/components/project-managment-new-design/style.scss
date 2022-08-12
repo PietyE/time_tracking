@@ -1,8 +1,14 @@
 @import "../../styles/commonStyles.scss";
 
 .project_management-container{
+  
+  margin: 0;
+  width: 100%;
+  max-width: 1051px;
+  
   flex-grow: 1;
   z-index: 1;
+
     &.show-modal {
       max-width: 971px;
       transition: width 0.4ms ease-in;
@@ -10,6 +16,7 @@
     .page-title{
       display: flex;
       justify-content: space-between;
+      padding: 35px 0 30px;
     }
     .row{
       margin-right: 0;
@@ -17,6 +24,10 @@
     }
 
 
+  .container{
+    max-width: 1051px;
+    padding: 0 40px;
+  }
   .container__selects{
     display: flex;
     justify-content: space-between;
@@ -628,7 +639,6 @@
           font-weight: 500;
           font-size: 14px;
           align-items: center;
-          letter-spacing: 0.0
         }
       }
 
