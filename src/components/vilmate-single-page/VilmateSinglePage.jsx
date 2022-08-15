@@ -10,6 +10,7 @@ import SpinnerStyled from 'components/ui/spinner'
 import { PersonalInformationSection } from './components/PersonalInformationSection'
 import useFetchUserById from './components/helpers/useFetchUser'
 import './VilmatesSinglePage.scss'
+import { PhotoSection } from './components/PhotoSection'
 
 export const VilmateSinglePage = () => {
   const [user, isLoading] = useFetchUserById(
@@ -36,7 +37,10 @@ export const VilmateSinglePage = () => {
           <Box className="vilmates-single-page-go-back">
             <Back /> <Link to="/vilmates">Back to people list</Link>
           </Box>
-          {isUserFound}
+          <Box style={{ display: 'flex' }}>
+            <PhotoSection name={user.name} role={user.position} />
+            {isUserFound}
+          </Box>
         </>
       )}
     </Container>
