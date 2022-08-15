@@ -1,3 +1,6 @@
 import React from 'react'
+import { RightSessionContainer } from '../RightSessionsContainer'
 
-export const CommentsSection = () => <div></div>
+export const CommentsSection = () => (
+  <RightSessionContainer title="Comments"></RightSessionContainer>
+)
