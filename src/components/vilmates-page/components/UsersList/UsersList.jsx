@@ -31,7 +31,7 @@ export const UsersList = () => {
       className="vilmate-page-no-users"
       style={{ padding: '20%' }}
     >
-      Not found users
+      User not found
     </Typography>
   )
 
@@ -49,6 +49,6 @@ export const UsersList = () => {
       </Grid>
     </>
   ) : (
-    <SpinnerStyled />
+    <SpinnerStyled isBackgroundBlurred={false} />
   )
 }
