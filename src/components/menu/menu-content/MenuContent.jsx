@@ -35,12 +35,11 @@ export const MenuContent = () => {
                   smallSize: true,
                   pathname: '/timereport',
                 },
-                // TODO: Remove when the functionality is finished
-                // {
-                //   icon: vilmates,
-                //   label: 'Vilmates',
-                //   pathname: '/vilmates',
-                // },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  pathname: '/vilmates',
+                },
               ]
             : [
                 {

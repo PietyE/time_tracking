@@ -102,27 +102,21 @@ function MainScreenRedesign(props) {
           <Route path="/projectreport" component={ProjectReportNew} exact />
           {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
-          {/* TODO: Remove when the functionality is finished */}
-          {false && (
-            <VIlmatesPrivateRoute
-              path="/vilmates"
-              component={VilmatesScreen}
-              exact
-            />
-          )}
+          <VIlmatesPrivateRoute
+            path="/vilmates"
+            component={VilmatesScreen}
+            exact
+          />
           <GoogleSyncPrivateRoot
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
             exact
           />
-          {/* TODO: Remove when the functionality is finished */}
-          {false && (
-            <Route
-              path="/vilmates/user/:userId"
-              component={VilatesSinglePageScreen}
-              exact
-            />
-          )}
+          <Route
+            path="/vilmates/user/:userId"
+            component={VilatesSinglePageScreen}
+            exact
+          />
           {/* <Route path="/people" component={PeopleScreen}/>
         <Route path="/profile" component={ProfileScreen} exct /> */}
           {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
