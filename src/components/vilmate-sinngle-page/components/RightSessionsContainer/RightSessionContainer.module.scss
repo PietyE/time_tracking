@@ -1,0 +1,26 @@
+@import "src/styles/commonStyles";
+
+.container {
+  position: relative;
+  max-width: 626px;
+  padding: 18px 25px 33px;
+  background: $whiteColor;
+  border: 1px solid $grayBorderColor;
+  border-radius: 10px;
+}
+
+.title {
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.divider {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  margin-left: -25px;
+}
+
+.content_container {
+  padding-top: 30px;
+}

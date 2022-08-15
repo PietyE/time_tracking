@@ -4,16 +4,16 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  cursor: pointer;
   margin-bottom: 30px;
+  cursor: pointer;
   svg {
     margin-right: 12px;
   }
   a {
     color: $mainGreenColor;
+    text-decoration: none;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.02em;
-    text-decoration: none;
   }
 }

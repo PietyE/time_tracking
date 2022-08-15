@@ -1,0 +1,19 @@
+@import "src/styles/commonStyles";
+
+.about {
+  p {
+    margin-bottom: 18px;
+  }
+  h5 {
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  button {
+    padding: 0;
+    color: $mainGreenColor;
+    font-weight: 600;
+    &:hover {
+      background: none;
+    }
+  }
+}

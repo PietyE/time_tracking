@@ -1,32 +1,44 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Box, Typography } from '@material-ui/core'
 import { PageHeader } from 'components/common/PageHeader'
 import { Container } from 'components/ui/container'
-import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { useDispatch } from 'react-redux'
 import { vilmatesPageSelectUserRequest } from 'actions/vilmates-page'
-import useEqualSelector from 'custom-hook/useEqualSelector'
 import { getSelectedUser, isSelectedUserLoading } from 'selectors/vilmates-page'
 import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
-import { Link } from 'react-router-dom'
-import './VilmatesSunglePage.scss'
-import { Box } from '@material-ui/core'
+import SpinnerStyled from 'components/ui/spinner'
+import { PersonalInformationSection } from './components/PersonalInformationSection'
+import useFetchUserById from './components/helpers/useFetchUser'
+import './VilmatesSinglePage.scss'
 
 export const VilmateSinglePage = () => {
-  const { userId } = useParams()
-  const dispatch = useDispatch()
-  const user = useEqualSelector(getSelectedUser)
-  const isLoading = useEqualSelector(isSelectedUserLoading)
+  const [user, isLoading] = useFetchUserById(
+    vilmatesPageSelectUserRequest,
+    getSelectedUser,
+    isSelectedUserLoading
+  )
 
-  useEffect(() => {
-    dispatch(vilmatesPageSelectUserRequest(userId))
-  }, [userId])
+  const isUserFound = user ? (
+    <PersonalInformationSection user={user} />
+  ) : (
+    <Typography variant="h6" style={{ padding: '20%' }}>
+      No found user by this id
+    </Typography>
+  )
 
   return (
     <Container>
       <PageHeader name="Vilmates" />
-      <Box className="vilmates-single-page-go-back">
-        <Back /> <Link to="/vilmates">Back to people list</Link>
-      </Box>
+      {isLoading ? (
+        <SpinnerStyled />
+      ) : (
+        <>
+          <Box className="vilmates-single-page-go-back">
+            <Back /> <Link to="/vilmates">Back to people list</Link>
+          </Box>
+          {isUserFound}
+        </>
+      )}
     </Container>
   )
 }
