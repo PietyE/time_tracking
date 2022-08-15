@@ -49,6 +49,6 @@ export const UsersList = () => {
       </Grid>
     </>
   ) : (
-    <SpinnerStyled />
+    <SpinnerStyled isBackgroundBlurred={false} />
   )
 }

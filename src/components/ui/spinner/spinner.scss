@@ -9,4 +9,7 @@
   left: 0;
   top: 70px;
   z-index: 998;
+  &.not_blurred {
+    background-color: inherit;
+  }
 }
