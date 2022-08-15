@@ -24,3 +24,25 @@
 .content_container {
   padding-top: 30px;
 }
+
+.scroll {
+  height: 646px;
+  overflow-y: auto;
+  margin: 0 -25px;
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $scrollTrackBackground;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 2px 2px $scrollBoxShadow;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    box-shadow: 0 2px 2px $scrollBoxShadow;
+    background-color: $scrollThumbBackground;
+    border-radius: 10px;
+  }
+}
