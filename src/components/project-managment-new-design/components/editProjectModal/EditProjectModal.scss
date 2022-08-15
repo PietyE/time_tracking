@@ -1,3 +1,5 @@
+@import "../../../../styles/commonStyles.scss";
+
 .main_container{
     form{
         .div_info_row{
@@ -37,7 +39,6 @@
             height: auto;
             display: block;
             .info_data{
-                font-family: Montserrat, sans-serif;
                 font-size: 14px;
                 left: 0;
                 height: 75px;
@@ -51,12 +52,11 @@
     
             textarea{
                 width: 562px;
-                background: #FFFFFF;
-                border: 1px solid #009C98;
+                background: $whiteColor;
+                border: 1px solid $mainGreenColor;
                 box-sizing: border-box;
                 border-radius: 4px;
                 resize: none;
-                font-family: Montserrat, sans-serif;
                 font-size: 14px;
                 height: 75px;
             }
@@ -104,7 +104,7 @@
     height: 46px;
     text-align: center;
     padding: 11px 25px;
-    font-family: Montserrat;
+    
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
@@ -139,10 +139,10 @@
                     .team-m-name{
                         margin-bottom: 0;
                         a{
-                            font-family: Montserrat;
+                            
                             font-weight: 600;
                             font-size: 14px;
-                            color: #222222;
+                            color: $mainBlackColor;
                             cursor: pointer;
                             &:hover{
                               text-decoration: none;

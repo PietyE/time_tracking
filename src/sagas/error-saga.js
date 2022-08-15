@@ -3,7 +3,7 @@ import { select, call, takeEvery, put } from 'redux-saga/effects'
 import { SET_ERROR_DATA } from 'constants/actions-constant'
 import { DANGER_ALERT } from 'constants/alert-constant'
 import { cleanErrorData } from 'actions/error'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { setAuthStatus } from 'actions/users'
 
 export function* errorHandler() {
@@ -11,7 +11,7 @@ export function* errorHandler() {
   switch (status) {
     case 400:
       yield put(
-        showAler({
+        showAlert({
           type: DANGER_ALERT,
           message: detail || messages || 'Something went wrong',
           delay: 5000,
@@ -23,7 +23,7 @@ export function* errorHandler() {
       yield call([localStorage, 'clear'])
       yield put(setAuthStatus(false))
       yield put(
-        showAler({
+        showAlert({
           type: DANGER_ALERT,
           message: detail || messages || 'Something went wrong',
           delay: 5000,
@@ -33,7 +33,7 @@ export function* errorHandler() {
       break
     case 404:
       yield put(
-        showAler({
+        showAlert({
           type: DANGER_ALERT,
           title: 'Page not found',
           message: 'This is not the page you were looking for.',
@@ -44,7 +44,7 @@ export function* errorHandler() {
       break
     case 500:
       yield put(
-        showAler({
+        showAlert({
           type: DANGER_ALERT,
           title: 'Page not found',
           message: 'This is not the page you were looking for.',
@@ -54,7 +54,7 @@ export function* errorHandler() {
       break
     default:
       yield put(
-        showAler({
+        showAlert({
           type: DANGER_ALERT,
           message: detail || messages || 'Something went wrong',
           delay: 5000,

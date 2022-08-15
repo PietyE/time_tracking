@@ -1,14 +1,32 @@
-$authBackgroundColor: #E5E5E5;
-$mainBlack: #222222;
-$black: #000000;
-$white: #FFFFFF;
+/* Colors: */
+
+$black: rgb(0, 0, 0);
+$whiteColor: rgb(255, 255, 255);
+
+$mainBlackColor: rgb(34, 34, 34);
+$lightBlackColor: rgba(34,34,34,0.7);
+$mainGreenColor:rgb(0, 156, 152);
+$lightGreenColor: rgba(223, 236, 235, 1);
+$mainRedColor: rgb(248, 66, 66);
+$mainGrayColor: rgba(0, 0, 0, 0.2);
+$darkGrayColor: rgba(97, 97, 97, 1);
+
+
 $borderColor: rgba(0, 0, 0, 0.2);
-$separatorColor: rgba(121, 121, 117, 0.678);
-$separatorText: #ADADA7;
-$submitColor: #009C98;
+$separatorColor: rgba(122, 122, 117, 0.678);
+$grayBorderColor: rgba(201, 201, 198, 0.7); 
+$separatorTextColor: rgb(173, 173, 167);
+$authBackgroundColor: rgb(229, 229, 229);
+$burgerMenuBackgroundColor: rgba(255, 255, 255, 0.8);
+
+/* Fonts: */
+
+$fontMontserrat: "Montserrat";
 
 %mainBorder {
   border-color: $borderColor;
   border-width: 1px;
   border-style: solid;
 }
+
+$burgerMenuHeight: 58px;

@@ -1,7 +1,7 @@
-import { call, takeEvery, put, select } from 'redux-saga/effects'
+import { call, takeEvery, put, select, takeLatest } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { pm } from '../api'
-import { showAler } from 'actions/alert'
+import { showAlert } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
@@ -15,6 +15,7 @@ import {
   GET_CONSOLIDATE_PROJECT_REPORT,
   ADD_DEVELOPER_TO_PROJECT,
   GET_ALL_DEVELOPER_PROJECTS,
+  GET_USERS_HOURS_AUTH_URL_REQUEST,
   // GET_COMMENTS_HISTORY,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
@@ -27,19 +28,20 @@ import {
   setIsFetchingReports,
   setUsersProjectReport,
   setAllDevelopersProjectsPR,
+  getUsersHoursAuthUrlSuccess,
   // setReportHistory
 } from 'actions/projects-report'
-import { getRatesList } from '../actions/currency'
+import { getRatesList } from 'actions/currency'
 import {
   getSelectedMonthSelector,
   getSelectedProjectSelector,
-} from '../reducers/projects-report'
+} from 'reducers/projects-report'
 import {
   consolidateReportMapper,
   usersProjectReportMapper,
-} from '../utils/projectReportApiResponseMapper'
-import { selectActualCurrencyForUserList } from '../selectors/currency'
-import { getSelectedProjectIdSelector } from '../reducers/projects-management'
+} from 'utils/projectReportApiResponseMapper'
+import { selectActualCurrencyForUserList } from 'selectors/currency'
+import { getSelectedProjectIdSelector } from 'reducers/projects-management'
 
 // export function* getDeveloperConsolidateProjectReport() {
 //   yield put(setIsFetchingReports(true))
@@ -100,7 +102,7 @@ export function* getAllDevelopersProjectInProjectReport() {
     yield put(setAllDevelopersProjectsPR(data))
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -121,7 +123,7 @@ function* setExchangeRate({ payload, callback }) {
       throw new Error()
     }
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Exchange Rate has been saved',
         delay: 5000,
@@ -138,7 +140,7 @@ function* setExchangeRate({ payload, callback }) {
     yield put(getConsolidateProjectReport())
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -164,7 +166,7 @@ function* addDevelopersToProject({ payload = [] }) {
     }
 
     yield put(
-      showAler({
+      showAlert({
         type: SUCCES_ALERT,
         message: 'Users have been added',
         delay: 5000,
@@ -172,7 +174,7 @@ function* addDevelopersToProject({ payload = [] }) {
     )
   } catch (error) {
     yield put(
-      showAler({
+      showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
@@ -260,6 +262,34 @@ export function* handleGetConsolidatedReport() {
   yield put(setIsFetchingReports(false))
 }
 
+function* getUsersHoursAuthUrl() {
+  try {
+    const URL = 'user-hours/get_auth_url/'
+    const response = yield call([Api, 'getUsersHoursAuthUrl'], URL)
+    const { status, data } = response
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+    yield put(getUsersHoursAuthUrlSuccess(data.google_auth_url))
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        message: 'Authentication URL have been successfully getting',
+        delay: 5000,
+      })
+    )
+  } catch (error) {
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 6000,
+      })
+    )
+  }
+}
+
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
@@ -283,4 +313,5 @@ export function* watchDeveloperProjects() {
     getDeveloperProjects
   )
   yield takeEvery(SET_EXCHANGE_RATES, setExchangeRate)
+  yield takeLatest(GET_USERS_HOURS_AUTH_URL_REQUEST, getUsersHoursAuthUrl)
 }

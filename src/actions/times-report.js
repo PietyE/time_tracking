@@ -1,16 +1,17 @@
 import {
-  SET_IS_FETCHING_REPORTS,
-  CHANGE_SELECTED_DATE_TIME_REPORT,
-  SET_TIME_REPORTS,
-  SET_DEVELOPER_PROJECTS_TR,
-  DELETE_TIME_REPORT,
   ADD_TIME_REPORT,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
+  CLEAR_SELECTED_PROJECT,
+  DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
+  GET_TIME_REPORT_CSV,
   RESET_SELECTED_DATE,
   SELECT_PROJECT,
-  CLEAR_SELECTED_PROJECT,
+  SET_DEVELOPER_PROJECTS_TR,
   SET_EDIT_MODE,
-  GET_TIME_REPORT_CSV, SET_STATUS_USER,
+  SET_IS_FETCHING_REPORTS,
+  SET_STATUS_USER,
+  SET_TIME_REPORTS,
 } from 'constants/actions-constant'
 
 export const changeSelectedDateTimeReport = (payload) => ({
@@ -70,7 +71,7 @@ export const getTimeReportCsv = () => ({
   type: GET_TIME_REPORT_CSV,
 })
 
-export const setUserStatus =(payload)=>({
+export const setUserStatus = (payload) => ({
   type: SET_STATUS_USER,
-  payload
+  payload,
 })

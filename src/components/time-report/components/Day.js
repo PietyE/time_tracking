@@ -1,10 +1,7 @@
 import React, { useState, memo, useEffect } from 'react'
 
-// import HeaderDay from './HeaderDay'
-// import CreateReportForm from './CreateReportForm'
 import ReportItem from './ReportItem'
 import FooterDay from './FooterDay'
-// import ActivitySelect from "./ActivitySelect";
 import DayCrate from './DayCrate'
 
 function Day({
@@ -105,16 +102,8 @@ function Day({
               index={index}
               text={title}
               hours={duration}
-              opneNewItem={openNewItem}
-              dayTitle={dayTitle}
               id={id}
               isOneProject={isOneProject}
-              slecet
-              selectDayStatus={selectDayStatus}
-              selectedDayStatus={selectedDayStatus}
-              isCreate={isCreate}
-              setUserStatus={setUserStatus}
-              setDraganDroped={setDraganDroped}
               draganDroped={draganDroped}
             />
           ))}

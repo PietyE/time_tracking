@@ -8,22 +8,14 @@ function DayCrate({
   selectedDate,
   descriptions = [],
   addTimeReport,
-  //   showEmpty,
-  isOpenCreate,
-  //   isOneProject,
   isCreate,
   handlerAddDayReport,
   dayTitle,
   todayStr,
   classNameForEndAnimation,
   weekEndClassName,
-  setIsCreate,
-  handlerEndAnimation,
   sumHours,
   isCreateList,
-  selectDayStatus,
-  selectedDayStatus,
-  setUserStatus,
 }) {
   return (
     <div>
@@ -46,15 +38,7 @@ function DayCrate({
           addTimeReport={addTimeReport}
           numberOfDay={numberOfDay}
           selectedDate={selectedDate}
-          setIsCreate={setIsCreate}
-          isCreate={isCreate}
-          isOpenCreate={isOpenCreate}
-          extraClassName={classNameForEndAnimation}
-          handlerEndAnimation={handlerEndAnimation}
           sumHours={sumHours}
-          selectDayStatus={selectDayStatus}
-          selectedDayStatus={selectedDayStatus}
-          setUserStatus={setUserStatus}
         />
       </div>
     </div>

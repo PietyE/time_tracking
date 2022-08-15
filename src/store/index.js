@@ -9,10 +9,12 @@ import { timereports } from 'reducers/timereport'
 import { developerProjects } from 'reducers/developer-projects'
 import { developers } from 'reducers/developers'
 import { projectsReport } from 'reducers/projects-report'
-import {pagination} from "../reducers/pagination";
+import { pagination } from 'reducers/pagination'
 import { currencies } from 'reducers/currency'
-import { projectReportDetails } from '../reducers/project-report-details'
+import { projectReportDetails } from 'reducers/project-report-details'
 import { projectsManagement } from 'reducers/projects-management'
+import { googleAuthSuccess } from 'reducers/google-auth-sucess'
+import { vilmatesPage } from 'reducers/vilmates-page'
 
 const rootReducer = combineReducers({
   profile,
@@ -25,8 +27,9 @@ const rootReducer = combineReducers({
   pagination,
   projectsManagement,
   currencies,
-  projectReportDetails
-
+  projectReportDetails,
+  googleAuthSuccess,
+  vilmatesPage,
 })
 
 const sagaMiddleware = createSagaMiddleware()

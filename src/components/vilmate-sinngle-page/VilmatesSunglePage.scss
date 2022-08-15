@@ -1,0 +1,19 @@
+@import "src/styles/commonStyles";
+
+.vilmates-single-page-go-back {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 30px;
+  svg {
+    margin-right: 12px;
+  }
+  a {
+    color: $mainGreenColor;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+}

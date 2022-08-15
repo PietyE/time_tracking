@@ -7,27 +7,23 @@ import RootRouteComponent from 'screens/RootRouteComponent'
 import { getAlertIsShownAlertSelector } from 'selectors/alert'
 import { getErrorStatus } from 'selectors/error'
 
-
-
-import '../styles/App.css'
+import 'styles/App.scss'
 
 const App = ({ isShownAlert, errorStatus }) => {
-
-  const appClass = 'app';
+  const appClass = 'app'
   if (errorStatus === 500) {
     return <StatusPage />
   }
 
   return (
     <div className={appClass}>
-
-    <RootRouteComponent />
+      <RootRouteComponent />
       {isShownAlert && <AlertStyled />}
     </div>
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isShownAlert: getAlertIsShownAlertSelector(state),
   errorStatus: getErrorStatus(state),
 })

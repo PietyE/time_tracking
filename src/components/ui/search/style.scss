@@ -1,8 +1,10 @@
+@import "../../../styles/commonStyles.scss";
+
 .search{
 
   &-input{
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: $whiteColor;
+    border: 1px solid $borderColor;
     box-sizing: border-box;
     border-radius: 4px;
     width: 280px;
@@ -12,7 +14,7 @@
     line-height: 24px;
     text-align: center;
     letter-spacing: 0.03em;
-    color: #ADADA7;
+    color: $separatorTextColor;
     text-align: left;
     padding-left: 45px;
     background-image: url("../../../images/loupe1.svg");

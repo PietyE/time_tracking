@@ -3,12 +3,6 @@ import { useLocation } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux'
 import _, { isEmpty } from 'lodash'
 
-import ProjectSelect from './components/ProjectSelect'
-import Day from './components/Day'
-import DownloadIcon from 'components/ui/svg-components/download-icon'
-import SelectMonth from 'components/ui/select-month'
-import DeveloperSelect from './components/DeveloperSelect'
-import Spinner from 'components/ui/spinner'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 import {
@@ -21,7 +15,7 @@ import {
   setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
-import { getDeveloperProjectsById } from '../../actions/projects-management'
+import { getDeveloperProjectsById } from 'actions/projects-management'
 import {
   getAllDays,
   getDeveloperProjectsTR,
@@ -34,13 +28,16 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId } from '../../selectors/user'
+import { getProfileId, getRoleUser } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
-import { getRoleUser } from 'selectors/user'
 import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
-import { parseMinToHoursAndMin } from 'utils/common'
 import './style.scss'
+import { DANGER_ALERT } from 'constants/alert-constant'
+import { showAlert } from 'actions/alert'
+import TimeReportDesktop from './TimeReportDesktop'
+import useBreakpoints from 'custom-hook/useBreakpoints'
+import TimeReportMobile from './TimeReportMobile'
 
 // import FunnelSelect from "./components/FunnelSelect";
 
@@ -61,10 +58,9 @@ function TimeReport(props) {
     selectDevelopers,
     selectedDeveloperProjectsTR,
     getTimeReportCsv,
-    // selectedDays,
-    // selectedDay,
     selectDayStatus,
     selectedDayStatus,
+    showAlert,
   } = props
 
   const dispatch = useDispatch()
@@ -73,14 +69,7 @@ function TimeReport(props) {
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
   const todayDate = new Date()
-
-  // const setStatusDayFromSlector =(status)=>{
-  //   if(status.name === 'Hide empty days') {
-  //     setShowEmpty(false);
-  //   }else {
-  //     setShowEmpty(true);
-  //   }
-  // }
+  const { isMobile, isTablet } = useBreakpoints()
 
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -190,6 +179,13 @@ function TimeReport(props) {
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
+      showAlert({
+        type: DANGER_ALERT,
+        title: 'Error while exporting to XLSX',
+        message:
+          'You can not export time report in XLSX because there are no filled working hours',
+        delay: 5000,
+      })
       return
     }
     getTimeReportCsv()
@@ -214,115 +210,61 @@ function TimeReport(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    <>
-      {isFetchingReports && <Spinner />}
-      <div
-        className={
-          isFetchingReports
-            ? 'time_report_container container fetching'
-            : 'time_report_container container'
-        }
-      >
-        <div className="time_report_total_container">
-          <h1>Time report</h1>
-          {/* <div className="time_repord_checkbox">
-           <label>
-             <input
-               type="checkbox"
-               onChange={() => setShowEmpty(!showEmpty)}
-               value={showEmpty}
-             />
-             <span>Hide Empty Days</span>
-           </label>
-          </div> */}
-          <div className="time_report_total_hours">
-            <span>
-              Total hours spend this month:
-              <strong>{parseMinToHoursAndMin(totalHours, true)}</strong>
-            </span>
-          </div>
-        </div>
-        <div className="time_report_header"></div>
-        <div className="time_report_header">
-          <div className="time_report_header_select_section">
-            {roleUser !== DEVELOPER && (
-              <DeveloperSelect
-                developersList={developersList}
-                selectedDeveloper={selectedDeveloper}
-              />
-            )}
-            <ProjectSelect
-              projectList={projects}
-              clearSelectedProject={clearSelectedProject}
-              selectProject={selectProject}
-              selectedProject={selectedProject}
-            />
-            <SelectMonth
-              selectedDate={selectedDate}
-              setNewData={changeSelectedDateTimeReport}
-              showYear="true"
-              extraClassNameContainer="time_report_header_select_month"
-            />
-            {/* <FunnelSelect
-                days={selectedDays}
-                selectedDay={selectedDay}
-                setStatusDay={setStatusDayFromSlector}
-            /> */}
-          </div>
-          <div className="time_report_header_btn_section">
-            <button className="export_btn" onClick={handlerExportCsv}>
-              <span className="export_icon_container">
-                <DownloadIcon />
-              </span>
-              <span className="export_btn_text">Export in XLSX</span>
-            </button>
-          </div>
-        </div>
-        <div className="time_report_day_row_titles">
-          <div className="time_report_activity_day">DATE</div>
-          <div className="title-tasks">TASKS</div>
-          <div className="title-hours">
-            <span>HOURS</span>
-            <strong className="total_hours_month">
-              {parseMinToHoursAndMin(selectedProjectHours, true)}
-            </strong>
-          </div>
-        </div>
-        <div className="time_report_body_container">
-          {reports ? (
-            renderDaysArray.map((item, index) => {
-              const numberOfDay = daySize - index
-              const dataOfDay = reports.filter(
-                (report) => numberOfDay === new Date(report.date).getDate()
-              )
+  if (isMobile && !isTablet) {
+    return (
+      <TimeReportMobile
+        isFetchingReports={isFetchingReports}
+        totalHours={totalHours}
+        roleUser={roleUser}
+        developersList={developersList}
+        selectedDeveloper={selectedDeveloper}
+        projects={projects}
+        clearSelectedProject={clearSelectedProject}
+        selectProject={selectProject}
+        selectedProject={selectedProject}
+        selectedDate={selectedDate}
+        changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+        handlerExportCsv={handlerExportCsv}
+        selectedProjectHours={selectedProjectHours}
+        reports={reports}
+        renderDaysArray={renderDaysArray}
+        daySize={daySize}
+        todayDate={todayDate}
+        addTimeReport={addTimeReport}
+        showEmpty={showEmpty}
+        selectDayStatus={selectDayStatus}
+        selectedDayStatus={selectedDayStatus}
+        setUserStatus={setUserStatus}
+        selectDevelopers={selectDevelopers}
+      />
+    )
+  }
 
-              const isOpenCreate =
-                todayDate.getDate() === numberOfDay &&
-                todayDate.getMonth() === selectedDate.month &&
-                todayDate.getFullYear() === selectedDate.year
-              return (
-                <Day
-                  key={index}
-                  numberOfDay={numberOfDay}
-                  selectedDate={selectedDate}
-                  descriptions={dataOfDay}
-                  addTimeReport={addTimeReport}
-                  showEmpty={showEmpty}
-                  isOpenCreate={isOpenCreate}
-                  isOneProject={projects.length > 1}
-                  selectDayStatus={selectDayStatus}
-                  selectedDayStatus={selectedDayStatus}
-                  setUserStatus={setUserStatus}
-                />
-              )
-            })
-          ) : (
-            <div>Please, choose your project...</div>
-          )}
-        </div>
-      </div>
-    </>
+  return (
+    <TimeReportDesktop
+      isFetchingReports={isFetchingReports}
+      totalHours={totalHours}
+      roleUser={roleUser}
+      developersList={developersList}
+      selectedDeveloper={selectedDeveloper}
+      projects={projects}
+      clearSelectedProject={clearSelectedProject}
+      selectProject={selectProject}
+      selectedProject={selectedProject}
+      selectedDate={selectedDate}
+      changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+      handlerExportCsv={handlerExportCsv}
+      selectedProjectHours={selectedProjectHours}
+      reports={reports}
+      renderDaysArray={renderDaysArray}
+      daySize={daySize}
+      todayDate={todayDate}
+      addTimeReport={addTimeReport}
+      showEmpty={showEmpty}
+      selectDayStatus={selectDayStatus}
+      selectedDayStatus={selectedDayStatus}
+      setUserStatus={setUserStatus}
+    />
   )
 }
 
@@ -352,6 +294,7 @@ const actions = {
   getTimeReportCsv,
   setUserStatus,
   getDeveloperProjectsTR,
+  showAlert,
 }
 
 export default connect(mapStateToProps, actions)(memo(TimeReport))

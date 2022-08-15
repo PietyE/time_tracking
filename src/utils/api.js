@@ -137,7 +137,6 @@ class Api {
     })
   }
 
-
   saveEditedComments = (url, body) => {
     return fetchApi({
       url,
@@ -170,7 +169,7 @@ class Api {
   getRatesList = (url, params) => {
     return fetchApi({
       url,
-      params
+      params,
     })
   }
 
@@ -191,8 +190,12 @@ class Api {
       url,
     })
   }
+  getUsersHoursAuthUrl = (url) => fetchApi({ url, method: 'post' })
+
+  getUsersHoursCreateToken = (url, data) =>
+    fetchApi({ url, data, method: 'post' })
+
+  syncWithGoogleSheet = (url, data) => fetchApi({ url, data, method: 'post' })
 }
-
-
 
 export default new Api()

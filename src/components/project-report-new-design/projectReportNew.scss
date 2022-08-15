@@ -1,3 +1,5 @@
+@import "../../styles/commonStyles.scss";
+
 .project_report_container {
   display: flex;
   background-color: #f3f5f5;
@@ -31,12 +33,12 @@
     }
 
     .select_container {
-      border-color: rgba(0, 0, 0, 0.2);;
+      border-color: $borderColor;
     }
 
     .select_month {
       border-radius: none;
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      border: 1px solid $borderColor;
       padding: 0;
 
       .select_month_container {
@@ -44,12 +46,12 @@
 
         .prev_month {
           border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.2);
+          border-color: $borderColor;
         }
 
         .next_month {
           border-radius: 0;
-          border-color: rgba(0, 0, 0, 0.2);
+          border-color: $borderColor;
         }
       }
     }
@@ -67,7 +69,7 @@
       .projects,
       .overtime {
         margin-left: 210px;
-        font-family: Montserrat;
+        
         font-style: normal;
         font-weight: bold;
         font-size: 13px;
@@ -88,15 +90,15 @@
       flex-direction: column;
       // height: 74px;
       width: 971px;
-      background: #FFFFFF;
+      background: $whiteColor;
       border: 1px solid rgba(201, 201, 198, 0.4);
       box-sizing: border-box;
       border-radius: 6px;
       margin-top: 15px;
 
       &.selected {
-        background: #FFFFFF;
-        border: 1px solid #009C98;
+        background: $whiteColor;
+        border: 1px solid $mainGreenColor;
         box-sizing: border-box;
         box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
@@ -122,13 +124,13 @@
           margin-top: 15px;
   
           .name {
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
             line-height: 24px;
             letter-spacing: 0.017em;
-            color: #222222;
+            color: $mainBlackColor;
             width: 191px;
             height: 24px;
             overflow: hidden;
@@ -137,7 +139,7 @@
           }
   
           .email {
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 600;
             font-size: 10px;
@@ -145,14 +147,14 @@
             display: flex;
             align-items: center;
             letter-spacing: 0.018em;
-            color: #ADADA7;
+            color: $separatorTextColor;
             margin-top: 5px;
           }
         }
   
         .projects {
           margin: 25px 0 0 15px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 500;
           font-size: 15px;
@@ -165,10 +167,10 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: pre;
-          // color: #009C98;
+          // color: $mainGreenColor;
   
           .empty {
-            color: #ADADA7;
+            color: $separatorTextColor;
           }
         }
   
@@ -180,7 +182,7 @@
           margin-left: 31px;
   
           .hours {
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
@@ -235,7 +237,7 @@
 
           .project_hours {
             margin-left: 51px;
-            font-family: Montserrat;
+            
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
@@ -270,7 +272,7 @@
       height: 840px;
       left: 1046px;
       top: 180px;
-      background: #FFFFFF;
+      background: $whiteColor;
       border: 1px solid rgba(201, 201, 198, 0.4);
       box-sizing: border-box;
       box-shadow: -10px -5px 35px rgba(0, 0, 0, 0.1);
@@ -289,13 +291,13 @@
         .comments_header_text {
           width: 233px;
           height: 24px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 20px;
           line-height: 24px;
           letter-spacing: 0.018em;
-          color: #222222;
+          color: $mainBlackColor;
         }
 
         .comment_close_button {
@@ -317,12 +319,12 @@
           margin: 10px 25px 10px 498px;
           width: 89px;
           height: 40px;
-          background: #FFFFFF;
-          border: 1px solid #009C98;
-          color: #009C98;
+          background: $whiteColor;
+          border: 1px solid $mainGreenColor;
+          color: $mainGreenColor;
           box-sizing: border-box;
           border-radius: 6px;
-          font-family: Montserrat;
+          
           font-style: normal;
           font-weight: 600;
           font-size: 14px;
@@ -332,8 +334,8 @@
           cursor: pointer;
 
           &:hover {
-            background: #009C98;
-            color: #FFFFFF;
+            background: $mainGreenColor;
+            color: $whiteColor;
           }
         }
       }

@@ -1,3 +1,4 @@
+@import "../../../styles/commonStyles.scss";
 
 .statistic__block {
   display: flex;
@@ -7,7 +8,7 @@
   height: 117px;
   left: 301px;
   top: 130px;
-  background: #FFFFFF;
+  background: $whiteColor;
   border: 1px solid rgba(201, 201, 198, 0.4);
   box-sizing: border-box;
   border-radius: 10px;
@@ -18,7 +19,7 @@
     font-size: 26px;
     line-height: 32px;
     letter-spacing: 0.02em;
-    color: #222222;
+    color: $mainBlackColor;
   }
 
   &-progress{
@@ -26,7 +27,7 @@
     line-height: 24px;
     text-align: right;
     letter-spacing: 0.02em;
-    color: #009C98;
+    color: $mainGreenColor;
   }
 
   &-type{
