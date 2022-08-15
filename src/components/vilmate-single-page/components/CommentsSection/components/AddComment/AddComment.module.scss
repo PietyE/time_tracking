@@ -1,10 +1,10 @@
 .container {
   display: flex;
-  align-items: flex-start;
   justify-content: flex-start;
+  align-items: flex-start;
   margin-bottom: 25px;
 }
 
 .comment {
-  width: 474px;
+  max-width: 474px;
 }

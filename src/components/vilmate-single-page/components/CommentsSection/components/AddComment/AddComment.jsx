@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, TextField } from '@material-ui/core'
-import { Avatar } from 'components/ui/avatar'
 import { useFormik } from 'formik'
+import { Avatar } from 'components/ui/avatar'
 import styles from './AddComment.module.scss'
 
 export const AddComment = () => {
