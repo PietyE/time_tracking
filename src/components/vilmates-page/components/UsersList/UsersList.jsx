@@ -13,11 +13,10 @@ export const UsersList = () => {
   const users = useEqualSelector(getUsers)
   const isLoading = useEqualSelector(getLoading)
   const [value, setValue] = useState('')
-  useApiSearch(value, 300, vilmatesPageGetUsersListRequest)
+  useApiSearch(value, 500, vilmatesPageGetUsersListRequest)
 
   const handleChange = (event) => setValue(event.target.value)
 
-  //todo: do not forget to ask what to if we have not any user
   const renderUsers = users.length ? (
     users.map((user) => (
       <Grid item key={user.id} md={3}>

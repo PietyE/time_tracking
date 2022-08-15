@@ -10,7 +10,7 @@ import {
   vilmatesPageSelectUserSuccess,
 } from 'actions/vilmates-page'
 import { showAlert } from 'actions/alert'
-import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
+import { WARNING_ALERT } from 'constants/alert-constant'
 import Api from 'utils/api'
 
 function* getUsersList(action) {
@@ -21,16 +21,7 @@ function* getUsersList(action) {
     if (String(status)[0] !== '2') {
       throw new Error()
     }
-    const isUsersFounder = users.length
     yield put(vilmatesPageGetUsersListSuccess(users))
-    yield put(
-      showAlert({
-        type: isUsersFounder ? SUCCES_ALERT : WARNING_ALERT,
-        title: isUsersFounder ? 'Users successfully loaded' : 'Not found users',
-        message: isUsersFounder ? 'Success' : 'Try to search other users',
-        delay: 3000,
-      })
-    )
   } catch (error) {
     yield put(vilmatesPageGetUsersListError())
     yield put(
@@ -53,14 +44,6 @@ function* getSelectedUser(action) {
       throw new Error()
     }
     yield put(vilmatesPageSelectUserSuccess(user))
-    yield put(
-      showAlert({
-        type: SUCCES_ALERT,
-        title: 'User successfully loaded',
-        message: 'Success',
-        delay: 3000,
-      })
-    )
   } catch (error) {
     yield put(vilmatesPageSelectUserError())
     yield put(

@@ -9,10 +9,10 @@ import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
 import SpinnerStyled from 'components/ui/spinner'
 import { PersonalInformationSection } from './components/PersonalInformationSection'
 import useFetchUserById from './components/helpers/useFetchUser'
-import './VilmatesSinglePage.scss'
 import { PhotoSection } from './components/PhotoSection'
 import { CommentsSection } from './components/CommentsSection'
 import { ProjectsSection } from './components/ProjectsSection'
+import styles from './VilmatesSinglePage.module.scss'
 
 export const VilmateSinglePage = () => {
   const [user, isLoading] = useFetchUserById(
@@ -22,7 +22,16 @@ export const VilmateSinglePage = () => {
   )
 
   const isUserFound = user ? (
-    <PersonalInformationSection user={user} />
+    <Box style={{ display: 'flex' }}>
+      <Box className={styles.left_container}>
+        <PhotoSection name={user.name} role={user.position} />
+        <ProjectsSection />
+      </Box>
+      <Box className={styles.right_container}>
+        <PersonalInformationSection user={user} />
+        <CommentsSection />
+      </Box>
+    </Box>
   ) : (
     <Typography variant="h6" style={{ padding: '20%' }}>
       No found user by this id
@@ -36,19 +45,10 @@ export const VilmateSinglePage = () => {
         <SpinnerStyled />
       ) : (
         <>
-          <Box className="vilmates-single-page-go-back">
+          <Box className={styles.go_back}>
             <Back /> <Link to="/vilmates">Back to people list</Link>
           </Box>
-          <Box style={{ display: 'flex' }}>
-            <Box className="vilmates-single-page-left-content-container">
-              <PhotoSection name={user.name} role={user.position} />
-              <ProjectsSection />
-            </Box>
-            <Box className="vilmates-single-page-right-content-container">
-              {isUserFound}
-              <CommentsSection />
-            </Box>
-          </Box>
+          {isUserFound}
         </>
       )}
     </Container>

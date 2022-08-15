@@ -1,6 +1,7 @@
 @import "src/styles/commonStyles";
 
-.vilmates-single-page-go-back {
+
+.go_back {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -18,7 +19,8 @@
   }
 }
 
-.vilmates-single-page-right-content-container {
+.left_container {
+  margin-right: 30px;
   section {
     &:first-child {
       margin-bottom: 21px;
@@ -26,8 +28,7 @@
   }
 }
 
-.vilmates-single-page-left-content-container {
-  margin-right: 30px;
+.right_container {
   section {
     &:first-child {
       margin-bottom: 20px;
