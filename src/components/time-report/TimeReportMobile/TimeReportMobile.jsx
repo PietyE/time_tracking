@@ -1,4 +1,4 @@
-import { Button, Paper } from '@material-ui/core'
+import { Box, Button, Paper } from '@material-ui/core'
 import Autocomplete from 'components/ui/autocomplete'
 import SelectMonth from 'components/ui/select-month'
 import SliderSelect from 'components/ui/sliderSelect'
@@ -15,6 +15,7 @@ import styles from './TimeReportMobile.module.scss'
 import { ReactComponent as ExportIcon } from 'images/timereport/export-icon.svg'
 import { ReactComponent as PeopleIcon } from 'images/timereport/people-icon.svg'
 import { ReactComponent as WindowIcon } from 'images/timereport/window-icon.svg'
+import { Footer } from '../components/Footer'
 
 export const TimeReportMobile = ({
   isFetchingReports,
@@ -87,7 +88,7 @@ export const TimeReportMobile = ({
     0
   )
 
-  const footerStyles = `${styles.footer} ${isInputFocused && styles.hidden}`
+  const totalTimeSpentThisMonth = parseMinToHoursAndMin(totalHours, true)
 
   useEffect(() => {
     const newDayNumber = getDayNumber()
@@ -100,15 +101,15 @@ export const TimeReportMobile = ({
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.filters}>
+      <Box className={styles.container}>
+        <Box className={styles.filters}>
           <SelectMonth
             value={selectedDate}
             onChange={changeSelectedDateTimeReport}
             showYear
           />
 
-          <div className={styles.buttonWrapper}>
+          <Box className={styles.buttonWrapper}>
             <Button
               onClick={handlerExportCsv}
               variant="contained"
@@ -118,7 +119,7 @@ export const TimeReportMobile = ({
             >
               Export in XLSX
             </Button>
-          </div>
+          </Box>
 
           {roleUser !== DEVELOPER && (
             <Autocomplete
@@ -143,7 +144,7 @@ export const TimeReportMobile = ({
             onFocus={inputFocusHandler}
             onBlur={inputBlurHandler}
           />
-        </div>
+        </Box>
 
         <SliderSelect
           options={optionsForDaySelectSlider}
@@ -152,7 +153,7 @@ export const TimeReportMobile = ({
           initialSlide={selectedDayNumber - 1}
         />
 
-        <div className={styles.reportItemsSection}>
+        <Box className={styles.reportItemsSection}>
           <Paper className={styles.createReportForm}>
             <CreateReportForm
               addTimeReport={addTimeReport}
@@ -163,7 +164,7 @@ export const TimeReportMobile = ({
               handleFormBlur={inputBlurHandler}
             />
           </Paper>
-          <div className={styles.createdReportsContainer}>
+          <Box className={styles.createdReportsContainer}>
             {dataOfDay?.map(({ title, duration, id }, index) => (
               <ReportItem
                 key={id}
@@ -174,14 +175,11 @@ export const TimeReportMobile = ({
                 isOneProject={projects.length > 1}
               />
             ))}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
 
-      <footer className={footerStyles}>
-        Total hours spend this month:
-        <span>{parseMinToHoursAndMin(totalHours, true)}</span>
-      </footer>
+      <Footer time={totalTimeSpentThisMonth} />
     </>
   )
 }

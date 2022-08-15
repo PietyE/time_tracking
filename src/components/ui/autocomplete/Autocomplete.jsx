@@ -46,6 +46,7 @@ export const Autocomplete = ({
       fullWidth
       autoComplete
       autoHighlight
+      disablePortal
       noOptionsText={noOptionsText}
       {...rest}
     />

@@ -46,7 +46,7 @@ export const SelectMonth = ({
 
   const handlerSelectNextYear = (e) => {
     e.preventDefault()
-    setCurrentYear(currentYear + 1)
+    if (currentYear < year) setCurrentYear(currentYear + 1)
   }
 
   const handlerSelectPrevMonth = (e) => {

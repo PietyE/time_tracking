@@ -361,7 +361,7 @@ function ReportItem({
           handleTimeInputFocus={handleInputFocus}
           handleTimeInputBlur={handleInputBlur}
           timeInputError={isTimeInputError}
-          timeInputPlaceholder="HH"
+          timeInputPlaceholder="0:00"
           timeInputMaskPlaceholder="0"
           timeInputMask="9:99"
           handleFormSubmit={handlerSubmit}
@@ -372,6 +372,9 @@ function ReportItem({
           timeInputValue={parseMinToHoursAndMin(hours)}
           isEditing={false}
           onButtonClick={handlerOpenMenu}
+          timeInputPlaceholder="0:00"
+          timeInputMaskPlaceholder="0"
+          timeInputMask="9:99"
         />
       )}
 

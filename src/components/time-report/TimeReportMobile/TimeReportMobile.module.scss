@@ -49,23 +49,3 @@
   border: 1px solid $grayBorderColor;
   border-radius: 4px;
 }
-
-.footer {
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  bottom: 0;
-  padding: 10px 16px;
-
-  background-color: $lightGreenColor;
-  color: $mainBlackColor;
-  border-top: 1px solid $mainGreenColor;
-  font-size: 12px;
-
-  & > span {
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: $mainGreenColor;
-  }
-}
