@@ -17,3 +17,21 @@
     letter-spacing: 0.02em;
   }
 }
+
+.vilmates-single-page-right-content-container {
+  section {
+    &:first-child {
+      margin-bottom: 21px;
+    }
+  }
+}
+
+.vilmates-single-page-left-content-container {
+  margin-right: 30px;
+  section {
+    &:first-child {
+      margin-bottom: 20px;
+    }
+  }
+}
+

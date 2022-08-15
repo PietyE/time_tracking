@@ -12,6 +12,7 @@ import useFetchUserById from './components/helpers/useFetchUser'
 import './VilmatesSinglePage.scss'
 import { PhotoSection } from './components/PhotoSection'
 import { CommentsSection } from './components/CommentsSection'
+import { ProjectsSection } from './components/ProjectsSection'
 
 export const VilmateSinglePage = () => {
   const [user, isLoading] = useFetchUserById(
@@ -20,13 +21,13 @@ export const VilmateSinglePage = () => {
     isSelectedUserLoading
   )
 
-  // const isUserFound = user ? (
-  //   <PersonalInformationSection user={user} />
-  // ) : (
-  //   <Typography variant="h6" style={{ padding: '20%' }}>
-  //     No found user by this id
-  //   </Typography>
-  // )
+  const isUserFound = user ? (
+    <PersonalInformationSection user={user} />
+  ) : (
+    <Typography variant="h6" style={{ padding: '20%' }}>
+      No found user by this id
+    </Typography>
+  )
 
   return (
     <Container>
@@ -39,9 +40,14 @@ export const VilmateSinglePage = () => {
             <Back /> <Link to="/vilmates">Back to people list</Link>
           </Box>
           <Box style={{ display: 'flex' }}>
-            <PhotoSection name={user.name} role={user.position} />
-            {/*{isUserFound}*/}
-            <CommentsSection />
+            <Box className="vilmates-single-page-left-content-container">
+              <PhotoSection name={user.name} role={user.position} />
+              <ProjectsSection />
+            </Box>
+            <Box className="vilmates-single-page-right-content-container">
+              {isUserFound}
+              <CommentsSection />
+            </Box>
           </Box>
         </>
       )}
