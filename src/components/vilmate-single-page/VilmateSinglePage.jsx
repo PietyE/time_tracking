@@ -11,6 +11,7 @@ import { PersonalInformationSection } from './components/PersonalInformationSect
 import useFetchUserById from './components/helpers/useFetchUser'
 import './VilmatesSinglePage.scss'
 import { PhotoSection } from './components/PhotoSection'
+import { CommentsSection } from './components/CommentsSection'
 
 export const VilmateSinglePage = () => {
   const [user, isLoading] = useFetchUserById(
@@ -19,13 +20,13 @@ export const VilmateSinglePage = () => {
     isSelectedUserLoading
   )
 
-  const isUserFound = user ? (
-    <PersonalInformationSection user={user} />
-  ) : (
-    <Typography variant="h6" style={{ padding: '20%' }}>
-      No found user by this id
-    </Typography>
-  )
+  // const isUserFound = user ? (
+  //   <PersonalInformationSection user={user} />
+  // ) : (
+  //   <Typography variant="h6" style={{ padding: '20%' }}>
+  //     No found user by this id
+  //   </Typography>
+  // )
 
   return (
     <Container>
@@ -39,7 +40,8 @@ export const VilmateSinglePage = () => {
           </Box>
           <Box style={{ display: 'flex' }}>
             <PhotoSection name={user.name} role={user.position} />
-            {isUserFound}
+            {/*{isUserFound}*/}
+            <CommentsSection />
           </Box>
         </>
       )}
