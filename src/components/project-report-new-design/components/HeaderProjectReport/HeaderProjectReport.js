@@ -16,7 +16,8 @@ const HeaderProjectReport = (props) => {
   return (
     <div className="project_report_header">
       <span className="header_title">{name}</span>
-      {renderGoogleDriveSyncButton}
+      {/* TODO: Remove when the functionality is finished */}
+      {false && renderGoogleDriveSyncButton}
     </div>
   )
 }
