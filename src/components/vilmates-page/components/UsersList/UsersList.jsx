@@ -19,7 +19,7 @@ export const UsersList = () => {
 
   const renderUsers = users.length ? (
     users.map((user) => (
-      <Grid item key={user.id} md={3}>
+      <Grid item key={user.id} xs={3}>
         <UserItem user={user} />
       </Grid>
     ))
