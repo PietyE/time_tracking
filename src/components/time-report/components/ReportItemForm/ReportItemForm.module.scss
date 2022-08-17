@@ -1,0 +1,38 @@
+@import 'styles/commonStyles.scss';
+
+.form {
+  flex-basis: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.textInput {
+  flex-basis: 75%;
+  min-height: 42px;
+}
+
+.timeInput {
+  flex-basis: 5%;
+  flex-shrink: 0;
+  height: 42px;
+  min-width: 57px;
+  margin: 0 8px;
+}
+
+.icon {
+  font-size: 17px;
+}
+
+.button {
+  flex-basis: 5%;
+  flex-shrink: 0;
+  min-width: 41px;
+  height: 42px;
+  padding: 0;
+}
+
+.form :global .Mui-disabled {
+  background-color: $lightGreenColor;
+  color: $whiteColor;
+}

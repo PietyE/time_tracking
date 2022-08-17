@@ -36,6 +36,11 @@ const basicTheme = createTheme({
 
 export const theme = createTheme(basicTheme, {
   overrides: {
+    MuiTooltip: {
+      tooltipPlacementTop: {
+        top: 15
+      }
+    },
     MuiRadio: {
       root: {
         '& .MuiSvgIcon-root.PrivateRadioButtonIcon-layer-7': {
