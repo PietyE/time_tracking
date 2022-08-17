@@ -11,7 +11,7 @@ function WindowInfo({ title, children, close, download, id, onArchivedPress, isP
     const [showHintArchive, setShowHintArchive] = useState(false)
     const [showHintClose, setShowHintClose] = useState(false)
 
-    const archiveButtonText = isProjectArchived ? "Unarchive the project" : "Archive the project"
+    const archiveButtonText = isProjectArchived ? "Activate the project" : "Archive the project"
 
     return <div className="main_container">
         <div className="header">

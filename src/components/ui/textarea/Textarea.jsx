@@ -37,7 +37,7 @@ export const Textarea = ({
       onKeyDown={handleKeyDown}
       onFocus={onFocus}
       onBlur={onBlur}
-      multiline={!disabled}
+      multiline
       type="text"
       fullWidth={fullWidth}
       placeholder={placeholder}

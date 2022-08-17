@@ -1,23 +1,27 @@
 import {
   deleteTimeReport,
   editTimeReport,
-  setEditMode
+  setEditMode,
 } from 'actions/times-report'
+import useMenuPresent from 'custom-hook/useMenuPresent'
 import React, { memo, useCallback, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import {
-  getIdEditingWorkItem, getTimeReportForEdit
+  getIdEditingWorkItem,
+  getTimeReportForEdit,
 } from 'selectors/timereports'
 import { parseMinToHoursAndMin } from 'utils/common'
-import ChangeProjectModal from './ChangeProjectModal'
-import DeleteModal from './DeleteModal'
+import { showAlert } from 'actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 
-import useMenuPresent from 'custom-hook/useMenuPresent'
-
-import { showAlert } from '../../../actions/alert'
-import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
-import ReportItemForm from './ReportItemForm'
-import { ReportItemMenu } from './ReportItemMenu'
+import DeleteModal from '../DeleteModal'
+import ReportItemForm from '../ReportItemForm'
+import ChangeProjectModal from '../ChangeProjectModal'
+import { ReportItemMenu } from '../ReportItemMenu'
+import styles from './ReportItem.module.scss'
+import { Button, Typography } from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -325,6 +329,7 @@ function ReportItem({
       }
     }
   }
+
   //todo: check memo
   return (
     <div
@@ -361,21 +366,20 @@ function ReportItem({
           handleTimeInputFocus={handleInputFocus}
           handleTimeInputBlur={handleInputBlur}
           timeInputError={isTimeInputError}
-          timeInputPlaceholder="0:00"
-          timeInputMaskPlaceholder="0"
-          timeInputMask="9:99"
           handleFormSubmit={handlerSubmit}
         />
       ) : (
-        <ReportItemForm
-          textInputValue={text}
-          timeInputValue={parseMinToHoursAndMin(hours)}
-          isEditing={false}
-          onButtonClick={handlerOpenMenu}
-          timeInputPlaceholder="0:00"
-          timeInputMaskPlaceholder="0"
-          timeInputMask="9:99"
-        />
+        <div className={styles.item}>
+          <Typography className={styles.text}>{text}</Typography>
+          <Typography className={styles.time}>{parseMinToHoursAndMin(hours)}</Typography>
+          <Button
+            variant="text"
+            className={styles.button}
+            onClick={handlerOpenMenu}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} className={styles.icon} />
+          </Button>
+        </div>
       )}
 
       <div className="time_report_day_edit">
