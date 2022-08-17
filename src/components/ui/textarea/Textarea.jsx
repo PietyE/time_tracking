@@ -16,6 +16,7 @@ export const Textarea = ({
   error,
   autoFocus,
   classes,
+  name,
   disabled,
   ...rest
 }) => {
@@ -28,6 +29,7 @@ export const Textarea = ({
 
   return (
     <TextField
+      name={name}
       variant="outlined"
       color="secondary"
       value={value}

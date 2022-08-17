@@ -4,7 +4,7 @@ import { stringAvatar } from 'utils/avatar'
 import PropTypes from 'prop-types'
 import './Avatar.scss'
 
-export const Avatar = ({ name, size = 'small' }) => (
+export const Avatar = ({ name, size = 'medium' }) => (
   <MUIAvatar className={`custom-avatar ${size}`} {...stringAvatar(name)} />
 )
 
