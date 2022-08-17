@@ -105,6 +105,7 @@ function Day({
               id={id}
               isOneProject={isOneProject}
               draganDroped={draganDroped}
+              setDraganDroped={setDraganDroped}
             />
           ))}
         </div>
