@@ -1,9 +1,12 @@
 import { put, takeEvery, call } from 'redux-saga/effects'
 import {
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_SELECT_USER_REQUEST,
 } from 'constants/vilmates-page'
 import {
+  vilmatesPageGetDeveloperProjectsListError,
+  vilmatesPageGetDeveloperProjectsListSuccess,
   vilmatesPageGetUsersListError,
   vilmatesPageGetUsersListSuccess,
   vilmatesPageSelectUserError,
@@ -57,7 +60,33 @@ function* getSelectedUser(action) {
   }
 }
 
+function* getDeveloperProjectsList(action) {
+  try {
+    const url = `developer-projects/?user_id=${action.payload}`
+    const response = yield call([Api, 'developerProjects'], url)
+    const { status, data: developerProjects } = response
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+    yield put(vilmatesPageGetDeveloperProjectsListSuccess(developerProjects))
+  } catch (error) {
+    yield put(vilmatesPageGetDeveloperProjectsListError())
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 5000,
+      })
+    )
+  }
+}
+
 export function* watchUsersListGetRequest() {
   yield takeEvery(VILMATES_PAGE_GET_USERS_LIST_REQUEST, getUsersList)
   yield takeEvery(VILMATES_PAGE_SELECT_USER_REQUEST, getSelectedUser)
+  yield takeEvery(
+    VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
+    getDeveloperProjectsList
+  )
 }

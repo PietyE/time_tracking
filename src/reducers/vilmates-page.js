@@ -1,4 +1,5 @@
 import {
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS,
   VILMATES_PAGE_GET_USERS_LIST_ERROR,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_SUCCESS,
@@ -46,6 +47,14 @@ export const vilmatesPage = (state = initialState, action) => {
           ...state.singlePage,
           isLoading: false,
         },
+      }
+    case VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          developerProjects: action.payload
+        }
       }
     default:
       return state

@@ -199,3 +199,8 @@ class Api {
 }
 
 export default new Api()
+
+export const getDevelopersByProjectId = (project_id) =>
+  fetchApi({
+    url: `developer-projects/?project_id=${project_id}`,
+  })
