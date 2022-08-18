@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 import { getUsersSelector } from 'reducers/projects-management'
 import { getSelectedUserDeveloperProjects } from 'selectors/vilmates-page'
 import { getDevelopersByProjectId } from 'utils/api'
-import useFetchUserDataById from '../helpers/useFetchUserData'
 import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
 
@@ -18,7 +17,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
     getSelectedUserDeveloperProjects
   )
   const users = useEqualSelector(getUsersSelector)
-  const [developerProjects, setDeveloperProjects] = useState([])
+  const [developerProjects, setDeveloperProjects] = useState()
 
   const date = new Date()
   const month = date.getMonth()
@@ -66,17 +65,17 @@ export const ProjectsSection = ({ selectedUserId }) => {
     setDeveloperProjects(modifiedDeveloperProjects)
   }
 
+  const areDeveloperProjectsLoaded =
+    fetchedDeveloperProjects?.length &&
+    fetchedDeveloperProjects?.[0].user.id === selectedUserId
+
   useEffect(() => {
-    if (fetchedDeveloperProjects?.length) {
+    if (areDeveloperProjectsLoaded) {
       modifyDeveloperProjectsHandler()
     }
   }, [fetchedDeveloperProjects])
 
-  const areDeveloperProjectsLoaded =
-    developerProjects?.length &&
-    developerProjects?.[0].user.id === selectedUserId
-
-  if (!areDeveloperProjectsLoaded) {
+  if (!developerProjects) {
     return <SpinnerStyled />
   }
 
