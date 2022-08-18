@@ -28,8 +28,8 @@ export const ProjectsListItem = ({
       <Typography className={styles.title} variant="h3">
         {title}
       </Typography>
-      <Box className={styles.content}>
-        <Typography className={styles.text} variant="body1">
+      <Box className={styles.row}>
+        <Typography className={styles.ownerName} variant="body1">
           {getOwnerNameLabel()}
         </Typography>
         <Typography className={styles.occupation} variant="body1">

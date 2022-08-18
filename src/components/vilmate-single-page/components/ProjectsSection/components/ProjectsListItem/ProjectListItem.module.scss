@@ -21,7 +21,7 @@
   color: $mainGreenColor;
 }
 
-.content {
+.row {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -37,6 +37,10 @@
 .text {
   font-size: 14px;
   line-height: 24px;
+}
+
+.ownerName {
+  @extend .text;
 }
 
 .occupation {
