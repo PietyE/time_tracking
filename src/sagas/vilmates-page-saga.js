@@ -63,9 +63,12 @@ function* getSelectedUser(action) {
   }
 }
 
+// TODO: change endpoint from /developer-projects/report to /developer-projects
+//       when "is_active" field will be added to developer project list
 function* getDeveloperProjectsList({ payload }) {
+  const { userId, year, month } = payload
   try {
-    const url = `developer-projects/?user_id=${payload}`
+    const url = `developer-projects/report/${year}/${month}/?user_id=${userId}`
     const response = yield call([Api, 'developerProjects'], url)
     const { status, data: developerProjects } = response
     if (String(status)[0] !== '2') {

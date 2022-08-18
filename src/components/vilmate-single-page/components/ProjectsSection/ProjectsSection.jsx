@@ -4,6 +4,7 @@ import SpinnerStyled from 'components/ui/spinner'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as PlusIcon } from 'images/plus-icon.svg'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { getUsersSelector } from 'reducers/projects-management'
 import { getSelectedUserDeveloperProjects } from 'selectors/vilmates-page'
 import { getDevelopersByProjectId } from 'utils/api'
@@ -12,12 +13,22 @@ import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
 
 export const ProjectsSection = ({ selectedUserId }) => {
-  const fetchedDeveloperProjects = useFetchUserDataById(
-    vilmatesPageGetDeveloperProjectsListRequest,
+  const dispatch = useDispatch()
+  const fetchedDeveloperProjects = useEqualSelector(
     getSelectedUserDeveloperProjects
   )
   const users = useEqualSelector(getUsersSelector)
   const [developerProjects, setDeveloperProjects] = useState([])
+
+  const date = new Date()
+  const month = date.getMonth()
+  const year = date.getFullYear()
+
+  useEffect(() => {
+    dispatch(
+      vilmatesPageGetDeveloperProjectsListRequest(selectedUserId, year, month)
+    )
+  }, [selectedUserId])
 
   const getProjectOwnerName = async (projectId) => {
     const { data: projectDevelopers } = await getDevelopersByProjectId(
@@ -38,29 +49,33 @@ export const ProjectsSection = ({ selectedUserId }) => {
     return null
   }
 
-  const handleDeveloperProjectsMapping = async () => {
-    const mappedDeveloperProjects = await Promise.all(
-      fetchedDeveloperProjects.map(async (fetchedDeveloperProject) => ({
-        ...fetchedDeveloperProject,
-        ownerName: await getProjectOwnerName(
-          fetchedDeveloperProject.project.id
-        ),
-      }))
-    )
-    setDeveloperProjects(mappedDeveloperProjects)
+  const modifyDeveloperProjectsHandler = async () => {
+    const modifiedDeveloperProjects = []
+
+    for (const fetchedDeveloperProject of fetchedDeveloperProjects) {
+      if (fetchedDeveloperProject.is_active) {
+        modifiedDeveloperProjects.push({
+          ...fetchedDeveloperProject,
+          ownerName: await getProjectOwnerName(
+            fetchedDeveloperProject.project.id
+          ),
+        })
+      }
+    }
+
+    setDeveloperProjects(modifiedDeveloperProjects)
   }
 
-  
   useEffect(() => {
     if (fetchedDeveloperProjects?.length) {
-      handleDeveloperProjectsMapping()
+      modifyDeveloperProjectsHandler()
     }
   }, [fetchedDeveloperProjects])
 
   const areDeveloperProjectsLoaded =
     developerProjects?.length &&
-    developerProjects?.[0].user === selectedUserId
-  
+    developerProjects?.[0].user.id === selectedUserId
+
   if (!areDeveloperProjectsLoaded) {
     return <SpinnerStyled />
   }

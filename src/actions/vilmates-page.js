@@ -40,9 +40,13 @@ export const vilmatesPageSelectUserError = () => ({
   type: VILMATES_PAGE_SELECT_USER_ERROR,
 })
 
-export const vilmatesPageGetDeveloperProjectsListRequest = (user_id) => ({
+export const vilmatesPageGetDeveloperProjectsListRequest = (
+  userId,
+  year,
+  month
+) => ({
   type: VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
-  payload: user_id,
+  payload: { userId, year, month },
 })
 
 export const vilmatesPageGetDeveloperProjectsListSuccess = (
