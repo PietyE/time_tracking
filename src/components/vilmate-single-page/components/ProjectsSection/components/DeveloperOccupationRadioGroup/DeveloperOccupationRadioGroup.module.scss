@@ -1,0 +1,10 @@
+@import "styles/commonStyles.scss";
+
+.label {
+  margin: 0;
+  color: $mainBlackColor;
+
+  & :global .MuiTypography-body1 {
+    font-size: 12px;
+  }
+}

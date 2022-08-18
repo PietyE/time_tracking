@@ -38,8 +38,8 @@ export const theme = createTheme(basicTheme, {
   overrides: {
     MuiTooltip: {
       tooltipPlacementTop: {
-        top: 15
-      }
+        top: 15,
+      },
     },
     MuiRadio: {
       root: {
@@ -49,6 +49,7 @@ export const theme = createTheme(basicTheme, {
         '&.Mui-checked .MuiSvgIcon-root': {
           stroke: basicTheme.palette.primary.main,
           strokeWidth: 3,
+          fill: basicTheme.palette.common.white,
         },
         '& .MuiSvgIcon-root': {
           width: 12,
