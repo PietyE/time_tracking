@@ -14,7 +14,7 @@ function ProjectSelect(props) {
       valueKey="name"
       idKey="id"
       extraClassContainer={'project_select'}
-      initialChoice={selectedProject ||{}}
+      initialChoice={selectedProject || {}}
       onClear={clearSelectedProject}
       disabled={!projectList?.length}
     />
