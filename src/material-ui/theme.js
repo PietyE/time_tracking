@@ -89,6 +89,10 @@ export const theme = createTheme(basicTheme, {
           color: basicTheme.palette.custom.mainGray,
           width: 20,
         },
+        '&&&&&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child':
+          {
+            paddingLeft: 0,
+          },
       },
       input: {
         '&&&': {
@@ -100,6 +104,14 @@ export const theme = createTheme(basicTheme, {
       },
       clearIndicator: {
         padding: 0,
+      },
+      popper: {
+        '& .MuiPaper-rounded': {
+          borderRadius: 4,
+        },
+      },
+      option: {
+        wordBreak: 'break-all',
       },
     },
     MuiOutlinedInput: {
