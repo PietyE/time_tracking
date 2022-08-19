@@ -1,5 +1,5 @@
 import { Button, Paper, Typography } from '@material-ui/core'
-import { vilmatesPageGetDeveloperProjectsListRequest } from 'actions/vilmates-page'
+import { vilmatesPageChangeUserOnProjectRequest, vilmatesPageGetDeveloperProjectsListRequest } from 'actions/vilmates-page'
 import SpinnerStyled from 'components/ui/spinner'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as PlusIcon } from 'images/plus-icon.svg'
@@ -37,6 +37,15 @@ export const ProjectsSection = ({ selectedUserId }) => {
 
   const showFormHandler = () => {
     setIsFormShown(true)
+  }
+
+  const deleteProjectHandler = (developerProjectId) => {
+    dispatch(
+      vilmatesPageChangeUserOnProjectRequest({
+        developerProjectId,
+        data: { is_active: false },
+      })
+    )
   }
 
   const getProjectOwnerName = async (projectId) => {
@@ -95,7 +104,10 @@ export const ProjectsSection = ({ selectedUserId }) => {
         Works on
       </Typography>
       {developerProjects.length ? (
-        <ProjectsList developerProjects={developerProjects} />
+        <ProjectsList
+          developerProjects={developerProjects}
+          deleteProjectHandler={deleteProjectHandler}
+        />
       ) : (
         <Typography>No projects yet</Typography>
       )}
