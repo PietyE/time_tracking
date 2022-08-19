@@ -1,18 +1,53 @@
 import { Box, ListItem, Typography } from '@material-ui/core'
+import { vilmatesPageChangeUserOnProjectRequest } from 'actions/vilmates-page'
 import { OCCUPATION } from 'constants/vilmates-page'
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { DeveloperOccupationRadioGroup } from '../DeveloperOccupationRadioGroup'
 import styles from './ProjectListItem.module.scss'
 
 const { PART_TIME, FULL_TIME } = OCCUPATION
 
 export const ProjectsListItem = ({
   title,
-  isFullTime,
+  isFullTimeValue,
   ownerName,
-  developerProject,
+  developerProjectId,
 }) => {
-  const occupation = isFullTime === false ? PART_TIME : FULL_TIME
+  const dispatch = useDispatch()
+  const [isOccupationHovered, setIsOccupationHovered] = useState(false)
+  const [isFullTime, setIsFullTime] = useState(isFullTimeValue)
+
+  const occupationLabel = useMemo(
+    () => (isFullTime === false ? PART_TIME : FULL_TIME),
+    [isFullTime]
+  )
+
+  console.log(isFullTime);
+
+  const hoverOccupationHandler = () => {
+    setIsOccupationHovered(true)
+  }
+
+  const blurOccupationHandler = () => {
+    setIsOccupationHovered(false)
+  }
+
+  const changeDeveloperOccupation = (developerProjectId, isFullTime) => {
+    dispatch(
+      vilmatesPageChangeUserOnProjectRequest({
+        developerProjectId,
+        data: { is_full_time: isFullTime },
+      })
+    )
+  }
+
+  const occupationTypeChangeHandler = (value) => {
+    changeDeveloperOccupation(developerProjectId, value)
+    setIsFullTime(value)
+  }
 
   const getOwnerNameLabel = () => {
     if (ownerName === undefined) {
@@ -20,7 +55,7 @@ export const ProjectsListItem = ({
     } else if (ownerName === null) {
       return 'No owner'
     }
-  return ownerName
+    return ownerName
   }
 
   return (
@@ -32,9 +67,22 @@ export const ProjectsListItem = ({
         <Typography className={styles.ownerName} variant="body1">
           {getOwnerNameLabel()}
         </Typography>
-        <Typography className={styles.occupation} variant="body1">
-          {occupation}
-        </Typography>
+        <Box
+          onMouseEnter={hoverOccupationHandler}
+          onMouseLeave={blurOccupationHandler}
+          className={styles.occupation} 
+        >
+          {isOccupationHovered ? (
+            <DeveloperOccupationRadioGroup
+              onChange={occupationTypeChangeHandler}
+              isFullTime={isFullTime}
+            />
+          ) : (
+            <Typography variant="body1">
+              {occupationLabel}
+            </Typography>
+          )}
+        </Box>
       </Box>
     </ListItem>
   )
@@ -42,7 +90,7 @@ export const ProjectsListItem = ({
 
 ProjectsListItem.propTypes = {
   title: PropTypes.string.isRequired,
-  isFullTime: PropTypes.any,
+  isFullTimeValue: PropTypes.any,
   ownerName: PropTypes.any,
-  developerProject: PropTypes.object.isRequired,
+  developerProjectId: PropTypes.string.isRequired,
 }

@@ -9,9 +9,9 @@ export const ProjectsList = ({ developerProjects }) => {
       <ProjectsListItem
         key={project.id}
         title={project.name}
-        isFullTime={isFullTime}
+        isFullTimeValue={isFullTime}
         ownerName={ownerName}
-        developerProject={developerProject}
+        developerProjectId={developerProject.id}
       />
     )
   })

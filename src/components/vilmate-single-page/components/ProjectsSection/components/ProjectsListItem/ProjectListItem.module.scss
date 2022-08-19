@@ -45,6 +45,7 @@
 
 .occupation {
   @extend .text;
-  flex-basis: 40%;
-  text-align: right;
+  flex-basis: 30%;
+  display: flex;
+  justify-content: flex-end;
 }

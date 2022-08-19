@@ -90,7 +90,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
   }
 
   return (
-    <Paper className={styles.section}>
+    <Paper className={styles.section} component="section">
       <Typography className={styles.title} variant="h2">
         Works on
       </Typography>
