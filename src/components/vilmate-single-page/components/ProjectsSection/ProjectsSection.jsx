@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { getUsersSelector } from 'reducers/projects-management'
 import { getSelectedUserDeveloperProjects } from 'selectors/vilmates-page'
 import { getDevelopersByProjectId } from 'utils/api'
+import { CreateProjectListItemForm } from './components/CreateProjectListItemForm'
 import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
 
@@ -18,6 +19,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
   )
   const users = useEqualSelector(getUsersSelector)
   const [developerProjects, setDeveloperProjects] = useState()
+  const [isFormShown, setIsFormShown] = useState(false)
 
   const date = new Date()
   const month = date.getMonth()
@@ -28,6 +30,14 @@ export const ProjectsSection = ({ selectedUserId }) => {
       vilmatesPageGetDeveloperProjectsListRequest(selectedUserId, year, month)
     )
   }, [selectedUserId])
+
+  const hideFormHandler = () => {
+    setIsFormShown(false)
+  }
+
+  const showFormHandler = () => {
+    setIsFormShown(true)
+  }
 
   const getProjectOwnerName = async (projectId) => {
     const { data: projectDevelopers } = await getDevelopersByProjectId(
@@ -89,11 +99,21 @@ export const ProjectsSection = ({ selectedUserId }) => {
       ) : (
         <Typography>No projects yet</Typography>
       )}
+      {isFormShown && (
+        <CreateProjectListItemForm
+          userId={selectedUserId}
+          hideForm={hideFormHandler}
+          developerProjects={fetchedDeveloperProjects}
+        />
+      )}
       <Button
         variant="contained"
         color="primary"
         fullWidth
         startIcon={<PlusIcon />}
+        disabled={isFormShown}
+        onClick={showFormHandler}
+        className={styles.button}
       >
         Add new project
       </Button>

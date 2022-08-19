@@ -8,8 +8,10 @@ import {
   VILMATES_PAGE_SELECT_USER_ERROR,
   VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATES_PAGE_SELECT_USER_SUCCESS,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
-  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -71,4 +73,14 @@ export const vilmatesPageChangeUserOnProjectSuccess = (
 ) => ({
   type: VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
   payload: { changedDeveloperProjectData, developerProjectId },
+})
+
+export const vilmatesPageAddDeveloperProjectRequest = (payload) => ({
+  type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
+  payload: payload,
+})
+
+export const vilmatesPageAddDeveloperProjectSuccess = (payload) => ({
+  type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
+  payload: payload,
 })

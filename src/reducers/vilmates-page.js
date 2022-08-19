@@ -6,6 +6,7 @@ import {
   VILMATES_PAGE_SELECT_USER_ERROR,
   VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATES_PAGE_SELECT_USER_SUCCESS,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
 } from 'constants/vilmates-page'
 
@@ -71,6 +72,14 @@ export const vilmatesPage = (state = initialState, action) => {
                   }
                 : developerProject
           ),
+        },
+      }
+    case VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          developerProjects: [...state.singlePage.developerProjects, {...action.payload, is_active: true}]
         },
       }
     default:

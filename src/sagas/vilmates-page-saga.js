@@ -1,5 +1,6 @@
 import { showAlert } from 'actions/alert'
 import {
+  vilmatesPageAddDeveloperProjectSuccess,
   vilmatesPageChangeUserOnProjectSuccess,
   vilmatesPageGetDeveloperProjectsListError,
   vilmatesPageGetDeveloperProjectsListSuccess,
@@ -14,6 +15,7 @@ import {
   VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_SELECT_USER_REQUEST,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
 } from 'constants/vilmates-page'
 import { call, put, takeEvery } from 'redux-saga/effects'
@@ -110,8 +112,30 @@ function* editUsersOnProject({ payload }) {
     yield put(
       showAlert({
         type: WARNING_ALERT,
-        title: 'Something went wrong',
+        title: 'Project is not selected',
         message: error.message || 'Something went wrong',
+        delay: 5000,
+      })
+    )
+  }
+}
+
+function* postDeveloperProject({ payload }) {
+  try {
+    const { status, data: addedDeveloperProjects } = yield call(
+      [pm, 'setUsersToProject'],
+      payload
+    )
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+    yield put(vilmatesPageAddDeveloperProjectSuccess(addedDeveloperProjects[0]))
+  } catch (error) {
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Project is not added',
+        message: 'You have to set project owner first',
         delay: 5000,
       })
     )
@@ -128,5 +152,9 @@ export function* watchUsersListGetRequest() {
   yield takeEvery(
     VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
     editUsersOnProject
+  )
+  yield takeEvery(
+    VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
+    postDeveloperProject
   )
 }
