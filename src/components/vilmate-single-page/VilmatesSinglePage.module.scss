@@ -21,7 +21,7 @@
 
 .left_container {
   margin-right: 30px;
-  flex-basis: 364px;
+  flex-basis: 365px;
   section {
     &:first-child {
       margin-bottom: 21px;
@@ -30,6 +30,7 @@
 }
 
 .right_container {
+  flex-basis: 575px;
   section {
     &:first-child {
       margin-bottom: 20px;

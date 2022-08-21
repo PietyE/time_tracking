@@ -1,10 +1,8 @@
 @import 'styles/commonStyles.scss';
 
 .container {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  align-items: start;
-  row-gap: 16px;
+  display: flex;
+  flex-direction: column;
 
   padding: 16px;
   margin-bottom: 16px;
@@ -16,10 +14,26 @@
   }
 }
 
+.row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 16px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
 .icon {
+  flex-basis: 10%;
   display: flex;
   justify-content: right;
-  cursor: pointer;
+  align-items: flex-start;
+
+  & :global .MuiIconButton-label:hover path {
+    fill: $mainGreenColor;
+  }
 
   & :global .MuiIconButton-root {
     padding: 0;
@@ -27,22 +41,32 @@
 }
 
 .title {
+  flex-basis: 80%;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+  word-break: break-all;
   color: $mainGreenColor;
 }
 
 .ownerName {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
 }
 
 .occupation {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  padding-bottom: 18px;
+  cursor: pointer;
+  font-size: 16px;
 
-  & :global .MuiTypography-body1 {
-    font-size: 14px;
+  &:hover {
+    padding-bottom: 0;
+  }
+
+  & :global .MuiRadio-root {
+    padding: 4px 9px;
   }
 }
