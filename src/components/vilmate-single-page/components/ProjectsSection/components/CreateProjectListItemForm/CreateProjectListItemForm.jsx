@@ -1,6 +1,9 @@
 import { Box } from '@material-ui/core'
 import { getAllProjects } from 'actions/projects-management'
-import { vilmatesPageAddDeveloperProjectRequest } from 'actions/vilmates-page'
+import {
+  vilmatesPageAddDeveloperProjectRequest,
+  vilmatesPageChangeUserOnProjectRequest,
+} from 'actions/vilmates-page'
 import Autocomplete from 'components/ui/autocomplete'
 import SpinnerStyled from 'components/ui/spinner'
 import useEqualSelector from 'custom-hook/useEqualSelector'
@@ -13,10 +16,22 @@ import styles from './CreateProjectListItemForm.module.scss'
 const getTwoArraysDifference = (array1, array2) => {
   return array1.filter((object1) => {
     return !array2.some((object2) => {
+      if (!object2.is_active) {
+        return false
+      }
       return object1.id === object2.project.id
     })
   })
 }
+
+const getDeveloperProjectId = (project, developerProjects) =>
+  developerProjects.reduce(
+    (acc, developerProjectId) =>
+      developerProjectId.project.id === project.id
+        ? developerProjectId.id
+        : acc,
+    undefined
+  )
 
 export const CreateProjectListItemForm = ({
   userId,
@@ -46,10 +61,25 @@ export const CreateProjectListItemForm = ({
     ],
   }
 
+  const setDeveloperProjectHandler = () => {
+    hideForm()
+    const developerProjectId = getDeveloperProjectId(
+      selectedProject,
+      developerProjects
+    )
+    const functionToDispatch = developerProjectId
+      ? vilmatesPageChangeUserOnProjectRequest({
+          developerProjectId,
+          data: { is_full_time: isFullTime, is_active: true },
+        })
+      : vilmatesPageAddDeveloperProjectRequest(payload)
+
+    dispatch(functionToDispatch)
+  }
+
   useEffect(() => {
     if (selectedProject) {
-      hideForm()
-      dispatch(vilmatesPageAddDeveloperProjectRequest(payload))
+      setDeveloperProjectHandler()
     }
   }, [selectedProject])
 
