@@ -1,5 +1,8 @@
 import { Button, Paper, Typography } from '@material-ui/core'
-import { vilmatesPageChangeUserOnProjectRequest, vilmatesPageGetDeveloperProjectsListRequest } from 'actions/vilmates-page'
+import {
+  vilmatesPageChangeUserOnProjectRequest,
+  vilmatesPageGetDeveloperProjectsListRequest,
+} from 'actions/vilmates-page'
 import SpinnerStyled from 'components/ui/spinner'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as PlusIcon } from 'images/plus-icon.svg'
@@ -11,6 +14,21 @@ import { getDevelopersByProjectId } from 'utils/api'
 import { CreateProjectListItemForm } from './components/CreateProjectListItemForm'
 import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
+
+const getProjectOwnerName = async (projectId, users) => {
+  const { data: projectDevelopers } = await getDevelopersByProjectId(projectId)
+  if (!projectDevelopers || !projectDevelopers.length) {
+    return undefined
+  }
+
+  const currentProjectManagerId = projectDevelopers.find(
+    (developer) => developer.is_project_manager
+  )?.user
+  if (currentProjectManagerId) {
+    return users.find((user) => user.id === currentProjectManagerId)?.name
+  }
+  return null
+}
 
 export const ProjectsSection = ({ selectedUserId }) => {
   const dispatch = useDispatch()
@@ -27,7 +45,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
 
   useEffect(() => {
     dispatch(
-      vilmatesPageGetDeveloperProjectsListRequest(selectedUserId, year, month)
+      vilmatesPageGetDeveloperProjectsListRequest(selectedUserId, year, month + 1)
     )
   }, [selectedUserId])
 
@@ -39,32 +57,28 @@ export const ProjectsSection = ({ selectedUserId }) => {
     setIsFormShown(true)
   }
 
-  const deleteProjectHandler = (developerProjectId) => {
+  const _vilmatesPageChangeUserOnProjectRequest = (
+    developerProjectId,
+    data
+  ) => {
     dispatch(
       vilmatesPageChangeUserOnProjectRequest({
         developerProjectId,
-        data: { is_active: false },
+        data,
       })
     )
   }
 
-  const getProjectOwnerName = async (projectId) => {
-    const { data: projectDevelopers } = await getDevelopersByProjectId(
-      projectId
-    )
+  const deleteProjectHandler = (developerProjectId) => {
+    _vilmatesPageChangeUserOnProjectRequest(developerProjectId, {
+      is_active: false,
+    })
+  }
 
-    if (!projectDevelopers || !projectDevelopers.length) {
-      return undefined
-    }
-
-    const currentProjectManagerId = projectDevelopers.find(
-      (developer) => developer.is_project_manager
-    )?.user
-
-    if (currentProjectManagerId) {
-      return users.find((user) => user.id === currentProjectManagerId)?.name
-    }
-    return null
+  const changeOccupationHandler = (developerProjectId, isFullTime) => {
+    _vilmatesPageChangeUserOnProjectRequest(developerProjectId, {
+      is_full_time: isFullTime,
+    })
   }
 
   const modifyDeveloperProjectsHandler = async () => {
@@ -75,7 +89,8 @@ export const ProjectsSection = ({ selectedUserId }) => {
         modifiedDeveloperProjects.push({
           ...fetchedDeveloperProject,
           ownerName: await getProjectOwnerName(
-            fetchedDeveloperProject.project.id
+            fetchedDeveloperProject.project.id,
+            users
           ),
         })
       }
@@ -107,6 +122,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
         <ProjectsList
           developerProjects={developerProjects}
           deleteProjectHandler={deleteProjectHandler}
+          changeOccupationHandler={changeOccupationHandler}
         />
       ) : (
         <Typography>No projects yet</Typography>
@@ -127,7 +143,7 @@ export const ProjectsSection = ({ selectedUserId }) => {
         onClick={showFormHandler}
         className={styles.button}
       >
-        Add new project
+        Assign to project
       </Button>
     </Paper>
   )

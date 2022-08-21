@@ -1,11 +1,16 @@
-import { Box, IconButton, ListItem, Typography } from '@material-ui/core'
+import {
+  Box,
+  IconButton,
+  ListItem,
+  SvgIcon,
+  Typography,
+} from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { vilmatesPageChangeUserOnProjectRequest } from 'actions/vilmates-page'
 import { OCCUPATION } from 'constants/vilmates-page'
 import PropTypes from 'prop-types'
 import React, { useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { DeveloperOccupationRadioGroup } from '../DeveloperOccupationRadioGroup'
+import { ReactComponent as TrashGrayIc } from 'images/trash_cray_ic.svg'
 import styles from './ProjectListItem.module.scss'
 
 const { PART_TIME, FULL_TIME } = OCCUPATION
@@ -16,8 +21,8 @@ export const ProjectsListItem = ({
   ownerName,
   developerProjectId,
   onDelete,
+  onOccupationChange,
 }) => {
-  const dispatch = useDispatch()
   const [isOccupationHovered, setIsOccupationHovered] = useState(false)
   const [isFullTime, setIsFullTime] = useState(isFullTimeValue)
   const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState(false)
@@ -35,18 +40,9 @@ export const ProjectsListItem = ({
     setIsOccupationHovered(false)
   }
 
-  const changeDeveloperOccupation = (developerProjectId, isFullTime) => {
-    dispatch(
-      vilmatesPageChangeUserOnProjectRequest({
-        developerProjectId,
-        data: { is_full_time: isFullTime },
-      })
-    )
-  }
-
-  const occupationTypeChangeHandler = (value) => {
-    changeDeveloperOccupation(developerProjectId, value)
+  const occupationChangeHandler = (value) => {
     setIsFullTime(value)
+    onOccupationChange(developerProjectId, value)
   }
 
   const getOwnerNameLabel = () => {
@@ -65,34 +61,39 @@ export const ProjectsListItem = ({
 
   return (
     <ListItem className={styles.container}>
-      <Typography className={styles.title} variant="h3">
-        {title}
-      </Typography>
-      <Box className={styles.icon}>
-        <IconButton
-          color="primary"
-          onClick={deleteProjectHandler}
-          disabled={isDeleteButtonDisabled}
-        >
-          <DeleteIcon />
-        </IconButton>
+      <Box className={styles.row}>
+        <Typography className={styles.title} variant="h3">
+          {title}
+        </Typography>
+        <Box className={styles.icon}>
+          <IconButton
+            color="primary"
+            onClick={deleteProjectHandler}
+            disabled={isDeleteButtonDisabled}
+          >
+            <SvgIcon component={TrashGrayIc} />
+          </IconButton>
+        </Box>
       </Box>
-      <Typography className={styles.ownerName} variant="body1">
-        {getOwnerNameLabel()}
-      </Typography>
-      <Box
-        onMouseEnter={hoverOccupationHandler}
-        onMouseLeave={blurOccupationHandler}
-        className={styles.occupation}
-      >
-        {isOccupationHovered ? (
-          <DeveloperOccupationRadioGroup
-            onChange={occupationTypeChangeHandler}
-            isFullTime={isFullTime}
-          />
-        ) : (
-          <Typography variant="body1">{occupationLabel}</Typography>
-        )}
+
+      <Box className={styles.row}>
+        <Typography className={styles.ownerName} variant="body1">
+          {getOwnerNameLabel()}
+        </Typography>
+        <Box
+          onMouseEnter={hoverOccupationHandler}
+          onMouseLeave={blurOccupationHandler}
+          className={styles.occupation}
+        >
+          {isOccupationHovered ? (
+            <DeveloperOccupationRadioGroup
+              onChange={occupationChangeHandler}
+              isFullTime={isFullTime}
+            />
+          ) : (
+            <Typography variant="body1">{occupationLabel}</Typography>
+          )}
+        </Box>
       </Box>
     </ListItem>
   )
