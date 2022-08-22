@@ -12,6 +12,7 @@
 }
 
 html{
+  height: 100%;
   scroll-behavior: smooth;
 }
 
@@ -19,5 +20,6 @@ button:focus {
   outline: 0;
 }
 body{
-  overflow-y: scroll;
+  height: 100%;
+  overflow: auto;
 }

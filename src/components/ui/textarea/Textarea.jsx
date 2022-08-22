@@ -16,6 +16,8 @@ export const Textarea = ({
   error,
   autoFocus,
   classes,
+  name,
+  disabled,
   ...rest
 }) => {
   const handleKeyDown = (event) => {
@@ -27,6 +29,7 @@ export const Textarea = ({
 
   return (
     <TextField
+      name={name}
       variant="outlined"
       color="secondary"
       value={value}
@@ -34,7 +37,7 @@ export const Textarea = ({
       onKeyDown={handleKeyDown}
       onFocus={onFocus}
       onBlur={onBlur}
-      multiline={true}
+      multiline
       type="text"
       fullWidth={fullWidth}
       placeholder={placeholder}
@@ -47,16 +50,13 @@ export const Textarea = ({
       error={error}
       autoFocus={autoFocus}
       classes={classes}
+      disabled={disabled}
       {...rest}
     />
   )
 }
 
 Textarea.defaultProps = {
-  disabled: false,
-  fullWidth: false,
-  multiline: false,
-  autoFocus: false,
   maxRows: 10,
   minRows: 1,
 }

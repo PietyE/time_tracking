@@ -9,13 +9,11 @@
 }
 #modal:not(.active) ~ #root {
   transition: 300ms filter ease-in-out, 400ms opacity ease-out;
-  filter: blur(0);
   opacity: 1;
   background: rgba(34, 34, 34, 0.6);
   mix-blend-mode: normal;
 }
 #modal ~ #root {
-  filter: blur(2px);
   opacity: 0.5;
   transition: 200ms filter ease-in-out, 200ms opacity ease-out;
 }

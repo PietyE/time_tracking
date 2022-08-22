@@ -3,13 +3,12 @@
 .time_report_container {
   display: flex;
   flex: 1;
-  padding-top: 40px;
   align-items: flex-start;
   flex-direction: column;
   max-width: 971px;
   box-sizing: content-box;
-  margin: 0 40px;
-  padding: 35px 15px 0;
+  padding: 35px 40px;
+  margin: 0;
   &.fetching {
     filter: blur(1px);
   }
@@ -406,7 +405,7 @@
       border-end-start-radius: 5px;
       border-end-end-radius: 5px;
       span {
-        margin-right: 84px;
+        margin-right: 86px;
         width: 40px;
         text-align: center;
       }
@@ -769,18 +768,6 @@
   position: relative;
   cursor: move;
 
-  &.top_line {
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 74%;
-      height: 1px;
-      background: rgba(201, 201, 198, 0.5);
-    }
-  }
-
   .edit_dots {
     display: flex;
     justify-content: center;
@@ -933,8 +920,8 @@
       position: absolute;
       width: 224px;
       height: 128px;
-      top: 110%;
-      left: -150px;
+      top: -150px;
+      right: 0;
       border: 1px solid $borderColor;
       box-sizing: border-box;
       box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.12);

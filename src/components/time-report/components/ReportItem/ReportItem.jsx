@@ -1,35 +1,27 @@
-import React, { memo, useState, useCallback, useRef } from 'react'
-import { connect } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faTimes,
-  faCheck,
-  faEllipsisV,
-} from '@fortawesome/free-solid-svg-icons'
-import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
-import { FaExchangeAlt } from 'react-icons/fa'
-import TextareaAutosize from 'react-textarea-autosize'
-import InputMask from 'react-input-mask'
-import ChangeProjectModal from './ChangeProjectModal'
 import {
   deleteTimeReport,
   editTimeReport,
   setEditMode,
 } from 'actions/times-report'
-import { parseMinToHoursAndMin } from 'utils/common'
-import DeleteModal from './DeleteModal'
-import Linking from 'components/common/linking'
-import {
-  getTimeReportForEdit,
-  getIdEditingWorkItem,
-} from 'selectors/timereports'
-
 import useMenuPresent from 'custom-hook/useMenuPresent'
+import React, { memo, useCallback, useRef, useState } from 'react'
+import { connect } from 'react-redux'
+import {
+  getIdEditingWorkItem,
+  getTimeReportForEdit,
+} from 'selectors/timereports'
+import { parseMinToHoursAndMin } from 'utils/common'
+import { showAlert } from 'actions/alert'
+import { DANGER_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 
-import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
-import { showAlert } from '../../../actions/alert'
-import ReportItemForm from './ReportItemForm'
-import { ReportItemMenu } from './ReportItemMenu'
+import DeleteModal from '../DeleteModal'
+import ReportItemForm from '../ReportItemForm'
+import ChangeProjectModal from '../ChangeProjectModal'
+import { ReportItemMenu } from '../ReportItemMenu'
+import styles from './ReportItem.module.scss'
+import { Button, Typography } from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -71,12 +63,6 @@ function ReportItem({
   isOneProject,
   showAlert,
   index,
-  // opneNewItem,
-  // dayTitle,
-  // selectDayStatus,
-  // selectedDayStatus,
-  // isCreate,
-  // setUserStatus,
   setDraganDroped,
   draganDroped,
 }) {
@@ -88,7 +74,6 @@ function ReportItem({
   } = editableText
 
   const containerRef = useRef(null)
-  const containerHours = useRef()
 
   const [isDeleteRequest, setIsDeleteRequest] = useState(false)
   const [showModalChangeProject, setShowModalChangeProject] = useState(false)
@@ -120,11 +105,6 @@ function ReportItem({
     e.stopPropagation()
     setEditMode(id)
   }
-
-  const handlerCancelEditMode = () => {
-    setEditMode(null)
-  }
-
   const handleChangeTextInputValue = (e) => {
     setTextInputValue(e.target.value)
     setIsTextInputError(false)
@@ -349,6 +329,7 @@ function ReportItem({
       }
     }
   }
+
   //todo: check memo
   return (
     <div
@@ -385,18 +366,20 @@ function ReportItem({
           handleTimeInputFocus={handleInputFocus}
           handleTimeInputBlur={handleInputBlur}
           timeInputError={isTimeInputError}
-          timeInputPlaceholder="HH"
-          timeInputMaskPlaceholder="0"
-          timeInputMask="9:99"
           handleFormSubmit={handlerSubmit}
         />
       ) : (
-        <ReportItemForm
-          textInputValue={text}
-          timeInputValue={parseMinToHoursAndMin(hours)}
-          isEditing={false}
-          onButtonClick={handlerOpenMenu}
-        />
+        <div className={styles.item}>
+          <Typography className={styles.text}>{text}</Typography>
+          <Typography className={styles.time}>{parseMinToHoursAndMin(hours)}</Typography>
+          <Button
+            variant="text"
+            className={styles.button}
+            onClick={handlerOpenMenu}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} className={styles.icon} />
+          </Button>
+        </div>
       )}
 
       <div className="time_report_day_edit">

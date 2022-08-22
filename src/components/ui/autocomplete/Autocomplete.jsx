@@ -1,31 +1,29 @@
 import React from 'react'
 import { Autocomplete as MUIAutocomplete } from '@material-ui/lab'
 import { InputAdornment, TextField } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PropTypes from 'prop-types'
+import styles from './Autocomplete.module.scss'
 
 export const Autocomplete = ({
+  placeholder,
   options,
   value,
   onChange,
-  getOptionLabel,
-  getOptionSelected,
-  placeholder,
+  searchable,
+  noOptionsText,
   startIcon,
+  secondaryText,
   ...rest
 }) => {
-  const selectOptionHandler = (event, newValue) => {
-    onChange(newValue)
+  const changeHandler = (event, newValue) => {
+    newValue && onChange(newValue)
   }
-
   return (
     <MUIAutocomplete
       options={options}
-      value={value || options[0]}
-      onChange={selectOptionHandler}
-      getOptionLabel={getOptionLabel}
-      getOptionSelected={getOptionSelected}
-      popupIcon={<ExpandMoreIcon />}
+      value={value || ''}
+      onChange={changeHandler}
+      closeIcon=""
       renderInput={(params) => (
         <TextField
           {...params}
@@ -36,28 +34,30 @@ export const Autocomplete = ({
             startAdornment: (
               <InputAdornment position="start">{startIcon}</InputAdornment>
             ),
+            endAdornment: (
+              <>
+                <span className={styles.secondaryText}>{secondaryText}</span>
+                {params.InputProps.endAdornment}
+              </>
+            ),
           }}
         />
       )}
-      closeIcon=""
-      blurOnSelect
+      fullWidth
+      autoComplete
       autoHighlight
+      disablePortal
+      noOptionsText={noOptionsText}
       {...rest}
     />
   )
-}
-
-Autocomplete.defaultProps = {
-  getOptionLabel: (options) => options.label,
-  getOptionSelected: (option, value) => option.id === value.id
 }
 
 Autocomplete.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  getOptionLabel: PropTypes.func,
-  getOptionSelected: PropTypes.func,
   placeholder: PropTypes.string,
-  startIcon: PropTypes.node
+  startIcon: PropTypes.node.isRequired,
+  secondaryText: PropTypes.string,
 }

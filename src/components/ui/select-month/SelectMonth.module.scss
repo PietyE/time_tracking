@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  width: 248px;
+  min-width: 248px;
   height: 40px;
   border: 1px solid $mainGrayColor;
   border-radius: 4px;
@@ -28,12 +28,24 @@
   cursor: pointer;
   background-color: $whiteColor;
 
-  &:hover .icon_change_month_button {
-    color: $mainGrayColor;
-  }
-  
   &.disabled .icon_change_month_button {
     color: $mainGrayColor;
+  }
+}
+
+@media (hover: hover) {
+  .select_btn {
+    &:hover .icon_change_month_button {
+      color: $mainGrayColor;
+    }
+  }
+}
+
+@media (hover: none) {
+  .select_btn {
+    &:active .icon_change_month_button {
+      color: $mainGrayColor;
+    }
   }
 }
 
@@ -99,7 +111,7 @@
   align-items: stretch;
   margin-bottom: 10px;
   border-bottom: 1px solid $authBackgroundColor;
-  
+
   span {
     width: 100%;
   }

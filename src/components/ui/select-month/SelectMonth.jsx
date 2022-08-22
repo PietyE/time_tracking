@@ -16,6 +16,7 @@ export const SelectMonth = ({
   value,
   onChange,
   showYear,
+  initialYear = 2010,
 }) => {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
@@ -40,18 +41,18 @@ export const SelectMonth = ({
 
   const handlerSelectPrevYear = (e) => {
     e.preventDefault()
-    if (currentYear > 2010) setCurrentYear(currentYear - 1)
+    if (currentYear > initialYear) setCurrentYear(currentYear - 1)
   }
 
   const handlerSelectNextYear = (e) => {
     e.preventDefault()
-    setCurrentYear(currentYear + 1)
+    if (currentYear < year) setCurrentYear(currentYear + 1)
   }
 
   const handlerSelectPrevMonth = (e) => {
     e.preventDefault()
     if (currentMonth === 0) {
-      if (currentYear === 2010) {
+      if (currentYear === initialYear) {
         return
       }
 
@@ -96,12 +97,16 @@ export const SelectMonth = ({
   }, [value, longMonthName, showYear, year])
 
   const disabledNextYearButton = currentYear === year
+  const disabledPrevYearButton = currentYear === initialYear
   const disabledNextMonthButton =
     value.month === month && disabledNextYearButton
+  const disabledPrevMonthButton = value.month === 0 && disabledPrevYearButton
+
+  const isMonthDisabled = (index) => index > month && disabledNextYearButton
 
   const getClassNameForMonth = (index) => {
     const className = styles.day_button
-    if (index > month && disabledNextYearButton) {
+    if (isMonthDisabled(index)) {
       return `${className} ${styles.disabled}`
     }
     if (value.month === index && currentYear === value.year) {
@@ -157,7 +162,7 @@ export const SelectMonth = ({
       ref={selectMonthRef}
     >
       <button
-        className={`${styles.prev_month_btn}`}
+        className={`${styles.prev_month_btn} ${disabledPrevMonthButton && styles.disabled}`}
         onClick={handlerSelectPrevMonth}
       >
         <FontAwesomeIcon
@@ -173,7 +178,8 @@ export const SelectMonth = ({
         className={`${styles.next_month_btn} ${
           disabledNextMonthButton && styles.disabled
         }`}
-        onClick={disabledNextMonthButton ? null : handlerSelectNextMonth}
+        disabled={disabledNextMonthButton}
+        onClick={handlerSelectNextMonth}
       >
         <FontAwesomeIcon
           icon={faChevronRight}
@@ -184,7 +190,7 @@ export const SelectMonth = ({
         <div className={styles.select_month_container}>
           <div className={styles.select_year}>
             <button
-              className={styles.prev_month_btn}
+              className={`${styles.prev_month_btn} ${disabledPrevYearButton && styles.disabled}`}
               onClick={handlerSelectPrevYear}
             >
               <FontAwesomeIcon
@@ -197,7 +203,8 @@ export const SelectMonth = ({
               className={`${styles.next_month_btn} ${
                 disabledNextYearButton && styles.disabled
               }`}
-              onClick={disabledNextYearButton ? null : handlerSelectNextYear}
+              disabled={disabledNextYearButton}
+              onClick={handlerSelectNextYear}
             >
               <FontAwesomeIcon
                 icon={faCaretRight}
@@ -209,6 +216,7 @@ export const SelectMonth = ({
             {monthsNamesShort.map((item, index) => (
               <button
                 key={item}
+                disabled={isMonthDisabled(index)}
                 className={getClassNameForMonth(index)}
                 data-month={index}
                 onClick={handlerSelectMonth}

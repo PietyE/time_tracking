@@ -1,3 +1,5 @@
+@import "src/styles/commonStyles";
+
 .vilmate-card-main-content.MuiCardContent-root {
   display: flex;
   flex: 1 1 auto;
@@ -6,14 +8,21 @@
   align-items: center;
   padding: 0;
   text-align: center;
-  .vailmate-card-position-text.MuiTypography-root {
+  color: $lightBlackColor;
+  .vilmate-card-position-text.MuiTypography-root {
     max-width: 160px;
+    margin-bottom: 7px;
     font-size: 11px;
   }
-  .vailmate-card-position-title {
+  .vilmate-card-position-title {
     max-width: 160px;
     margin-bottom: 3px;
     font-weight: 600;
+    line-break: anywhere;
+  }
+  .vilmate-card-position-email.MuiTypography-root {
+    max-width: 180px;
+    font-size: 12px;
     line-break: anywhere;
   }
 }

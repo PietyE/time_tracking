@@ -1,11 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useLayoutEffect,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
@@ -17,25 +11,21 @@ import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
 
 import SelectMonth from 'components/ui/select-month'
-import { changeSelectedDateProjectsReport } from 'actions/projects-report'
+import {
+  changeSelectedDateProjectsReport,
+  getDevelopersProjectInProjectReport,
+} from 'actions/projects-report'
 
-import { getProfileId, getRoleUser } from 'selectors/user'
+import { getRoleUser } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
 
-import {
-  // selectUsersReports,
-  getSelectedMonthSelector,
-} from 'reducers/projects-report'
-
-import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
+import { getSelectedMonthSelector } from 'reducers/projects-report'
 
 import './projectReportNew.scss'
-import { Button } from 'react-bootstrap'
-import { useHistory, useLocation } from 'react-router-dom'
 import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
 
 function ProjectReportNew() {

@@ -24,6 +24,7 @@ import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
 import GoogleSyncPrivateRoot from 'Routes/GoogleSyncPrivateRoot'
 import Layout from 'components/ui/layout'
+import VIlmatesPrivateRoute from 'Routes/VIlmatesPrivateRoute'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
 
@@ -38,6 +39,10 @@ const ProjectManagementComponent = lazy(() =>
 )
 
 const GoogleAuthSuccess = lazy(() => import('screens/GoogleAuthSuccessScreen'))
+
+const VilatesSinglePageScreen = lazy(() =>
+  import('screens/VilmateSinglePageScreen')
+)
 
 function MainScreenRedesign(props) {
   const {
@@ -97,10 +102,19 @@ function MainScreenRedesign(props) {
           <Route path="/projectreport" component={ProjectReportNew} exact />
           {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
-          <Route path="/vilmates" component={VilmatesScreen} exact />
+          <VIlmatesPrivateRoute
+            path="/vilmates"
+            component={VilmatesScreen}
+            exact
+          />
           <GoogleSyncPrivateRoot
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
+            exact
+          />
+          <Route
+            path="/vilmates/user/:userId"
+            component={VilatesSinglePageScreen}
             exact
           />
           {/* <Route path="/people" component={PeopleScreen}/>

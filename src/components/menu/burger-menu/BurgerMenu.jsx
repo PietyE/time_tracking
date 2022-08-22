@@ -12,8 +12,6 @@ import React, { useState } from 'react'
 import MenuContent from '../menu-content'
 import styles from './BurgerMenu.module.scss'
 
-const appBarGutter = <div style={{ height: '58px' }}></div>
-
 export const BurgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -40,13 +38,14 @@ export const BurgerMenu = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {appBarGutter}
+      <div className={styles.appBarGutter} />
       <MenuContent />
     </div>
   )
 
   return (
     <div className={styles.menu}>
+      <div className={styles.appBarGutter} />
       <AppBar className={styles.appBar}>
         <Toolbar>
           <IconButton
@@ -70,6 +69,7 @@ export const BurgerMenu = () => {
         open={isOpen}
         anchor="top"
         onClose={toggleDrawer(false)}
+        className={styles.drawer}
       >
         {dropdownMenu()}
       </Drawer>
