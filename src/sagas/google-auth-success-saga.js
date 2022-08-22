@@ -7,6 +7,7 @@ import Api from 'utils/api'
 import {
   getUsersHoursTokenError,
   getUsersHoursTokenSuccess,
+  googleAuthErrorListToggle,
   googleAuthSyncGoogleSheetError,
   googleAuthSyncGoogleSheetSuccess,
 } from 'actions/google-auth-success'
@@ -80,17 +81,19 @@ function* syncWithGoogleSheet() {
       showAlert({
         type: SUCCES_ALERT,
         message: 'Authentication successfully',
-        delay: 4000,
+        delay: 3000,
       })
     )
   } catch (error) {
     yield put(googleAuthSyncGoogleSheetError())
+    //todo: add condition of error different users
+    yield put(googleAuthErrorListToggle())
     yield put(
       showAlert({
         type: WARNING_ALERT,
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
-        delay: 5000,
+        delay: 4000,
       })
     )
   }

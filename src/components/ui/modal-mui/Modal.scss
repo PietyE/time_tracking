@@ -1,0 +1,37 @@
+@import "src/styles/commonStyles";
+
+.modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 630px;
+  box-shadow: -10px 10px 35px $mainGrayColor;
+  background-color: $whiteColor;
+  border: 1px solid $grayBorderColor;
+  border-radius: 20px;
+  transform: translate(-50%, -50%);
+  &-form {
+    padding: 35px 35px 0;
+    &-header {
+      margin-bottom: 30px;
+      &-title.MuiTypography-root {
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      svg {
+        position: absolute;
+        top: 25px;
+        right: -45px;
+        cursor: pointer;
+      }
+    }
+    &-actions {
+      margin: -1px -36px;
+      &-button.MuiButton-root {
+        padding: 20px;
+        border-radius: 0 0 20px 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}
