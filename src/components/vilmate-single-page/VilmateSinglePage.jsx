@@ -18,13 +18,11 @@ import styles from './VilmatesSinglePage.module.scss'
 
 export const VilmateSinglePage = () => {
   const { userId: selectedUserId } = useParams()
-
   const user = useFetchUserDataById(
     vilmatesPageSelectUserRequest,
     getSelectedUser
   )
   const isUserLoading = useEqualSelector(isSelectedUserLoading)
-
   const isLoading = isUserLoading || user.id !== selectedUserId
 
   const isUserFound = user ? (
@@ -35,7 +33,7 @@ export const VilmateSinglePage = () => {
       </Box>
       <Box className={styles.right_container}>
         <PersonalInformationSection user={user} />
-        <CommentsSection />
+        {user.role === 5 && <CommentsSection />}
       </Box>
     </Box>
   ) : (

@@ -23,11 +23,14 @@ export const GoogleAuthSuccess = () => {
 
   const state = useMemo(() => searchParams.get('state'), [])
 
+  //todo: replace
+  const url = window.location.href.replace('http', 'https')
+
   useEffect(() => {
     dispatch(
       getUsersHoursTokenRequest({
         state,
-        callback_url: window.location.href,
+        callback_url: url,
       })
     )
   }, [])
