@@ -1,39 +1,36 @@
 import React from 'react'
 import { Box, List, Typography } from '@material-ui/core'
-import { renderUsersFromDatabase } from './helpers'
-import useShallowEqualSelector from '../../../../../custom-hook/useShallowEqualSelector'
-import { getUsers } from '../../../../../selectors/google-auth-success'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUsers } from 'selectors/google-auth-success'
+import { renderUsersAndSortByName } from './helpers'
 
 export const GoogleModalContent = () => {
-  const users = useShallowEqualSelector(getUsers)
-  console.log(users)
+  const { in_db: fromDb, in_sheet: fromSheet } =
+    useShallowEqualSelector(getUsers)
+
   return (
     <Box className="modal-container-form-users-sync-list-container">
       <List className="modal-container-form-users-sync-list-container-database">
-        {renderUsersFromDatabase(
-          users.in_db,
-          <Typography
-            style={{ fontWeight: '600' }}
-            variant="h6"
-            component="p"
-            gutterBottom
-          >
-            Database
-          </Typography>
-        )}
+        <Typography
+          style={{ fontWeight: '600' }}
+          variant="h6"
+          component="p"
+          gutterBottom
+        >
+          Database
+        </Typography>
+        {renderUsersAndSortByName(fromDb)}
       </List>
       <List className="modal-container-form-users-sync-list-container-google-sheet">
-        {renderUsersFromDatabase(
-          users.in_sheet,
-          <Typography
-            style={{ fontWeight: '600' }}
-            variant="h6"
-            component="p"
-            gutterBottom
-          >
-            GoogleSheet
-          </Typography>
-        )}
+        <Typography
+          style={{ fontWeight: '600' }}
+          variant="h6"
+          component="p"
+          gutterBottom
+        >
+          GoogleSheet
+        </Typography>
+        {renderUsersAndSortByName(fromSheet)}
       </List>
     </Box>
   )
