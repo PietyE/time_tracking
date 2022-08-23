@@ -18,6 +18,9 @@ import {
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
 
+const isUsersDifferentMessage =
+  'Users are different in database and google sheet, please correct it'
+
 function* createUsersHoursToken(action) {
   try {
     const url = 'user-hours/create_token/'
@@ -70,10 +73,11 @@ function* syncWithGoogleSheet() {
       is_agree,
     })
 
-    const { status } = response
+    const { data: users } = response
 
-    if (String(status)[0] !== '2') {
-      throw new Error()
+    if (users?.errors) {
+      yield put(googleAuthSyncGoogleSheetError(users.errors))
+      throw new Error(isUsersDifferentMessage)
     }
 
     yield put(googleAuthSyncGoogleSheetSuccess())
@@ -85,17 +89,27 @@ function* syncWithGoogleSheet() {
       })
     )
   } catch (error) {
-    yield put(googleAuthSyncGoogleSheetError())
-    //todo: add condition of error different users
-    yield put(googleAuthErrorListToggle())
-    yield put(
-      showAlert({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 4000,
-      })
-    )
+    if (error.message === isUsersDifferentMessage) {
+      yield put(googleAuthErrorListToggle())
+      yield put(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'Something went wrong',
+          message: error.message || 'Something went wrong',
+          delay: 4000,
+        })
+      )
+    } else {
+      yield put(googleAuthSyncGoogleSheetError())
+      yield put(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'Something went wrong',
+          message: error.message || 'Something went wrong',
+          delay: 4000,
+        })
+      )
+    }
   }
 }
 

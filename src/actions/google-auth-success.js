@@ -35,8 +35,9 @@ export const googleAuthSyncGoogleSheetSuccess = () => ({
   type: GOOGLE_AUTH_SYNC_GOOGLE_SHEET_SUCCESS,
 })
 
-export const googleAuthSyncGoogleSheetError = () => ({
+export const googleAuthSyncGoogleSheetError = (users) => ({
   type: GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR,
+  payload: users,
 })
 
 export const googleAuthErrorListToggle = () => ({

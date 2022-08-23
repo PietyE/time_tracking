@@ -4,3 +4,5 @@ export const getGoogleSheetSyncInputLink = (state) =>
 export const googleSheetSyncIsAgree = (state) => state.googleAuthSuccess.isAgree
 export const isOpenErrorList = (state) =>
   state.googleAuthSuccess.isOpenErrorList
+
+export const getUsers = (state) => state.googleAuthSuccess.users
