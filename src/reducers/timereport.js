@@ -8,7 +8,7 @@ import {
   CLEAR_SELECTED_PROJECT,
   RESET_SELECTED_DATE,
   SET_EDIT_MODE,
-  SET_STATUS_USER   
+  SET_STATUS_USER,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -22,23 +22,23 @@ const initialState = {
     items: null,
   },
   selectedProject: {},
-  selectDays:[
-      {id:1, name:'Show empty days'},
-      {id:2, name:'Hide empty days'},
+  selectDays: [
+    { id: 1, name: 'Show empty days' },
+    { id: 2, name: 'Hide empty days' },
   ],
-  selctedDay:{id:3, name:'Show all days'},
-  selectDayStatus:[
-    {id:1, name:"Worked on", iconColor:'#009C98'},
-    {id:2, name:"Was away", iconColor:'#F84242'},
-    {id:3, name:"Was ill", iconColor:'#1864D6'},
-    {id:4, name:"Had a rest", iconColor:'#C416C8'},
-    {id:5, name:"Vacation", iconColor:'#E08B0A'},
+  selctedDay: { id: 3, name: 'Show all days' },
+  selectDayStatus: [
+    { id: 1, name: 'Worked on', iconColor: '#009C98' },
+    { id: 2, name: 'Was away', iconColor: '#F84242' },
+    { id: 3, name: 'Was ill', iconColor: '#1864D6' },
+    { id: 4, name: 'Had a rest', iconColor: '#C416C8' },
+    { id: 5, name: 'Vacation', iconColor: '#E08B0A' },
   ],
-  selectedDayStatus: {id:1, name:"Worked on", iconColor:'#009C98'},
+  selectedDayStatus: { id: 1, name: 'Worked on', iconColor: '#009C98' },
   selectedDeveloper: null,
-  selectedDeveloperProjectsTR:[],
+  selectedDeveloperProjectsTR: [],
   idEditingWorkItem: null,
-  isFetchingReports: false,
+  isFetchingReports: true,
 }
 export const timereports = (state = initialState, action) => {
   switch (action.type) {
@@ -48,8 +48,8 @@ export const timereports = (state = initialState, action) => {
       return { ...state, reports: action.payload }
     case SELECT_PROJECT:
       return { ...state, selectedProject: action.payload }
-      case SET_DEVELOPER_PROJECTS_TR:
-        return { ...state, selectedDeveloperProjectsTR: action.payload }
+    case SET_DEVELOPER_PROJECTS_TR:
+      return { ...state, selectedDeveloperProjectsTR: action.payload }
     case CLEAR_SELECTED_PROJECT:
       return {
         ...state,
@@ -63,10 +63,10 @@ export const timereports = (state = initialState, action) => {
         selectedProject: initialState.selectedProject,
         reports: [],
       }
-    case  SET_STATUS_USER:
+    case SET_STATUS_USER:
       return {
         ...state,
-        selectedDayStatus:action.payload
+        selectedDayStatus: action.payload,
       }
     case SET_IS_FETCHING_REPORTS:
       return { ...state, isFetchingReports: action.payload }
