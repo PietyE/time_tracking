@@ -19,5 +19,11 @@ export const renderUsersAndSortByName = (users) =>
         primaryTypographyProps={{
           noWrap: true,
         }}
+        style={{
+          marginBottom: '1.25rem',
+          '&:last-child': {
+            marginBottom: 0,
+          },
+        }}
       />
     ))
