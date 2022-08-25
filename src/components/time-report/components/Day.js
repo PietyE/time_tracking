@@ -115,8 +115,8 @@ function Day({
   )
 }
 
-const shouldComponentUpdate = (prevProps, nextProps) => {
-  if (
+const shouldComponentUpdate = (prevProps, nextProps) =>
+  !(
     JSON.stringify(prevProps.descriptions) !==
       JSON.stringify(nextProps.descriptions) ||
     prevProps.numberOfDay !== nextProps.numberOfDay ||
@@ -124,10 +124,6 @@ const shouldComponentUpdate = (prevProps, nextProps) => {
     prevProps.selectedDate.month !== nextProps.selectedDate.month ||
     prevProps.showEmpty !== nextProps.showEmpty ||
     prevProps.isOpenCreate !== nextProps.isOpenCreate
-  ) {
-    return false
-  }
-  return true
-}
+  )
 
 export default memo(Day, shouldComponentUpdate)
