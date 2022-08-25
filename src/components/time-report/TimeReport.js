@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux'
-import _, { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
@@ -116,8 +116,6 @@ function TimeReport(props) {
     developerId,
   ])
 
-  const [currentPosition, setCurrentPosition] = useState(null)
-
   const bootstrapWidthRouteState = useCallback(() => {
     if (routeState) {
       const {
@@ -192,7 +190,7 @@ function TimeReport(props) {
   }
 
   useEffect(() => {
-    if (projects.length && _.isEmpty(selectedProject)) {
+    if (projects.length) {
       selectProject(projects[0])
     }
     if (!projects.length) {
