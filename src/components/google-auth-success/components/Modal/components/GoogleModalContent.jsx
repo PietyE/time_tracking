@@ -1,13 +1,16 @@
 import React from 'react'
 import { Box, List, Typography } from '@material-ui/core'
-import { users } from '../mocks/users'
-import { renderUsersFromDatabase } from './helpers'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUsers } from 'selectors/google-auth-success'
+import { renderUsersAndSortByName } from './helpers'
 
-export const GoogleModalContent = () => (
-  <Box className="modal-container-form-users-sync-list-container">
-    <List className="modal-container-form-users-sync-list-container-database">
-      {renderUsersFromDatabase(
-        users.database,
+export const GoogleModalContent = () => {
+  const { in_db: fromDb, in_sheet: fromSheet } =
+    useShallowEqualSelector(getUsers)
+
+  return (
+    <Box className="modal-container-form-users-sync-list-container">
+      <List className="modal-container-form-users-sync-list-container-database">
         <Typography
           style={{ fontWeight: '600' }}
           variant="h6"
@@ -16,11 +19,9 @@ export const GoogleModalContent = () => (
         >
           Database
         </Typography>
-      )}
-    </List>
-    <List className="modal-container-form-users-sync-list-container-google-sheet">
-      {renderUsersFromDatabase(
-        users.google_sheet,
+        {renderUsersAndSortByName(fromDb)}
+      </List>
+      <List className="modal-container-form-users-sync-list-container-google-sheet">
         <Typography
           style={{ fontWeight: '600' }}
           variant="h6"
@@ -29,7 +30,8 @@ export const GoogleModalContent = () => (
         >
           GoogleSheet
         </Typography>
-      )}
-    </List>
-  </Box>
-)
+        {renderUsersAndSortByName(fromSheet)}
+      </List>
+    </Box>
+  )
+}

@@ -14,6 +14,7 @@ const initialState = {
   googleSheetLink: '',
   isAgree: false,
   isOpenErrorList: false,
+  users: {},
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
@@ -52,6 +53,7 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        users: action.payload,
       }
     case GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE:
       return {

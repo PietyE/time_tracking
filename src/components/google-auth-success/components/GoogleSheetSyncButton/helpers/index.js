@@ -12,10 +12,10 @@ export const onGoogleSync = (dispatch) => (googleSheetLink) => {
         title: 'Something went wrong',
         message:
           'You paste invalid link to google sheet. Try sync again with correct link',
-        delay: 6000,
+        delay: 4000,
       })
     )
-    return
+  } else {
+    dispatch(googleAuthSendGoogleSheetSyncRequest())
   }
-  dispatch(googleAuthSendGoogleSheetSyncRequest())
 }

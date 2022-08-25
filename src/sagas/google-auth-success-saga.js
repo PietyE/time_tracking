@@ -3,10 +3,12 @@ import {
   GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
 } from 'constants/google-auth-sucess-constants'
 import { takeEvery, put, call, takeLeading, select } from 'redux-saga/effects'
+import { isEmpty } from 'lodash'
 import Api from 'utils/api'
 import {
   getUsersHoursTokenError,
   getUsersHoursTokenSuccess,
+  googleAuthChangeGoogleSheetLink,
   googleAuthErrorListToggle,
   googleAuthSyncGoogleSheetError,
   googleAuthSyncGoogleSheetSuccess,
@@ -17,6 +19,11 @@ import {
   getGoogleSheetSyncInputLink,
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
+
+// specific error if we receive from BE different users
+
+const isUsersDifferentMessage =
+  'Users are different in database and google sheet, please correct it'
 
 function* createUsersHoursToken(action) {
   try {
@@ -70,32 +77,44 @@ function* syncWithGoogleSheet() {
       is_agree,
     })
 
-    const { status } = response
+    const { data: users } = response
 
-    if (String(status)[0] !== '2') {
-      throw new Error()
+    if (!isEmpty(users)) {
+      yield put(googleAuthSyncGoogleSheetError(users.errors))
+      throw new Error(isUsersDifferentMessage)
     }
 
     yield put(googleAuthSyncGoogleSheetSuccess())
+    yield put(googleAuthChangeGoogleSheetLink(''))
     yield put(
       showAlert({
         type: SUCCES_ALERT,
-        message: 'Authentication successfully',
+        message: 'Sync successfully done',
         delay: 3000,
       })
     )
   } catch (error) {
-    yield put(googleAuthSyncGoogleSheetError())
-    //todo: add condition of error different users
-    yield put(googleAuthErrorListToggle())
-    yield put(
-      showAlert({
-        type: WARNING_ALERT,
-        title: 'Something went wrong',
-        message: error.message || 'Something went wrong',
-        delay: 4000,
-      })
-    )
+    if (error.message === isUsersDifferentMessage) {
+      yield put(googleAuthErrorListToggle())
+      yield put(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'Something went wrong',
+          message: error.message,
+          delay: 6000,
+        })
+      )
+    } else {
+      yield put(googleAuthSyncGoogleSheetError())
+      yield put(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'Something went wrong',
+          message: error.message || 'Something went wrong',
+          delay: 3000,
+        })
+      )
+    }
   }
 }
 
