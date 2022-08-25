@@ -20,6 +20,8 @@ export const MenuContent = () => {
   const showArrow = useShallowEqualSelector(getProfileShowSideMenuArrow)
   const userRole = useShallowEqualSelector(getUserRoleText)
 
+  //todo: hr
+
   const panels = useMemo(() => {
     const result = [
       {
@@ -35,11 +37,11 @@ export const MenuContent = () => {
                   smallSize: true,
                   pathname: '/timereport',
                 },
-                {
-                  icon: vilmates,
-                  label: 'Vilmates',
-                  pathname: '/vilmates',
-                },
+                // {
+                //   icon: vilmates,
+                //   label: 'Vilmates',
+                //   pathname: '/vilmates',
+                // },
               ]
             : [
                 {
@@ -119,19 +121,20 @@ export const MenuContent = () => {
           ],
         }
       )
-    } else if (userRole === 'HR') {
-      result.push({
-        panelName: 'Management',
-        panelId: '...',
-        items: [
-          {
-            icon: fileCheck,
-            label: 'Project management',
-            pathname: '/projectmanagement',
-          },
-        ],
-      })
     }
+    // } else if (userRole === 'HR') {
+    //   result.push({
+    //     panelName: 'Management',
+    //     panelId: '...',
+    //     items: [
+    //       {
+    //         icon: fileCheck,
+    //         label: 'Project management',
+    //         pathname: '/projectmanagement',
+    //       },
+    //     ],
+    //   })
+    // }
     return result
   }, [userRole])
 
