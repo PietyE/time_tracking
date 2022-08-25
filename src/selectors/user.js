@@ -31,6 +31,7 @@ export const getUserAuthStatus = createSelector(
   (isAuth) => isAuth
 )
 
+//todo: hr
 export const getUserRoleText = createSelector([getRoleUser], (roleNumber) => {
   switch (roleNumber) {
     case 1: {
@@ -45,9 +46,9 @@ export const getUserRoleText = createSelector([getRoleUser], (roleNumber) => {
     case 4: {
       return 'Project manager'
     }
-    case 5: {
-      return 'HR'
-    }
+    // case 5: {
+    //   return 'HR'
+    // }
     default: {
       return 'NoRole'
     }
