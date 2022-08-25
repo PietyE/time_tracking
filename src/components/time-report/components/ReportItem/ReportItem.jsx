@@ -371,7 +371,9 @@ function ReportItem({
       ) : (
         <div className={styles.item}>
           <Typography className={styles.text}>{text}</Typography>
-          <Typography className={styles.time}>{parseMinToHoursAndMin(hours)}</Typography>
+          <Typography className={styles.time}>
+            {parseMinToHoursAndMin(hours)}
+          </Typography>
           <Button
             variant="text"
             className={styles.button}
