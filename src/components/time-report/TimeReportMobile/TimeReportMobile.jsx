@@ -121,6 +121,18 @@ export const TimeReportMobile = ({
             </Button>
           </Box>
 
+          <Autocomplete
+            options={projects}
+            value={selectedProject}
+            onChange={selectProject}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.id === value?.id}
+            secondaryText={parseMinToHoursAndMin(selectedProjectHours, true)}
+            startIcon={<WindowIcon />}
+            onFocus={inputFocusHandler}
+            onBlur={inputBlurHandler}
+          />
+
           {roleUser !== DEVELOPER && (
             <Autocomplete
               options={developersList}
@@ -128,22 +140,11 @@ export const TimeReportMobile = ({
               onChange={selectDevelopers}
               getOptionLabel={(option) => option.name}
               getOptionSelected={(option, value) => option.id === value.id}
-              startIcon={<WindowIcon />}
-              secondaryText={parseMinToHoursAndMin(selectedProjectHours, true)}
+              startIcon={<PeopleIcon />}
               onFocus={inputFocusHandler}
               onBlur={inputBlurHandler}
             />
           )}
-          <Autocomplete
-            options={projects}
-            value={selectedProject}
-            onChange={selectProject}
-            getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.id === value?.id}
-            startIcon={<PeopleIcon />}
-            onFocus={inputFocusHandler}
-            onBlur={inputBlurHandler}
-          />
         </Box>
 
         <SliderSelect

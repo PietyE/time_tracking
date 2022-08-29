@@ -63,6 +63,8 @@ function ReportItem({
   isOneProject,
   showAlert,
   index,
+  isDraggable,
+  setIsDraggable,
   setDraganDroped,
   draganDroped,
 }) {
@@ -84,7 +86,6 @@ function ReportItem({
   )
   const [isTextInputError, setIsTextInputError] = useState(false)
   const [isTimeInputError, setIsTimeInputError] = useState(false)
-  const [isDraggable, setIsDraggable] = useState(true)
 
   const [editMenu, handlerOpenMenu] = useMenuPresent()
 

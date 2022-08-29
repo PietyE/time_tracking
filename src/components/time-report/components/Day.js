@@ -19,7 +19,8 @@ function Day({
   const [isCreate, setIsCreate] = useState(true)
   const [isCreatedList, setIsCreatedList] = useState(false)
   const [classNameForEndAnimation, setClassNameForEndAnimation] = useState('')
-  let [draganDroped, setDraganDroped] = useState(false)
+  const [isDraggable, setIsDraggable] = useState(true)
+  const [draganDroped, setDraganDroped] = useState(false)
 
   const handlerAddDayReport = (e) => {
     e.preventDefault()
@@ -104,6 +105,8 @@ function Day({
               hours={duration}
               id={id}
               isOneProject={isOneProject}
+              isDraggable={isDraggable}
+              setIsDraggable={setIsDraggable}
               draganDroped={draganDroped}
               setDraganDroped={setDraganDroped}
             />
