@@ -112,7 +112,7 @@ function MainScreenRedesign(props) {
             component={GoogleAuthSuccess}
             exact
           />
-          <Route
+          <VIlmatesPrivateRoute
             path="/vilmates/user/:userId"
             component={VilatesSinglePageScreen}
             exact

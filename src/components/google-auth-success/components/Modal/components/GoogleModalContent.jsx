@@ -7,6 +7,7 @@ import { renderUsersAndSortByName } from './helpers'
 export const GoogleModalContent = () => {
   const { in_db: fromDb, in_sheet: fromSheet } =
     useShallowEqualSelector(getUsers)
+  const usersAmount = (users) => (users.length ? `(${users.length})` : '')
 
   return (
     <Box className="modal-container-form-users-sync-list-container">
@@ -16,18 +17,18 @@ export const GoogleModalContent = () => {
           variant="h6"
           component="p"
         >
-          Database ({fromDb.length})
+          Database {usersAmount(fromDb)}
         </Typography>
         {renderUsersAndSortByName(fromDb)}
       </List>
       <List className="modal-container-form-users-sync-list-container-google-sheet">
         <Typography
-          style={{ fontWeight: '600', marginBottom: '1.55rem' }}
+          style={{ fontWeight: '600', marginBottom: '1.5rem' }}
           variant="h6"
           component="p"
           gutterBottom
         >
-          Google Sheet ({fromSheet.length})
+          Google Sheet {usersAmount(fromSheet)}
         </Typography>
         {renderUsersAndSortByName(fromSheet)}
       </List>
