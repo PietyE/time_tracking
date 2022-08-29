@@ -37,11 +37,11 @@ export const MenuContent = () => {
                   smallSize: true,
                   pathname: '/timereport',
                 },
-                // {
-                //   icon: vilmates,
-                //   label: 'Vilmates',
-                //   pathname: '/vilmates',
-                // },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  pathname: '/vilmates',
+                },
               ]
             : [
                 {

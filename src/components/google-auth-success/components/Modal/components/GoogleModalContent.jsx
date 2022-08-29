@@ -12,35 +12,23 @@ export const GoogleModalContent = () => {
     <Box className="modal-container-form-users-sync-list-container">
       <List className="modal-container-form-users-sync-list-container-database">
         <Typography
-          style={{ fontWeight: '600', marginBottom: '0.75rem' }}
+          style={{ fontWeight: '600', marginBottom: '1.5rem' }}
           variant="h6"
           component="p"
         >
-          Expected users
+          Database ({fromDb.length})
         </Typography>
-        {fromDb.length && (
-          <Typography
-            variant="body1"
-            style={{ marginBottom: '1.25rem', fontWeight: '600' }}
-          >{`Total users: ${fromDb.length}`}</Typography>
-        )}
         {renderUsersAndSortByName(fromDb)}
       </List>
       <List className="modal-container-form-users-sync-list-container-google-sheet">
         <Typography
-          style={{ fontWeight: '600', marginBottom: '0.75rem' }}
+          style={{ fontWeight: '600', marginBottom: '1.55rem' }}
           variant="h6"
           component="p"
           gutterBottom
         >
-          Actual users
+          Google Sheet ({fromSheet.length})
         </Typography>
-        {fromSheet.length && (
-          <Typography
-            variant="body1"
-            style={{ marginBottom: '1.25rem', fontWeight: '600' }}
-          >{`Total users: ${fromSheet.length}`}</Typography>
-        )}
         {renderUsersAndSortByName(fromSheet)}
       </List>
     </Box>

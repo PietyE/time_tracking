@@ -46,9 +46,9 @@ export const getUserRoleText = createSelector([getRoleUser], (roleNumber) => {
     case 4: {
       return 'Project manager'
     }
-    // case 5: {
-    //   return 'HR'
-    // }
+    case 5: {
+      return 'HR'
+    }
     default: {
       return 'NoRole'
     }

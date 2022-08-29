@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Box, Typography } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import { Modal } from 'components/ui/modal-mui'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { GoogleModalContent } from './components'
@@ -30,13 +30,6 @@ export const GoogleModal = () => {
       onButtonClick={onSyncAgain}
     >
       <Box className="modal-container-form-users-sync-list">
-        <Typography
-          variant="h5"
-          className="modal-container-form-users-sync-list-title"
-          align="center"
-        >
-          Users lists
-        </Typography>
         <GoogleModalContent />
       </Box>
     </Modal>
