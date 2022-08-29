@@ -27,12 +27,13 @@ export const personalInformation = [
   },
 ]
 
+export const toCorrectFormCase = (string) =>
+  string.toLowerCase().split(' ').join('_')
+
 export const updateInformation = (currentUser, personalInformation) =>
   personalInformation.reduce((information, nextInformationSource) => {
-    const fieldName = nextInformationSource.title
-      .toLowerCase()
-      .split(' ')
-      .join('_')
+    const fieldName = toCorrectFormCase(nextInformationSource.title)
+
     return [
       ...information,
       {
@@ -41,3 +42,12 @@ export const updateInformation = (currentUser, personalInformation) =>
       },
     ]
   }, [])
+
+export const createInputField = (userInformation) =>
+  userInformation.reduce(
+    (fields, nextField) => ({
+      ...fields,
+      [toCorrectFormCase(nextField.title)]: nextField.text,
+    }),
+    {}
+  )

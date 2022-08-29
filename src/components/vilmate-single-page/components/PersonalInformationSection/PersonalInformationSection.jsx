@@ -9,11 +9,21 @@ import {
   TextField,
 } from '@material-ui/core'
 import { AboutInformation } from './components/AboutInformation'
-import { personalInformation, updateInformation } from './mocks'
+import {
+  createInputField,
+  personalInformation,
+  toCorrectFormCase,
+  updateInformation,
+} from './mocks'
 import styles from './PersonalInformationSection.module.scss'
+import { useFormik } from 'formik'
 
 export const PersonalInformationSection = ({ user }) => {
   const actualPersonalInformation = updateInformation(user, personalInformation)
+  const fields = createInputField(actualPersonalInformation)
+  const formik = useFormik({
+    initialValues: fields,
+  })
 
   const renderListItems = actualPersonalInformation.map((information) => (
     <ListItem key={information.text} className={styles.list_item}>
@@ -23,8 +33,10 @@ export const PersonalInformationSection = ({ user }) => {
       <TextField
         variant="outlined"
         label={information.title}
-        value={information.text}
+        name={toCorrectFormCase(information.title)}
+        value={formik.values[toCorrectFormCase(information.title)]}
         className={styles.information_textField}
+        onChange={formik.handleChange}
       />
     </ListItem>
   ))
