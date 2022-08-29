@@ -24,6 +24,7 @@ export const PersonalInformationSection = ({ user }) => {
         variant="outlined"
         label={information.title}
         value={information.text}
+        className={styles.information_textField}
       />
     </ListItem>
   ))
