@@ -3,6 +3,7 @@ import {
   GET_USERS_HOURS_TOKEN_REQUEST,
   GET_USERS_HOURS_TOKEN_SUCCESS,
   GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_LINK,
+  GOOGLE_AUTH_ERROR_ACCESS_DENIED,
   GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE,
   GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
   GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR,
@@ -42,4 +43,9 @@ export const googleAuthSyncGoogleSheetError = (users) => ({
 
 export const googleAuthErrorListToggle = () => ({
   type: GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE,
+})
+
+export const googleAuthAccessDenied = (error) => ({
+  type: GOOGLE_AUTH_ERROR_ACCESS_DENIED,
+  payload: error,
 })

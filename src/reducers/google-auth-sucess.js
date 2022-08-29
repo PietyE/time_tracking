@@ -3,6 +3,7 @@ import {
   GET_USERS_HOURS_TOKEN_REQUEST,
   GET_USERS_HOURS_TOKEN_SUCCESS,
   GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_LINK,
+  GOOGLE_AUTH_ERROR_ACCESS_DENIED,
   GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE,
   GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
   GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR,
@@ -15,6 +16,7 @@ const initialState = {
   isAgree: false,
   isOpenErrorList: false,
   users: {},
+  errorAccess: '',
 }
 
 export const googleAuthSuccess = (state = initialState, action) => {
@@ -23,6 +25,7 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        errorAccess: '',
       }
     case GET_USERS_HOURS_TOKEN_SUCCESS:
       return {
@@ -59,6 +62,11 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isOpenErrorList: !state.isOpenErrorList,
+      }
+    case GOOGLE_AUTH_ERROR_ACCESS_DENIED:
+      return {
+        ...state,
+        errorAccess: action.payload,
       }
     default:
       return state

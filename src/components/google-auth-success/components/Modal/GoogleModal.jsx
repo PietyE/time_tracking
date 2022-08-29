@@ -14,7 +14,6 @@ import './GoogleModal.scss'
 export const GoogleModal = () => {
   const isOpen = useShallowEqualSelector(isOpenErrorList)
   const dispatch = useDispatch()
-
   const handleToggle = () => dispatch(googleAuthErrorListToggle())
   const onSyncAgain = () => {
     dispatch(googleAuthErrorListToggle())

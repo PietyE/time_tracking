@@ -8,6 +8,7 @@ import Api from 'utils/api'
 import {
   getUsersHoursTokenError,
   getUsersHoursTokenSuccess,
+  googleAuthAccessDenied,
   googleAuthChangeGoogleSheetLink,
   googleAuthErrorListToggle,
   googleAuthSyncGoogleSheetError,
@@ -35,10 +36,11 @@ function* createUsersHoursToken(action) {
       action.payload
     )
 
-    const { status } = response
+    const { status, data: error } = response
 
-    if (String(status)[0] !== '2') {
-      throw new Error()
+    if (!isEmpty(error.detail)) {
+      yield put(googleAuthAccessDenied(error?.detail))
+      throw new Error('Access denied')
     }
 
     if (String(status) === '500') {
