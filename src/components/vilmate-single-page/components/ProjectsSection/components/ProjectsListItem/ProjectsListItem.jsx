@@ -1,18 +1,49 @@
-import { Box, ListItem, Typography } from '@material-ui/core'
+import {
+  Box,
+  IconButton,
+  ListItem,
+  SvgIcon,
+  Typography,
+} from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
 import { OCCUPATION } from 'constants/vilmates-page'
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
+import { DeveloperOccupationRadioGroup } from '../DeveloperOccupationRadioGroup'
+import { ReactComponent as TrashGrayIc } from 'images/trash_cray_ic.svg'
 import styles from './ProjectListItem.module.scss'
 
 const { PART_TIME, FULL_TIME } = OCCUPATION
 
 export const ProjectsListItem = ({
   title,
-  isFullTime,
+  isFullTimeValue,
   ownerName,
-  developerProject,
+  developerProjectId,
+  onDelete,
+  onOccupationChange,
 }) => {
-  const occupation = isFullTime === false ? PART_TIME : FULL_TIME
+  const [isOccupationHovered, setIsOccupationHovered] = useState(false)
+  const [isFullTime, setIsFullTime] = useState(isFullTimeValue)
+  const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState(false)
+
+  const occupationLabel = useMemo(
+    () => (isFullTime === false ? PART_TIME : FULL_TIME),
+    [isFullTime]
+  )
+
+  const hoverOccupationHandler = () => {
+    setIsOccupationHovered(true)
+  }
+
+  const blurOccupationHandler = () => {
+    setIsOccupationHovered(false)
+  }
+
+  const occupationChangeHandler = (value) => {
+    setIsFullTime(value)
+    onOccupationChange(developerProjectId, value)
+  }
 
   const getOwnerNameLabel = () => {
     if (ownerName === undefined) {
@@ -20,21 +51,49 @@ export const ProjectsListItem = ({
     } else if (ownerName === null) {
       return 'No owner'
     }
-  return ownerName
+    return ownerName
+  }
+
+  const deleteProjectHandler = () => {
+    setIsDeleteButtonDisabled(true)
+    onDelete(developerProjectId)
   }
 
   return (
     <ListItem className={styles.container}>
-      <Typography className={styles.title} variant="h3">
-        {title}
-      </Typography>
-      <Box className={styles.content}>
-        <Typography className={styles.text} variant="body1">
+      <Box className={styles.row}>
+        <Typography className={styles.title} variant="h3">
+          {title}
+        </Typography>
+        <Box className={styles.icon}>
+          <IconButton
+            color="primary"
+            onClick={deleteProjectHandler}
+            disabled={isDeleteButtonDisabled}
+          >
+            <SvgIcon component={TrashGrayIc} />
+          </IconButton>
+        </Box>
+      </Box>
+
+      <Box className={styles.row}>
+        <Typography className={styles.ownerName} variant="body1">
           {getOwnerNameLabel()}
         </Typography>
-        <Typography className={styles.occupation} variant="body1">
-          {occupation}
-        </Typography>
+        <Box
+          onMouseEnter={hoverOccupationHandler}
+          onMouseLeave={blurOccupationHandler}
+          className={styles.occupation}
+        >
+          {isOccupationHovered ? (
+            <DeveloperOccupationRadioGroup
+              onChange={occupationChangeHandler}
+              isFullTime={isFullTime}
+            />
+          ) : (
+            <Typography variant="body1">{occupationLabel}</Typography>
+          )}
+        </Box>
       </Box>
     </ListItem>
   )
@@ -42,7 +101,8 @@ export const ProjectsListItem = ({
 
 ProjectsListItem.propTypes = {
   title: PropTypes.string.isRequired,
-  isFullTime: PropTypes.any,
+  isFullTimeValue: PropTypes.any,
   ownerName: PropTypes.any,
-  developerProject: PropTypes.object.isRequired,
+  developerProjectId: PropTypes.string.isRequired,
+  onDelete: PropTypes.func,
 }

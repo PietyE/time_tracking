@@ -6,6 +6,8 @@ import {
   VILMATES_PAGE_SELECT_USER_ERROR,
   VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATES_PAGE_SELECT_USER_SUCCESS,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
 } from 'constants/vilmates-page'
 
 const initialState = {
@@ -53,8 +55,32 @@ export const vilmatesPage = (state = initialState, action) => {
         ...state,
         singlePage: {
           ...state.singlePage,
-          developerProjects: action.payload
-        }
+          developerProjects: action.payload,
+        },
+      }
+    case VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          developerProjects: state.singlePage.developerProjects.map(
+            (developerProject) =>
+              developerProject.id === action.payload.developerProjectId
+                ? {
+                    ...developerProject,
+                    ...action.payload.changedDeveloperProjectData,
+                  }
+                : developerProject
+          ),
+        },
+      }
+    case VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          developerProjects: [...state.singlePage.developerProjects, {...action.payload, is_active: true}]
+        },
       }
     default:
       return state

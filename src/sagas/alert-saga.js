@@ -11,6 +11,7 @@ import { startShowAlert, hideAlert, setMessage } from 'actions/alert'
 import { SHOW_ALERT } from 'constants/actions-constant'
 
 export function* showAlert(data) {
+  console.log(data);
   yield put(setMessage(data))
   const delayMS = yield select(state => state.alert.delay)
   yield put(startShowAlert())

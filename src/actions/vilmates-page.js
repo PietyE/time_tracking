@@ -1,13 +1,17 @@
 import {
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_ERROR,
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS,
   VILMATES_PAGE_GET_USERS_LIST_ERROR,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_SUCCESS,
   VILMATES_PAGE_SELECT_USER_ERROR,
   VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATES_PAGE_SELECT_USER_SUCCESS,
-  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
-  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS,
-  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_ERROR
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -38,16 +42,45 @@ export const vilmatesPageSelectUserError = () => ({
   type: VILMATES_PAGE_SELECT_USER_ERROR,
 })
 
-export const vilmatesPageGetDeveloperProjectsListRequest = (user_id) => ({
+export const vilmatesPageGetDeveloperProjectsListRequest = (
+  userId,
+  year,
+  month
+) => ({
   type: VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
-  payload: user_id
+  payload: { userId, year, month },
 })
 
-export const vilmatesPageGetDeveloperProjectsListSuccess = (developerProjects) => ({
+export const vilmatesPageGetDeveloperProjectsListSuccess = (
+  developerProjects
+) => ({
   type: VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS,
-  payload: developerProjects
+  payload: developerProjects,
 })
 
 export const vilmatesPageGetDeveloperProjectsListError = () => ({
   type: VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_ERROR,
+})
+
+export const vilmatesPageChangeUserOnProjectRequest = (payload) => ({
+  type: VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
+  payload,
+})
+
+export const vilmatesPageChangeUserOnProjectSuccess = (
+  changedDeveloperProjectData,
+  developerProjectId
+) => ({
+  type: VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
+  payload: { changedDeveloperProjectData, developerProjectId },
+})
+
+export const vilmatesPageAddDeveloperProjectRequest = (payload) => ({
+  type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
+  payload: payload,
+})
+
+export const vilmatesPageAddDeveloperProjectSuccess = (payload) => ({
+  type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
+  payload: payload,
 })

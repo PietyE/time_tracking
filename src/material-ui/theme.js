@@ -38,8 +38,8 @@ export const theme = createTheme(basicTheme, {
   overrides: {
     MuiTooltip: {
       tooltipPlacementTop: {
-        top: 15
-      }
+        top: 15,
+      },
     },
     MuiRadio: {
       root: {
@@ -49,6 +49,7 @@ export const theme = createTheme(basicTheme, {
         '&.Mui-checked .MuiSvgIcon-root': {
           stroke: basicTheme.palette.primary.main,
           strokeWidth: 3,
+          fill: basicTheme.palette.common.white,
         },
         '& .MuiSvgIcon-root': {
           width: 12,
@@ -88,6 +89,10 @@ export const theme = createTheme(basicTheme, {
           color: basicTheme.palette.custom.mainGray,
           width: 20,
         },
+        '&&&&&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child':
+          {
+            paddingLeft: 0,
+          },
       },
       input: {
         '&&&': {
@@ -99,6 +104,14 @@ export const theme = createTheme(basicTheme, {
       },
       clearIndicator: {
         padding: 0,
+      },
+      popper: {
+        '& .MuiPaper-rounded': {
+          borderRadius: 4,
+        },
+      },
+      option: {
+        wordBreak: 'break-all',
       },
     },
     MuiOutlinedInput: {

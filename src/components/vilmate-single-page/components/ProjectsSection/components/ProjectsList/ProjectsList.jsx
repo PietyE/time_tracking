@@ -1,21 +1,26 @@
 import { List } from '@material-ui/core'
 import React from 'react'
 import { ProjectsListItem } from '../ProjectsListItem'
-import styles from './ProjectsList.module.scss'
 
-export const ProjectsList = ({ developerProjects }) => {
+export const ProjectsList = ({
+  developerProjects,
+  deleteProjectHandler,
+  changeOccupationHandler,
+}) => {
   const renderListItems = developerProjects.map((developerProject) => {
     const { project, is_full_time: isFullTime, ownerName } = developerProject
     return (
       <ProjectsListItem
         key={project.id}
         title={project.name}
-        isFullTime={isFullTime}
+        isFullTimeValue={isFullTime}
         ownerName={ownerName}
-        developerProject={developerProject}
+        developerProjectId={developerProject.id}
+        onDelete={deleteProjectHandler}
+        onOccupationChange={changeOccupationHandler}
       />
     )
   })
 
-  return <List className={styles.container}>{renderListItems}</List>
+  return <List>{renderListItems}</List>
 }

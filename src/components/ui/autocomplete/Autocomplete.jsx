@@ -18,10 +18,15 @@ export const Autocomplete = ({
   const changeHandler = (event, newValue) => {
     newValue && onChange(newValue)
   }
+
+  const startAdornment = startIcon ? (
+    <InputAdornment position="start">{startIcon}</InputAdornment>
+  ) : null
+
   return (
     <MUIAutocomplete
       options={options}
-      value={value || ''}
+      value={value}
       onChange={changeHandler}
       closeIcon=""
       renderInput={(params) => (
@@ -31,9 +36,7 @@ export const Autocomplete = ({
           variant="outlined"
           InputProps={{
             ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">{startIcon}</InputAdornment>
-            ),
+            startAdornment,
             endAdornment: (
               <>
                 <span className={styles.secondaryText}>{secondaryText}</span>
@@ -47,6 +50,7 @@ export const Autocomplete = ({
       autoComplete
       autoHighlight
       disablePortal
+      blurOnSelect
       noOptionsText={noOptionsText}
       {...rest}
     />
@@ -55,9 +59,9 @@ export const Autocomplete = ({
 
 Autocomplete.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  value: PropTypes.object.isRequired,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  startIcon: PropTypes.node.isRequired,
+  startIcon: PropTypes.node,
   secondaryText: PropTypes.string,
 }

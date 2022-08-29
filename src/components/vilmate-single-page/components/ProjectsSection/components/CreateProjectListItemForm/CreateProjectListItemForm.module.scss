@@ -1,0 +1,21 @@
+@import 'styles/commonStyles.scss';
+
+.container {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid $mainGreenColor;
+  border-radius: 6px;
+}
+
+.row {
+  width: 100%;
+  padding-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  color: $darkGrayColor;
+}
+
+.ownerName {
+  font-size: 14px;
+  line-height: 24px;
+}
