@@ -5,8 +5,8 @@ import {
   Divider,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   List,
+  TextField,
 } from '@material-ui/core'
 import { AboutInformation } from './components/AboutInformation'
 import { personalInformation, updateInformation } from './mocks'
@@ -20,7 +20,11 @@ export const PersonalInformationSection = ({ user }) => {
       <ListItemAvatar className={styles.avatar}>
         {information.icon}
       </ListItemAvatar>
-      <ListItemText primary={information.title} secondary={information.text} />
+      <TextField
+        variant="outlined"
+        label={information.title}
+        value={information.text}
+      />
     </ListItem>
   ))
 
