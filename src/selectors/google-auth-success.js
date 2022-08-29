@@ -6,3 +6,5 @@ export const isOpenErrorList = (state) =>
   state.googleAuthSuccess.isOpenErrorList
 
 export const getUsers = (state) => state.googleAuthSuccess.users
+
+export const getAccessError = (state) => state.googleAuthSuccess.errorAccess

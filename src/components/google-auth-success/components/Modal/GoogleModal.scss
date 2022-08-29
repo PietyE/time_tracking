@@ -17,12 +17,27 @@
       justify-content: space-between;
       &-database {
         max-width: calc(434px/2);
+        & .MuiListItemText-root {
+          max-width: 200px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 1rem;
+          right: 0;
+          height: 100%;
+          width: 1px;
+          background: $fullGrey;
+        }
       }
       &-google-sheet {
         max-width: calc(434px/2);
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        & .MuiListItemText-root {
+          max-width: 200px;
+        }
       }
     }
 

@@ -5,7 +5,7 @@ import { Box } from '@material-ui/core'
 import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import { getLoading } from 'selectors/google-auth-success'
+import { getAccessError, getLoading } from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { Container } from 'components/ui/container'
 import { PageHeader } from 'components/common/PageHeader'
@@ -20,6 +20,7 @@ export const GoogleAuthSuccess = () => {
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
   const history = useHistory()
+  const accessError = useShallowEqualSelector(getAccessError)
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -38,6 +39,10 @@ export const GoogleAuthSuccess = () => {
       pathname: '/projectreport',
       state: { from: 'google-sync-non-auth' },
     })
+  }
+
+  if (accessError) {
+    history.push('/projectreport')
   }
 
   return isLoading ? (

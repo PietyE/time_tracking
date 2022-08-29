@@ -7,40 +7,29 @@ import { renderUsersAndSortByName } from './helpers'
 export const GoogleModalContent = () => {
   const { in_db: fromDb, in_sheet: fromSheet } =
     useShallowEqualSelector(getUsers)
+  const usersAmount = (users) => (users.length ? `(${users.length})` : '')
 
   return (
     <Box className="modal-container-form-users-sync-list-container">
       <List className="modal-container-form-users-sync-list-container-database">
         <Typography
-          style={{ fontWeight: '600', marginBottom: '0.75rem' }}
+          style={{ fontWeight: '600', marginBottom: '1.5rem' }}
           variant="h6"
           component="p"
         >
-          Expected users
+          Database {usersAmount(fromDb)}
         </Typography>
-        {fromDb.length && (
-          <Typography
-            variant="body1"
-            style={{ marginBottom: '1.25rem', fontWeight: '600' }}
-          >{`Total users: ${fromDb.length}`}</Typography>
-        )}
         {renderUsersAndSortByName(fromDb)}
       </List>
       <List className="modal-container-form-users-sync-list-container-google-sheet">
         <Typography
-          style={{ fontWeight: '600', marginBottom: '0.75rem' }}
+          style={{ fontWeight: '600', marginBottom: '1.5rem' }}
           variant="h6"
           component="p"
           gutterBottom
         >
-          Actual users
+          Google Sheet {usersAmount(fromSheet)}
         </Typography>
-        {fromSheet.length && (
-          <Typography
-            variant="body1"
-            style={{ marginBottom: '1.25rem', fontWeight: '600' }}
-          >{`Total users: ${fromSheet.length}`}</Typography>
-        )}
         {renderUsersAndSortByName(fromSheet)}
       </List>
     </Box>
