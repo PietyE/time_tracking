@@ -5,6 +5,8 @@ import {
   GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_LINK,
   GOOGLE_AUTH_CHANGE_SELECTED_DATE_MONTH,
   GOOGLE_AUTH_ERROR_ACCESS_DENIED,
+  GOOGLE_AUTH_IS_AGREE_FALSE,
+  GOOGLE_AUTH_IS_AGREE_TRUE,
   GOOGLE_AUTH_IS_ERROR_MODAL_TOGGLE,
   GOOGLE_AUTH_SEND_GOOGLE_SHEET_SYNC_REQUEST,
   GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR,
@@ -77,6 +79,16 @@ export const googleAuthSuccess = (state = initialState, action) => {
       }
     case GOOGLE_AUTH_CHANGE_SELECTED_DATE_MONTH:
       return { ...state, selectedDate: action.payload }
+    case GOOGLE_AUTH_IS_AGREE_TRUE:
+      return {
+        ...state,
+        isAgree: true,
+      }
+    case GOOGLE_AUTH_IS_AGREE_FALSE:
+      return {
+        ...state,
+        isAgree: false,
+      }
     default:
       return state
   }

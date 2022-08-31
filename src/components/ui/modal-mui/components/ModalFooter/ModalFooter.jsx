@@ -6,13 +6,14 @@ export const ModalFooter = ({
   actionText,
   secondButton,
   secondActionText,
+  onSecondaryClick,
 }) => {
   const button = secondButton ? (
     <ButtonGroup fullWidth variant="contained">
       <Button
         className="modal-container-form-actions-button-primary"
         color="primary"
-        onClick={onButtonClick}
+        onClick={onSecondaryClick}
       >
         {secondActionText}
       </Button>

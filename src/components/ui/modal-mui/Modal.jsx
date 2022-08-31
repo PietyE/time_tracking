@@ -14,6 +14,7 @@ export const Modal = (props) => {
     onButtonClick,
     secondButton = false,
     secondActionText,
+    onSecondaryClick,
   } = props
   return (
     <MUIModal open={open} onClose={onClose}>
@@ -26,6 +27,7 @@ export const Modal = (props) => {
             onButtonClick={onButtonClick}
             secondButton={secondButton}
             secondActionText={secondActionText}
+            onSecondaryClick={onSecondaryClick}
           />
         </Box>
       </Box>
