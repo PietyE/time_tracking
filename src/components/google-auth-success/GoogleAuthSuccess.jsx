@@ -28,7 +28,7 @@ export const GoogleAuthSuccess = () => {
     dispatch(
       getUsersHoursTokenRequest({
         state,
-        callback_url: window.location.href,
+        callback_url: window.location.href.replace('http', 'https'),
       })
     )
   }, [])
@@ -54,6 +54,7 @@ export const GoogleAuthSuccess = () => {
         <Box className="google-auth-success-container-form">
           <GoogleSheetFormHeader />
           <Box className="google-auth-success-container-form-actions">
+            {/*<SelectMonth onChange={} value={}*/}
             <GoogleSheetInput />
             <GoogleSheetSyncButton />
           </Box>
