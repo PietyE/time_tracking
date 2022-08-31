@@ -196,6 +196,9 @@ class Api {
     fetchApi({ url, data, method: 'post' })
 
   syncWithGoogleSheet = (url, data) => fetchApi({ url, data, method: 'post' })
+
+  updateUserPersonalInformation = (url, data) =>
+    fetchApi({ url, data, method: 'patch' })
 }
 
 export default new Api()

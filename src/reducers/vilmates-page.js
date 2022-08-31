@@ -6,7 +6,6 @@ import {
   VILMATES_PAGE_GET_USERS_LIST_SUCCESS,
   VILMATES_PAGE_SELECT_USER_ERROR,
   VILMATES_PAGE_SELECT_USER_SUCCESS,
-  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
 } from 'constants/vilmates-page'
 
 const initialState = {
@@ -82,17 +81,6 @@ export const vilmatesPage = (state = initialState, action) => {
             ...state.singlePage.developerProjects,
             { ...action.payload, is_active: true },
           ],
-        },
-      }
-    case VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS:
-      return {
-        ...state,
-        singlePage: {
-          ...state.singlePage,
-          selectedUser: {
-            ...state.singlePage.selectedUser,
-            ...action.payload,
-          },
         },
       }
     default:

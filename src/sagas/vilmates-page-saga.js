@@ -10,15 +10,16 @@ import {
   vilmatesPageSelectUserSuccess,
 } from 'actions/vilmates-page'
 import { pm } from 'api'
-import { WARNING_ALERT } from 'constants/alert-constant'
+import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
+  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
 } from 'constants/vilmates-page'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import Api from 'utils/api'
 
 function* getUsersList(action) {
@@ -142,6 +143,39 @@ function* postDeveloperProject({ payload }) {
   }
 }
 
+function* changeUserPersonalInformation(action) {
+  const { id, email, phone, slack, date_of_birth } = action.payload
+  const url = `users/${id}/`
+  try {
+    const response = yield call([Api, 'updateUserPersonalInformation'], url, {
+      email,
+      phone,
+      slack,
+      date_of_birth,
+    })
+    const { status } = response
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        title: 'Success',
+        message: 'Your information successfully has been changed',
+        delay: 2000,
+      })
+    )
+  } catch (error) {
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Error',
+        message: error.message || 'Your information has not been changed',
+      })
+    )
+  }
+}
+
 export function* watchUsersListGetRequest() {
   yield takeEvery(VILMATES_PAGE_GET_USERS_LIST_REQUEST, getUsersList)
   yield takeEvery(VILMATES_PAGE_SELECT_USER_REQUEST, getSelectedUser)
@@ -156,5 +190,9 @@ export function* watchUsersListGetRequest() {
   yield takeEvery(
     VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
     postDeveloperProject
+  )
+  yield takeLatest(
+    VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
+    changeUserPersonalInformation
   )
 }
