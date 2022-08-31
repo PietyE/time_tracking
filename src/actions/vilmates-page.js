@@ -11,7 +11,10 @@ import {
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
-  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
+  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
+  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
+  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_ERROR,
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -83,4 +86,18 @@ export const vilmatesPageAddDeveloperProjectRequest = (payload) => ({
 export const vilmatesPageAddDeveloperProjectSuccess = (payload) => ({
   type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   payload: payload,
+})
+
+export const vilatesSinglePageUpdateUserInformationRequest = (userInfo) => ({
+  type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
+  payload: userInfo,
+})
+
+export const vilatesSinglePageUpdateUserInformationSuccess = (newInfo) => ({
+  type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
+  payload: newInfo,
+})
+
+export const vilatesSinglePageUpdateUserInformationError = () => ({
+  type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_ERROR,
 })
