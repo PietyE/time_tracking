@@ -27,6 +27,8 @@ export const GoogleModal = () => {
       actionText="Sync again"
       onClose={handleToggle}
       onButtonClick={onSyncAgain}
+      secondButton={true}
+      secondActionText="Force Push"
     >
       <Box className="modal-container-form-users-sync-list">
         <GoogleModalContent />

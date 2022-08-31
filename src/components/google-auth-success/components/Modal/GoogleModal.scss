@@ -3,12 +3,11 @@
 .modal-container-form {
   &-users-sync-list {
     max-height: 500px;
-    padding: 10px 60px;
-    margin-bottom: 50px;
+    padding: 10px 35px;
+    margin-bottom: 30px;
     overflow: auto;
 
     &-title {
-      margin-bottom: 30px;
       font-weight: 600;
     }
 
@@ -20,23 +19,23 @@
         & .MuiListItemText-root {
           max-width: 200px;
         }
-        &:after {
-          content: '';
-          position: absolute;
-          top: 1rem;
-          right: 0;
-          height: 100%;
-          width: 1px;
-          background: $fullGrey;
-        }
       }
       &-google-sheet {
         max-width: calc(434px/2);
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
         & .MuiListItemText-root {
           max-width: 200px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 1rem;
+          left: -40px;
+          height: 100%;
+          width: 1px;
+          background: $fullGrey;
         }
       }
     }

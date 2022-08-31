@@ -13,7 +13,7 @@
   &-form {
     padding: 35px 35px 0;
     &-header {
-      margin-bottom: 30px;
+      margin-bottom: 14px;
       &-title.MuiTypography-root {
         margin-bottom: 20px;
         font-weight: 600;
@@ -31,6 +31,23 @@
         padding: 20px;
         border-radius: 0 0 20px 20px;
         font-weight: 600;
+      }
+      & .MuiButtonGroup-root {
+        height: 64px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        .MuiButton-root {
+          border-top-right-radius: 0;
+          border-top-left-radius: 0;
+          &:last-child {
+            border-bottom-right-radius: 20px;
+            font-weight: 600;
+          }
+          &:first-child {
+            border-bottom-left-radius: 20px;
+            font-weight: 600;
+          }
+        }
       }
     }
   }
