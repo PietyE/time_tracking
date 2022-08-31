@@ -20,16 +20,16 @@ import { GoogleSheetInputMemoized as GoogleSheetInput } from './components/Googl
 import { GoogleSheetSyncButtonMemoized as GoogleSheetSyncButton } from './components/GoogleSheetSyncButton'
 import { GoogleModal } from './components/Modal'
 import { GoogleSheetFormHeader } from './components/GoogleSheetFormHeader'
-import './GoogleAuthSucess.scss'
 import SelectMonth from 'components/ui/select-month'
+import './GoogleAuthSucess.scss'
 
 const GoogleAuthSuccess = ({ googleAuthChangeSelectedDate }) => {
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
-  const history = useHistory()
   const accessError = useShallowEqualSelector(getAccessError)
   const selectedDate = useShallowEqualSelector(getSelectedDate)
+  const history = useHistory()
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -37,7 +37,7 @@ const GoogleAuthSuccess = ({ googleAuthChangeSelectedDate }) => {
     dispatch(
       getUsersHoursTokenRequest({
         state,
-        callback_url: window.location.href.replace('http', 'https'),
+        callback_url: window.location.href,
       })
     )
   }, [])
