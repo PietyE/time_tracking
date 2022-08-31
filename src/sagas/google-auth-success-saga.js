@@ -40,7 +40,7 @@ function* createUsersHoursToken(action) {
     const { status, data: error } = response
 
     if (!isEmpty(error.detail)) {
-      yield put(googleAuthAccessDenied(error?.detail))
+      yield put(googleAuthAccessDenied(true))
       throw new Error('Access denied')
     }
 
@@ -84,11 +84,17 @@ function* syncWithGoogleSheet() {
 
     const { data: users } = response
 
-    if (!isEmpty(users)) {
+    //users.error it`s a field throwing from BE if we have difference in names
+    if (!isEmpty(users?.errors)) {
       yield put(googleAuthSyncGoogleSheetError(users.errors))
       throw new Error(isUsersDifferentMessage)
     }
 
+    //non field error its BE error throwing for checking if we have empty name in google sheet
+    if (!isEmpty(users['non_field_errors'])) {
+      yield put(googleAuthAccessDenied(true))
+      throw new Error('Check google sheet for an empty name')
+    }
     yield put(googleAuthSyncGoogleSheetSuccess())
     yield put(googleAuthChangeGoogleSheetLink(''))
     yield put(

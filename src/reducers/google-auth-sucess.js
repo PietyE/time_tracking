@@ -19,7 +19,7 @@ const initialState = {
   isAgree: false,
   isOpenErrorList: false,
   users: {},
-  errorAccess: '',
+  errorAccess: false,
   selectedDate: {
     month: todayDate.getMonth(),
     year: todayDate.getFullYear(),
@@ -32,7 +32,7 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        errorAccess: '',
+        errorAccess: false,
       }
     case GET_USERS_HOURS_TOKEN_SUCCESS:
       return {
