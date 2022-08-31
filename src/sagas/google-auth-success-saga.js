@@ -18,6 +18,7 @@ import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   getGoogleSheetSyncInputLink,
+  getSelectedDate,
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
 
@@ -73,10 +74,12 @@ function* syncWithGoogleSheet() {
     const url = 'user-hours/sync_with_google_sheets/'
     const is_agree = yield select(googleSheetSyncIsAgree)
     const spreadsheet = yield select(getGoogleSheetSyncInputLink)
+    const date = yield select(getSelectedDate)
 
     const response = yield call([Api, 'syncWithGoogleSheet'], url, {
       spreadsheet,
       is_agree,
+      ...date,
     })
 
     const { data: users } = response

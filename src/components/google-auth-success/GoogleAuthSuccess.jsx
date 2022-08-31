@@ -1,11 +1,18 @@
 import React, { useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@material-ui/core'
-import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
+import {
+  getUsersHoursTokenRequest,
+  googleAuthChangeSelectedDate,
+} from 'actions/google-auth-success'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import { getAccessError, getLoading } from 'selectors/google-auth-success'
+import {
+  getAccessError,
+  getLoading,
+  getSelectedDate,
+} from 'selectors/google-auth-success'
 import SpinnerStyled from 'components/ui/spinner'
 import { Container } from 'components/ui/container'
 import { PageHeader } from 'components/common/PageHeader'
@@ -14,13 +21,15 @@ import { GoogleSheetSyncButtonMemoized as GoogleSheetSyncButton } from './compon
 import { GoogleModal } from './components/Modal'
 import { GoogleSheetFormHeader } from './components/GoogleSheetFormHeader'
 import './GoogleAuthSucess.scss'
+import SelectMonth from 'components/ui/select-month'
 
-export const GoogleAuthSuccess = () => {
+const GoogleAuthSuccess = ({ googleAuthChangeSelectedDate }) => {
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
   const history = useHistory()
   const accessError = useShallowEqualSelector(getAccessError)
+  const selectedDate = useShallowEqualSelector(getSelectedDate)
 
   const state = useMemo(() => searchParams.get('state'), [])
 
@@ -54,7 +63,11 @@ export const GoogleAuthSuccess = () => {
         <Box className="google-auth-success-container-form">
           <GoogleSheetFormHeader />
           <Box className="google-auth-success-container-form-actions">
-            {/*<SelectMonth onChange={} value={}*/}
+            <SelectMonth
+              onChange={googleAuthChangeSelectedDate}
+              value={selectedDate}
+              showYear
+            />
             <GoogleSheetInput />
             <GoogleSheetSyncButton />
           </Box>
@@ -64,3 +77,7 @@ export const GoogleAuthSuccess = () => {
     </Container>
   )
 }
+
+export default connect(null, {
+  googleAuthChangeSelectedDate,
+})(GoogleAuthSuccess)
