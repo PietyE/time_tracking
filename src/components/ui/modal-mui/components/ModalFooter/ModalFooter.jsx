@@ -1,16 +1,39 @@
 import React from 'react'
-import { Box, Button } from '@material-ui/core'
+import { Box, Button, ButtonGroup } from '@material-ui/core'
 
-export const ModalFooter = ({ onButtonClick, actionText }) => (
-  <Box className="modal-container-form-actions">
+export const ModalFooter = ({
+  onButtonClick,
+  actionText,
+  secondButton,
+  secondActionText,
+  onSecondaryClick,
+}) => {
+  const button = secondButton ? (
+    <ButtonGroup fullWidth variant="contained">
+      <Button
+        className="modal-container-form-actions-button-primary"
+        color="primary"
+        onClick={onSecondaryClick}
+      >
+        {secondActionText}
+      </Button>
+      <Button
+        className="modal-container-form-actions-button-secondary"
+        color="primary"
+        fullWidth
+        onClick={onButtonClick}
+      >
+        {actionText}
+      </Button>
+    </ButtonGroup>
+  ) : (
     <Button
       className="modal-container-form-actions-button"
-      variant="contained"
       color="primary"
-      fullWidth
       onClick={onButtonClick}
     >
       {actionText}
     </Button>
-  </Box>
-)
+  )
+  return <Box className="modal-container-form-actions">{button}</Box>
+}

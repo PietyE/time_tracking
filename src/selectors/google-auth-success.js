@@ -8,3 +8,5 @@ export const isOpenErrorList = (state) =>
 export const getUsers = (state) => state.googleAuthSuccess.users
 
 export const getAccessError = (state) => state.googleAuthSuccess.errorAccess
+
+export const getSelectedDate = (state) => state.googleAuthSuccess.selectedDate

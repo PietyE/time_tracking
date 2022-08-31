@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { TextField } from '@material-ui/core'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -13,11 +13,8 @@ const GoogleSheetInput = () => {
   )
 
   const dispatch = useDispatch()
-
-  const handleChange = useCallback(
-    (event) => dispatch(googleAuthChangeGoogleSheetLink(event.target.value)),
-    []
-  )
+  const handleChange = (event) =>
+    dispatch(googleAuthChangeGoogleSheetLink(event.target.value))
 
   return (
     <TextField
