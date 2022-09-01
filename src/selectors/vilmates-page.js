@@ -14,5 +14,5 @@ export const getSelectedUserDeveloperProjects = (state) =>
 export const getComments = (state) =>
   state.vilmatesPage.singlePage.comments.data
 
-export const isCommentsLoading = (state) =>
+export const getCommentsLoading = (state) =>
   state.vilmatesPage.singlePage.comments.isLoading

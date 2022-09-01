@@ -1,20 +1,20 @@
 import React from 'react'
+import moment from 'moment'
 import { Box, Paper, Typography } from '@material-ui/core'
 import styles from './CommentItemContent.module.scss'
-import moment from 'moment'
 
-export const CommentItemContent = ({ comment, name }) => (
+export const CommentItemContent = ({ text, date, name }) => (
   <Box className={styles.content_container}>
     <Paper className={styles.content}>
       <Typography variant="body2" component="p" className={styles.name}>
         {name}
       </Typography>
       <Typography variant="body2" component="p">
-        {comment.text}
+        {text}
       </Typography>
     </Paper>
     <Typography variant="body2" component="p" className={styles.date}>
-      {moment(comment.date_create).format('ll')}
+      {moment(date).format('ll')}
     </Typography>
   </Box>
 )

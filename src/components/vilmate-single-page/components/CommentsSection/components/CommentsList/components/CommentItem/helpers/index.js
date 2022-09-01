@@ -1,13 +1,37 @@
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { get as lodashGet } from 'lodash'
+import { showAlert } from 'actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
 
 export const useFetchUserName = (userId) => {
   const [user, setUser] = useState('')
-  const url = `/users/${userId}/`
+  const dispatch = useDispatch()
+  const url = `users/${userId}/`
+
+  const getUserById = async () => {
+    try {
+      const response = await axios.get(url)
+      const { status, data } = response
+      if (String(status)[0] !== '2') {
+        throw new Error()
+      }
+      setUser(data)
+    } catch (error) {
+      dispatch(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'User has not loaded',
+          message: error.message || 'Something went wrong',
+          delay: 3000,
+        })
+      )
+    }
+  }
 
   useEffect(() => {
-    axios.get(url).then((response) => setUser(response.data))
+    getUserById()
   }, [])
 
   return lodashGet(user, 'name', 'Anonymous')

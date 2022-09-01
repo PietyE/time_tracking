@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid } from '@material-ui/core'
 import { Avatar } from 'components/ui/avatar'
 import { CommentItemContent } from './components/CommentItemContent'
-import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { useFetchUserName } from './helpers'
 import styles from './CommentItem.module.scss'
 
@@ -15,13 +14,12 @@ import styles from './CommentItem.module.scss'
 // text: "test comment for user from Andrii"
 // user: "6fcdc8a8-db6f-40b9-b8a1-7d0397e74157"
 
-export const CommentItem = ({ comment }) => {
-  const { userId } = useParams()
-  const name = useFetchUserName(userId)
+export const CommentItem = ({ initiator, text, date }) => {
+  const name = useFetchUserName(initiator)
   return (
     <Grid item xs={12} className={styles.comment_container}>
       <Avatar name={name} size="small" />
-      <CommentItemContent comment={comment} name={name} />
+      <CommentItemContent text={text} date={date} name={name} />
     </Grid>
   )
 }
