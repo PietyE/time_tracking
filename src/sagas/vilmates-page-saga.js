@@ -149,7 +149,6 @@ function* getComments(action) {
   const url = `vilmate-comments/?user_id=${action.payload}`
   try {
     const response = yield call([Api, 'getComments'], url)
-    console.log(response)
     const { status, data: comments } = response
     if (String(status)[0] !== '2') {
       throw new Error()
