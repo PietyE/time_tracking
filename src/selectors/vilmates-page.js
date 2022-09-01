@@ -10,3 +10,9 @@ export const isSelectedUserLoading = (state) =>
 
 export const getSelectedUserDeveloperProjects = (state) =>
   state.vilmatesPage.singlePage.developerProjects
+
+export const getComments = (state) =>
+  state.vilmatesPage.singlePage.comments.data
+
+export const isCommentsLoading = (state) =>
+  state.vilmatesPage.singlePage.comments.isLoading

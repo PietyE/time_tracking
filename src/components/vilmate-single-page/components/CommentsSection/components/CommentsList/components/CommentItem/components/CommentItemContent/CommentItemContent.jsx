@@ -13,7 +13,7 @@ export const CommentItemContent = ({ comment }) => (
       </Typography>
     </Paper>
     <Typography variant="body2" component="p" className={styles.date}>
-      {comment.date}
+      {comment.date_create}
     </Typography>
   </Box>
 )
