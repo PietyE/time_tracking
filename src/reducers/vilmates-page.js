@@ -9,6 +9,9 @@ import {
   VILMATES_PAGE_GET_COMMENTS_REQUEST,
   VILMATES_PAGE_GET_COMMENTS_SUCCESS,
   VILMATES_PAGE_GET_COMMENTS_ERROR,
+  VILMATES_PAGE_POST_COMMENT_REQUEST,
+  VILMATES_PAGE_POST_COMMENT_SUCCESS,
+  VILMATES_PAGE_POST_COMMENT_ERROR,
 } from 'constants/vilmates-page'
 
 const initialState = {
@@ -114,6 +117,40 @@ export const vilmatesPage = (state = initialState, action) => {
         },
       }
     case VILMATES_PAGE_GET_COMMENTS_ERROR:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: false,
+          },
+        },
+      }
+    case VILMATES_PAGE_POST_COMMENT_REQUEST:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: true,
+          },
+        },
+      }
+    case VILMATES_PAGE_POST_COMMENT_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: false,
+            data: [...state.singlePage.comments.data, action.payload],
+          },
+        },
+      }
+    case VILMATES_PAGE_POST_COMMENT_ERROR:
       return {
         ...state,
         singlePage: {
