@@ -198,6 +198,8 @@ class Api {
   syncWithGoogleSheet = (url, data) => fetchApi({ url, data, method: 'post' })
 
   getComments = (url) => fetchApi({ url })
+
+  postComment = (url, data) => fetchApi({ url, data, method: 'post' })
 }
 
 export default new Api()

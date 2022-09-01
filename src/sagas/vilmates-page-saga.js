@@ -8,11 +8,13 @@ import {
   vilmatesPageGetDeveloperProjectsListSuccess,
   vilmatesPageGetUsersListError,
   vilmatesPageGetUsersListSuccess,
+  vilmatesPagePostCommentsError,
+  vilmatesPagePostCommentsSuccess,
   vilmatesPageSelectUserError,
   vilmatesPageSelectUserSuccess,
 } from 'actions/vilmates-page'
 import { pm } from 'api'
-import { WARNING_ALERT } from 'constants/alert-constant'
+import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
   VILMATES_PAGE_GET_USERS_LIST_REQUEST,
@@ -20,8 +22,9 @@ import {
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
   VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  VILMATES_PAGE_POST_COMMENT_REQUEST,
 } from 'constants/vilmates-page'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import Api from 'utils/api'
 
 function* getUsersList(action) {
@@ -167,6 +170,38 @@ function* getComments(action) {
   }
 }
 
+function* postComment(action) {
+  const { userId: user, text } = action.payload
+  const url = 'vilmate-comments/'
+  try {
+    const response = yield call([Api, 'postComment'], url, { user, text })
+    const { status, data: comment } = response
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+    const date_create = new Date()
+    yield put(vilmatesPagePostCommentsSuccess({ ...comment, date_create }))
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        title: 'Comment have been posted',
+        message: 'You left a comment',
+        delay: 2000,
+      })
+    )
+  } catch (error) {
+    yield put(vilmatesPagePostCommentsError())
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 2000,
+      })
+    )
+  }
+}
+
 export function* watchUsersListGetRequest() {
   yield takeEvery(VILMATES_PAGE_GET_USERS_LIST_REQUEST, getUsersList)
   yield takeEvery(VILMATES_PAGE_SELECT_USER_REQUEST, getSelectedUser)
@@ -183,4 +218,5 @@ export function* watchUsersListGetRequest() {
     postDeveloperProject
   )
   yield takeEvery(VILMATES_PAGE_GET_COMMENTS_REQUEST, getComments)
+  yield takeLatest(VILMATES_PAGE_POST_COMMENT_REQUEST, postComment)
 }

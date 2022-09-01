@@ -110,9 +110,9 @@ export const vilmatesPagePostCommentsRequest = (userId) => ({
   payload: userId,
 })
 
-export const vilmatesPagePostCommentsSuccess = (comment) => ({
+export const vilmatesPagePostCommentsSuccess = (commentInfo) => ({
   type: VILMATES_PAGE_POST_COMMENT_SUCCESS,
-  payload: comment,
+  payload: commentInfo,
 })
 
 export const vilmatesPagePostCommentsError = () => ({
