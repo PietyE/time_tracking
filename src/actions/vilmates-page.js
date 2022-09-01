@@ -15,6 +15,9 @@ import {
   VILMATES_PAGE_GET_COMMENTS_REQUEST,
   VILMATES_PAGE_GET_COMMENTS_SUCCESS,
   VILMATES_PAGE_GET_COMMENTS_ERROR,
+  VILMATES_PAGE_POST_COMMENT_REQUEST,
+  VILMATES_PAGE_POST_COMMENT_SUCCESS,
+  VILMATES_PAGE_POST_COMMENT_ERROR,
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -100,4 +103,18 @@ export const vilmatesPageGetCommentsSuccess = (comments) => ({
 
 export const vilmatesPageGetCommentsError = () => ({
   type: VILMATES_PAGE_GET_COMMENTS_ERROR,
+})
+
+export const vilmatesPagePostCommentsRequest = (userId) => ({
+  type: VILMATES_PAGE_POST_COMMENT_REQUEST,
+  payload: userId,
+})
+
+export const vilmatesPagePostCommentsSuccess = (comment) => ({
+  type: VILMATES_PAGE_POST_COMMENT_SUCCESS,
+  payload: comment,
+})
+
+export const vilmatesPagePostCommentsError = () => ({
+  type: VILMATES_PAGE_POST_COMMENT_ERROR,
 })
