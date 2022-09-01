@@ -121,19 +121,18 @@ export const MenuContent = () => {
           ],
         }
       )
-      // } else if (userRole === 'HR') {
-      //   result.push({
-      //     panelName: 'Management',
-      //     panelId: '...',
-      //     items: [
-      //       {
-      //         icon: fileCheck,
-      //         label: 'Project management',
-      //         pathname: '/projectmanagement',
-      //       },
-      //     ],
-      //   })
-      // }
+    } else if (userRole === 'HR') {
+      result.push({
+        panelName: 'Management',
+        panelId: '...',
+        items: [
+          {
+            icon: fileCheck,
+            label: 'Project management',
+            pathname: '/projectmanagement',
+          },
+        ],
+      })
     }
     return result
   }, [userRole])
