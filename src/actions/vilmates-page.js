@@ -11,7 +11,10 @@ import {
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
-  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
+  VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  VILMATES_PAGE_GET_COMMENTS_SUCCESS,
+  VILMATES_PAGE_GET_COMMENTS_ERROR,
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -83,4 +86,18 @@ export const vilmatesPageAddDeveloperProjectRequest = (payload) => ({
 export const vilmatesPageAddDeveloperProjectSuccess = (payload) => ({
   type: VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   payload: payload,
+})
+
+export const vilmatesPageGetCommentsRequest = (userId) => ({
+  type: VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  payload: userId,
+})
+
+export const vilmatesPageGetCommentsSuccess = (comments) => ({
+  type: VILMATES_PAGE_GET_COMMENTS_SUCCESS,
+  payload: comments,
+})
+
+export const vilmatesPageGetCommentsError = () => ({
+  type: VILMATES_PAGE_GET_COMMENTS_ERROR,
 })
