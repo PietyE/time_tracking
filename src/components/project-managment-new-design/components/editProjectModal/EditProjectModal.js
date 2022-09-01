@@ -528,6 +528,14 @@ function EditProjectModal({ show, month }) {
     setShowHintAddMember(false)
   }, [])
 
+  const onMouseEnter =
+    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
+    _handlerMouseEnter()
+
+  const onMouseLeave =
+    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
+    _handlerMouseLeave()
+
   return (
     <div
       ref={modalRef}
@@ -687,16 +695,8 @@ function EditProjectModal({ show, month }) {
                         ? 'half-opacity'
                         : '')
                     }
-                    onMouseEnter={() => {
-                      ;(!valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name) &&
-                        _handlerMouseEnter()
-                    }}
-                    onMouseLeave={() => {
-                      ;(!valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name) &&
-                        _handlerMouseLeave()
-                    }}
+                    onMouseEnter={() => onMouseEnter}
+                    onMouseLeave={() => onMouseLeave}
                   >
                     {showHintAddMember && (
                       <HintWindow
