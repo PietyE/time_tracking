@@ -92,8 +92,8 @@ function* syncWithGoogleSheet() {
 
     //non field error its BE error throwing for checking if we have empty name in google sheet
     if (!isEmpty(users['non_field_errors'])) {
-      yield put(googleAuthAccessDenied(true))
-      throw new Error('Check google sheet for an empty name')
+      yield put(googleAuthErrorListToggle())
+      throw new Error('Check google sheet for an empty fields')
     }
     yield put(googleAuthSyncGoogleSheetSuccess())
     yield put(googleAuthChangeGoogleSheetLink(''))
