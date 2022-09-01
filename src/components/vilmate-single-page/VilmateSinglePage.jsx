@@ -14,6 +14,7 @@ import useFetchUserDataById from './components/helpers/useFetchUserData'
 import { PersonalInformationSection } from './components/PersonalInformationSection'
 import { PhotoSection } from './components/PhotoSection'
 import { ProjectsSection } from './components/ProjectsSection'
+import { ADMIN, HR } from 'constants/role-constant'
 import styles from './VilmatesSinglePage.module.scss'
 
 export const VilmateSinglePage = () => {
@@ -33,7 +34,7 @@ export const VilmateSinglePage = () => {
       </Box>
       <Box className={styles.right_container}>
         <PersonalInformationSection user={user} />
-        {user.role === 5 && <CommentsSection />}
+        {(user.role === HR || ADMIN) && <CommentsSection />}
       </Box>
     </Box>
   ) : (
