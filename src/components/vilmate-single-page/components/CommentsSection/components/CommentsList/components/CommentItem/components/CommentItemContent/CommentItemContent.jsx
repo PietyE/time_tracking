@@ -9,7 +9,11 @@ export const CommentItemContent = ({ text, date, name }) => (
       <Typography variant="body2" component="p" className={styles.name}>
         {name}
       </Typography>
-      <Typography variant="body2" component="p">
+      <Typography
+        variant="body2"
+        component="p"
+        style={{ lineBreak: 'anywhere' }}
+      >
         {text}
       </Typography>
     </Paper>
