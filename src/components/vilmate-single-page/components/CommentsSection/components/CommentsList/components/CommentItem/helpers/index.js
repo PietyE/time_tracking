@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import axios from 'axios'
 import { get as lodashGet } from 'lodash'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
+import Api from 'utils/api'
 
 export const useFetchUserName = (userId) => {
   const [user, setUser] = useState('')
@@ -12,7 +12,7 @@ export const useFetchUserName = (userId) => {
 
   const getUserById = async () => {
     try {
-      const response = await axios.get(url)
+      const response = await Api.users(url)
       const { status, data } = response
       if (String(status)[0] !== '2') {
         throw new Error()
