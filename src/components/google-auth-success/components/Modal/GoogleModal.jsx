@@ -6,6 +6,7 @@ import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { GoogleModalContent } from './components'
 import {
   googleAuthErrorListToggle,
+  googleAuthIsAgreeTrue,
   googleAuthSendGoogleSheetSyncRequest,
 } from 'actions/google-auth-success'
 import { isOpenErrorList } from 'selectors/google-auth-success'
@@ -20,6 +21,12 @@ export const GoogleModal = () => {
     dispatch(googleAuthSendGoogleSheetSyncRequest())
   }
 
+  const onForcePush = () => {
+    dispatch(googleAuthIsAgreeTrue())
+    dispatch(googleAuthErrorListToggle())
+    dispatch(googleAuthSendGoogleSheetSyncRequest())
+  }
+
   return (
     <Modal
       open={isOpen}
@@ -27,6 +34,9 @@ export const GoogleModal = () => {
       actionText="Sync again"
       onClose={handleToggle}
       onButtonClick={onSyncAgain}
+      secondButton={true}
+      onSecondaryClick={onForcePush}
+      secondActionText="Force Push"
     >
       <Box className="modal-container-form-users-sync-list">
         <GoogleModalContent />

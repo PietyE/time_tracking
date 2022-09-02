@@ -2,9 +2,9 @@
 
 .google-auth-success-container {
   max-width: 758px;
+  background-color: $whiteColor;
   border: 1px solid $grayBorderColor;
   border-radius: 10px;
-  background-color: $whiteColor;
   &-form {
       padding: 17px 24px 40px;
     &-header {
@@ -19,6 +19,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+        >div {
+          margin-bottom: 24px;
+        }
       }
   }
 }

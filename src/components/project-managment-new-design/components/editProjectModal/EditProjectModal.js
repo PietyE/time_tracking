@@ -77,7 +77,7 @@ function EditProjectModal({ show, month }) {
   const currentProjectActiveDevelopers = useMemo(
     () =>
       currentProjectReport?.users
-        .filter((e) => e.is_active && e.userName !== activeProjectManager?.name)
+        .filter((e) => e.is_active)
         .map((e) => ({ ...e, name: e.userName, id: e.userId }))
         .sort(sortArrayByUserName) || [],
     [currentProjectReport, activeProjectManager]
@@ -528,6 +528,14 @@ function EditProjectModal({ show, month }) {
     setShowHintAddMember(false)
   }, [])
 
+  const mouseEnter = () =>
+    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
+    _handlerMouseEnter()
+
+  const mouseLeave = () =>
+    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
+    _handlerMouseLeave()
+
   return (
     <div
       ref={modalRef}
@@ -688,14 +696,10 @@ function EditProjectModal({ show, month }) {
                         : '')
                     }
                     onMouseEnter={() => {
-                      (!valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name) &&
-                        _handlerMouseEnter()
+                      mouseEnter()
                     }}
                     onMouseLeave={() => {
-                      (!valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name) &&
-                        _handlerMouseLeave()
+                      mouseLeave()
                     }}
                   >
                     {showHintAddMember && (

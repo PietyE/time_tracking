@@ -1,1 +1,1 @@
-export { GoogleAuthSuccess } from './GoogleAuthSuccess'
+export { default } from './GoogleAuthSuccess'

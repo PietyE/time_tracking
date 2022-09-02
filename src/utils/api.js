@@ -199,6 +199,10 @@ class Api {
 
   updateUserPersonalInformation = (url, data) =>
     fetchApi({ url, data, method: 'patch' })
+
+  getComments = (url) => fetchApi({ url })
+
+  postComment = (url, data) => fetchApi({ url, data, method: 'post' })
 }
 
 export default new Api()

@@ -18,6 +18,7 @@ import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   getGoogleSheetSyncInputLink,
+  getSelectedDate,
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
 
@@ -39,7 +40,7 @@ function* createUsersHoursToken(action) {
     const { status, data: error } = response
 
     if (!isEmpty(error.detail)) {
-      yield put(googleAuthAccessDenied(error?.detail))
+      yield put(googleAuthAccessDenied(true))
       throw new Error('Access denied')
     }
 
@@ -73,19 +74,26 @@ function* syncWithGoogleSheet() {
     const url = 'user-hours/sync_with_google_sheets/'
     const is_agree = yield select(googleSheetSyncIsAgree)
     const spreadsheet = yield select(getGoogleSheetSyncInputLink)
+    const date = yield select(getSelectedDate)
 
     const response = yield call([Api, 'syncWithGoogleSheet'], url, {
       spreadsheet,
       is_agree,
+      ...date,
     })
 
     const { data: users } = response
 
-    if (!isEmpty(users)) {
+    //users.error it`s a field throwing from BE if we have difference in names
+    if (!isEmpty(users?.errors)) {
       yield put(googleAuthSyncGoogleSheetError(users.errors))
       throw new Error(isUsersDifferentMessage)
     }
 
+    //non field error its BE error throwing for checking if we have empty name in google sheet
+    if (!isEmpty(users['non_field_errors'])) {
+      throw new Error('Check google sheet for an empty fields')
+    }
     yield put(googleAuthSyncGoogleSheetSuccess())
     yield put(googleAuthChangeGoogleSheetLink(''))
     yield put(

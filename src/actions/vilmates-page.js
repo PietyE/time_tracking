@@ -11,6 +11,12 @@ import {
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
+  VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  VILMATES_PAGE_GET_COMMENTS_SUCCESS,
+  VILMATES_PAGE_GET_COMMENTS_ERROR,
+  VILMATES_PAGE_POST_COMMENT_REQUEST,
+  VILMATES_PAGE_POST_COMMENT_SUCCESS,
+  VILMATES_PAGE_POST_COMMENT_ERROR,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
   VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
   VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
@@ -100,4 +106,33 @@ export const vilatesSinglePageUpdateUserInformationSuccess = (newInfo) => ({
 
 export const vilatesSinglePageUpdateUserInformationError = () => ({
   type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_ERROR,
+})
+
+
+export const vilmatesPageGetCommentsRequest = (userId) => ({
+  type: VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  payload: userId,
+})
+
+export const vilmatesPageGetCommentsSuccess = (comments) => ({
+  type: VILMATES_PAGE_GET_COMMENTS_SUCCESS,
+  payload: comments,
+})
+
+export const vilmatesPageGetCommentsError = () => ({
+  type: VILMATES_PAGE_GET_COMMENTS_ERROR,
+})
+
+export const vilmatesPagePostCommentsRequest = (userId) => ({
+  type: VILMATES_PAGE_POST_COMMENT_REQUEST,
+  payload: userId,
+})
+
+export const vilmatesPagePostCommentsSuccess = (commentInfo) => ({
+  type: VILMATES_PAGE_POST_COMMENT_SUCCESS,
+  payload: commentInfo,
+})
+
+export const vilmatesPagePostCommentsError = () => ({
+  type: VILMATES_PAGE_POST_COMMENT_ERROR,
 })
