@@ -15,17 +15,6 @@
   padding: 0;
   margin-bottom: 25px;
   cursor: pointer;
-  div {
-    span {
-      font-size: 12px;
-      color: $lightBlackColor;
-      margin-bottom: 3px;
-    }
-    p {
-      font-weight: 500;
-      color: $mainBlackColor;
-    }
-  }
 }
 
 .avatar {
@@ -37,4 +26,29 @@
   justify-content: center;
   margin-right: 12px;
   align-items: center;
+}
+
+.information_textField {
+  & :global .MuiOutlinedInput-root {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+  }
+  fieldset {
+    border-style: none;
+  }
+  & :global .MuiOutlinedInput-root:hover {
+    fieldset {
+      border: none;
+    }
+  }
+  & :global .MuiOutlinedInput-root.Mui-focused {
+    fieldset {
+      border: 1px green solid;
+    }
+    input {
+      cursor: text;
+    }
+  }
 }

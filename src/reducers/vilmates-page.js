@@ -159,6 +159,10 @@ export const vilmatesPage = (state = initialState, action) => {
             ...state.singlePage.comments,
             isLoading: false,
           },
+          developerProjects: [
+            ...state.singlePage.developerProjects,
+            { ...action.payload, is_active: true },
+          ],
         },
       }
     default:
