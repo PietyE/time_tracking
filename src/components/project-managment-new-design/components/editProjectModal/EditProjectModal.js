@@ -528,11 +528,11 @@ function EditProjectModal({ show, month }) {
     setShowHintAddMember(false)
   }, [])
 
-  const onMouseEnter =
+  const mouseEnter = () =>
     (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
     _handlerMouseEnter()
 
-  const onMouseLeave =
+  const mouseLeave = () =>
     (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
     _handlerMouseLeave()
 
@@ -695,8 +695,12 @@ function EditProjectModal({ show, month }) {
                         ? 'half-opacity'
                         : '')
                     }
-                    onMouseEnter={() => onMouseEnter}
-                    onMouseLeave={() => onMouseLeave}
+                    onMouseEnter={() => {
+                      mouseEnter()
+                    }}
+                    onMouseLeave={() => {
+                      mouseLeave()
+                    }}
                   >
                     {showHintAddMember && (
                       <HintWindow
