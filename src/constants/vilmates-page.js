@@ -47,5 +47,5 @@ export const VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST =
 
 export const OCCUPATION = {
   FULL_TIME: 'Salary',
-  PART_TIME: 'Hourly',
+  PART_TIME: 'Hourly payroll',
 }

@@ -667,7 +667,7 @@ function EditProjectModal({ show, month }) {
                 DEVELOPER NAME
               </span>
               <span className="project_data_header-title edit_modal-team_occupancy">
-                OCCUPANCY
+                PAYMENT
               </span>
               <span className="project_data_header-title edit_modal-team_hours">
                 HOURS
