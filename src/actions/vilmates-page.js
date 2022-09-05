@@ -19,8 +19,6 @@ import {
   VILMATES_PAGE_POST_COMMENT_ERROR,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
   VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
-  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
-  VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_ERROR,
 } from 'constants/vilmates-page'
 
 export const vilmatesPageGetUsersListRequest = (searchWord) => ({
@@ -98,16 +96,6 @@ export const vilatesSinglePageUpdateUserInformationRequest = (userInfo) => ({
   type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
   payload: userInfo,
 })
-
-export const vilatesSinglePageUpdateUserInformationSuccess = (newInfo) => ({
-  type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_SUCCESS,
-  payload: newInfo,
-})
-
-export const vilatesSinglePageUpdateUserInformationError = () => ({
-  type: VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_ERROR,
-})
-
 
 export const vilmatesPageGetCommentsRequest = (userId) => ({
   type: VILMATES_PAGE_GET_COMMENTS_REQUEST,

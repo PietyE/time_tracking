@@ -60,10 +60,11 @@ class Api {
     })
   }
 
-  deleteWorkItem = (url) => {
+  deleteWorkItem = (url, data) => {
     return fetchApi({
       url,
-      method: 'delete',
+      data,
+      method: 'patch',
     })
   }
 
