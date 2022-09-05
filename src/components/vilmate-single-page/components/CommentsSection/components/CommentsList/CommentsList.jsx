@@ -5,13 +5,13 @@ import { Grid, Typography } from '@material-ui/core'
 import { CommentItem } from './components/CommentItem'
 import { vilmatesPageGetCommentsRequest } from 'actions/vilmates-page'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
-import { getComments, getCommentsLoading } from 'selectors/vilmates-page'
+import { getCommentsByDate, getCommentsLoading } from 'selectors/vilmates-page'
 import SpinnerStyled from 'components/ui/spinner'
 
 export const CommentsList = () => {
   const { userId } = useParams()
   const dispatch = useDispatch()
-  const comments = useShallowEqualSelector(getComments)
+  const comments = useShallowEqualSelector(getCommentsByDate)
   const isCommentsLoading = useShallowEqualSelector(getCommentsLoading)
 
   useEffect(() => {

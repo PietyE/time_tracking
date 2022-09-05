@@ -104,15 +104,15 @@ export function paginationWithDots(c, m) {
 }
 
 export function setElementTop(element) {
-  let top;
+  let top
   if (window.pageYOffset < 100) {
     if (document.documentElement.clientWidth < 990) {
-      top = window.pageYOffset + document.documentElement.clientHeight/3 + 100
+      top = window.pageYOffset + document.documentElement.clientHeight / 3 + 100
     } else {
-      top = window.pageYOffset + document.documentElement.clientHeight/3
+      top = window.pageYOffset + document.documentElement.clientHeight / 3
     }
   } else {
-    top = window.pageYOffset + document.documentElement.clientHeight/4
+    top = window.pageYOffset + document.documentElement.clientHeight / 4
   }
   element.style.top = top + 'px'
 }
@@ -123,34 +123,32 @@ export const sortUserProjectReport = (a, b) => {
 
 export const compareForTimeColumns = (a, b) => {
   if (typeof a !== 'string' || typeof b !== 'string') {
-    return 0;
+    return 0
   }
-  const first = formatTimeToNumber(a);
-  const second = formatTimeToNumber(b);
+  const first = formatTimeToNumber(a)
+  const second = formatTimeToNumber(b)
 
   if (first === second) {
-    return 0;
+    return 0
   }
 
-  return first < second ? -1 : 1;
+  return first < second ? -1 : 1
 }
 
 export const getDeveloperProjectsName = (projects) => {
-  const allProjectsName = projects
-    .map((project) => project.name)
-    .join(', ')
-  return allProjectsName;
+  const allProjectsName = projects.map((project) => project.name).join(', ')
+  return allProjectsName
 }
 
 export const setHeight = (elem) => {
-  let vh = window.innerHeight * 0.01;
-  elem.style.setProperty('--vh', `${vh}px`);
+  let vh = window.innerHeight * 0.01
+  elem.style.setProperty('--vh', `${vh}px`)
 }
 
 const formatTimeToNumber = (timeStr) => {
-  const result = timeStr.replace('h ', '').replace('m', '');
+  const result = timeStr.replace('h ', '').replace('m', '')
 
-  return parseInt(result);
+  return parseInt(result)
 }
 
 export const sortArrayOfObjectsAlphabetically = (a, b, sortingField) => {
@@ -162,3 +160,11 @@ export const sortArrayOfObjectsAlphabetically = (a, b, sortingField) => {
   }
   return 0
 }
+
+export const sortAndParseByDate = (comments) =>
+  comments
+    .sort(
+      (comment1, comment2) =>
+        Date.parse(comment1.date_create) - Date.parse(comment2.date_create)
+    )
+    .reverse()
