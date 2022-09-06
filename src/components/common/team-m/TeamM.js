@@ -82,23 +82,9 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived }) {
         </div>
         <div className={'team-m__type-work ' + (hovers ? 'flex-column' : '')}>
           <div className="label-def">
-            <span>{fulTime ? 'Salary' : 'Hourly'}</span>
+            <span>{fulTime ? 'Salary' : 'Hourly Payroll'}</span>
           </div>
           <div className="team-m_input_block">
-            <div className="team-m-input-cont">
-              <label htmlFor={e.id || e.user_id}>
-                <input
-                  name="w-type"
-                  type="radio"
-                  checked={!fulTime ? 'checked' : ''}
-                  id={e.id || e.user_id}
-                  onChange={handleOccupancyChange(false)}
-                  disabled={isArchived}
-                />
-                <span className="checkmark"></span>
-                Hourly
-              </label>
-            </div>
             <div className="team-m-input-cont">
               <label htmlFor={e.id + 1 || e.user_id + 1}>
                 <input
@@ -111,6 +97,20 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived }) {
                 />
                 <span className="checkmark"></span>
                 Salary
+              </label>
+            </div>
+            <div className="team-m-input-cont">
+              <label htmlFor={e.id || e.user_id}>
+                <input
+                  name="w-type"
+                  type="radio"
+                  checked={!fulTime ? 'checked' : ''}
+                  id={e.id || e.user_id}
+                  onChange={handleOccupancyChange(false)}
+                  disabled={isArchived}
+                />
+                <span className="checkmark"></span>
+                Hourly Payroll
               </label>
             </div>
           </div>

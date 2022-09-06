@@ -24,15 +24,15 @@ export const DeveloperOccupationRadioGroup = ({ onChange, isFullTime }) => {
     >
       <FormControlLabel
         className={styles.label}
-        value={PART_TIME}
-        control={<Radio />}
-        label={PART_TIME}
-      />
-      <FormControlLabel
-        className={styles.label}
         value={FULL_TIME}
         control={<Radio />}
         label={FULL_TIME}
+      />
+      <FormControlLabel
+        className={styles.label}
+        value={PART_TIME}
+        control={<Radio />}
+        label={PART_TIME}
       />
     </RadioGroup>
   )

@@ -9,14 +9,14 @@
   border: 1px solid rgba(201, 201, 198, 0.4);
   box-sizing: border-box;
   box-shadow: -10px -5px 35px rgba(0, 0, 0, 0.1);
-  border-radius: 10px 0px 0px 0px;
+  border-radius: 10px 0 0 0;
   max-width: 613px;
 
   .header {
     display: flex;
     flex-direction: row;
     background: #F3F3F3;
-    border-radius: 9px 0px 0px 0px;
+    border-radius: 9px 0 0 0;
     width: 613px;
     padding: 25px;
     white-space: nowrap;
@@ -549,7 +549,7 @@
         letter-spacing: 0.03em;
         color: $mainBlackColor;
         margin-right: 50px;
-        width: 97px;
+        width: 120px;
       }
 
       .row{
@@ -582,7 +582,7 @@
 
         .team-m-input-cont{
           display: block;
-          width: 97px;
+          width: 120px;
           height: 20px;
           padding-left: 18px;
           label{
