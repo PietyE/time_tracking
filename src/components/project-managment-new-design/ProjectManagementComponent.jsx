@@ -38,7 +38,7 @@ import CreateUserModal from './components/CreateUserModal'
 import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
-import { sortProjectsByName } from '../../utils/common'
+import { ASCEND } from '../../constants/order-constant'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -51,13 +51,13 @@ import { sortProjectsByName } from '../../utils/common'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
+  const SORT_NAME = 'name'
   const {
     sorting,
     sortingParameter,
     handleSortingChange,
     toggleSortingParameter,
-  } = useSorting()
-  const SORT_NAME = 'name'
+  } = useSorting({ [SORT_NAME]: ASCEND })
   const SORT_TIME = 'total_minutes'
   const dispatch = useDispatch()
 
@@ -184,7 +184,7 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(projectList[0]))
   }
   const projectsListNotArchived = sorting
-    .sort(sortProjectsByName)
+
     .filter((e) => !e.is_archived)
     .map((e) => {
       return (
