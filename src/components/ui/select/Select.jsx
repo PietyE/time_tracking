@@ -6,7 +6,8 @@ import _ from 'lodash'
 import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
-import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { sortArrayOfObjectsAlphabetically } from '../../../utils/common'
 
 function Select(props) {
   const {
@@ -22,9 +23,8 @@ function Select(props) {
     disabled,
   } = props
 
-
   const [_title, setTitle] = useState(title)
-  const [icon , setIcon] = useState(false)
+  const [icon, setIcon] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [classNameOpen, setClassNameOpen] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -53,11 +53,11 @@ function Select(props) {
     }
   }
 
-  const handlerClickItem = (e, icon=false) => {
+  const handlerClickItem = (e, icon = false) => {
     e.preventDefault()
     setTitle(e.currentTarget.dataset.value)
-    if(icon){
-      setIcon(icon);
+    if (icon) {
+      setIcon(icon)
     }
   }
 
@@ -90,19 +90,19 @@ function Select(props) {
   //   }
   // }, [initialChoice])
   ///////////////////////////////////////////////////////////
-  useEffect(()=>{
- if (initialChoice && initialChoice[valueKey]){
-   if(initialChoice.iconColor){
-     setIcon(initialChoice.iconColor)
-   }
-    setTitle(initialChoice[valueKey])
-  } else if(!initialChoice && listItems?.length){
-    setTitle(title)
-   if(initialChoice && initialChoice.iconColor){
-     setIcon(initialChoice.iconColor)
-   }
- }
-    },[listItems, initialChoice, title, valueKey])
+  useEffect(() => {
+    if (initialChoice && initialChoice[valueKey]) {
+      if (initialChoice.iconColor) {
+        setIcon(initialChoice.iconColor)
+      }
+      setTitle(initialChoice[valueKey])
+    } else if (!initialChoice && listItems?.length) {
+      setTitle(title)
+      if (initialChoice && initialChoice.iconColor) {
+        setIcon(initialChoice.iconColor)
+      }
+    }
+  }, [listItems, initialChoice, title, valueKey])
 
   useEffect(() => {
     if (
@@ -121,30 +121,39 @@ function Select(props) {
 
   const classNameDisabled = !listItems.length ? 'disabled' : ''
 
-  const searchedListItems = listItems.filter((item) => {
-    if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-      return true
-    }
-    return false
-  })
+  const sortProjectsByName = (project1, project2) =>
+    sortArrayOfObjectsAlphabetically(project1, project2, 'name')
 
-  const showContainer = isOpen && !disabled && !!searchedListItems.length;
+  const searchedListItems = listItems
+    .filter((item) => {
+      if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+        return true
+      }
+      return false
+    })
+    .sort(sortProjectsByName)
 
+  const showContainer = isOpen && !disabled && !!searchedListItems.length
   return (
     <button
       className={`select_container ${extraClassContainer} ${classNameContainerOpen} ${
         disabled ? 'disabled' : ''
       }`}
-      type='button'
+      type="button"
       onClick={disabled ? null : handlerClickOpen}
       tabIndex={1}
       //disabled={!listItems.length}
     >
       <div className="select_title_container">
-        {icon ?
-            <span className={'select_circle-icon'} style={{backgroundColor:icon}}></span>:''}
+        {icon ? (
+          <span
+            className={'select_circle-icon'}
+            style={{ backgroundColor: icon }}
+          ></span>
+        ) : (
+          ''
+        )}
         {isSearch && isOpen && !disabled ? (
-
           <input
             className="select_title_text select_title_text_input"
             placeholder={_title}
@@ -153,14 +162,12 @@ function Select(props) {
             value={searchValue}
           />
         ) : (
-
-
           <span className={`select_title_text ${classNameDisabled}`}>
             {_title}
           </span>
         )}
         <FontAwesomeIcon
-            icon={faChevronDown}
+          icon={faChevronDown}
           className={
             isOpen && !classNameOpen
               ? 'select_title_icon active'
@@ -174,14 +181,29 @@ function Select(props) {
           onAnimationEnd={handlerAnimationEnd}
         >
           {searchedListItems.map((item) => (
-
-            <div className={'select_list_item_container  '+(item.name === _title ? 'selected':'')} key={item[idKey]}>
-              {item.iconColor &&
-                <span className={'select_circle-icon'} style={{backgroundColor:item.iconColor}}></span>
+            <div
+              className={
+                'select_list_item_container  ' +
+                (item.name === _title ? 'selected' : '')
               }
-              {item.count&&
-              <span className={'count-container '+ (item.name === 'Active'?'active':'')}>{item.count}</span>
-              }
+              key={item[idKey]}
+            >
+              {item.iconColor && (
+                <span
+                  className={'select_circle-icon'}
+                  style={{ backgroundColor: item.iconColor }}
+                ></span>
+              )}
+              {item.count && (
+                <span
+                  className={
+                    'count-container ' +
+                    (item.name === 'Active' ? 'active' : '')
+                  }
+                >
+                  {item.count}
+                </span>
+              )}
 
               <span
                 className={
