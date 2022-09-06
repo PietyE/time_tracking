@@ -161,6 +161,9 @@ export const sortArrayOfObjectsAlphabetically = (a, b, sortingField) => {
   return 0
 }
 
+export const sortProjectsByName = (project1, project2) =>
+  sortArrayOfObjectsAlphabetically(project1, project2, 'name')
+
 export const sortAndParseByDate = (comments) =>
   comments
     .sort(

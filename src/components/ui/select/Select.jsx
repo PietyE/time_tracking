@@ -7,7 +7,7 @@ import { usePrevious } from 'custom-hook/usePrevious'
 
 import './style.scss'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { sortArrayOfObjectsAlphabetically } from '../../../utils/common'
+import { sortProjectsByName } from 'utils/common'
 
 function Select(props) {
   const {
@@ -120,9 +120,6 @@ function Select(props) {
   const classNameContainerOpen = isOpen && !classNameOpen ? 'active' : ''
 
   const classNameDisabled = !listItems.length ? 'disabled' : ''
-
-  const sortProjectsByName = (project1, project2) =>
-    sortArrayOfObjectsAlphabetically(project1, project2, 'name')
 
   const searchedListItems = listItems
     .filter((item) => {
