@@ -6,7 +6,6 @@ import { parseMinToHoursAndMin } from 'utils/common'
 import Day from '../components/Day'
 import DeveloperSelect from '../components/DeveloperSelect'
 import ProjectSelect from '../components/ProjectSelect'
-import { isEmpty } from 'lodash'
 import SpinnerStyled from 'components/ui/spinner'
 import '../style.scss'
 
@@ -34,9 +33,8 @@ export const TimeReportDesktop = ({
   selectDayStatus,
   selectedDayStatus,
   setUserStatus,
-}) => {
-  const isLoading = isFetchingReports || isEmpty(selectedProject)
-  return isLoading ? (
+}) =>
+  isFetchingReports ? (
     <SpinnerStyled />
   ) : (
     <div className="time_report_container container">
@@ -123,4 +121,3 @@ export const TimeReportDesktop = ({
       </div>
     </div>
   )
-}
