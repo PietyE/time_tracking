@@ -15,6 +15,7 @@ import { PersonalInformationSection } from './components/PersonalInformationSect
 import { PhotoSection } from './components/PhotoSection'
 import { ProjectsSection } from './components/ProjectsSection'
 import { ADMIN, HR } from 'constants/role-constant'
+import { getRoleUser } from 'selectors/user'
 import styles from './VilmatesSinglePage.module.scss'
 
 export const VilmateSinglePage = () => {
@@ -23,8 +24,11 @@ export const VilmateSinglePage = () => {
     vilmatesPageSelectUserRequest,
     getSelectedUser
   )
+  const role = useEqualSelector(getRoleUser)
   const isUserLoading = useEqualSelector(isSelectedUserLoading)
+
   const isLoading = isUserLoading || user.id !== selectedUserId
+  const isCommentsVisible = role === HR || role === ADMIN
 
   const isUserFound = user ? (
     <Box style={{ display: 'flex' }}>
@@ -34,7 +38,7 @@ export const VilmateSinglePage = () => {
       </Box>
       <Box className={styles.right_container}>
         <PersonalInformationSection user={user} />
-        {(user.role === HR || ADMIN) && <CommentsSection />}
+        {isCommentsVisible && <CommentsSection />}
       </Box>
     </Box>
   ) : (

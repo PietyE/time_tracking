@@ -25,7 +25,7 @@ import {
   selectProject,
 } from 'actions/times-report'
 import { setDeveloperProjects } from 'actions/developer-projects'
-import {setDeveloperProjectsTR} from 'actions/times-report'
+import { setDeveloperProjectsTR } from 'actions/times-report'
 import { showAlert } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
@@ -63,10 +63,16 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
 }
 
 export function* getDeveloperProjectsById(action) {
-const { month, year } = yield select((state) => state.timereports.selectedDate)
+  const { month, year } = yield select(
+    (state) => state.timereports.selectedDate
+  )
   try {
     let developerId = action?.payload
-    const { data } = yield call([pm, 'getDeveloperProjectsById'], { year, month, id: `${developerId}` })
+    const { data } = yield call([pm, 'getDeveloperProjectsById'], {
+      year,
+      month,
+      id: `${developerId}`,
+    })
     yield put(setDeveloperProjectsTR(data))
   } catch (error) {
     yield put(
@@ -75,7 +81,7 @@ const { month, year } = yield select((state) => state.timereports.selectedDate)
         title: 'Something went wrong',
         message: error.message || 'Something went wrong',
         delay: 6000,
-      }),
+      })
     )
   }
 }
@@ -116,11 +122,11 @@ export function* workerTimeReports() {
 
       yield put(setIsFetchingReports(false))
     }
-  } catch(e){}
+  } catch (e) {}
 }
 
 export function* addTimeReport({ payload }) {
-  try{
+  try {
     yield put(setIsFetchingReports(true))
 
     const { selectedProject } = yield select((state) => state.timereports)
@@ -135,6 +141,7 @@ export function* addTimeReport({ payload }) {
       title: payload.description,
       duration: payload.tookHours,
       date: payload.date,
+      is_active: true,
     }
 
     const { data, status } = yield call(
@@ -152,15 +159,13 @@ export function* addTimeReport({ payload }) {
       title: data.title,
       duration: data.duration,
       date: data.date,
+      is_active: true,
     })
 
     yield put(setTimeReports({ items: newTimereport }))
-  }finally {
+  } finally {
     yield put(setIsFetchingReports(false))
-
   }
-
-
 }
 
 export function* deleteTimeReport({ payload: id }) {
@@ -171,10 +176,12 @@ export function* deleteTimeReport({ payload: id }) {
     reports: { items },
   } = yield select((state) => state.timereports)
   const newTimereport = items.filter((item) => item.id !== id)
-  const { status } = yield call([Api, 'deleteWorkItem'], URL)
+  const { status } = yield call([Api, 'deleteWorkItem'], URL, {
+    is_active: false,
+  })
   yield put(setIsFetchingReports(false))
 
-  if (status === 204) {
+  if (String(status)[0] === '2') {
     yield put(setTimeReports({ items: newTimereport }))
     yield put(
       showAlert({

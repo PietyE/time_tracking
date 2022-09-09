@@ -1,8 +1,18 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
-  SET_ALL_PROJECTS, SET_SELECTED_PROJECT, SET_SELECTED_PROJECT_ID, SET_PROJECT_REPORTS,
-  CLEAR_PM_PROJECTS, SET_IS_FETCHING_PM_PAGE, SET_SHOW_EDIT_MODAL, SET_SHOW_CREATE_MODAL,
-  SET_SELECTED_PM, SET_SHOWN_PROJECT, CLEAR_PM_PAGE, GET_ACTIVE_PROJECTS, SET_SHOW_CREATE_USER_MODAL
+  SET_ALL_PROJECTS,
+  SET_SELECTED_PROJECT,
+  SET_SELECTED_PROJECT_ID,
+  SET_PROJECT_REPORTS,
+  CLEAR_PM_PROJECTS,
+  SET_IS_FETCHING_PM_PAGE,
+  SET_SHOW_EDIT_MODAL,
+  SET_SHOW_CREATE_MODAL,
+  SET_SELECTED_PM,
+  SET_SHOWN_PROJECT,
+  CLEAR_PM_PAGE,
+  GET_ACTIVE_PROJECTS,
+  SET_SHOW_CREATE_USER_MODAL,
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -13,26 +23,28 @@ const initialState = {
     year: todayDate.getFullYear(),
   },
   projects: [],
-  activeProjects:[],
-  archiveProjects:[],
+  activeProjects: [],
+  archiveProjects: [],
   projectsWithReports: [],
   selectedProjectId: '',
   selectedProject: {},
-  isFetchingPmPage:false,
-  isShowEditModal:false,
+  isFetchingPmPage: false,
+  isShowEditModal: false,
   isShowCreateModal: false,
-  isShowCreateUserModal:false,
+  isShowCreateUserModal: false,
   selectedPm: {
     email: '',
     id: 'select-all',
     name: 'Choose PM',
     role: null,
   },
-  shownProject:null,
+  shownProject: null,
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []
-  const index = state.projectsWithReports.findIndex(el => el.projectId === action.payload.projectId)
+  const index = state.projectsWithReports.findIndex(
+    (el) => el.projectId === action.payload.projectId
+  )
   if (index === -1) {
     projectsWithReports = [...state.projectsWithReports, action.payload]
   } else {
@@ -69,7 +81,7 @@ export const projectsManagement = (state = initialState, action) => {
     case SET_SHOWN_PROJECT:
       return { ...state, shownProject: action.payload }
     case GET_ACTIVE_PROJECTS:
-      return {...state, activeProjects:action.payload}
+      return { ...state, activeProjects: action.payload }
     case CLEAR_PM_PAGE:
       return { ...initialState }
     default:
@@ -77,33 +89,35 @@ export const projectsManagement = (state = initialState, action) => {
   }
 }
 
+export const getSelectedPmSelector = (state) =>
+  state.projectsManagement.selectedPm
+export const getSelectedPmIdSelector = (state) =>
+  state.projectsManagement.selectedPm?.id
 
+export const getIsFetchingPmPageSelector = (state) =>
+  state.projectsManagement.isFetchingPmPage
+export const getIsShowEditModalSelector = (state) =>
+  state.projectsManagement.isShowEditModal
+export const getIsShowCreateModalSelector = (state) =>
+  state.projectsManagement.isShowCreateModal
+export const getIsShowCreateUserModalSelector = (state) =>
+  state.projectsManagement.isShowCreateUserModal
 
+export const getUsersSelector = (state) => state.developers.developersList
 
-export const getSelectedPmSelector = state => state.projectsManagement.selectedPm
-export const getSelectedPmIdSelector = state => state.projectsManagement.selectedPm?.id
-
-
-export const getIsFetchingPmPageSelector = state => state.projectsManagement.isFetchingPmPage
-export const getIsShowEditModalSelector = state => state.projectsManagement.isShowEditModal
-export const getIsShowCreateModalSelector = state => state.projectsManagement.isShowCreateModal
-export const getIsShowCreateUserModalSelector = state => state.projectsManagement.isShowCreateUserModal
-
-export const getUsersSelector = state => state.developers.developersList
-
-export const getProjectManagerListSelector = state => {
+export const getProjectManagerListSelector = (state) => {
   const users = getUsersSelector(state)
-  return users.filter(user => user.role === 4)
+  return users.filter((user) => user.role === 4)
 }
 
-export const getTeamMListSelector = state => {
+export const getTeamMListSelector = (state) => {
   const users = getUsersSelector(state)
-  return users.filter(user => user.role !== 4)
+  return users.filter((user) => user.role !== 4)
 }
 
-export const getDeveloperSelector = state => {
+export const getDeveloperSelector = (state) => {
   const users = getUsersSelector(state)
-  return users.filter(user => user.role === 1)
+  return users.filter((user) => user.role === 1)
 }
 ///////////////////////////////////////////////////////
 export const getSelectedDateForPMSelector = (state) =>
@@ -115,7 +129,8 @@ export const getSelectedMonthForPMSelector = (state) =>
 export const getAllProjectsSelector = (state) =>
   state.projectsManagement.projects
 
-export const getShownProjectSelector = state => state.projectsManagement.shownProject
+export const getShownProjectSelector = (state) =>
+  state.projectsManagement.shownProject
 
 export const getFilteredProjectSelector = (state) => {
   const allProjects = getAllProjectsSelector(state)
@@ -127,36 +142,41 @@ export const getFilteredProjectSelector = (state) => {
   })
 }
 
-
-
-export const getProjectsWithReportSelector = (state) => state.projectsManagement.projectsWithReports
+export const getProjectsWithReportSelector = (state) =>
+  state.projectsManagement.projectsWithReports
 
 export const getProjectReportByIdSelector = (state, id) => {
-  return getProjectsWithReportSelector(state).find(project => project.projectId === id)
+  return getProjectsWithReportSelector(state).find(
+    (project) => project.projectId === id
+  )
 }
-export const getSelectedProjectIdSelector = state => state.projectsManagement.selectedProjectId
-export const getSelectedProjectSelector = state => state.projectsManagement.selectedProject
-export const getCurrentProjectSelector = state =>{
+export const getSelectedProjectIdSelector = (state) =>
+  state.projectsManagement.selectedProjectId
+export const getSelectedProjectSelector = (state) =>
+  state.projectsManagement.selectedProject
+export const getCurrentProjectSelector = (state) => {
   const id = getSelectedProjectIdSelector(state)
   const projects = getAllProjectsSelector(state)
 
-  let currentProject =  projects.find(project => project.id === id);
+  let currentProject = projects.find((project) => project.id === id)
 
-  return currentProject;
+  return currentProject
 }
 ///////////////////////////////////////////////////////
 
-export const getProjectName = state => {
+export const getProjectName = (state) => {
   const currentProject = getCurrentProjectSelector(state)
   return currentProject?.name
 }
 ///////////////////////////////////////////////////////
-export const getProjectActiveUsersSelector = state => {
-  const projectId = getSelectedProjectIdSelector(state);
-  const reports = getProjectsWithReportSelector(state);
-  const currentProjectReports = reports.find(rep => rep.projectId === projectId);
+export const getProjectActiveUsersSelector = (state) => {
+  const projectId = getSelectedProjectIdSelector(state)
+  const reports = getProjectsWithReportSelector(state)
+  const currentProjectReports = reports.find(
+    (rep) => rep.projectId === projectId
+  )
 
-  return currentProjectReports?.users?.map(report => ({
+  return currentProjectReports?.users?.map((report) => ({
     user_id: report.userId,
     name: report.userName,
     is_full_time: report?.is_full_time,
@@ -166,41 +186,38 @@ export const getProjectActiveUsersSelector = state => {
   }))
 }
 
-export const getActiveProjectManagerSelector = state => {
+export const getActiveProjectManagerSelector = (state) => {
   const projectActiveUsers = getProjectActiveUsersSelector(state)
   const allProjectManagers = getProjectManagerListSelector(state)
 
   if (projectActiveUsers) {
-    const managersIdArray = allProjectManagers.map(manager => manager.id)
-    return projectActiveUsers.filter(user => managersIdArray.includes(user.user_id))
-
+    const managersIdArray = allProjectManagers.map((manager) => manager.id)
+    return projectActiveUsers.filter((user) =>
+      managersIdArray.includes(user.user_id)
+    )
   }
 }
 
-export const getActivePmInCurrentProjectSelector = state => {
+export const getActivePmInCurrentProjectSelector = (state) => {
   const activeUsers = getProjectActiveUsersSelector(state)
 
   if (activeUsers) {
-    return activeUsers.find(user => user.is_project_manager === true)
+    return activeUsers.find((user) => user.is_project_manager === true)
   }
 }
 
-export const getActiveDevSelector = state => {
+export const getActiveDevSelector = (state) => {
   const activeUsers = getProjectActiveUsersSelector(state)
   const activePm = getActiveProjectManagerSelector(state)
   if (activeUsers) {
-    const pmIdArray = activePm.map(pm => pm.user_id)
-    return activeUsers.filter(user => !pmIdArray.includes(user.user_id))
+    const pmIdArray = activePm.map((pm) => pm.user_id)
+    return activeUsers.filter((user) => !pmIdArray.includes(user.user_id))
   }
 }
 
-export const getDeactivatedMembersSelector = state => {
+export const getDeactivatedMembersSelector = (state) => {
   const activeUsers = getProjectActiveUsersSelector(state)
   if (activeUsers) {
-    return activeUsers.filter(user => user.is_active === false)
+    return activeUsers.filter((user) => user.is_active === false)
   }
 }
-
-
-
-

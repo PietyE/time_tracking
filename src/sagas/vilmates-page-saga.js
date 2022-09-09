@@ -183,7 +183,7 @@ function* changeUserPersonalInformation(action) {
 }
 
 function* getComments(action) {
-  const url = `vilmate-comments/?user_id=${action.payload}`
+  const url = `vilmate-comments/?user_id=${action.payload}&page_size=20`
   try {
     const response = yield call([Api, 'getComments'], url)
     const { status, data: comments } = response
@@ -213,12 +213,12 @@ function* postComment(action) {
     if (String(status)[0] !== '2') {
       throw new Error()
     }
-    const date_create = new Date()
+    const date_create = new Date().toISOString()
     yield put(vilmatesPagePostCommentsSuccess({ ...comment, date_create }))
     yield put(
       showAlert({
         type: SUCCES_ALERT,
-        title: 'Comment have been posted',
+        title: 'Comment has been posted',
         message: 'You left a comment',
         delay: 2000,
       })

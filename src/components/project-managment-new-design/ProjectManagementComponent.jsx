@@ -3,27 +3,27 @@ import SelectMonth from 'components/ui/select-month'
 import { useDispatch } from 'react-redux'
 import {
   getAllProjectsSelector,
+  getFilteredProjectSelector,
+  getIsFetchingPmPageSelector,
+  getIsShowCreateModalSelector,
+  getIsShowCreateUserModalSelector,
+  getIsShowEditModalSelector,
+  getProjectManagerListSelector,
   getSelectedDateForPMSelector,
   getSelectedMonthForPMSelector,
-  getIsFetchingPmPageSelector,
-  getIsShowEditModalSelector,
-  getIsShowCreateModalSelector,
-  getProjectManagerListSelector,
   getSelectedPmSelector,
-  getIsShowCreateUserModalSelector,
   getSelectedProjectSelector,
-  getFilteredProjectSelector,
 } from 'reducers/projects-management'
 import {
   changeSelectedDateProjectsManagement,
   clearPmProjects,
   getAllProjects,
+  setPm,
+  setSelectedProject,
   setSelectedProjectId,
   setShowCreateModal,
   setShowEditModal,
-  setPm,
   setShownProject,
-  setSelectedProject,
 } from 'actions/projects-management'
 
 import './style.scss'
@@ -31,8 +31,6 @@ import SpinnerStyled from 'components/ui/spinner'
 import Select from 'components/ui/select'
 import { getCurrentUserSelector } from 'reducers/profile'
 import ReportItemProject from 'components/common/repott-item/ReportItemProject'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import EditProjectModal from './components/editProjectModal/EditProjectModal'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
@@ -40,6 +38,7 @@ import CreateUserModal from './components/CreateUserModal'
 import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
+import { ASCEND } from '../../constants/order-constant'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -52,13 +51,13 @@ import SortingButton from 'components/ui/sortingButton'
 // // The pagination is commented out until the next iteration
 
 const ProjectManagementComponent = () => {
+  const SORT_NAME = 'name'
   const {
     sorting,
     sortingParameter,
     handleSortingChange,
     toggleSortingParameter,
-  } = useSorting()
-  const SORT_NAME = 'name'
+  } = useSorting({ [SORT_NAME]: ASCEND })
   const SORT_TIME = 'total_minutes'
   const dispatch = useDispatch()
 
@@ -185,6 +184,7 @@ const ProjectManagementComponent = () => {
     dispatch(setSelectedProject(projectList[0]))
   }
   const projectsListNotArchived = sorting
+
     .filter((e) => !e.is_archived)
     .map((e) => {
       return (

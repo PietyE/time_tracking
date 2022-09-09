@@ -63,6 +63,10 @@ export const googleAuthSuccess = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        users: {
+          in_db: initialState.users.in_db,
+          in_sheet: initialState.users.in_sheet,
+        },
       }
     case GOOGLE_AUTH_SYNC_GOOGLE_SHEET_ERROR:
       return {
