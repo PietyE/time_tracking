@@ -175,9 +175,7 @@ export function* deleteTimeReport({ payload: id }) {
   const {
     reports: { items },
   } = yield select((state) => state.timereports)
-  console.log(items)
   const newTimereport = items.filter((item) => item.id !== id)
-  console.log(newTimereport)
   const { status } = yield call([Api, 'deleteWorkItem'], URL, {
     is_active: false,
   })

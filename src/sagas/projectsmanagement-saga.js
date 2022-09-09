@@ -5,6 +5,7 @@ import {
   select,
   putResolve,
   take,
+  delay,
 } from 'redux-saga/effects'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
@@ -41,8 +42,6 @@ import {
 import { isEmpty } from 'lodash'
 import { getProjectInTimeReportSelector } from 'reducers/projects-report'
 import { setErrorData } from 'actions/error'
-
-
 
 export function* getAllProjects() {
   try {
@@ -129,6 +128,8 @@ export function* getProjectsSagaWorker() {
 }
 
 export function* getProjectReportById(action) {
+  //todo: delay to fix bug should be found new approach to rewrite this logic
+  yield delay(500)
   const { month, year } = yield select(
     (state) => state.projectsManagement.selectedDateForPM
   )

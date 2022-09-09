@@ -74,14 +74,14 @@ function EditProjectModal({ show, month }) {
     return sortArrayOfObjectsAlphabetically(a, b, 'userName')
   }
 
-  const currentProjectActiveDevelopers = useMemo(
-    () =>
+  const currentProjectActiveDevelopers = useMemo(() => {
+    return (
       currentProjectReport?.users
         .filter((e) => e.is_active)
         .map((e) => ({ ...e, name: e.userName, id: e.userId }))
-        .sort(sortArrayByUserName) || [],
-    [currentProjectReport, activeProjectManager]
-  )
+        .sort(sortArrayByUserName) || []
+    )
+  }, [currentProjectReport, activeProjectManager])
   const freeUsersList = useMemo(() => {
     let teamMateID = currentProjectActiveDevelopers.map(
       (member) => member.userId
