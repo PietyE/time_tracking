@@ -23,6 +23,7 @@ import {
   ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   USER_ADDED_SUCCESSFULLY,
   USER_ADDED_FAILED,
+  ADD_PROJECT_OWNER_TO_PROJECT,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
@@ -369,9 +370,9 @@ export function* addUsersToProject({ payload }) {
 
 export function* addProjectManagerToProject(action) {
   const { previousPm, newPm } = action.payload
+  yield call([pm, 'changeProjectName'], newPm?.project, { owner: newPm?.user })
   yield putResolve({ type: CHANGE_USERS_ON_PROJECT, payload: previousPm })
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
-
   if (gotAction.type === USER_ADDED_SUCCESSFULLY) {
     yield putResolve({ type: ADD_USERS_ON_PROJECT, payload: { data: newPm } })
   }
@@ -383,6 +384,32 @@ export function* addInactiveProjectManagerToProject(action) {
   const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
   if (gotAction.type === USER_ADDED_SUCCESSFULLY) {
     yield putResolve({ type: CHANGE_USERS_ON_PROJECT, payload: newPm })
+  }
+}
+
+function* addProjectOwnerToProject(action) {
+  const { projectId, projectOwnerId } = action.payload
+  try {
+    yield put(setFetchingPmPage(true))
+    yield call([pm, 'changeProjectName'], projectId, { owner: projectOwnerId })
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        message: 'Project team has been modify',
+        delay: 3000,
+      })
+    )
+  } catch (error) {
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Something went wrong',
+        message: error.message || 'Something went wrong',
+        delay: 3000,
+      })
+    )
+  } finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
@@ -407,4 +434,5 @@ export function* watchProjectsManagement() {
     [ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT],
     addInactiveProjectManagerToProject
   )
+  yield takeEvery(ADD_PROJECT_OWNER_TO_PROJECT, addProjectOwnerToProject)
 }

@@ -24,9 +24,10 @@ import {
   SET_SHOW_CREATE_USER_MODAL,
   GET_DEVELOPER_PROJECTS_BY_ID,
   ADD_PROJECT_MANAGER_TO_PROJECT,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT, ADD_DEVELOPER_TO_PROJECT
+  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
+  ADD_DEVELOPER_TO_PROJECT,
+  ADD_PROJECT_OWNER_TO_PROJECT,
 } from 'constants/actions-constant'
-
 
 export const changeSelectedDateProjectsManagement = (payload) => ({
   type: CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
@@ -38,9 +39,9 @@ export const getAllProjects = (payload) => ({
   payload,
 })
 
-export const getActiveProjects = (payload) =>({
-  type:GET_ACTIVE_PROJECTS,
-  payload
+export const getActiveProjects = (payload) => ({
+  type: GET_ACTIVE_PROJECTS,
+  payload,
 })
 
 export const setAllProjects = (payload) => ({
@@ -63,16 +64,16 @@ export const setProjectsWithReport = (payload) => ({
   payload,
 })
 
-export const downloadProjectReport = payload => ({
+export const downloadProjectReport = (payload) => ({
   type: GET_DOWNLOAD_PROJECT_REPORT,
   payload,
 })
-export const downloadAllTeamProjectReport = payload => ({
+export const downloadAllTeamProjectReport = (payload) => ({
   type: GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   payload,
 })
 
-export const createProject = payload => ({
+export const createProject = (payload) => ({
   type: CREATE_PROJECT,
   payload,
 })
@@ -91,51 +92,55 @@ export const getSelectedProject = (payload) => ({
   payload,
 })
 
-export const changeProjectName = payload => ({
+export const changeProjectName = (payload) => ({
   type: CHANGE_PROJECT_NAME,
   payload,
 })
-export const changeUserOnProject = payload => ({
+export const changeUserOnProject = (payload) => ({
   type: CHANGE_USERS_ON_PROJECT,
   payload,
 })
 
-export const addUsersOnProject = payload => ({
+export const addUsersOnProject = (payload) => ({
   type: ADD_USERS_ON_PROJECT,
   payload,
 })
 
+export const addProjectOwnerToProject = (projectOwnerId) => ({
+  type: ADD_PROJECT_OWNER_TO_PROJECT,
+  payload: projectOwnerId,
+})
 
-export const clearPmProjects = payload => ({
+export const clearPmProjects = (payload) => ({
   type: CLEAR_PM_PROJECTS,
   payload,
 })
 
-export const setFetchingPmPage = payload => ({
+export const setFetchingPmPage = (payload) => ({
   type: SET_IS_FETCHING_PM_PAGE,
   payload,
 })
 
-export const setShowEditModal = payload => ({
+export const setShowEditModal = (payload) => ({
   type: SET_SHOW_EDIT_MODAL,
   payload,
 })
-export const setShowCreateModal = payload => ({
+export const setShowCreateModal = (payload) => ({
   type: SET_SHOW_CREATE_MODAL,
   payload,
 })
 
-export const setShowCreateUserModal = payload => ({
+export const setShowCreateUserModal = (payload) => ({
   type: SET_SHOW_CREATE_USER_MODAL,
   payload,
 })
 
-export const setPm = payload => ({
+export const setPm = (payload) => ({
   type: SET_SELECTED_PM,
   payload,
 })
 
-export const setShownProject = payload => ({
+export const setShownProject = (payload) => ({
   type: SET_SHOWN_PROJECT,
   payload,
 })
@@ -146,12 +151,12 @@ export const clearPmPageState = () => ({
 
 export const addProjectManagerToProject = (payload) => ({
   type: ADD_PROJECT_MANAGER_TO_PROJECT,
-  payload
+  payload,
 })
 
 export const addInactiveProjectManagerToProject = (payload) => ({
   type: ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
-  payload
+  payload,
 })
 
 export const addDeveloperToProject = (payload) => ({

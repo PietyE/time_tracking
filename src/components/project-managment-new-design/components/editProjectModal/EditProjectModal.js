@@ -18,6 +18,7 @@ import {
   setSelectedProject,
   setShowEditModal,
   getAllProjects,
+  addProjectOwnerToProject,
 } from '../../../../actions/projects-management'
 import {
   getActivePmInCurrentProjectSelector,
@@ -421,7 +422,9 @@ function EditProjectModal({ show, month }) {
 
   const _addUsersOnProject = useCallback(
     (data) => {
+      const { user: projectOwnerId, project: projectId } = data
       dispatch(addUsersOnProject({ data }))
+      dispatch(addProjectOwnerToProject({ projectId, projectOwnerId }))
     },
     [dispatch]
   )
