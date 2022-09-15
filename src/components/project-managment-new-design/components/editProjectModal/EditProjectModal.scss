@@ -115,6 +115,13 @@
     padding: 11px 25px;
     .project_data_header-title{
         text-align: left;
+        .project_data_info_icon_container {
+            cursor: pointer;
+            padding-left: 24px;
+            svg {
+                vertical-align: top;
+            }
+        }
     }
     .edit_modal-team_name{   
         width:  40%;

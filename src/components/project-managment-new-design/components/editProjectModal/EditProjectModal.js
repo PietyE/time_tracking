@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Box } from '@material-ui/core'
 import WindowInfo from 'components/common/window-info/WindowInfo'
 import InfoItemM from 'components/common/window-info/components/InfoItemM'
 import TeamM from 'components/common/team-m/TeamM'
@@ -31,24 +32,24 @@ import {
   getSelectedProjectIdSelector,
   getSelectedProjectSelector,
   getUsersSelector,
-} from '../../../../reducers/projects-management'
+} from 'reducers/projects-management'
 
-import ChekMark from '../../../../images/check-mark1.svg'
-import UserIcon from '../../../../images/user1.svg'
-import ProjectIcon from '../../../../images/card-text1.svg'
+import ChekMark from 'images/check-mark1.svg'
+import UserIcon from 'images/user1.svg'
+import ProjectIcon from 'images/card-text1.svg'
+import { ReactComponent as Info } from 'images/projectReportIcons/Info.svg'
 import {
   parseMinToHoursAndMin,
   sortArrayOfObjectsAlphabetically,
-} from '../../../../utils/common'
-import Select from '../../../ui/select'
+} from 'utils/common'
+import Select from 'components/ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import Spinner from '../../../time-report/components/Spinner'
-import useEventListener from '../../../../custom-hook/useEventListener'
-import { showAlert } from '../../../../actions/alert'
-import { WARNING_ALERT } from '../../../../constants/alert-constant'
-import useEqualSelector from '../../../../custom-hook/useEqualSelector'
-
+import useEventListener from 'custom-hook/useEventListener'
+import { showAlert } from 'actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
+import useEqualSelector from 'custom-hook/useEqualSelector'
 import './EditProjectModal.scss'
 
 function EditProjectModal({ show, month }) {
@@ -671,6 +672,12 @@ function EditProjectModal({ show, month }) {
               </span>
               <span className="project_data_header-title edit_modal-team_occupancy">
                 PAYMENT
+                <Box
+                  component="span"
+                  className="project_data_info_icon_container"
+                >
+                  <Info />
+                </Box>
               </span>
               <span className="project_data_header-title edit_modal-team_hours">
                 HOURS
