@@ -1,37 +1,28 @@
-import {
-  call,
-  takeEvery,
-  put,
-  select,
-  putResolve,
-  take,
-  delay,
-} from 'redux-saga/effects'
+import { call, delay, put, select, takeEvery } from 'redux-saga/effects'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
+  ADD_PROJECT_OWNER_TO_PROJECT,
+  ADD_USERS_ON_PROJECT,
+  CHANGE_PROJECT_NAME,
+  CHANGE_PROJECT_OWNER,
+  CHANGE_USERS_ON_PROJECT,
+  CREATE_PROJECT,
   GET_ALL_PROJECTS,
+  GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   GET_DOWNLOAD_PROJECT_REPORT,
   GET_PROJECT_REPORT_BY_ID,
-  CREATE_PROJECT,
-  CHANGE_PROJECT_NAME,
-  CHANGE_USERS_ON_PROJECT,
   SET_SELECTED_PM,
-  ADD_USERS_ON_PROJECT,
-  GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
-  CHANGE_PROJECT_OWNER,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
-  USER_ADDED_SUCCESSFULLY,
   USER_ADDED_FAILED,
-  ADD_PROJECT_OWNER_TO_PROJECT,
+  USER_ADDED_SUCCESSFULLY,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
-  setProjectsWithReport,
   setFetchingPmPage,
-  setShownProject,
+  setProjectsWithReport,
   setSelectedProjectId,
   setShowEditModal,
+  setShownProject,
 } from 'actions/projects-management'
 import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'

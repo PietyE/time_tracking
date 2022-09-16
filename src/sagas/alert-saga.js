@@ -1,19 +1,19 @@
 import {
-  put,
-  delay,
-  select,
   actionChannel,
-  take,
   call,
+  delay,
+  put,
+  select,
+  take,
 } from 'redux-saga/effects'
 
-import { startShowAlert, hideAlert, setMessage } from 'actions/alert'
+import { hideAlert, setMessage, startShowAlert } from 'actions/alert'
 import { SHOW_ALERT } from 'constants/actions-constant'
 
 export function* showAlert(data) {
-  console.log(data);
+  console.log(data)
   yield put(setMessage(data))
-  const delayMS = yield select(state => state.alert.delay)
+  const delayMS = yield select((state) => state.alert.delay)
   yield put(startShowAlert())
   yield delay(delayMS)
   yield put(hideAlert())

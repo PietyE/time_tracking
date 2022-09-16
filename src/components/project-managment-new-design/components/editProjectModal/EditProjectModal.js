@@ -21,7 +21,6 @@ import {
 import {
   getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector,
-  getDeactivatedMembersSelector,
   getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
   getProjectName,
