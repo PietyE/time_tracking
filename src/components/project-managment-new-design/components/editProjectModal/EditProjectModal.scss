@@ -1,4 +1,4 @@
-@import "../../../../styles/commonStyles.scss";
+@import "src/styles/commonStyles.scss";
 
 .main_container{
     form{
@@ -117,7 +117,7 @@
         text-align: left;
         .project_data_info_icon_container {
             cursor: pointer;
-            padding-left: 24px;
+            margin-left: 24px;
             svg {
                 vertical-align: top;
             }
@@ -173,4 +173,16 @@
 
 .team-container::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 6px #14918d;
+}
+
+#simple-popper {
+    z-index: 9999 !important;
+    top: 8px !important;
+    left: 24px !important;
+    & .MuiPaper-root {
+        max-width: 408px;
+        padding: 24px 32px;
+        background: $whiteColor;
+        border-radius: 12px;
+    }
 }

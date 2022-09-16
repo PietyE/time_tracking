@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Box } from '@material-ui/core'
+import { Box, Popover, Typography } from '@material-ui/core'
 import WindowInfo from 'components/common/window-info/WindowInfo'
 import InfoItemM from 'components/common/window-info/components/InfoItemM'
 import TeamM from 'components/common/team-m/TeamM'
@@ -59,6 +59,7 @@ function EditProjectModal({ show, month }) {
   const [currentEditedTeam, setEditedTeam] = useState([])
   const [isArchivedProject, setArchivedProject] = useState(false)
   const [showHintAddMember, setShowHintAddMember] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const usersList = useEqualSelector(getUsersSelector)
@@ -540,6 +541,17 @@ function EditProjectModal({ show, month }) {
     (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
     _handlerMouseLeave()
 
+  const handlePopperClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const onPopperClose = (event) => {
+    event.stopPropagation()
+    setAnchorEl(null)
+  }
+
+  const popperId = anchorEl ? 'simple-popper' : undefined
+
   return (
     <div
       ref={modalRef}
@@ -675,8 +687,33 @@ function EditProjectModal({ show, month }) {
                 <Box
                   component="span"
                   className="project_data_info_icon_container"
+                  onClick={handlePopperClick}
                 >
                   <Info />
+                  <Popover
+                    id={popperId}
+                    open={!!anchorEl}
+                    anchorEl={anchorEl}
+                    onClose={onPopperClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      horizontal: 'center',
+                    }}
+                  >
+                    <Box className="project_data_info_popper">
+                      <Typography variant="h6" gutterBottom>
+                        Info
+                      </Typography>
+                      <Typography variant="body2">
+                        This is a handy template you can use for your apps (as a
+                        an onboarding tip feature for instance). Feel free to
+                        resize it, change colours and modify the arrow position.
+                      </Typography>
+                    </Box>
+                  </Popover>
                 </Box>
               </span>
               <span className="project_data_header-title edit_modal-team_hours">
