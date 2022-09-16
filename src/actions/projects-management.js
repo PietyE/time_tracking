@@ -23,7 +23,7 @@ import {
   GET_ACTIVE_PROJECTS,
   SET_SHOW_CREATE_USER_MODAL,
   GET_DEVELOPER_PROJECTS_BY_ID,
-  ADD_PROJECT_MANAGER_TO_PROJECT,
+  CHANGE_PROJECT_OWNER,
   ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   ADD_DEVELOPER_TO_PROJECT,
   ADD_PROJECT_OWNER_TO_PROJECT,
@@ -149,8 +149,8 @@ export const clearPmPageState = () => ({
   type: CLEAR_PM_PAGE,
 })
 
-export const addProjectManagerToProject = (payload) => ({
-  type: ADD_PROJECT_MANAGER_TO_PROJECT,
+export const changedProjectOwner = (payload) => ({
+  type: CHANGE_PROJECT_OWNER,
   payload,
 })
 

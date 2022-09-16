@@ -175,7 +175,6 @@ export const getProjectActiveUsersSelector = (state) => {
   const currentProjectReports = reports.find(
     (rep) => rep.projectId === projectId
   )
-
   return currentProjectReports?.users?.map((report) => ({
     user_id: report.userId,
     name: report.userName,
