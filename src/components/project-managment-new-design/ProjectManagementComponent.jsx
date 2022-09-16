@@ -160,6 +160,8 @@ const ProjectManagementComponent = () => {
         dispatch(setShownProject(data))
       }
       dispatch(setSelectedProject(data))
+      dispatch(setSelectedProjectId(data.id))
+      dispatch(setShowEditModal(true))
     },
     [dispatch]
   )

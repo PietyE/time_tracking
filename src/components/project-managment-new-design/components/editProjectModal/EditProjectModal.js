@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Box, Popover, Typography } from '@material-ui/core'
 import WindowInfo from 'components/common/window-info/WindowInfo'
 import InfoItemM from 'components/common/window-info/components/InfoItemM'
 import TeamM from 'components/common/team-m/TeamM'
@@ -18,6 +19,7 @@ import {
   setSelectedProject,
   setShowEditModal,
   getAllProjects,
+  addProjectOwnerToProject,
 } from '../../../../actions/projects-management'
 import {
   getActivePmInCurrentProjectSelector,
@@ -30,24 +32,24 @@ import {
   getSelectedProjectIdSelector,
   getSelectedProjectSelector,
   getUsersSelector,
-} from '../../../../reducers/projects-management'
+} from 'reducers/projects-management'
 
-import ChekMark from '../../../../images/check-mark1.svg'
-import UserIcon from '../../../../images/user1.svg'
-import ProjectIcon from '../../../../images/card-text1.svg'
+import ChekMark from 'images/check-mark1.svg'
+import UserIcon from 'images/user1.svg'
+import ProjectIcon from 'images/card-text1.svg'
+import { ReactComponent as Info } from 'images/projectReportIcons/Info.svg'
 import {
   parseMinToHoursAndMin,
   sortArrayOfObjectsAlphabetically,
-} from '../../../../utils/common'
-import Select from '../../../ui/select'
+} from 'utils/common'
+import Select from 'components/ui/select'
 import { Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import Spinner from '../../../time-report/components/Spinner'
-import useEventListener from '../../../../custom-hook/useEventListener'
-import { showAlert } from '../../../../actions/alert'
-import { WARNING_ALERT } from '../../../../constants/alert-constant'
-import useEqualSelector from '../../../../custom-hook/useEqualSelector'
-
+import useEventListener from 'custom-hook/useEventListener'
+import { showAlert } from 'actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
+import useEqualSelector from 'custom-hook/useEqualSelector'
 import './EditProjectModal.scss'
 
 function EditProjectModal({ show, month }) {
@@ -57,6 +59,7 @@ function EditProjectModal({ show, month }) {
   const [currentEditedTeam, setEditedTeam] = useState([])
   const [isArchivedProject, setArchivedProject] = useState(false)
   const [showHintAddMember, setShowHintAddMember] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const usersList = useEqualSelector(getUsersSelector)
@@ -421,7 +424,9 @@ function EditProjectModal({ show, month }) {
 
   const _addUsersOnProject = useCallback(
     (data) => {
+      const { user: projectOwnerId, project: projectId } = data
       dispatch(addUsersOnProject({ data }))
+      dispatch(addProjectOwnerToProject({ projectId, projectOwnerId }))
     },
     [dispatch]
   )
@@ -535,6 +540,17 @@ function EditProjectModal({ show, month }) {
   const mouseLeave = () =>
     (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
     _handlerMouseLeave()
+
+  const handlePopperClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const onPopperClose = (event) => {
+    event.stopPropagation()
+    setAnchorEl(null)
+  }
+
+  const popperId = anchorEl ? 'simple-popper' : undefined
 
   return (
     <div
@@ -668,6 +684,37 @@ function EditProjectModal({ show, month }) {
               </span>
               <span className="project_data_header-title edit_modal-team_occupancy">
                 PAYMENT
+                <Box
+                  component="span"
+                  className="project_data_info_icon_container"
+                  onClick={handlePopperClick}
+                >
+                  <Info />
+                  <Popover
+                    id={popperId}
+                    open={!!anchorEl}
+                    anchorEl={anchorEl}
+                    onClose={onPopperClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                      horizontal: 'center',
+                    }}
+                  >
+                    <Box className="project_data_info_popper">
+                      <Typography variant="h6" gutterBottom>
+                        Info
+                      </Typography>
+                      <Typography variant="body2">
+                        This is a handy template you can use for your apps (as a
+                        an onboarding tip feature for instance). Feel free to
+                        resize it, change colours and modify the arrow position.
+                      </Typography>
+                    </Box>
+                  </Popover>
+                </Box>
               </span>
               <span className="project_data_header-title edit_modal-team_hours">
                 HOURS

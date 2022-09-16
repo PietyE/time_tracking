@@ -29,8 +29,6 @@ export const PersonalInformationSection = ({ user }) => {
   })
 
   const updateUserPersonalInformation = () => {
-    console.log('id', user.id)
-    console.log('values', formik.values)
     dispatch(
       vilatesSinglePageUpdateUserInformationRequest({
         id: user.id,
