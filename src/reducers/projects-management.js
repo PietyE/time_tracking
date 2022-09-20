@@ -39,6 +39,7 @@ const initialState = {
     role: null,
   },
   shownProject: null,
+  currentOwner: '',
 }
 const setProjectsWithReports = (state, action) => {
   let projectsWithReports = []

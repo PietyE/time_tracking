@@ -7,7 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 function Plus({ isActive, showUList }) {
   return (
     <div
-      className={'plus ' + (!isActive ? 'active' : 'half-opacity')}
+      className={'plus ' + (isActive ? 'active' : 'half-opacity')}
       onClick={showUList}
     >
       <FontAwesomeIcon icon={faPlus} className="icon pencil_icon" />

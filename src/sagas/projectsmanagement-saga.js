@@ -362,6 +362,7 @@ export function* addUsersToProject({ payload }) {
 export function* changeProjectOwner(action) {
   const { currentProjectId, ownerId } = action.payload
   try {
+    yield put(setFetchingPmPage(true))
     yield call([pm, 'changeProjectName'], currentProjectId, {
       owner: ownerId,
     })
@@ -382,6 +383,8 @@ export function* changeProjectOwner(action) {
         delay: 3000,
       })
     )
+  } finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 

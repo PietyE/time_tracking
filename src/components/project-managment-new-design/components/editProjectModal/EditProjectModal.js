@@ -59,7 +59,6 @@ function EditProjectModal({ show, month }) {
   const [showHintAddMember, setShowHintAddMember] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [ownerId, setOwnerId] = useState('')
-
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const usersList = useEqualSelector(getUsersSelector)
   const activeProjectManager = useEqualSelector(
@@ -211,8 +210,8 @@ function EditProjectModal({ show, month }) {
         .then((response) => {
           const { data } = response
           const PO = usersList.length
-            ? usersList.find((user) => user.id === data.owner)
-            : 'Anonymous'
+            ? usersList.find((user) => user?.id === data.owner)
+            : 'User does not exist'
           setProjectOwner(PO)
         })
         .catch((error) =>
@@ -433,8 +432,7 @@ function EditProjectModal({ show, month }) {
       return
     }
     dispatch(changedProjectOwner({ currentProjectId, ownerId: user?.id }))
-    setOwnerId(user?.id)
-    dispatch(getAllProjects())
+    setTimeout(() => setOwnerId(user?.id), 500)
   }
 
   const handleArchivedPress = useCallback(() => {
@@ -458,13 +456,9 @@ function EditProjectModal({ show, month }) {
     setShowHintAddMember(false)
   }, [])
 
-  const mouseEnter = () =>
-    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
-    _handlerMouseEnter()
+  const mouseEnter = () => !projectOwner && _handlerMouseEnter()
 
-  const mouseLeave = () =>
-    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
-    _handlerMouseLeave()
+  const mouseLeave = () => !projectOwner && _handlerMouseLeave()
 
   const handlePopperClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -650,8 +644,7 @@ function EditProjectModal({ show, month }) {
                   className="col-5 add-new "
                   onClick={() => {
                     !isArchivedProject &&
-                      (valuesFromApi?.projectManager ||
-                        activeProjectManager?.name) &&
+                      projectOwner &&
                       setAddMember(!addMember)
                   }}
                 >
@@ -659,11 +652,7 @@ function EditProjectModal({ show, month }) {
                     className={
                       'row align-items-center ' +
                       (addMember ? 'add-member' : '') +
-                      (isArchivedProject ||
-                      !valuesFromApi?.projectManager ||
-                      !activeProjectManager?.name
-                        ? 'half-opacity'
-                        : '')
+                      (isArchivedProject || !projectOwner ? 'half-opacity' : '')
                     }
                     onMouseEnter={() => {
                       mouseEnter()
@@ -674,16 +663,11 @@ function EditProjectModal({ show, month }) {
                   >
                     {showHintAddMember && (
                       <HintWindow
-                        text={'Assign a Project manager to the project first'}
+                        text={'Assign a Project owner to the project first'}
                       />
                     )}
                     <Plus
-                      isActive={
-                        addMember ||
-                        isArchivedProject ||
-                        !valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name
-                      }
+                      isActive={addMember || isArchivedProject || projectOwner}
                     />
                     <span>Add new developers</span>
                   </span>
