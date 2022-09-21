@@ -1,37 +1,28 @@
-import {
-  call,
-  takeEvery,
-  put,
-  select,
-  putResolve,
-  take,
-  delay,
-} from 'redux-saga/effects'
+import { call, delay, put, select, takeEvery } from 'redux-saga/effects'
 import { pm } from '../api'
 import { saveAs } from 'file-saver'
 import {
+  ADD_PROJECT_OWNER_TO_PROJECT,
+  ADD_USERS_ON_PROJECT,
+  CHANGE_PROJECT_NAME,
+  CHANGE_PROJECT_OWNER,
+  CHANGE_USERS_ON_PROJECT,
+  CREATE_PROJECT,
   GET_ALL_PROJECTS,
+  GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
   GET_DOWNLOAD_PROJECT_REPORT,
   GET_PROJECT_REPORT_BY_ID,
-  CREATE_PROJECT,
-  CHANGE_PROJECT_NAME,
-  CHANGE_USERS_ON_PROJECT,
   SET_SELECTED_PM,
-  ADD_USERS_ON_PROJECT,
-  GET_DOWNLOAD_ALL_TEAM_PROJECT_REPORT,
-  ADD_PROJECT_MANAGER_TO_PROJECT,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
-  USER_ADDED_SUCCESSFULLY,
   USER_ADDED_FAILED,
-  ADD_PROJECT_OWNER_TO_PROJECT,
+  USER_ADDED_SUCCESSFULLY,
 } from 'constants/actions-constant'
 import {
   setAllProjects,
-  setProjectsWithReport,
   setFetchingPmPage,
-  setShownProject,
+  setProjectsWithReport,
   setSelectedProjectId,
   setShowEditModal,
+  setShownProject,
 } from 'actions/projects-management'
 import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
@@ -368,22 +359,32 @@ export function* addUsersToProject({ payload }) {
   }
 }
 
-export function* addProjectManagerToProject(action) {
-  const { previousPm, newPm } = action.payload
-  yield call([pm, 'changeProjectName'], newPm?.project, { owner: newPm?.user })
-  yield putResolve({ type: CHANGE_USERS_ON_PROJECT, payload: previousPm })
-  const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
-  if (gotAction.type === USER_ADDED_SUCCESSFULLY) {
-    yield putResolve({ type: ADD_USERS_ON_PROJECT, payload: { data: newPm } })
-  }
-}
-
-export function* addInactiveProjectManagerToProject(action) {
-  const { previousPm, newPm } = action.payload
-  yield putResolve({ type: CHANGE_USERS_ON_PROJECT, payload: previousPm })
-  const gotAction = yield take([USER_ADDED_SUCCESSFULLY, USER_ADDED_FAILED])
-  if (gotAction.type === USER_ADDED_SUCCESSFULLY) {
-    yield putResolve({ type: CHANGE_USERS_ON_PROJECT, payload: newPm })
+export function* changeProjectOwner(action) {
+  const { currentProjectId, ownerId } = action.payload
+  try {
+    yield put(setFetchingPmPage(true))
+    yield call([pm, 'changeProjectName'], currentProjectId, {
+      owner: ownerId,
+    })
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        title: 'Project owner successfully has been changed',
+        message: 'Success',
+        delay: 3000,
+      })
+    )
+  } catch (error) {
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Project owner has not been changed',
+        message: error.message || 'Something went wrong',
+        delay: 3000,
+      })
+    )
+  } finally {
+    yield put(setFetchingPmPage(false))
   }
 }
 
@@ -429,10 +430,6 @@ export function* watchProjectsManagement() {
   yield takeEvery([CHANGE_PROJECT_NAME], changeProjName)
   yield takeEvery([CHANGE_USERS_ON_PROJECT], editUsersOnProject)
   yield takeEvery([ADD_USERS_ON_PROJECT], addUsersToProject)
-  yield takeEvery([ADD_PROJECT_MANAGER_TO_PROJECT], addProjectManagerToProject)
-  yield takeEvery(
-    [ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT],
-    addInactiveProjectManagerToProject
-  )
+  yield takeEvery([CHANGE_PROJECT_OWNER], changeProjectOwner)
   yield takeEvery(ADD_PROJECT_OWNER_TO_PROJECT, addProjectOwnerToProject)
 }

@@ -162,7 +162,9 @@ export const SelectMonth = ({
       ref={selectMonthRef}
     >
       <button
-        className={`${styles.prev_month_btn} ${disabledPrevMonthButton && styles.disabled}`}
+        className={`${styles.prev_month_btn} ${
+          disabledPrevMonthButton && styles.disabled
+        }`}
         onClick={handlerSelectPrevMonth}
       >
         <FontAwesomeIcon
@@ -190,7 +192,9 @@ export const SelectMonth = ({
         <div className={styles.select_month_container}>
           <div className={styles.select_year}>
             <button
-              className={`${styles.prev_month_btn} ${disabledPrevYearButton && styles.disabled}`}
+              className={`${styles.prev_month_btn} ${
+                disabledPrevYearButton && styles.disabled
+              }`}
               onClick={handlerSelectPrevYear}
             >
               <FontAwesomeIcon

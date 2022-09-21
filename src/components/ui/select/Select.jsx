@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
@@ -31,7 +31,7 @@ function Select(props) {
 
   const prevList = usePrevious(listItems)
 
-  const handlerClickOpen = (e) => {
+  const handlerClickOpen = () => {
     if (isOpen) {
       setClassNameOpen('select_close')
       return
@@ -122,12 +122,10 @@ function Select(props) {
   const classNameDisabled = !listItems.length ? 'disabled' : ''
 
   const searchedListItems = listItems
-    .filter((item) => {
-      if (item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-        return true
-      }
-      return false
-    })
+    .filter(
+      (item) =>
+        item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+    )
     .sort(sortProjectsByName)
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length

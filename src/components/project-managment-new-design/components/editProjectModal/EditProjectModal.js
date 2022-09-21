@@ -9,22 +9,18 @@ import AddSelectedM from 'components/common/AddSelectedM/AddSelectedM'
 import { useDispatch } from 'react-redux'
 import {
   addDeveloperToProject,
-  addInactiveProjectManagerToProject,
-  addProjectManagerToProject,
-  addUsersOnProject,
+  changedProjectOwner,
   changeProjectName,
   changeUserOnProject,
   downloadAllTeamProjectReport,
+  getAllProjects,
   getProjectReportById,
   setSelectedProject,
   setShowEditModal,
-  getAllProjects,
-  addProjectOwnerToProject,
 } from '../../../../actions/projects-management'
 import {
   getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector,
-  getDeactivatedMembersSelector,
   getIsFetchingPmPageSelector,
   getProjectManagerListSelector,
   getProjectName,
@@ -51,6 +47,8 @@ import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import './EditProjectModal.scss'
+import { pm } from '../../../../api'
+import { isEqual } from 'lodash'
 
 function EditProjectModal({ show, month }) {
   const modalRef = useRef(null)
@@ -60,14 +58,13 @@ function EditProjectModal({ show, month }) {
   const [isArchivedProject, setArchivedProject] = useState(false)
   const [showHintAddMember, setShowHintAddMember] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
-
+  const [ownerId, setOwnerId] = useState('')
   const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const usersList = useEqualSelector(getUsersSelector)
   const activeProjectManager = useEqualSelector(
     getActivePmInCurrentProjectSelector
   )
-
-  const deactivatedUsers = useEqualSelector(getDeactivatedMembersSelector)
+  const [projectOwner, setProjectOwner] = useState(null)
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
   const currentProjectReport = useEqualSelector((state) =>
     getProjectReportByIdSelector(state, currentProjectId)
@@ -206,6 +203,28 @@ function EditProjectModal({ show, month }) {
     },
     [currentEditedTeam]
   )
+
+  useEffect(() => {
+    if (currentProjectId) {
+      pm.getProjectById(currentProjectId)
+        .then((response) => {
+          const { data } = response
+          const PO = usersList.length
+            ? usersList.find((user) => user?.id === data.owner)
+            : 'User does not exist'
+          setProjectOwner(PO)
+        })
+        .catch((error) =>
+          dispatch(
+            showAlert({
+              type: WARNING_ALERT,
+              title: 'Something went wrong',
+              message: error.message | 'Project owner has not been updated',
+            })
+          )
+        )
+    }
+  }, [currentProjectId, usersList, ownerId])
 
   useEffect(() => {
     if (show) {
@@ -408,108 +427,12 @@ function EditProjectModal({ show, month }) {
     )
   }, [currentApiProject, setValues, valuesFromApi])
 
-  const _addInactiveProjectManagerToProject = useCallback(
-    (data) => {
-      dispatch(addInactiveProjectManagerToProject(data))
-    },
-    [dispatch]
-  )
-
-  const _addProjectManagerToProject = useCallback(
-    (data) => {
-      dispatch(addProjectManagerToProject(data))
-    },
-    [dispatch]
-  )
-
-  const _addUsersOnProject = useCallback(
-    (data) => {
-      const { user: projectOwnerId, project: projectId } = data
-      dispatch(addUsersOnProject({ data }))
-      dispatch(addProjectOwnerToProject({ projectId, projectOwnerId }))
-    },
-    [dispatch]
-  )
-
-  const handleAddProjectManagerToProject = (e) => {
-    const targetUserId = e.target?.selectedOptions[0].dataset.id || e.id
-    const isPm = usersList.find((pm) => pm.id === targetUserId)
-    const wasDeactivated = deactivatedUsers?.find(
-      (user) => user.user_id === targetUserId
-    )
-    const wasInTeam = values?.team?.find(
-      (user) => user.user_id === targetUserId
-    )
-    if (activeProjectManager) {
-      if (wasDeactivated) {
-        const previousPm = {
-          id: activeProjectManager.projectReportId,
-          data: {
-            is_active: false,
-            is_project_manager: false,
-          },
-        }
-
-        const newPm = {
-          id: wasDeactivated.projectReportId,
-          data: {
-            is_active: true,
-            is_project_manager: true,
-          },
-        }
-        _addInactiveProjectManagerToProject({ previousPm, newPm })
-      } else if (wasInTeam) {
-        dispatch(
-          showAlert({
-            type: WARNING_ALERT,
-            message: 'Project manager is already in the team',
-            delay: 5000,
-          })
-        )
-      } else {
-        const previousPm = {
-          id: activeProjectManager.projectReportId,
-          data: {
-            is_active: false,
-            is_project_manager: false,
-          },
-        }
-
-        const newPm = {
-          project: currentProjectId,
-          user: isPm.id,
-          is_full_time: true,
-          is_active: true,
-          is_project_manager: true,
-        }
-
-        _addProjectManagerToProject({ previousPm, newPm })
-      }
-    } else {
-      if (wasDeactivated) {
-        _changeUserOnProject(wasDeactivated.projectReportId, {
-          is_active: true,
-          is_project_manager: true,
-        })
-      } else if (wasInTeam) {
-        dispatch(
-          showAlert({
-            type: WARNING_ALERT,
-            message: 'Project manager is already in the team',
-            delay: 5000,
-          })
-        )
-      } else {
-        _addUsersOnProject({
-          project: currentProjectId,
-          user: isPm.id,
-          is_full_time: true,
-          is_active: true,
-          is_project_manager: true,
-        })
-      }
+  const handleAddProjectManagerToProject = (user) => {
+    if (isEqual(user, projectOwner)) {
+      return
     }
-    dispatch(getAllProjects())
+    dispatch(changedProjectOwner({ currentProjectId, ownerId: user?.id }))
+    setTimeout(() => setOwnerId(user?.id), 500)
   }
 
   const handleArchivedPress = useCallback(() => {
@@ -533,13 +456,9 @@ function EditProjectModal({ show, month }) {
     setShowHintAddMember(false)
   }, [])
 
-  const mouseEnter = () =>
-    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
-    _handlerMouseEnter()
+  const mouseEnter = () => !projectOwner && _handlerMouseEnter()
 
-  const mouseLeave = () =>
-    (!valuesFromApi?.projectManager || !activeProjectManager?.name) &&
-    _handlerMouseLeave()
+  const mouseLeave = () => !projectOwner && _handlerMouseLeave()
 
   const handlePopperClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -612,20 +531,16 @@ function EditProjectModal({ show, month }) {
             isArchived={isArchivedProject}
             editValue={
               <Select
-                title={valuesFromApi?.projectManager?.name}
+                title={projectOwner?.name}
                 listItems={freeUsersList}
                 onSelected={handleAddProjectManagerToProject}
                 valueKey="name"
                 idKey="id"
                 extraClassContainer={' search search-manger'}
-                initialChoice={
-                  valuesFromApi?.projectManager || activeProjectManager?.name
-                }
+                initialChoice={projectOwner?.name || 'Not selected'}
               />
             }
-            value={
-              valuesFromApi?.projectManager?.name || activeProjectManager?.name
-            }
+            value={projectOwner?.name || 'Not Selected'}
           />
           <InfoItemM
             key="SPEND HOURS"
@@ -708,9 +623,11 @@ function EditProjectModal({ show, month }) {
                         Info
                       </Typography>
                       <Typography variant="body2">
-                        This is a handy template you can use for your apps (as a
-                        an onboarding tip feature for instance). Feel free to
-                        resize it, change colours and modify the arrow position.
+                        Salary - a developer has a salary payment. Does not
+                        matter, how many hours they work on the project per
+                        month. Hourly payroll - a developer has hourly payment.
+                        In general, it is an additional extra payment to their
+                        salary.
                       </Typography>
                     </Box>
                   </Popover>
@@ -727,8 +644,7 @@ function EditProjectModal({ show, month }) {
                   className="col-5 add-new "
                   onClick={() => {
                     !isArchivedProject &&
-                      (valuesFromApi?.projectManager ||
-                        activeProjectManager?.name) &&
+                      projectOwner &&
                       setAddMember(!addMember)
                   }}
                 >
@@ -736,11 +652,7 @@ function EditProjectModal({ show, month }) {
                     className={
                       'row align-items-center ' +
                       (addMember ? 'add-member' : '') +
-                      (isArchivedProject ||
-                      !valuesFromApi?.projectManager ||
-                      !activeProjectManager?.name
-                        ? 'half-opacity'
-                        : '')
+                      (isArchivedProject || !projectOwner ? 'half-opacity' : '')
                     }
                     onMouseEnter={() => {
                       mouseEnter()
@@ -751,16 +663,11 @@ function EditProjectModal({ show, month }) {
                   >
                     {showHintAddMember && (
                       <HintWindow
-                        text={'Assign a Project manager to the project first'}
+                        text={'Assign a Project owner to the project first'}
                       />
                     )}
                     <Plus
-                      isActive={
-                        addMember ||
-                        isArchivedProject ||
-                        !valuesFromApi?.projectManager ||
-                        !activeProjectManager?.name
-                      }
+                      isActive={addMember || isArchivedProject || projectOwner}
                     />
                     <span>Add new developers</span>
                   </span>
