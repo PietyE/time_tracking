@@ -88,7 +88,7 @@ export const googleAuthSuccess = (state = initialState, action) => {
         errorAccess: action.payload,
       }
     case GOOGLE_AUTH_CHANGE_SELECTED_DATE_MONTH:
-      return { ...state, selectedDate: action.payload }
+      return { ...state, selectedDate: action.payload + 1 }
     case GOOGLE_AUTH_IS_AGREE_TRUE:
       return {
         ...state,

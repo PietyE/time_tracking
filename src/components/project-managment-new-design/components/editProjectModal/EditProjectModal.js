@@ -277,6 +277,7 @@ function EditProjectModal({ show, month }) {
           key={e.id || i}
           e={e}
           hovers={parseMinToHoursAndMin(e.minutes, true)}
+          isHaveProjectOwner={projectOwner}
           del={deleteItem}
           projectId={currentApiProject?.id}
           setWorkType={setTypeWork}
