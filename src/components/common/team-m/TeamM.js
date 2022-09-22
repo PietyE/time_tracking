@@ -12,11 +12,18 @@ import { getSelectedDateForPMSelector } from '../../../reducers/projects-managem
 
 import HintWindow from 'components/ui/HintWindow'
 
-function TeamM({ e, del, d, hovers, setWorkType, isArchived }) {
+function TeamM({
+  e,
+  del,
+  d,
+  hovers,
+  setWorkType,
+  isArchived,
+  isHaveProjectOwner,
+}) {
   let [fulTime, setFullTime] = useState(e.is_full_time)
   const [showHintExport, setShowHintExport] = useState(false)
   const [showHintDelete, setShowHintDelete] = useState(false)
-
   const dispatch = useDispatch()
   let selectedData = useSelector(getSelectedDateForPMSelector)
 
@@ -58,7 +65,13 @@ function TeamM({ e, del, d, hovers, setWorkType, isArchived }) {
   }
 
   return (
-    <form className={'team-m' + (isArchived ? ' archived' : '')}>
+    <form
+      className={
+        'team-m' +
+        (isArchived ? ' archived' : '') +
+        (!isHaveProjectOwner ? ' no-owner' : '')
+      }
+    >
       <div className="container-team_modal">
         <div className={'avatar-cont'}>
           <img

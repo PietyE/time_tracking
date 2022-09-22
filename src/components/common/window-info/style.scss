@@ -498,7 +498,6 @@
           position: absolute;
           width: 20px;
           height: 20px;
-          vertical-align: none;
           left: 0;
           top: 0;
           margin: 0;
@@ -595,6 +594,32 @@
           display: none;
         }
       }
+
+      &.no-owner {
+        &:hover {
+          max-height: 76px;
+          background: none;
+          .gray-trash{
+            display:none;
+            // margin-right: 15px;
+          }
+
+          .team-m-input-cont{
+            display: none;
+            width: 120px;
+            height: 20px;
+            padding-left: 18px;
+            label{
+              font-size: 12px;
+              line-height: 20px;
+            }
+          }
+
+          .label-def{
+            display: flex;
+          }
+        }
+      }
     }
 
     .team-m.archived{
@@ -677,7 +702,7 @@
   .comment_container {
 
     .all_user_comments {
-      margin-top: 30;
+      margin-top: 30px;
       height: 390px;
       overflow-y: auto;
       display: flex;
