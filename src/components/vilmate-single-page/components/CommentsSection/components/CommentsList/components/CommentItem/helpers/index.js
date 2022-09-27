@@ -31,7 +31,7 @@ export const useFetchUserName = (userId) => {
   }
 
   useEffect(() => {
-    getUserById()
+    if (userId) getUserById()
   }, [])
 
   return lodashGet(user, 'name', 'DELETED')

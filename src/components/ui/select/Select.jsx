@@ -112,8 +112,6 @@ function Select(props) {
       !_.isEqualWith(listItems, prevList, (i1, i2) => i1['id'] === i2['id'])
     ) {
       setTitle(title)
-    } else if (!listItems.length) {
-      setTitle('List is empty')
     }
   }, [listItems, prevList, title])
 

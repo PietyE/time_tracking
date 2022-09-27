@@ -15,6 +15,7 @@ import { projectReportDetails } from 'reducers/project-report-details'
 import { projectsManagement } from 'reducers/projects-management'
 import { googleAuthSuccess } from 'reducers/google-auth-sucess'
 import { vilmatesPage } from 'reducers/vilmates-page'
+import { calendarReducer } from 'reducers/calendar'
 
 const rootReducer = combineReducers({
   profile,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   projectReportDetails,
   googleAuthSuccess,
   vilmatesPage,
+  calendar: calendarReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware()

@@ -8,7 +8,7 @@ import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from '../../../../../../constants/alert-constant'
 import styles from './AddComment.module.scss'
 
-export const AddComment = () => {
+export const AddComment = ({ name }) => {
   const { userId } = useParams()
   const [text, setText] = useState('')
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ export const AddComment = () => {
       <TextField
         type="text"
         variant="outlined"
-        placeholder="Add a comment about Larov Dmytro"
+        placeholder={`Add a comment about ${name}`}
         className={styles.comment}
         value={text}
         onChange={onChange}

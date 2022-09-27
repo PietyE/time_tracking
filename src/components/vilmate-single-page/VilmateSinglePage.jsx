@@ -38,7 +38,7 @@ export const VilmateSinglePage = () => {
       </Box>
       <Box className={styles.right_container}>
         <PersonalInformationSection user={user} />
-        {isCommentsVisible && <CommentsSection />}
+        {isCommentsVisible && <CommentsSection name={user.name} />}
       </Box>
     </Box>
   ) : (

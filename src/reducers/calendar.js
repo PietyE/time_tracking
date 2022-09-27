@@ -7,10 +7,13 @@ const initialState = {
   year: todayDate.getFullYear(),
 }
 
-export const calendarReducer = (state, action) => {
+export const calendarReducer = (state = initialState, action) => {
   switch (action.payload) {
     case CHANGE_SELECTED_DATE:
-      return action.payload
+      return {
+        ...state,
+        ...action.payload,
+      }
     default:
       return state
   }
