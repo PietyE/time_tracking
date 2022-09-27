@@ -117,7 +117,7 @@
         text-align: left;
         .project_data_info_icon_container {
             cursor: pointer;
-            margin-left: 24px;
+            margin-left: 14px;
             svg {
                 vertical-align: top;
             }
@@ -131,6 +131,8 @@
     }
     .edit_modal-team_hours{
         width: 25%;
+        justify-self: end;
+        text-align: center;
     }
 }
 

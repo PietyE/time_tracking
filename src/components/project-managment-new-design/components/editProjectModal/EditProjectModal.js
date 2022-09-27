@@ -599,7 +599,7 @@ function EditProjectModal({ show, month }) {
                 DEVELOPER NAME
               </span>
               <span className="project_data_header-title edit_modal-team_occupancy">
-                PAYMENT
+                PAYMENT PAYROLL
                 <Box
                   component="span"
                   className="project_data_info_icon_container"
