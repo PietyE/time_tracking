@@ -13,6 +13,7 @@ function User(props) {
   const { name, email, userId, hours, userData, projects } = props
 
   const contextType = useContext(ProjectReportContext)
+  //todo: date
   const selectedDate = useEqualSelector(getSelectedMonthSelector)
   const [sortProjects, setSortProjects] = useState([])
 

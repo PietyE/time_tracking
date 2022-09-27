@@ -5,10 +5,10 @@ import { AddComment } from './components/AddComment'
 import { CommentsList } from './components/CommentsList'
 import styles from './CommentsSection.module.scss'
 
-export const CommentsSection = () => (
+export const CommentsSection = ({ name }) => (
   <RightSessionContainer title="Comments" isHaveScroll={true}>
     <Box className={styles.container}>
-      <AddComment />
+      <AddComment name={name} />
       <CommentsList />
     </Box>
   </RightSessionContainer>
