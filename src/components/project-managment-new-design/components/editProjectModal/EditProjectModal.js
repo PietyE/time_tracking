@@ -22,7 +22,6 @@ import {
   getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector,
   getIsFetchingPmPageSelector,
-  getProjectManagerListSelector,
   getProjectName,
   getProjectReportByIdSelector,
   getSelectedProjectIdSelector,
@@ -59,7 +58,6 @@ function EditProjectModal({ show, month }) {
   const [showHintAddMember, setShowHintAddMember] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [ownerId, setOwnerId] = useState('')
-  const projectManagersList = useEqualSelector(getProjectManagerListSelector)
   const usersList = useEqualSelector(getUsersSelector)
   const activeProjectManager = useEqualSelector(
     getActivePmInCurrentProjectSelector
@@ -82,12 +80,6 @@ function EditProjectModal({ show, month }) {
         .sort(sortArrayByUserName) || []
     )
   }, [currentProjectReport, activeProjectManager])
-  const freeUsersList = useMemo(() => {
-    let teamMateID = currentProjectActiveDevelopers.map(
-      (member) => member.userId
-    )
-    return usersList.filter((user) => !teamMateID.includes(user.id))
-  }, [currentProjectActiveDevelopers, projectManagersList])
 
   const currentTeamIds = useMemo(() => {
     let currentProjectActiveDevelopersID = currentProjectActiveDevelopers.map(
@@ -533,7 +525,7 @@ function EditProjectModal({ show, month }) {
             editValue={
               <Select
                 title={projectOwner?.name}
-                listItems={freeUsersList}
+                listItems={usersList}
                 onSelected={handleAddProjectManagerToProject}
                 valueKey="name"
                 idKey="id"
