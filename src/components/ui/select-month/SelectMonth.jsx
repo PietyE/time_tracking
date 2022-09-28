@@ -11,15 +11,17 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 import { monthsNamesLong, monthsNamesShort } from 'constants/months'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { useDispatch } from 'react-redux'
+import { changeSelectedDate } from 'actions/calendar'
+import { getSelectedDate } from 'selectors/calendar'
 import styles from './SelectMonth.module.scss'
-import { changeSelectedDate } from '../../../actions/calendar'
 
 export const SelectMonth = ({ onChange, showYear, initialYear = 2010 }) => {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
   const month = todayDate.getMonth()
 
-  const { month: currentMonth, year: currentYear } = useShallowEqualSelector()
+  const { month: currentMonth, year: currentYear } =
+    useShallowEqualSelector(getSelectedDate)
   const dispatch = useDispatch()
 
   const selectMonthRef = useRef()
