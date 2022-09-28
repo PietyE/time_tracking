@@ -36,7 +36,7 @@ function TeamM({
 
   const _changeUserOnProject = useCallback(
     (id, data) => {
-      dispatch(changeUserOnProject({ id, data }))
+      dispatch(changeUserOnProject({ id, data, selectedData }))
     },
     [dispatch]
   )

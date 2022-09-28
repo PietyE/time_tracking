@@ -533,7 +533,7 @@
       max-width: 613px;
       // min-height: 60px;
       padding: 0 25px;
-      .gray-trash,.team-m-input-cont{
+      .gray-trash,.team-m-input-cont {
         display: none;
       }
 
@@ -596,29 +596,41 @@
       }
 
       &.no-owner {
-        &:hover {
-          max-height: 76px;
-          background: none;
-          .gray-trash{
-            display:none;
-            // margin-right: 15px;
-          }
+          &:hover {
+            max-height: 76px;
+            background: none;
 
-          .team-m-input-cont{
-            display: none;
-            width: 120px;
-            height: 20px;
-            padding-left: 18px;
-            label{
-              font-size: 12px;
-              line-height: 20px;
+            .trash-cont {
+              cursor: auto;
+              .control_btn {
+                &:last-child {
+                  cursor: pointer;
+                }
+              }
+            }
+
+            .gray-trash {
+              display: none;
+              cursor: auto;
+            }
+
+            .team-m-input-cont {
+              display: none;
+              width: 120px;
+              height: 20px;
+              padding-left: 18px;
+
+              label {
+                font-size: 12px;
+                line-height: 20px;
+              }
+            }
+
+            .label-def {
+              display: flex;
+              cursor: auto;
             }
           }
-
-          .label-def{
-            display: flex;
-          }
-        }
       }
     }
 
