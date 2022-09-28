@@ -171,3 +171,6 @@ export const sortAndParseByDate = (comments) =>
         Date.parse(comment1.date_create) - Date.parse(comment2.date_create)
     )
     .reverse()
+
+export const findListItemById = (list, itemId) =>
+  list.find((listItem) => listItem.id === itemId)

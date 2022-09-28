@@ -14,10 +14,7 @@ import {
 const todayDate = new Date()
 
 const initialState = {
-  selectedDate: {
-    month: todayDate.getMonth(),
-    year: todayDate.getFullYear(),
-  },
+  selectedDate: {},
   reports: {
     items: null,
   },

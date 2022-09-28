@@ -1,9 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { connect, useDispatch } from 'react-redux'
-import { isEmpty } from 'lodash'
-
-import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { useHistory, useLocation } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import {
   addTimeReport,
@@ -15,7 +12,6 @@ import {
   setUserStatus,
 } from 'actions/times-report'
 import { selectDevelopers } from 'actions/developers'
-import { getDeveloperProjectsById } from 'actions/projects-management'
 import {
   getAllDays,
   getDeveloperProjectsTR,
@@ -38,8 +34,10 @@ import { showAlert } from 'actions/alert'
 import TimeReportDesktop from './TimeReportDesktop'
 import useBreakpoints from 'custom-hook/useBreakpoints'
 import TimeReportMobile from './TimeReportMobile'
-
-// import FunnelSelect from "./components/FunnelSelect";
+import { findListItemById } from 'utils/common'
+import { QUERY_PARAMETERS } from 'constants/timereports-constant'
+import { useSearchParams } from 'custom-hook/useSearchParams'
+import { validateDate } from 'utils/date'
 
 function TimeReport(props) {
   const {
@@ -61,15 +59,22 @@ function TimeReport(props) {
     selectDayStatus,
     selectedDayStatus,
     showAlert,
+    profileId,
   } = props
 
-  const dispatch = useDispatch()
-  const developerId = useShallowEqualSelector(getProfileId)
   // eslint-disable-next-line no-unused-vars
   const [showEmpty, setShowEmpty] = useState(true)
   const { state: routeState } = useLocation()
   const todayDate = new Date()
   const { isMobile, isTablet } = useBreakpoints()
+  const history = useHistory()
+
+  const queryParams = useSearchParams()
+
+  const queryProjectId = queryParams.get(QUERY_PARAMETERS.projectId)
+  const queryYear = queryParams.get(QUERY_PARAMETERS.year)
+  const queryMonth = queryParams.get(QUERY_PARAMETERS.month)
+  const queryDeveloperId = queryParams.get(QUERY_PARAMETERS.developerId)
 
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -100,80 +105,40 @@ function TimeReport(props) {
       ? reports.reduce((res, item) => res + item.duration, 0)
       : 0
 
-  useEffect(() => {
-    if (!isEmpty(selectedDeveloper)) {
-      const { id } = selectedDeveloper
-      dispatch(getDeveloperProjectsById(id))
-    } else if (roleUser === DEVELOPER) {
-      dispatch(getDeveloperProjectsById(developerId))
+  const updateTimereportState = useCallback(() => {
+    const { year: selectedYear, month: selectedMonth } = selectedDate
+    const isSelectedProjectExist =
+      !!selectedProject && !!Object.entries(selectedProject).length
+    const isSelectedDateExist =
+      !!selectedDate && !!Object.entries(selectedDate).length
+    const isSelectedDeveloperExist =
+      !!selectedDeveloper && !!Object.entries(selectedDeveloper).length
+
+    if (isSelectedProjectExist && queryProjectId !== selectedProject.id) {
+      queryParams.set(QUERY_PARAMETERS.projectId, selectedProject?.id)
     }
-  }, [
-    selectedDeveloper,
-    selectedDate,
-    reports,
-    roleUser,
-    dispatch,
-    developerId,
-  ])
 
-  const bootstrapWidthRouteState = useCallback(() => {
-    if (routeState) {
-      const {
-        selectedDate: routeDate,
-        developer_project_id: route_developer_project_id,
-        userId: route_user_id,
-      } = routeState
-
-      const { year: routeYear, month: routeMonth } = routeDate
-
-      const { year: selectedYear, month: selectedMonth } = selectedDate
-
-      const { developer_project_id: selectedDeveloper_project_id } =
-        selectedProject
-
-      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
-        changeSelectedDateTimeReport({
-          year: Number(routeYear),
-          month: Number(routeMonth),
-        })
-      }
-
-      if (roleUser !== DEVELOPER) {
-        const developerData = developersList.find(
-          (dev) => dev.id === route_user_id
-        )
-        if (developerData) {
-          selectDevelopers(
-            {
-              id: developerData.id,
-              name: developerData.name,
-              email: developerData.email,
-            },
-            route_developer_project_id
-          )
-        }
-        return
-      }
-
-      if (route_developer_project_id !== selectedDeveloper_project_id) {
-        const newSelectedProject = projects.find(
-          (project) =>
-            project.developer_project_id === route_developer_project_id
-        )
-        selectProject(newSelectedProject)
-      }
+    if (
+      isSelectedDateExist &&
+      (selectedYear !== queryYear || selectedMonth !== queryMonth)
+    ) {
+      queryParams.set(QUERY_PARAMETERS.year, selectedDate.year)
+      queryParams.set(QUERY_PARAMETERS.month, selectedDate.month)
     }
-  }, [
-    changeSelectedDateTimeReport,
-    developersList,
-    projects,
-    roleUser,
-    selectedDate,
-    routeState,
-    selectDevelopers,
-    selectedProject,
-    selectProject,
-  ])
+
+    if (
+      isSelectedDeveloperExist &&
+      selectedDeveloper.id !== queryDeveloperId &&
+      developersList.length
+    ) {
+      queryParams.set(QUERY_PARAMETERS.developerId, selectedDeveloper.id)
+    }
+
+    const url = queryParams.toString()
+    history.push({
+      search: `${url}`,
+    })
+  }, [selectedProject, selectedDate, selectedDeveloper])
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -189,23 +154,71 @@ function TimeReport(props) {
     getTimeReportCsv()
   }
 
-  useEffect(() => {
+  const setInitialTimereportValuesFromUrl = useCallback(() => {
     if (projects.length) {
-      selectProject(projects[0])
+      const project = findListItemById(projects, queryProjectId)
+      selectProject(project || projects[0])
+
+      const month = Number(queryMonth)
+      const year = Number(queryYear)
+      const isDateValid = validateDate(month, year)
+
+      changeSelectedDateTimeReport(
+        isDateValid
+          ? {
+              year: year,
+              month: month,
+            }
+          : {
+              year: todayDate.getFullYear(),
+              month: todayDate.getMonth(),
+            }
+      )
     }
-    if (!projects.length) {
-      selectProject({})
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects])
 
+  const setInitialDeveloperValueFromUrl = useCallback(() => {
+    if (developersList.length && roleUser !== DEVELOPER) {
+      const developer = findListItemById(developersList, queryDeveloperId)
+
+      console.log(selectedDeveloper.id)
+
+      // FIX: This if clause is a big 'kostyl', because developersList updates on each call of selectDeveloper function
+      if (
+        developer &&
+        selectedDeveloper.id !== developer.id &&
+        selectedDeveloper.id === profileId
+      ) {
+        selectDevelopers({
+          id: developer.id,
+          name: developer.name,
+          email: developer.email,
+        })
+      }
+    }
+
+    if (roleUser === DEVELOPER) {
+      queryParams.delete(QUERY_PARAMETERS.developerId)
+    }
+  }, [developersList])
+
   useEffect(() => {
-    bootstrapWidthRouteState()
+    setInitialTimereportValuesFromUrl()
+  }, [setInitialTimereportValuesFromUrl])
+
+  useEffect(() => {
+    setInitialDeveloperValueFromUrl()
+  }, [setInitialDeveloperValueFromUrl])
+
+  useEffect(() => {
+    updateTimereportState()
+  }, [updateTimereportState])
+
+  useEffect(() => {
     return () => {
       clearSelectedProject()
       resetSelectedDate()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (isMobile && !isTablet) {
@@ -280,6 +293,7 @@ const mapStateToProps = (state) => ({
   selectedDay: getSelectedDay(state),
   selectDayStatus: getSelectDayStatus(state),
   selectedDayStatus: getSelectedDayStatus(state),
+  profileId: getProfileId(state),
 })
 
 const actions = {

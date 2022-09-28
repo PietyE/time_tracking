@@ -104,9 +104,9 @@ export function* workerTimeReports() {
     const { selectedProject, selectedDate, idEditingWorkItem } = yield select(
       (state) => state.timereports
     )
-    if (!isEmpty(selectedProject)) {
+    const { year, month } = selectedDate
+    if (!isEmpty(selectedProject) && year && month) {
       const { developer_project_id } = selectedProject
-      const { year, month } = selectedDate
       const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${
         1 + month
       }`
