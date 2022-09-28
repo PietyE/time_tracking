@@ -302,14 +302,21 @@ export function* changeProjName({ payload }) {
 
 export function* editUsersOnProject({ payload }) {
   try {
+    let result
     yield put(setFetchingPmPage(true))
     const { id, data, selectedData } = payload
-    const { month, year } = selectedData
-    const result = yield call([pm, 'changeProjectTeam'], id, {
-      ...data,
-      month: month + 1,
-      year,
-    })
+    if (selectedData) {
+      const { month, year } = selectedData
+      result = yield call([pm, 'changeProjectTeam'], id, {
+        ...data,
+        month: month + 1,
+        year,
+      })
+    } else {
+      result = yield call([pm, 'changeProjectTeam'], id, {
+        ...data,
+      })
+    }
     if (result.status === 200) {
       yield put(
         showAlert({
