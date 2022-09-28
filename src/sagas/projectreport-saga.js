@@ -4,7 +4,7 @@ import { pm } from '../api'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
 import {
-  CHANGE_SELECTED_DATE_PROJECTS_REPORT,
+  CHANGE_SELECTED_DATE,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -32,10 +32,7 @@ import {
   // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from 'actions/currency'
-import {
-  getSelectedMonthSelector,
-  getSelectedProjectSelector,
-} from 'reducers/projects-report'
+import { getSelectedProjectSelector } from 'reducers/projects-report'
 import {
   consolidateReportMapper,
   usersProjectReportMapper,
@@ -112,7 +109,6 @@ export function* getAllDevelopersProjectInProjectReport() {
 
 function* setExchangeRate({ payload, callback }) {
   // eslint-disable-next-line no-unused-vars
-  const { month, year } = yield select((state) => state.calendar)
   try {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -249,10 +245,7 @@ export function* handleGetConsolidatedReport() {
 
   yield put(setConsolidateProjectReport(listOfDevelopers))
   // eslint-disable-next-line no-unused-vars
-  const { data } = yield call(
-    [Api, 'consolidateReportApi'],
-    URL_CONSOLIDATED_LIST_REPORT
-  )
+  yield call([Api, 'consolidateReportApi'], URL_CONSOLIDATED_LIST_REPORT)
   yield put(setIsFetchingReports(false))
 }
 
@@ -287,7 +280,7 @@ function* getUsersHoursAuthUrl() {
 export function* watchDeveloperProjects() {
   yield takeEvery(
     [
-      CHANGE_SELECTED_DATE_PROJECTS_REPORT,
+      CHANGE_SELECTED_DATE,
       SET_SELECTED_DEVELOPER,
       CLEAR_SELECTED_DEVELOPER,
       SET_SELECTED_PROJECT_PROJECTREPORTS,

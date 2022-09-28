@@ -181,8 +181,6 @@ function TimeReport(props) {
     if (developersList.length && roleUser !== DEVELOPER) {
       const developer = findListItemById(developersList, queryDeveloperId)
 
-      console.log(selectedDeveloper.id)
-
       // FIX: This if clause is a big 'kostyl', because developersList updates on each call of selectDeveloper function
       if (
         developer &&
@@ -217,7 +215,6 @@ function TimeReport(props) {
   useEffect(() => {
     return () => {
       clearSelectedProject()
-      resetSelectedDate()
     }
   }, [])
 

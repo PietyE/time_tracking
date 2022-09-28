@@ -1,6 +1,4 @@
 import {
-  CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  // SET_DEV_CONSOLIDATE_PROJECT_REPORT,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
@@ -21,11 +19,6 @@ import {
   GET_USERS_HOURS_AUTH_URL_SUCCESS,
   // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
-
-export const changeSelectedDateProjectsReport = (payload) => ({
-  type: CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  payload,
-})
 
 // export const getDeveloperConsolidateProjectReport = (payload) => ({
 //   type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,

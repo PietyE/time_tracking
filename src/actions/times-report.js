@@ -1,6 +1,5 @@
 import {
   ADD_TIME_REPORT,
-  CHANGE_SELECTED_DATE_TIME_REPORT,
   CLEAR_SELECTED_PROJECT,
   DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
@@ -13,11 +12,6 @@ import {
   SET_STATUS_USER,
   SET_TIME_REPORTS,
 } from 'constants/actions-constant'
-
-export const changeSelectedDateTimeReport = (payload) => ({
-  type: CHANGE_SELECTED_DATE_TIME_REPORT,
-  payload,
-})
 
 export const setIsFetchingReports = (payload) => ({
   type: SET_IS_FETCHING_REPORTS,

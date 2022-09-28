@@ -9,7 +9,6 @@ import {
   getIsShowCreateUserModalSelector,
   getIsShowEditModalSelector,
   getProjectManagerListSelector,
-  getSelectedMonthForPMSelector,
   getSelectedPmSelector,
   getSelectedProjectSelector,
 } from 'reducers/projects-management'
@@ -65,7 +64,6 @@ const ProjectManagementComponent = () => {
 
   let selectedDateForPM = useEqualSelector(getSelectedDate)
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
-  let month = useEqualSelector(getSelectedMonthForPMSelector)
   let isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
   let isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
   let isShowCreateUserModal = useEqualSelector(getIsShowCreateUserModalSelector)
@@ -112,7 +110,7 @@ const ProjectManagementComponent = () => {
   useEffect(() => {
     dispatch(clearPmProjects())
     dispatch(getAllProjects())
-  }, [month, isEditModalShow, dispatch])
+  }, [selectedDateForPM, isEditModalShow, dispatch])
 
   // // The pagination is commented out until the next iteration
   // useEffect(() => {
@@ -396,7 +394,10 @@ const ProjectManagementComponent = () => {
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
       <div className="modal-container">
-        <EditProjectModal show={isEditModalShow} month={month} />
+        <EditProjectModal
+          show={isEditModalShow}
+          month={selectedDateForPM.month}
+        />
       </div>
     </div>
   )
