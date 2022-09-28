@@ -9,24 +9,20 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 import { monthsNamesLong, monthsNamesShort } from 'constants/months'
-
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { useDispatch } from 'react-redux'
 import styles from './SelectMonth.module.scss'
+import { changeSelectedDate } from '../../../actions/calendar'
 
-export const SelectMonth = ({
-  value,
-  onChange,
-  showYear,
-  initialYear = 2010,
-}) => {
+export const SelectMonth = ({ onChange, showYear, initialYear = 2010 }) => {
   const todayDate = new Date()
   const year = todayDate.getFullYear()
   const month = todayDate.getMonth()
 
+  const { month: currentMonth, year: currentYear } = useShallowEqualSelector()
+  const dispatch = useDispatch()
+
   const selectMonthRef = useRef()
-
-  const [currentMonth, setCurrentMonth] = useState(value.month || month)
-
-  const [currentYear, setCurrentYear] = useState(value.year || year)
 
   const [isOpenPicker, setIsOpenPicker] = useState(false)
 
@@ -35,18 +31,20 @@ export const SelectMonth = ({
     const selectedMonth = +e.target.dataset.month
     if (e.target.classList.contains('disabled')) return
     onChange({ month: selectedMonth, year: currentYear })
-    setCurrentMonth(selectedMonth)
+    dispatch(changeSelectedDate({ month: selectedMonth }))
     setIsOpenPicker(false)
   }
 
   const handlerSelectPrevYear = (e) => {
     e.preventDefault()
-    if (currentYear > initialYear) setCurrentYear(currentYear - 1)
+    if (currentYear > initialYear)
+      dispatch(changeSelectedDate({ year: currentYear - 1 }))
   }
 
   const handlerSelectNextYear = (e) => {
     e.preventDefault()
-    if (currentYear < year) setCurrentYear(currentYear + 1)
+    if (currentYear < year)
+      dispatch(changeSelectedDate({ year: currentYear + 1 }))
   }
 
   const handlerSelectPrevMonth = (e) => {
@@ -56,11 +54,11 @@ export const SelectMonth = ({
         return
       }
 
-      setCurrentMonth(11)
+      dispatch(changeSelectedDate({ month: 11 }))
       onChange({ month: 11, year: currentYear - 1 })
-      setCurrentYear(currentYear - 1)
+      dispatch(changeSelectedDate({ year: currentYear - 1 }))
     } else {
-      setCurrentMonth(currentMonth - 1)
+      dispatch(changeSelectedDate({ month: currentMonth - 1 }))
       onChange({ month: currentMonth - 1, year: currentYear })
     }
   }
@@ -69,11 +67,11 @@ export const SelectMonth = ({
     e.preventDefault()
     e.stopPropagation()
     if (currentMonth === 11) {
-      setCurrentMonth(0)
+      dispatch(changeSelectedDate({ month: 0 }))
       onChange({ month: 0, year: currentYear + 1 })
-      setCurrentYear(currentYear + 1)
+      dispatch(changeSelectedDate({ year: currentYear + 1 }))
     } else {
-      setCurrentMonth(currentMonth + 1)
+      dispatch(changeSelectedDate({ month: currentMonth + 1 }))
       onChange({ month: currentMonth + 1, year: currentYear })
     }
   }
@@ -85,22 +83,22 @@ export const SelectMonth = ({
   const longMonthName = monthsNamesLong[currentMonth]
 
   const longMonthNameText = useMemo(() => {
-    if (value) {
+    if (currentYear || currentMonth) {
       if (showYear) {
-        return `${longMonthName}, ${value.year} `
+        return `${longMonthName}, ${currentYear} `
       }
-      if (value.year && value.year !== year) {
-        return `${longMonthName}, ${value.year}`
+      if (currentYear) {
+        return `${longMonthName}, ${currentYear}`
       }
     }
     return longMonthName
-  }, [value, longMonthName, showYear, year])
+  }, [currentYear, currentMonth, longMonthName, showYear, year])
 
   const disabledNextYearButton = currentYear === year
   const disabledPrevYearButton = currentYear === initialYear
   const disabledNextMonthButton =
-    value.month === month && disabledNextYearButton
-  const disabledPrevMonthButton = value.month === 0 && disabledPrevYearButton
+    currentMonth === month && disabledNextYearButton
+  const disabledPrevMonthButton = currentMonth === 0 && disabledPrevYearButton
 
   const isMonthDisabled = (index) => index > month && disabledNextYearButton
 
@@ -109,7 +107,7 @@ export const SelectMonth = ({
     if (isMonthDisabled(index)) {
       return `${className} ${styles.disabled}`
     }
-    if (value.month === index && currentYear === value.year) {
+    if (currentMonth === index && currentYear === currentYear) {
       return `${className} ${styles.active}`
     }
     return className
@@ -150,11 +148,6 @@ export const SelectMonth = ({
       document.removeEventListener('click', callbackEventListener)
     }
   }, [callbackEventListener, isOpenPicker])
-
-  useEffect(() => {
-    setCurrentYear(value.year)
-    setCurrentMonth(value.month)
-  }, [value])
 
   return (
     <div
@@ -240,10 +233,6 @@ SelectMonth.defaultProps = {
 }
 
 SelectMonth.propTypes = {
-  value: PropTypes.shape({
-    month: PropTypes.number,
-    year: PropTypes.number,
-  }).isRequired,
   onChange: PropTypes.func.isRequired,
   showYear: PropTypes.bool,
 }
