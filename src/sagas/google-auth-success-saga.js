@@ -79,7 +79,7 @@ function* syncWithGoogleSheet() {
     const response = yield call([Api, 'syncWithGoogleSheet'], url, {
       spreadsheet,
       is_agree,
-      month,
+      month: month + 1,
       year,
     })
 
