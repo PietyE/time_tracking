@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export const calendarReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case CHANGE_SELECTED_DATE:
       return {
         ...state,
