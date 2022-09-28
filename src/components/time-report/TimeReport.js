@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
@@ -63,8 +63,7 @@ function TimeReport(props) {
   } = props
 
   // eslint-disable-next-line no-unused-vars
-  const [showEmpty, setShowEmpty] = useState(true)
-  const { state: routeState } = useLocation()
+  const [showEmpty] = useState(true)
   const todayDate = new Date()
   const { isMobile, isTablet } = useBreakpoints()
   const history = useHistory()
@@ -166,8 +165,8 @@ function TimeReport(props) {
       changeSelectedDate(
         isDateValid
           ? {
-              year: year,
-              month: month,
+              year,
+              month,
             }
           : {
               year: todayDate.getFullYear(),
@@ -201,16 +200,16 @@ function TimeReport(props) {
   }, [developersList])
 
   useEffect(() => {
+    updateTimereportState()
+  }, [updateTimereportState])
+
+  useEffect(() => {
     setInitialTimereportValuesFromUrl()
   }, [setInitialTimereportValuesFromUrl])
 
   useEffect(() => {
     setInitialDeveloperValueFromUrl()
   }, [setInitialDeveloperValueFromUrl])
-
-  useEffect(() => {
-    updateTimereportState()
-  }, [updateTimereportState])
 
   useEffect(() => {
     return () => {
