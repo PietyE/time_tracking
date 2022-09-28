@@ -52,9 +52,7 @@ export function* getAllProjects() {
         }
       }
       if (selectedPmId !== 'select-all') {
-        const { month, year } = yield select(
-          (state) => state.projectsManagement.selectedDateForPM
-        )
+        const { month, year } = yield select((state) => state.calendar)
         const response = yield call([pm, 'getProjectsTotalHours'], {
           month,
           year,
@@ -91,9 +89,7 @@ export function* getProjectsSagaWorker() {
     const selectPm = yield select(getSelectedPmIdSelector)
 
     let selectedPmId = selectPm === 'select-all' ? undefined : selectPm
-    const { month, year } = yield select(
-      (state) => state.projectsManagement.selectedDateForPM
-    )
+    const { month, year } = yield select((state) => state.calendar)
     const response = yield call([pm, 'getProjectsTotalHours'], {
       month,
       year,
@@ -122,9 +118,7 @@ export function* getProjectsSagaWorker() {
 export function* getProjectReportById(action) {
   //todo: delay to fix bug should be found new approach to rewrite this logic
   yield delay(500)
-  const { month, year } = yield select(
-    (state) => state.projectsManagement.selectedDateForPM
-  )
+  const { month, year } = yield select((state) => state.calendar)
   try {
     yield put(setFetchingPmPage(true))
     let projectId = action?.payload
@@ -171,9 +165,7 @@ export function* getProjectReportById(action) {
 export function* downloadProjectReport({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { month, year } = yield select(
-      (state) => state.projectsManagement.selectedDateForPM
-    )
+    const { month, year } = yield select((state) => state.calendar)
 
     const response = yield call([pm, 'getProjectReportInExcel'], {
       year,
@@ -201,9 +193,7 @@ export function* downloadProjectReport({ payload }) {
 export function* downloadAllTeamProjectReport({ payload }) {
   try {
     yield put(setFetchingPmPage(true))
-    const { month, year } = yield select(
-      (state) => state.projectsManagement.selectedDateForPM
-    )
+    const { month, year } = yield select((state) => state.calendar)
 
     const response = yield call([pm, 'getAllTeamProjectReportsInExcel'], {
       year,

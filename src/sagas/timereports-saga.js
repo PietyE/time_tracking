@@ -63,9 +63,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
 }
 
 export function* getDeveloperProjectsById(action) {
-  const { month, year } = yield select(
-    (state) => state.timereports.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
   try {
     let developerId = action?.payload
     const { data } = yield call([pm, 'getDeveloperProjectsById'], {
@@ -101,10 +99,10 @@ export function* getDevelopers() {
 
 export function* workerTimeReports() {
   try {
-    const { selectedProject, selectedDate, idEditingWorkItem } = yield select(
+    const { selectedProject, idEditingWorkItem } = yield select(
       (state) => state.timereports
     )
-    const { year, month } = selectedDate
+    const { year, month } = yield select((state) => state.calendar)
     if (!isEmpty(selectedProject) && year && month) {
       const { developer_project_id } = selectedProject
       const searchString = `?developer_project=${developer_project_id}&year=${year}&month=${
@@ -235,12 +233,11 @@ export function* editTimeReport({ payload }) {
 
 export function* downloadCSV() {
   try {
-    const { selectedDate, selectedProject } = yield select(
-      (state) => state.timereports
-    )
+    const { selectedProject } = yield select((state) => state.timereports)
+    const { month, year } = yield select((state) => state.calendar)
     const URL = `developer-projects/${
       selectedProject.developer_project_id
-    }/export-excel/${selectedDate.year}/${selectedDate.month + 1}/`
+    }/export-excel/${year}/${month + 1}/`
     const res = yield call([Api, 'exportCsv'], URL)
     const fileName = res.headers['content-disposition'].split('"')[1]
     if (res && res.data instanceof Blob) {

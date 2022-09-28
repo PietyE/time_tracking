@@ -91,9 +91,7 @@ export function* getDeveloperProjects() {
 }
 
 export function* getAllDevelopersProjectInProjectReport() {
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
   try {
     const { data } = yield call([pm, 'getAllDevelopersProjects'], {
       year,
@@ -114,7 +112,7 @@ export function* getAllDevelopersProjectInProjectReport() {
 
 function* setExchangeRate({ payload, callback }) {
   // eslint-disable-next-line no-unused-vars
-  const { month, year } = yield select(getSelectedMonthSelector)
+  const { month, year } = yield select((state) => state.calendar)
   try {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -186,9 +184,7 @@ function* addDevelopersToProject({ payload = [] }) {
 
 function* usersProjectReport(action) {
   const { payload: userId } = action
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
 
   const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${
     month + 1
@@ -208,9 +204,7 @@ function* usersProjectReport(action) {
 }
 
 export function* handleGetConsolidatedReport() {
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
 
   yield put(setIsFetchingReports(true))
   const { email = '' } = yield select(
