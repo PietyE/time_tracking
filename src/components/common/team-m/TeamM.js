@@ -8,8 +8,7 @@ import {
 } from 'actions/projects-management'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getSelectedDateForPMSelector } from '../../../reducers/projects-management'
-
+import { getSelectedDate } from 'selectors/calendar'
 import HintWindow from 'components/ui/HintWindow'
 
 function TeamM({
@@ -25,7 +24,7 @@ function TeamM({
   const [showHintExport, setShowHintExport] = useState(false)
   const [showHintDelete, setShowHintDelete] = useState(false)
   const dispatch = useDispatch()
-  let selectedData = useSelector(getSelectedDateForPMSelector)
+  let selectedData = useSelector(getSelectedDate)
 
   const _downloadProjectReport = useCallback(
     (data) => {

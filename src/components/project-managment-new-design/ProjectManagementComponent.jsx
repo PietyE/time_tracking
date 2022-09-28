@@ -9,13 +9,11 @@ import {
   getIsShowCreateUserModalSelector,
   getIsShowEditModalSelector,
   getProjectManagerListSelector,
-  getSelectedDateForPMSelector,
   getSelectedMonthForPMSelector,
   getSelectedPmSelector,
   getSelectedProjectSelector,
 } from 'reducers/projects-management'
 import {
-  changeSelectedDateProjectsManagement,
   clearPmProjects,
   getAllProjects,
   setPm,
@@ -39,6 +37,8 @@ import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
 import { ASCEND } from '../../constants/order-constant'
+import { changeSelectedDate } from 'actions/calendar'
+import { getSelectedDate } from 'selectors/calendar'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -63,7 +63,7 @@ const ProjectManagementComponent = () => {
 
   const projectDivRef = useRef(null)
 
-  let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
+  let selectedDateForPM = useEqualSelector(getSelectedDate)
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
   let month = useEqualSelector(getSelectedMonthForPMSelector)
   let isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
@@ -138,7 +138,7 @@ const ProjectManagementComponent = () => {
 
   const _changeSelectedDateProjectsManagement = useCallback(
     (data) => {
-      dispatch(changeSelectedDateProjectsManagement(data))
+      dispatch(changeSelectedDate(data))
     },
     [dispatch]
   )
@@ -272,7 +272,6 @@ const ProjectManagementComponent = () => {
               />
             </div>
             <SelectMonth
-              value={selectedDateForPM}
               onChange={_changeSelectedDateProjectsManagement}
               showYear
             />

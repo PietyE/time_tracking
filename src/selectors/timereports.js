@@ -1,8 +1,5 @@
 import { createSelector } from 'reselect'
-
-const getSelectedDateTimeReport = (state) => state.timereports.selectedDate
-
-const getTimeReportsSelector = (state) => state.timereports.reports?.items
+import { getSelectedDate } from './calendar'
 
 const getIsFetchingReport = (state) => state.timereports.isFetchingReports
 
@@ -16,7 +13,7 @@ const getSelecredDeveloper = (state) => state.timereports.selectedDeveloper
 const getDeveloperProjectsTR = (state) =>
   state.timereports.selectedDeveloperProjectsTR
 
-const getTimeReports = createSelector(getTimeReportsSelector, (reports) =>
+const getTimeReports = createSelector(getSelectedDate, (reports) =>
   reports ? reports.filter((report) => report.is_active) : reports
 )
 
@@ -31,7 +28,6 @@ const getSelectedDayStatus = (state) => state.timereports.selectedDayStatus
 const getIdEditingWorkItem = (state) => state.timereports.idEditingWorkItem
 
 export {
-  getSelectedDateTimeReport,
   getTimeReports,
   getIsFetchingReport,
   getTimeReportForEdit,

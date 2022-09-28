@@ -1,57 +1,54 @@
 import React, { useEffect, useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 
-import SearchByProject from '../SearchByProject';
-import SearchByDeveloper from '../SearchByDeveloper';
-import UsersInfo from '../UsersInfo';
-import DropDownCurrencyChange from '../DropDownCurrencyChange';
-
-import { getSelectedDateTimeReport } from 'selectors/timereports';
+import SearchByProject from '../SearchByProject'
+import SearchByDeveloper from '../SearchByDeveloper'
+import UsersInfo from '../UsersInfo'
+import DropDownCurrencyChange from '../DropDownCurrencyChange'
 import { getIsFetchingProjectsReport } from '../../../../selectors/developer-projects'
 
-import { changeSelectedDateTimeReport } from 'actions/times-report'
-
-import filter from 'images/inHouseEmployees/filter.svg';
+import filter from 'images/inHouseEmployees/filter.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
 
-import { EmployeesMainComponentContext } from 'context/employeesMainComponent-context';
+import { EmployeesMainComponentContext } from 'context/employeesMainComponent-context'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 import SelectMonth from 'components/ui/select-month'
-import Spinner from 'components/time-report/components/Spinner';
-
+import Spinner from 'components/time-report/components/Spinner'
+import WindowUserInfo from '../WindowUserInfo'
+import { changeSelectedDate } from 'actions/calendar'
+import { getSelectedDate } from 'selectors/calendar'
 import './employeesMainComponent.scss'
-import WindowUserInfo from '../WindowUserInfo';
 
-function EmployeesMainComponent (props) {
-  const {
-    pageName
-  } = props
+function EmployeesMainComponent(props) {
+  const { pageName } = props
 
-  const [currencyValue, setCurrencyValue] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [userSelected, setUserSelected] = useState(null);
+  const [currencyValue, setCurrencyValue] = useState(0)
+  const [selected, setSelected] = useState(null)
+  const [userSelected, setUserSelected] = useState(null)
   const [userIsChecked, setUserIsChecked] = useState(false)
   // eslint-disable-next-line no-unused-vars
-  const [currentCurrencyId, setCurrentCurrencyId] = useState(null);
-  const selectedDate = useShallowEqualSelector(getSelectedDateTimeReport);
-  const isFetchingProjects = useShallowEqualSelector(getIsFetchingProjectsReport);
+  const [currentCurrencyId, setCurrentCurrencyId] = useState(null)
+  const selectedDate = useShallowEqualSelector(getSelectedDate)
+  const isFetchingProjects = useShallowEqualSelector(
+    getIsFetchingProjectsReport
+  )
   const [projectState, setProjectState] = useState('Active')
   const [openChooseActiveState, setOpenChooseActiveState] = useState(false)
   // eslint-disable-next-line no-unused-vars
-  const [opened, setOpened] = useState(false);
-  const [openUserInfo, setOpenUserInfo] = useState(false);
-  const [commentsOn, setUserCommentsOn] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const dispatch = useDispatch();
+  const [opened, setOpened] = useState(false)
+  const [openUserInfo, setOpenUserInfo] = useState(false)
+  const [commentsOn, setUserCommentsOn] = useState(false)
+  const [currentUserId, setCurrentUserId] = useState(null)
+  const dispatch = useDispatch()
 
   const onSentNewData = (data) => {
-    dispatch(changeSelectedDateTimeReport(data))
+    dispatch(changeSelectedDate(data))
   }
 
   useEffect(() => {
-    if(selected && selected.rate !== currencyValue) {
+    if (selected && selected.rate !== currencyValue) {
       setCurrencyValue(selected.rate)
       setCurrentCurrencyId(selected.currencyId)
     }
@@ -64,7 +61,7 @@ function EmployeesMainComponent (props) {
   }, [])
 
   const openChooseActive = () => {
-    setOpenChooseActiveState(!openChooseActiveState);
+    setOpenChooseActiveState(!openChooseActiveState)
   }
 
   const userWindowInfoOpen = () => {
@@ -79,7 +76,7 @@ function EmployeesMainComponent (props) {
     if (user) {
       setUserSelected(user)
       setCurrentUserId(user.id)
-      if(checked !== userIsChecked){
+      if (checked !== userIsChecked) {
         setUserIsChecked(!userIsChecked)
       }
     }
@@ -102,17 +99,20 @@ function EmployeesMainComponent (props) {
   }
 
   return (
-    <EmployeesMainComponentContext.Provider value={{selected,
-                                              opened,
-                                              currentUserId,
-                                              commentsOn,
-                                              onItemClick: buttonRouteTo,
-                                              showWindowWithUserInfo: userWindowInfoOpen,
-                                              closeWindowWithUserInfo: userWindowInfoClose,
-                                              chooseUser: selectUser,
-                                              showComments: showUserComments,
-                                              hideComments: hideUserComments,
-                                              }}>
+    <EmployeesMainComponentContext.Provider
+      value={{
+        selected,
+        opened,
+        currentUserId,
+        commentsOn,
+        onItemClick: buttonRouteTo,
+        showWindowWithUserInfo: userWindowInfoOpen,
+        closeWindowWithUserInfo: userWindowInfoClose,
+        chooseUser: selectUser,
+        showComments: showUserComments,
+        hideComments: hideUserComments,
+      }}
+    >
       <div className="in_house_employees_page">
         <div className="header">
           <span className="header_text">{pageName}</span>
@@ -125,58 +125,75 @@ function EmployeesMainComponent (props) {
         <div className="search_container">
           <SearchByDeveloper />
           <div className="row">
-          <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="10" height="1.5" fill="#616161"/>
-          </svg>
+            <svg
+              width="10"
+              height="2"
+              viewBox="0 0 10 2"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="10" height="1.5" fill="#616161" />
+            </svg>
           </div>
           <SearchByProject />
           <div className="select_month">
-            <SelectMonth
-              value={selectedDate}
-              onChange={onSentNewData}
-              showYear
-            />
+            <SelectMonth onChange={onSentNewData} showYear />
           </div>
           <div className="choose_active" onClick={openChooseActive}>
-            <img src={filter} className="choose_active_img" alt="choose active"/>
+            <img
+              src={filter}
+              className="choose_active_img"
+              alt="choose active"
+            />
             <span className="choose_active_text">{projectState}</span>
             <div className="up_arrow_box">
-              <img src={upArrow} className={`up_arrow ${openChooseActiveState ? 'show_menu' : 'close_menu'}`} alt="arrow"/>
+              <img
+                src={upArrow}
+                className={`up_arrow ${
+                  openChooseActiveState ? 'show_menu' : 'close_menu'
+                }`}
+                alt="arrow"
+              />
             </div>
           </div>
-          {openChooseActiveState && 
-              <div className="choose_container">
-                <span className="choose_text" onClick={chooseActive}>Active</span>
-                <span className="choose_text" onClick={chooseArchieve}>Archive</span>
-              </div>
-            } 
+          {openChooseActiveState && (
+            <div className="choose_container">
+              <span className="choose_text" onClick={chooseActive}>
+                Active
+              </span>
+              <span className="choose_text" onClick={chooseArchieve}>
+                Archive
+              </span>
+            </div>
+          )}
         </div>
         <div>
           <UsersInfo selectedDate={selectedDate} commentsOn={commentsOn} />
         </div>
-        {openUserInfo &&
-          <WindowUserInfo name={userSelected.name}
-                          id={userSelected.id}
-                          check={userIsChecked}
-                          salary={userSelected.salary_uah}
-                          currency={userSelected.salaryCurrency}
-                          hourlyRate={userSelected.rate_uah}
-                          currencyRatePerHour={userSelected.rateCurrency}
-                          totalHours={userSelected.totalHoursOvertime}
-                          overtimeSalary={userSelected.total_overtimes}
-                          totalSalary={userSelected.total}
-                          extraCosts={userSelected.total_expenses}
-                          toPaySalary={userSelected.total_uah}
-                          expensesId={userSelected.expensesId}
-                          is_processed={userSelected.is_processed}
-                          comments={userSelected.comments}
-                          commentsId={userSelected.commentId}
-                          selectedDate={selectedDate}
-                          commentsOn={commentsOn}
-                           />
-        }
+        {openUserInfo && (
+          <WindowUserInfo
+            name={userSelected.name}
+            id={userSelected.id}
+            check={userIsChecked}
+            salary={userSelected.salary_uah}
+            currency={userSelected.salaryCurrency}
+            hourlyRate={userSelected.rate_uah}
+            currencyRatePerHour={userSelected.rateCurrency}
+            totalHours={userSelected.totalHoursOvertime}
+            overtimeSalary={userSelected.total_overtimes}
+            totalSalary={userSelected.total}
+            extraCosts={userSelected.total_expenses}
+            toPaySalary={userSelected.total_uah}
+            expensesId={userSelected.expensesId}
+            is_processed={userSelected.is_processed}
+            comments={userSelected.comments}
+            commentsId={userSelected.commentId}
+            selectedDate={selectedDate}
+            commentsOn={commentsOn}
+          />
+        )}
       </div>
     </EmployeesMainComponentContext.Provider>
   )
 }
-export default EmployeesMainComponent;
+export default EmployeesMainComponent

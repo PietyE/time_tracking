@@ -11,10 +11,7 @@ import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
 
 import SelectMonth from 'components/ui/select-month'
-import {
-  changeSelectedDateProjectsReport,
-  getDevelopersProjectInProjectReport,
-} from 'actions/projects-report'
+import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 
 import { getRoleUser } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
@@ -22,15 +19,15 @@ import { DEVELOPER } from 'constants/role-constant'
 
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
-
-import { getSelectedMonthSelector } from 'reducers/projects-report'
+import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
+import { changeSelectedDate } from 'actions/calendar'
+import { getSelectedDate } from 'selectors/calendar'
 
 import './projectReportNew.scss'
-import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
-  const selectedDate = useShallowEqualSelector(getSelectedMonthSelector)
+  const selectedDate = useShallowEqualSelector(getSelectedDate)
   // const usersData = useShallowEqualSelector(selectUsersReports);
   const roleUser = useShallowEqualSelector(getRoleUser)
   // eslint-disable-next-line no-unused-vars
@@ -63,7 +60,7 @@ function ProjectReportNew() {
 
   const handleChangeData = useCallback(
     (data) => {
-      dispatch(changeSelectedDateProjectsReport(data))
+      dispatch(changeSelectedDate(data))
     },
     [dispatch]
   )
@@ -135,11 +132,7 @@ function ProjectReportNew() {
             </div>
           )}
           <div className="select_month">
-            <SelectMonth
-              value={selectedDate}
-              onChange={handleChangeData}
-              showYear
-            />
+            <SelectMonth onChange={handleChangeData} showYear />
           </div>
         </div>
         {/* {renderUserProjects()} */}

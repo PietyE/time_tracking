@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import {
   addTimeReport,
-  changeSelectedDateTimeReport,
   clearSelectedProject,
   getTimeReportCsv,
   resetSelectedDate,
@@ -18,7 +17,6 @@ import {
   getIsFetchingReport,
   getSelecredDeveloper,
   getSelectDayStatus,
-  getSelectedDateTimeReport,
   getSelectedDay,
   getSelectedDayStatus,
   getSelectedProject,
@@ -38,10 +36,12 @@ import { findListItemById } from 'utils/common'
 import { QUERY_PARAMETERS } from 'constants/timereports-constant'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import { validateDate } from 'utils/date'
+import { getSelectedDate } from 'selectors/calendar'
+import { changeSelectedDate } from 'actions/calendar'
 
 function TimeReport(props) {
   const {
-    changeSelectedDateTimeReport,
+    changeSelectedDate,
     addTimeReport,
     selectProject,
     clearSelectedProject,
@@ -163,7 +163,7 @@ function TimeReport(props) {
       const year = Number(queryYear)
       const isDateValid = validateDate(month, year)
 
-      changeSelectedDateTimeReport(
+      changeSelectedDate(
         isDateValid
           ? {
               year: year,
@@ -234,7 +234,7 @@ function TimeReport(props) {
         selectProject={selectProject}
         selectedProject={selectedProject}
         selectedDate={selectedDate}
-        changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+        changeSelectedDateTimeReport={changeSelectedDate}
         handlerExportCsv={handlerExportCsv}
         selectedProjectHours={selectedProjectHours}
         reports={reports}
@@ -263,7 +263,7 @@ function TimeReport(props) {
       selectProject={selectProject}
       selectedProject={selectedProject}
       selectedDate={selectedDate}
-      changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+      changeSelectedDateTimeReport={changeSelectedDate}
       handlerExportCsv={handlerExportCsv}
       selectedProjectHours={selectedProjectHours}
       reports={reports}
@@ -280,7 +280,7 @@ function TimeReport(props) {
 }
 
 const mapStateToProps = (state) => ({
-  selectedDate: getSelectedDateTimeReport(state),
+  selectedDate: getSelectedDate(state),
   reports: getTimeReports(state),
   isFetchingReports: getIsFetchingReport(state),
   roleUser: getRoleUser(state),
@@ -297,7 +297,7 @@ const mapStateToProps = (state) => ({
 })
 
 const actions = {
-  changeSelectedDateTimeReport,
+  changeSelectedDate,
   addTimeReport,
   selectProject,
   clearSelectedProject,

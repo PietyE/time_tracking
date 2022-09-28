@@ -121,8 +121,6 @@ export const getDeveloperSelector = (state) => {
   return users.filter((user) => user.role === 1)
 }
 ///////////////////////////////////////////////////////
-export const getSelectedDateForPMSelector = (state) =>
-  state.projectsManagement.selectedDateForPM
 
 export const getSelectedMonthForPMSelector = (state) =>
   state.projectsManagement.selectedDateForPM.month
