@@ -331,6 +331,14 @@ function ReportItem({
     }
   }
 
+  const enableDragability = () => {
+    setIsDraggable(true)
+  }
+
+  const disableDraggability = () => {
+    setIsDraggable(false)
+  }
+
   //todo: check memo
   return (
     <div
@@ -371,7 +379,15 @@ function ReportItem({
         />
       ) : (
         <div className={styles.item}>
-          <Typography className={styles.text}>{text}</Typography>
+          <div className={styles.textWrapper}>
+            <Typography
+              className={styles.text}
+              onMouseOver={disableDraggability}
+              onMouseLeave={enableDragability}
+            >
+              {text}
+            </Typography>
+          </div>
           <Typography className={styles.time}>
             {parseMinToHoursAndMin(hours)}
           </Typography>

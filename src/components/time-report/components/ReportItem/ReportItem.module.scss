@@ -7,12 +7,16 @@
   justify-content: space-between;
 }
 
-.text {
+.textWrapper {
   flex-basis: 75%;
-  padding: 12px 12px 12px 0;
-
   text-align: left;
+}
+
+.text {
+  padding: 12px 12px 12px 0;
   font-size: 14px;
+  cursor: text;
+  display: inline-block;
 }
 
 .time {
