@@ -74,12 +74,13 @@ function* syncWithGoogleSheet() {
     const url = 'user-hours/sync_with_google_sheets/'
     const is_agree = yield select(googleSheetSyncIsAgree)
     const spreadsheet = yield select(getGoogleSheetSyncInputLink)
-    const date = yield select(getSelectedDate)
+    const { month, year } = yield select(getSelectedDate)
 
     const response = yield call([Api, 'syncWithGoogleSheet'], url, {
       spreadsheet,
       is_agree,
-      ...date,
+      month,
+      year,
     })
 
     const { data: users } = response
