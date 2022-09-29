@@ -376,7 +376,7 @@ function* setEditedComment({ payload }) {
   try {
     yield put(setIsFetchingReports(true))
     const { commentId, ...data } = payload
-    const URL = `comments/${commentId}`
+    const URL = `comments/${commentId}/`
     const { status } = yield call([Api, 'saveEditedComments'], URL, data)
     if (status === 400) {
       throw new Error()
