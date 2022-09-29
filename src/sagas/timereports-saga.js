@@ -15,7 +15,7 @@ import {
   GET_DEVELOPERS,
   SELECT_DEVELOPERS,
   GET_TIME_REPORT_CSV,
-  CHANGE_SELECTED_DATE,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
 } from 'constants/actions-constant'
 import { DEVELOPER } from 'constants/role-constant'
 import {
@@ -259,6 +259,9 @@ export function* watchTimereports() {
   yield takeEvery(ADD_TIME_REPORT, addTimeReport)
   yield takeEvery(DELETE_TIME_REPORT, deleteTimeReport)
   yield takeEvery(EDIT_TIME_REPORT, editTimeReport)
-  yield takeEvery([SELECT_PROJECT, CHANGE_SELECTED_DATE], workerTimeReports)
+  yield takeEvery(
+    [SELECT_PROJECT, CHANGE_SELECTED_DATE_TIME_REPORT],
+    workerTimeReports
+  )
   yield takeEvery(GET_TIME_REPORT_CSV, downloadCSV)
 }

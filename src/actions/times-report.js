@@ -1,5 +1,6 @@
 import {
   ADD_TIME_REPORT,
+  CHANGE_SELECTED_DATE_TIME_REPORT,
   CLEAR_SELECTED_PROJECT,
   DELETE_TIME_REPORT,
   EDIT_TIME_REPORT,
@@ -68,4 +69,9 @@ export const getTimeReportCsv = () => ({
 export const setUserStatus = (payload) => ({
   type: SET_STATUS_USER,
   payload,
+})
+
+export const changeSelectedDateTimeReports = (date) => ({
+  type: CHANGE_SELECTED_DATE_TIME_REPORT,
+  payload: date,
 })

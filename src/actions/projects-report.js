@@ -1,11 +1,8 @@
 import {
   SET_SELECTED_DEVELOPER,
-  CLEAR_SELECTED_DEVELOPER,
   SET_SELECTED_PROJECT_PROJECTREPORTS,
-  CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
-  SET_EDIT_USER_ID,
   SET_EXCHANGE_RATES,
   SET_IS_FETCHING_PROJECT_REPORTS,
   GET_CONSOLIDATE_PROJECT_REPORT,
@@ -17,18 +14,8 @@ import {
   GET_ALL_DEVELOPER_PROJECTS,
   GET_USERS_HOURS_AUTH_URL_REQUEST,
   GET_USERS_HOURS_AUTH_URL_SUCCESS,
-  // SAVE_COMMENTS_HISTORY
+  CHANGE_SELECTED_DATE_PROJECTS_REPORT,
 } from 'constants/actions-constant'
-
-// export const getDeveloperConsolidateProjectReport = (payload) => ({
-//   type: GET_DEV_CONSOLIDATE_PROJECT_REPORT,
-//   payload,
-// })
-
-// export const setDeveloperConsolidateProjectReport = (payload) => ({
-//   type: SET_DEV_CONSOLIDATE_PROJECT_REPORT,
-//   payload,
-// })
 
 export const setSelectedDeveloper = (payload) => ({
   type: SET_SELECTED_DEVELOPER,
@@ -45,17 +32,9 @@ export const getAllDevelopersProjectsPR = (payload) => ({
   payload,
 })
 
-export const clearDeveloperSelected = () => ({
-  type: CLEAR_SELECTED_DEVELOPER,
-})
-
 export const setSelectedProjectInProjectReports = (payload) => ({
   type: SET_SELECTED_PROJECT_PROJECTREPORTS,
   payload,
-})
-
-export const clearSelectedProjectInProjectReports = () => ({
-  type: CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
 })
 
 export const getDevelopersProjectInProjectReport = () => ({
@@ -64,11 +43,6 @@ export const getDevelopersProjectInProjectReport = () => ({
 
 export const setDevelopersProjectInProjectReport = (payload) => ({
   type: SET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
-  payload,
-})
-
-export const setEditUserId = (payload) => ({
-  type: SET_EDIT_USER_ID,
   payload,
 })
 
@@ -108,13 +82,6 @@ export const setErrorUsersProjectReport = (payload) => ({
   payload,
 })
 
-// export const setReportHistory = (data) => ({
-//   type: SAVE_COMMENTS_HISTORY,
-//   payload: {data},
-// })
-
-//only for accountant
-
 export const getUsersHoursAuthUrlRequest = () => ({
   type: GET_USERS_HOURS_AUTH_URL_REQUEST,
 })
@@ -122,4 +89,9 @@ export const getUsersHoursAuthUrlRequest = () => ({
 export const getUsersHoursAuthUrlSuccess = (googleSyncWithDriveUrl) => ({
   type: GET_USERS_HOURS_AUTH_URL_SUCCESS,
   payload: googleSyncWithDriveUrl,
+})
+
+export const changeSelectedDateProjectReports = (date) => ({
+  type: CHANGE_SELECTED_DATE_PROJECTS_REPORT,
+  payload: date,
 })

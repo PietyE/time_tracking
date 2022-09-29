@@ -37,11 +37,11 @@ import { QUERY_PARAMETERS } from 'constants/timereports-constant'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import { validateDate } from 'utils/date'
 import { getSelectedDate } from 'selectors/calendar'
-import { changeSelectedDate } from 'actions/calendar'
+import { changeSelectedDateTimeReports } from 'actions/times-report'
 
 function TimeReport(props) {
   const {
-    changeSelectedDate,
+    changeSelectedDateTimeReports,
     addTimeReport,
     selectProject,
     clearSelectedProject,
@@ -162,7 +162,7 @@ function TimeReport(props) {
       const year = Number(queryYear)
       const isDateValid = validateDate(month, year)
 
-      changeSelectedDate(
+      changeSelectedDateTimeReports(
         isDateValid
           ? {
               year,
@@ -230,7 +230,7 @@ function TimeReport(props) {
         selectProject={selectProject}
         selectedProject={selectedProject}
         selectedDate={selectedDate}
-        changeSelectedDateTimeReport={changeSelectedDate}
+        changeSelectedDateTimeReport={changeSelectedDateTimeReports}
         handlerExportCsv={handlerExportCsv}
         selectedProjectHours={selectedProjectHours}
         reports={reports}
@@ -259,7 +259,7 @@ function TimeReport(props) {
       selectProject={selectProject}
       selectedProject={selectedProject}
       selectedDate={selectedDate}
-      changeSelectedDateTimeReport={changeSelectedDate}
+      changeSelectedDateTimeReport={changeSelectedDateTimeReports}
       handlerExportCsv={handlerExportCsv}
       selectedProjectHours={selectedProjectHours}
       reports={reports}
@@ -293,7 +293,7 @@ const mapStateToProps = (state) => ({
 })
 
 const actions = {
-  changeSelectedDate,
+  changeSelectedDateTimeReports,
   addTimeReport,
   selectProject,
   clearSelectedProject,

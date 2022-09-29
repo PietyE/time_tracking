@@ -1,5 +1,4 @@
 import {
-  CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   SET_ALL_PROJECTS,
   SET_SELECTED_PROJECT,
   SET_SELECTED_PROJECT_ID,
@@ -57,8 +56,6 @@ const setProjectsWithReports = (state, action) => {
 
 export const projectsManagement = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT:
-      return { ...state, selectedDateForPM: action.payload }
     case SET_ALL_PROJECTS:
       return { ...state, projects: action.payload }
     case SET_PROJECT_REPORTS:

@@ -1,5 +1,4 @@
 import {
-  CHANGE_SELECTED_DATE_TIME_REPORT,
   SET_TIME_REPORTS,
   SET_DEVELOPER_PROJECTS_TR,
   SELECT_PROJECT,
@@ -10,8 +9,6 @@ import {
   SET_EDIT_MODE,
   SET_STATUS_USER,
 } from 'constants/actions-constant'
-
-const todayDate = new Date()
 
 const initialState = {
   selectedDate: {},
@@ -39,8 +36,6 @@ const initialState = {
 }
 export const timereports = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_SELECTED_DATE_TIME_REPORT:
-      return { ...state, selectedDate: action.payload }
     case SET_TIME_REPORTS:
       return { ...state, reports: action.payload }
     case SELECT_PROJECT:
