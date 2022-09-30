@@ -11,14 +11,14 @@ export const ModalFooter = ({
   const button = secondButton ? (
     <ButtonGroup fullWidth variant="contained">
       <Button
-        className="modal-container-form-actions-button-primary"
+        className="modal-container-Mui-custom-form-actions-button-primary"
         color="primary"
         onClick={onSecondaryClick}
       >
         {secondActionText}
       </Button>
       <Button
-        className="modal-container-form-actions-button-secondary"
+        className="modal-container-Mui-custom-form-actions-button-secondary"
         color="primary"
         fullWidth
         onClick={onButtonClick}
@@ -28,12 +28,12 @@ export const ModalFooter = ({
     </ButtonGroup>
   ) : (
     <Button
-      className="modal-container-form-actions-button"
+      className="modal-container-Mui-custom-form-actions-button"
       color="primary"
       onClick={onButtonClick}
     >
       {actionText}
     </Button>
   )
-  return <Box className="modal-container-form-actions">{button}</Box>
+  return <Box className="modal-container-Mui-custom-form-actions">{button}</Box>
 }
