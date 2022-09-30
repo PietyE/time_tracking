@@ -26,7 +26,7 @@ export const CommentsList = () => {
         date={date_create}
         text={text}
         key={id}
-        initiator={initiator}
+        name={initiator.name}
       />
     ))
   ) : (
