@@ -1,53 +1,34 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import HeaderProjectReport from './components/HeaderProjectReport/HeaderProjectReport'
-// import WorkData from './components/WorkData/WorkData'
-// import Comments from './components/Comments'
 import SearchByProject from './components/SearchByProject'
 import SearchByDeveloper from './components/SearchByDeveloper'
 import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
-
 import SelectMonth from 'components/ui/select-month'
-import {
-  changeSelectedDateProjectsReport,
-  getDevelopersProjectInProjectReport,
-} from 'actions/projects-report'
-
+import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
 import { getRoleUser } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
-
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
-
-import { getSelectedMonthSelector } from 'reducers/projects-report'
-
-import './projectReportNew.scss'
 import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
+import { changeSelectedDateProjectReports } from 'actions/projects-report'
+import { getSelectedDate } from 'selectors/calendar'
+import './projectReportNew.scss'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
-  const selectedDate = useShallowEqualSelector(getSelectedMonthSelector)
-  // const usersData = useShallowEqualSelector(selectUsersReports);
+  const selectedDate = useShallowEqualSelector(getSelectedDate)
   const roleUser = useShallowEqualSelector(getRoleUser)
   // eslint-disable-next-line no-unused-vars
-  const [openUserInfo, setOpenUserInfo] = useState(false)
+  const [setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState(null)
   const [userSelected, setUserSelected] = useState(null)
   const [selected, setSelected] = useState(null)
   const dispatch = useDispatch()
-
-  // const currentUser = useMemo(() => {
-  //   if (usersData) {
-  //     return usersData.find(user => (user.id === currentUserId))
-  //   }
-  // }, [currentUserId, usersData])
-
-  // const comments = useShallowEqualSelector(state => selectCommentsByUserId(state, currentUserId))
 
   useCheckStateAfterRedirect('google-sync-non-auth')
 
@@ -63,7 +44,7 @@ function ProjectReportNew() {
 
   const handleChangeData = useCallback(
     (data) => {
-      dispatch(changeSelectedDateProjectsReport(data))
+      dispatch(changeSelectedDateProjectReports(data))
     },
     [dispatch]
   )
@@ -135,14 +116,9 @@ function ProjectReportNew() {
             </div>
           )}
           <div className="select_month">
-            <SelectMonth
-              value={selectedDate}
-              onChange={handleChangeData}
-              showYear
-            />
+            <SelectMonth onChange={handleChangeData} showYear />
           </div>
         </div>
-        {/* {renderUserProjects()} */}
         <UsersInfo selectedDate={selectedDate} />
       </div>
     </ProjectReportContext.Provider>

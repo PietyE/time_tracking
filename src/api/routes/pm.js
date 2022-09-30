@@ -2,7 +2,7 @@ import CRUD from '../base'
 
 class PmCRUD extends CRUD {
   getAllDevelopersProjects(params) {
-    const url = `${this.url}/report/${params.year}/${params.month + 1}`
+    const url = `${this.url}/report/${params.year}/${params.month + 1}/`
     return this.request({
       url,
       method: 'GET',
@@ -53,7 +53,7 @@ class PmCRUD extends CRUD {
 
   getProjectsTotalHours(data) {
     const { year, month, ...params } = data
-    const url = `/projects/total_minutes/${year}/${month + 1}`
+    const url = `/projects/total_minutes/${year}/${month + 1}/`
 
     return this.request({
       url,
@@ -90,7 +90,7 @@ class PmCRUD extends CRUD {
   }
 
   getProjectById(id) {
-    const url = `/projects/${id}`
+    const url = `/projects/${id}/`
     return this.request({
       url,
       method: 'GET',

@@ -3,7 +3,6 @@ import {
   GET_USERS_HOURS_TOKEN_REQUEST,
   GET_USERS_HOURS_TOKEN_SUCCESS,
   GOOGLE_AUTH_CHANGE_GOOGLE_SHEET_LINK,
-  GOOGLE_AUTH_CHANGE_SELECTED_DATE_MONTH,
   GOOGLE_AUTH_ERROR_ACCESS_DENIED,
   GOOGLE_AUTH_IS_AGREE_FALSE,
   GOOGLE_AUTH_IS_AGREE_TRUE,
@@ -52,11 +51,6 @@ export const googleAuthErrorListToggle = () => ({
 export const googleAuthAccessDenied = (error) => ({
   type: GOOGLE_AUTH_ERROR_ACCESS_DENIED,
   payload: error,
-})
-
-export const googleAuthChangeSelectedDate = (newDate) => ({
-  type: GOOGLE_AUTH_CHANGE_SELECTED_DATE_MONTH,
-  payload: newDate,
 })
 
 export const googleAuthIsAgreeTrue = () => ({

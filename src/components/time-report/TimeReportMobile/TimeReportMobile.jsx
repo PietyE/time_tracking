@@ -103,11 +103,7 @@ export const TimeReportMobile = ({
     <>
       <Box className={styles.container}>
         <Box className={styles.filters}>
-          <SelectMonth
-            value={selectedDate}
-            onChange={changeSelectedDateTimeReport}
-            showYear
-          />
+          <SelectMonth onChange={changeSelectedDateTimeReport} showYear />
 
           <Box className={styles.buttonWrapper}>
             <Button

@@ -1,87 +1,40 @@
-import { call, takeEvery, put, select, takeLatest } from 'redux-saga/effects'
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import Api from 'utils/api'
 import { pm } from '../api'
 import { showAlert } from 'actions/alert'
-import { WARNING_ALERT, SUCCES_ALERT } from 'constants/alert-constant'
+import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
-  CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  SET_SELECTED_DEVELOPER,
-  CLEAR_SELECTED_DEVELOPER,
-  SET_SELECTED_PROJECT_PROJECTREPORTS,
-  CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
-  GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
-  SET_EXCHANGE_RATES,
-  GET_USERS_PROJECT_REPORT,
-  GET_CONSOLIDATE_PROJECT_REPORT,
   ADD_DEVELOPER_TO_PROJECT,
+  CHANGE_SELECTED_DATE_PROJECTS_REPORT,
+  CLEAR_SELECTED_DEVELOPER,
+  CLEAR_SELECTED_PROJECT_PROJECTREPORTS,
   GET_ALL_DEVELOPER_PROJECTS,
+  GET_CONSOLIDATE_PROJECT_REPORT,
+  GET_DEVELOPER_PROJECT_IN_PROJECT_REPORT,
   GET_USERS_HOURS_AUTH_URL_REQUEST,
-  // GET_COMMENTS_HISTORY,
-  // SAVE_COMMENTS_HISTORY
+  GET_USERS_PROJECT_REPORT,
+  SET_EXCHANGE_RATES,
+  SET_SELECTED_DEVELOPER,
+  SET_SELECTED_PROJECT_PROJECTREPORTS,
 } from 'constants/actions-constant'
 import {
   getConsolidateProjectReport,
+  getUsersHoursAuthUrlSuccess,
+  setAllDevelopersProjectsPR,
   setConsolidateProjectReport,
-  // setDeveloperConsolidateProjectReport,
   setDevelopersProjectInProjectReport,
   setErrorUsersProjectReport,
   setIsFetchingReports,
   setUsersProjectReport,
-  setAllDevelopersProjectsPR,
-  getUsersHoursAuthUrlSuccess,
-  // setReportHistory
 } from 'actions/projects-report'
 import { getRatesList } from 'actions/currency'
-import {
-  getSelectedMonthSelector,
-  getSelectedProjectSelector,
-} from 'reducers/projects-report'
+import { getSelectedProjectSelector } from 'reducers/projects-report'
 import {
   consolidateReportMapper,
   usersProjectReportMapper,
 } from 'utils/projectReportApiResponseMapper'
 import { selectActualCurrencyForUserList } from 'selectors/currency'
 import { getSelectedProjectIdSelector } from 'reducers/projects-management'
-
-// export function* getDeveloperConsolidateProjectReport() {
-//   yield put(setIsFetchingReports(true))
-//   const { month, year } = yield select(
-//     (state) => state.projectsReport.selectedDate
-//   )
-//
-//   const { email = '' } = yield select(
-//     (state) => state.projectsReport.selectedDeveloper
-//   )
-//
-//   const { id = '' } = yield select(
-//     (state) => state.projectsReport.selectedProject
-//   )
-//
-//   const searchDeveloperParam = `${email}` || ''
-//
-//   const searchProjectParam = `${id}` || ''
-//
-//   let URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
-//     month + 1
-//   }/?search=${searchDeveloperParam}`
-//
-//   if (searchProjectParam) {
-//     URL_DEVELOPER_PROJECT = `developer-projects/consolidated-report-by-user/${year}/${
-//       month + 1
-//     }/?project_id=${searchProjectParam}`
-//   }
-//
-//   const { data } = yield call(
-//     [Api, 'consolidateReportApi'],
-//     URL_DEVELOPER_PROJECT
-//   )
-//
-//   if (data) {
-//     yield put(setDeveloperConsolidateProjectReport(data))
-//   }
-//   yield put(setIsFetchingReports(false))
-//
-// }
 
 export function* getDeveloperProjects() {
   const URL_DEVELOPER_PROJECT = 'projects/'
@@ -91,9 +44,7 @@ export function* getDeveloperProjects() {
 }
 
 export function* getAllDevelopersProjectInProjectReport() {
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
   try {
     const { data } = yield call([pm, 'getAllDevelopersProjects'], {
       year,
@@ -114,7 +65,6 @@ export function* getAllDevelopersProjectInProjectReport() {
 
 function* setExchangeRate({ payload, callback }) {
   // eslint-disable-next-line no-unused-vars
-  const { month, year } = yield select(getSelectedMonthSelector)
   try {
     const URL = 'exchange_rates/'
     const response = yield call([Api, 'saveExchangeRate'], URL, payload)
@@ -186,9 +136,7 @@ function* addDevelopersToProject({ payload = [] }) {
 
 function* usersProjectReport(action) {
   const { payload: userId } = action
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
 
   const URL_USERS_PROJECT_REPORT = `users/${userId}/projects-report/${year}/${
     month + 1
@@ -208,9 +156,7 @@ function* usersProjectReport(action) {
 }
 
 export function* handleGetConsolidatedReport() {
-  const { month, year } = yield select(
-    (state) => state.projectsReport.selectedDate
-  )
+  const { month, year } = yield select((state) => state.calendar)
 
   yield put(setIsFetchingReports(true))
   const { email = '' } = yield select(
@@ -255,10 +201,7 @@ export function* handleGetConsolidatedReport() {
 
   yield put(setConsolidateProjectReport(listOfDevelopers))
   // eslint-disable-next-line no-unused-vars
-  const { data } = yield call(
-    [Api, 'consolidateReportApi'],
-    URL_CONSOLIDATED_LIST_REPORT
-  )
+  yield call([Api, 'consolidateReportApi'], URL_CONSOLIDATED_LIST_REPORT)
   yield put(setIsFetchingReports(false))
 }
 

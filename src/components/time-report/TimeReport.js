@@ -1,10 +1,9 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
   addTimeReport,
-  changeSelectedDateTimeReport,
   clearSelectedProject,
   getTimeReportCsv,
   resetSelectedDate,
@@ -18,7 +17,6 @@ import {
   getIsFetchingReport,
   getSelecredDeveloper,
   getSelectDayStatus,
-  getSelectedDateTimeReport,
   getSelectedDay,
   getSelectedDayStatus,
   getSelectedProject,
@@ -38,10 +36,12 @@ import { findListItemById } from 'utils/common'
 import { QUERY_PARAMETERS } from 'constants/timereports-constant'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import { validateDate } from 'utils/date'
+import { getSelectedDate } from 'selectors/calendar'
+import { changeSelectedDateTimeReports } from 'actions/times-report'
 
 function TimeReport(props) {
   const {
-    changeSelectedDateTimeReport,
+    changeSelectedDateTimeReports,
     addTimeReport,
     selectProject,
     clearSelectedProject,
@@ -63,8 +63,7 @@ function TimeReport(props) {
   } = props
 
   // eslint-disable-next-line no-unused-vars
-  const [showEmpty, setShowEmpty] = useState(true)
-  const { state: routeState } = useLocation()
+  const [showEmpty] = useState(true)
   const todayDate = new Date()
   const { isMobile, isTablet } = useBreakpoints()
   const history = useHistory()
@@ -163,11 +162,11 @@ function TimeReport(props) {
       const year = Number(queryYear)
       const isDateValid = validateDate(month, year)
 
-      changeSelectedDateTimeReport(
+      changeSelectedDateTimeReports(
         isDateValid
           ? {
-              year: year,
-              month: month,
+              year,
+              month,
             }
           : {
               year: todayDate.getFullYear(),
@@ -180,8 +179,6 @@ function TimeReport(props) {
   const setInitialDeveloperValueFromUrl = useCallback(() => {
     if (developersList.length && roleUser !== DEVELOPER) {
       const developer = findListItemById(developersList, queryDeveloperId)
-
-      console.log(selectedDeveloper.id)
 
       // FIX: This if clause is a big 'kostyl', because developersList updates on each call of selectDeveloper function
       if (
@@ -203,6 +200,10 @@ function TimeReport(props) {
   }, [developersList])
 
   useEffect(() => {
+    updateTimereportState()
+  }, [updateTimereportState])
+
+  useEffect(() => {
     setInitialTimereportValuesFromUrl()
   }, [setInitialTimereportValuesFromUrl])
 
@@ -211,13 +212,8 @@ function TimeReport(props) {
   }, [setInitialDeveloperValueFromUrl])
 
   useEffect(() => {
-    updateTimereportState()
-  }, [updateTimereportState])
-
-  useEffect(() => {
     return () => {
       clearSelectedProject()
-      resetSelectedDate()
     }
   }, [])
 
@@ -234,7 +230,7 @@ function TimeReport(props) {
         selectProject={selectProject}
         selectedProject={selectedProject}
         selectedDate={selectedDate}
-        changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+        changeSelectedDateTimeReport={changeSelectedDateTimeReports}
         handlerExportCsv={handlerExportCsv}
         selectedProjectHours={selectedProjectHours}
         reports={reports}
@@ -263,7 +259,7 @@ function TimeReport(props) {
       selectProject={selectProject}
       selectedProject={selectedProject}
       selectedDate={selectedDate}
-      changeSelectedDateTimeReport={changeSelectedDateTimeReport}
+      changeSelectedDateTimeReport={changeSelectedDateTimeReports}
       handlerExportCsv={handlerExportCsv}
       selectedProjectHours={selectedProjectHours}
       reports={reports}
@@ -280,7 +276,7 @@ function TimeReport(props) {
 }
 
 const mapStateToProps = (state) => ({
-  selectedDate: getSelectedDateTimeReport(state),
+  selectedDate: getSelectedDate(state),
   reports: getTimeReports(state),
   isFetchingReports: getIsFetchingReport(state),
   roleUser: getRoleUser(state),
@@ -297,7 +293,7 @@ const mapStateToProps = (state) => ({
 })
 
 const actions = {
-  changeSelectedDateTimeReport,
+  changeSelectedDateTimeReports,
   addTimeReport,
   selectProject,
   clearSelectedProject,

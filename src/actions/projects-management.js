@@ -5,7 +5,6 @@ import {
   ADD_USERS_ON_PROJECT,
   CHANGE_PROJECT_NAME,
   CHANGE_PROJECT_OWNER,
-  CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
   CHANGE_USERS_ON_PROJECT,
   CLEAR_PM_PAGE,
   CLEAR_PM_PROJECTS,
@@ -28,11 +27,6 @@ import {
   SET_SHOW_EDIT_MODAL,
   SET_SHOWN_PROJECT,
 } from 'constants/actions-constant'
-
-export const changeSelectedDateProjectsManagement = (payload) => ({
-  type: CHANGE_SELECTED_DATE_PROJECTS_MANAGEMENT,
-  payload,
-})
 
 export const getAllProjects = (payload) => ({
   type: GET_ALL_PROJECTS,

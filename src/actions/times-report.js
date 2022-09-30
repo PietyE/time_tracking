@@ -14,11 +14,6 @@ import {
   SET_TIME_REPORTS,
 } from 'constants/actions-constant'
 
-export const changeSelectedDateTimeReport = (payload) => ({
-  type: CHANGE_SELECTED_DATE_TIME_REPORT,
-  payload,
-})
-
 export const setIsFetchingReports = (payload) => ({
   type: SET_IS_FETCHING_REPORTS,
   payload,
@@ -74,4 +69,9 @@ export const getTimeReportCsv = () => ({
 export const setUserStatus = (payload) => ({
   type: SET_STATUS_USER,
   payload,
+})
+
+export const changeSelectedDateTimeReports = (date) => ({
+  type: CHANGE_SELECTED_DATE_TIME_REPORT,
+  payload: date,
 })

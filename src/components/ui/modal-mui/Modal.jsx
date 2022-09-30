@@ -18,8 +18,8 @@ export const Modal = (props) => {
   } = props
   return (
     <MUIModal open={open} onClose={onClose}>
-      <Box className="modal-container">
-        <Box className="modal-container-form">
+      <Box className="modal-container-Mui-custom">
+        <Box className="modal-container-Mui-custom-form">
           <ModalHeader title={title} onClose={onClose} />
           {children}
           <ModalFooter

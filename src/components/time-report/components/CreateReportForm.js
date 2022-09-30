@@ -1,12 +1,12 @@
 import React, { useState, useEffect, memo } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { isEqual } from 'lodash'
-import { getSelectedDateTimeReport } from '../../../selectors/timereports'
 import { setEditMode } from 'actions/times-report'
 import { showAlert } from '../../../actions/alert'
 import { DANGER_ALERT, WARNING_ALERT } from '../../../constants/alert-constant'
 import { error } from '../../../reducers/error'
 import ReportItemForm from './ReportItemForm'
+import { getSelectedDate } from 'selectors/calendar'
 
 function CreateReportForm({
   addTimeReport,
@@ -16,14 +16,14 @@ function CreateReportForm({
   showAlert,
   sumHours,
   handleFormFocus,
-  handleFormBlur
+  handleFormBlur,
 }) {
   const [text, setText] = useState('')
   const [hours, setHours] = useState('')
   const [isTextInputError, setIsTextInputError] = useState(false)
   const [isTimeInputError, setIsTimeInputError] = useState(false)
 
-  const selectedDay = useSelector(getSelectedDateTimeReport, isEqual)
+  const selectedDay = useSelector(getSelectedDate, isEqual)
   useEffect(() => {
     setIsTextInputError(false)
     setIsTimeInputError(false)
@@ -131,18 +131,18 @@ function CreateReportForm({
     setEditMode(null)
   }
   return (
-      <ReportItemForm
-        textInputValue={text}
-        textInputPlaceholder="What did you work on?"
-        handleTextInputChange={handlerChangeText}
-        textInputError={isTextInputError}
-        timeInputValue={hours}
-        handleTimeInputChange={handlerChangeHours}
-        handleTimeInputFocus={handlerFocus}
-        timeInputError={isTimeInputError}
-        isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
-        handleFormSubmit={handlerClickAddButton}
-      />
+    <ReportItemForm
+      textInputValue={text}
+      textInputPlaceholder="What did you work on?"
+      handleTextInputChange={handlerChangeText}
+      textInputError={isTextInputError}
+      timeInputValue={hours}
+      handleTimeInputChange={handlerChangeHours}
+      handleTimeInputFocus={handlerFocus}
+      timeInputError={isTimeInputError}
+      isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
+      handleFormSubmit={handlerClickAddButton}
+    />
   )
 }
 

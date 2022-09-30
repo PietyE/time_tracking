@@ -5,7 +5,6 @@ import {
   getConsolidateProjectReport,
   getAllDevelopersProjectsPR,
 } from 'actions/projects-report'
-import { getRoleUser } from 'selectors/user'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import useSorting from 'custom-hook/useSorting'
 
@@ -24,7 +23,6 @@ function UsersInfo({ selectedDate }) {
   } = useSorting({ [SORT_NAME]: ASCEND })
   const usersData = useShallowEqualSelector(selectUsersReports)
   const usersProjects = useShallowEqualSelector(selectAllProjects)
-  const roleUser = useShallowEqualSelector(getRoleUser)
 
   const dispatch = useDispatch()
 

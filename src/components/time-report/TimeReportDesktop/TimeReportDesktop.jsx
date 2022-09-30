@@ -62,11 +62,7 @@ export const TimeReportDesktop = ({
             selectProject={selectProject}
             selectedProject={selectedProject}
           />
-          <SelectMonth
-            value={selectedDate}
-            onChange={changeSelectedDateTimeReport}
-            showYear
-          />
+          <SelectMonth onChange={changeSelectedDateTimeReport} showYear />
         </div>
         <div className="time_report_header_btn_section">
           <button className="export_btn" onClick={handlerExportCsv}>

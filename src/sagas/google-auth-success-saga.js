@@ -18,9 +18,9 @@ import { showAlert } from 'actions/alert'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
   getGoogleSheetSyncInputLink,
-  getSelectedDate,
   googleSheetSyncIsAgree,
 } from 'selectors/google-auth-success'
+import { getSelectedDate } from 'selectors/calendar'
 
 // specific error if we receive from BE different users
 

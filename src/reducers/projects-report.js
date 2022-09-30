@@ -1,6 +1,5 @@
 import {
   CHANGE_SELECTED_DATE_PROJECTS_REPORT,
-  // SET_DEV_CONSOLIDATE_PROJECT_REPORT,
   SET_ALL_DEVELOPER_PROJECTS,
   SET_SELECTED_DEVELOPER,
   CLEAR_SELECTED_DEVELOPER,
@@ -14,7 +13,6 @@ import {
   LOG_OUT,
   GET_USERS_HOURS_AUTH_URL_REQUEST,
   GET_USERS_HOURS_AUTH_URL_SUCCESS,
-  // SAVE_COMMENTS_HISTORY
 } from 'constants/actions-constant'
 
 const todayDate = new Date()
@@ -49,13 +47,12 @@ const initialState = {
   editingUserId: '',
   userId: '',
   google_auth_url: '',
-  // reportHistory: []
 }
 
 export const projectsReport = (state = initialState, action) => {
   switch (action.type) {
     case CHANGE_SELECTED_DATE_PROJECTS_REPORT:
-      return { ...state, isFetchingReports: true, selectedDate: action.payload }
+      return { ...state, isFetchingReports: true }
     case SET_CONSOLIDATE_PROJECT_REPORT:
       return {
         ...state,

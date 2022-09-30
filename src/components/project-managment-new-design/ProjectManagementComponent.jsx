@@ -9,13 +9,10 @@ import {
   getIsShowCreateUserModalSelector,
   getIsShowEditModalSelector,
   getProjectManagerListSelector,
-  getSelectedDateForPMSelector,
-  getSelectedMonthForPMSelector,
   getSelectedPmSelector,
   getSelectedProjectSelector,
 } from 'reducers/projects-management'
 import {
-  changeSelectedDateProjectsManagement,
   clearPmProjects,
   getAllProjects,
   setPm,
@@ -39,6 +36,8 @@ import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
 import { ASCEND } from '../../constants/order-constant'
+import { changeSelectedDate } from 'actions/calendar'
+import { getSelectedDate } from 'selectors/calendar'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -63,9 +62,8 @@ const ProjectManagementComponent = () => {
 
   const projectDivRef = useRef(null)
 
-  let selectedDateForPM = useEqualSelector(getSelectedDateForPMSelector)
+  let selectedDateForPM = useEqualSelector(getSelectedDate)
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
-  let month = useEqualSelector(getSelectedMonthForPMSelector)
   let isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
   let isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
   let isShowCreateUserModal = useEqualSelector(getIsShowCreateUserModalSelector)
@@ -112,7 +110,7 @@ const ProjectManagementComponent = () => {
   useEffect(() => {
     dispatch(clearPmProjects())
     dispatch(getAllProjects())
-  }, [month, isEditModalShow, dispatch])
+  }, [selectedDateForPM, isEditModalShow, dispatch])
 
   // // The pagination is commented out until the next iteration
   // useEffect(() => {
@@ -138,7 +136,7 @@ const ProjectManagementComponent = () => {
 
   const _changeSelectedDateProjectsManagement = useCallback(
     (data) => {
-      dispatch(changeSelectedDateProjectsManagement(data))
+      dispatch(changeSelectedDate(data))
     },
     [dispatch]
   )
@@ -272,7 +270,6 @@ const ProjectManagementComponent = () => {
               />
             </div>
             <SelectMonth
-              value={selectedDateForPM}
               onChange={_changeSelectedDateProjectsManagement}
               showYear
             />
@@ -397,7 +394,10 @@ const ProjectManagementComponent = () => {
         <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
       <div className="modal-container">
-        <EditProjectModal show={isEditModalShow} month={month} />
+        <EditProjectModal
+          show={isEditModalShow}
+          month={selectedDateForPM.month}
+        />
       </div>
     </div>
   )
