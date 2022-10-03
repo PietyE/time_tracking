@@ -371,8 +371,8 @@ export function* changeProjectOwner(action) {
     yield put(
       showAlert({
         type: SUCCES_ALERT,
-        title: 'Project owner successfully has been changed',
-        message: 'Success',
+        title: 'Success',
+        message: 'Project owner successfully has been changed',
         delay: 3000,
       })
     )
@@ -380,8 +380,8 @@ export function* changeProjectOwner(action) {
     yield put(
       showAlert({
         type: WARNING_ALERT,
-        title: 'Project owner has not been changed',
-        message: error.message || 'Something went wrong',
+        title: 'Something went wrong',
+        message: error.message || 'Project owner has not been changed',
         delay: 3000,
       })
     )
