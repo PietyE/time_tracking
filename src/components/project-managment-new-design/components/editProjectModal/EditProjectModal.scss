@@ -11,6 +11,10 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                cursor: pointer;
+                &.not-selected {
+                    color: $scrollThumbBackground
+                }
             }
             .info_data_focus{
                 border: none;
@@ -32,6 +36,11 @@
             input{
                 margin-top: 15px;
                 left: 220px;
+            }
+            &.searching-field {
+                input {
+                    margin-top: 0;
+                }
             }
         }
         .project-description{
@@ -180,7 +189,6 @@
 .MuiPopover-root {
     z-index: 9999 !important;
     top: 8px !important;
-    left: 24px !important;
     cursor: pointer;
     .MuiPaper-root {
         top: 20px;
