@@ -400,10 +400,6 @@
           color: $mainBlackColor;
         }
 
-        .project-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-          color: $mainBlackColor;
-        }
-
         input{
           background: $whiteColor;
           border: 1px solid $borderColor;
@@ -440,7 +436,7 @@
         bottom: -1px;
         width: calc(100% + 2px);
         background: $mainGreenColor;
-        border-radius: 0px 0px 20px 20px;
+        border-radius: 0 0 20px 20px;
         border-color:$mainGreenColor;
         color: $whiteColor;
         font-style: normal;
