@@ -12,4 +12,8 @@
   &.not_blurred {
     background-color: inherit;
   }
+  &.full {
+    backdrop-filter: blur(3px);
+    top: 0;
+  }
 }

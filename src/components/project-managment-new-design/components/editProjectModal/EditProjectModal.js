@@ -17,7 +17,7 @@ import {
   getProjectReportById,
   setSelectedProject,
   setShowEditModal,
-} from '../../../../actions/projects-management'
+} from 'actions/projects-management'
 import {
   getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector,
@@ -45,9 +45,9 @@ import useEventListener from 'custom-hook/useEventListener'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
 import useEqualSelector from 'custom-hook/useEqualSelector'
-import './EditProjectModal.scss'
-import { pm } from '../../../../api'
+import { pm } from 'api'
 import { isEqual } from 'lodash'
+import './EditProjectModal.scss'
 
 function EditProjectModal({ show, month }) {
   const modalRef = useRef(null)
@@ -526,9 +526,12 @@ function EditProjectModal({ show, month }) {
                 idKey="id"
                 extraClassContainer={' search search-manger'}
                 initialChoice={projectOwner?.name || 'Not selected'}
+                isSearch
               />
             }
             value={projectOwner?.name || 'Not Selected'}
+            placeholder={!projectOwner?.name}
+            isSearching
           />
           <InfoItemM
             key="SPEND HOURS"
@@ -577,6 +580,7 @@ function EditProjectModal({ show, month }) {
             }
             value={valuesFromApi?.description || 'Some info about the project'}
             customClass={'project-description'}
+            placeholder={!valuesFromApi?.description}
           />
         </Form>
         <div className="projects_info">
@@ -611,9 +615,11 @@ function EditProjectModal({ show, month }) {
                         Info
                       </Typography>
                       <Typography variant="body2">
-                        Salary - a developer has a salary payment. Does not
-                        matter, how many hours they work on the project per
-                        month. Hourly payroll - a developer has hourly payment.
+                        <b>Salary</b> - a developer has a salary payment. Does
+                        not matter, how many hours they work on the project per
+                        month.
+                        <br />
+                        <b>Hourly payroll</b> - a developer has hourly payment.
                         In general, it is an additional extra payment to their
                         salary.
                       </Typography>
