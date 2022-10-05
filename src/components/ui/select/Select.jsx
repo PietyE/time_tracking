@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Highlighter from 'react-highlight-words'
 import _ from 'lodash'
@@ -119,12 +119,28 @@ function Select(props) {
 
   const classNameDisabled = !listItems.length ? 'disabled' : ''
 
-  const searchedListItems = listItems
-    .filter(
-      (item) =>
-        item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
-    )
-    .sort(sortProjectsByName)
+  const searchedListItems = useMemo(() => {
+    const selectAllElement = listItems.at(0)
+    return selectAllElement?.name !== 'Select All' &&
+      selectAllElement?.name !== 'All Developers' &&
+      selectAllElement?.name !== 'All Projects'
+      ? listItems
+          .filter(
+            (item) =>
+              item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+          )
+          .sort(sortProjectsByName)
+      : _.uniq([
+          selectAllElement,
+          ...listItems
+            .filter(
+              (item) =>
+                item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !==
+                -1
+            )
+            .sort(sortProjectsByName),
+        ])
+  }, [searchValue, listItems])
 
   const showContainer = isOpen && !disabled && !!searchedListItems.length
   return (
