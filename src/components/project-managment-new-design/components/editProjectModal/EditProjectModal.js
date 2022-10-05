@@ -81,21 +81,12 @@ function EditProjectModal({ show, month }) {
     )
   }, [currentProjectReport, activeProjectManager])
 
-  const currentTeamIds = useMemo(() => {
-    let currentProjectActiveDevelopersID = currentProjectActiveDevelopers.map(
-      (e) => e.id
-    )
-    currentProjectActiveDevelopersID.push(activeProjectManager?.user_id)
-    return currentProjectActiveDevelopersID
-  }, [currentProjectActiveDevelopers, activeProjectManager])
-
   const currentProject = useEqualSelector(getSelectedProjectSelector)
   const currentApiProject = useEqualSelector(getCurrentProjectSelector)
   const projectName = useEqualSelector(getProjectName)
   const isFetchingPMPage = useEqualSelector(getIsFetchingPmPageSelector)
 
   const [valuesFromApi, setValuesFromApi] = useState(null)
-  const projectTeamM = useEqualSelector(getUsersSelector)
 
   const closeAddUser = () => {
     setAddMember(false)
@@ -464,6 +455,10 @@ function EditProjectModal({ show, month }) {
 
   const popperId = anchorEl ? 'simple-popper' : undefined
 
+  const currentTeamIds = useMemo(
+    () => currentEditedTeam?.map((user) => user?.id),
+    [currentEditedTeam]
+  )
   return (
     <div
       ref={modalRef}
@@ -670,7 +665,7 @@ function EditProjectModal({ show, month }) {
           </div>
           {addMember && (
             <AddSelectedM
-              teamM={projectTeamM}
+              teamM={usersList}
               closeAddUser={closeAddUser}
               checkedUsers={checkedUsers}
               setCheckedUsers={setCheckedUsers}

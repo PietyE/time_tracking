@@ -7,7 +7,8 @@ const getAllProjectListSelector = (state) => {
   return state.projectsReport.developerProjectInProjectReport
 }
 
-export const getIsFetchingProjectsReport = state => state.projectsReport.isFetchingReports
+export const getIsFetchingProjectsReport = (state) =>
+  state.projectsReport.isFetchingReports
 
 export const getProjectsSelector = createSelector(
   getDeveloperProjectsListSelector,

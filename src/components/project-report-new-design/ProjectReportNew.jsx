@@ -23,7 +23,7 @@ function ProjectReportNew() {
   const selectedDate = useShallowEqualSelector(getSelectedDate)
   const roleUser = useShallowEqualSelector(getRoleUser)
   // eslint-disable-next-line no-unused-vars
-  const [setOpenUserInfo] = useState(false)
+  const [_, setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState(null)
   const [userSelected, setUserSelected] = useState(null)
