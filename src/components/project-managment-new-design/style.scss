@@ -400,6 +400,10 @@
           color: $mainBlackColor;
         }
 
+        .project-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+          color: $disabledColor;
+        }
+
         input{
           background: $whiteColor;
           border: 1px solid $borderColor;
