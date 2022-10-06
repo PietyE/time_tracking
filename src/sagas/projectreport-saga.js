@@ -155,7 +155,7 @@ function* usersProjectReport(action) {
   yield put(setUsersProjectReport(payload))
 }
 
-export function* handleGetConsolidatedReport() {
+export function* handleGetConsolidatedReport(action) {
   const { month, year } = yield select((state) => state.calendar)
 
   yield put(setIsFetchingReports(true))
@@ -165,8 +165,10 @@ export function* handleGetConsolidatedReport() {
   const { id = '' } = yield select(
     (state) => state.projectsReport.selectedProject
   )
-  const searchDeveloperParam = `${email}` || ''
-  const searchProjectParam = `${id}` || ''
+  const searchDeveloperParam =
+    action?.payload?.name === 'Select All' ? '' : `${email}` || ''
+  const searchProjectParam =
+    action?.payload?.name === 'Select All' ? '' : `${id}` || ''
 
   let URL_CONSOLIDATED_LIST_REPORT = `users/consolidated-report/${year}/${
     month + 1

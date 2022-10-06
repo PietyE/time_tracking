@@ -84,7 +84,7 @@ const ProjectManagementComponent = () => {
   const projectList = [
     {
       id: 0,
-      name: 'Select all',
+      name: 'Select All',
     },
     ...projects,
   ]

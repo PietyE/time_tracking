@@ -13,7 +13,7 @@
                 text-overflow: ellipsis;
                 cursor: pointer;
                 &.not-selected {
-                    color: $scrollThumbBackground
+                    color: $disabledColor
                 }
             }
             .info_data_focus{
