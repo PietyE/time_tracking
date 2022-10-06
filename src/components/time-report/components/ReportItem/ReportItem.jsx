@@ -22,6 +22,7 @@ import styles from './ReportItem.module.scss'
 import { Button, Typography } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import Linkify from 'linkify-react'
 
 const CLASS_NAME_DRAGING_WORK_ITEM = 'draging'
 const CLASS_NAME_SHADOW_WORK_ITEM = 'shadow'
@@ -385,7 +386,9 @@ function ReportItem({
               onMouseOver={disableDraggability}
               onMouseLeave={enableDragability}
             >
-              {text}
+              <Linkify className={styles.text}>
+                {text}
+              </Linkify>
             </Typography>
           </div>
           <Typography className={styles.time}>
