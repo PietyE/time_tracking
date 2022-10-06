@@ -386,7 +386,7 @@ function ReportItem({
               onMouseOver={disableDraggability}
               onMouseLeave={enableDragability}
             >
-              <Linkify>{text}</Linkify>
+              <Linkify options={{ target: '_blank' }}>{text}</Linkify>
             </Typography>
           </div>
           <Typography className={styles.time}>
