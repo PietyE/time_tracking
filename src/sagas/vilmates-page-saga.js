@@ -30,9 +30,7 @@ import Api from 'utils/api'
 
 function* getUsersList(action) {
   try {
-    const url = action.payload
-      ? `users/?search=${action.payload}/`
-      : `users/?search=${action.payload}`
+    const url = `users/?search=${action.payload}`
     const response = yield call([Api, 'users'], url)
     const { status, data: users } = response
     if (String(status)[0] !== '2') {
