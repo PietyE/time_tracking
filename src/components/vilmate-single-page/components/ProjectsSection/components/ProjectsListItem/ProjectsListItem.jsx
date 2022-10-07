@@ -18,7 +18,7 @@ const { PART_TIME, FULL_TIME } = OCCUPATION
 export const ProjectsListItem = ({
   title,
   isFullTimeValue,
-  ownerName,
+  owner,
   developerProjectId,
   onDelete,
   onOccupationChange,
@@ -45,14 +45,7 @@ export const ProjectsListItem = ({
     onOccupationChange(developerProjectId, value)
   }
 
-  const getOwnerNameLabel = () => {
-    if (ownerName === undefined) {
-      return '...'
-    } else if (ownerName === null) {
-      return 'No owner'
-    }
-    return ownerName
-  }
+  const ownerLabel = owner || 'No owner'
 
   const deleteProjectHandler = () => {
     setIsDeleteButtonDisabled(true)
@@ -78,7 +71,7 @@ export const ProjectsListItem = ({
 
       <Box className={styles.row}>
         <Typography className={styles.ownerName} variant="body1">
-          {getOwnerNameLabel()}
+          {ownerLabel}
         </Typography>
         <Box
           onMouseEnter={hoverOccupationHandler}
