@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
 import { useDispatch } from 'react-redux'
+import { get as lodashGet } from 'lodash'
 import { Grid, Typography } from '@material-ui/core'
 import { CommentItem } from './components/CommentItem'
 import { vilmatesPageGetCommentsRequest } from 'actions/vilmates-page'
@@ -21,14 +22,10 @@ export const CommentsList = () => {
   if (isCommentsLoading) return <SpinnerStyled />
 
   const renderComments = comments.length ? (
-    comments.map(({ date_create, text, initiator, id }) => (
-      <CommentItem
-        date={date_create}
-        text={text}
-        key={id}
-        name={initiator.name}
-      />
-    ))
+    comments.map(({ date_create, text, initiator, id }) => {
+      const name = lodashGet(initiator, 'name', 'DELETED')
+      return <CommentItem date={date_create} text={text} key={id} name={name} />
+    })
   ) : (
     <Typography variant="h6" align="center">
       No comments yet...
