@@ -30,10 +30,11 @@ import { showAlert } from 'actions/alert'
 import { setDevelopers } from 'actions/developers'
 
 export function* getDeveloperProjects({ projectIdForSelect = null }) {
-  const { role } = yield select((state) => state.profile)
+  const { role, permissions } = yield select((state) => state.profile)
 
   let URL_DEVELOPER_PROJECT = 'developer-projects/'
 
+  //!permissions.includes(userPermissions.projects_view_developerproject)
   if (role !== DEVELOPER) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
@@ -47,6 +48,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
   }))
 
   yield put(setDeveloperProjects(restructureData))
+  //!permissions.includes(userPermissions.users_view_user)
   if (role !== DEVELOPER) {
     yield call(getDevelopers)
     if (projectIdForSelect) {

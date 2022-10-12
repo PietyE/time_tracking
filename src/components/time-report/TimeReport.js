@@ -177,6 +177,7 @@ function TimeReport(props) {
   }, [projects])
 
   const setInitialDeveloperValueFromUrl = useCallback(() => {
+    //permissions.includes(userPermissions.projects_view_developerproject)
     if (developersList.length && roleUser !== DEVELOPER) {
       const developer = findListItemById(developersList, queryDeveloperId)
 
@@ -193,7 +194,7 @@ function TimeReport(props) {
         })
       }
     }
-
+    //!permissions.includes(userPermissions.projects_view_developerproject)
     if (roleUser === DEVELOPER) {
       queryParams.delete(QUERY_PARAMETERS.developerId)
     }

@@ -61,6 +61,7 @@ function MainScreenRedesign(props) {
   const date = getSelectedMonth
   useEffect(() => {
     if (isAuth) {
+      //!permissions.includes(userPermissions.projects_view_developerproject)
       if (roleUser !== DEVELOPER) {
         selectDevelopers({
           id: profileId,

@@ -44,13 +44,17 @@ export const VilmateSinglePage = () => {
 
   const isLoading =
     isUserLoading || user.id !== selectedUserId || !developerProjects
+  //permissions.includes(userPemissions.vilmate_comments_view_vilmatecomment)
   const isCommentsVisible = role === HR || role === ADMIN
 
   const isUserFound = user ? (
     <Box style={{ display: 'flex' }}>
       <Box className={styles.left_container}>
         <PhotoSection name={user.name} role={user.position} />
-        <ProjectsSection selectedUserId={selectedUserId} projects={developerProjects} />
+        <ProjectsSection
+          selectedUserId={selectedUserId}
+          projects={developerProjects}
+        />
       </Box>
       <Box className={styles.right_container}>
         <PersonalInformationSection user={user} />
