@@ -10,6 +10,7 @@ import React, { useMemo } from 'react'
 import {
   getProfileName,
   getProfileShowSideMenuArrow,
+  getUserPermissions,
   getUserRoleText,
 } from 'selectors/user'
 import Logout from '../components/Logout'
@@ -19,6 +20,7 @@ export const MenuContent = () => {
   const userName = useShallowEqualSelector(getProfileName)
   const showArrow = useShallowEqualSelector(getProfileShowSideMenuArrow)
   const userRole = useShallowEqualSelector(getUserRoleText)
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
   //todo: hr
 

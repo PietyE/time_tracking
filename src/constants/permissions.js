@@ -1,4 +1,4 @@
-export const permissions = {
+export const userPermissions = {
   auth_delete_group: 'auth.delete_group',
   sites_change_site: 'sites.change_site',
   django_celery_beat_add_crontabschedule:

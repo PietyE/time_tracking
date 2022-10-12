@@ -31,6 +31,8 @@ export const getUserAuthStatus = createSelector(
   (isAuth) => isAuth
 )
 
+export const getUserPermissions = (state) => state.profile.permissions
+
 //todo: hr
 export const getUserRoleText = createSelector([getRoleUser], (roleNumber) => {
   switch (roleNumber) {
