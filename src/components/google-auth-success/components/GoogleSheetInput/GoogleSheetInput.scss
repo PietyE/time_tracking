@@ -1,3 +1,14 @@
+@import "src/styles/commonStyles";
+
 .google-sheet-input {
   margin-bottom: 36px;
+  &-error .MuiInputBase-root.MuiOutlinedInput-root fieldset {
+    border-color: $mainRedColor;
+    &:hover {
+      border-color: $mainRedColor;
+    }
+  }
+  &-error .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: $mainRedColor;
+  }
 }
