@@ -5,7 +5,8 @@ import { Box, TextField } from '@material-ui/core'
 import { Avatar } from 'components/ui/avatar'
 import { vilmatesPagePostCommentsRequest } from 'actions/vilmates-page'
 import { showAlert } from 'actions/alert'
-import { WARNING_ALERT } from '../../../../../../constants/alert-constant'
+import { WARNING_ALERT } from 'constants/alert-constant'
+import { ReactComponent as PostComment } from 'images/PostComment.svg'
 import styles from './AddComment.module.scss'
 
 export const AddComment = ({ name }) => {
@@ -40,10 +41,19 @@ export const AddComment = ({ name }) => {
         className={styles.comment}
         value={text}
         onChange={onChange}
-        onBlur={postComment}
         minRows="5"
         multiline
         fullWidth
+        InputProps={{
+          endAdornment: (
+            <Box
+              className={styles.commentButtonContainer}
+              onClick={postComment}
+            >
+              <PostComment />
+            </Box>
+          ),
+        }}
       />
     </Box>
   )

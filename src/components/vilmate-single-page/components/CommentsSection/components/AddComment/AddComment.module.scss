@@ -7,4 +7,12 @@
 
 .comment {
   max-width: 474px;
+  & :global .MuiInputBase-root {
+    align-items: flex-end;
+  }
+}
+
+.commentButtonContainer {
+  padding: 5px;
+  cursor: pointer;
 }
