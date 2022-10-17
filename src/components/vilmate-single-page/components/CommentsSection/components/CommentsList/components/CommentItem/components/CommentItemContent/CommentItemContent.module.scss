@@ -21,5 +21,17 @@
 }
 
 .date {
-  color: $separatorTextColor
+  color: $separatorTextColor;
+  margin-right: 30px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.delete {
+  cursor: pointer;
+  font-weight: 600;
 }

@@ -15,6 +15,8 @@ export const CommentsList = () => {
   const comments = useShallowEqualSelector(getCommentsByDate)
   const isCommentsLoading = useShallowEqualSelector(getCommentsLoading)
 
+  console.log(comments)
+
   useEffect(() => {
     dispatch(vilmatesPageGetCommentsRequest(userId))
   }, [])
@@ -24,7 +26,15 @@ export const CommentsList = () => {
   const renderComments = comments.length ? (
     comments.map(({ date_create, text, initiator, id }) => {
       const name = lodashGet(initiator, 'name', 'DELETED')
-      return <CommentItem date={date_create} text={text} key={id} name={name} />
+      return (
+        <CommentItem
+          date={date_create}
+          text={text}
+          key={id}
+          name={name}
+          id={id}
+        />
+      )
     })
   ) : (
     <Typography variant="h6" align="center">

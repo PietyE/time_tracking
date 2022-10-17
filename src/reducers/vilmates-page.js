@@ -1,17 +1,20 @@
 import {
+  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
+  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
+  VILMATES_PAGE_DELETE_COMMENT_ERROR,
+  VILMATES_PAGE_DELETE_COMMENT_REQUEST,
+  VILMATES_PAGE_DELETE_COMMENT_SUCCESS,
+  VILMATES_PAGE_GET_COMMENTS_ERROR,
+  VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  VILMATES_PAGE_GET_COMMENTS_SUCCESS,
   VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_SUCCESS,
   VILMATES_PAGE_GET_USERS_LIST_ERROR,
   VILMATES_PAGE_GET_USERS_LIST_SUCCESS,
-  VILMATES_PAGE_SELECT_USER_ERROR,
-  VILMATES_PAGE_SELECT_USER_SUCCESS,
-  VILMATE_PAGE_ADD_DEVELOPER_PROJECT_SUCCESS,
-  VILMATE_PAGE_CHANGE_USER_ON_PROJECT_SUCCESS,
-  VILMATES_PAGE_GET_COMMENTS_REQUEST,
-  VILMATES_PAGE_GET_COMMENTS_SUCCESS,
-  VILMATES_PAGE_GET_COMMENTS_ERROR,
+  VILMATES_PAGE_POST_COMMENT_ERROR,
   VILMATES_PAGE_POST_COMMENT_REQUEST,
   VILMATES_PAGE_POST_COMMENT_SUCCESS,
-  VILMATES_PAGE_POST_COMMENT_ERROR,
+  VILMATES_PAGE_SELECT_USER_ERROR,
+  VILMATES_PAGE_SELECT_USER_SUCCESS,
 } from 'constants/vilmates-page'
 
 const initialState = {
@@ -163,6 +166,44 @@ export const vilmatesPage = (state = initialState, action) => {
             ...state.singlePage.developerProjects,
             { ...action.payload, is_active: true },
           ],
+        },
+      }
+    case VILMATES_PAGE_DELETE_COMMENT_REQUEST:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: true,
+          },
+        },
+      }
+    case VILMATES_PAGE_DELETE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: false,
+            data: state.singlePage.comments.data.map((comment) =>
+              comment?.id === action?.payload?.id
+                ? { ...comment, ...action.payload }
+                : comment
+            ),
+          },
+        },
+      }
+    case VILMATES_PAGE_DELETE_COMMENT_ERROR:
+      return {
+        ...state,
+        singlePage: {
+          ...state.singlePage,
+          comments: {
+            ...state.singlePage.comments,
+            isLoading: false,
+          },
         },
       }
     default:

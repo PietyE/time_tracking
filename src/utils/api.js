@@ -204,6 +204,8 @@ class Api {
   getComments = (url) => fetchApi({ url })
 
   postComment = (url, data) => fetchApi({ url, data, method: 'post' })
+
+  deleteComment = (url, data) => fetchApi({ url, data, method: 'patch' })
 }
 
 export default new Api()

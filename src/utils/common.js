@@ -166,6 +166,7 @@ export const sortProjectsByName = (project1, project2) =>
 
 export const sortAndParseByDate = (comments) =>
   comments
+    .filter((comment) => comment.is_active)
     .sort(
       (comment1, comment2) =>
         Date.parse(comment1.date_create) - Date.parse(comment2.date_create)
