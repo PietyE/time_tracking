@@ -133,9 +133,9 @@ export const vilmatesPageDeleteCommentsRequest = (userId) => ({
   payload: userId,
 })
 
-export const vilmatesPageDeleteCommentsSuccess = (comment) => ({
+export const vilmatesPageDeleteCommentsSuccess = (commentId) => ({
   type: VILMATES_PAGE_DELETE_COMMENT_SUCCESS,
-  payload: comment,
+  payload: commentId,
 })
 
 export const vilmatesPageDeleteCommentsError = () => ({
