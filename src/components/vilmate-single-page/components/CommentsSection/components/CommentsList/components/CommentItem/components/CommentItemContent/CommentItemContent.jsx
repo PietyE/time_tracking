@@ -17,8 +17,13 @@ export const CommentItemContent = ({ text, date, name }) => (
         {text}
       </Typography>
     </Paper>
-    <Typography variant="body2" component="p" className={styles.date}>
-      {moment(date).format('ll')}
-    </Typography>
+    <Box className={styles.actions}>
+      <Typography variant="body2" component="p" className={styles.date}>
+        {moment(date).format('ll')}
+      </Typography>
+      <Typography variant="body2" color="error" className={styles.delete}>
+        Delete
+      </Typography>
+    </Box>
   </Box>
 )
