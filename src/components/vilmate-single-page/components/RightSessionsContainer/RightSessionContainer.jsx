@@ -6,10 +6,15 @@ export const RightSessionContainer = ({
   children,
   title,
   isHaveScroll = false,
+  height
 }) => {
   const shouldBeScrolled = isHaveScroll && styles.scroll
   return (
-    <Box className={styles.container} component="section">
+    <Box
+      className={styles.container}
+      component="section"
+      sx={{ height }}
+    >
       <Typography className={styles.title} variant="h6">
         {title}
       </Typography>

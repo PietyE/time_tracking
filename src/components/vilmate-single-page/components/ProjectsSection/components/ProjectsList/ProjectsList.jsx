@@ -2,6 +2,7 @@ import { List } from '@material-ui/core'
 import React from 'react'
 import { findListItemById } from 'utils/common'
 import { ProjectsListItem } from '../ProjectsListItem'
+import styles from './ProjectsList.module.scss'
 
 export const ProjectsList = ({
   users,
@@ -27,5 +28,5 @@ export const ProjectsList = ({
     )
   })
 
-  return <List>{renderListItems}</List>
+  return <List className={styles.list}>{renderListItems}</List>
 }
