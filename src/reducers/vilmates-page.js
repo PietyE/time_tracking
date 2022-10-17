@@ -187,8 +187,10 @@ export const vilmatesPage = (state = initialState, action) => {
           comments: {
             ...state.singlePage.comments,
             isLoading: false,
-            data: state.singlePage.comments.data.filter(
-              (comment) => comment.id !== action.payload
+            data: state.singlePage.comments.data.map((comment) =>
+              comment?.id === action?.payload?.id
+                ? { ...comment, ...action.payload }
+                : comment
             ),
           },
         },

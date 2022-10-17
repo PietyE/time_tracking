@@ -255,8 +255,8 @@ function* deleteComment(action) {
     if (String(status)[0] !== '2') {
       throw new Error()
     }
-    console.log(deletedComment)
-    yield put(vilmatesPageDeleteCommentsSuccess(deletedComment.id))
+
+    yield put(vilmatesPageDeleteCommentsSuccess(deletedComment))
 
     yield put(
       showAlert({

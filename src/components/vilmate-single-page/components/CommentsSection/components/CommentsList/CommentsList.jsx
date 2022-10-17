@@ -15,6 +15,8 @@ export const CommentsList = () => {
   const comments = useShallowEqualSelector(getCommentsByDate)
   const isCommentsLoading = useShallowEqualSelector(getCommentsLoading)
 
+  console.log(comments)
+
   useEffect(() => {
     dispatch(vilmatesPageGetCommentsRequest(userId))
   }, [])
