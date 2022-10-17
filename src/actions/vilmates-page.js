@@ -128,14 +128,14 @@ export const vilmatesPagePostCommentsError = () => ({
   type: VILMATES_PAGE_POST_COMMENT_ERROR,
 })
 
-export const vilmatesPageDeleteCommentsRequest = (userId) => ({
+export const vilmatesPageDeleteCommentsRequest = (commentId) => ({
   type: VILMATES_PAGE_DELETE_COMMENT_REQUEST,
-  payload: userId,
+  payload: commentId,
 })
 
-export const vilmatesPageDeleteCommentsSuccess = (commentId) => ({
+export const vilmatesPageDeleteCommentsSuccess = (deletedCommentId) => ({
   type: VILMATES_PAGE_DELETE_COMMENT_SUCCESS,
-  payload: commentId,
+  payload: deletedCommentId,
 })
 
 export const vilmatesPageDeleteCommentsError = () => ({
