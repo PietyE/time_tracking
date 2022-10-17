@@ -7,7 +7,7 @@ export const getTokenKeyFromLocalStorage = () => {
 export const parseMinToHoursAndMin = (min, Hformat = false) => {
   const HOUR = 60
   let minToNumber = +min
-  let strHours = '00'
+  let strHours = '0'
   let strMin = '00'
 
   if (minToNumber < HOUR) {

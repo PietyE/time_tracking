@@ -41,6 +41,7 @@ const ReportItemForm = ({
           root: styles.textInput,
         }}
         autoFocus={textInputAutofocus}
+        maxLength={1000}
       />
       <TimeInput
         value={timeInputValue}
