@@ -57,8 +57,8 @@ export const TimeReportDesktop = ({
         <div className="time_report_header">
           <div className="time_report_header_select_section">
             {(roleUser !== DEVELOPER ||
-              permissions.includes(
-                userPermissions.projects_change_developerproject
+              permissions?.includes(
+                userPermissions.work_items_view_workitem
               )) && (
               <DeveloperSelect
                 developersList={developersList}

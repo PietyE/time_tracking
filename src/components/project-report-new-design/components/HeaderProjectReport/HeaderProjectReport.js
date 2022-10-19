@@ -13,7 +13,7 @@ const HeaderProjectReport = ({ name }) => {
   const isHaveAccess =
     role === ADMIN ||
     role === ACCOUNTANT ||
-    permissions.includes(userPermissions.gsheets_add_accesscredentials)
+    permissions?.includes(userPermissions.gsheets_add_accesscredentials)
 
   const renderGoogleDriveSyncButton = isHaveAccess && <GoogleSyncButton />
 

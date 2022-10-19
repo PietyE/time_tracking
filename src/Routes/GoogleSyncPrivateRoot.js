@@ -17,7 +17,7 @@ export default function GoogleSyncPrivateRoot({
       render={(props) =>
         role === ACCOUNTANT ||
         role === ADMIN ||
-        permissions.includes(userPermissions.gsheets_add_accesscredentials) ? (
+        permissions?.includes(userPermissions.gsheets_add_accesscredentials) ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

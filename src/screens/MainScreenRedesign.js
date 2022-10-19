@@ -67,7 +67,7 @@ function MainScreenRedesign(props) {
     if (isAuth) {
       if (
         roleUser !== DEVELOPER ||
-        permissions.includes(userPermissions.projects_view_developerproject)
+        permissions?.includes(userPermissions.projects_view_developerproject)
       ) {
         selectDevelopers({
           id: profileId,

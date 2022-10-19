@@ -48,6 +48,9 @@ import useEqualSelector from 'custom-hook/useEqualSelector'
 import { pm } from 'api'
 import { isEqual } from 'lodash'
 import './EditProjectModal.scss'
+import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from '../../../../selectors/user'
+import { userPermissions } from '../../../../constants/permissions'
 
 function EditProjectModal({ show, month }) {
   const modalRef = useRef(null)
@@ -59,6 +62,7 @@ function EditProjectModal({ show, month }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [ownerId, setOwnerId] = useState('')
   const usersList = useEqualSelector(getUsersSelector)
+  const permissions = useShallowEqualSelector(getUserPermissions)
   const activeProjectManager = useEqualSelector(
     getActivePmInCurrentProjectSelector
   )
@@ -633,40 +637,48 @@ function EditProjectModal({ show, month }) {
             </div>
             <div className="team-container">{teamMList}</div>
             <div className="edit-control container">
-              <div className="row">
-                <div
-                  className="col-5 add-new "
-                  onClick={() => {
-                    !isArchivedProject &&
-                      projectOwner &&
-                      setAddMember(!addMember)
-                  }}
-                >
-                  <span
-                    className={
-                      'row align-items-center ' +
-                      (addMember ? 'add-member' : '') +
-                      (isArchivedProject || !projectOwner ? 'half-opacity' : '')
-                    }
-                    onMouseEnter={() => {
-                      mouseEnter()
-                    }}
-                    onMouseLeave={() => {
-                      mouseLeave()
+              {permissions?.includes(
+                userPermissions.projects_add_developerproject
+              ) && (
+                <div className="row">
+                  <div
+                    className="col-5 add-new "
+                    onClick={() => {
+                      !isArchivedProject &&
+                        projectOwner &&
+                        setAddMember(!addMember)
                     }}
                   >
-                    {showHintAddMember && (
-                      <HintWindow
-                        text={'Assign a Project owner to the project first'}
+                    <span
+                      className={
+                        'row align-items-center ' +
+                        (addMember ? 'add-member' : '') +
+                        (isArchivedProject || !projectOwner
+                          ? 'half-opacity'
+                          : '')
+                      }
+                      onMouseEnter={() => {
+                        mouseEnter()
+                      }}
+                      onMouseLeave={() => {
+                        mouseLeave()
+                      }}
+                    >
+                      {showHintAddMember && (
+                        <HintWindow
+                          text={'Assign a Project owner to the project first'}
+                        />
+                      )}
+                      <Plus
+                        isActive={
+                          addMember || isArchivedProject || projectOwner
+                        }
                       />
-                    )}
-                    <Plus
-                      isActive={addMember || isArchivedProject || projectOwner}
-                    />
-                    <span>Add new developers</span>
-                  </span>
+                      <span>Add new developers</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           {addMember && (

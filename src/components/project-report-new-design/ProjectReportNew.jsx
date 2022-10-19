@@ -17,11 +17,13 @@ import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedire
 import { changeSelectedDateProjectReports } from 'actions/projects-report'
 import { getSelectedDate } from 'selectors/calendar'
 import './projectReportNew.scss'
+import { userPermissions } from 'constants/permissions'
 
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
   const selectedDate = useShallowEqualSelector(getSelectedDate)
   const roleUser = useShallowEqualSelector(getRoleUser)
+  const permissions = useShallowEqualSelector(getUserPermissions)
   //const permissions = useShallowEqualSelector(getUserPermissions)
   // eslint-disable-next-line no-unused-vars
   const [_, setOpenUserInfo] = useState(false)
@@ -38,8 +40,10 @@ function ProjectReportNew() {
   }, [dispatch])
 
   useEffect(() => {
-    //!permissions.includes(userPermissions.projects_view_developerproject)
-    if (roleUser !== DEVELOPER) {
+    if (
+      roleUser !== DEVELOPER ||
+      permissions?.includes(userPermissions.projects_view_developerproject)
+    ) {
       getDevelopersProject()
     }
   }, [getDevelopersProject, roleUser])
@@ -100,7 +104,10 @@ function ProjectReportNew() {
         <HeaderProjectReport name="Project report" />
         <div className="diw_row" />
         <div className="project_report_date">
-          {roleUser !== DEVELOPER && (
+          {(roleUser !== DEVELOPER ||
+            permissions?.includes(
+              userPermissions.projects_view_developerproject
+            )) && (
             <div className="block_select_elements">
               <SearchByDeveloper />
               <div className="row">

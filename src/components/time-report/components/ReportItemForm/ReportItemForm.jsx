@@ -6,6 +6,9 @@ import { Button, Tooltip } from '@material-ui/core'
 import Textarea from 'components/ui/textarea'
 import TimeInput from 'components/ui/timeInput'
 import styles from './ReportItemForm.module.scss'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from 'selectors/user'
+import { userPermissions } from '../../../../constants/permissions'
 const ReportItemForm = ({
   textInputValue,
   textInputPlaceholder,
@@ -25,6 +28,8 @@ const ReportItemForm = ({
   const tooltipTitle = isSubmitButtonDisabled
     ? 'You need to fill all the blank fields'
     : 'Save'
+
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
   return (
     <form className={styles.form} onSubmit={handleFormSubmit}>
@@ -56,19 +61,21 @@ const ReportItemForm = ({
           root: styles.timeInput,
         }}
       />
-      <Tooltip title={tooltipTitle} placement="top" arrow>
-        <span>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={isSubmitButtonDisabled}
-            className={styles.button}
-          >
-            <FontAwesomeIcon icon={faCheck} className={styles.icon} />
-          </Button>
-        </span>
-      </Tooltip>
+      {permissions?.includes(userPermissions.work_items_add_workitem) && (
+        <Tooltip title={tooltipTitle} placement="top" arrow>
+          <span>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitButtonDisabled}
+              className={styles.button}
+            >
+              <FontAwesomeIcon icon={faCheck} className={styles.icon} />
+            </Button>
+          </span>
+        </Tooltip>
+      )}
     </form>
   )
 }

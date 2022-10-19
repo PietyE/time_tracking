@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getSelectedDate } from 'selectors/calendar'
 import HintWindow from 'components/ui/HintWindow'
+import { getUserPermissions } from '../../../selectors/user'
+import { userPermissions } from '../../../constants/permissions'
 
 function TeamM({
   e,
@@ -25,6 +27,7 @@ function TeamM({
   const [showHintDelete, setShowHintDelete] = useState(false)
   const dispatch = useDispatch()
   let selectedData = useSelector(getSelectedDate)
+  const permissions = useSelector(getUserPermissions)
 
   const _downloadProjectReport = useCallback(
     (data) => {
@@ -96,48 +99,56 @@ function TeamM({
           <div className="label-def">
             <span>{fulTime ? 'Salary' : 'Hourly Payroll'}</span>
           </div>
-          <div className="team-m_input_block">
-            <div className="team-m-input-cont">
-              <label htmlFor={e.id + 1 || e.user_id + 1}>
-                <input
-                  name="w-type"
-                  type="radio"
-                  checked={fulTime ? 'checked' : ''}
-                  onChange={handleOccupancyChange(true)}
-                  id={e.id + 1 || e.user_id + 1}
-                  disabled={isArchived}
-                />
-                <span className="checkmark"></span>
-                Salary
-              </label>
+          {permissions?.includes(
+            userPermissions.projects_change_developerproject
+          ) && (
+            <div className="team-m_input_block">
+              <div className="team-m-input-cont">
+                <label htmlFor={e.id + 1 || e.user_id + 1}>
+                  <input
+                    name="w-type"
+                    type="radio"
+                    checked={fulTime ? 'checked' : ''}
+                    onChange={handleOccupancyChange(true)}
+                    id={e.id + 1 || e.user_id + 1}
+                    disabled={isArchived}
+                  />
+                  <span className="checkmark"></span>
+                  Salary
+                </label>
+              </div>
+              <div className="team-m-input-cont">
+                <label htmlFor={e.id || e.user_id}>
+                  <input
+                    name="w-type"
+                    type="radio"
+                    checked={!fulTime ? 'checked' : ''}
+                    id={e.id || e.user_id}
+                    onChange={handleOccupancyChange(false)}
+                    disabled={isArchived}
+                  />
+                  <span className="checkmark"></span>
+                  Hourly Payroll
+                </label>
+              </div>
             </div>
-            <div className="team-m-input-cont">
-              <label htmlFor={e.id || e.user_id}>
-                <input
-                  name="w-type"
-                  type="radio"
-                  checked={!fulTime ? 'checked' : ''}
-                  id={e.id || e.user_id}
-                  onChange={handleOccupancyChange(false)}
-                  disabled={isArchived}
-                />
-                <span className="checkmark"></span>
-                Hourly Payroll
-              </label>
-            </div>
-          </div>
+          )}
         </div>
         {hovers && <div className="estimate-hours">{hovers}</div>}
         <div className="trash-cont">
-          <div
-            className="control_btn"
-            onClick={() => del(e.projectReportId)}
-            onMouseEnter={() => setShowHintDelete(true)}
-            onMouseLeave={() => setShowHintDelete(false)}
-          >
-            <img className={'gray-trash'} src={TrashGrayIc} alt="" />
-            {showHintDelete && <HintWindow text={'Delete'} />}
-          </div>
+          {permissions?.includes(
+            userPermissions.projects_delete_developerproject
+          ) && (
+            <div
+              className="control_btn"
+              onClick={() => del(e.projectReportId)}
+              onMouseEnter={() => setShowHintDelete(true)}
+              onMouseLeave={() => setShowHintDelete(false)}
+            >
+              <img className={'gray-trash'} src={TrashGrayIc} alt="" />
+              {showHintDelete && <HintWindow text={'Delete'} />}
+            </div>
+          )}
           <div
             className="control_btn"
             onClick={() => _downloadProjectReport(e.projectReportId)}

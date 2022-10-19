@@ -134,8 +134,8 @@ export const TimeReportMobile = ({
           />
 
           {(roleUser !== DEVELOPER ||
-            permissions.includes(
-              userPermissions.projects_change_developerproject
+            permissions?.includes(
+              userPermissions.work_items_view_workitem
             )) && (
             <Autocomplete
               options={developersList}

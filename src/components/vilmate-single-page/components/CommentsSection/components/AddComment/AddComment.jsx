@@ -6,12 +6,16 @@ import { Avatar } from 'components/ui/avatar'
 import { vilmatesPagePostCommentsRequest } from 'actions/vilmates-page'
 import { ReactComponent as PostComment } from 'images/PostComment.svg'
 import styles from './AddComment.module.scss'
+import useShallowEqualSelector from '../../../../../../custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from '../../../../../../selectors/user'
+import { userPermissions } from '../../../../../../constants/permissions'
 
 export const AddComment = ({ name }) => {
   const { userId } = useParams()
   const [text, setText] = useState('')
   const [validationError, setValidationError] = useState(false)
   const dispatch = useDispatch()
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
   const onChange = (event) => setText(event.target.value)
 
@@ -30,6 +34,11 @@ export const AddComment = ({ name }) => {
       <Box className={styles.container}>
         <Avatar name="user" size="small" />
         <TextField
+          disabled={
+            !permissions?.includes(
+              userPermissions.vilmate_comments_add_vilmatecomment
+            )
+          }
           type="text"
           variant="outlined"
           placeholder={`Add a comment about ${name}`}
@@ -40,7 +49,9 @@ export const AddComment = ({ name }) => {
           multiline
           fullWidth
           InputProps={{
-            endAdornment: (
+            endAdornment: permissions?.includes(
+              userPermissions.vilmate_comments_add_vilmatecomment
+            ) && (
               <Box
                 className={styles.commentButtonContainer}
                 onClick={postComment}

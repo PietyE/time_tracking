@@ -16,7 +16,7 @@ export default function VIlmatesPrivateRoute({
       {...rest}
       render={(props) =>
         role !== DEVELOPER ||
-        permissions.includes(userPermissions.users_view_user) ? (
+        permissions?.includes(userPermissions.users_view_user) ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

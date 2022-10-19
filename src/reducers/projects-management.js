@@ -111,7 +111,8 @@ export const getProjectManagerListSelector = (state) => {
   //todo: ask about it
   return users.filter(
     (user) =>
-      user.role === 4 || permissions.includes(userPermissions.users_view_user)
+      user.role === 4 ||
+      permissions?.includes(userPermissions.projects_view_project)
   )
 }
 
@@ -122,8 +123,13 @@ export const getTeamMListSelector = (state) => {
 
 export const getDeveloperSelector = (state) => {
   const users = getUsersSelector(state)
+  const permissions = getUserPermissions(state)
   //todo: ask
-  return users.filter((user) => user.role === 1)
+  return users.filter(
+    (user) =>
+      user.role === 1 ||
+      permissions?.includes(userPermissions.projects_view_developerproject)
+  )
 }
 ///////////////////////////////////////////////////////
 
