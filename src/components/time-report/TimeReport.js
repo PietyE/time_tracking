@@ -22,7 +22,7 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId, getRoleUser } from 'selectors/user'
+import { getProfileId, getRoleUser, getUserPermissions } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getDevelopersSelector } from 'selectors/developers'
 import { DEVELOPER } from 'constants/role-constant'
@@ -32,16 +32,13 @@ import { showAlert } from 'actions/alert'
 import TimeReportDesktop from './TimeReportDesktop'
 import useBreakpoints from 'custom-hook/useBreakpoints'
 import TimeReportMobile from './TimeReportMobile'
-import { findListItemById } from 'utils/common'
-import { QUERY_PARAMETERS } from 'constants/timereports-constant'
-import { useSearchParams } from 'custom-hook/useSearchParams'
-import { validateDate } from 'utils/date'
 import { getSelectedDate } from 'selectors/calendar'
 import { changeSelectedDateTimeReports } from 'actions/times-report'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { isEmpty } from 'lodash'
 import { getDeveloperProjectsById } from 'actions/projects-management'
 import { changeSelectedDate } from 'actions/calendar'
+import { userPermissions } from 'constants/permissions'
 
 function TimeReport(props) {
   const {
@@ -67,6 +64,7 @@ function TimeReport(props) {
 
   const dispatch = useDispatch()
   const developerId = useShallowEqualSelector(getProfileId)
+  const permissions = useShallowEqualSelector(getUserPermissions)
   // eslint-disable-next-line no-unused-vars
   const [showEmpty] = useState(true)
   const { state: routeState } = useLocation()
@@ -106,7 +104,10 @@ function TimeReport(props) {
     if (!isEmpty(selectedDeveloper)) {
       const { id } = selectedDeveloper
       dispatch(getDeveloperProjectsById(id))
-    } else if (roleUser === DEVELOPER) {
+    } else if (
+      roleUser === DEVELOPER ||
+      !permissions.includes(userPermissions.projects_view_developerproject)
+    ) {
       dispatch(getDeveloperProjectsById(developerId))
     }
   }, [
@@ -140,7 +141,10 @@ function TimeReport(props) {
         })
       }
 
-      if (roleUser !== DEVELOPER) {
+      if (
+        roleUser !== DEVELOPER ||
+        permissions.includes(userPermissions.projects_change_developerproject)
+      ) {
         const developerData = developersList.find(
           (dev) => dev.id === route_user_id
         )

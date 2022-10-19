@@ -72,8 +72,8 @@ export const MenuContent = () => {
     ]
     if (
       userRole === 'Admin' ||
-      (userRole === 'Project manager' &&
-        permissions.includes(userPermissions.projects_view_project))
+      userRole === 'Project manager' ||
+      permissions.includes(userPermissions.projects_view_project)
     )
       results.push({
         panelName: 'Management',

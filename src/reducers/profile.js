@@ -5,10 +5,11 @@ import {
   SET_FETCHING_PROFILE_STATUS,
   SET_AUTH_IN_PROGRESS,
   UNSET_AUTH_IN_PROGRESS,
-  SET_SIDE_MENU,
   SET_SIDE_MENU_ARROW,
 } from 'constants/actions-constant'
 import { SHOW_FULL_SIDE_MENU } from 'constants/side-menu-constant'
+import { userPermissions } from '../constants/permissions'
+import { getUserPermissions } from '../selectors/user'
 
 const initial_state = {
   isAuth: false,
@@ -41,7 +42,11 @@ export const profile = (state = initial_state, action) => {
 
 export const getAuthInProgressSelector = (state) => state.profile.authInProgress
 export const getCurrentUserSelector = (state) => {
-  if (state?.profile?.role === 4) {
+  const permissions = getUserPermissions(state)
+  if (
+    state?.profile?.role === 4 ||
+    permissions.includes(userPermissions.users_view_user)
+  ) {
     return {
       id: state.profile.id,
       name: state.profile.name,

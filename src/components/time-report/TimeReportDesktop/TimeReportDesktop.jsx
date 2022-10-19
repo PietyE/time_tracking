@@ -8,7 +8,10 @@ import DeveloperSelect from '../components/DeveloperSelect'
 import ProjectSelect from '../components/ProjectSelect'
 import SpinnerStyled from 'components/ui/spinner'
 import '../style.scss'
-import { useScrollLock } from '../../../custom-hook/useScrollLock'
+import { useScrollLock } from 'custom-hook/useScrollLock'
+import { userPermissions } from 'constants/permissions'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from 'selectors/user'
 
 // TODO: Refactor component and its render
 export const TimeReportDesktop = ({
@@ -35,6 +38,7 @@ export const TimeReportDesktop = ({
   selectedDayStatus,
   setUserStatus,
 }) => {
+  const permissions = useShallowEqualSelector(getUserPermissions)
   useScrollLock(isFetchingReports)
   return (
     <>
@@ -52,7 +56,10 @@ export const TimeReportDesktop = ({
         <div className="time_report_header"></div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
-            {roleUser !== DEVELOPER && (
+            {(roleUser !== DEVELOPER ||
+              permissions.includes(
+                userPermissions.projects_change_developerproject
+              )) && (
               <DeveloperSelect
                 developersList={developersList}
                 selectedDeveloper={selectedDeveloper}

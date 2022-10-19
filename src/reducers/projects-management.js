@@ -13,6 +13,8 @@ import {
   GET_ACTIVE_PROJECTS,
   SET_SHOW_CREATE_USER_MODAL,
 } from 'constants/actions-constant'
+import { getUserPermissions } from '../selectors/user'
+import { userPermissions } from '../constants/permissions'
 
 const todayDate = new Date()
 
@@ -105,7 +107,12 @@ export const getUsersSelector = (state) => state.developers.developersList
 
 export const getProjectManagerListSelector = (state) => {
   const users = getUsersSelector(state)
-  return users.filter((user) => user.role === 4)
+  const permissions = getUserPermissions(state)
+  //todo: ask about it
+  return users.filter(
+    (user) =>
+      user.role === 4 || permissions.includes(userPermissions.users_view_user)
+  )
 }
 
 export const getTeamMListSelector = (state) => {
@@ -115,6 +122,7 @@ export const getTeamMListSelector = (state) => {
 
 export const getDeveloperSelector = (state) => {
   const users = getUsersSelector(state)
+  //todo: ask
   return users.filter((user) => user.role === 1)
 }
 ///////////////////////////////////////////////////////

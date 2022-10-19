@@ -11,7 +11,8 @@ const HeaderProjectReport = ({ name }) => {
   const permissions = useShallowEqualSelector(getUserPermissions)
 
   const isHaveAccess =
-    (role === ADMIN || role === ACCOUNTANT) &&
+    role === ADMIN ||
+    role === ACCOUNTANT ||
     permissions.includes(userPermissions.gsheets_add_accesscredentials)
 
   const renderGoogleDriveSyncButton = isHaveAccess && <GoogleSyncButton />
