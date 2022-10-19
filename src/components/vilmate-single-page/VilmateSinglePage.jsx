@@ -13,7 +13,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { getRoleUser } from 'selectors/user'
+import { getRoleUser, getUserPermissions } from 'selectors/user'
 import {
   getSelectedUser,
   getSelectedUserDeveloperProjects,
@@ -25,6 +25,7 @@ import { PersonalInformationSection } from './components/PersonalInformationSect
 import { PhotoSection } from './components/PhotoSection'
 import { ProjectsSection } from './components/ProjectsSection'
 import styles from './VilmatesSinglePage.module.scss'
+import { userPermissions } from 'constants/permissions'
 
 export const VilmateSinglePage = () => {
   const { userId: selectedUserId } = useParams()
@@ -36,6 +37,7 @@ export const VilmateSinglePage = () => {
 
   const developerProjects = useEqualSelector(getSelectedUserDeveloperProjects)
   const role = useEqualSelector(getRoleUser)
+  const permissions = useEqualSelector(getUserPermissions)
   const isUserLoading = useEqualSelector(isSelectedUserLoading)
 
   useEffect(() => {
@@ -44,8 +46,11 @@ export const VilmateSinglePage = () => {
 
   const isLoading =
     isUserLoading || user.id !== selectedUserId || !developerProjects
-  //permissions.includes(userPemissions.vilmate_comments_view_vilmatecomment)
-  const isCommentsVisible = role === HR || role === ADMIN
+
+  const isCommentsVisible =
+    role === HR ||
+    role === ADMIN ||
+    permissions?.includes(userPermissions.vilmate_comments_view_vilmatecomment)
 
   const isUserFound = user ? (
     <Box style={{ display: 'flex' }}>

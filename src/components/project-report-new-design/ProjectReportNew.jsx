@@ -42,7 +42,7 @@ function ProjectReportNew() {
   useEffect(() => {
     if (
       roleUser !== DEVELOPER ||
-      permissions.includes(userPermissions.projects_view_developerproject)
+      permissions?.includes(userPermissions.projects_view_developerproject)
     ) {
       getDevelopersProject()
     }
@@ -105,7 +105,7 @@ function ProjectReportNew() {
         <div className="diw_row" />
         <div className="project_report_date">
           {(roleUser !== DEVELOPER ||
-            permissions.includes(
+            permissions?.includes(
               userPermissions.projects_view_developerproject
             )) && (
             <div className="block_select_elements">

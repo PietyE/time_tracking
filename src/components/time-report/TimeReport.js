@@ -106,7 +106,7 @@ function TimeReport(props) {
       dispatch(getDeveloperProjectsById(id))
     } else if (
       roleUser === DEVELOPER ||
-      !permissions.includes(userPermissions.work_items_view_workitem)
+      !permissions?.includes(userPermissions.work_items_view_workitem)
     ) {
       dispatch(getDeveloperProjectsById(developerId))
     }
@@ -143,7 +143,7 @@ function TimeReport(props) {
 
       if (
         roleUser !== DEVELOPER ||
-        permissions.includes(userPermissions.work_items_view_workitem)
+        permissions?.includes(userPermissions.work_items_view_workitem)
       ) {
         const developerData = developersList.find(
           (dev) => dev.id === route_user_id

@@ -37,7 +37,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
 
   if (
     role !== DEVELOPER ||
-    permissions.includes(userPermissions.work_items_view_workitem)
+    permissions?.includes(userPermissions.work_items_view_workitem)
   ) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
@@ -53,7 +53,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
   yield put(setDeveloperProjects(restructureData))
   if (
     role !== DEVELOPER ||
-    permissions.includes(userPermissions.work_items_view_workitem)
+    permissions?.includes(userPermissions.work_items_view_workitem)
   ) {
     yield call(getDevelopers)
     if (projectIdForSelect) {

@@ -35,7 +35,7 @@ export const MenuContent = () => {
         smallSize: true,
         items: [
           userRole !== 'Developer' ||
-          permissions.includes(userPermissions.users_view_user)
+          permissions?.includes(userPermissions.users_view_user)
             ? {
                 icon: clock,
                 label: 'Time report',
@@ -73,7 +73,7 @@ export const MenuContent = () => {
     if (
       userRole === 'Admin' ||
       userRole === 'Project manager' ||
-      permissions.includes(userPermissions.projects_view_project)
+      permissions?.includes(userPermissions.projects_view_project)
     )
       results.push({
         panelName: 'Management',

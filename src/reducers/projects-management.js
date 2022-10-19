@@ -112,7 +112,7 @@ export const getProjectManagerListSelector = (state) => {
   return users.filter(
     (user) =>
       user.role === 4 ||
-      permissions.includes(userPermissions.projects_view_project)
+      permissions?.includes(userPermissions.projects_view_project)
   )
 }
 
@@ -128,7 +128,7 @@ export const getDeveloperSelector = (state) => {
   return users.filter(
     (user) =>
       user.role === 1 ||
-      permissions.includes(userPermissions.projects_view_developerproject)
+      permissions?.includes(userPermissions.projects_view_developerproject)
   )
 }
 ///////////////////////////////////////////////////////

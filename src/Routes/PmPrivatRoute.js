@@ -14,7 +14,7 @@ export default function PmPrivateRoute({ component: Component, ...rest }) {
       render={(props) =>
         role === PM ||
         role === ADMIN ||
-        permissions.includes(userPermissions.projects_view_project) ? (
+        permissions?.includes(userPermissions.projects_view_project) ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

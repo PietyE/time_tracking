@@ -45,7 +45,7 @@ export const getCurrentUserSelector = (state) => {
   const permissions = getUserPermissions(state)
   if (
     state?.profile?.role === 4 ||
-    permissions.includes(userPermissions.projects_view_project)
+    permissions?.includes(userPermissions.projects_view_project)
   ) {
     return {
       id: state.profile.id,

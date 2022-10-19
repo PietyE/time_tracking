@@ -38,6 +38,9 @@ import SortingButton from 'components/ui/sortingButton'
 import { ASCEND } from '../../constants/order-constant'
 import { changeSelectedDate } from 'actions/calendar'
 import { getSelectedDate } from 'selectors/calendar'
+import useShallowEqualSelector from '../../custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from '../../selectors/user'
+import { userPermissions } from '../../constants/permissions'
 
 // // The pagination is commented out until the next iteration
 // import { setCurrentItems, setPageSize } from '../../actions/pagination'
@@ -73,6 +76,7 @@ const ProjectManagementComponent = () => {
   const projectManagers = useEqualSelector(getProjectManagerListSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
   const filteredProjects = useEqualSelector(getFilteredProjectSelector)
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
   // // The pagination is commented out until the next iteration
   // let currentPage = useEqualSelector(getCurrentPage)
@@ -232,13 +236,15 @@ const ProjectManagementComponent = () => {
             >
               Add new user
             </button> */}
-              <button
-                type="submit"
-                className="btn btn-add-new  "
-                onClick={addNewProject}
-              >
-                Add new project
-              </button>
+              {permissions?.includes(userPermissions.projects_add_project) && (
+                <button
+                  type="submit"
+                  className="btn btn-add-new  "
+                  onClick={addNewProject}
+                >
+                  Add new project
+                </button>
+              )}
             </div>
           </h1>
         </div>
@@ -256,18 +262,22 @@ const ProjectManagementComponent = () => {
                 initialChoice={selectedPm || currentPm}
                 isSearch
               />
-              <Select
-                title={'Choose project'}
-                listItems={projectList}
-                onSelected={onSelectProject}
-                valueKey="name"
-                idKey="id"
-                extraClassContainer={'project_select project_select'}
-                // onClear={clearSelectedProject}
-                disabled={!projects?.length}
-                initialChoice={selectedProject}
-                isSearch
-              />
+              {permissions?.includes(
+                userPermissions.projects_change_project
+              ) && (
+                <Select
+                  title={'Choose project'}
+                  listItems={projectList}
+                  onSelected={onSelectProject}
+                  valueKey="name"
+                  idKey="id"
+                  extraClassContainer={'project_select project_select'}
+                  // onClear={clearSelectedProject}
+                  disabled={!projects?.length}
+                  initialChoice={selectedProject}
+                  isSearch
+                />
+              )}
             </div>
             <SelectMonth
               onChange={_changeSelectedDateProjectsManagement}
