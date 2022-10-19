@@ -1,17 +1,21 @@
 @import 'styles/commonStyles.scss';
 
 .section {
-  padding: 25px 20px;
   margin-top: 20px;
+  padding: 25px 0;
 }
 
 .title {
+  padding: 0 20px;
   color: $mainBlackColor;
   font-weight: 700;
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-.button {
+.buttonContainer {  
   margin-top: 24px;
+  padding: 24px 20px 0 20px;
+  
+  border-top: 1px solid $grayBorderColor;
 }

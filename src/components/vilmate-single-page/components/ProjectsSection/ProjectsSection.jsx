@@ -1,4 +1,4 @@
-import { Button, Paper, Typography } from '@material-ui/core'
+import { Box, Button, Paper, Typography } from '@material-ui/core'
 import {
   vilmatesPageChangeUserOnProjectRequest,
   vilmatesPageGetDeveloperProjectsListRequest
@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'images/plus-icon.svg'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getUsersSelector } from 'reducers/projects-management'
+import { RightSessionContainer } from '../RightSessionsContainer'
 import { CreateProjectListItemForm } from './components/CreateProjectListItemForm'
 import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
@@ -54,10 +55,7 @@ export const ProjectsSection = ({ selectedUserId, projects }) => {
   }
 
   return (
-    <Paper className={styles.section} component="section">
-      <Typography className={styles.title} variant="h2">
-        Works on
-      </Typography>
+    <RightSessionContainer title="Works on" isHaveScroll={true} height="408px">
       {projects.length ? (
         <ProjectsList
           users={users}
@@ -75,17 +73,18 @@ export const ProjectsSection = ({ selectedUserId, projects }) => {
           developerProjects={projects}
         />
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        startIcon={<PlusIcon />}
-        disabled={isFormShown}
-        onClick={showFormHandler}
-        className={styles.button}
-      >
-        Assign to project
-      </Button>
-    </Paper>
+      <Box className={styles.buttonContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          startIcon={<PlusIcon />}
+          disabled={isFormShown}
+          onClick={showFormHandler}
+        >
+          Assign to project
+        </Button>
+      </Box>
+    </RightSessionContainer>
   )
 }

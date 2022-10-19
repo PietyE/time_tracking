@@ -9,11 +9,15 @@ import './GoogleSheetSyncButton.scss'
 
 const MemoizedConfirmIcon = React.memo(ConfirmIcon)
 
-const GoogleSheetSyncButton = () => {
+const GoogleSheetSyncButton = ({ setValidationError }) => {
   const dispatch = useDispatch()
   const googleSheetLink = useShallowEqualSelector(getGoogleSheetSyncInputLink)
+  const googleSheetSyncLink = useShallowEqualSelector(
+    getGoogleSheetSyncInputLink
+  )
 
-  const handleClick = () => onGoogleSync(dispatch)(googleSheetLink)
+  const handleClick = () =>
+    onGoogleSync(dispatch)(googleSheetLink, setValidationError)
 
   return (
     <Button
@@ -22,6 +26,7 @@ const GoogleSheetSyncButton = () => {
       color="primary"
       startIcon={<MemoizedConfirmIcon />}
       className="google-sheet-button"
+      disabled={!googleSheetSyncLink}
     >
       Submit
     </Button>

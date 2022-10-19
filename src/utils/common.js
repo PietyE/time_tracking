@@ -7,7 +7,7 @@ export const getTokenKeyFromLocalStorage = () => {
 export const parseMinToHoursAndMin = (min, Hformat = false) => {
   const HOUR = 60
   let minToNumber = +min
-  let strHours = '00'
+  let strHours = '0'
   let strMin = '00'
 
   if (minToNumber < HOUR) {
@@ -166,6 +166,7 @@ export const sortProjectsByName = (project1, project2) =>
 
 export const sortAndParseByDate = (comments) =>
   comments
+    .filter((comment) => comment.is_active)
     .sort(
       (comment1, comment2) =>
         Date.parse(comment1.date_create) - Date.parse(comment2.date_create)

@@ -2,6 +2,8 @@ import { showAlert } from 'actions/alert'
 import {
   vilmatesPageAddDeveloperProjectSuccess,
   vilmatesPageChangeUserOnProjectSuccess,
+  vilmatesPageDeleteCommentsError,
+  vilmatesPageDeleteCommentsSuccess,
   vilmatesPageGetCommentsError,
   vilmatesPageGetCommentsSuccess,
   vilmatesPageGetDeveloperProjectsListError,
@@ -16,16 +18,23 @@ import {
 import { pm } from 'api'
 import { SUCCES_ALERT, WARNING_ALERT } from 'constants/alert-constant'
 import {
-  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
-  VILMATES_PAGE_GET_USERS_LIST_REQUEST,
-  VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATE_PAGE_ADD_DEVELOPER_PROJECT_REQUEST,
   VILMATE_PAGE_CHANGE_USER_ON_PROJECT_REQUEST,
+  VILMATES_PAGE_DELETE_COMMENT_REQUEST,
   VILMATES_PAGE_GET_COMMENTS_REQUEST,
+  VILMATES_PAGE_GET_DEVELOPER_PROJECTS_LIST_REQUEST,
+  VILMATES_PAGE_GET_USERS_LIST_REQUEST,
   VILMATES_PAGE_POST_COMMENT_REQUEST,
+  VILMATES_PAGE_SELECT_USER_REQUEST,
   VILMATES_SINGLE_PAGE_UPDATE_USER_PERSONAL_INFORMATION_REQUEST,
 } from 'constants/vilmates-page'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  takeLeading,
+} from 'redux-saga/effects'
 import Api from 'utils/api'
 
 function* getUsersList(action) {
@@ -228,7 +237,41 @@ function* postComment(action) {
     yield put(
       showAlert({
         type: WARNING_ALERT,
-        title: 'Something went wrong',
+        title: 'Comment has not been posted',
+        message: error.message || 'Something went wrong',
+        delay: 3000,
+      })
+    )
+  }
+}
+
+function* deleteComment(action) {
+  const url = `vilmate-comments/${action.payload}`
+  try {
+    const response = yield call([Api, 'deleteComment'], url, {
+      is_active: false,
+    })
+    const { status, data: deletedComment } = response
+    if (String(status)[0] !== '2') {
+      throw new Error()
+    }
+
+    yield put(vilmatesPageDeleteCommentsSuccess(deletedComment))
+
+    yield put(
+      showAlert({
+        type: SUCCES_ALERT,
+        title: 'Comment has been deleted',
+        message: 'You have deleted a comment',
+        delay: 3000,
+      })
+    )
+  } catch (error) {
+    yield put(vilmatesPageDeleteCommentsError())
+    yield put(
+      showAlert({
+        type: WARNING_ALERT,
+        title: 'Comment has not been deleted',
         message: error.message || 'Something went wrong',
         delay: 2000,
       })
@@ -257,4 +300,5 @@ export function* watchUsersListGetRequest() {
   )
   yield takeEvery(VILMATES_PAGE_GET_COMMENTS_REQUEST, getComments)
   yield takeLatest(VILMATES_PAGE_POST_COMMENT_REQUEST, postComment)
+  yield takeLeading(VILMATES_PAGE_DELETE_COMMENT_REQUEST, deleteComment)
 }

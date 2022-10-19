@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Box } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import { getUsersHoursTokenRequest } from 'actions/google-auth-success'
 import { useSearchParams } from 'custom-hook/useSearchParams'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -22,6 +22,7 @@ const GoogleAuthSuccess = ({ changeSelectedDate }) => {
   const searchParams = useSearchParams()
   const isLoading = useShallowEqualSelector(getLoading)
   const accessError = useShallowEqualSelector(getAccessError)
+  const [validationError, setValidationError] = useState(false)
   const history = useHistory()
 
   const state = useMemo(() => searchParams.get('state'), [])
@@ -57,8 +58,13 @@ const GoogleAuthSuccess = ({ changeSelectedDate }) => {
           <GoogleSheetFormHeader />
           <Box className="google-auth-success-container-form-actions">
             <SelectMonth onChange={changeSelectedDate} showYear />
-            <GoogleSheetInput />
-            <GoogleSheetSyncButton />
+            <GoogleSheetInput validationError={validationError} />
+            {validationError && (
+              <Typography color="error" style={{ marginBottom: '36px' }}>
+                Please paste a correct link to google sheet
+              </Typography>
+            )}
+            <GoogleSheetSyncButton setValidationError={setValidationError} />
           </Box>
         </Box>
       </Box>

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core'
+import { useState } from 'react'
 
 export const Textarea = ({
   value,
@@ -20,10 +21,26 @@ export const Textarea = ({
   disabled,
   ...rest
 }) => {
+  const [maxLengthHelperText, setMaxLengthHelperText] = useState(' ')
+  const [maxLengthError, setMaxLengthError] = useState(false)
+
   const handleKeyDown = (event) => {
+    // TODO: Make normal validation with yup or any of the analogies
+    if (value.length === maxLength) {
+      setMaxLengthHelperText(`Field length cannot exceed ${maxLength} characters!`)
+      setMaxLengthError(true)
+    }
+
     if (event.which === 13 && !event.shiftKey) {
       event.preventDefault()
       onSubmit(event)
+    }
+  }
+
+  const handleKeyUp = () => {
+    if (value.length < maxLength) {
+      setMaxLengthHelperText(' ')
+      setMaxLengthError(false)
     }
   }
 
@@ -35,6 +52,7 @@ export const Textarea = ({
       value={value}
       onChange={onChange}
       onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
       onFocus={onFocus}
       onBlur={onBlur}
       multiline
@@ -47,10 +65,11 @@ export const Textarea = ({
       inputProps={{
         maxLength: maxLength,
       }}
-      error={error}
+      error={maxLengthError || error}
       autoFocus={autoFocus}
       classes={classes}
       disabled={disabled}
+      helperText={maxLengthHelperText}
       {...rest}
     />
   )

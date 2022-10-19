@@ -7,7 +7,7 @@ import { googleAuthChangeGoogleSheetLink } from 'actions/google-auth-success'
 import { ReactComponent as LinkIcon } from 'images/link.svg'
 import './GoogleSheetInput.scss'
 
-const GoogleSheetInput = () => {
+const GoogleSheetInput = ({ validationError }) => {
   const googleSheetSyncLink = useShallowEqualSelector(
     getGoogleSheetSyncInputLink
   )
@@ -16,11 +16,13 @@ const GoogleSheetInput = () => {
   const handleChange = (event) =>
     dispatch(googleAuthChangeGoogleSheetLink(event.target.value))
 
+  const isHaveValidationError = validationError ? '-error' : ''
+
   return (
     <TextField
       onChange={handleChange}
       value={googleSheetSyncLink}
-      className="google-sheet-input"
+      className={`google-sheet-input${isHaveValidationError}`}
       variant="outlined"
       placeholder="https://docs.google.com/spreadsheets/"
       fullWidth

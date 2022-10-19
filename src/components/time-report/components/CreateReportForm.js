@@ -130,6 +130,14 @@ function CreateReportForm({
   const handlerFocus = () => {
     setEditMode(null)
   }
+
+  const handleBlur = (e) => {
+    const { value } = e.target
+    if (value === '0:00') {
+      setHours('')
+    }
+  }
+
   return (
     <ReportItemForm
       textInputValue={text}
@@ -139,6 +147,7 @@ function CreateReportForm({
       timeInputValue={hours}
       handleTimeInputChange={handlerChangeHours}
       handleTimeInputFocus={handlerFocus}
+      handleTimeInputBlur={handleBlur}
       timeInputError={isTimeInputError}
       isSubmitButtonDisabled={!(hours && hours !== '0:00' && text)}
       handleFormSubmit={handlerClickAddButton}

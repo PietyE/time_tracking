@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import { connect, useDispatch } from 'react-redux'
 
 import {
   addTimeReport,
@@ -38,6 +38,10 @@ import { useSearchParams } from 'custom-hook/useSearchParams'
 import { validateDate } from 'utils/date'
 import { getSelectedDate } from 'selectors/calendar'
 import { changeSelectedDateTimeReports } from 'actions/times-report'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { isEmpty } from 'lodash'
+import { getDeveloperProjectsById } from 'actions/projects-management'
+import { changeSelectedDate } from 'actions/calendar'
 
 function TimeReport(props) {
   const {
@@ -59,21 +63,15 @@ function TimeReport(props) {
     selectDayStatus,
     selectedDayStatus,
     showAlert,
-    profileId,
   } = props
 
+  const dispatch = useDispatch()
+  const developerId = useShallowEqualSelector(getProfileId)
   // eslint-disable-next-line no-unused-vars
   const [showEmpty] = useState(true)
+  const { state: routeState } = useLocation()
   const todayDate = new Date()
   const { isMobile, isTablet } = useBreakpoints()
-  const history = useHistory()
-
-  const queryParams = useSearchParams()
-
-  const queryProjectId = queryParams.get(QUERY_PARAMETERS.projectId)
-  const queryYear = queryParams.get(QUERY_PARAMETERS.year)
-  const queryMonth = queryParams.get(QUERY_PARAMETERS.month)
-  const queryDeveloperId = queryParams.get(QUERY_PARAMETERS.developerId)
 
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
@@ -104,40 +102,80 @@ function TimeReport(props) {
       ? reports.reduce((res, item) => res + item.duration, 0)
       : 0
 
-  const updateTimereportState = useCallback(() => {
-    const { year: selectedYear, month: selectedMonth } = selectedDate
-    const isSelectedProjectExist =
-      !!selectedProject && !!Object.entries(selectedProject).length
-    const isSelectedDateExist =
-      !!selectedDate && !!Object.entries(selectedDate).length
-    const isSelectedDeveloperExist =
-      !!selectedDeveloper && !!Object.entries(selectedDeveloper).length
-
-    if (isSelectedProjectExist && queryProjectId !== selectedProject.id) {
-      queryParams.set(QUERY_PARAMETERS.projectId, selectedProject?.id)
+  useEffect(() => {
+    if (!isEmpty(selectedDeveloper)) {
+      const { id } = selectedDeveloper
+      dispatch(getDeveloperProjectsById(id))
+    } else if (roleUser === DEVELOPER) {
+      dispatch(getDeveloperProjectsById(developerId))
     }
+  }, [
+    selectedDeveloper,
+    selectedDate,
+    reports,
+    roleUser,
+    dispatch,
+    developerId,
+  ])
 
-    if (
-      isSelectedDateExist &&
-      (selectedYear !== queryYear || selectedMonth !== queryMonth)
-    ) {
-      queryParams.set(QUERY_PARAMETERS.year, selectedDate.year)
-      queryParams.set(QUERY_PARAMETERS.month, selectedDate.month)
+  const bootstrapWidthRouteState = useCallback(() => {
+    if (routeState) {
+      const {
+        selectedDate: routeDate,
+        developer_project_id: route_developer_project_id,
+        userId: route_user_id,
+      } = routeState
+
+      const { year: routeYear, month: routeMonth } = routeDate
+
+      const { year: selectedYear, month: selectedMonth } = selectedDate
+
+      const { developer_project_id: selectedDeveloper_project_id } =
+        selectedProject
+
+      if (selectedYear !== routeYear || selectedMonth !== routeMonth) {
+        changeSelectedDate({
+          year: Number(routeYear),
+          month: Number(routeMonth),
+        })
+      }
+
+      if (roleUser !== DEVELOPER) {
+        const developerData = developersList.find(
+          (dev) => dev.id === route_user_id
+        )
+        if (developerData) {
+          selectDevelopers(
+            {
+              id: developerData.id,
+              name: developerData.name,
+              email: developerData.email,
+            },
+            route_developer_project_id
+          )
+        }
+        return
+      }
+
+      if (route_developer_project_id !== selectedDeveloper_project_id) {
+        const newSelectedProject = projects.find(
+          (project) =>
+            project.developer_project_id === route_developer_project_id
+        )
+        selectProject(newSelectedProject)
+      }
     }
-
-    if (
-      isSelectedDeveloperExist &&
-      selectedDeveloper.id !== queryDeveloperId &&
-      developersList.length
-    ) {
-      queryParams.set(QUERY_PARAMETERS.developerId, selectedDeveloper.id)
-    }
-
-    const url = queryParams.toString()
-    history.push({
-      search: `${url}`,
-    })
-  }, [selectedProject, selectedDate, selectedDeveloper])
+  }, [
+    changeSelectedDate,
+    developersList,
+    projects,
+    roleUser,
+    selectedDate,
+    routeState,
+    selectDevelopers,
+    selectedProject,
+    selectProject,
+  ])
 
   const handlerExportCsv = () => {
     if (!reports || reports?.length === 0) {
@@ -153,69 +191,23 @@ function TimeReport(props) {
     getTimeReportCsv()
   }
 
-  const setInitialTimereportValuesFromUrl = useCallback(() => {
+  useEffect(() => {
     if (projects.length) {
-      const project = findListItemById(projects, queryProjectId)
-      selectProject(project || projects[0])
-
-      const month = Number(queryMonth)
-      const year = Number(queryYear)
-      const isDateValid = validateDate(month, year)
-
-      changeSelectedDateTimeReports(
-        isDateValid
-          ? {
-              year,
-              month,
-            }
-          : {
-              year: todayDate.getFullYear(),
-              month: todayDate.getMonth(),
-            }
-      )
+      selectProject(projects[0])
     }
+    if (!projects.length) {
+      selectProject({})
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects])
 
-  const setInitialDeveloperValueFromUrl = useCallback(() => {
-    //permissions.includes(userPermissions.projects_view_developerproject)
-    if (developersList.length && roleUser !== DEVELOPER) {
-      const developer = findListItemById(developersList, queryDeveloperId)
-
-      // FIX: This if clause is a big 'kostyl', because developersList updates on each call of selectDeveloper function
-      if (
-        developer &&
-        selectedDeveloper.id !== developer.id &&
-        selectedDeveloper.id === profileId
-      ) {
-        selectDevelopers({
-          id: developer.id,
-          name: developer.name,
-          email: developer.email,
-        })
-      }
-    }
-    //!permissions.includes(userPermissions.projects_view_developerproject)
-    if (roleUser === DEVELOPER) {
-      queryParams.delete(QUERY_PARAMETERS.developerId)
-    }
-  }, [developersList])
-
   useEffect(() => {
-    updateTimereportState()
-  }, [updateTimereportState])
-
-  useEffect(() => {
-    setInitialTimereportValuesFromUrl()
-  }, [setInitialTimereportValuesFromUrl])
-
-  useEffect(() => {
-    setInitialDeveloperValueFromUrl()
-  }, [setInitialDeveloperValueFromUrl])
-
-  useEffect(() => {
+    bootstrapWidthRouteState()
     return () => {
       clearSelectedProject()
+      resetSelectedDate()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (isMobile && !isTablet) {
