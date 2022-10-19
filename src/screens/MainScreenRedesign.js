@@ -13,9 +13,11 @@ import {
   getProfileName,
   getRoleUser,
   getUserAuthStatus,
+  getUserPermissions,
 } from 'selectors/user'
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
+import { userPermissions } from 'constants/permissions'
 // import InHouseEmployees from 'components/in-house-employees'
 // import RemoteContractors from 'components/remote-contractors/RemoteContractors'
 // import PeopleScreen from "../PeopleScreen";
@@ -25,6 +27,7 @@ import SpinnerStyled from 'components/ui/spinner'
 import GoogleSyncPrivateRoot from 'Routes/GoogleSyncPrivateRoot'
 import Layout from 'components/ui/layout'
 import VIlmatesPrivateRoute from 'Routes/VIlmatesPrivateRoute'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
 
@@ -59,6 +62,7 @@ function MainScreenRedesign(props) {
   } = props
 
   const date = getSelectedMonth
+  const permissions = useShallowEqualSelector(getUserPermissions)
   useEffect(() => {
     if (isAuth) {
       if (
