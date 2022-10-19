@@ -16,6 +16,9 @@ import { ReactComponent as ExportIcon } from 'images/timereport/export-icon.svg'
 import { ReactComponent as PeopleIcon } from 'images/timereport/people-icon.svg'
 import { ReactComponent as WindowIcon } from 'images/timereport/window-icon.svg'
 import { Footer } from '../components/Footer'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from 'selectors/user'
+import { userPermissions } from 'constants/permissions'
 
 export const TimeReportMobile = ({
   isFetchingReports,
@@ -36,6 +39,7 @@ export const TimeReportMobile = ({
   selectedProjectHours,
 }) => {
   const [isInputFocused, setIsInputFocused] = useState(false)
+  const permissions = useShallowEqualSelector(getUserPermissions)
   const isSelectedProjectChosen = useMemo(
     () => !!Object.entries(selectedProject).length,
     [selectedProject]
@@ -129,7 +133,10 @@ export const TimeReportMobile = ({
             onBlur={inputBlurHandler}
           />
 
-          {roleUser !== DEVELOPER && (
+          {(roleUser !== DEVELOPER ||
+            permissions.includes(
+              userPermissions.projects_change_developerproject
+            )) && (
             <Autocomplete
               options={developersList}
               value={selectedDeveloper}

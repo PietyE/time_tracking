@@ -1,14 +1,19 @@
 import React from 'react'
 import './headerProjectReport.scss'
 import { GoogleSyncButton } from './GoogleSyncButton'
-import { getRoleUser } from 'selectors/user'
+import { getRoleUser, getUserPermissions } from 'selectors/user'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ACCOUNTANT, ADMIN } from 'constants/role-constant'
+import { userPermissions } from 'constants/permissions'
 
 const HeaderProjectReport = ({ name }) => {
   const role = useShallowEqualSelector(getRoleUser)
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
-  const isHaveAccess = role === ADMIN || role === ACCOUNTANT
+  const isHaveAccess =
+    role === ADMIN ||
+    role === ACCOUNTANT ||
+    permissions.includes(userPermissions.gsheets_add_accesscredentials)
 
   const renderGoogleDriveSyncButton = isHaveAccess && <GoogleSyncButton />
 

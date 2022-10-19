@@ -8,7 +8,7 @@ import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
 import SelectMonth from 'components/ui/select-month'
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
-import { getRoleUser } from 'selectors/user'
+import { getRoleUser, getUserPermissions } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
 import { DEVELOPER } from 'constants/role-constant'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -22,6 +22,7 @@ function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
   const selectedDate = useShallowEqualSelector(getSelectedDate)
   const roleUser = useShallowEqualSelector(getRoleUser)
+  //const permissions = useShallowEqualSelector(getUserPermissions)
   // eslint-disable-next-line no-unused-vars
   const [_, setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
@@ -37,6 +38,7 @@ function ProjectReportNew() {
   }, [dispatch])
 
   useEffect(() => {
+    //!permissions.includes(userPermissions.projects_view_developerproject)
     if (roleUser !== DEVELOPER) {
       getDevelopersProject()
     }
