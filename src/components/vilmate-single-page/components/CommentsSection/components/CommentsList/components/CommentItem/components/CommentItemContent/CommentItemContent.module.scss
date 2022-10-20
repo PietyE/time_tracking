@@ -34,4 +34,8 @@
 .delete {
   cursor: pointer;
   font-weight: 600;
+  color: $disabledColor;
+  &:hover {
+    color: $mainRedColor;
+  }
 }
