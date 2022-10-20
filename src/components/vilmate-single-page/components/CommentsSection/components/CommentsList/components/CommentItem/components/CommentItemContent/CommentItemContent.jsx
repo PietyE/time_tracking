@@ -37,7 +37,6 @@ export const CommentItemContent = ({ text, date, name, id }) => {
         ) && (
           <Typography
             variant="body2"
-            color="error"
             className={styles.delete}
             onClick={() => handleDeleteComment(id)}
           >
