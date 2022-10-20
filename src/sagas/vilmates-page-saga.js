@@ -159,15 +159,13 @@ function* postDeveloperProject({ payload }) {
 }
 
 function* changeUserPersonalInformation(action) {
-  const { id, email, phone, slack, date_of_birth } = action.payload
-  const url = `users/${id}/`
+  const url = `users/${action?.payload?.id}/`
   try {
-    const response = yield call([Api, 'updateUserPersonalInformation'], url, {
-      email,
-      phone,
-      slack,
-      date_of_birth,
-    })
+    const response = yield call(
+      [Api, 'updateUserPersonalInformation'],
+      url,
+      action.payload
+    )
     const { status } = response
     if (String(status)[0] !== '2') {
       throw new Error()

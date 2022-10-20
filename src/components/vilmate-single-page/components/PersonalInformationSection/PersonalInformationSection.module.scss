@@ -14,7 +14,17 @@
   flex: 1 1 50%;
   padding: 0;
   margin-bottom: 25px;
-  cursor: pointer;
+  &:nth-child(even) {
+    padding-left: 12px;
+  }
+  & :global .MuiGrid-container .MuiGrid-item svg {
+    display: none;
+  }
+  &:hover {
+    & :global .MuiGrid-container .MuiGrid-item svg {
+      display: flex;
+    }
+  }
 }
 
 .avatar {
@@ -29,6 +39,7 @@
 }
 
 .information_textField {
+  flex: 1 1 500px;
   & :global .MuiOutlinedInput-root {
     cursor: pointer;
     input {
@@ -38,11 +49,6 @@
   fieldset {
     border-style: none;
   }
-  & :global .MuiOutlinedInput-root:hover {
-    fieldset {
-      border: none;
-    }
-  }
   & :global .MuiOutlinedInput-root.Mui-focused {
     fieldset {
       border: 1px green solid;
@@ -51,4 +57,20 @@
       cursor: text;
     }
   }
+}
+
+.save, .close {
+  svg {
+    display: block !important;
+    cursor: pointer;
+  }
+  &:hover {
+    background: #eaeaea;
+  }
+  border-radius: 25px;
+  padding: 5px;
+}
+
+.save {
+  margin-right: 5px;
 }

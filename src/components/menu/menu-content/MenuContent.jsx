@@ -36,24 +36,24 @@ export const MenuContent = () => {
         items: [
           userRole !== 'Developer' ||
           permissions?.includes(userPermissions.users_view_user)
-            ? {
+            ? ({
                 icon: clock,
                 label: 'Time report',
                 smallSize: true,
                 pathname: '/timereport',
-              }
+              },
+              {
+                icon: vilmates,
+                label: 'Vilmates',
+                smallSize: true,
+                pathname: '/vilmates',
+              })
             : {
                 icon: clock,
                 label: 'Time report',
                 smallSize: true,
                 pathname: '/timereport',
               },
-          {
-            icon: vilmates,
-            label: 'Vilmates',
-            smallSize: true,
-            pathname: '/vilmates',
-          },
         ],
       },
       {
