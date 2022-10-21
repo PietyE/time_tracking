@@ -23,38 +23,37 @@ export const MenuContent = () => {
   const userRole = useShallowEqualSelector(getUserRoleText)
   const permissions = useShallowEqualSelector(getUserPermissions)
 
-  //time report for all
-  //permissions.includes(userPermissions.users_view_user) vilamtes
-  //permissions.includes(userPermissions.projects_view_project) Project Management
-
   const panels = useMemo(() => {
     const results = [
       {
         panelName: 'My work',
         panelId: '...',
         smallSize: true,
-        items: [
+        items:
           userRole !== 'Developer' ||
           permissions?.includes(userPermissions.users_view_user)
-            ? ({
-                icon: clock,
-                label: 'Time report',
-                smallSize: true,
-                pathname: '/timereport',
-              },
-              {
-                icon: vilmates,
-                label: 'Vilmates',
-                smallSize: true,
-                pathname: '/vilmates',
-              })
-            : {
-                icon: clock,
-                label: 'Time report',
-                smallSize: true,
-                pathname: '/timereport',
-              },
-        ],
+            ? [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  smallSize: true,
+                  pathname: '/vilmates',
+                },
+              ]
+            : [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+              ],
       },
       {
         panelName: 'Accounting',
@@ -88,121 +87,6 @@ export const MenuContent = () => {
       })
     return results
   }, [permissions, userRole])
-
-  // const panels = useMemo(() => {
-  //   const result = [
-  //     {
-  //       panelName: 'My work',
-  //       panelId: '...',
-  //       smallSize: true,
-  //       items:
-  //         userRole !== 'Developer'
-  //           ? [
-  //               {
-  //                 icon: clock,
-  //                 label: 'Time report',
-  //                 smallSize: true,
-  //                 pathname: '/timereport',
-  //               },
-  //               {
-  //                 icon: vilmates,
-  //                 label: 'Vilmates',
-  //                 pathname: '/vilmates',
-  //               },
-  //             ]
-  //           : [
-  //               {
-  //                 icon: clock,
-  //                 label: 'Time report',
-  //                 smallSize: true,
-  //                 pathname: '/timereport',
-  //               },
-  //             ],
-  //     },
-  //   ]
-  //   if (userRole === 'Admin') {
-  //     result.push(
-  //       {
-  //         panelName: 'Accounting',
-  //         panelId: '...',
-  //         smallSize: true,
-  //         items: [
-  //           {
-  //             icon: coin,
-  //             label: 'Project report',
-  //             smallSize: true,
-  //             pathname: '/projectreport',
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         panelName: 'Management',
-  //         panelId: '...',
-  //         items: [
-  //           {
-  //             icon: fileCheck,
-  //             label: 'Project management',
-  //             pathname: '/projectmanagement',
-  //           },
-  //         ],
-  //       }
-  //     )
-  //   } else if (userRole === 'Accountant' || userRole === 'Developer') {
-  //     result.push({
-  //       panelName: 'Accounting',
-  //       panelId: '...',
-  //       smallSize: true,
-  //       items: [
-  //         {
-  //           icon: coin,
-  //           label: 'Project report',
-  //           smallSize: true,
-  //           pathname: '/projectreport',
-  //         },
-  //       ],
-  //     })
-  //   } else if (userRole === 'Project manager') {
-  //     result.push(
-  //       {
-  //         panelName: 'Accounting',
-  //         panelId: '...',
-  //         smallSize: true,
-  //         items: [
-  //           {
-  //             icon: coin,
-  //             label: 'Project report',
-  //             smallSize: true,
-  //             pathname: '/projectreport',
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         panelName: 'Management',
-  //         panelId: '...',
-  //         items: [
-  //           {
-  //             icon: fileCheck,
-  //             label: 'Project management',
-  //             pathname: '/projectmanagement',
-  //           },
-  //         ],
-  //       }
-  //     )
-  //   } else if (userRole === 'HR') {
-  //     result.push({
-  //       panelName: 'Management',
-  //       panelId: '...',
-  //       items: [
-  //         {
-  //           icon: fileCheck,
-  //           label: 'Project management',
-  //           pathname: '/projectmanagement',
-  //         },
-  //       ],
-  //     })
-  //   }
-  //   return result
-  // }, [userRole])
 
   return (
     <div className="side_menu_container-wrapper">
