@@ -3,38 +3,40 @@ import { ReactComponent as Email } from 'images/personalInfo/Email.svg'
 import { ReactComponent as Phone } from 'images/personalInfo/Phone.svg'
 import { ReactComponent as Slack } from 'images/personalInfo/Slack.svg'
 import { ReactComponent as Calendar } from 'images/personalInfo/calendar.svg'
-import * as Yup from 'yup'
 
-const phoneRegExp =
+const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const phoneRegEp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+const slackRegEx = /^@.*/
+
+const dateRegEx = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/
 
 export const personalInformation = [
   {
     icon: <Email />,
     title: 'Email',
     text: 'youremail@vilmate.com',
-    validationSchema: Yup.string().email('Invalid email format'),
+    validationRule: emailRegEx,
   },
   {
     icon: <Phone />,
     title: 'Phone',
     text: '+380998768888',
-    validationSchema: Yup.string().matches(
-      phoneRegExp,
-      'Phone number is not valid'
-    ),
+    validationRule: phoneRegEp,
   },
   {
     icon: <Slack />,
     title: 'Slack',
     text: '@YourUserName',
-    validationSchema: Yup.string(),
+    validationRule: slackRegEx,
   },
   {
     icon: <Calendar />,
     title: 'Date of birth',
     text: '01.01.2001',
-    validationSchema: Yup.date(),
+    validationRule: dateRegEx,
   },
 ]
 

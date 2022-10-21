@@ -35,11 +35,21 @@ export const PersonalInformationSection = ({
   const onEndEdit = (correctField) =>
     setIsEditingState({ ...editingState, [correctField]: false })
 
-  const onSave = (correctField) => {
+  const onSave = (correctField, validationRule) => {
+    const regEx = new RegExp(`${validationRule}`)
+    console.log(formik.values[correctField])
+    console.log(regEx.test(formik.values[correctField]))
+    if (regEx.test(formik.values[correctField])) {
+      formik.values[correctField] = fields[correctField]
+      return
+    }
     if (formik.values[correctField] !== fields[correctField])
-      updateUserPersonalInformation({
-        [correctField]: formik.values[correctField],
-      })
+      updateUserPersonalInformation(
+        {
+          [correctField]: formik.values[correctField],
+        },
+        correctField
+      )
   }
 
   const onClose = (event, correctField) => {
@@ -67,7 +77,7 @@ export const PersonalInformationSection = ({
               onClose(event, correctField)
               return
             }
-            onSave(correctField)
+            onSave(correctField, information?.validationRule)
             onEndEdit(correctField)
           }}
         />

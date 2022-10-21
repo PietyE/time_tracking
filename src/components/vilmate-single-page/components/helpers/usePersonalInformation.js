@@ -20,6 +20,8 @@ export const usePersonalInformation = (
     createInputEditingMode(actualPersonalInformation)
   )
 
+  console.log(actualPersonalInformation)
+
   const updateUserPersonalInformation = (userInfo) => {
     dispatch(
       vilatesSinglePageUpdateUserInformationRequest({

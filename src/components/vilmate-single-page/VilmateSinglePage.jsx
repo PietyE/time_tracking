@@ -38,7 +38,6 @@ export const VilmateSinglePage = () => {
     getSelectedUser,
     isUserUpdated
   )
-
   const developerProjects = useEqualSelector(getSelectedUserDeveloperProjects)
   const role = useEqualSelector(getRoleUser)
   const permissions = useEqualSelector(getUserPermissions)

@@ -168,14 +168,14 @@ function* changeUserPersonalInformation(action) {
     )
     const { status } = response
     if (String(status)[0] !== '2') {
-      throw new Error()
+      throw new Error(JSON.stringify(Object.values(response?.data)[0]))
     }
     yield put(
       showAlert({
         type: SUCCES_ALERT,
         title: 'Success',
         message: 'Your information successfully has been changed',
-        delay: 2000,
+        delay: 3500,
       })
     )
   } catch (error) {
