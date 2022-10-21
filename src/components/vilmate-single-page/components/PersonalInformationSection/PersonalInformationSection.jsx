@@ -59,12 +59,14 @@ export const PersonalInformationSection = ({
 
   const renderListItems = actualPersonalInformation.map((information) => {
     const correctField = toCorrectFormCase(information.title)
+    const calendar = correctField === 'date_of_birth' ? 'date' : 'text'
     return (
       <ListItem key={information.text} className={styles.list_item}>
         <ListItemAvatar className={styles.avatar}>
           {information.icon}
         </ListItemAvatar>
         <TextField
+          type={calendar}
           variant="outlined"
           label={information.title}
           name={correctField}
