@@ -39,10 +39,10 @@ export const personalInformation = [
 ]
 
 export const toCorrectFormCase = (string) =>
-  string.toLowerCase().split(' ').join('_')
+  string?.toLowerCase().split(' ').join('_')
 
 export const updateInformation = (currentUser, personalInformation) =>
-  personalInformation.reduce((information, nextInformationSource) => {
+  personalInformation?.reduce((information, nextInformationSource) => {
     const fieldName = toCorrectFormCase(nextInformationSource.title)
 
     return [
@@ -55,7 +55,7 @@ export const updateInformation = (currentUser, personalInformation) =>
   }, [])
 
 export const createInputField = (userInformation) =>
-  userInformation.reduce(
+  userInformation?.reduce(
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: nextField.text,
@@ -64,7 +64,7 @@ export const createInputField = (userInformation) =>
   )
 
 export const createInputEditingMode = (userInformation) =>
-  userInformation.reduce(
+  userInformation?.reduce(
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: false,
@@ -73,7 +73,7 @@ export const createInputEditingMode = (userInformation) =>
   )
 
 export const createValidationSchema = (userInformation) =>
-  userInformation.reduce(
+  userInformation?.reduce(
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: userInformation?.validationSchema,

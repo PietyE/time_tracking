@@ -1,49 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { RightSessionContainer } from '../RightSessionsContainer'
 import {
   Box,
+  Button,
   Divider,
+  Grid,
+  List,
   ListItem,
   ListItemAvatar,
-  List,
   TextField,
-  Grid,
 } from '@material-ui/core'
 import { AboutInformation } from './components/AboutInformation'
-import {
-  createInputEditingMode,
-  createInputField,
-  personalInformation,
-  toCorrectFormCase,
-  updateInformation,
-} from './mocks'
-import styles from './PersonalInformationSection.module.scss'
+import { toCorrectFormCase } from './mocks'
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
-import { vilatesSinglePageUpdateUserInformationRequest } from 'actions/vilmates-page'
 import { ReactComponent as CloseEditing } from 'images/vilmates/CloseEditingPersonalInfo.svg'
 import { ReactComponent as Edit } from 'images/vilmates/EditPersonalInfo.svg'
 import { ReactComponent as SaveEditing } from 'images/vilmates/SavePersonalInfo.svg'
+import styles from './PersonalInformationSection.module.scss'
 
-export const PersonalInformationSection = ({ user }) => {
-  const dispatch = useDispatch()
-  const actualPersonalInformation = updateInformation(user, personalInformation)
-  const fields = createInputField(actualPersonalInformation)
+export const PersonalInformationSection = ({
+  fields,
+  actualPersonalInformation,
+  editingState,
+  setIsEditingState,
+  updateUserPersonalInformation,
+}) => {
   const formik = useFormik({
     initialValues: fields,
   })
-  const [editingState, setIsEditingState] = useState(
-    createInputEditingMode(actualPersonalInformation)
-  )
-
-  const updateUserPersonalInformation = (userInfo) => {
-    dispatch(
-      vilatesSinglePageUpdateUserInformationRequest({
-        id: user.id,
-        ...userInfo,
-      })
-    )
-  }
 
   const onStartEdit = (correctField) =>
     setIsEditingState({ ...editingState, [correctField]: true })
@@ -59,7 +43,7 @@ export const PersonalInformationSection = ({ user }) => {
   }
 
   const onClose = (event, correctField) => {
-    formik.handleReset(event)
+    formik.values[correctField] = fields[correctField]
     onEndEdit(correctField)
   }
 
@@ -77,25 +61,34 @@ export const PersonalInformationSection = ({ user }) => {
           value={formik.values[correctField]}
           className={styles.information_textField}
           onChange={formik.handleChange}
-          onClick={() => onStartEdit(correctField)}
+          onFocus={() => onStartEdit(correctField)}
+          onBlur={(event) => {
+            if (event?.relatedTarget?.id === `button-close-${correctField}`) {
+              onClose(event, correctField)
+              return
+            }
+            onSave(correctField)
+            onEndEdit(correctField)
+          }}
         />
         <Grid container alignItems="center" justifyContent="center">
           {editingState[correctField] ? (
             <>
-              <Grid item className={styles.save}>
-                <SaveEditing
-                  onClick={() => {
-                    onSave(correctField)
-                    onEndEdit(correctField)
-                  }}
-                />
+              <Grid item>
+                <Button className={styles.save}>
+                  <SaveEditing />
+                </Button>
               </Grid>
-              <Grid
-                item
-                className={styles.close}
-                onClick={(event) => onClose(event, correctField)}
-              >
-                <CloseEditing />
+              <Grid item>
+                <Button
+                  id={`button-close-${correctField}`}
+                  className={styles.close}
+                  onClick={(event) => {
+                    onClose(event, correctField)
+                  }}
+                >
+                  <CloseEditing />
+                </Button>
               </Grid>
             </>
           ) : (
