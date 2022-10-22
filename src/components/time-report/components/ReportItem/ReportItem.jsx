@@ -344,7 +344,7 @@ function ReportItem({
   return (
     <div
       className={
-        `time_report_day_row full ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button` +
+        `time_report_day_row full ${styles.container} ${activeClassNameContainerForDeletting} ${activeClassNameContainerForEditting} drag_button` +
         (index !== 0 ? ' top_line' : '')
       }
       ref={containerRef}
