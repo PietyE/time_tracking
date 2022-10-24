@@ -3,6 +3,7 @@ import { ReactComponent as Email } from 'images/personalInfo/Email.svg'
 import { ReactComponent as Phone } from 'images/personalInfo/Phone.svg'
 import { ReactComponent as Slack } from 'images/personalInfo/Slack.svg'
 import { ReactComponent as Calendar } from 'images/personalInfo/calendar.svg'
+import moment from 'moment'
 
 const emailRegExp =
   /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -13,6 +14,8 @@ const phoneRegExp =
 const slackValidationRegExp = /^[@]{1}/
 
 const dateValidationRegExp = /^\d{4}-\d{2}-\d{2}$/
+
+const defaultDate = new Date()
 
 export const personalInformation = [
   {
@@ -39,7 +42,7 @@ export const personalInformation = [
   {
     icon: <Calendar />,
     title: 'Date of birth',
-    text: '2010-01-01',
+    text: moment(defaultDate).format('yyyy-MM-DD'),
     validationRule: dateValidationRegExp,
     message: 'Format should be YYYY-MM-DD',
   },

@@ -28,17 +28,56 @@
   & :global .react-datepicker-wrapper {
     flex: 1 1 500px;
   }
+  & :global .react-datepicker__tab-loop .react-datepicker-popper .react-datepicker {
+    box-shadow: 0 15px 40px rgba(77, 77, 77, 0.19);
+    border: 1px solid #EBEBEB;
+    border-radius: 6px;
+    & .react-datepicker__triangle {
+      display: none;
+    }
+    & button {
+      padding-top: 25px;
+      & span:before {
+        border-color: $calendarButtonsColor;
+      }
+    }
+  }
+  & :global .react-datepicker__tab-loop .react-datepicker-popper .react-datepicker .react-datepicker__month-container {
+      & .react-datepicker__month .react-datepicker__week .react-datepicker__day{
+        &:hover {
+          background: $darkWhiteBgColor;
+          border-radius: 50%;
+          color: $mainBlackColor;
+        }
+        &--selected, &.react-datepicker__day--keyboard-selected {
+          background: $mainGreenColor;
+          border-radius: 50%;
+          color: $whiteColor;
+        }
+      }
+    & .react-datepicker__header {
+      padding: 15px 0;
+      background-color: $whiteColor;
+      border: none;
+      & .react-datepicker__day-names {
+        padding-top: 15px;
+        & .react-datepicker__day-name {
+          color: $darkGrayColor;
+        }
+      }
+    }
+  }
 }
 
 .avatar {
-  min-width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: $darkWhiteBgColor;
   display: flex;
   justify-content: center;
-  margin-right: 12px;
   align-items: center;
+  height: 42px;
+  min-width: 42px;
+  margin-right: 12px;
+  background: $darkWhiteBgColor;
+  border-radius: 10px;
 }
 
 .information_textField {
@@ -70,9 +109,9 @@
   &:hover {
     background: #eaeaea;
   }
-  border-radius: 25px;
-  padding: 5px;
   min-width: auto;
+  padding: 5px;
+  border-radius: 25px;
 }
 
 .save {

@@ -21,8 +21,8 @@ import { ReactComponent as SaveEditing } from 'images/vilmates/SavePersonalInfo.
 import { RightSessionContainer } from '../RightSessionsContainer'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
-import 'react-datepicker/dist/react-datepicker.css'
 import { DateCustomInput } from './components/DateCustomInput'
+import 'react-datepicker/dist/react-datepicker.css'
 import styles from './PersonalInformationSection.module.scss'
 
 export const PersonalInformationSection = ({
@@ -112,6 +112,7 @@ export const PersonalInformationSection = ({
           <DatePicker
             dateFormat="yyyy-MM-dd"
             selected={new Date(formik.values[correctField])}
+            maxDate={moment().toDate()}
             onChange={(date) => {
               formik.setFieldValue(
                 correctField,
