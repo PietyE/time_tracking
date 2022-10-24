@@ -4,39 +4,44 @@ import { ReactComponent as Phone } from 'images/personalInfo/Phone.svg'
 import { ReactComponent as Slack } from 'images/personalInfo/Slack.svg'
 import { ReactComponent as Calendar } from 'images/personalInfo/calendar.svg'
 
-const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const emailRegExp =
+  /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-const phoneRegEp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp =
+  /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im
 
-const slackRegEx = /^@.*/
+const slackValidationRegExp = /^[@]{1}/
 
-const dateRegEx = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/
+const dateValidationRegExp = /^\d{2}-\d{2}-\d{4}$/
 
 export const personalInformation = [
   {
     icon: <Email />,
     title: 'Email',
     text: 'youremail@vilmate.com',
-    validationRule: emailRegEx,
+    validationRule: emailRegExp,
+    message: 'Format should be youremail@vilmate.com',
   },
   {
     icon: <Phone />,
     title: 'Phone',
     text: '+380998768888',
-    validationRule: phoneRegEp,
+    validationRule: phoneRegExp,
+    message: 'Format should be +380991111111 or 991111111',
   },
   {
     icon: <Slack />,
     title: 'Slack',
     text: '@YourUserName',
-    validationRule: slackRegEx,
+    validationRule: slackValidationRegExp,
+    message: 'Format should be @YourUserName',
   },
   {
     icon: <Calendar />,
     title: 'Date of birth',
     text: '01.01.2001',
-    validationRule: dateRegEx,
+    validationRule: dateValidationRegExp,
+    message: 'Format should be DD-MM-YYYY',
   },
 ]
 

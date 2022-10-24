@@ -19,8 +19,9 @@ export const usePersonalInformation = (
   const [editingState, setIsEditingState] = useState(
     createInputEditingMode(actualPersonalInformation)
   )
-
-  console.log(actualPersonalInformation)
+  const [errorsState, setErrorsState] = useState(
+    createInputEditingMode(actualPersonalInformation)
+  )
 
   const updateUserPersonalInformation = (userInfo) => {
     dispatch(
@@ -38,5 +39,7 @@ export const usePersonalInformation = (
     actualPersonalInformation,
     setIsEditingState,
     updateUserPersonalInformation,
+    errorsState,
+    setErrorsState,
   }
 }

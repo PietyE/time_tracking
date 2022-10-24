@@ -17,6 +17,9 @@ import { ReactComponent as CloseEditing } from 'images/vilmates/CloseEditingPers
 import { ReactComponent as Edit } from 'images/vilmates/EditPersonalInfo.svg'
 import { ReactComponent as SaveEditing } from 'images/vilmates/SavePersonalInfo.svg'
 import styles from './PersonalInformationSection.module.scss'
+import { useDispatch } from 'react-redux'
+import { showAlert } from 'actions/alert'
+import { WARNING_ALERT } from 'constants/alert-constant'
 
 export const PersonalInformationSection = ({
   fields,
@@ -24,10 +27,13 @@ export const PersonalInformationSection = ({
   editingState,
   setIsEditingState,
   updateUserPersonalInformation,
+  errorsState,
+  setErrorState,
 }) => {
   const formik = useFormik({
     initialValues: fields,
   })
+  const dispatch = useDispatch()
 
   const onStartEdit = (correctField) =>
     setIsEditingState({ ...editingState, [correctField]: true })
@@ -35,21 +41,32 @@ export const PersonalInformationSection = ({
   const onEndEdit = (correctField) =>
     setIsEditingState({ ...editingState, [correctField]: false })
 
-  const onSave = (correctField, validationRule) => {
-    const regEx = new RegExp(`${validationRule}`)
-    console.log(formik.values[correctField])
-    console.log(regEx.test(formik.values[correctField]))
-    if (regEx.test(formik.values[correctField])) {
+  const onSave = (correctField, validationRule, message) => {
+    if (!validationRule.test(formik.values[correctField])) {
       formik.values[correctField] = fields[correctField]
+      setErrorState({ ...errorsState, [correctField]: true })
+      dispatch(
+        showAlert({
+          type: WARNING_ALERT,
+          title: 'Validation Error',
+          message: message,
+          delay: 4000,
+        })
+      )
       return
     }
-    if (formik.values[correctField] !== fields[correctField])
+    if (
+      formik.values[correctField] !== fields[correctField] ||
+      errorsState[correctField]
+    ) {
+      setErrorState({ ...errorsState, [correctField]: false })
       updateUserPersonalInformation(
         {
           [correctField]: formik.values[correctField],
         },
         correctField
       )
+    }
   }
 
   const onClose = (event, correctField) => {
@@ -74,12 +91,17 @@ export const PersonalInformationSection = ({
           className={styles.information_textField}
           onChange={formik.handleChange}
           onFocus={() => onStartEdit(correctField)}
+          error={errorsState[correctField]}
           onBlur={(event) => {
             if (event?.relatedTarget?.id === `button-close-${correctField}`) {
               onClose(event, correctField)
               return
             }
-            onSave(correctField, information?.validationRule)
+            onSave(
+              correctField,
+              information?.validationRule,
+              information?.message
+            )
             onEndEdit(correctField)
           }}
         />

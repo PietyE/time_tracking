@@ -49,6 +49,8 @@ export const VilmateSinglePage = () => {
     actualPersonalInformation,
     setIsEditingState,
     updateUserPersonalInformation,
+    errorsState,
+    setErrorsState,
   } = usePersonalInformation(user, isUserUpdated, setIsUserUpdated)
 
   useEffect(() => {
@@ -79,6 +81,8 @@ export const VilmateSinglePage = () => {
           editingState={editingState}
           setIsEditingState={setIsEditingState}
           updateUserPersonalInformation={updateUserPersonalInformation}
+          errorsState={errorsState}
+          setErrorState={setErrorsState}
         />
         {isCommentsVisible && <CommentsSection name={user.name} />}
       </Box>
