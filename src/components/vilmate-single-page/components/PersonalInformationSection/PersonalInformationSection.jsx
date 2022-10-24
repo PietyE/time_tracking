@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useFormik } from 'formik'
 import {
@@ -22,20 +22,8 @@ import { RightSessionContainer } from '../RightSessionsContainer'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
 import 'react-datepicker/dist/react-datepicker.css'
+import { DateCustomInput } from './components/DateCustomInput'
 import styles from './PersonalInformationSection.module.scss'
-
-const DateCustomInput = forwardRef(
-  ({ value, onClick, label, variant }, ref) => (
-    <TextField
-      ref={ref}
-      label={label}
-      onClick={onClick}
-      variant={variant}
-      className={styles.information_textField}
-      value={value}
-    />
-  )
-)
 
 export const PersonalInformationSection = ({
   fields,

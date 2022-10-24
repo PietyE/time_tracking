@@ -51,7 +51,6 @@ export const toCorrectFormCase = (string) =>
 export const updateInformation = (currentUser, personalInformation) =>
   personalInformation?.reduce((information, nextInformationSource) => {
     const fieldName = toCorrectFormCase(nextInformationSource.title)
-
     return [
       ...information,
       {
@@ -75,15 +74,6 @@ export const createInputEditingMode = (userInformation) =>
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: false,
-    }),
-    {}
-  )
-
-export const createValidationSchema = (userInformation) =>
-  userInformation?.reduce(
-    (fields, nextField) => ({
-      ...fields,
-      [toCorrectFormCase(nextField.title)]: userInformation?.validationSchema,
     }),
     {}
   )
