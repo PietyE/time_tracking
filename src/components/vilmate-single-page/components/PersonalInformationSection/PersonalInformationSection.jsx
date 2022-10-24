@@ -1,5 +1,6 @@
-import React from 'react'
-import { RightSessionContainer } from '../RightSessionsContainer'
+import React, { forwardRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { useFormik } from 'formik'
 import {
   Box,
   Button,
@@ -10,16 +11,31 @@ import {
   ListItemAvatar,
   TextField,
 } from '@material-ui/core'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
 import { AboutInformation } from './components/AboutInformation'
 import { toCorrectFormCase } from './mocks'
-import { useFormik } from 'formik'
 import { ReactComponent as CloseEditing } from 'images/vilmates/CloseEditingPersonalInfo.svg'
 import { ReactComponent as Edit } from 'images/vilmates/EditPersonalInfo.svg'
 import { ReactComponent as SaveEditing } from 'images/vilmates/SavePersonalInfo.svg'
-import styles from './PersonalInformationSection.module.scss'
-import { useDispatch } from 'react-redux'
+import { RightSessionContainer } from '../RightSessionsContainer'
 import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
+import 'react-datepicker/dist/react-datepicker.css'
+import styles from './PersonalInformationSection.module.scss'
+
+const DateCustomInput = forwardRef(
+  ({ value, onClick, label, variant }, ref) => (
+    <TextField
+      ref={ref}
+      label={label}
+      onClick={onClick}
+      variant={variant}
+      className={styles.information_textField}
+      value={value}
+    />
+  )
+)
 
 export const PersonalInformationSection = ({
   fields,
@@ -76,35 +92,56 @@ export const PersonalInformationSection = ({
 
   const renderListItems = actualPersonalInformation.map((information) => {
     const correctField = toCorrectFormCase(information.title)
-    const calendar = correctField === 'date_of_birth' ? 'date' : 'text'
     return (
       <ListItem key={information.text} className={styles.list_item}>
         <ListItemAvatar className={styles.avatar}>
           {information.icon}
         </ListItemAvatar>
-        <TextField
-          type={calendar}
-          variant="outlined"
-          label={information.title}
-          name={correctField}
-          value={formik.values[correctField]}
-          className={styles.information_textField}
-          onChange={formik.handleChange}
-          onFocus={() => onStartEdit(correctField)}
-          error={errorsState[correctField]}
-          onBlur={(event) => {
-            if (event?.relatedTarget?.id === `button-close-${correctField}`) {
-              onClose(event, correctField)
-              return
+        {!(correctField === 'date_of_birth') ? (
+          <TextField
+            variant="outlined"
+            label={information.title}
+            name={correctField}
+            value={formik.values[correctField]}
+            className={styles.information_textField}
+            onChange={formik.handleChange}
+            onFocus={() => onStartEdit(correctField)}
+            error={errorsState[correctField]}
+            onBlur={(event) => {
+              if (event?.relatedTarget?.id === `button-close-${correctField}`) {
+                onClose(event, correctField)
+                return
+              }
+              onSave(
+                correctField,
+                information?.validationRule,
+                information?.message
+              )
+              onEndEdit(correctField)
+            }}
+          />
+        ) : (
+          <DatePicker
+            dateFormat="yyyy-MM-dd"
+            selected={new Date(formik.values[correctField])}
+            onChange={(date) => {
+              formik.setFieldValue(
+                correctField,
+                moment(date).format('yyyy-MM-DD')
+              )
+            }}
+            onCalendarClose={() =>
+              onSave(
+                correctField,
+                information?.validationRule,
+                information?.message
+              )
             }
-            onSave(
-              correctField,
-              information?.validationRule,
-              information?.message
-            )
-            onEndEdit(correctField)
-          }}
-        />
+            customInput={
+              <DateCustomInput variant="outlined" label={information.title} />
+            }
+          />
+        )}
         <Grid container alignItems="center" justifyContent="center">
           {editingState[correctField] ? (
             <>

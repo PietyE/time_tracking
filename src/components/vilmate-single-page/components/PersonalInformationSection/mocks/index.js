@@ -12,7 +12,7 @@ const phoneRegExp =
 
 const slackValidationRegExp = /^[@]{1}/
 
-const dateValidationRegExp = /^\d{2}-\d{2}-\d{4}$/
+const dateValidationRegExp = /^\d{4}-\d{2}-\d{2}$/
 
 export const personalInformation = [
   {
@@ -39,9 +39,9 @@ export const personalInformation = [
   {
     icon: <Calendar />,
     title: 'Date of birth',
-    text: '01.01.2001',
+    text: '2010-01-01',
     validationRule: dateValidationRegExp,
-    message: 'Format should be DD-MM-YYYY',
+    message: 'Format should be YYYY-MM-DD',
   },
 ]
 

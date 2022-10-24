@@ -101,7 +101,9 @@ export const VilmateSinglePage = () => {
       ) : (
         <>
           <Box className={styles.go_back}>
-            <Back /> <Link to="/vilmates">Back to people list</Link>
+            <Link to="/vilmates">
+              <Back /> Back to people list
+            </Link>
           </Box>
           {isUserFound}
         </>
