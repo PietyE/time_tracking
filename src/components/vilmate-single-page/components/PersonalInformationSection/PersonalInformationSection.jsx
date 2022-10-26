@@ -165,9 +165,9 @@ export const PersonalInformationSection = ({
     <RightSessionContainer title="Personal information">
       <Box className={styles.information}>
         <List className={styles.list}>{renderListItems}</List>
-        <Divider />
+        {/*<Divider />*/}
       </Box>
-      <AboutInformation />
+      {/*<AboutInformation />*/}
     </RightSessionContainer>
   )
 }

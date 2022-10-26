@@ -1,7 +1,7 @@
 @import "src/styles/commonStyles";
 
 .information {
-  margin-bottom: 35px;
+  //margin-bottom: 35px;
 }
 
 .list {
@@ -49,10 +49,14 @@
           border-radius: 50%;
           color: $mainBlackColor;
         }
-        &--selected, &.react-datepicker__day--keyboard-selected {
+        &--selected {
           background: $mainGreenColor;
           border-radius: 50%;
           color: $whiteColor;
+        }
+        &.react-datepicker__day--keyboard-selected {
+          background: inherit;
+          color: inherit;
         }
       }
     & .react-datepicker__header {

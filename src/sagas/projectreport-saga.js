@@ -219,7 +219,7 @@ function* getUsersHoursAuthUrl() {
     yield put(
       showAlert({
         type: SUCCES_ALERT,
-        message: 'Authentication URL have been successfully getting',
+        message: 'Authentication URL have been successfully received',
         delay: 5000,
       })
     )
