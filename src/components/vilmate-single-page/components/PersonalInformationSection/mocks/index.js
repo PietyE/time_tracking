@@ -3,48 +3,57 @@ import { ReactComponent as Email } from 'images/personalInfo/Email.svg'
 import { ReactComponent as Phone } from 'images/personalInfo/Phone.svg'
 import { ReactComponent as Slack } from 'images/personalInfo/Slack.svg'
 import { ReactComponent as Calendar } from 'images/personalInfo/calendar.svg'
-import * as Yup from 'yup'
+import moment from 'moment'
+
+const emailRegExp =
+  /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
 const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  /^[\\+]?[(]?[0-9]{3}[)]?[-\s\\.]?[0-9]{3}[-\s\\.]?[0-9]{4,6}$/im
+
+const slackValidationRegExp = /^[@]{1}/
+
+const dateValidationRegExp = /^\d{4}-\d{2}-\d{2}$/
+
+const defaultDate = new Date()
 
 export const personalInformation = [
   {
     icon: <Email />,
     title: 'Email',
     text: 'youremail@vilmate.com',
-    validationSchema: Yup.string().email('Invalid email format'),
+    validationRule: emailRegExp,
+    message: 'Format should be youremail@vilmate.com',
   },
   {
     icon: <Phone />,
     title: 'Phone',
     text: '+380998768888',
-    validationSchema: Yup.string().matches(
-      phoneRegExp,
-      'Phone number is not valid'
-    ),
+    validationRule: phoneRegExp,
+    message: 'Format should be +380991111111 or 991111111',
   },
   {
     icon: <Slack />,
     title: 'Slack',
     text: '@YourUserName',
-    validationSchema: Yup.string(),
+    validationRule: slackValidationRegExp,
+    message: 'Format should be @YourUserName',
   },
   {
     icon: <Calendar />,
     title: 'Date of birth',
-    text: '01.01.2001',
-    validationSchema: Yup.date(),
+    text: moment(defaultDate).format('yyyy-MM-DD'),
+    validationRule: dateValidationRegExp,
+    message: 'Format should be YYYY-MM-DD',
   },
 ]
 
 export const toCorrectFormCase = (string) =>
-  string.toLowerCase().split(' ').join('_')
+  string?.toLowerCase().split(' ').join('_')
 
 export const updateInformation = (currentUser, personalInformation) =>
-  personalInformation.reduce((information, nextInformationSource) => {
+  personalInformation?.reduce((information, nextInformationSource) => {
     const fieldName = toCorrectFormCase(nextInformationSource.title)
-
     return [
       ...information,
       {
@@ -55,7 +64,7 @@ export const updateInformation = (currentUser, personalInformation) =>
   }, [])
 
 export const createInputField = (userInformation) =>
-  userInformation.reduce(
+  userInformation?.reduce(
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: nextField.text,
@@ -64,19 +73,10 @@ export const createInputField = (userInformation) =>
   )
 
 export const createInputEditingMode = (userInformation) =>
-  userInformation.reduce(
+  userInformation?.reduce(
     (fields, nextField) => ({
       ...fields,
       [toCorrectFormCase(nextField.title)]: false,
-    }),
-    {}
-  )
-
-export const createValidationSchema = (userInformation) =>
-  userInformation.reduce(
-    (fields, nextField) => ({
-      ...fields,
-      [toCorrectFormCase(nextField.title)]: userInformation?.validationSchema,
     }),
     {}
   )
