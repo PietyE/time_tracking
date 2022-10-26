@@ -161,4 +161,9 @@ export const userPermissions = {
   users_view_salary: 'users.view_salary',
   users_delete_commenthistory: 'users.delete_commenthistory',
   sessions_view_session: 'sessions.view_session',
+  users_can_view_syncdrive: 'users.can_view_syncdrive',
+  users_can_view_timereport: 'users.can_view_timereport',
+  users_can_view_projectreport: 'users.can_view_projectreport',
+  users_can_view_projectmanagement: 'users.can_view_projectmanagement',
+  users_can_view_vilmates: 'users.can_view_vilmates',
 }
