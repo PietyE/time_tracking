@@ -252,32 +252,37 @@ const ProjectManagementComponent = () => {
         <div className="container ">
           <div className="row  container__selects">
             <div className="container__selects-progects__fields">
-              <Select
-                title="Search by PM or developer"
-                listItems={projectManagerSelectList}
-                onSelected={onSelectPm}
-                valueKey="name"
-                idKey="id"
-                extraClassContainer={' search search-manger'}
-                initialChoice={selectedPm || currentPm}
-                isSearch
-              />
-              {permissions?.includes(
-                userPermissions.projects_change_project
-              ) && (
+              {permissions?.includes(userPermissions.users_view_user) && (
                 <Select
-                  title={'Choose project'}
-                  listItems={projectList}
-                  onSelected={onSelectProject}
+                  title="Search by PM or developer"
+                  listItems={projectManagerSelectList}
+                  onSelected={onSelectPm}
                   valueKey="name"
                   idKey="id"
-                  extraClassContainer={'project_select project_select'}
-                  // onClear={clearSelectedProject}
-                  disabled={!projects?.length}
-                  initialChoice={selectedProject}
+                  extraClassContainer={' search search-manger'}
+                  initialChoice={selectedPm || currentPm}
                   isSearch
                 />
               )}
+              {permissions?.includes(
+                userPermissions.projects_view_developerproject
+              ) &&
+                permissions?.includes(
+                  userPermissions.projects_view_project
+                ) && (
+                  <Select
+                    title={'Choose project'}
+                    listItems={projectList}
+                    onSelected={onSelectProject}
+                    valueKey="name"
+                    idKey="id"
+                    extraClassContainer={'project_select project_select'}
+                    // onClear={clearSelectedProject}
+                    disabled={!projects?.length}
+                    initialChoice={selectedProject}
+                    isSearch
+                  />
+                )}
             </div>
             <SelectMonth
               onChange={_changeSelectedDateProjectsManagement}

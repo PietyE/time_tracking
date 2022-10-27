@@ -137,7 +137,7 @@ function TeamM({
         {hovers && <div className="estimate-hours">{hovers}</div>}
         <div className="trash-cont">
           {permissions?.includes(
-            userPermissions.projects_delete_developerproject
+            userPermissions.projects_change_developerproject
           ) && (
             <div
               className="control_btn"

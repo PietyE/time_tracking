@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from '../../../../selectors/user'
+import { userPermissions } from '../../../../constants/permissions'
 
 function InfoItemM({
   icon,
@@ -11,6 +14,7 @@ function InfoItemM({
   isSearching = false,
 }) {
   const [isEdit, setEdit] = useState(false)
+  const permissions = useShallowEqualSelector(getUserPermissions)
 
   useEffect(() => {
     setEdit(false)
@@ -45,7 +49,9 @@ function InfoItemM({
           />
           <span className="info_text">{title}</span>
         </div>
-        {!isEdit || !editValue ? (
+        {!permissions?.includes(userPermissions.projects_change_project) ||
+        !isEdit ||
+        !editValue ? (
           <span
             id="Non Edit Data"
             className={`info_data ${placeholderClassName}`}

@@ -47,7 +47,7 @@ function WindowInfo({
                   {showHintExport && <HintWindow text={'Export'} />}
                 </div>
                 {permissions?.includes(
-                  userPermissions.projects_delete_project
+                  userPermissions.projects_change_project
                 ) && (
                   <div
                     className="control_btn archive-modal"

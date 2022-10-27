@@ -1,7 +1,7 @@
 import { Box, Button, Paper, Typography } from '@material-ui/core'
 import {
   vilmatesPageChangeUserOnProjectRequest,
-  vilmatesPageGetDeveloperProjectsListRequest
+  vilmatesPageGetDeveloperProjectsListRequest,
 } from 'actions/vilmates-page'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as PlusIcon } from 'images/plus-icon.svg'
@@ -12,11 +12,14 @@ import { RightSessionContainer } from '../RightSessionsContainer'
 import { CreateProjectListItemForm } from './components/CreateProjectListItemForm'
 import { ProjectsList } from './components/ProjectsList'
 import styles from './ProjectsSection.module.scss'
+import { getUserPermissions } from '../../../../selectors/user'
+import { userPermissions } from '../../../../constants/permissions'
 
 export const ProjectsSection = ({ selectedUserId, projects }) => {
   const dispatch = useDispatch()
   const users = useEqualSelector(getUsersSelector)
   const [isFormShown, setIsFormShown] = useState(false)
+  const permissions = useEqualSelector(getUserPermissions)
 
   useEffect(() => {
     dispatch(vilmatesPageGetDeveloperProjectsListRequest(selectedUserId))
@@ -73,18 +76,20 @@ export const ProjectsSection = ({ selectedUserId, projects }) => {
           developerProjects={projects}
         />
       )}
-      <Box className={styles.buttonContainer}>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          startIcon={<PlusIcon />}
-          disabled={isFormShown}
-          onClick={showFormHandler}
-        >
-          Assign to project
-        </Button>
-      </Box>
+      {permissions?.includes(userPermissions.projects_add_developerproject) && (
+        <Box className={styles.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            startIcon={<PlusIcon />}
+            disabled={isFormShown}
+            onClick={showFormHandler}
+          >
+            Assign to project
+          </Button>
+        </Box>
+      )}
     </RightSessionContainer>
   )
 }

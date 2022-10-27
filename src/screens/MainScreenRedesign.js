@@ -5,8 +5,6 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { getDeveloperProjects, getProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
-// import ProjectsScreen from '../ProjectsScreen'
-// import ProfileScreen from "../ProfileScreen";
 import {
   getProfileEmail,
   getProfileId,
@@ -18,10 +16,6 @@ import {
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
 import { userPermissions } from 'constants/permissions'
-// import InHouseEmployees from 'components/in-house-employees'
-// import RemoteContractors from 'components/remote-contractors/RemoteContractors'
-// import PeopleScreen from "../PeopleScreen";
-// import TotalOverview from 'components/total-overview/TotalOverview'
 import SpinnerStyled from 'components/ui/spinner'
 import Layout from 'components/ui/layout'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
@@ -106,9 +100,10 @@ function MainScreenRedesign(props) {
   const accessForVilmates = permissions?.includes(
     userPermissions.users_can_view_vilmates
   )
-  const accessForSyncDrive = permissions?.includes(
-    userPermissions.users_can_view_syncdrive
-  )
+  const accessForSyncDrive =
+    permissions?.includes(userPermissions.users_can_view_syncdrive) &&
+    permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
+    permissions?.includes(userPermissions.users_add_user)
 
   return (
     <Layout>

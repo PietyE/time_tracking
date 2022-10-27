@@ -24,6 +24,9 @@ import { WARNING_ALERT } from 'constants/alert-constant'
 import { DateCustomInput } from './components/DateCustomInput'
 import 'react-datepicker/dist/react-datepicker.css'
 import styles from './PersonalInformationSection.module.scss'
+import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from '../../../../selectors/user'
+import { userPermissions } from '../../../../constants/permissions'
 
 export const PersonalInformationSection = ({
   fields,
@@ -38,6 +41,9 @@ export const PersonalInformationSection = ({
     initialValues: fields,
   })
   const dispatch = useDispatch()
+  const permissions = useShallowEqualSelector(getUserPermissions)
+
+  const canEditInfo = permissions?.includes(userPermissions.users_change_user)
 
   const onStartEdit = (correctField) =>
     setIsEditingState({ ...editingState, [correctField]: true })
@@ -95,6 +101,7 @@ export const PersonalInformationSection = ({
             onChange={formik.handleChange}
             onFocus={() => onStartEdit(correctField)}
             error={errorsState[correctField]}
+            disabled={!canEditInfo}
             onBlur={(event) => {
               if (event?.relatedTarget?.id === `button-close-${correctField}`) {
                 onClose(event, correctField)
@@ -111,6 +118,7 @@ export const PersonalInformationSection = ({
         ) : (
           <DatePicker
             dateFormat="yyyy-MM-dd"
+            disabled={!canEditInfo}
             selected={new Date(formik.values[correctField])}
             maxDate={moment().toDate()}
             onChange={(date) => {
@@ -127,7 +135,11 @@ export const PersonalInformationSection = ({
               )
             }
             customInput={
-              <DateCustomInput variant="outlined" label={information.title} />
+              <DateCustomInput
+                variant="outlined"
+                label={information.title}
+                disabled={canEditInfo}
+              />
             }
           />
         )}

@@ -11,9 +11,9 @@ import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { getRoleUser, getUserPermissions } from 'selectors/user'
+import { getProfileId, getRoleUser, getUserPermissions } from 'selectors/user'
 import {
   getSelectedUser,
   getSelectedUserDeveloperProjects,
@@ -42,6 +42,8 @@ export const VilmateSinglePage = () => {
   const role = useEqualSelector(getRoleUser)
   const permissions = useEqualSelector(getUserPermissions)
   const isUserLoading = useEqualSelector(isSelectedUserLoading)
+  const currentUserId = useEqualSelector(getProfileId)
+  const history = useHistory()
 
   const {
     fields,
@@ -52,6 +54,13 @@ export const VilmateSinglePage = () => {
     errorsState,
     setErrorsState,
   } = usePersonalInformation(user, isUserUpdated, setIsUserUpdated)
+
+  useEffect(() => {
+    if (!permissions?.includes(userPermissions.users_view_user)) {
+      if (selectedUserId === currentUserId) return
+      else history.push('/vilmates')
+    }
+  }, [selectedUserId])
 
   useEffect(() => {
     dispatch(vilmatesPageGetDeveloperProjectsListRequest(selectedUserId))
