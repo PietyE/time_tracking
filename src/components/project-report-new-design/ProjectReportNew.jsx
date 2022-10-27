@@ -24,7 +24,6 @@ function ProjectReportNew() {
   const selectedDate = useShallowEqualSelector(getSelectedDate)
   const roleUser = useShallowEqualSelector(getRoleUser)
   const permissions = useShallowEqualSelector(getUserPermissions)
-  //const permissions = useShallowEqualSelector(getUserPermissions)
   // eslint-disable-next-line no-unused-vars
   const [_, setOpenUserInfo] = useState(false)
   const [openComments, setOpenComments] = useState(false)
@@ -35,15 +34,17 @@ function ProjectReportNew() {
 
   useCheckStateAfterRedirect('google-sync-non-auth')
 
+  const isHaveAccessForAllProjects =
+    permissions?.includes(userPermissions.projects_view_developerproject) &&
+    permissions?.includes(userPermissions.users_view_user) &&
+    permissions?.includes(userPermissions.projects_view_project)
+
   const getDevelopersProject = useCallback(() => {
     dispatch(getDevelopersProjectInProjectReport())
   }, [dispatch])
 
   useEffect(() => {
-    if (
-      roleUser !== DEVELOPER ||
-      permissions?.includes(userPermissions.projects_view_developerproject)
-    ) {
+    if (roleUser !== DEVELOPER || isHaveAccessForAllProjects) {
       getDevelopersProject()
     }
   }, [getDevelopersProject, roleUser])
@@ -104,10 +105,7 @@ function ProjectReportNew() {
         <HeaderProjectReport name="Project report" />
         <div className="diw_row" />
         <div className="project_report_date">
-          {(roleUser !== DEVELOPER ||
-            permissions?.includes(
-              userPermissions.projects_view_developerproject
-            )) && (
+          {(roleUser !== DEVELOPER || isHaveAccessForAllProjects) && (
             <div className="block_select_elements">
               <SearchByDeveloper />
               <div className="row">

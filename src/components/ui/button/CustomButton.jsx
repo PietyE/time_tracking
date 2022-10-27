@@ -4,13 +4,22 @@ import { Button } from 'react-bootstrap'
 import './CustomButton.scss'
 
 export const CustomButton = (props) => {
-  const { variant, type, startIcon, onClick, children, className } = props
+  const {
+    variant,
+    type,
+    startIcon,
+    onClick,
+    children,
+    className,
+    disabled = false,
+  } = props
   return (
     <Button
       variant={variant}
       type={type}
       onClick={onClick}
       className={`custom-button ${variant} ${className}`}
+      disabled={disabled}
     >
       {startIcon}
       <p>{children}</p>

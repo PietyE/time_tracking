@@ -40,6 +40,13 @@ export const TimeReportMobile = ({
 }) => {
   const [isInputFocused, setIsInputFocused] = useState(false)
   const permissions = useShallowEqualSelector(getUserPermissions)
+
+  const isHaveAccessToViewAllWorkItems =
+    permissions?.includes(userPermissions.work_items_view_workitem) &&
+    permissions?.includes(userPermissions.users_view_user) &&
+    permissions?.includes(userPermissions.projects_view_project) &&
+    permissions?.includes(userPermissions.projects_view_developerproject)
+
   const isSelectedProjectChosen = useMemo(
     () => !!Object.entries(selectedProject).length,
     [selectedProject]
@@ -133,10 +140,7 @@ export const TimeReportMobile = ({
             onBlur={inputBlurHandler}
           />
 
-          {(roleUser !== DEVELOPER ||
-            permissions?.includes(
-              userPermissions.work_items_view_workitem
-            )) && (
+          {(roleUser !== DEVELOPER || isHaveAccessToViewAllWorkItems) && (
             <Autocomplete
               options={developersList}
               value={selectedDeveloper}

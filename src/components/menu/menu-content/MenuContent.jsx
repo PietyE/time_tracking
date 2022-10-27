@@ -17,6 +17,9 @@ import Logout from '../components/Logout'
 import SideBarMenu from '../components/SideBarMenu'
 import { userPermissions } from '../../../constants/permissions'
 
+// permissions?.includes(users_can_view_projectmanagement) proejctmanagement
+// permissions?.includes(userPermissions.users_can_view_vilmates) vilmates
+
 export const MenuContent = () => {
   const userName = useShallowEqualSelector(getProfileName)
   const showArrow = useShallowEqualSelector(getProfileShowSideMenuArrow)
@@ -24,14 +27,16 @@ export const MenuContent = () => {
   const permissions = useShallowEqualSelector(getUserPermissions)
 
   const panels = useMemo(() => {
-    const results = [
+    const tabs = []
+
+    tabs.push(
       {
         panelName: 'My work',
         panelId: '...',
         smallSize: true,
         items:
-          userRole !== 'Developer' ||
-          permissions?.includes(userPermissions.users_view_user)
+          permissions?.includes(userPermissions.users_can_view_vilmates) ||
+          userRole !== 'Developer'
             ? [
                 {
                   icon: clock,
@@ -67,14 +72,14 @@ export const MenuContent = () => {
             pathname: '/projectreport',
           },
         ],
-      },
-    ]
-    if (
-      userRole === 'Admin' ||
-      userRole === 'Project manager' ||
-      permissions?.includes(userPermissions.projects_view_project)
+      }
     )
-      results.push({
+    if (
+      permissions?.includes(userPermissions.users_can_view_projectmanagement) ||
+      userRole === 'Admin' ||
+      userRole === 'Project Management'
+    )
+      tabs.push({
         panelName: 'Management',
         panelId: '...',
         items: [
@@ -85,7 +90,7 @@ export const MenuContent = () => {
           },
         ],
       })
-    return results
+    return tabs
   }, [permissions, userRole])
 
   return (

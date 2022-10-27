@@ -5,8 +5,6 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { getDeveloperProjects, getProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
 import { DEVELOPER } from 'constants/role-constant'
-// import ProjectsScreen from '../ProjectsScreen'
-// import ProfileScreen from "../ProfileScreen";
 import {
   getProfileEmail,
   getProfileId,
@@ -18,16 +16,10 @@ import {
 import { getCurrenciesList, getRatesList } from 'actions/currency'
 import { getSelectedMonthSelector } from 'reducers/projects-report'
 import { userPermissions } from 'constants/permissions'
-// import InHouseEmployees from 'components/in-house-employees'
-// import RemoteContractors from 'components/remote-contractors/RemoteContractors'
-// import PeopleScreen from "../PeopleScreen";
-// import TotalOverview from 'components/total-overview/TotalOverview'
-import PmPrivateRoute from 'Routes/PmPrivatRoute'
 import SpinnerStyled from 'components/ui/spinner'
-import GoogleSyncPrivateRoot from 'Routes/GoogleSyncPrivateRoot'
 import Layout from 'components/ui/layout'
-import VIlmatesPrivateRoute from 'Routes/VIlmatesPrivateRoute'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import PrivateRoute from 'Routes/PrivateRoot'
 
 const TimeReportScreen = lazy(() => import('screens/TimeReportScreen'))
 
@@ -102,37 +94,47 @@ function MainScreenRedesign(props) {
     return <Redirect to="/auth" />
   }
 
+  const accessForProjectManagement = permissions?.includes(
+    userPermissions.users_can_view_projectmanagement
+  )
+  const accessForVilmates = permissions?.includes(
+    userPermissions.users_can_view_vilmates
+  )
+  const accessForSyncDrive =
+    permissions?.includes(userPermissions.users_can_view_syncdrive) &&
+    permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
+    permissions?.includes(userPermissions.users_add_user)
+
   return (
     <Layout>
       <Suspense fallback={<SpinnerStyled />}>
         <Switch>
-          <Route path="/projectreport" component={ProjectReportNew} exact />
-          {/* <Route path="/inhouseemployees" component={InHouseEmployees} exct /> */}
           <Route path="/timereport" component={TimeReportScreen} exact />
-          <VIlmatesPrivateRoute
-            path="/vilmates"
-            component={VilmatesScreen}
-            exact
-          />
-          <GoogleSyncPrivateRoot
+          <Route path="/projectreport" component={ProjectReportNew} exact />
+          <PrivateRoute
             path="/gsheets/auth-success"
             component={GoogleAuthSuccess}
+            isHavePermission={accessForSyncDrive}
             exact
           />
-          <VIlmatesPrivateRoute
-            path="/vilmates/user/:userId"
-            component={VilatesSinglePageScreen}
-            exact
-          />
-          {/* <Route path="/people" component={PeopleScreen}/>
-        <Route path="/profile" component={ProfileScreen} exct /> */}
-          {/* <Route path="/remotecontractors" component={RemoteContractors} exct /> */}
-          <PmPrivateRoute
+          <PrivateRoute
             path="/projectmanagement"
             component={ProjectManagementComponent}
+            isHavePermission={accessForProjectManagement}
             exact
           />
-          {/* <Route path="/totaloverview" component={TotalOverview} exct /> */}
+          <PrivateRoute
+            path="/vilmates"
+            component={VilmatesScreen}
+            isHavePermission={accessForVilmates}
+            exact
+          />
+          <PrivateRoute
+            path="/vilmates/user/:userId"
+            component={VilatesSinglePageScreen}
+            isHavePermission={accessForVilmates}
+            exact
+          />
           <Redirect from="/" to="/timereport" />
         </Switch>
       </Suspense>

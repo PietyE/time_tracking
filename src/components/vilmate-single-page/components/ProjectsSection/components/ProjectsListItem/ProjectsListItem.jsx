@@ -61,15 +61,19 @@ export const ProjectsListItem = ({
         <Typography className={styles.title} variant="h3">
           {title}
         </Typography>
-        <Box className={styles.icon}>
-          <IconButton
-            color="primary"
-            onClick={deleteProjectHandler}
-            disabled={isDeleteButtonDisabled}
-          >
-            <SvgIcon component={TrashGrayIc} />
-          </IconButton>
-        </Box>
+        {permissions?.includes(
+          userPermissions.projects_change_developerproject
+        ) && (
+          <Box className={styles.icon}>
+            <IconButton
+              color="primary"
+              onClick={deleteProjectHandler}
+              disabled={isDeleteButtonDisabled}
+            >
+              <SvgIcon component={TrashGrayIc} />
+            </IconButton>
+          </Box>
+        )}
       </Box>
 
       <Box className={styles.row}>

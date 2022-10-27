@@ -71,6 +71,12 @@ function TimeReport(props) {
   const todayDate = new Date()
   const { isMobile, isTablet } = useBreakpoints()
 
+  const isHaveAccessToViewAllWorkItems =
+    permissions?.includes(userPermissions.work_items_view_workitem) &&
+    permissions?.includes(userPermissions.users_view_user) &&
+    permissions?.includes(userPermissions.projects_view_project) &&
+    permissions?.includes(userPermissions.projects_view_developerproject)
+
   const getDaysInMonth = (date) =>
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
 
@@ -104,10 +110,7 @@ function TimeReport(props) {
     if (!isEmpty(selectedDeveloper)) {
       const { id } = selectedDeveloper
       dispatch(getDeveloperProjectsById(id))
-    } else if (
-      roleUser === DEVELOPER ||
-      !permissions?.includes(userPermissions.work_items_view_workitem)
-    ) {
+    } else if (roleUser === DEVELOPER || !isHaveAccessToViewAllWorkItems) {
       dispatch(getDeveloperProjectsById(developerId))
     }
   }, [
@@ -143,7 +146,7 @@ function TimeReport(props) {
 
       if (
         roleUser !== DEVELOPER ||
-        permissions?.includes(userPermissions.work_items_view_workitem)
+        permissions?.includes(isHaveAccessToViewAllWorkItems)
       ) {
         const developerData = developersList.find(
           (dev) => dev.id === route_user_id

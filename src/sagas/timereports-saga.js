@@ -33,12 +33,15 @@ import { userPermissions } from 'constants/permissions'
 export function* getDeveloperProjects({ projectIdForSelect = null }) {
   const { role, permissions } = yield select((state) => state.profile)
 
+  const isHaveAccessToViewAllWorkItems =
+    permissions?.includes(userPermissions.work_items_view_workitem) &&
+    permissions?.includes(userPermissions.users_view_user) &&
+    permissions?.includes(userPermissions.projects_view_project) &&
+    permissions?.includes(userPermissions.projects_view_developerproject)
+
   let URL_DEVELOPER_PROJECT = 'developer-projects/'
 
-  if (
-    role !== DEVELOPER ||
-    permissions?.includes(userPermissions.work_items_view_workitem)
-  ) {
+  if (role !== DEVELOPER || isHaveAccessToViewAllWorkItems) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
   }
@@ -51,10 +54,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
   }))
 
   yield put(setDeveloperProjects(restructureData))
-  if (
-    role !== DEVELOPER ||
-    permissions?.includes(userPermissions.work_items_view_workitem)
-  ) {
+  if (role !== DEVELOPER || isHaveAccessToViewAllWorkItems) {
     yield call(getDevelopers)
     if (projectIdForSelect) {
       const { developerProjects } = yield select((state) => state)
