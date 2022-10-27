@@ -17,8 +17,6 @@ import Logout from '../components/Logout'
 import SideBarMenu from '../components/SideBarMenu'
 import { userPermissions } from '../../../constants/permissions'
 
-// permissions?.includes(userPermissions.users_can_view_timereport) timereport
-// permissions?.includes(userPermissions.users_can_view_projectreport) projectreport
 // permissions?.includes(users_can_view_projectmanagement) proejctmanagement
 // permissions?.includes(userPermissions.users_can_view_vilmates) vilmates
 
@@ -29,42 +27,40 @@ export const MenuContent = () => {
   const permissions = useShallowEqualSelector(getUserPermissions)
 
   const panels = useMemo(() => {
-    //panels result
     const tabs = []
 
-    //work tab result
-    const getMyWorkTabs = () => {
-      const tabs = []
-      if (permissions?.includes(userPermissions.users_can_view_timereport))
-        tabs.push({
-          icon: clock,
-          label: 'Time report',
-          smallSize: true,
-          pathname: '/timereport',
-        })
-      if (permissions?.includes(userPermissions.users_can_view_vilmates))
-        tabs.push({
-          icon: vilmates,
-          label: 'Vilmates',
-          smallSize: true,
-          pathname: '/vilmates',
-        })
-      return tabs
-    }
-
-    //get my work tab result
-    const myWorkTabs = getMyWorkTabs()
-
-    //renderTabs  into panel
-    if (myWorkTabs.length)
-      tabs.push({
+    tabs.push(
+      {
         panelName: 'My work',
         panelId: '...',
         smallSize: true,
-        items: myWorkTabs,
-      })
-    if (permissions?.includes(userPermissions.users_can_view_projectreport))
-      tabs.push({
+        items:
+          permissions?.includes(userPermissions.users_can_view_vilmates) ||
+          userRole !== 'Developer'
+            ? [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  smallSize: true,
+                  pathname: '/vilmates',
+                },
+              ]
+            : [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+              ],
+      },
+      {
         panelName: 'Accounting',
         panelId: '...',
         smallSize: true,
@@ -76,8 +72,13 @@ export const MenuContent = () => {
             pathname: '/projectreport',
           },
         ],
-      })
-    if (permissions?.includes(userPermissions.users_can_view_projectmanagement))
+      }
+    )
+    if (
+      permissions?.includes(userPermissions.users_can_view_projectmanagement) ||
+      userRole === 'Admin' ||
+      userRole === 'Project Management'
+    )
       tabs.push({
         panelName: 'Management',
         panelId: '...',
@@ -90,7 +91,7 @@ export const MenuContent = () => {
         ],
       })
     return tabs
-  }, [permissions])
+  }, [permissions, userRole])
 
   return (
     <div className="side_menu_container-wrapper">
