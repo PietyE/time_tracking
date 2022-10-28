@@ -23,10 +23,10 @@ import { showAlert } from 'actions/alert'
 import { WARNING_ALERT } from 'constants/alert-constant'
 import { DateCustomInput } from './components/DateCustomInput'
 import 'react-datepicker/dist/react-datepicker.css'
-import styles from './PersonalInformationSection.module.scss'
 import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
 import { getUserPermissions } from '../../../../selectors/user'
 import { userPermissions } from '../../../../constants/permissions'
+import styles from './PersonalInformationSection.module.scss'
 
 export const PersonalInformationSection = ({
   fields,
@@ -102,6 +102,7 @@ export const PersonalInformationSection = ({
             onFocus={() => onStartEdit(correctField)}
             error={errorsState[correctField]}
             disabled={!canEditInfo}
+            autoComplete="off"
             onBlur={(event) => {
               if (event?.relatedTarget?.id === `button-close-${correctField}`) {
                 onClose(event, correctField)
@@ -143,7 +144,12 @@ export const PersonalInformationSection = ({
             }
           />
         )}
-        <Grid container alignItems="center" justifyContent="center">
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="flex-start"
+          direction="column"
+        >
           {editingState[correctField] ? (
             <>
               <Grid item>

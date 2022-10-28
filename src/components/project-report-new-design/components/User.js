@@ -1,8 +1,6 @@
 import React, { useMemo, useEffect, useState, useContext } from 'react'
-
 import clock from 'images/sideMenuIcons/clock.svg'
 import upArrow from 'images/sideMenuIcons/upArrow.svg'
-
 import { getSelectedMonthSelector } from 'reducers/projects-report'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
