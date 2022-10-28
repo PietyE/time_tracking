@@ -15,7 +15,7 @@
   padding: 0;
   margin-bottom: 25px;
   &:nth-child(even) {
-    padding-left: 12px;
+    flex: 1 1 40%;
   }
   & :global .MuiGrid-container .MuiGrid-item svg {
     display: none;
@@ -85,7 +85,7 @@
 }
 
 .information_textField {
-  flex: 1 1 500px;
+  flex: 1 1 1000px;
   & :global .MuiOutlinedInput-root {
     cursor: pointer;
     input {
@@ -114,10 +114,5 @@
     background: #eaeaea;
   }
   min-width: auto;
-  padding: 5px;
-  border-radius: 25px;
-}
-
-.save {
-  margin-right: 5px;
+  padding: 0;
 }

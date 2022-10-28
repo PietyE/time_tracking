@@ -122,8 +122,6 @@ function* logIn({ payload: googleData }) {
         imageUrl: googleData.profileObj.imageUrl,
       }
 
-      console.log(userObjforState)
-
       yield put(setUsersOauthData(userObjforState))
       yield put(setAuthStatus(true))
       yield put(clearPmPageState())
