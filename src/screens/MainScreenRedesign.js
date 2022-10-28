@@ -94,16 +94,22 @@ function MainScreenRedesign(props) {
     return <Redirect to="/auth" />
   }
 
-  const accessForProjectManagement = permissions?.includes(
-    userPermissions.users_can_view_projectmanagement
-  )
-  const accessForVilmates = permissions?.includes(
-    userPermissions.users_can_view_vilmates
-  )
+  const accessForProjectManagement =
+    permissions?.includes(userPermissions.users_can_view_projectmanagement) ||
+    roleUser === 4 ||
+    roleUser === 3
+
+  const accessForVilmates =
+    permissions?.includes(userPermissions.users_can_view_vilmates) ||
+    roleUser === 5 ||
+    roleUser === 3
+
   const accessForSyncDrive =
-    permissions?.includes(userPermissions.users_can_view_syncdrive) &&
-    permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
-    permissions?.includes(userPermissions.users_add_user)
+    (permissions?.includes(userPermissions.users_can_view_syncdrive) &&
+      permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
+      permissions?.includes(userPermissions.users_add_user)) ||
+    roleUser === 2 ||
+    roleUser === 3
 
   return (
     <Layout>

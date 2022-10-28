@@ -33,29 +33,32 @@ export const MenuContent = () => {
         panelName: 'My work',
         panelId: '...',
         smallSize: true,
-        items: permissions?.includes(userPermissions.users_can_view_vilmates)
-          ? [
-              {
-                icon: clock,
-                label: 'Time report',
-                smallSize: true,
-                pathname: '/timereport',
-              },
-              {
-                icon: vilmates,
-                label: 'Vilmates',
-                smallSize: true,
-                pathname: '/vilmates',
-              },
-            ]
-          : [
-              {
-                icon: clock,
-                label: 'Time report',
-                smallSize: true,
-                pathname: '/timereport',
-              },
-            ],
+        items:
+          permissions?.includes(userPermissions.users_can_view_vilmates) ||
+          userRole === 'HR' ||
+          userRole === 'Admin'
+            ? [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+                {
+                  icon: vilmates,
+                  label: 'Vilmates',
+                  smallSize: true,
+                  pathname: '/vilmates',
+                },
+              ]
+            : [
+                {
+                  icon: clock,
+                  label: 'Time report',
+                  smallSize: true,
+                  pathname: '/timereport',
+                },
+              ],
       },
       {
         panelName: 'Accounting',
@@ -71,7 +74,11 @@ export const MenuContent = () => {
         ],
       }
     )
-    if (permissions?.includes(userPermissions.users_can_view_projectmanagement))
+    if (
+      permissions?.includes(userPermissions.users_can_view_projectmanagement) ||
+      userRole === 'Admin' ||
+      userRole === 'Project Manager'
+    )
       tabs.push({
         panelName: 'Management',
         panelId: '...',
@@ -84,7 +91,7 @@ export const MenuContent = () => {
         ],
       })
     return tabs
-  }, [permissions])
+  }, [permissions, userRole])
 
   return (
     <div className="side_menu_container-wrapper">
