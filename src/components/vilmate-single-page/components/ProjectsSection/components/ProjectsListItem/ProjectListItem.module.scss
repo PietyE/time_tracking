@@ -36,14 +36,6 @@
   display: flex;
   justify-content: right;
   align-items: flex-start;
-
-  & :global .MuiIconButton-label:hover path {
-    fill: $mainGreenColor;
-  }
-
-  & :global .MuiIconButton-root {
-    padding: 0;
-  }
 }
 
 .title {

@@ -1,8 +1,9 @@
 @import 'styles/commonStyles.scss';
 
 .container {
-  margin-top: 24px;
-  padding: 16px;
+  padding: 24px;
+  margin-top: 4px;
+  width: 100%;
   border: 1px solid $mainGreenColor;
   border-radius: 6px;
 }

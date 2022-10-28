@@ -1,4 +1,5 @@
-import { Box, Button, Paper, Typography } from '@material-ui/core'
+import { Box, Button, IconButton, Typography } from '@material-ui/core'
+import ClearIcon from '@material-ui/icons/Clear'
 import {
   vilmatesPageChangeUserOnProjectRequest,
   vilmatesPageGetDeveloperProjectsListRequest,
@@ -58,7 +59,7 @@ export const ProjectsSection = ({ selectedUserId, projects }) => {
   }
 
   return (
-    <RightSessionContainer title="Works on" isHaveScroll={true} height="408px">
+    <RightSessionContainer title="Works on" isHaveScroll={true}>
       {projects.length ? (
         <ProjectsList
           users={users}
@@ -70,11 +71,16 @@ export const ProjectsSection = ({ selectedUserId, projects }) => {
         <Typography>No projects yet</Typography>
       )}
       {isFormShown && (
-        <CreateProjectListItemForm
-          userId={selectedUserId}
-          hideForm={hideFormHandler}
-          developerProjects={projects}
-        />
+        <Box className={styles.formContainer}>
+          <IconButton disableRipple onClick={hideFormHandler}>
+            <ClearIcon />
+          </IconButton>
+          <CreateProjectListItemForm
+            userId={selectedUserId}
+            hideForm={hideFormHandler}
+            developerProjects={projects}
+          />
+        </Box>
       )}
       {permissions?.includes(userPermissions.projects_add_developerproject) && (
         <Box className={styles.buttonContainer}>

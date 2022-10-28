@@ -182,6 +182,19 @@ export const theme = createTheme(basicTheme, {
         backgroundColor: 'transparent',
       },
     },
+    MuiIconButton: {
+      root: {
+        padding: '0',
+        '&:hover': {
+          backgroundColor: 'transparent',
+        },
+      },
+      label: {
+        '&:hover path': {
+          fill: basicTheme.palette.primary.main
+        }
+      }
+    },
   },
   props: {
     MuiButtonBase: {
