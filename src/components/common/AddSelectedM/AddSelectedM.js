@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './style.scss'
 import Search from 'components/ui/search/Search'
 import CheckItem from './component/CheckItem'
+import { Typography } from '@material-ui/core'
 
 function AddSelectedM({
   teamM,
@@ -37,6 +38,13 @@ function AddSelectedM({
       }
       return
     })
+
+  const renderUsers = teamMList.length ? (
+    teamMList
+  ) : (
+    <Typography>User not found</Typography>
+  )
+
   return (
     <div>
       <div
@@ -47,7 +55,7 @@ function AddSelectedM({
         }
       >
         <Search setSearchTerm={setSearchTerm} />
-        <div className="check-items-box">{teamMList}</div>
+        <div className="check-items-box">{renderUsers}</div>
         <div className="btn-cont">
           <div className="d-flex justify-content-center">
             <button className="btn btn-add" onClick={addSelected}>
