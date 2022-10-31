@@ -38,7 +38,7 @@ export const Textarea = ({
   }
 
   const handleKeyUp = () => {
-    if (value.length < maxLength) {
+    if (value.length === maxLength - 1) {
       setMaxLengthHelperText(' ')
       setMaxLengthError(false)
     }
@@ -65,11 +65,11 @@ export const Textarea = ({
       inputProps={{
         maxLength: maxLength,
       }}
-      error={maxLengthError || error}
+      error={value && maxLengthError}
       autoFocus={autoFocus}
       classes={classes}
       disabled={disabled}
-      helperText={maxLengthHelperText}
+      helperText={value && maxLengthHelperText}
       {...rest}
     />
   )
