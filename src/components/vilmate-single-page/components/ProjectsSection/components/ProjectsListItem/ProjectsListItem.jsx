@@ -63,17 +63,18 @@ export const ProjectsListItem = ({
         </Typography>
         {permissions?.includes(
           userPermissions.projects_change_developerproject
-        ) && (
-          <Box className={styles.icon}>
-            <IconButton
-              color="primary"
-              onClick={deleteProjectHandler}
-              disabled={isDeleteButtonDisabled}
-            >
-              <SvgIcon component={TrashGrayIc} />
-            </IconButton>
-          </Box>
-        )}
+        ) &&
+          owner && (
+            <Box className={styles.icon}>
+              <IconButton
+                color="primary"
+                onClick={deleteProjectHandler}
+                disabled={isDeleteButtonDisabled}
+              >
+                <SvgIcon component={TrashGrayIc} />
+              </IconButton>
+            </Box>
+          )}
       </Box>
 
       <Box className={styles.row}>
@@ -82,22 +83,23 @@ export const ProjectsListItem = ({
         </Typography>
         {permissions?.includes(
           userPermissions.projects_change_developerproject
-        ) && (
-          <Box
-            onMouseEnter={hoverOccupationHandler}
-            onMouseLeave={blurOccupationHandler}
-            className={styles.occupation}
-          >
-            {isOccupationHovered ? (
-              <DeveloperOccupationRadioGroup
-                onChange={occupationChangeHandler}
-                isFullTime={isFullTime}
-              />
-            ) : (
-              <Typography variant="body1">{occupationLabel}</Typography>
-            )}
-          </Box>
-        )}
+        ) &&
+          owner && (
+            <Box
+              onMouseEnter={hoverOccupationHandler}
+              onMouseLeave={blurOccupationHandler}
+              className={styles.occupation}
+            >
+              {isOccupationHovered ? (
+                <DeveloperOccupationRadioGroup
+                  onChange={occupationChangeHandler}
+                  isFullTime={isFullTime}
+                />
+              ) : (
+                <Typography variant="body1">{occupationLabel}</Typography>
+              )}
+            </Box>
+          )}
       </Box>
     </ListItem>
   )
