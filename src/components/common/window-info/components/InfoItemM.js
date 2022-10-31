@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import useShallowEqualSelector from '../../../../custom-hook/useShallowEqualSelector'
-import { getUserPermissions } from '../../../../selectors/user'
-import { userPermissions } from '../../../../constants/permissions'
-
+import { useDispatch } from 'react-redux'
+import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
+import { getUserPermissions } from 'selectors/user'
+import { userPermissions } from 'constants/permissions'
+import { getAllProjects } from 'actions/projects-management'
 function InfoItemM({
   icon,
   title,
@@ -14,6 +15,7 @@ function InfoItemM({
   isSearching = false,
 }) {
   const [isEdit, setEdit] = useState(false)
+  const dispatch = useDispatch()
   const permissions = useShallowEqualSelector(getUserPermissions)
 
   useEffect(() => {
@@ -22,6 +24,7 @@ function InfoItemM({
 
   const handleBlur = () => {
     if (!isSearching) {
+      dispatch(getAllProjects())
       setEdit(false)
     }
   }
