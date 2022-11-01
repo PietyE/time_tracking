@@ -35,7 +35,6 @@ export const MenuContent = () => {
         smallSize: true,
         items:
           permissions?.includes(userPermissions.users_can_view_vilmates) ||
-          userRole === 'HR' ||
           userRole === 'Admin'
             ? [
                 {

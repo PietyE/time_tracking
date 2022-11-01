@@ -6,7 +6,7 @@ import {
 import { PageHeader } from 'components/common/PageHeader'
 import { Container } from 'components/ui/container'
 import SpinnerStyled from 'components/ui/spinner'
-import { ADMIN, HR } from 'constants/role-constant'
+import { ADMIN } from 'constants/role-constant'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
 import React, { useEffect, useState } from 'react'
@@ -70,7 +70,6 @@ export const VilmateSinglePage = () => {
     isUserLoading || user.id !== selectedUserId || !developerProjects
 
   const isCommentsVisible =
-    role === HR ||
     role === ADMIN ||
     permissions?.includes(userPermissions.vilmate_comments_view_vilmatecomment)
 

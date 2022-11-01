@@ -101,7 +101,6 @@ function MainScreenRedesign(props) {
 
   const accessForVilmates =
     permissions?.includes(userPermissions.users_can_view_vilmates) ||
-    roleUser === 5 ||
     roleUser === 3
 
   const accessForSyncDrive =
