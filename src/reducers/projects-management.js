@@ -114,16 +114,6 @@ export const getProjectManagerListSelector = (state) => {
   )
 }
 
-export const getDeveloperSelector = (state) => {
-  const users = getUsersSelector(state)
-  const permissions = getUserPermissions(state)
-  //todo: ask
-  return users.filter(
-    (user) =>
-      user.role === 1 ||
-      permissions?.includes(userPermissions.projects_view_developerproject)
-  )
-}
 ///////////////////////////////////////////////////////
 
 export const getSelectedMonthForPMSelector = (state) =>
@@ -170,56 +160,4 @@ export const getCurrentProjectSelector = (state) => {
 export const getProjectName = (state) => {
   const currentProject = getCurrentProjectSelector(state)
   return currentProject?.name
-}
-///////////////////////////////////////////////////////
-export const getProjectActiveUsersSelector = (state) => {
-  const projectId = getSelectedProjectIdSelector(state)
-  const reports = getProjectsWithReportSelector(state)
-  const currentProjectReports = reports.find(
-    (rep) => rep.projectId === projectId
-  )
-  return currentProjectReports?.users?.map((report) => ({
-    user_id: report.userId,
-    name: report.userName,
-    is_full_time: report?.is_full_time,
-    is_active: report?.is_active,
-    projectReportId: report?.projectReportId,
-    is_project_manager: report?.is_project_manager,
-  }))
-}
-
-export const getActiveProjectManagerSelector = (state) => {
-  const projectActiveUsers = getProjectActiveUsersSelector(state)
-  const allProjectManagers = getProjectManagerListSelector(state)
-
-  if (projectActiveUsers) {
-    const managersIdArray = allProjectManagers.map((manager) => manager.id)
-    return projectActiveUsers.filter((user) =>
-      managersIdArray.includes(user.user_id)
-    )
-  }
-}
-
-export const getActivePmInCurrentProjectSelector = (state) => {
-  const activeUsers = getProjectActiveUsersSelector(state)
-
-  if (activeUsers) {
-    return activeUsers.find((user) => user.is_project_manager === true)
-  }
-}
-
-export const getActiveDevSelector = (state) => {
-  const activeUsers = getProjectActiveUsersSelector(state)
-  const activePm = getActiveProjectManagerSelector(state)
-  if (activeUsers) {
-    const pmIdArray = activePm.map((pm) => pm.user_id)
-    return activeUsers.filter((user) => !pmIdArray.includes(user.user_id))
-  }
-}
-
-export const getDeactivatedMembersSelector = (state) => {
-  const activeUsers = getProjectActiveUsersSelector(state)
-  if (activeUsers) {
-    return activeUsers.filter((user) => user.is_active === false)
-  }
 }

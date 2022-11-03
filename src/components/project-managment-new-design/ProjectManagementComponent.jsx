@@ -8,9 +8,9 @@ import {
   getIsShowCreateModalSelector,
   getIsShowCreateUserModalSelector,
   getIsShowEditModalSelector,
-  getProjectManagerListSelector,
   getSelectedPmSelector,
   getSelectedProjectSelector,
+  getUsersSelector,
 } from 'reducers/projects-management'
 import {
   clearPmProjects,
@@ -73,7 +73,8 @@ const ProjectManagementComponent = () => {
   let selectedPm = useEqualSelector(getSelectedPmSelector)
   let currentPm = useEqualSelector(getCurrentUserSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
-  const projectManagers = useEqualSelector(getProjectManagerListSelector)
+  //todo: 1
+  const projectManagers = useEqualSelector(getUsersSelector)
   const selectedProject = useEqualSelector(getSelectedProjectSelector)
   const filteredProjects = useEqualSelector(getFilteredProjectSelector)
   const permissions = useShallowEqualSelector(getUserPermissions)
