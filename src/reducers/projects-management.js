@@ -37,7 +37,6 @@ const initialState = {
     email: '',
     id: 'select-all',
     name: 'Choose PM',
-    role: null,
   },
   shownProject: null,
   currentOwner: '',
@@ -108,17 +107,11 @@ export const getUsersSelector = (state) => state.developers.developersList
 export const getProjectManagerListSelector = (state) => {
   const users = getUsersSelector(state)
   const permissions = getUserPermissions(state)
-  //todo: ask about it
   return users.filter(
     (user) =>
       user.role === 4 ||
       permissions?.includes(userPermissions.projects_view_project)
   )
-}
-
-export const getTeamMListSelector = (state) => {
-  const users = getUsersSelector(state)
-  return users.filter((user) => user.role !== 4)
 }
 
 export const getDeveloperSelector = (state) => {

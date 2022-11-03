@@ -6,14 +6,13 @@ import {
 import { PageHeader } from 'components/common/PageHeader'
 import { Container } from 'components/ui/container'
 import SpinnerStyled from 'components/ui/spinner'
-import { ADMIN } from 'constants/role-constant'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import { ReactComponent as Back } from 'images/vilmates/backArrow.svg'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import { getProfileId, getRoleUser, getUserPermissions } from 'selectors/user'
+import { getProfileId, getUserPermissions } from 'selectors/user'
 import {
   getSelectedUser,
   getSelectedUserDeveloperProjects,
@@ -39,7 +38,6 @@ export const VilmateSinglePage = () => {
     isUserUpdated
   )
   const developerProjects = useEqualSelector(getSelectedUserDeveloperProjects)
-  const role = useEqualSelector(getRoleUser)
   const permissions = useEqualSelector(getUserPermissions)
   const isUserLoading = useEqualSelector(isSelectedUserLoading)
   const currentUserId = useEqualSelector(getProfileId)
@@ -69,9 +67,9 @@ export const VilmateSinglePage = () => {
   const isLoading =
     isUserLoading || user.id !== selectedUserId || !developerProjects
 
-  const isCommentsVisible =
-    role === ADMIN ||
-    permissions?.includes(userPermissions.vilmate_comments_view_vilmatecomment)
+  const isCommentsVisible = permissions?.includes(
+    userPermissions.vilmate_comments_view_vilmatecomment
+  )
 
   const isUserFound = user ? (
     <Box style={{ display: 'flex' }}>

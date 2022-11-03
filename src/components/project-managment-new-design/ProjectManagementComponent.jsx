@@ -98,7 +98,6 @@ const ProjectManagementComponent = () => {
       email: '',
       id: 'select-all',
       name: 'Select All',
-      role: null,
     },
     ...projectManagers,
   ]

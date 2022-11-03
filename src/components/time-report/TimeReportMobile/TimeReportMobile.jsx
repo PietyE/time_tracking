@@ -2,7 +2,6 @@ import { Box, Button, Paper } from '@material-ui/core'
 import Autocomplete from 'components/ui/autocomplete'
 import SelectMonth from 'components/ui/select-month'
 import SliderSelect from 'components/ui/sliderSelect'
-import { DEVELOPER } from 'constants/role-constant'
 
 import React, { useMemo, useState, useEffect } from 'react'
 
@@ -23,7 +22,6 @@ import { userPermissions } from 'constants/permissions'
 export const TimeReportMobile = ({
   isFetchingReports,
   totalHours,
-  roleUser,
   developersList,
   selectedDeveloper,
   projects,
@@ -140,7 +138,7 @@ export const TimeReportMobile = ({
             onBlur={inputBlurHandler}
           />
 
-          {(roleUser !== DEVELOPER || isHaveAccessToViewAllWorkItems) && (
+          {isHaveAccessToViewAllWorkItems && (
             <Autocomplete
               options={developersList}
               value={selectedDeveloper}

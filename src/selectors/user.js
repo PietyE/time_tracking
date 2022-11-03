@@ -4,8 +4,6 @@ export const getUserAvatarUrlSelector = (state) => state.profile.imageUrl
 
 export const getUserAuthStatusSelector = (state) => state.profile.isAuth
 
-export const getRoleUser = (state) => state.profile.role
-
 export const getFetchingProfileStatus = (state) => state.profile.isFetchingUsers
 
 export const getProfileId = (state) => state.profile.id
@@ -32,27 +30,3 @@ export const getUserAuthStatus = createSelector(
 )
 
 export const getUserPermissions = (state) => state.profile?.permissions
-
-//todo: hr
-export const getUserRoleText = createSelector([getRoleUser], (roleNumber) => {
-  switch (roleNumber) {
-    case 1: {
-      return 'Developer'
-    }
-    case 2: {
-      return 'Accountant'
-    }
-    case 3: {
-      return 'Admin'
-    }
-    case 4: {
-      return 'Project manager'
-    }
-    case 5: {
-      return 'HR'
-    }
-    default: {
-      return 'NoRole'
-    }
-  }
-})

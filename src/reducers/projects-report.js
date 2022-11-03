@@ -33,13 +33,11 @@ const initialState = {
     email: '',
     id: '',
     name: 'All Projects',
-    role: null,
   },
   selectedDeveloper: {
     email: '',
     id: '',
     name: 'All Developers',
-    role: null,
   },
   isFetchingReports: false,
   developerProjectInProjectReport: [],
