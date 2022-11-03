@@ -1,7 +1,6 @@
 import React from 'react'
 import SelectMonth from 'components/ui/select-month'
 import DownloadIcon from 'components/ui/svg-components/download-icon'
-import { DEVELOPER } from 'constants/role-constant'
 import { parseMinToHoursAndMin } from 'utils/common'
 import Day from '../components/Day'
 import DeveloperSelect from '../components/DeveloperSelect'
@@ -17,7 +16,6 @@ import { getUserPermissions } from 'selectors/user'
 export const TimeReportDesktop = ({
   isFetchingReports,
   totalHours,
-  roleUser,
   developersList,
   selectedDeveloper,
   projects,
@@ -61,7 +59,7 @@ export const TimeReportDesktop = ({
         <div className="time_report_header"></div>
         <div className="time_report_header">
           <div className="time_report_header_select_section">
-            {(roleUser !== DEVELOPER || isHaveAccessToViewAllWorkItems) && (
+            {isHaveAccessToViewAllWorkItems && (
               <DeveloperSelect
                 developersList={developersList}
                 selectedDeveloper={selectedDeveloper}

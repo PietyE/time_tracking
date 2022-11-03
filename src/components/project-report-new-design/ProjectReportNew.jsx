@@ -8,9 +8,8 @@ import UsersInfo from './components/UsersInfo'
 import SpinnerStyled from 'components/ui/spinner'
 import SelectMonth from 'components/ui/select-month'
 import { getDevelopersProjectInProjectReport } from 'actions/projects-report'
-import { getRoleUser, getUserPermissions } from 'selectors/user'
+import { getUserPermissions } from 'selectors/user'
 import { getIsFetchingProjectsReport } from 'selectors/developer-projects'
-import { DEVELOPER } from 'constants/role-constant'
 import useShallowEqualSelector from 'custom-hook/useShallowEqualSelector'
 import { ProjectReportContext } from 'context/projectReport-context'
 import { useCheckStateAfterRedirect } from 'custom-hook/useCheckStateAfterRedirect'
@@ -22,7 +21,6 @@ import { userPermissions } from 'constants/permissions'
 function ProjectReportNew() {
   const isFetchingReports = useShallowEqualSelector(getIsFetchingProjectsReport)
   const selectedDate = useShallowEqualSelector(getSelectedDate)
-  const roleUser = useShallowEqualSelector(getRoleUser)
   const permissions = useShallowEqualSelector(getUserPermissions)
   // eslint-disable-next-line no-unused-vars
   const [_, setOpenUserInfo] = useState(false)
@@ -44,10 +42,10 @@ function ProjectReportNew() {
   }, [dispatch])
 
   useEffect(() => {
-    if (roleUser !== DEVELOPER || isHaveAccessForAllProjects) {
+    if (isHaveAccessForAllProjects) {
       getDevelopersProject()
     }
-  }, [getDevelopersProject, roleUser])
+  }, [getDevelopersProject])
 
   const handleChangeData = useCallback(
     (data) => {
@@ -105,7 +103,7 @@ function ProjectReportNew() {
         <HeaderProjectReport name="Project report" />
         <div className="diw_row" />
         <div className="project_report_date">
-          {(roleUser !== DEVELOPER || isHaveAccessForAllProjects) && (
+          {isHaveAccessForAllProjects && (
             <div className="block_select_elements">
               <SearchByDeveloper />
               <div className="row">

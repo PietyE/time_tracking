@@ -4,12 +4,10 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { getDeveloperProjects, getProjects } from 'actions/developer-projects'
 import { selectDevelopers } from 'actions/developers'
-import { DEVELOPER } from 'constants/role-constant'
 import {
   getProfileEmail,
   getProfileId,
   getProfileName,
-  getRoleUser,
   getUserAuthStatus,
   getUserPermissions,
 } from 'selectors/user'
@@ -42,7 +40,6 @@ const VilatesSinglePageScreen = lazy(() =>
 function MainScreenRedesign(props) {
   const {
     isAuth,
-    roleUser,
     getDeveloperProjects,
     selectDevelopers,
     profileName,
@@ -58,7 +55,6 @@ function MainScreenRedesign(props) {
   useEffect(() => {
     if (isAuth) {
       if (
-        roleUser !== DEVELOPER ||
         permissions?.includes(userPermissions.projects_view_developerproject)
       ) {
         selectDevelopers({
@@ -82,7 +78,6 @@ function MainScreenRedesign(props) {
     getRatesList,
     getDeveloperProjects,
     isAuth,
-    roleUser,
     profileEmail,
     selectDevelopers,
     profileId,
@@ -94,21 +89,18 @@ function MainScreenRedesign(props) {
     return <Redirect to="/auth" />
   }
 
-  const accessForProjectManagement =
-    permissions?.includes(userPermissions.users_can_view_projectmanagement) ||
-    roleUser === 4 ||
-    roleUser === 3
+  const accessForProjectManagement = permissions?.includes(
+    userPermissions.users_can_view_projectmanagement
+  )
 
-  const accessForVilmates =
-    permissions?.includes(userPermissions.users_can_view_vilmates) ||
-    roleUser === 3
+  const accessForVilmates = permissions?.includes(
+    userPermissions.users_can_view_vilmates
+  )
 
   const accessForSyncDrive =
-    (permissions?.includes(userPermissions.users_can_view_syncdrive) &&
-      permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
-      permissions?.includes(userPermissions.users_add_user)) ||
-    roleUser === 2 ||
-    roleUser === 3
+    permissions?.includes(userPermissions.users_can_view_syncdrive) &&
+    permissions?.includes(userPermissions.gsheets_add_accesscredentials) &&
+    permissions?.includes(userPermissions.users_add_user)
 
   return (
     <Layout>
@@ -157,7 +149,6 @@ const actions = {
 
 const mapStateToProps = (state) => ({
   isAuth: getUserAuthStatus(state),
-  roleUser: getRoleUser(state),
   profileId: getProfileId(state),
   profileName: getProfileName(state),
   profileEmail: getProfileEmail(state),

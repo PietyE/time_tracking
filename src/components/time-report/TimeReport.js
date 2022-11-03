@@ -22,11 +22,9 @@ import {
   getSelectedProject,
   getTimeReports,
 } from 'selectors/timereports'
-import { getProfileId, getRoleUser, getUserPermissions } from 'selectors/user'
+import { getProfileId, getUserPermissions } from 'selectors/user'
 import { getProjectsSelector } from 'selectors/developer-projects'
 import { getDevelopersSelector } from 'selectors/developers'
-import { DEVELOPER } from 'constants/role-constant'
-import './style.scss'
 import { DANGER_ALERT } from 'constants/alert-constant'
 import { showAlert } from 'actions/alert'
 import TimeReportDesktop from './TimeReportDesktop'
@@ -39,6 +37,7 @@ import { isEmpty } from 'lodash'
 import { getDeveloperProjectsById } from 'actions/projects-management'
 import { changeSelectedDate } from 'actions/calendar'
 import { userPermissions } from 'constants/permissions'
+import './style.scss'
 
 function TimeReport(props) {
   const {
@@ -49,7 +48,6 @@ function TimeReport(props) {
     selectedDate = {},
     reports,
     isFetchingReports,
-    roleUser,
     projects = [],
     selectedProject = {},
     developersList = [],
@@ -110,17 +108,10 @@ function TimeReport(props) {
     if (!isEmpty(selectedDeveloper)) {
       const { id } = selectedDeveloper
       dispatch(getDeveloperProjectsById(id))
-    } else if (roleUser === DEVELOPER || !isHaveAccessToViewAllWorkItems) {
+    } else if (!isHaveAccessToViewAllWorkItems) {
       dispatch(getDeveloperProjectsById(developerId))
     }
-  }, [
-    selectedDeveloper,
-    selectedDate,
-    reports,
-    roleUser,
-    dispatch,
-    developerId,
-  ])
+  }, [selectedDeveloper, selectedDate, reports, dispatch, developerId])
 
   const bootstrapWidthRouteState = useCallback(() => {
     if (routeState) {
@@ -144,10 +135,7 @@ function TimeReport(props) {
         })
       }
 
-      if (
-        roleUser !== DEVELOPER ||
-        permissions?.includes(isHaveAccessToViewAllWorkItems)
-      ) {
+      if (permissions?.includes(isHaveAccessToViewAllWorkItems)) {
         const developerData = developersList.find(
           (dev) => dev.id === route_user_id
         )
@@ -176,7 +164,6 @@ function TimeReport(props) {
     changeSelectedDate,
     developersList,
     projects,
-    roleUser,
     selectedDate,
     routeState,
     selectDevelopers,
@@ -222,7 +209,6 @@ function TimeReport(props) {
       <TimeReportMobile
         isFetchingReports={isFetchingReports}
         totalHours={totalHours}
-        roleUser={roleUser}
         developersList={developersList}
         selectedDeveloper={selectedDeveloper}
         projects={projects}
@@ -251,7 +237,6 @@ function TimeReport(props) {
     <TimeReportDesktop
       isFetchingReports={isFetchingReports}
       totalHours={totalHours}
-      roleUser={roleUser}
       developersList={developersList}
       selectedDeveloper={selectedDeveloper}
       projects={projects}
@@ -279,7 +264,6 @@ const mapStateToProps = (state) => ({
   selectedDate: getSelectedDate(state),
   reports: getTimeReports(state),
   isFetchingReports: getIsFetchingReport(state),
-  roleUser: getRoleUser(state),
   projects: getProjectsSelector(state),
   selectedProject: getSelectedProject(state),
   developersList: getDevelopersSelector(state),

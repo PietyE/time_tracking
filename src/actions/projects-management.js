@@ -1,6 +1,5 @@
 import {
   ADD_DEVELOPER_TO_PROJECT,
-  ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   ADD_PROJECT_OWNER_TO_PROJECT,
   ADD_USERS_ON_PROJECT,
   CHANGE_PROJECT_NAME,
@@ -145,11 +144,6 @@ export const clearPmPageState = () => ({
 
 export const changedProjectOwner = (payload) => ({
   type: CHANGE_PROJECT_OWNER,
-  payload,
-})
-
-export const addInactiveProjectManagerToProject = (payload) => ({
-  type: ADD_INACTIVE_PROJECT_MANAGER_TO_PROJECT,
   payload,
 })
 

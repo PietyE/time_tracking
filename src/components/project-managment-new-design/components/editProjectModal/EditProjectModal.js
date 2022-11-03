@@ -19,7 +19,6 @@ import {
   setShowEditModal,
 } from 'actions/projects-management'
 import {
-  getActivePmInCurrentProjectSelector,
   getCurrentProjectSelector,
   getIsFetchingPmPageSelector,
   getProjectName,
@@ -63,9 +62,6 @@ function EditProjectModal({ show, month }) {
   const [ownerId, setOwnerId] = useState('')
   const usersList = useEqualSelector(getUsersSelector)
   const permissions = useShallowEqualSelector(getUserPermissions)
-  const activeProjectManager = useEqualSelector(
-    getActivePmInCurrentProjectSelector
-  )
   const [projectOwner, setProjectOwner] = useState(null)
   const currentProjectId = useEqualSelector(getSelectedProjectIdSelector)
   const currentProjectReport = useEqualSelector((state) =>
@@ -83,7 +79,7 @@ function EditProjectModal({ show, month }) {
         .map((e) => ({ ...e, name: e.userName, id: e.userId }))
         .sort(sortArrayByUserName) || []
     )
-  }, [currentProjectReport, activeProjectManager])
+  }, [currentProjectReport])
 
   const currentProject = useEqualSelector(getSelectedProjectSelector)
   const currentApiProject = useEqualSelector(getCurrentProjectSelector)
@@ -219,7 +215,6 @@ function EditProjectModal({ show, month }) {
         setValuesFromApi({
           projectName: projectName,
           team: currentProjectActiveDevelopers,
-          projectManager: activeProjectManager,
           total_minutes: currentApiProject.total_minutes,
           description: currentApiProject.description,
         })
@@ -228,13 +223,7 @@ function EditProjectModal({ show, month }) {
       setEditedTeam(currentProjectActiveDevelopers)
       setArchivedProject(currentApiProject?.is_archived || false)
     }
-  }, [
-    projectName,
-    currentProjectActiveDevelopers,
-    activeProjectManager,
-    currentApiProject,
-    show,
-  ])
+  }, [projectName, currentProjectActiveDevelopers, currentApiProject, show])
 
   useEffect(() => {
     if (show) {

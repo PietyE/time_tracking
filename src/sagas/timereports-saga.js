@@ -17,7 +17,6 @@ import {
   GET_TIME_REPORT_CSV,
   CHANGE_SELECTED_DATE_TIME_REPORT,
 } from 'constants/actions-constant'
-import { DEVELOPER } from 'constants/role-constant'
 import {
   setTimeReports,
   setIsFetchingReports,
@@ -31,7 +30,7 @@ import { setDevelopers } from 'actions/developers'
 import { userPermissions } from 'constants/permissions'
 
 export function* getDeveloperProjects({ projectIdForSelect = null }) {
-  const { role, permissions } = yield select((state) => state.profile)
+  const { permissions } = yield select((state) => state.profile)
 
   const isHaveAccessToViewAllWorkItems =
     permissions?.includes(userPermissions.work_items_view_workitem) &&
@@ -41,7 +40,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
 
   let URL_DEVELOPER_PROJECT = 'developer-projects/'
 
-  if (role !== DEVELOPER || isHaveAccessToViewAllWorkItems) {
+  if (isHaveAccessToViewAllWorkItems) {
     const { id } = yield select((state) => state.timereports.selectedDeveloper)
     URL_DEVELOPER_PROJECT = `developer-projects/?user_id=${id}`
   }
@@ -54,7 +53,7 @@ export function* getDeveloperProjects({ projectIdForSelect = null }) {
   }))
 
   yield put(setDeveloperProjects(restructureData))
-  if (role !== DEVELOPER || isHaveAccessToViewAllWorkItems) {
+  if (isHaveAccessToViewAllWorkItems) {
     yield call(getDevelopers)
     if (projectIdForSelect) {
       const { developerProjects } = yield select((state) => state)
