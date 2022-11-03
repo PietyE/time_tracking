@@ -13,8 +13,6 @@ import {
   SET_SHOW_EDIT_MODAL,
   SET_SHOWN_PROJECT,
 } from 'constants/actions-constant'
-import { getUserPermissions } from '../selectors/user'
-import { userPermissions } from '../constants/permissions'
 
 const todayDate = new Date()
 
@@ -103,16 +101,6 @@ export const getIsShowCreateUserModalSelector = (state) =>
   state.projectsManagement.isShowCreateUserModal
 
 export const getUsersSelector = (state) => state.developers.developersList
-
-export const getProjectManagerListSelector = (state) => {
-  const users = getUsersSelector(state)
-  const permissions = getUserPermissions(state)
-  return users.filter(
-    (user) =>
-      user.role === 4 ||
-      permissions?.includes(userPermissions.projects_view_project)
-  )
-}
 
 ///////////////////////////////////////////////////////
 

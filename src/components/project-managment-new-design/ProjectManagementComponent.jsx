@@ -31,7 +31,6 @@ import ReportItemProject from 'components/common/repott-item/ReportItemProject'
 import EditProjectModal from './components/editProjectModal/EditProjectModal'
 import useEqualSelector from 'custom-hook/useEqualSelector'
 import CreateProjectModal from './components/createProjectModal/CreateProjectModal'
-import CreateUserModal from './components/CreateUserModal'
 import useSorting from 'custom-hook/useSorting'
 import ArchivedSeparator from './components/ArchivedSeparator'
 import SortingButton from 'components/ui/sortingButton'
@@ -69,7 +68,6 @@ const ProjectManagementComponent = () => {
   let isFetching = useEqualSelector(getIsFetchingPmPageSelector)
   let isEditModalShow = useEqualSelector(getIsShowEditModalSelector)
   let isCreateModalShow = useEqualSelector(getIsShowCreateModalSelector)
-  let isShowCreateUserModal = useEqualSelector(getIsShowCreateUserModalSelector)
   let selectedPm = useEqualSelector(getSelectedPmSelector)
   let currentPm = useEqualSelector(getCurrentUserSelector)
   const projects = useEqualSelector(getAllProjectsSelector)
@@ -406,7 +404,6 @@ const ProjectManagementComponent = () => {
           {/* The pagination is commented out until the next iteration */}
         </div>
         <CreateProjectModal show={isCreateModalShow} />
-        <CreateUserModal show={isShowCreateUserModal} e={projectManagers} />
       </div>
       <div className="modal-container">
         <EditProjectModal
