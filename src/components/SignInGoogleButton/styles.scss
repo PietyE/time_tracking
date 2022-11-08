@@ -1,0 +1,22 @@
+.google-button {
+  position: relative;
+  &.MuiButton-text {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.03em;
+    color: #222222;
+    text-transform: initial;
+  }
+  &.MuiButton-root {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    box-shadow: none;
+    height: 56px;
+    padding: 0 1rem;
+    justify-content: flex-start;
+  }
+}
