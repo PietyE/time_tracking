@@ -1,23 +1,28 @@
-import type { FC } from "react";
-import { Navigate } from "react-router-dom";
+import type { FC } from 'react';
+import { Navigate } from 'react-router-dom';
 
-import { AppRoutes } from "constants/appRoutesConstants";
-import { getIsAuthProfileSelector } from "store/reducers/profile";
-import { useAppSelector } from "hooks/redux";
+import { AppRoutes } from 'constants/appRoutesConstants';
+import { getIsAuthProfileSelector } from 'store/reducers/profile';
+import { useAppSelector } from 'hooks/redux';
 
-import LogoSvg from "components/common/svg/Logo";
-import SignInForm from "./components/SignInForm";
+import LogoSvg from 'components/common/svg/Logo';
+import SignInForm from './components/SignInForm';
 
 const LoginPage: FC = () => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
 
   if (isAuth) {
-    return <Navigate to={AppRoutes.root} replace />;
+    return (
+      <Navigate
+        to={AppRoutes.root}
+        replace
+      />
+    );
   }
 
   return (
-    <div className="login-page">
-      <LogoSvg className="login-page__logo" />
+    <div className='login-page'>
+      <LogoSvg className='login-page__logo' />
       <SignInForm />
     </div>
   );

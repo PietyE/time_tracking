@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   CommentsQueryParams,
   CommentsResponse,
@@ -8,11 +8,11 @@ import type {
   CreateCommentResponse,
   CommentItem,
   UpdateCommentData,
-} from "../models/comments";
+} from '../models/comments';
 
 export class CommentsApi extends CRUD {
   getComments(
-    params: Partial<CommentsQueryParams>
+    params: Partial<CommentsQueryParams>,
   ): AxiosPromise<CommentsResponse> {
     return this.request({
       url: `${this.url}/`,
@@ -24,7 +24,7 @@ export class CommentsApi extends CRUD {
     return this.request({
       url: `${this.url}/`,
       data,
-      method: "POST",
+      method: 'POST',
     });
   }
 
@@ -36,11 +36,11 @@ export class CommentsApi extends CRUD {
 
   updateComment(
     id: string,
-    data: UpdateCommentData
+    data: UpdateCommentData,
   ): AxiosPromise<CommentItem> {
     return this.request({
       url: `${this.url}/${id}/`,
-      method: "PATCH",
+      method: 'PATCH',
       data,
     });
   }
@@ -48,7 +48,7 @@ export class CommentsApi extends CRUD {
 
 export default function commentsApi(request: AxiosInstance) {
   return new CommentsApi({
-    url: "/vilmate-comments",
+    url: '/vilmate-comments',
     request,
   });
 }

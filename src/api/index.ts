@@ -1,17 +1,17 @@
-import axios, { type AxiosError, type AxiosInstance } from "axios";
-import { store } from "store";
+import axios, { type AxiosError, type AxiosInstance } from 'axios';
+import { store } from 'store';
 
-import usersApi, { UsersApi } from "./routes/users";
-import workItemsApi, { WorkItemsApi } from "./routes/workItems";
-import historyApi, { HistoryApi } from "./routes/history";
-import commentsApi, { CommentsApi } from "./routes/comments";
-import userHoursApi, { UserHoursApi } from "./routes/userHours";
+import usersApi, { UsersApi } from './routes/users';
+import workItemsApi, { WorkItemsApi } from './routes/workItems';
+import historyApi, { HistoryApi } from './routes/history';
+import commentsApi, { CommentsApi } from './routes/comments';
+import userHoursApi, { UserHoursApi } from './routes/userHours';
 import developerProjectsApi, {
   DeveloperProjectsApi,
-} from "./routes/developerProjects";
-import projectsApi, { ProjectsApi } from "./routes/projects";
+} from './routes/developerProjects';
+import projectsApi, { ProjectsApi } from './routes/projects';
 
-import { logout } from "store/asyncActions/profile";
+import { logout } from 'store/asyncActions/profile';
 
 type Token = string | null;
 
@@ -50,7 +50,7 @@ class ClientApi {
           store.dispatch(logout());
         }
         throw error;
-      }
+      },
     );
 
     this.users = usersApi(this.instance);

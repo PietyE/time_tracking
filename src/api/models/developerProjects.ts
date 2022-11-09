@@ -1,4 +1,4 @@
-import type { Project } from "./projects";
+import type { Project } from './projects';
 
 export interface DeveloperProjectsQueryParams {
   user_id: string;
@@ -27,7 +27,7 @@ export interface DeveloperProject {
 
 export interface UpdateDeveloperProjectData
   extends Partial<
-    Pick<DeveloperProject, "is_full_time" | "is_project_manager">
+    Pick<DeveloperProject, 'is_full_time' | 'is_project_manager'>
   > {
   is_active?: boolean;
   date?: string;
@@ -36,7 +36,7 @@ export interface UpdateDeveloperProjectData
 export type DeveloperProjects = DeveloperProject[];
 
 export interface CreateDeveloperProjectData
-  extends Omit<DeveloperProject, "id" | "project"> {
+  extends Omit<DeveloperProject, 'id' | 'project'> {
   project: string;
   is_active: boolean;
 }
@@ -61,7 +61,7 @@ export interface UserReport {
 
 export interface DeveloperProjectsReport {
   id: string;
-  project: Pick<Project, "id" | "name">;
+  project: Pick<Project, 'id' | 'name'>;
   user: UserReport;
   total_minutes: number;
   overtime_minutes: number;

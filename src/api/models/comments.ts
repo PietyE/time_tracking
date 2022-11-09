@@ -1,4 +1,4 @@
-import type { User } from "./users";
+import type { User } from './users';
 
 export interface CommentsQueryParams {
   page: number;
@@ -10,7 +10,7 @@ export interface CommentItem {
   user: string;
   text: string;
   reply: string;
-  initiator: Pick<User, "id" | "name" | "email">;
+  initiator: Pick<User, 'id' | 'name' | 'email'>;
   date_create: Date;
   is_updated: string;
   is_active: boolean;
@@ -32,7 +32,7 @@ export interface CreateCommentData {
 
 export type CreateCommentResponse = Omit<
   CommentItem,
-  "date_create" | "is_updated"
+  'date_create' | 'is_updated'
 >;
 
 export interface UpdateCommentData {

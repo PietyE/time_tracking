@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   ProjectsQueryParams,
   Projects,
@@ -9,7 +9,7 @@ import type {
   ProjectsTotalMinutesQueryPathParams,
   ProjectsWithTotalMinutes,
   ProjectsReportPathParams,
-} from "../models/projects";
+} from '../models/projects';
 
 export class ProjectsApi extends CRUD {
   getProjects(params?: ProjectsQueryParams): AxiosPromise<Projects> {
@@ -23,7 +23,7 @@ export class ProjectsApi extends CRUD {
     return this.request({
       url: `${this.url}/`,
       data,
-      method: "POST",
+      method: 'POST',
     });
   }
 
@@ -37,14 +37,14 @@ export class ProjectsApi extends CRUD {
     return this.request({
       url: `${this.url}/${id}/`,
       data,
-      method: "PATCH",
+      method: 'PATCH',
     });
   }
 
   deleteProject(id: string): AxiosPromise<void> {
     return this.request({
       url: `${this.url}/${id}/`,
-      method: "DELETE",
+      method: 'DELETE',
     });
   }
 
@@ -66,14 +66,14 @@ export class ProjectsApi extends CRUD {
   }: ProjectsReportPathParams): AxiosPromise {
     return this.request({
       url: `${this.url}/${id}/export-excel/${year}/${month}/`,
-      responseType: "blob",
+      responseType: 'blob',
     });
   }
 }
 
 export default function projectsApi(request: AxiosInstance) {
   return new ProjectsApi({
-    url: "/projects",
+    url: '/projects',
     request,
   });
 }

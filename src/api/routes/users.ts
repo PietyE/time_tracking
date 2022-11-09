@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   UsersQueryParams,
   Users,
@@ -13,7 +13,7 @@ import type {
   UserLoginResponse,
   UserProjectsReportPathParams,
   UserProjectsReport,
-} from "../models/users";
+} from '../models/users';
 
 export class UsersApi extends CRUD {
   getUsers(params?: UsersQueryParams): AxiosPromise<Users> {
@@ -32,7 +32,7 @@ export class UsersApi extends CRUD {
   createUser(data: CreateUserData): AxiosPromise<User> {
     return this.request({
       url: `${this.url}/`,
-      method: "POST",
+      method: 'POST',
       data,
     });
   }
@@ -40,18 +40,18 @@ export class UsersApi extends CRUD {
   updateUser(id: string, data: CreateUserData): AxiosPromise<User> {
     return this.request({
       url: `${this.url}/${id}/`,
-      method: "PUT",
+      method: 'PUT',
       data,
     });
   }
 
   updateUserPartial(
     id: string,
-    data: Partial<CreateUserData>
+    data: Partial<CreateUserData>,
   ): AxiosPromise<User> {
     return this.request({
       url: `${this.url}/${id}/`,
-      method: "PATCH",
+      method: 'PATCH',
       data,
     });
   }
@@ -59,7 +59,7 @@ export class UsersApi extends CRUD {
   login(data: UserLoginData): AxiosPromise<UserLoginResponse> {
     return this.request({
       url: `${this.url}/users/login/`,
-      method: "POST",
+      method: 'POST',
       data,
     });
   }
@@ -67,14 +67,14 @@ export class UsersApi extends CRUD {
   logout(): AxiosPromise<void> {
     return this.request({
       url: `${this.url}/auth/logout/`,
-      method: "POST",
+      method: 'POST',
     });
   }
 
   googleAuth(data: GoogleAuthData): AxiosPromise<UserLoginResponse> {
     return this.request({
       url: `${this.url}/auth/social/google/authorize/`,
-      method: "POST",
+      method: 'POST',
       data,
     });
   }
@@ -107,14 +107,14 @@ export class UsersApi extends CRUD {
   }: UserProjectsReportPathParams): AxiosPromise<void> {
     return this.request({
       url: `${this.url}/${id}/toggle-processed-status/${year}/${month}/`,
-      method: "POST",
+      method: 'POST',
     });
   }
 }
 
 export default function usersApi(request: AxiosInstance) {
   return new UsersApi({
-    url: "/users",
+    url: '/users',
     request,
   });
 }

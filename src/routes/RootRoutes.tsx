@@ -1,14 +1,14 @@
-import type { FC } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import type { FC } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { AppRoutes } from "constants/appRoutesConstants";
-import { useAppSelector } from "hooks/redux";
-import { getIsAuthProfileSelector } from "store/reducers/profile";
+import { AppRoutes } from 'constants/appRoutesConstants';
+import { useAppSelector } from 'hooks/redux';
+import { getIsAuthProfileSelector } from 'store/reducers/profile';
 
-import RequireAuth from "components/RequireAuth";
-import MainLayout from "components/MainLayout";
-import LoginPage from "pages/LoginPage";
-import ProjectsReportPage from "pages/ProjectsReportPage";
+import RequireAuth from 'components/RequireAuth';
+import MainLayout from 'components/MainLayout';
+import LoginPage from 'pages/LoginPage';
+import ProjectsReportPage from 'pages/ProjectsReportPage';
 
 const RootRoutes: FC = () => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
@@ -18,12 +18,24 @@ const RootRoutes: FC = () => {
       <Route path={AppRoutes.root}>
         <Route
           element={
-            isAuth ? <MainLayout /> : <Navigate to={AppRoutes.auth} replace />
+            isAuth ? (
+              <MainLayout />
+            ) : (
+              <Navigate
+                to={AppRoutes.auth}
+                replace
+              />
+            )
           }
         >
           <Route
             index
-            element={<Navigate to={AppRoutes.timeReport} replace />}
+            element={
+              <Navigate
+                to={AppRoutes.timeReport}
+                replace
+              />
+            }
           />
           <Route
             path={AppRoutes.timeReport}
@@ -66,8 +78,19 @@ const RootRoutes: FC = () => {
             }
           />
         </Route>
-        <Route path={AppRoutes.auth} element={<LoginPage />} />
-        <Route path="*" element={<Navigate to={AppRoutes.root} replace />} />
+        <Route
+          path={AppRoutes.auth}
+          element={<LoginPage />}
+        />
+        <Route
+          path='*'
+          element={
+            <Navigate
+              to={AppRoutes.root}
+              replace
+            />
+          }
+        />
       </Route>
     </Routes>
   );

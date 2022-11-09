@@ -1,14 +1,14 @@
-import { AppRoutes } from "constants/appRoutesConstants";
+import { AppRoutes } from 'constants/appRoutesConstants';
 
-import { useAppSelector } from "hooks/redux";
-import React from "react";
-import { Navigate } from "react-router-dom";
+import { useAppSelector } from 'hooks/redux';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
-} from "store/reducers/profile";
-import type { Permissions } from "../../constants/permissions";
-import { isArrayHaveEveryElement } from "../../utils/isArrayHaveEveryElement";
+} from 'store/reducers/profile';
+import type { Permissions } from '../../constants/permissions';
+import { isArrayHaveEveryElement } from '../../utils/isArrayHaveEveryElement';
 
 interface PrivateRouteProps {
   children: React.ReactElement;
@@ -28,10 +28,21 @@ const RequireAuth: React.FC<PrivateRouteProps> = ({
     !!permissions &&
     isArrayHaveEveryElement<Permissions>(permissions, profilePermissions);
 
-  if (!isAuth) return <Navigate to={`/${AppRoutes.auth}`} replace />;
+  if (!isAuth)
+    return (
+      <Navigate
+        to={`/${AppRoutes.auth}`}
+        replace
+      />
+    );
 
   if (!isUserHavePermissionToAccessPage)
-    return <Navigate to={`/${navigateTo}`} replace />;
+    return (
+      <Navigate
+        to={`/${navigateTo}`}
+        replace
+      />
+    );
 
   return children;
 };

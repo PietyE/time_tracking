@@ -1,5 +1,5 @@
-import { Role } from "constants/profileRoleConstants";
-import type { Permissions } from "constants/permissions";
+import { Role } from 'constants/profileRoleConstants';
+import type { Permissions } from 'constants/permissions';
 
 export interface UsersQueryParams {
   ordering?: string;
@@ -35,7 +35,7 @@ export interface User {
   is_active: boolean;
 }
 
-export type Users = Omit<User, "permissions">[];
+export type Users = Omit<User, 'permissions'>[];
 
 export interface CreateUserData {
   email: string;

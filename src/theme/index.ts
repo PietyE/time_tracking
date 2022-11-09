@@ -1,15 +1,15 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Palette {
-    neutral: Palette["primary"];
+    neutral: Palette['primary'];
   }
   interface PaletteOptions {
-    neutral: PaletteOptions["primary"];
+    neutral: PaletteOptions['primary'];
   }
 }
 
-declare module "@mui/material/CircularProgress" {
+declare module '@mui/material/CircularProgress' {
   interface CircularProgressPropsColorOverrides {
     neutral: true;
   }
@@ -18,13 +18,13 @@ declare module "@mui/material/CircularProgress" {
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#009C98",
+      main: '#009C98',
     },
     secondary: {
-      main: "#125856",
+      main: '#125856',
     },
     neutral: {
-      main: "red",
+      main: 'red',
     },
   },
 });

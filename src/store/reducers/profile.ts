@@ -1,13 +1,13 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { Role } from "constants/profileRoleConstants";
-import { createTypedSelector } from "../utils";
-import type { User } from "api/models/users";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { Role } from 'constants/profileRoleConstants';
+import { createTypedSelector } from '../utils';
+import type { User } from 'api/models/users';
 
 import {
   userGoogleSignIn,
   getUserProfile,
   logout,
-} from "../asyncActions/profile";
+} from '../asyncActions/profile';
 
 interface IProfile {
   isAuth: boolean;
@@ -21,22 +21,22 @@ const initialState: IProfile = {
   isLoading: true,
   isProfileFetching: false,
   profileData: {
-    id: "",
-    name: "",
-    email: "",
+    id: '',
+    name: '',
+    email: '',
     role: Role.developer,
     permissions: [],
     is_active: false,
-    position: "",
-    imageUrl: "",
-    date_of_birth: "",
-    phone: "",
-    slack: "",
+    position: '',
+    imageUrl: '',
+    date_of_birth: '',
+    phone: '',
+    slack: '',
   },
 };
 
 const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {},
   extraReducers: {
@@ -69,19 +69,19 @@ const profileSlice = createSlice({
 });
 
 export const getIsAuthProfileSelector = createTypedSelector(
-  (state) => state.profile.isAuth
+  (state) => state.profile.isAuth,
 );
 
 export const getProfileRoleSelector = createTypedSelector(
-  (state) => state.profile.profileData.role
+  (state) => state.profile.profileData.role,
 );
 
 export const getIsLoadingProfileSelector = createTypedSelector(
-  (state) => state.profile.isLoading
+  (state) => state.profile.isLoading,
 );
 
 export const getProfilePermissionsSelector = createTypedSelector(
-  (state) => state.profile.profileData.permissions
+  (state) => state.profile.profileData.permissions,
 );
 
 export default profileSlice.reducer;

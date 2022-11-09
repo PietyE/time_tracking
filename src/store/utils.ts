@@ -1,9 +1,9 @@
-import type { RootState } from "store";
+import type { RootState } from 'store';
 
 export type CallBackT<T> = (state: RootState) => T;
 
 export const createTypedSelector = <T>(
-  callback: CallBackT<T>
+  callback: CallBackT<T>,
 ): CallBackT<T> => {
   return callback;
 };

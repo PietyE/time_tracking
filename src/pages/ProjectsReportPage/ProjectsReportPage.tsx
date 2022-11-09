@@ -1,10 +1,13 @@
-import type { FC } from "react";
-import Text from "components/common/Text";
+import type { FC } from 'react';
+import Text from 'components/common/Text';
 
 const ProjectsReportPage: FC = () => {
   return (
     <div>
-      <Text variant="h1" component="h2">
+      <Text
+        variant='h1'
+        component='h2'
+      >
         Hi code
       </Text>
     </div>

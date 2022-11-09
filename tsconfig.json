@@ -19,12 +19,12 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     //to avoid undefined types
-     "exactOptionalPropertyTypes": true,
-     "noUnusedParameters": true,
-     "noUnusedLocals": true,
+    "exactOptionalPropertyTypes": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     // to indicate types and interfaces
-     "preserveValueImports": true,
-     "removeComments": true
+    "preserveValueImports": true,
+    "removeComments": true
   },
   "include": ["src"]
 }

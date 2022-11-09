@@ -1,4 +1,4 @@
-import type { AxiosInstance } from "axios";
+import type { AxiosInstance } from 'axios';
 
 interface IConfig {
   request: AxiosInstance;

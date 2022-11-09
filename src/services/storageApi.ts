@@ -1,4 +1,4 @@
-type LocalStorageKeysType = "profileData";
+type LocalStorageKeysType = 'profileData';
 
 class LocalStorage {
   get<T = unknown>(key: LocalStorageKeysType): T | null {

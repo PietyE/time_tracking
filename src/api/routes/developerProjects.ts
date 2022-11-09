@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   DeveloperProjectsQueryParams,
   DeveloperProjects,
@@ -11,11 +11,11 @@ import type {
   DeveloperProject,
   UpdateDeveloperProjectData,
   DeveloperProjectPathParams,
-} from "../models/developerProjects";
+} from '../models/developerProjects';
 
 export class DeveloperProjectsApi extends CRUD {
   getDeveloperProjects(
-    params: Partial<DeveloperProjectsQueryParams>
+    params: Partial<DeveloperProjectsQueryParams>,
   ): AxiosPromise<DeveloperProjects> {
     return this.request({
       url: `${this.url}/`,
@@ -31,22 +31,22 @@ export class DeveloperProjectsApi extends CRUD {
 
   updateDeveloperProject(
     id: string,
-    data: UpdateDeveloperProjectData
+    data: UpdateDeveloperProjectData,
   ): AxiosPromise<Required<UpdateDeveloperProjectData>> {
     return this.request({
       url: `${this.url}/${id}/`,
       data,
-      method: "PATCH",
+      method: 'PATCH',
     });
   }
 
   createDeveloperProjects(
-    data: CreateDeveloperProjectData
+    data: CreateDeveloperProjectData,
   ): AxiosPromise<CreateDeveloperProjectData> {
     return this.request({
       url: `${this.url}/`,
       data,
-      method: "POST",
+      method: 'POST',
     });
   }
 
@@ -54,7 +54,7 @@ export class DeveloperProjectsApi extends CRUD {
     return this.request({
       url: `${this.url}/create-list/`,
       data,
-      method: "POST",
+      method: 'POST',
     });
   }
 
@@ -72,7 +72,7 @@ export class DeveloperProjectsApi extends CRUD {
   getReportCsv({ id, month, year }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
       url: `${this.url}/${id}/export-csv/${year}/${month}/`,
-      responseType: "blob",
+      responseType: 'blob',
     });
   }
 
@@ -83,14 +83,14 @@ export class DeveloperProjectsApi extends CRUD {
   }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
       url: `${this.url}/${id}/export-excel/${year}/${month}/`,
-      responseType: "blob",
+      responseType: 'blob',
     });
   }
 }
 
 export default function developerProjectsApi(request: AxiosInstance) {
   return new DeveloperProjectsApi({
-    url: "/developer-projects",
+    url: '/developer-projects',
     request,
   });
 }

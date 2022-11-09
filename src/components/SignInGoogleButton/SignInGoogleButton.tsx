@@ -1,7 +1,7 @@
-import type { FC } from "react";
-import Button, { type ButtonProps } from "@mui/material/Button";
+import type { FC } from 'react';
+import Button, { type ButtonProps } from '@mui/material/Button';
 
-import GoogleLogo from "components/common/svg/GoogleLogo";
+import GoogleLogo from 'components/common/svg/GoogleLogo';
 
 //readonly render?: (props: { onClick: () => void, disabled?: boolean }) => JSX.Element;
 
@@ -13,7 +13,7 @@ interface ISignInGoogleButtonProps extends ButtonProps {
 const SignInGoogleButton: FC<ISignInGoogleButtonProps> = (props) => {
   return (
     <Button
-      className="google-button"
+      className='google-button'
       startIcon={<GoogleLogo />}
       fullWidth
       {...props}

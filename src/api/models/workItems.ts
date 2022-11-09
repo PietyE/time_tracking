@@ -28,7 +28,7 @@ export interface WorkItemsQueryParams {
 }
 
 export interface CreateWorkItemData
-  extends Pick<WorkItem, "developer_project" | "title" | "date" | "duration"> {
+  extends Pick<WorkItem, 'developer_project' | 'title' | 'date' | 'duration'> {
   is_active?: boolean;
 }
 

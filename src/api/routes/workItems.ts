@@ -1,6 +1,6 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   WorkItemsQueryParams,
   WorkItemsResponse,
@@ -8,7 +8,7 @@ import type {
   CreateWorkItemResponse,
   WorkItem,
   WorkItemHistory,
-} from "../models/workItems";
+} from '../models/workItems';
 
 export class WorkItemsApi extends CRUD {
   getWorkItems(params: WorkItemsQueryParams): AxiosPromise<WorkItemsResponse> {
@@ -19,11 +19,11 @@ export class WorkItemsApi extends CRUD {
   }
 
   createWorkItems(
-    data: CreateWorkItemData
+    data: CreateWorkItemData,
   ): AxiosPromise<CreateWorkItemResponse> {
     return this.request({
       url: `${this.url}/`,
-      method: "POST",
+      method: 'POST',
       data,
     });
   }
@@ -36,11 +36,11 @@ export class WorkItemsApi extends CRUD {
 
   updateWorkItem(
     id: string,
-    data: Partial<CreateWorkItemData>
+    data: Partial<CreateWorkItemData>,
   ): AxiosPromise<WorkItem> {
     return this.request({
       url: `${this.url}/${id}/`,
-      method: "PATCH",
+      method: 'PATCH',
       data,
     });
   }
@@ -54,7 +54,7 @@ export class WorkItemsApi extends CRUD {
 
 export default function workItemsApi(request: AxiosInstance) {
   return new WorkItemsApi({
-    url: "/work_items",
+    url: '/work_items',
     request,
   });
 }

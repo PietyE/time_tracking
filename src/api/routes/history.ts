@@ -1,16 +1,16 @@
-import type { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from "../base";
+import CRUD from '../base';
 import type {
   HistoryQueryParams,
   HistoryResponse,
   HistoryItem,
   HistoryFieldResponse,
-} from "../models/history";
+} from '../models/history';
 
 export class HistoryApi extends CRUD {
   getHistory(
-    params: Partial<HistoryQueryParams>
+    params: Partial<HistoryQueryParams>,
   ): AxiosPromise<HistoryResponse> {
     return this.request({
       url: `${this.url}/`,
@@ -33,7 +33,7 @@ export class HistoryApi extends CRUD {
 
 export default function historyApi(request: AxiosInstance) {
   return new HistoryApi({
-    url: "/history",
+    url: '/history',
     request,
   });
 }
