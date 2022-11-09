@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "standard-with-typescript"
+        "standard-with-typescript",
+      "prettier"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -17,10 +18,11 @@
             "jsx": true
         }
     },
-    "plugins": ["react", "react-hooks"],
+    "plugins": ["react", "react-hooks", "prettier"],
     "rules": {
          "no-use-before-define": "off",
          "@typescript-eslint/no-use-before-define": ["error"],
+      "prettier/prettier": "error",
          "array-callback-return": "error",
          "require-await": "error",
          "react-hooks/rules-of-hooks": "error",
