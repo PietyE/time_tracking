@@ -1,7 +1,8 @@
-import React from "react";
+import type { FC } from "react";
+
 import GoogleLogin, {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
+  type GoogleLoginResponse,
+  // type GoogleLoginResponseOffline,
 } from "react-google-login";
 
 import SignInGoogleButton from "components/SignInGoogleButton";
@@ -10,7 +11,7 @@ import { useAppDispatch } from "hooks/redux";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
-const GoogleSignIn = () => {
+const GoogleSignIn: FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClickGoogleLogin = (response: any) => {

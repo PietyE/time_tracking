@@ -1,10 +1,4 @@
-export function downloadFile(
-  data: Blob,
-  filename: string,
-  mime?: string,
-  bom?: unknown
-) {
-  //const blobData = typeof bom !== "undefined" ? [bom, data] : [data];
+export function downloadFile(data: Blob, filename: string, mime?: string) {
   const blobData = [data];
   const blob = new Blob(blobData, { type: mime || "application/octet-stream" });
 

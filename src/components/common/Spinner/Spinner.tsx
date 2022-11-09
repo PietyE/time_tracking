@@ -1,9 +1,9 @@
-import React from "react";
+import type { FC } from "react";
 import CircularProgress, {
-  CircularProgressProps,
+  type CircularProgressProps,
 } from "@mui/material/CircularProgress";
 
-const Spinner: React.FC<CircularProgressProps> = (props) => {
+const Spinner: FC<CircularProgressProps> = (props) => {
   return <CircularProgress {...props} />;
 };
 

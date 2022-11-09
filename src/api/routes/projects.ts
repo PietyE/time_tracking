@@ -1,7 +1,7 @@
-import { AxiosInstance, AxiosPromise } from "axios";
+import type { AxiosInstance, AxiosPromise } from "axios";
 
 import CRUD from "../base";
-import {
+import type {
   ProjectsQueryParams,
   Projects,
   CreateProjectData,

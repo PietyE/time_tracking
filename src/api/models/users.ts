@@ -1,5 +1,5 @@
 import { Role } from "constants/profileRoleConstants";
-import { Permissions } from "constants/permissions";
+import type { Permissions } from "constants/permissions";
 
 export interface UsersQueryParams {
   ordering?: string;

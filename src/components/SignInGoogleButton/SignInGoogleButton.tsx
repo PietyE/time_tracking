@@ -1,4 +1,5 @@
-import Button, { ButtonProps } from "@mui/material/Button";
+import type { FC } from "react";
+import Button, { type ButtonProps } from "@mui/material/Button";
 
 import GoogleLogo from "components/common/svg/GoogleLogo";
 
@@ -6,10 +7,10 @@ import GoogleLogo from "components/common/svg/GoogleLogo";
 
 interface ISignInGoogleButtonProps extends ButtonProps {
   onClick: () => void;
-  disabled?: boolean | undefined;
+  disabled?: boolean;
 }
 
-const SignInGoogleButton: React.FC<ISignInGoogleButtonProps> = (props) => {
+const SignInGoogleButton: FC<ISignInGoogleButtonProps> = (props) => {
   return (
     <Button
       className="google-button"

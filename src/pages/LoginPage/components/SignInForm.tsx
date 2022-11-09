@@ -1,8 +1,8 @@
-import React from "react";
+import type { FC } from "react";
 
 import GoogleSignIn from "components/GoogleSignIn";
 
-const SignInForm = () => {
+const SignInForm: FC = () => {
   return (
     <div className="login-page__signin-form-container">
       <GoogleSignIn />

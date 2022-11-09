@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import api from "api";
 
-import { GoogleAuthData } from "api/models/users";
-import { lsApi, ProfileDataStorageI } from "services/storageApi";
+import type { GoogleAuthData } from "api/models/users";
+import { lsApi, type ProfileDataStorageI } from "services/storageApi";
 
 export const userGoogleSignIn = createAsyncThunk(
   "profile/userGoogleSignIn",

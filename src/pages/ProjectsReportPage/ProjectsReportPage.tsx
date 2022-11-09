@@ -1,6 +1,7 @@
+import type { FC } from "react";
 import Text from "components/common/Text";
 
-const ProjectsReportPage = () => {
+const ProjectsReportPage: FC = () => {
   return (
     <div>
       <Text variant="h1" component="h2">

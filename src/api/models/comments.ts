@@ -1,4 +1,4 @@
-import { User } from "./users";
+import type { User } from "./users";
 
 export interface CommentsQueryParams {
   page: number;

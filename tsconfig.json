@@ -1,3 +1,5 @@
+//todo: configure paths for shared nested folders in future
+
 {
   "compilerOptions": {
     "target": "es5",
@@ -16,6 +18,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
+    //to avoid undefined types
+     "exactOptionalPropertyTypes": true,
+     "noUnusedParameters": true,
+     "noUnusedLocals": true,
+    // to indicate types and interfaces
+     "preserveValueImports": true,
+     "removeComments": true
   },
   "include": ["src"]
 }

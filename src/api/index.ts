@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { store } from "store";
 
 import usersApi, { UsersApi } from "./routes/users";
@@ -17,7 +17,7 @@ type Token = string | null;
 
 class ClientApi {
   private token: Token = null;
-  private instance: AxiosInstance;
+  private readonly instance: AxiosInstance;
 
   public users: UsersApi;
   public workItems: WorkItemsApi;

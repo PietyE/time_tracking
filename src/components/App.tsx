@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { type FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/redux";
 
 import RootRoutes from "routes/RootRoutes";

@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Role } from "constants/profileRoleConstants";
 import { createTypedSelector } from "../utils";
-import { User } from "api/models/users";
+import type { User } from "api/models/users";
 
 import {
   userGoogleSignIn,
@@ -81,7 +81,7 @@ export const getIsLoadingProfileSelector = createTypedSelector(
 );
 
 export const getProfilePermissionsSelector = createTypedSelector(
-    (state) => state.profile.profileData.permissions
-)
+  (state) => state.profile.profileData.permissions
+);
 
 export default profileSlice.reducer;

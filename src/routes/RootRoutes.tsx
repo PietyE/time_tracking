@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { AppRoutes } from "constants/appRoutesConstants";
@@ -10,7 +10,7 @@ import MainLayout from "components/MainLayout";
 import LoginPage from "pages/LoginPage";
 import ProjectsReportPage from "pages/ProjectsReportPage";
 
-const RootRoutes = () => {
+const RootRoutes: FC = () => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
 
   return (
@@ -33,24 +33,30 @@ const RootRoutes = () => {
               </RequireAuth>
             }
           />
-            <Route path={AppRoutes.vilmates} element={
-                <RequireAuth>
-                    <h1>Vilmates</h1>
-                </RequireAuth>
+          <Route
+            path={AppRoutes.vilmates}
+            element={
+              <RequireAuth>
+                <h1>Vilmates</h1>
+              </RequireAuth>
             }
-            />
-            <Route path={`${AppRoutes.vilmates}${AppRoutes.singlePage}/:id`} element={
-                <RequireAuth>
-                    <h1>Single page</h1>
-                </RequireAuth>
+          />
+          <Route
+            path={`${AppRoutes.vilmates}${AppRoutes.singlePage}/:id`}
+            element={
+              <RequireAuth>
+                <h1>Single page</h1>
+              </RequireAuth>
             }
-            />
-            <Route path={AppRoutes.syncWithGoogleSheets} element={
-                <RequireAuth>
-                    <h1>Sync with google sheet</h1>
-                </RequireAuth>
+          />
+          <Route
+            path={AppRoutes.syncWithGoogleSheets}
+            element={
+              <RequireAuth>
+                <h1>Sync with google sheet</h1>
+              </RequireAuth>
             }
-            />
+          />
           <Route
             path={AppRoutes.projectReport}
             element={

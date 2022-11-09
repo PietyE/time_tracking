@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, FC } from "react";
+import React, { type PropsWithChildren, type FC } from "react";
 
 type Variant =
   | ""
