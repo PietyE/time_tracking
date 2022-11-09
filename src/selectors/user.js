@@ -10,6 +10,8 @@ export const getProfileId = (state) => state.profile.id
 
 export const getProfileName = (state) => state.profile.name
 
+export const getProfilePosition = (state) => state.profile.position
+
 export const getProfileEmail = (state) => state.profile.email
 
 export const getProfileShowSideMenu = (state) => state.profile.sideMenuStatus

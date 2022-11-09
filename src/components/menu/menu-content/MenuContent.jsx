@@ -9,6 +9,7 @@ import vilmates from 'images/vilmates/vilmates.svg'
 import React, { useMemo } from 'react'
 import {
   getProfileName,
+  getProfilePosition,
   getProfileShowSideMenuArrow,
   getUserPermissions,
 } from 'selectors/user'
@@ -16,11 +17,9 @@ import Logout from '../components/Logout'
 import SideBarMenu from '../components/SideBarMenu'
 import { userPermissions } from '../../../constants/permissions'
 
-// permissions?.includes(users_can_view_projectmanagement) proejctmanagement
-// permissions?.includes(userPermissions.users_can_view_vilmates) vilmates
-
 export const MenuContent = () => {
   const userName = useShallowEqualSelector(getProfileName)
+  const position = useShallowEqualSelector(getProfilePosition)
   const showArrow = useShallowEqualSelector(getProfileShowSideMenuArrow)
   const permissions = useShallowEqualSelector(getUserPermissions)
 
@@ -91,7 +90,7 @@ export const MenuContent = () => {
           <UserAvatar />
         </div>
         <div className="user_info">
-          <span className="user_role">{userName.position}</span>
+          <span className="user_role">{position}</span>
           <span className="user_name">{userName}</span>
         </div>
       </div>
