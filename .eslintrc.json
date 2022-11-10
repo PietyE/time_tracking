@@ -18,12 +18,46 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "react-hooks", "prettier"],
+  "plugins": ["react", "react-hooks", "prettier", "import"],
   "rules": {
     "no-use-before-define": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "prettier/prettier": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "index",
+          "sibling",
+          "parent",
+          "internal",
+          "builtin",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "**/*css",
+            "group": "type",
+            "position": "after"
+          },
+          {
+            "pattern": "./**/*.scss",
+            "group": "type",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react", "./**/*.scss", "**/*css"],
+        "warnOnUnassignedImports": true
+      }
+    ],
     "array-callback-return": "error",
     "require-await": "error",
     "react-hooks/rules-of-hooks": "error",
