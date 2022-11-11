@@ -33,7 +33,7 @@
     "eslint": "eslint --ext ts,tsx src",
     "prepare": "husky install",
     "pre-commit": "npx lint-staged",
-    "pre-push": "npx branch-name-lint"
+    "pre-push": "npx branch-name-lint branchlint.config.json"
   },
   "eslintConfig": {
     "extends": [
