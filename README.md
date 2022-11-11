@@ -1,62 +1,71 @@
-# Getting Started with Create React App
+**Scripts list:**
 
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+* `npm run start:dev` - Start app in dev environment
 
-In the project directory, you can run:
+* `npm run start:prod` - Start app in production environment
 
-### `npm start`
+* `npm run build:dev` - Build app with dev environment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* `npm run build:prod` - Build app with production environment
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* `npm run eject` - Eject react application
 
-### `npm test`
+* `npm run prettier` - Lint all files with prettier
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+* `npm run eslint` - Lint all files with eslint
 
-### `npm run build`
+* `npm run pre-commit` - Run lint-staged ( see more in .lintstagedrc)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best
-performance.
+**CODE STYLE**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Commit rules**
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+**Please name your commit as this example** 
 
-### `npm run eject`
+**type(scope?): subject**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Type can be one of constant words in lower case:** 
 
-If you aren’t satisfied with the build tool and configuration choices, you can
-`eject` at any time. This command will remove the single build dependency from
-your project.
+* feature
+* styles
+* tests
+* refactoring
+* revert
+* fix
+* hotfix
+* docs
+* ci
 
-Instead, it will copy all the configuration files and the transitive
-dependencies (webpack, Babel, ESLint, etc) right into your project so you have
-full control over them. All of the commands except `eject` will still work, but
-they will point to the copied scripts so you can tweak them. At this point
-you’re on your own.
+**Scope can be any word in upper case and should be in scopes left and right and end with ':', but please name it in general:**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for
-small and middle deployments, and you shouldn’t feel obligated to use this
-feature. However we understand that this tool wouldn’t be useful if you couldn’t
-customize it when you are ready for it.
+* API
+* REDUX
+* SERVER
+* PROJECT MANAGEMENT
+* TIME REPORT 
+* etc
 
-## Learn More
+**If commit is important and have some breaking changes please note it with '!' after scope before ':'**
 
-You can learn more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Subject can be a little description in sensitive case**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-Node version - 18.12.1
+**Please make commit that is going to describe the only one task with one type , 
+one scope and short description , max length should be not more than 82 symbols**
+
+**Example of the correct commit:**
+
+feature(PROJECT REPORT): Added button to download XLS devs reports
+
+**WITH BREAKING CHANGES**
+
+feature(ROUTER)!: Updated react router dom to v6.4
+
+See more about commit rules:
+
+
+[https://github.com/conventional-changelog/commitlint](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+
+
+[https://www.conventionalcommits.org/en/v1.0.0/#specification](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+
