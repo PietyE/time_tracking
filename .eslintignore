@@ -1,0 +1,5 @@
+commitlint.config.ts
+*.scss
+node_modules
+.husky
+.lintstagedrc
