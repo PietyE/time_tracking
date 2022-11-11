@@ -16,5 +16,10 @@ export default {
         'ci',
       ],
     ],
+    'header-max-length': [2, 'always', 82],
+    'subject-full-stop': [2, 'always', '.'],
+    'type-case': [2, 'always', 'lower-case'],
+    'scope-case': [2, 'always', 'upper-case'],
+    'subject-case': [2, 'always', 'sentence-case'],
   },
 };
