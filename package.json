@@ -32,7 +32,8 @@
     "prettier": "prettier --write .",
     "eslint": "eslint --ext ts,tsx src",
     "prepare": "husky install",
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npx branch-name-lint"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +59,7 @@
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.7.5",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "branch-name-lint": "^2.1.1",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",

@@ -1,0 +1,21 @@
+{
+  "branchNameLinter": {
+    "prefixes": [
+      "feature",
+      "hotfix",
+      "release"
+    ],
+    "skip": [
+      "skip-ci"
+    ],
+    "disallowed": [
+      "master",
+      "dev",
+      "stage"
+    ],
+    "separator": "/",
+    "msgBranchDisallowed": "Pushing to \"%s\" is not allowed, use git-flow.",
+    "msgPrefixNotAllowed": "Branch prefix \"%s\" is not allowed.",
+    "msgseparatorRequired": "Branch \"%s\" must contain a separator \"%s\"."
+  }
+}
