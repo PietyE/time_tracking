@@ -35,7 +35,7 @@ export interface User {
   is_active: boolean;
 }
 
-export type Users = Omit<User, 'permissions'>[];
+export type Users = Array<Omit<User, 'permissions'>>;
 
 export interface CreateUserData {
   email: string;

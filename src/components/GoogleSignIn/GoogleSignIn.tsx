@@ -14,10 +14,10 @@ const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 const GoogleSignIn: FC = () => {
   const dispatch = useAppDispatch();
 
-  const handleClickGoogleLogin = (response: any) => {
+  const handleClickGoogleLogin = (response: any): void => {
     const _response = response as GoogleLoginResponse;
     if (_response.tokenId) {
-      dispatch(userGoogleSignIn({ token: _response.tokenId }));
+      void dispatch(userGoogleSignIn({ token: _response.tokenId }));
     }
   };
 

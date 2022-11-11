@@ -1,4 +1,6 @@
-const GoogleLogo = () => {
+import type { ReactElement } from 'react';
+
+const GoogleLogo = (): ReactElement => {
   return (
     <svg
       width='24'

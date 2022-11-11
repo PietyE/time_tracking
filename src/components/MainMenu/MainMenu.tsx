@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 
-import { AppRoutes } from 'constants/appRoutesConstants';
 import { Button } from '@mui/material';
 import { useAppDispatch } from 'hooks/redux';
 import { logout } from 'store/asyncActions/profile';
+import { AppRoutes } from 'constants/appRoutesConstants';
 
 interface ItemMenuPropsI {
   to: AppRoutes;

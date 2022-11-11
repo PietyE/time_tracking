@@ -1,6 +1,6 @@
+import CRUD from '../base';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from '../base';
 import type {
   DeveloperProjectsQueryParams,
   DeveloperProjects,
@@ -88,7 +88,9 @@ export class DeveloperProjectsApi extends CRUD {
   }
 }
 
-export default function developerProjectsApi(request: AxiosInstance) {
+export default function developerProjectsApi(
+  request: AxiosInstance,
+): DeveloperProjectsApi {
   return new DeveloperProjectsApi({
     url: '/developer-projects',
     request,

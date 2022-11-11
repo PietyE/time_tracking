@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 
 import RootRoutes from 'routes/RootRoutes';
 import { getUserProfile } from 'store/asyncActions/profile';
-import { getIsLoadingProfileSelector } from 'store/reducers/profile';
 import Loading from 'components/Loading';
+import { getIsLoadingProfileSelector } from 'store/reducers/profile';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();

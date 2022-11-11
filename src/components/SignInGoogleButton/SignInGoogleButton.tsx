@@ -3,7 +3,7 @@ import Button, { type ButtonProps } from '@mui/material/Button';
 
 import GoogleLogo from 'components/common/svg/GoogleLogo';
 
-//readonly render?: (props: { onClick: () => void, disabled?: boolean }) => JSX.Element;
+// readonly render?: (props: { onClick: () => void, disabled?: boolean }) => JSX.Element;
 
 interface ISignInGoogleButtonProps extends ButtonProps {
   onClick: () => void;

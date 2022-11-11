@@ -1,6 +1,6 @@
+import CRUD from '../base';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from '../base';
 import type {
   createTokenData,
   AuthUrlResponse,
@@ -33,7 +33,7 @@ export class UserHoursApi extends CRUD {
   }
 }
 
-export default function userHoursApi(request: AxiosInstance) {
+export default function userHoursApi(request: AxiosInstance): UserHoursApi {
   return new UserHoursApi({
     url: '/user-hours',
     request,

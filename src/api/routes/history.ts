@@ -1,6 +1,6 @@
+import CRUD from '../base';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from '../base';
 import type {
   HistoryQueryParams,
   HistoryResponse,
@@ -31,7 +31,7 @@ export class HistoryApi extends CRUD {
   }
 }
 
-export default function historyApi(request: AxiosInstance) {
+export default function historyApi(request: AxiosInstance): HistoryApi {
   return new HistoryApi({
     url: '/history',
     request,

@@ -1,5 +1,5 @@
-//param of function is refButton: HTMLElement | null
+// param of function is refButton: HTMLElement | null
 
-export const useGoogleSignIn = () => {
+export const useGoogleSignIn = (): string => {
   return 'GOOGLE';
 };

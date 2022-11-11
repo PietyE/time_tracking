@@ -1,14 +1,13 @@
-import { AppRoutes } from 'constants/appRoutesConstants';
-
-import { useAppSelector } from 'hooks/redux';
 import React from 'react';
+import { useAppSelector } from 'hooks/redux';
 import { Navigate } from 'react-router-dom';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
 } from 'store/reducers/profile';
-import type { Permissions } from '../../constants/permissions';
 import { isArrayHaveEveryElement } from '../../utils/isArrayHaveEveryElement';
+import { AppRoutes } from 'constants/appRoutesConstants';
+import type { Permissions } from '../../constants/permissions';
 
 interface PrivateRouteProps {
   children: React.ReactElement;

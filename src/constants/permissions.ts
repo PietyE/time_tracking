@@ -1,4 +1,4 @@
-//See full documentation https://docs.google.com/document/d/1TZ1Rmy_6GoTwRgrqiiGLjEwSBuO4Yz_6oOmC9YHN9m8/edit
+// See full documentation https://docs.google.com/document/d/1TZ1Rmy_6GoTwRgrqiiGLjEwSBuO4Yz_6oOmC9YHN9m8/edit
 // ( 2.3 User classes and characteristics )
 
 export enum PagesViewPermissions {

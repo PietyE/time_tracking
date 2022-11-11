@@ -1,6 +1,6 @@
+import CRUD from '../base';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
-import CRUD from '../base';
 import type {
   WorkItemsQueryParams,
   WorkItemsResponse,
@@ -52,7 +52,7 @@ export class WorkItemsApi extends CRUD {
   }
 }
 
-export default function workItemsApi(request: AxiosInstance) {
+export default function workItemsApi(request: AxiosInstance): WorkItemsApi {
   return new WorkItemsApi({
     url: '/work_items',
     request,

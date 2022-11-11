@@ -1,7 +1,8 @@
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
 import { store } from 'store';
-
+import { logout } from 'store/asyncActions/profile';
 import usersApi, { UsersApi } from './routes/users';
+
 import workItemsApi, { WorkItemsApi } from './routes/workItems';
 import historyApi, { HistoryApi } from './routes/history';
 import commentsApi, { CommentsApi } from './routes/comments';
@@ -10,8 +11,7 @@ import developerProjectsApi, {
   DeveloperProjectsApi,
 } from './routes/developerProjects';
 import projectsApi, { ProjectsApi } from './routes/projects';
-
-import { logout } from 'store/asyncActions/profile';
+import { ErrorStatus } from 'constants/errorStatus';
 
 type Token = string | null;
 
@@ -46,8 +46,8 @@ class ClientApi {
     this.instance.interceptors.response.use(
       (res) => res,
       (error: AxiosError) => {
-        if (error.response?.status === 401) {
-          store.dispatch(logout());
+        if (error.response?.status === ErrorStatus.UNAUTHORIZED) {
+          void store.dispatch(logout());
         }
         throw error;
       },

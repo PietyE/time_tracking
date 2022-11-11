@@ -1,9 +1,15 @@
-export function downloadFile(data: Blob, filename: string, mime?: string) {
+export function downloadFile(
+  data: Blob,
+  filename: string,
+  mime?: string,
+): void {
   const blobData = [data];
-  const blob = new Blob(blobData, { type: mime || 'application/octet-stream' });
+  const blob = new Blob(blobData, { type: mime ?? 'application/octet-stream' });
+
+  const timeoutInterval: number = 200;
 
   const blobURL =
-    window.URL && window.URL.createObjectURL
+    window?.URL && window?.URL.createObjectURL
       ? window.URL.createObjectURL(blob)
       : window.webkitURL.createObjectURL(blob);
   const tempLink = document.createElement('a');
@@ -26,5 +32,5 @@ export function downloadFile(data: Blob, filename: string, mime?: string) {
   setTimeout(function () {
     document.body.removeChild(tempLink);
     window.URL.revokeObjectURL(blobURL);
-  }, 200);
+  }, timeoutInterval);
 }

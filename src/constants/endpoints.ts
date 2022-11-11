@@ -1,4 +1,4 @@
-//See full documentation on https://dev-api-timetracking.vilmate.com/docs/api/
+// See full documentation on https://dev-api-timetracking.vilmate.com/docs/api/
 
 export enum DeveloperProjectsEndpoints {
   DEVELOPER_PROJECTS = '/developer-projects/',
@@ -29,7 +29,7 @@ export enum UsersEndpoints {
   PROJECTS_REPORT = '/projects-report/',
 }
 
-//can be renamed in People in future
+// can be renamed in People in future
 export enum VilmateCommentsEndpoints {
   VILMATE_COMMENTS = '/vilmate-comments/',
 }

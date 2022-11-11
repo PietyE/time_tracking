@@ -1,4 +1,4 @@
 export const isArrayHaveEveryElement = <T>(
-  arrayToCheck: Array<T>,
-  arrayInCheck: Array<T>,
+  arrayToCheck: T[],
+  arrayInCheck: T[],
 ): boolean => arrayToCheck.every((element) => arrayInCheck.includes(element));

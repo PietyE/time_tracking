@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppSelector } from 'hooks/redux';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
 
@@ -9,6 +8,7 @@ import RequireAuth from 'components/RequireAuth';
 import MainLayout from 'components/MainLayout';
 import LoginPage from 'pages/LoginPage';
 import ProjectsReportPage from 'pages/ProjectsReportPage';
+import { AppRoutes } from 'constants/appRoutesConstants';
 
 const RootRoutes: FC = () => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);

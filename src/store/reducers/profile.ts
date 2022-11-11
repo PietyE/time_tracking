@@ -1,19 +1,18 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { Role } from 'constants/profileRoleConstants';
 import { createTypedSelector } from '../utils';
-import type { User } from 'api/models/users';
-
 import {
   userGoogleSignIn,
   getUserProfile,
   logout,
 } from '../asyncActions/profile';
+import { Role } from 'constants/profileRoleConstants';
+import type { User } from 'api/models/users';
 
-interface IProfile {
+export interface IProfile {
   isAuth: boolean;
   isLoading: boolean;
   isProfileFetching: boolean;
-  profileData: User & { imageUrl?: string }; //// refactor to do
+  profileData: User & { imageUrl?: string }; // refactor to do
 }
 
 const initialState: IProfile = {

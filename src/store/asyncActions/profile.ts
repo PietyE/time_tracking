@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import api from 'api';
 
-import type { GoogleAuthData } from 'api/models/users';
 import { lsApi, type ProfileDataStorageI } from 'services/storageApi';
+import type { GoogleAuthData } from 'api/models/users';
 
 export const userGoogleSignIn = createAsyncThunk(
   'profile/userGoogleSignIn',
@@ -28,7 +28,7 @@ export const userGoogleSignIn = createAsyncThunk(
 
 export const getUserProfile = createAsyncThunk(
   'profile/getUserProfile',
-  async (_, { rejectWithValue }) => {
+  async (__, { rejectWithValue }) => {
     try {
       const profileData = lsApi.get<ProfileDataStorageI>('profileData');
 
@@ -47,5 +47,5 @@ export const getUserProfile = createAsyncThunk(
 export const logout = createAsyncThunk('profile/logout', () => {
   lsApi.removeItem('profileData');
   api.setToken(null);
-  api.users.logout();
+  void api.users.logout();
 });
