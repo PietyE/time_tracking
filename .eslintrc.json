@@ -74,9 +74,19 @@
     "default-case-last": "warn",
     "default-param-last": "warn",
     "eqeqeq": ["warn", "smart"],
-    "id-length": ["warn", { "min": 2 }],
+    "id-length": [
+      "warn",
+      {
+        "min": 2
+      }
+    ],
     "init-declarations": ["warn", "always"],
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
     "no-empty-function": "warn",
     "no-eq-null": "warn",
     "no-magic-numbers": "warn",
@@ -85,5 +95,13 @@
     "react-hooks/exhaustive-deps": "warn",
     "no-duplicate-imports": "warn",
     "default-case": "warn"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "tsconfig.json"
+      }
+    }
   }
 }
