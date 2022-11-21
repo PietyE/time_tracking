@@ -9,6 +9,12 @@ declare module '@mui/material/styles' {
   }
 }
 
+declare module '@mui/material/styles/createTypography' {
+  interface FontStyle {
+    fontWeightSemiBold: number;
+  }
+}
+
 declare module '@mui/material/CircularProgress' {
   interface CircularProgressPropsColorOverrides {
     neutral: true;
@@ -26,6 +32,9 @@ export const theme = createTheme({
     neutral: {
       main: 'red',
     },
+  },
+  typography: {
+    fontWeightSemiBold: 800,
   },
   breakpoints: {
     values: {
