@@ -27,4 +27,13 @@ export const theme = createTheme({
       main: 'red',
     },
   },
+  breakpoints: {
+    values: {
+      xs: 480,
+      sm: 768,
+      md: 1024,
+      lg: 1680,
+      xl: 1920,
+    },
+  },
 });
