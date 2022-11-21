@@ -17,18 +17,19 @@ export enum GreyColors {
 }
 
 export enum GreenColors {
-  DARK = '#125856',
+  MAIN_DARK = '#125856',
   MAIN = '#009C98',
-  MAIN_OPACITY_50 = '#009C9880',
-  MAIN_OPACITY_10 = '#009C981A',
-  SECONDARY = '#99D7D6',
-  LIGHT = '#E7F1F0',
+  SECONDARY = '#009C9880',
+  SECONDARY_LIGHT = '#009C981A',
+  MAIN_LIGHT = '#99D7D6',
+  SECONDARY_DARK = '#E7F1F0',
   LIGHT_OPACITY_15 = '#576C6C26',
 }
 
 export enum OtherColors {
   ERROR = '#F84242CC',
   LINEAR_GRADIENT = '180deg, #E1A140 0%, #F84242 28.13%, #1864D6 65.1%, #C416C8 100%',
+  WHITE = '#FFFFFF',
 }
 
 export enum BackgroundColors {
