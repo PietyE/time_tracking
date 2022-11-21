@@ -5,7 +5,7 @@ import SignInForm from './components/SignInForm';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
 import { useAppSelector } from 'hooks/redux';
 
-import LogoSvg from 'components/common/svg/Logo';
+import LogoSvg from 'shared/UI/svg/Logo';
 import { AppRoutes } from 'constants/appRoutesConstants';
 
 const LoginPage: FC = () => {

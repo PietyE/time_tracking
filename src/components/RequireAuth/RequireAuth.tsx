@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { isArrayHaveEveryElement } from 'utils/isArrayHaveEveryElement';
+import { isArrayHaveEveryElement } from 'shared/utils/isArrayHaveEveryElement';
 import { useAppSelector } from 'hooks/redux';
 import {
   getIsAuthProfileSelector,

@@ -7,12 +7,12 @@ import {
   OtherColors,
 } from 'constants/colors';
 import type { Color } from '@mui/material';
+import type { ReverseMap } from 'shared/types';
 
-type ReverseMap<T> = T[keyof T];
+type GreyColorsValues = ReverseMap<typeof GreyColors>;
+type GreyColorsKeys = keyof typeof GreyColors;
 
-type Values = ReverseMap<typeof GreyColors>;
-
-type CustomGreyColor = Record<keyof typeof GreyColors, Values>;
+type CustomGreyColor = Record<GreyColorsKeys, GreyColorsValues>;
 
 declare module '@mui/material/styles' {
   interface TypeBackground {

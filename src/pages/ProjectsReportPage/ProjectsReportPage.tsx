@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import Text from 'components/common/Text';
+import Text from 'shared/components/Text';
 
 const ProjectsReportPage: FC = () => {
   return (

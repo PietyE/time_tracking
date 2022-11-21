@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import Spinner from 'components/common/Spinner';
+import Spinner from 'shared/components/Spinner';
 
 const Loading: FC = () => {
   return (

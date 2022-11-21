@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import Button, { type ButtonProps } from '@mui/material/Button';
 
-import GoogleLogo from 'components/common/svg/GoogleLogo';
+import GoogleLogo from 'shared/UI/svg/GoogleLogo';
 
 // readonly render?: (props: { onClick: () => void, disabled?: boolean }) => JSX.Element;
 
