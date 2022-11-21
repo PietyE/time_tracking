@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import SignInForm from './components/SignInForm';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
 import { useAppSelector } from 'hooks/redux';
 
 import LogoSvg from 'components/common/svg/Logo';
-import SignInForm from './components/SignInForm';
 import { AppRoutes } from 'constants/appRoutesConstants';
 
 const LoginPage: FC = () => {

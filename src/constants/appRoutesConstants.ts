@@ -5,6 +5,6 @@ export enum AppRoutes {
   projectReport = 'projects-report',
   projectManagement = 'projects-management',
   vilmates = 'vilmates',
-  singlePage = '/user/',
+  singlePage = '/user',
   syncWithGoogleSheets = 'gsheets/auth-success',
 }

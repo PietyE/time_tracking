@@ -1,6 +1,4 @@
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
-import { store } from 'store';
-import { logout } from 'store/asyncActions/profile';
 import usersApi, { UsersApi } from './routes/users';
 
 import workItemsApi, { WorkItemsApi } from './routes/workItems';
@@ -11,6 +9,8 @@ import developerProjectsApi, {
   DeveloperProjectsApi,
 } from './routes/developerProjects';
 import projectsApi, { ProjectsApi } from './routes/projects';
+import { logout } from 'store/asyncActions/profile';
+import { store } from 'store';
 import { ErrorStatus } from 'constants/errorStatus';
 
 type Token = string | null;
