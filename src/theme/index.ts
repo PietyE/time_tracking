@@ -36,4 +36,5 @@ export const theme = createTheme({
       xl: 1920,
     },
   },
+  spacing: (factor: number) => `${(factor * 0.25) / 4}rem`,
 });
