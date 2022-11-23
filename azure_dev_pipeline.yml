@@ -14,13 +14,19 @@ jobs:
           versionSpec: '18.12.1'
           checkLatest: true
         displayName: 'installing Node.js 18.12.1'
-      - script: |
+      - script: 
           npx lint-staged
+        displayName: 'npx lint'
+      - script: 
           npm install
+        displayName: 'npm install'
+      - script: 
           npm run build:dev
+        displayName: 'npm build'
+      - script: |
           cd $(Build.SourcesDirectory)
           ls -al
-        displayName: 'npx lint-staged && npm install & npm build'
+        displayName: 'checking directory'
       - task: CopyFilesOverSSH@0
         inputs:
           sshEndpoint: 'time_tracking'
