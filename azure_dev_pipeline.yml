@@ -38,6 +38,8 @@ jobs:
         displayName: 'copying files'        
 
   - job: 
+    pool:
+      vmImage: 'ubuntu-latest'
     dependsOn: build   
     steps: 
       - task: SSH@0
