@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+    - dev
+    - feature-to-dev/*
+jobs:
+  - job: build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSource: 'spec'
+          versionSpec: '18.12.1'
+          checkLatest: true
+        displayName: 'installing Node.js 18.12.1'
+      - script: |
+          npm install
+          npm run build:dev
+          cd $(Build.SourcesDirectory)
+          ls -al
+        displayName: 'npm install & npm build'
+        
