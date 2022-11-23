@@ -1,11 +1,11 @@
 # **Scripts list:**
 
 
-* `npm run start:dev` - Start app in dev environment
+* `npm run start:development` - Start app in dev environment
 
 * `npm run start:production` - Start app in production environment
 
-* `npm run build:dev` - Build app with dev environment
+* `npm run build:development` - Build app with dev environment
 
 * `npm run build:production` - Build app with production environment
 
