@@ -1,1 +1,0 @@
-export { GoogleSyncButton } from './GoogleSyncButton'

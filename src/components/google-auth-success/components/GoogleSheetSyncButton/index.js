@@ -1,1 +1,0 @@
-export { GoogleSheetSyncButtonMemoized } from './GoogleSheetSyncButton'

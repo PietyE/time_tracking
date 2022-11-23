@@ -1,8 +1,0 @@
-@import 'src/styles/scroll.scss';
-
-.list {
-  overflow-y: scroll;
-  height: 200px;
-  padding: 0 15px 0 20px;
-  @extend .scroll;
-}

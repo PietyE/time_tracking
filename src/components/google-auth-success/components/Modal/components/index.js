@@ -1,1 +1,0 @@
-export { GoogleModalContent } from './GoogleModalContent'

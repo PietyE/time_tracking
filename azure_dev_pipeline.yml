@@ -1,8 +1,8 @@
 trigger:
   branches:
     include:
-    - dev
-    - feature-to-dev/*
+      - dev
+      - feature-to-dev/*
 jobs:
   - job: build
     pool:
@@ -14,13 +14,13 @@ jobs:
           versionSpec: '18.12.1'
           checkLatest: true
         displayName: 'installing Node.js 18.12.1'
-      - script: 
+      - script:
           npx lint-staged
         displayName: 'npx lint'
-      - script: 
+      - script:
           npm install
         displayName: 'npm install'
-      - script: 
+      - script:
           npm run build:development
         displayName: 'npm build'
       - script: |
@@ -35,18 +35,15 @@ jobs:
             build/**
           targetFolder: '/var/www/html/time-tracking-front-dev'
           readyTimeout: '20000'
-        displayName: 'copying files'        
+        displayName: 'copying files'
 
-  - job: 
-    pool:
-      vmImage: 'ubuntu-latest'
-    dependsOn: build   
-    steps: 
+  - job:
+    dependsOn: build
+    steps:
       - task: SSH@0
         inputs:
           sshEndpoint: 'time_tracking'
           runOptions: 'commands'
           commands: 'service nginx restart'
           readyTimeout: '20000'
-        displayName: 'restarting nginx'
-    displayName: 'deploy'
+    displayName: 'restarting nginx'

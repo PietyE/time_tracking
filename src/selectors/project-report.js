@@ -1,1 +1,0 @@
-export const getProjectReportError = state => state.projectsReport.errorProjectReport

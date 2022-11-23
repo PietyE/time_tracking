@@ -1,1 +1,0 @@
-export { GoogleModal } from './GoogleModal'

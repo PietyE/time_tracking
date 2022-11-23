@@ -1,68 +1,115 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# **Scripts list:**
 
-## Available Scripts
 
-In the project directory, you can run:
+* `npm run start:dev` - Start app in dev environment
 
-### `yarn start`
+* `npm run start:production` - Start app in production environment
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* `npm run build:dev` - Build app with dev environment
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+* `npm run build:production` - Build app with production environment
 
-### `yarn test`
+* `npm run eject` - Eject react application
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* `npm run prettier` - Lint all files with prettier
 
-### `yarn build`
+* `npm run eslint` - Lint all files with eslint
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* `npm run pre-commit` - Run lint-staged ( see more in .lintstagedrc)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## To start project locally (via 🐋[Docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/)):
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`docker-compose up --build -d` (for first run)
 
-### `yarn eject`
+`docker-compose up -d` (for subsequent runs)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#  **CODE STYLE**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* ##  **Commit rules**
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### **Please name your commit as this example**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### **type(scope?): subject**
 
-## Learn More
+### **Type can be one of constant words in lower case:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* feature
+* styles
+* tests
+* refactoring
+* revert
+* fix
+* hotfix
+* docs
+* ci
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Scope can be any word in upper case and should be in scopes left and right and end with ' : ', but please name it in general:**
 
-### Code Splitting
+* API
+* REDUX
+* SERVER
+* UI
+* etc
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### **If commit is important and have some breaking changes please note it with ' ! ' after scope before ' : '**
 
-### Analyzing the Bundle Size
+**Subject can be a little description in sensitive case**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+**Please make commit that is going to describe the only one task with one type ,
+one scope and short description , max length should be not more than 82 symbols**
 
-### Making a Progressive Web App
+### **Example of the correct commit:**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+feature(UI): Added button to download XLS devs reports in project management
 
-### Advanced Configuration
+### **WITH BREAKING CHANGES**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+feature(ROUTER)!: Updated react router dom to v6.4
 
-### Deployment
+See more about commit rules and installed packages:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `yarn build` fails to minify
+[https://github.com/conventional-changelog/commitlint](https://www.conventionalcommits.org/en/v1.0.0/#specification)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+[https://www.conventionalcommits.org/en/v1.0.0/#specification](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+
+* ## **Branch rules**
+
+### **Branch name can be one of constant words in lower case:**
+
+* refactoring
+* feature
+* hotfix
+* release
+* merge_to_stage
+* fix
+* refactoring
+
+### **The separator should be ' / '**
+
+### **The second parameter should be task id**
+
+* 16054
+* 1
+* 11
+* 078
+* etc
+
+### **The third and last parameter should be the name of task in lower case separated with " _ "**
+
+* add_sorting_button_to_project_management
+* create_profile_slice
+* add_permissions_for_admin
+* etc
+
+### **Examples of correct branches naming:**
+
+* feature/16054/add_sorting_button_to_project_management
+* refactoring/123/create_new_api_models
+* fix/1235/we_can_not_add_user_with_permission_accountant
+* etc
+
+See more about branch names and installed packages:
+
+[https://github.com/barzik/branch-name-lint](https://github.com/barzik/branch-name-lint)

@@ -1,0 +1,24 @@
+{
+  "branchNameLinter": {
+    "prefixes": [
+      "feature",
+      "hotfix",
+      "release",
+      "merge_to_stage",
+      "fix",
+      "refactoring"
+    ],
+    "skip": [
+      "skip-ci"
+    ],
+    "disallowed": [
+      "master",
+      "dev",
+      "stage"
+    ],
+    "separator": "/",
+    "msgBranchDisallowed": "Pushing to \"%s\" is not allowed, use git-flow.",
+    "msgPrefixNotAllowed": "Please create a branch with name as in readme.md code styles example",
+    "msgseparatorRequired": "Please create a branch with name as in readme.md code styles example"
+  }
+}

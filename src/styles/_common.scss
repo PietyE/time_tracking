@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #000000;
+}
+
+#root {
+  display: block;
+  background: $background;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.typography {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 4.5rem;
+  color: $black;
+}
+
+.h1 {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 5.1875rem;
+  letter-spacing: 0.021em;
+  color: $black2;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 4.5rem;
+  display: flex;
+  letter-spacing: 0.018em;
+  color: $black2;
+}
+
+.h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+  letter-spacing: 0.018em;
+  color: $black2;
+}
+
+.h4 {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 2.25rem;
+  letter-spacing: 0.018em;
+  color: $black2;
+}
+
+.subtitle {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.8125rem;
+  letter-spacing: 0.02em;
+  color: $black2;
+}
+
+.main-body {
+  font-size: 1rem;
+  line-height: 1.8125rem;
+  color: #222222;
+}
+
+.comment-body {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.8125rem;
+  color: #222222;
+}
+
+.description {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 2rem;
+  color: $grey-text;
+}
