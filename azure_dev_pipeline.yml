@@ -49,3 +49,4 @@ jobs:
           commands: 'service nginx restart'
           readyTimeout: '20000'
         displayName: 'restarting nginx'
+    displayName: 'deploy'
