@@ -15,9 +15,18 @@ jobs:
           checkLatest: true
         displayName: 'installing Node.js 18.12.1'
       - script: |
+          npx lint-staged
           npm install
           npm run build:dev
           cd $(Build.SourcesDirectory)
           ls -al
-        displayName: 'npm install & npm build'
-        
+        displayName: 'npx lint-staged && npm install & npm build'
+      - task: CopyFilesOverSSH@0
+        inputs:
+          sshEndpoint: 'time_tracking'
+          sourceFolder: '$(Build.SourcesDirectory)'
+          contents: |
+            build/**
+          targetFolder: '/var/www/html/time-tracking-front-dev'
+          readyTimeout: '20000'
+        displayName: 'copying files'        
