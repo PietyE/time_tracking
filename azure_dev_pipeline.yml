@@ -36,3 +36,14 @@ jobs:
           targetFolder: '/var/www/html/time-tracking-front-dev'
           readyTimeout: '20000'
         displayName: 'copying files'        
+
+  - job: 
+    dependsOn: configuring nginx   
+    steps: 
+      - task: SSH@0
+        inputs:
+          sshEndpoint: 'time_tracking'
+          runOptions: 'commands'
+          commands: 'service nginx restart'
+          readyTimeout: '20000'
+        displayName: 'restarting nginx'
