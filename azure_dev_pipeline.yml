@@ -38,7 +38,7 @@ jobs:
         displayName: 'copying files'        
 
   - job: 
-    dependsOn: configuring nginx   
+    dependsOn: build   
     steps: 
       - task: SSH@0
         inputs:
@@ -46,4 +46,4 @@ jobs:
           runOptions: 'commands'
           commands: 'service nginx restart'
           readyTimeout: '20000'
-        displayName: 'restarting nginx'
+    displayName: 'restarting nginx'
