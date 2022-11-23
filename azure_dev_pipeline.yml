@@ -21,7 +21,7 @@ jobs:
           npm install
         displayName: 'npm install'
       - script: 
-          npm run build
+          npm run build:development
         displayName: 'npm build'
       - script: |
           cd $(Build.SourcesDirectory)
