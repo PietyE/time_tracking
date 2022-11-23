@@ -13,20 +13,20 @@ jobs:
           versionSource: 'spec'
           versionSpec: '18.12.1'
           checkLatest: true
-        displayName: 'installing Node.js 18.12.1'
-      - script:
-          npx lint-staged
-        displayName: 'npx lint'
+        displayName: 'Installing Node.js 18.12.1'
       - script:
           npm install
-        displayName: 'npm install'
+        displayName: 'Installing node modules'
+      - script:
+          npx lint-staged
+        displayName: 'Check code with linter styles'
       - script:
           npm run build:development
-        displayName: 'npm build'
+        displayName: 'Building application'
       - script: |
           cd $(Build.SourcesDirectory)
           ls -al
-        displayName: 'checking directory'
+        displayName: 'Checking directory'
       - task: CopyFilesOverSSH@0
         inputs:
           sshEndpoint: 'time_tracking'
@@ -35,7 +35,7 @@ jobs:
             build/**
           targetFolder: '/var/www/html/time-tracking-front-dev'
           readyTimeout: '20000'
-        displayName: 'copying files'
+        displayName: 'Copying files'
 
   - job:
     dependsOn: build
