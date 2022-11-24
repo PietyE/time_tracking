@@ -3,8 +3,9 @@ FROM node:18
 COPY . /app
 # change working directory in container
 WORKDIR /app
-RUN npm install
-RUN npx lint-staged
+RUN npm install && npm install && \
+    rpm run prettier && \
+    npm run eslint
 # add `/app/node_modules/.bin` to $PATH
 EXPOSE 5000
 ENV PATH /app/node_modules/.bin:$PATH
