@@ -1,49 +1,26 @@
+variables:
+  - group: DOKKU_DEV_FRONT_VARIABLES
+  - name: DOKKU_PROJECT_NAME
+    value: time-tracking-frontend
+
 trigger:
   branches:
     include:
       - dev
       - feature-to-dev/*
-jobs:
-  - job: build
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSource: 'spec'
-          versionSpec: '18.12.1'
-          checkLatest: true
-        displayName: 'Installing Node.js 18.12.1'
-      - script:
-          npm install
-        displayName: 'Installing node modules'
-      - script:
-          npx lint-staged
-        displayName: 'Check code with linter styles'
-      - script:
-          npm run build:development
-        displayName: 'Building application'
-      - script: |
-          cd $(Build.SourcesDirectory)
-          ls -al
-        displayName: 'Checking directory'
-      - task: CopyFilesOverSSH@0
-        inputs:
-          sshEndpoint: 'time_tracking'
-          sourceFolder: '$(Build.SourcesDirectory)'
-          contents: |
-            build/**
-          targetFolder: '/var/www/html/time-tracking-front-dev'
-          readyTimeout: '20000'
-        displayName: 'Copying files'
 
-  - job:
-    dependsOn: build
-    steps:
-      - task: SSH@0
-        inputs:
-          sshEndpoint: 'time_tracking'
-          runOptions: 'commands'
-          commands: 'service nginx restart'
-          readyTimeout: '20000'
-    displayName: 'restarting nginx'
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+  - task: InstallSSHKey@0
+    inputs:
+      knownHostsEntry: $(SSH_KNOWN_HOSTS_ENTRY)
+      sshPublicKey: $(SSH_PUBLIC_KEY)
+      sshKeySecureFile: $(SSH_PRIVATE_KEY_FILENAME)
+  - script: |
+      git remote add dokku dokku@$DOKKU_SERVER:$DOKKU_PROJECT_NAME
+      git remote -v
+      git push dokku HEAD:master --force
+    displayName: 'Deploy to Dokku'
