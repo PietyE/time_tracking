@@ -11,8 +11,8 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: ./Dockerfile
-    image: time_tracking_local_react
+      dockerfile: ./Dockerfile.development
+    image: time_tracking_development_react_local
     volumes:
       - .:/app
     env_file:

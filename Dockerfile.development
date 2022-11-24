@@ -4,8 +4,16 @@ WORKDIR /app
 
 COPY package.json .
 
+COPY .npmrc .
+
 RUN npm install
 
 COPY . .
 
-CMD [ "npm", "run", "start" ]
+# add `/app/node_modules/.bin` to $PATH
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN chmod -R +x scripts
+
+CMD [ "/app/scripts/run-local.sh" ]
