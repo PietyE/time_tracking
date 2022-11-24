@@ -88,12 +88,12 @@ See more about commit rules and installed packages:
 
 ### **The separator should be ' / '**
 
-### **The second parameter should be task id**
+### **The second parameter should be AZURE-task id**
 
-* 16054
-* 1
-* 11
-* 078
+* AZURE-16054
+* AZURE-1
+* AZURE-11
+* AZURE-078
 * etc
 
 ### **The third and last parameter should be the name of task in lower case separated with " _ "**
@@ -105,9 +105,9 @@ See more about commit rules and installed packages:
 
 ### **Examples of correct branches naming:**
 
-* feature/16054/add_sorting_button_to_project_management
-* refactoring/123/create_new_api_models
-* fix/1235/we_can_not_add_user_with_permission_accountant
+* feature/AZURE-16054/add_sorting_button_to_project_management
+* refactoring/AZURE-123/create_new_api_models
+* fix/AZURE-1235/we_can_not_add_user_with_permission_accountant
 * etc
 
 See more about branch names and installed packages:
