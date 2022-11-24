@@ -12,8 +12,7 @@
 # RUN chmod -R +x scripts
 # CMD ["/app/scripts/run-local.sh"]
 
-FROM node:18 as builder
-
+FROM node:18
 COPY . /app
 
 WORKDIR /app
@@ -21,10 +20,4 @@ RUN npm install && npm install && \
     npm run prettier && \
     npm run eslint && \
     npm run build:development
-
-FROM busybox:latest
-
-WORKDIR /app
-
-COPY --from=builder /app/build /app/build
 
