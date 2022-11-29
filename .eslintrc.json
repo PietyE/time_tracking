@@ -101,6 +101,15 @@
     "no-duplicate-imports": "warn",
     "default-case": "warn"
   },
+  "overrides": [
+    {
+      "files": ["src/constants/**", "src/theme/index.ts"],
+      "rules": {
+        "id-length": "off",
+        "no-magic-numbers": "off"
+      }
+    }
+  ],
   "settings": {
     "import/resolver": {
       "typescript": {
