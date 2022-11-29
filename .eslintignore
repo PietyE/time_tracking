@@ -3,3 +3,4 @@ commitlint.config.ts
 node_modules
 .husky
 .lintstagedrc
+styles.ts

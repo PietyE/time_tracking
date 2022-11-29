@@ -47,6 +47,11 @@
             "position": "before"
           },
           {
+            "pattern": "./styles",
+            "group": "type",
+            "position": "after"
+          },
+          {
             "pattern": "**/*css",
             "group": "type",
             "position": "after"
