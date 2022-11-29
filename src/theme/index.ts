@@ -79,7 +79,7 @@ const basicTheme = createTheme({
     },
   },
   typography: {
-    fontWeightSemiBold: 800,
+    fontWeightSemiBold: 600,
     fontFamily: 'Montserrat',
   },
   breakpoints: {
@@ -142,6 +142,50 @@ export const theme = createTheme(basicTheme, {
       defaultProps: {
         disableRipple: true,
       },
+    },
+  },
+  typography: {
+    color: basicTheme.palette.secondary.contrastText,
+    h1: {
+      fontSize: basicTheme.typography.pxToRem(64),
+      fontWeight: basicTheme.typography.fontWeightBold,
+    },
+    h2: {
+      fontSize: basicTheme.typography.pxToRem(48),
+      fontWeight: basicTheme.typography.fontWeightBold,
+    },
+    h3: {
+      fontSize: basicTheme.typography.pxToRem(26),
+      fontWeight: basicTheme.typography.fontWeightSemiBold,
+    },
+    h4: {
+      fontSize: basicTheme.typography.pxToRem(24),
+      fontWeight: basicTheme.typography.fontWeightSemiBold,
+    },
+    h5: {
+      fontSize: basicTheme.typography.pxToRem(18),
+      fontWeight: basicTheme.typography.fontWeightSemiBold,
+    },
+    h6: {
+      fontSize: basicTheme.typography.pxToRem(16),
+      fontWeight: basicTheme.typography.fontWeightMedium,
+    },
+    body1: {
+      fontSize: basicTheme.typography.pxToRem(14),
+      fontWeight: basicTheme.typography.fontWeightMedium,
+    },
+    body2: {
+      fontSize: basicTheme.typography.pxToRem(12),
+      fontWeight: basicTheme.typography.fontWeightMedium,
+      color: basicTheme.palette.customGrey.MAIN_TEXT,
+    },
+    subtitle1: {
+      fontSize: basicTheme.typography.pxToRem(16),
+      fontWeight: basicTheme.typography.fontWeightSemiBold,
+    },
+    subtitle2: {
+      fontSize: basicTheme.typography.pxToRem(14),
+      fontWeight: basicTheme.typography.fontWeightSemiBold,
     },
   },
 });
