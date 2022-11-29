@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useAppDispatch } from 'hooks/redux';
 import { logout } from 'store/asyncActions/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
@@ -13,13 +13,19 @@ interface ItemMenuPropsI {
 const MainMenu: FC = () => {
   const dispatch = useAppDispatch();
   return (
-    <nav className='menu_container'>
+    <Box
+      component='nav'
+      width={1}
+      maxWidth={260}
+      height='100vh'
+      bgcolor='primary.contrastText'
+    >
       <ul>
         <ItemMenu to={AppRoutes.timeReport}>Time Report</ItemMenu>
         <ItemMenu to={AppRoutes.projectReport}>Project Report</ItemMenu>
       </ul>
       <Button onClick={() => dispatch(logout())}>Logout</Button>
-    </nav>
+    </Box>
   );
 };
 
