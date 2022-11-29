@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, experimental_sx as sx } from '@mui/material/styles';
 import {
   BackgroundColors,
   BlackColors,
@@ -22,8 +22,8 @@ declare module '@mui/material/styles' {
     greyGreen: TypeBackground['paper'];
   }
   interface Palette {
-    customGrey: Palette['primary'];
-    black: Palette['primary'];
+    customGrey: Partial<CustomGreyColor>;
+    black: Partial<Color & { 450: BlackColors.MAIN_OPACITY_45 }>;
   }
   interface PaletteOptions {
     customGrey: Partial<CustomGreyColor>;
@@ -37,7 +37,7 @@ declare module '@mui/material/styles/createTypography' {
   }
 }
 
-export const theme = createTheme({
+const basicTheme = createTheme({
   palette: {
     primary: {
       main: GreenColors.MAIN,
@@ -80,6 +80,7 @@ export const theme = createTheme({
   },
   typography: {
     fontWeightSemiBold: 800,
+    fontFamily: 'Montserrat',
   },
   breakpoints: {
     values: {
@@ -91,4 +92,56 @@ export const theme = createTheme({
     },
   },
   spacing: (factor: number) => `${(factor * 0.25) / 4}rem`,
+});
+
+export const theme = createTheme(basicTheme, {
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          border: `1px solid ${basicTheme.palette.background.grey}`,
+        },
+        elevation1: {
+          boxShadow: 'none',
+        },
+        rounded: sx({
+          borderRadius: 2,
+        }),
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          padding: basicTheme.spacing(8, 16),
+          textTransform: 'none',
+          fontWeight: basicTheme.typography.fontWeightMedium,
+          '&:hover': {
+            transform: 'none',
+            boxShadow: 'none',
+          },
+          '&.MuiButton-containedPrimary:hover': {
+            backgroundColor: basicTheme.palette.primary.light,
+          },
+          '&.MuiButton-containedSecondary:hover': {
+            backgroundColor: basicTheme.palette.secondary.light,
+          },
+        },
+        contained: {
+          boxShadow: 'none',
+        },
+      },
+    },
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+  },
 });
