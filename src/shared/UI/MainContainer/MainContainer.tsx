@@ -1,10 +1,10 @@
-import type { FC, ReactNode } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { Box, Container } from '@mui/material';
 import { styles } from './styles';
 
-export const MainContainer: FC<{
-  children: ReactNode;
-}> = ({ children }): JSX.Element => (
+export const MainContainer: FC<PropsWithChildren> = ({
+  children,
+}): JSX.Element => (
   <Container
     maxWidth='xl'
     component='main'
