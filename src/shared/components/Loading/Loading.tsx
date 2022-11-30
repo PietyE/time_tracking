@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Stack } from '@mui/material';
-import Spinner from 'shared/components/Spinner';
+import Spinner from 'shared/UI/Spinner';
 import { styles } from './styles';
 
 const Loading: FC = () => {

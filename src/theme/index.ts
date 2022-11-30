@@ -143,6 +143,50 @@ export const theme = createTheme(basicTheme, {
         disableRipple: true,
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: sx({
+          boxSizing: 'border-box',
+          padding: 12,
+          minHeight: 42,
+          background: basicTheme.palette.common.white,
+          '& fieldset': {
+            border: 1,
+            borderColor: basicTheme.palette.customGrey.STROKE_FORM_OPACITY_20,
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            border: 1,
+            borderColor: basicTheme.palette.customGrey.STROKE_FORM_OPACITY_20,
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: basicTheme.palette.primary.main,
+            borderWidth: 1,
+          },
+        }),
+        input: {
+          fontWeight: 500,
+          fontSize: basicTheme.typography.pxToRem(14),
+          padding: 0,
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          '&::placeholder': {
+            color: basicTheme.palette.text.disabled,
+          },
+        },
+        multiline: {
+          padding: 12,
+          fontSize: basicTheme.typography.pxToRem(14),
+        },
+        colorSecondary: {
+          '&.Mui-focused': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: basicTheme.palette.primary.main,
+              borderWidth: 1,
+            },
+          },
+        },
+      },
+    },
   },
   typography: {
     color: basicTheme.palette.secondary.contrastText,
