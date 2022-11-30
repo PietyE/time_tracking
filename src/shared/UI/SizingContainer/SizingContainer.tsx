@@ -3,7 +3,7 @@ import { Box, type BoxProps } from '@mui/material';
 import type { SizingContainerProps } from './types';
 import { styles } from './styles';
 
-type Props = BoxProps & SizingContainerProps & { maxWidth?: never };
+type Props = BoxProps & SizingContainerProps & { maxWidth?: never; sx?: never };
 
 export const SizingContainer: FC<PropsWithChildren<Props>> = ({
   size,
