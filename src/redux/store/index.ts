@@ -4,12 +4,14 @@ import profile from '../slices/profile';
 import vilmates from '../slices/vilmates';
 import vilmateSinglePage from '../slices/vilmateSinglePage';
 import calendar from '../slices/calendar';
+import syncWithGoogleSheets from '../slices/syncWithGoogleSheets';
 
 const rootReducer = combineReducers({
   profile,
   vilmates,
   vilmateSinglePage,
   calendar,
+  syncWithGoogleSheets,
 });
 
 export const store = configureStore({
