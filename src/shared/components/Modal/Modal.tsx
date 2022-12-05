@@ -34,9 +34,9 @@ export const Modal: FC<Props> = ({
   singleButtonActionText = 'Button',
   leftButtonActionText = 'Left Button',
   rightButtonActionText = 'Right Button',
-  singleButtonAction = () => console.log('single btn click'),
-  leftButtonAction = () => console.log('left btn click'),
-  rightButtonAction = () => console.log('right btn click'),
+  singleButtonAction = () => {},
+  leftButtonAction = () => {},
+  rightButtonAction = () => {},
   ...props
 }): JSX.Element => {
   return (

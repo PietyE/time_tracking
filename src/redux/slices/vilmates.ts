@@ -22,7 +22,7 @@ export const getIsLoadingVilmatePage = createTypedSelector<boolean>(
   (state) => state.vilmates.isLoading,
 );
 
-export const getVilmateUseres = createTypedSelector<Users[]>(
+export const getVilmateUsers = createTypedSelector<Users[]>(
   (state) => state.vilmates.users,
 );
 
