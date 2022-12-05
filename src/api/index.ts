@@ -9,8 +9,8 @@ import developerProjectsApi, {
   DeveloperProjectsApi,
 } from './routes/developerProjects';
 import projectsApi, { ProjectsApi } from './routes/projects';
-import { logout } from 'store/asyncActions/profile';
-import { store } from 'store';
+import { store } from 'redux/store';
+import { logout } from 'redux/asyncActions/profile';
 import { ErrorStatus } from 'constants/errorStatus';
 
 type Token = string | null;

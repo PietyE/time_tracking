@@ -5,7 +5,7 @@ import { useAppSelector } from 'hooks/redux';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
-} from 'store/reducers/profile';
+} from 'redux/slices/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import type { Permissions } from 'constants/permissions';
 

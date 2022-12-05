@@ -3,7 +3,7 @@ import { Link, useMatch } from 'react-router-dom';
 
 import { Box, Button } from '@mui/material';
 import { useAppDispatch } from 'hooks/redux';
-import { logout } from 'store/asyncActions/profile';
+import { logout } from 'redux/asyncActions/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 
 interface ItemMenuPropsI {

@@ -5,7 +5,7 @@ import {
 } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import type { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import type { AppDispatch, RootState } from 'store';
+import type { AppDispatch, RootState } from 'redux/store';
 
 export const useAppDispatch = (): ThunkDispatch<{}, undefined, AnyAction> =>
   useDispatch<AppDispatch>();

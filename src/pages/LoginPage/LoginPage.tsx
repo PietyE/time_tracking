@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
 import SignInForm from './components/SignInForm';
-import { getIsAuthProfileSelector } from 'store/reducers/profile';
+import { getIsAuthProfileSelector } from 'redux/slices/profile';
 import { useAppSelector } from 'hooks/redux';
 
 import LogoSvg from 'shared/svg/Logo';
