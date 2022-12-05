@@ -3,8 +3,8 @@ import { RouterProvider } from 'react-router-dom';
 import { routes } from 'routes';
 import Loading from 'shared/components/Loading';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { getUserProfile } from 'store/asyncActions/profile';
-import { getIsLoadingProfileSelector } from 'store/reducers/profile';
+import { getUserProfile } from 'redux/asyncActions/profile';
+import { getIsLoadingProfileSelector } from 'redux/slices/profile';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();

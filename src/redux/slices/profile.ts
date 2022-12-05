@@ -6,6 +6,7 @@ import {
   logout,
 } from '../asyncActions/profile';
 import { Role } from 'constants/profileRoleConstants';
+import type { Permissions } from 'constants/permissions';
 import type { User } from 'api/models/users';
 
 export interface IProfile {
@@ -67,19 +68,19 @@ const profileSlice = createSlice({
   },
 });
 
-export const getIsAuthProfileSelector = createTypedSelector(
+export const getIsAuthProfileSelector = createTypedSelector<boolean>(
   (state) => state.profile.isAuth,
 );
 
-export const getProfileRoleSelector = createTypedSelector(
+export const getProfileRoleSelector = createTypedSelector<Role>(
   (state) => state.profile.profileData.role,
 );
 
-export const getIsLoadingProfileSelector = createTypedSelector(
+export const getIsLoadingProfileSelector = createTypedSelector<boolean>(
   (state) => state.profile.isLoading,
 );
 
-export const getProfilePermissionsSelector = createTypedSelector(
+export const getProfilePermissionsSelector = createTypedSelector<Permissions[]>(
   (state) => state.profile.profileData.permissions,
 );
 

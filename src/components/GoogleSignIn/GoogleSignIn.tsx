@@ -6,7 +6,7 @@ import GoogleLogin, {
 } from 'react-google-login';
 
 import SignInGoogleButton from 'components/SignInGoogleButton';
-import { userGoogleSignIn } from 'store/asyncActions/profile';
+import { userGoogleSignIn } from 'redux/asyncActions/profile';
 import { useAppDispatch } from 'hooks/redux';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;

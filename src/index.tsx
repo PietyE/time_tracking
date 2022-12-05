@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 
-import { store } from 'store';
+import { store } from 'redux/store';
 import { theme } from 'theme';
 import App from 'components/App';
 import 'styles/index.scss';
