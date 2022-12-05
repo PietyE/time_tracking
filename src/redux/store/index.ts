@@ -3,8 +3,14 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import profile from '../slices/profile';
 import vilmates from '../slices/vilmates';
 import vilmateSinglePage from '../slices/vilmateSinglePage';
+import calendar from '../slices/calendar';
 
-const rootReducer = combineReducers({ profile, vilmates, vilmateSinglePage });
+const rootReducer = combineReducers({
+  profile,
+  vilmates,
+  vilmateSinglePage,
+  calendar,
+});
 
 export const store = configureStore({
   reducer: rootReducer,
