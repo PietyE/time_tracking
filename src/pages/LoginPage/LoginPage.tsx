@@ -1,12 +1,14 @@
 import type { FC } from 'react';
+import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
 import SignInForm from './components/SignInForm';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
 import { useAppSelector } from 'hooks/redux';
 
-import LogoSvg from 'shared/UI/svg/Logo';
+import LogoSvg from 'shared/svg/Logo';
 import { AppRoutes } from 'constants/appRoutesConstants';
+import { styles } from './styles';
 
 const LoginPage: FC = () => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
@@ -21,10 +23,17 @@ const LoginPage: FC = () => {
   }
 
   return (
-    <div className='login-page'>
-      <LogoSvg className='login-page__logo' />
+    <Stack
+      component='section'
+      className='login-page'
+      width='auto'
+      height='100vh'
+      alignItems='center'
+      sx={styles.container}
+    >
+      <LogoSvg />
       <SignInForm />
-    </div>
+    </Stack>
   );
 };
 

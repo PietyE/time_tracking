@@ -1,5 +1,6 @@
 import { type FC, memo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { MainContainer } from 'shared/UI/MainContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppSelector } from 'hooks/redux';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
@@ -19,7 +20,9 @@ const MainLayout: FC = () => {
   return (
     <div className='container'>
       <MainMenu />
-      <Outlet />
+      <MainContainer>
+        <Outlet />
+      </MainContainer>
     </div>
   );
 };

@@ -47,6 +47,11 @@
             "position": "before"
           },
           {
+            "pattern": "./styles",
+            "group": "type",
+            "position": "after"
+          },
+          {
             "pattern": "**/*css",
             "group": "type",
             "position": "after"
@@ -96,6 +101,15 @@
     "no-duplicate-imports": "warn",
     "default-case": "warn"
   },
+  "overrides": [
+    {
+      "files": ["src/constants/**", "src/theme/index.ts", "src/shared/components/Avatar/helpers/**"],
+      "rules": {
+        "id-length": "off",
+        "no-magic-numbers": "off"
+      }
+    }
+  ],
   "settings": {
     "import/resolver": {
       "typescript": {

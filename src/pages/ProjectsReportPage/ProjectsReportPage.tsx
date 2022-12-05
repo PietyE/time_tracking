@@ -1,17 +1,7 @@
 import type { FC } from 'react';
-import Text from 'shared/components/Text';
 
 const ProjectsReportPage: FC = () => {
-  return (
-    <div>
-      <Text
-        variant='h1'
-        component='h2'
-      >
-        Hi code
-      </Text>
-    </div>
-  );
+  return <div>hi code</div>;
 };
 
 export default ProjectsReportPage;
