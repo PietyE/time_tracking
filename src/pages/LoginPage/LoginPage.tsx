@@ -6,7 +6,7 @@ import SignInForm from './components/SignInForm';
 import { getIsAuthProfileSelector } from 'store/reducers/profile';
 import { useAppSelector } from 'hooks/redux';
 
-import LogoSvg from 'shared/UI/svg/Logo';
+import LogoSvg from 'shared/svg/Logo';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { styles } from './styles';
 

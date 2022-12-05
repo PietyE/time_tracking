@@ -6,7 +6,7 @@ import {
   GreyColors,
   OtherColors,
 } from 'constants/colors';
-import type { Color } from '@mui/material';
+import type { Color, Shadows } from '@mui/material';
 import type { ReverseMap } from 'shared/types';
 
 type GreyColorsValues = ReverseMap<typeof GreyColors>;
@@ -15,12 +15,6 @@ type GreyColorsKeys = keyof typeof GreyColors;
 type CustomGreyColor = Record<GreyColorsKeys, GreyColorsValues>;
 
 declare module '@mui/material/styles' {
-  interface TypeBackground {
-    grey: TypeBackground['paper'];
-    milk: TypeBackground['paper'];
-    gradient: TypeBackground['paper'];
-    greyGreen: TypeBackground['paper'];
-  }
   interface Palette {
     customGrey: Partial<CustomGreyColor>;
     black: Partial<Color & { 450: BlackColors.MAIN_OPACITY_45 }>;
@@ -28,6 +22,12 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     customGrey: Partial<CustomGreyColor>;
     black: Partial<Color & { 450: BlackColors.MAIN_OPACITY_45 }>;
+  }
+  interface TypeBackground {
+    grey: TypeBackground['paper'];
+    milk: TypeBackground['paper'];
+    gradient: TypeBackground['paper'];
+    greyGreen: TypeBackground['paper'];
   }
 }
 
@@ -78,6 +78,11 @@ const basicTheme = createTheme({
       450: BlackColors.MAIN_OPACITY_45,
     },
   },
+  shadows: [
+    'none',
+    '10px 10px 35px rgba(0, 0, 0, 0.1)',
+    ...Array(19).fill('none'),
+  ] as Shadows,
   typography: {
     fontWeightSemiBold: 600,
     fontFamily: 'Montserrat',
