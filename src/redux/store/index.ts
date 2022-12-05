@@ -5,6 +5,7 @@ import vilmates from '../slices/vilmates';
 import vilmateSinglePage from '../slices/vilmateSinglePage';
 import calendar from '../slices/calendar';
 import syncWithGoogleSheets from '../slices/syncWithGoogleSheets';
+import projectManagements from '../slices/projectManagements';
 
 const rootReducer = combineReducers({
   profile,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   vilmateSinglePage,
   calendar,
   syncWithGoogleSheets,
+  projectManagements,
 });
 
 export const store = configureStore({
