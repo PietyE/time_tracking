@@ -7,6 +7,7 @@ import calendar from '../slices/calendar';
 import syncWithGoogleSheets from '../slices/syncWithGoogleSheets';
 import projectManagements from '../slices/projectManagements';
 import projectReport from '../slices/projectReport';
+import timereports from '../slices/timereports';
 
 const rootReducer = combineReducers({
   profile,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   syncWithGoogleSheets,
   projectManagements,
   projectReport,
+  timereports,
 });
 
 export const store = configureStore({
