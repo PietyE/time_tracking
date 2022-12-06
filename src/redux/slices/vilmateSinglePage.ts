@@ -1,8 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+  getSelectedDeveloperProjects,
+  getSelectedUser,
+  getUserComments,
+} from '../asyncActions/vilmateSinglePage';
 import { createTypedSelector } from '../utils';
 import type { CommentItem } from 'api/models/comments';
 import type { User } from 'api/models/users';
-import type { DeveloperProject } from 'api/models/developerProjects';
+import type {
+  DeveloperProject,
+  DeveloperProjects,
+} from 'api/models/developerProjects';
 
 interface InitialState {
   isLoading: boolean;
@@ -22,6 +30,38 @@ const vilmateSinglePage = createSlice({
   name: 'vilmateSinglePage',
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getSelectedUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getSelectedUser.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.isLoading = false;
+        state.selectedUser = action.payload;
+      },
+    );
+    builder.addCase(getUserComments.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getUserComments.fulfilled,
+      (state, action: PayloadAction<CommentItem[]>) => {
+        state.isLoading = false;
+        state.comments = action.payload;
+      },
+    );
+    builder.addCase(getSelectedDeveloperProjects.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getSelectedDeveloperProjects.fulfilled,
+      (state, action: PayloadAction<DeveloperProjects>) => {
+        state.isLoading = false;
+        state.developerProjects = action.payload;
+      },
+    );
+  },
 });
 
 export const getIsLoadingVilmateSinglePage = createTypedSelector<boolean>(
