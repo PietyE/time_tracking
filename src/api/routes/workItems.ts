@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { WorkItemEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -47,14 +48,14 @@ export class WorkItemsApi extends CRUD {
 
   getWorkItemHistory(id: string): AxiosPromise<WorkItemHistory> {
     return this.request({
-      url: `${this.url}/${id}/work-items-history/`,
+      url: `${this.url}/${id}${WorkItemEndpoints.WORK_ITEMS_HISTORY}`,
     });
   }
 }
 
 export default function workItemsApi(request: AxiosInstance): WorkItemsApi {
   return new WorkItemsApi({
-    url: '/work_items',
+    url: WorkItemEndpoints.WORK_ITEMS,
     request,
   });
 }

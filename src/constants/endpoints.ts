@@ -15,9 +15,10 @@ export enum ProjectsEndpoints {
 }
 
 export enum UserHoursEndpoints {
-  CREATE_TOKEN = '/user-hours/create_token/',
-  GET_AUTH_URL = '/user-hours/get_auth_url/',
-  SYNC_WITH_GOOGLE_SHEETS = '/user-hours/sync_with_google_sheets/',
+  USER_HOURS = '/user-hours/',
+  CREATE_TOKEN = 'create_token/',
+  GET_AUTH_URL = 'get_auth_url/',
+  SYNC_WITH_GOOGLE_SHEETS = 'sync_with_google_sheets/',
 }
 
 export enum UsersEndpoints {
@@ -27,6 +28,7 @@ export enum UsersEndpoints {
   CONSOLIDATE_REPORT = 'consolidated-report/',
   LOGIN = 'login/',
   PROJECTS_REPORT = '/projects-report/',
+  TOGGLE_PROCESSED_STATUS = '/toggle-processed-status/',
 }
 
 // can be renamed in People in future

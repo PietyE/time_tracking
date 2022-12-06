@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { VilmateCommentsEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -48,7 +49,7 @@ export class CommentsApi extends CRUD {
 
 export default function commentsApi(request: AxiosInstance): CommentsApi {
   return new CommentsApi({
-    url: '/vilmate-comments',
+    url: VilmateCommentsEndpoints.VILMATE_COMMENTS,
     request,
   });
 }

@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { UserHoursEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -10,7 +11,7 @@ import type {
 export class UserHoursApi extends CRUD {
   createToken(data: createTokenData): AxiosPromise {
     return this.request({
-      url: `${this.url}/create_token/`,
+      url: `${this.url}${UserHoursEndpoints.CREATE_TOKEN}`,
       method: 'POST',
       data,
     });
@@ -18,7 +19,7 @@ export class UserHoursApi extends CRUD {
 
   getAuthUrl(data?: unknown): AxiosPromise<AuthUrlResponse> {
     return this.request({
-      url: `${this.url}/get_auth_url/`,
+      url: `${this.url}${UserHoursEndpoints.GET_AUTH_URL}`,
       method: 'POST',
       data,
     });
@@ -26,7 +27,7 @@ export class UserHoursApi extends CRUD {
 
   syncWithGoogleSheets(data: SyncWithGoogleSheetsData): AxiosPromise {
     return this.request({
-      url: `${this.url}/sync_with_google_sheets/`,
+      url: `${this.url}${UserHoursEndpoints.SYNC_WITH_GOOGLE_SHEETS}`,
       method: 'POST',
       data,
     });
@@ -35,7 +36,7 @@ export class UserHoursApi extends CRUD {
 
 export default function userHoursApi(request: AxiosInstance): UserHoursApi {
   return new UserHoursApi({
-    url: '/user-hours',
+    url: UserHoursEndpoints.USER_HOURS,
     request,
   });
 }
