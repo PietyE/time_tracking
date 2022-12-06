@@ -17,9 +17,11 @@ export const Avatar: FC<Props> = ({
   size = 'large',
   name = '4 0 4',
   src = '',
+  ...props
 }): JSX.Element => (
   <MUIAvatar
     src={src}
     {...stringAvatar(name, size)}
+    {...props}
   />
 );
