@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { WorkItemEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -13,7 +14,7 @@ import type {
 export class WorkItemsApi extends CRUD {
   getWorkItems(params: WorkItemsQueryParams): AxiosPromise<WorkItemsResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
@@ -22,7 +23,7 @@ export class WorkItemsApi extends CRUD {
     data: CreateWorkItemData,
   ): AxiosPromise<CreateWorkItemResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       method: 'POST',
       data,
     });
@@ -30,7 +31,7 @@ export class WorkItemsApi extends CRUD {
 
   getWorkItemById(id: string): AxiosPromise<WorkItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
@@ -39,7 +40,7 @@ export class WorkItemsApi extends CRUD {
     data: Partial<CreateWorkItemData>,
   ): AxiosPromise<WorkItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PATCH',
       data,
     });
@@ -47,14 +48,14 @@ export class WorkItemsApi extends CRUD {
 
   getWorkItemHistory(id: string): AxiosPromise<WorkItemHistory> {
     return this.request({
-      url: `${this.url}/${id}/work-items-history/`,
+      url: `${this.url}${id}${WorkItemEndpoints.WORK_ITEMS_HISTORY}`,
     });
   }
 }
 
 export default function workItemsApi(request: AxiosInstance): WorkItemsApi {
   return new WorkItemsApi({
-    url: '/work_items',
+    url: WorkItemEndpoints.WORK_ITEMS,
     request,
   });
 }

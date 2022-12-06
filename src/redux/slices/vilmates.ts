@@ -1,10 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { getVilmatesUsers } from '../asyncActions/vilmates';
 import { createTypedSelector } from '../utils';
 import type { Users } from 'api/models/users';
 
 interface InitialState {
   isLoading: boolean;
-  users: Users[];
+  users: Users;
 }
 
 const initialState: InitialState = {
@@ -16,13 +17,25 @@ const vilmatesSlice = createSlice({
   name: 'vilmates',
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getVilmatesUsers.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getVilmatesUsers.fulfilled,
+      (state, action: PayloadAction<Users>) => {
+        state.isLoading = false;
+        state.users = action.payload;
+      },
+    );
+  },
 });
 
 export const getIsLoadingVilmatePage = createTypedSelector<boolean>(
   (state) => state.vilmates.isLoading,
 );
 
-export const getVilmateUsers = createTypedSelector<Users[]>(
+export const getVilmateUsers = createTypedSelector<Users>(
   (state) => state.vilmates.users,
 );
 

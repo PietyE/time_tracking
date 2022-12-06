@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { VilmateCommentsEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -15,14 +16,14 @@ export class CommentsApi extends CRUD {
     params: Partial<CommentsQueryParams>,
   ): AxiosPromise<CommentsResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   createComments(data: CreateCommentData): AxiosPromise<CreateCommentResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -30,7 +31,7 @@ export class CommentsApi extends CRUD {
 
   getCommentById(id: string): AxiosPromise<CommentItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
@@ -39,7 +40,7 @@ export class CommentsApi extends CRUD {
     data: UpdateCommentData,
   ): AxiosPromise<CommentItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PATCH',
       data,
     });
@@ -48,7 +49,7 @@ export class CommentsApi extends CRUD {
 
 export default function commentsApi(request: AxiosInstance): CommentsApi {
   return new CommentsApi({
-    url: '/vilmate-comments',
+    url: VilmateCommentsEndpoints.VILMATE_COMMENTS,
     request,
   });
 }

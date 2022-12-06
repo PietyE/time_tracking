@@ -3,6 +3,7 @@ import type { User } from './users';
 export interface CommentsQueryParams {
   page: number;
   page_size: number;
+  user_id: string;
 }
 
 export interface CommentItem {

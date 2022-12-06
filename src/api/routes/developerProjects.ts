@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { DeveloperProjectsEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -18,14 +19,14 @@ export class DeveloperProjectsApi extends CRUD {
     params: Partial<DeveloperProjectsQueryParams>,
   ): AxiosPromise<DeveloperProjects> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   getDeveloperProjectById(id: string): AxiosPromise<DeveloperProject> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
@@ -34,7 +35,7 @@ export class DeveloperProjectsApi extends CRUD {
     data: UpdateDeveloperProjectData,
   ): AxiosPromise<Required<UpdateDeveloperProjectData>> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       data,
       method: 'PATCH',
     });
@@ -44,7 +45,7 @@ export class DeveloperProjectsApi extends CRUD {
     data: CreateDeveloperProjectData,
   ): AxiosPromise<CreateDeveloperProjectData> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -52,7 +53,7 @@ export class DeveloperProjectsApi extends CRUD {
 
   createList(data: CreateListData): AxiosPromise<DeveloperProjects> {
     return this.request({
-      url: `${this.url}/create-list/`,
+      url: `${this.url}${DeveloperProjectsEndpoints.CREATE_LIST}`,
       data,
       method: 'POST',
     });
@@ -64,14 +65,14 @@ export class DeveloperProjectsApi extends CRUD {
     ...params
   }: DeveloperProjectsReportQueryParams): AxiosPromise<DeveloperProjectsReportResponse> {
     return this.request({
-      url: `${this.url}/report/${year}/${month}/`,
+      url: `${this.url}${DeveloperProjectsEndpoints.REPORT}${year}/${month}/`,
       params,
     });
   }
 
   getReportCsv({ id, month, year }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}/export-csv/${year}/${month}/`,
+      url: `${this.url}${id}${DeveloperProjectsEndpoints.EXPORT_CSV}${year}/${month}/`,
       responseType: 'blob',
     });
   }
@@ -82,7 +83,7 @@ export class DeveloperProjectsApi extends CRUD {
     year,
   }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}/export-excel/${year}/${month}/`,
+      url: `${this.url}${id}${DeveloperProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
       responseType: 'blob',
     });
   }
@@ -92,7 +93,7 @@ export default function developerProjectsApi(
   request: AxiosInstance,
 ): DeveloperProjectsApi {
   return new DeveloperProjectsApi({
-    url: '/developer-projects',
+    url: DeveloperProjectsEndpoints.DEVELOPER_PROJECTS,
     request,
   });
 }

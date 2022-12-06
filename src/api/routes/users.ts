@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { UsersEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -18,20 +19,20 @@ import type {
 export class UsersApi extends CRUD {
   getUsers(params?: UsersQueryParams): AxiosPromise<Users> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   getUsersById(id: string): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
   createUser(data: CreateUserData): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       method: 'POST',
       data,
     });
@@ -39,7 +40,7 @@ export class UsersApi extends CRUD {
 
   updateUser(id: string, data: CreateUserData): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PUT',
       data,
     });
@@ -50,7 +51,7 @@ export class UsersApi extends CRUD {
     data: Partial<CreateUserData>,
   ): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PATCH',
       data,
     });
@@ -58,7 +59,7 @@ export class UsersApi extends CRUD {
 
   login(data: UserLoginData): AxiosPromise<UserLoginResponse> {
     return this.request({
-      url: `${this.url}/users/login/`,
+      url: `${this.url}${UsersEndpoints.LOGIN}`,
       method: 'POST',
       data,
     });
@@ -66,14 +67,14 @@ export class UsersApi extends CRUD {
 
   logout(): AxiosPromise<void> {
     return this.request({
-      url: `${this.url}/auth/logout/`,
+      url: `${this.url}${UsersEndpoints.LOGOUT}`,
       method: 'POST',
     });
   }
 
   googleAuth(data: GoogleAuthData): AxiosPromise<UserLoginResponse> {
     return this.request({
-      url: `${this.url}/auth/social/google/authorize/`,
+      url: `${this.url}${UsersEndpoints.LOGIN_WITH_GOOGLE_AUTH}`,
       method: 'POST',
       data,
     });
@@ -85,7 +86,7 @@ export class UsersApi extends CRUD {
     ...params
   }: ConsolidatedReportPathQueryParams): AxiosPromise<ConsolidatedReport> {
     return this.request({
-      url: `${this.url}/consolidated-report/${year}/${month}/`,
+      url: `${this.url}${UsersEndpoints.CONSOLIDATE_REPORT}${year}/${month}/`,
       params,
     });
   }
@@ -96,7 +97,7 @@ export class UsersApi extends CRUD {
     id,
   }: UserProjectsReportPathParams): AxiosPromise<UserProjectsReport> {
     return this.request({
-      url: `${this.url}/${id}/projects-report/${year}/${month}/`,
+      url: `${this.url}/${id}${UsersEndpoints.PROJECTS_REPORT}${year}/${month}/`,
     });
   }
 
@@ -106,7 +107,7 @@ export class UsersApi extends CRUD {
     year,
   }: UserProjectsReportPathParams): AxiosPromise<void> {
     return this.request({
-      url: `${this.url}/${id}/toggle-processed-status/${year}/${month}/`,
+      url: `${this.url}/${id}${UsersEndpoints.TOGGLE_PROCESSED_STATUS}${year}/${month}/`,
       method: 'POST',
     });
   }
@@ -114,7 +115,7 @@ export class UsersApi extends CRUD {
 
 export default function usersApi(request: AxiosInstance): UsersApi {
   return new UsersApi({
-    url: '/users',
+    url: UsersEndpoints.USERS,
     request,
   });
 }

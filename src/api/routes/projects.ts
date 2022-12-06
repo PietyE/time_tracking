@@ -1,4 +1,5 @@
 import CRUD from '../base';
+import { ProjectsEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
 
 import type {
@@ -14,14 +15,14 @@ import type {
 export class ProjectsApi extends CRUD {
   getProjects(params?: ProjectsQueryParams): AxiosPromise<Projects> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   createProject(data: CreateProjectData): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -29,13 +30,13 @@ export class ProjectsApi extends CRUD {
 
   getProjectById(id: string): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
   updateProject(id: string, data: CreateProjectData): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       data,
       method: 'PATCH',
     });
@@ -43,7 +44,7 @@ export class ProjectsApi extends CRUD {
 
   deleteProject(id: string): AxiosPromise<void> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'DELETE',
     });
   }
@@ -54,7 +55,7 @@ export class ProjectsApi extends CRUD {
     ...params
   }: ProjectsTotalMinutesQueryPathParams): AxiosPromise<ProjectsWithTotalMinutes> {
     return this.request({
-      url: `${this.url}/total_minutes/${year}/${month}/`,
+      url: `${this.url}${ProjectsEndpoints.TOTAL_MINUTES}${year}/${month}/`,
       params,
     });
   }
@@ -65,7 +66,7 @@ export class ProjectsApi extends CRUD {
     id,
   }: ProjectsReportPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}/export-excel/${year}/${month}/`,
+      url: `${this.url}${id}${ProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
       responseType: 'blob',
     });
   }
@@ -73,7 +74,7 @@ export class ProjectsApi extends CRUD {
 
 export default function projectsApi(request: AxiosInstance): ProjectsApi {
   return new ProjectsApi({
-    url: '/projects',
+    url: ProjectsEndpoints.PROJECTS,
     request,
   });
 }
