@@ -6,7 +6,7 @@ export interface AvatarSize {
   size: 'extraSmall' | 'small' | 'medium' | 'large';
 }
 
-export type AvatarProps = AvatarSize & { alt?: never };
+export type AvatarProps = AvatarSize & { alt?: never; sx?: never };
 
 export type AvatarCreateTypes = (
   name: string,
