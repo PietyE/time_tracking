@@ -19,20 +19,20 @@ import type {
 export class UsersApi extends CRUD {
   getUsers(params?: UsersQueryParams): AxiosPromise<Users> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   getUsersById(id: string): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
   createUser(data: CreateUserData): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       method: 'POST',
       data,
     });
@@ -40,7 +40,7 @@ export class UsersApi extends CRUD {
 
   updateUser(id: string, data: CreateUserData): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PUT',
       data,
     });
@@ -51,7 +51,7 @@ export class UsersApi extends CRUD {
     data: Partial<CreateUserData>,
   ): AxiosPromise<User> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PATCH',
       data,
     });

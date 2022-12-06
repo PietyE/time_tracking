@@ -19,14 +19,14 @@ export class DeveloperProjectsApi extends CRUD {
     params: Partial<DeveloperProjectsQueryParams>,
   ): AxiosPromise<DeveloperProjects> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   getDeveloperProjectById(id: string): AxiosPromise<DeveloperProject> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
@@ -35,7 +35,7 @@ export class DeveloperProjectsApi extends CRUD {
     data: UpdateDeveloperProjectData,
   ): AxiosPromise<Required<UpdateDeveloperProjectData>> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       data,
       method: 'PATCH',
     });
@@ -45,7 +45,7 @@ export class DeveloperProjectsApi extends CRUD {
     data: CreateDeveloperProjectData,
   ): AxiosPromise<CreateDeveloperProjectData> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -72,7 +72,7 @@ export class DeveloperProjectsApi extends CRUD {
 
   getReportCsv({ id, month, year }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}${DeveloperProjectsEndpoints.EXPORT_CSV}${year}/${month}/`,
+      url: `${this.url}${id}${DeveloperProjectsEndpoints.EXPORT_CSV}${year}/${month}/`,
       responseType: 'blob',
     });
   }
@@ -83,7 +83,7 @@ export class DeveloperProjectsApi extends CRUD {
     year,
   }: DeveloperProjectPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}${DeveloperProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
+      url: `${this.url}${id}${DeveloperProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
       responseType: 'blob',
     });
   }

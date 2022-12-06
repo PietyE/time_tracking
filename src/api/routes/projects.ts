@@ -15,14 +15,14 @@ import type {
 export class ProjectsApi extends CRUD {
   getProjects(params?: ProjectsQueryParams): AxiosPromise<Projects> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   createProject(data: CreateProjectData): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -30,13 +30,13 @@ export class ProjectsApi extends CRUD {
 
   getProjectById(id: string): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
   updateProject(id: string, data: CreateProjectData): AxiosPromise<Project> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       data,
       method: 'PATCH',
     });
@@ -44,7 +44,7 @@ export class ProjectsApi extends CRUD {
 
   deleteProject(id: string): AxiosPromise<void> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'DELETE',
     });
   }
@@ -66,7 +66,7 @@ export class ProjectsApi extends CRUD {
     id,
   }: ProjectsReportPathParams): AxiosPromise {
     return this.request({
-      url: `${this.url}/${id}${ProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
+      url: `${this.url}${id}${ProjectsEndpoints.EXPORT_EXCEL}${year}/${month}/`,
       responseType: 'blob',
     });
   }

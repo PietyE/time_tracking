@@ -16,14 +16,14 @@ export class CommentsApi extends CRUD {
     params: Partial<CommentsQueryParams>,
   ): AxiosPromise<CommentsResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       params,
     });
   }
 
   createComments(data: CreateCommentData): AxiosPromise<CreateCommentResponse> {
     return this.request({
-      url: `${this.url}/`,
+      url: this.url,
       data,
       method: 'POST',
     });
@@ -31,7 +31,7 @@ export class CommentsApi extends CRUD {
 
   getCommentById(id: string): AxiosPromise<CommentItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
     });
   }
 
@@ -40,7 +40,7 @@ export class CommentsApi extends CRUD {
     data: UpdateCommentData,
   ): AxiosPromise<CommentItem> {
     return this.request({
-      url: `${this.url}/${id}/`,
+      url: `${this.url}${id}/`,
       method: 'PATCH',
       data,
     });
