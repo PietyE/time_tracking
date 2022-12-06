@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { createTypedSelector } from '../utils';
+import type { ChangeSelectedDate } from '../types/calendar';
 
 interface InitialState {
   month: number;
@@ -16,7 +17,12 @@ const initialState: InitialState = {
 const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
-  reducers: {},
+  reducers: {
+    changeSelectedDate: (state, action: PayloadAction<ChangeSelectedDate>) => {
+      state.month = action.payload.month;
+      state.year = action.payload.year;
+    },
+  },
 });
 
 export const getCalendarMonth = createTypedSelector<number>(
@@ -27,4 +33,5 @@ export const getCalendarYear = createTypedSelector<number>(
   (state) => state.calendar.year,
 );
 
+export const { changeSelectedDate } = calendarSlice.actions;
 export default calendarSlice.reducer;
