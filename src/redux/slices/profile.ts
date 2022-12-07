@@ -39,32 +39,38 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {},
-  extraReducers: {
-    [userGoogleSignIn.pending.type]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(userGoogleSignIn.pending, (state) => {
       state.isProfileFetching = true;
-    },
-    [userGoogleSignIn.fulfilled.type]: (state, action: PayloadAction<User>) => {
-      state.isProfileFetching = false;
-      state.isAuth = true;
-      state.profileData = action.payload;
-    },
-    [userGoogleSignIn.rejected.type]: (state) => {
+    });
+    builder.addCase(
+      userGoogleSignIn.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.isProfileFetching = false;
+        state.isAuth = true;
+        state.profileData = action.payload;
+      },
+    );
+    builder.addCase(userGoogleSignIn.rejected, (state) => {
       state.isProfileFetching = false;
       state.isAuth = false;
-    },
-    [getUserProfile.fulfilled.type]: (state, action: PayloadAction<User>) => {
-      state.isLoading = false;
-      state.isAuth = true;
-      state.profileData = action.payload;
-    },
-    [getUserProfile.rejected.type]: (state) => {
+    });
+    builder.addCase(
+      getUserProfile.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.isLoading = false;
+        state.isAuth = true;
+        state.profileData = action.payload;
+      },
+    );
+    builder.addCase(getUserProfile.rejected, (state) => {
       state.isLoading = false;
       state.isAuth = false;
-    },
-    [logout.fulfilled.type]: (state) => {
+    });
+    builder.addCase(logout.fulfilled, (state) => {
       state.isAuth = false;
       state.profileData = initialState.profileData;
-    },
+    });
   },
 });
 
