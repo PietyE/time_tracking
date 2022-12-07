@@ -2,12 +2,12 @@ import { type FC, memo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { MainContainer } from 'shared/UI/MainContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
-import { useAppSelector } from 'hooks/redux';
+import { useAppShallowSelector } from 'hooks/redux';
 import { getIsAuthProfileSelector } from 'redux/slices/profile';
 import MainMenu from 'components/MainMenu';
 
 const MainLayout: FC = () => {
-  const isAuth = useAppSelector(getIsAuthProfileSelector);
+  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
 
   if (!isAuth)
     return (
