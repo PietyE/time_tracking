@@ -3,9 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from 'api';
 
 import { lsApi, type ProfileDataStorageI } from 'services/storageApi';
-import type { GoogleAuthData } from 'api/models/users';
+import type { GoogleAuthData, User } from 'api/models/users';
 
-export const userGoogleSignIn = createAsyncThunk(
+export const userGoogleSignIn = createAsyncThunk<User, GoogleAuthData>(
   'profile/userGoogleSignIn',
   async (body: GoogleAuthData, { rejectWithValue }) => {
     try {
@@ -26,7 +26,7 @@ export const userGoogleSignIn = createAsyncThunk(
   },
 );
 
-export const getUserProfile = createAsyncThunk(
+export const getUserProfile = createAsyncThunk<User>(
   'profile/getUserProfile',
   async (__, { rejectWithValue }) => {
     try {
