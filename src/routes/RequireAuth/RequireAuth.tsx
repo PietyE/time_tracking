@@ -1,11 +1,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { isArrayHaveEveryElement } from 'shared/utils/isArrayHaveEveryElement';
-import { useAppShallowSelector } from 'hooks/redux';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
-} from 'redux/slices/profile';
+} from '../../redux/selectors/profile';
+import { isArrayHaveEveryElement } from 'shared/utils/isArrayHaveEveryElement';
+import { useAppShallowSelector } from 'hooks/redux';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import type { Permissions } from 'constants/permissions';
 

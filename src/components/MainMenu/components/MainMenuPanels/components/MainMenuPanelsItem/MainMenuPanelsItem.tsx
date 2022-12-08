@@ -17,10 +17,10 @@ export const MainMenuPanelsItem: FC<Props> = ({ panel }): JSX.Element => {
       >
         {panel.panelName}
       </Typography>
-      {panel.items.map((buttonItem) => (
+      {panel.buttons.map((button) => (
         <MainMenuPanelsItemButton
-          key={buttonItem.label}
-          buttonItem={buttonItem}
+          key={button.label}
+          button={button}
         />
       ))}
     </Box>

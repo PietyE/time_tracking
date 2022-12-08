@@ -1,10 +1,10 @@
 import { type FC } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
-import { useAppShallowSelector } from 'hooks/redux';
 import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
-} from 'redux/slices/profile';
+} from '../../../../../../redux/selectors/profile';
+import { useAppShallowSelector } from 'hooks/redux';
 import { Avatar } from 'shared/components/Avatar';
 import { styles } from './styles';
 

@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { getVilmatesUsers } from '../asyncActions/vilmates';
-import { createTypedSelector } from '../utils';
 import type { Users } from 'api/models/users';
 
 interface InitialState {
@@ -30,13 +29,5 @@ const vilmatesSlice = createSlice({
     );
   },
 });
-
-export const getIsLoadingVilmatePage = createTypedSelector<boolean>(
-  (state) => state.vilmates.isLoading,
-);
-
-export const getVilmateUsers = createTypedSelector<Users>(
-  (state) => state.vilmates.users,
-);
 
 export default vilmatesSlice.reducer;

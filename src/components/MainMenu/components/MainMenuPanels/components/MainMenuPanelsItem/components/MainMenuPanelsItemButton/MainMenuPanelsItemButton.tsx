@@ -2,12 +2,12 @@ import { type FC } from 'react';
 import type { PanelButton } from 'components/MainMenu/components/MainMenuPanels/types';
 
 interface Props {
-  buttonItem: PanelButton;
+  button: PanelButton;
 }
 
 export const MainMenuPanelsItemButton: FC<Props> = ({
-  buttonItem,
+  button,
 }): JSX.Element => {
-  console.log(buttonItem);
+  console.log(button);
   return <div></div>;
 };
