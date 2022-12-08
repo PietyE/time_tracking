@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import RequireAuth from 'components/RequireAuth/RequireAuth';
+import RequireAuth from './RequireAuth';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import MainLayout from 'components/MainLayout';
 import {

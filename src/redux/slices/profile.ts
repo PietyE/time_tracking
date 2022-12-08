@@ -90,4 +90,12 @@ export const getProfilePermissionsSelector = createTypedSelector<Permissions[]>(
   (state) => state.profile.profileData.permissions,
 );
 
+export const getProfileUserNameSelector = createTypedSelector<string>(
+  (state) => state.profile.profileData.name,
+);
+
+export const getProfileUserPositionSelector = createTypedSelector<string>(
+  (state) => state.profile.profileData.position,
+);
+
 export default profileSlice.reducer;
