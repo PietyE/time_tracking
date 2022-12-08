@@ -3,13 +3,13 @@ import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
 import { AppRoutes } from 'constants/appRoutesConstants';
-import { useAppSelector } from 'hooks/redux';
+import { useAppShallowSelector } from 'hooks/redux';
 import { getIsAuthProfileSelector } from 'redux/slices/profile';
 import LogoSvg from 'shared/svg/Logo';
 import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {
-  const isAuth = useAppSelector(getIsAuthProfileSelector);
+  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
 
   if (isAuth) {
     return (
