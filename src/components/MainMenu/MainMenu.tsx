@@ -1,10 +1,9 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { Box, Button, Divider } from '@mui/material';
 import { MainMenuHeader } from './components/MainMenuHeader';
 import { MainMenuPanels } from './components/MainMenuPanels';
 import { useAppDispatch } from 'hooks/redux';
 import { logout } from 'redux/asyncActions/profile';
-// import { AppRoutes } from 'constants/appRoutesConstants';
 
 const MainMenu: FC = () => {
   const dispatch = useAppDispatch();

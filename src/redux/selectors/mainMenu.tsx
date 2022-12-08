@@ -10,11 +10,13 @@ import {
 } from 'components/MainMenu/components/MainMenuPanels/constants';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { PagesViewPermissions } from 'constants/permissions';
+import type { CallBackT } from '../utils';
+import type { Panel } from 'components/MainMenu/components/MainMenuPanels/types';
 
-export const getMainMenuPanels = createSelector(
+export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
   [getProfilePermissionsSelector],
   (permissions) => {
-    const tabs = [];
+    const tabs: Panel[] = [];
     tabs.push(
       {
         panelName: PanelsNames.MY_WORK,
