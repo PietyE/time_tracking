@@ -113,3 +113,69 @@ See more about commit rules and installed packages:
 See more about branch names and installed packages:
 
 [https://github.com/barzik/branch-name-lint](https://github.com/barzik/branch-name-lint)
+
+* ## **Structure styles:**
+
+### **Components:**
+    All components and their children should be here
+
+### **API:**
+    For async requests to different endpoints , also put here interfaces of api models data
+
+### **Constants:**
+    All global constants
+
+### **Hooks:**
+    Custom Hooks
+
+### **Pages:**
+    Should contain only project pages
+    They should return only main component of this page and his children structure
+
+### **Redux:**
+    All redux files
+    Store, slices, async actions, redux types, utils for redux , etc.
+
+### **Routes:**
+    routes structure
+    Required Auth 
+    Other files that should be used with routes
+
+### **Services:**
+    Local Storage API
+    Other web services ( Web Workers for example )
+    Sentry etc
+
+### **Shared:**
+    * components:
+        Put here components that can be reusable in design 
+    * svg:
+        Put here svg components
+    * types:
+        Put here global util types ( Reverse Map, Some Generic Utils types etc) 
+        Put here types that can be shared into other components
+        Pay attention that other folders can have their global types related to them ( don`t put here redux global types, api models etc ) 
+    * UI:
+        UI components suck as containers :)
+    * utils:
+        Helpful global functions that we use in other places ( sorting , file downloading ) 
+    * styles:
+        Global or main scss styles
+    * theme:
+        Material UI theme
+
+### **Component folder structure:**
+    Base component
+    index.ts 
+    styles.ts
+    constants ( if you will use them only in your component scope , otherwise move it to constants folder )
+    helpers ( if you need some functions with logic that can be separated from base UI  )
+    types ( if you will use them only in your component scope  )
+    
+
+
+
+
+
+
+
