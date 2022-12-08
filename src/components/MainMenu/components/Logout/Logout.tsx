@@ -1,6 +1,13 @@
 import { type FC } from 'react';
-// import Door from 'assets/svg/mainMenu/Door';
+import { ButtonsLabels } from '../MainMenuPanels/constants';
+import { NavButton } from 'shared/components/NavButton/NavButton';
+import Door from 'assets/svg/mainMenu/Door';
 
 export const Logout: FC = (): JSX.Element => {
-  return <div></div>;
+  return (
+    <NavButton
+      icon={<Door />}
+      label={ButtonsLabels.LOGOUT}
+    />
+  );
 };

@@ -9,4 +9,6 @@ export enum ButtonsLabels {
   VILMATES = 'Vilmates',
   PROJECT_REPORT = 'Project report',
   PROJECT_MANAGEMENT = 'Project management',
+
+  LOGOUT = 'Logout',
 }
