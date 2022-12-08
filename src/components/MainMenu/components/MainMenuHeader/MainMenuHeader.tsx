@@ -1,23 +1,14 @@
 import { type FC } from 'react';
-import { Box, Grid } from '@mui/material';
-import Logo from 'shared/svg/Logo';
-import BurgerButton from 'shared/svg/BurgerButton';
+import { Box } from '@mui/material';
+import { MainMenuHeaderLogo } from './components/MainMenuHeaderLogo';
+import { MainMenuHeaderUserInfo } from './components/MainMenuHeaderUserInfo';
 import { styles } from './styles';
 
-export const MainMenuHeader: FC = (): JSX.Element => (
-  <Box sx={styles.container}>
-    <Grid
-      container
-      alignItems='flex-start'
-      justifyContent='space-between'
-      sx={styles.logoContainer}
-    >
-      <Grid item>
-        <Logo />
-      </Grid>
-      <Grid item>
-        <BurgerButton />
-      </Grid>
-    </Grid>
-  </Box>
-);
+export const MainMenuHeader: FC = (): JSX.Element => {
+  return (
+    <Box sx={styles}>
+      <MainMenuHeaderLogo />
+      <MainMenuHeaderUserInfo />
+    </Box>
+  );
+};

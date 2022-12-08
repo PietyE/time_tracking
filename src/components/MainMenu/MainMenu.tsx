@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import { MainMenuHeader } from './components/MainMenuHeader';
 import { useAppDispatch } from 'hooks/redux';
 import { logout } from 'redux/asyncActions/profile';
@@ -16,6 +16,7 @@ const MainMenu: FC = () => {
       bgcolor='primary.contrastText'
     >
       <MainMenuHeader />
+      <Divider />
       <ul></ul>
       <Button onClick={() => dispatch(logout())}>Logout</Button>
     </Box>
