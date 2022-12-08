@@ -4,14 +4,14 @@ import { Navigate } from 'react-router-dom';
 
 import SignInForm from './components/SignInForm';
 import { getIsAuthProfileSelector } from 'redux/slices/profile';
-import { useAppSelector } from 'hooks/redux';
+import { useAppShallowSelector } from 'hooks/redux';
 
 import LogoSvg from 'shared/svg/Logo';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { styles } from './styles';
 
 const LoginPage: FC = () => {
-  const isAuth = useAppSelector(getIsAuthProfileSelector);
+  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
 
   if (isAuth) {
     return (
