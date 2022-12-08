@@ -18,6 +18,7 @@ const MainMenu: FC = () => {
       <MainMenuHeader />
       <Divider />
       <MainMenuPanels />
+      <Divider />
       <Button onClick={() => dispatch(logout())}>Logout</Button>
     </Box>
   );
