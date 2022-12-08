@@ -10,7 +10,10 @@ interface Props {
 export const MainMenuPanelsItemButton: FC<Props> = ({
   button,
 }): JSX.Element => (
-  <Box sx={styles.buttonContainer}>
+  <Box
+    sx={styles.buttonContainer}
+    position='relative'
+  >
     <Grid
       container
       alignItems='center'
