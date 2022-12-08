@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { Grid, Box, Typography } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import type { PanelButton } from 'components/MainMenu/components/MainMenuPanels/types';
 import { styles } from './styles';
 
@@ -10,19 +11,26 @@ interface Props {
 export const MainMenuPanelsItemButton: FC<Props> = ({
   button,
 }): JSX.Element => (
-  <Box
-    sx={styles.buttonContainer}
-    position='relative'
+  <NavLink
+    to={button.pathname}
+    className={({ isActive }) =>
+      isActive ? 'main_menu_link active' : 'main_menu_link'
+    }
   >
-    <Grid
-      container
-      alignItems='center'
-      sx={styles.buttonContentContainer}
+    <Box
+      sx={styles.buttonContainer}
+      position='relative'
     >
-      <Grid item>{button.icon}</Grid>
-      <Grid item>
-        <Typography>{button.label}</Typography>
+      <Grid
+        container
+        alignItems='center'
+        sx={styles.buttonContentContainer}
+      >
+        <Grid item>{button.icon}</Grid>
+        <Grid item>
+          <Typography>{button.label}</Typography>
+        </Grid>
       </Grid>
-    </Grid>
-  </Box>
+    </Box>
+  </NavLink>
 );
