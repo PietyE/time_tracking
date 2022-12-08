@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
-} from '../../redux/selectors/profile';
+} from 'redux/selectors/profile';
 import { isArrayHaveEveryElement } from 'shared/utils/isArrayHaveEveryElement';
 import { useAppShallowSelector } from 'hooks/redux';
 import { AppRoutes } from 'constants/appRoutesConstants';

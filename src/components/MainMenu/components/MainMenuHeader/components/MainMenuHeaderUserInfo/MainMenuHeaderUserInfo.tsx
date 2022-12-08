@@ -3,7 +3,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
-} from '../../../../../../redux/selectors/profile';
+} from 'redux/selectors/profile';
 import { useAppShallowSelector } from 'hooks/redux';
 import { Avatar } from 'shared/components/Avatar';
 import { styles } from './styles';
