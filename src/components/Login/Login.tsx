@@ -5,7 +5,7 @@ import SignInForm from './components/SignInForm';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppShallowSelector } from 'hooks/redux';
 import { getIsAuthProfileSelector } from 'redux/slices/profile';
-import LogoSvg from 'shared/svg/Logo';
+import LogoSvg from 'assets/svg/Logo';
 import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {
