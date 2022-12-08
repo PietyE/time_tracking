@@ -24,6 +24,7 @@ export enum GreenColors {
   MAIN_LIGHT = '#99D7D6',
   SECONDARY_DARK = '#E7F1F0',
   LIGHT_OPACITY_15 = '#576C6C26',
+  MAIN_OPACITY_10 = '#009c9819',
 }
 
 export enum OtherColors {

@@ -28,6 +28,7 @@ declare module '@mui/material/styles' {
     milk: TypeBackground['paper'];
     gradient: TypeBackground['paper'];
     greyGreen: TypeBackground['paper'];
+    lightGreen: TypeBackground['paper'];
   }
 }
 
@@ -59,6 +60,7 @@ const basicTheme = createTheme({
       milk: BackgroundColors.MILK,
       gradient: OtherColors.LINEAR_GRADIENT,
       greyGreen: GreenColors.LIGHT_OPACITY_15,
+      lightGreen: GreenColors.MAIN_OPACITY_10,
     },
     text: {
       disabled: GreyColors.DISABLED,
