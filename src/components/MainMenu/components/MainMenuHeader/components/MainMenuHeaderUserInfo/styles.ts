@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material';
 
 export const styles: SxProps<Theme> = {
   '& .MuiGrid-root.MuiGrid-item': {
-    '&:first-child': {
+    '&:first-of-type': {
       mr: 15,
     },
   },

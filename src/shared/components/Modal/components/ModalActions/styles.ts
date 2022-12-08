@@ -17,7 +17,7 @@ export const styles: Record<string, SxProps<Theme>> = {
         fontWeight: (theme) => theme.typography.fontWeightSemiBold,
         fontSize: (theme) => theme.typography.pxToRem(18),
         borderColor: 'common.white',
-        '&:first-child': {
+        '&::first-of-type': {
           borderRadius: '0px 0px 0px 20px',
         },
         '&:last-child': {

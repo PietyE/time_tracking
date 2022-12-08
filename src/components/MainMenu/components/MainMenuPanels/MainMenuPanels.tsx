@@ -1,4 +1,6 @@
-import { type FC, useMemo } from 'react';
+import { type FC } from 'react';
+import { Box } from '@mui/material';
+import { MainMenuPanelsItem } from './components/MainMenuPanelsItem';
 import Clock from 'assets/svg/Clock';
 import Coin from 'assets/svg/Coin';
 import FileCheck from 'assets/svg/FileCheck';
@@ -8,11 +10,12 @@ import { PagesViewPermissions } from 'constants/permissions';
 import { getProfilePermissionsSelector } from 'redux/slices/profile';
 import { useAppShallowSelector } from 'hooks/redux';
 import type { Panel } from './types';
+import { styles } from './styles';
 
 export const MainMenuPanels: FC = (): JSX.Element => {
   const permissions = useAppShallowSelector(getProfilePermissionsSelector);
 
-  const panels: Panel[] = useMemo(() => {
+  const panels = (): Panel[] => {
     const tabs = [];
     tabs.push(
       {
@@ -72,9 +75,16 @@ export const MainMenuPanels: FC = (): JSX.Element => {
         ],
       });
     return tabs;
-  }, [permissions]);
+  };
 
-  console.log(panels);
-
-  return <div>hello</div>;
+  return (
+    <Box sx={styles}>
+      {panels().map((panel) => (
+        <MainMenuPanelsItem
+          key={panel.panelName}
+          panel={panel}
+        />
+      ))}
+    </Box>
+  );
 };
