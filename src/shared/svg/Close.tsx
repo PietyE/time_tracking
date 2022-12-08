@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-export const Close: FC = (): JSX.Element => (
+const Close: FC = (): JSX.Element => (
   <svg
     width='20'
     height='20'
@@ -14,3 +14,5 @@ export const Close: FC = (): JSX.Element => (
     />
   </svg>
 );
+
+export default Close;
