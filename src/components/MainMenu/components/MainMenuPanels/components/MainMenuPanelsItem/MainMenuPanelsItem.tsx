@@ -1,7 +1,8 @@
 import { type FC } from 'react';
-// import { MainMenuPanelsItemButton } from './components/MainMenuPanelsItemButton';
+import { Box, Typography } from '@mui/material';
 import { MainMenuPanelsItemButton } from './components/MainMenuPanelsItemButton';
 import type { Panel } from 'components/MainMenu/components/MainMenuPanels/types';
+import { styles } from './styles';
 
 interface Props {
   panel: Panel;
@@ -9,15 +10,19 @@ interface Props {
 
 export const MainMenuPanelsItem: FC<Props> = ({ panel }): JSX.Element => {
   return (
-    <div>
-      {panel.items.map((buttonItem) => {
-        return (
-          <MainMenuPanelsItemButton
-            key={buttonItem.label}
-            buttonItem={buttonItem}
-          />
-        );
-      })}
-    </div>
+    <Box sx={styles}>
+      <Typography
+        variant='subtitle2'
+        color='black.400'
+      >
+        {panel.panelName}
+      </Typography>
+      {panel.items.map((buttonItem) => (
+        <MainMenuPanelsItemButton
+          key={buttonItem.label}
+          buttonItem={buttonItem}
+        />
+      ))}
+    </Box>
   );
 };
