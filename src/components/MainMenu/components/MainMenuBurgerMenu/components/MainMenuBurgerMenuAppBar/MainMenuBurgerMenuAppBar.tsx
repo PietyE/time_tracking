@@ -14,9 +14,8 @@ export const MainMenuBurgerMenuAppBar: FC<Props> = ({
   <AppBar
     position='fixed'
     color='inherit'
-    sx={styles.appBar}
   >
-    <Toolbar sx={styles.toolbar}>
+    <Toolbar sx={styles}>
       <IconButton onClick={toggleDrawer}>
         <BurgerButton />
       </IconButton>
