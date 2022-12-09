@@ -7,8 +7,7 @@ import { styles } from './styles';
 export const MainMenuBurgerMenu: FC = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // @ts-expect-error
-  const onCloseDrawer = (event?): void => setIsOpen(false);
+  const onCloseDrawer = (): void => setIsOpen(false);
 
   const toggleDrawer = (): void =>
     setIsOpen((prevIsOpenDrawer) => !prevIsOpenDrawer);

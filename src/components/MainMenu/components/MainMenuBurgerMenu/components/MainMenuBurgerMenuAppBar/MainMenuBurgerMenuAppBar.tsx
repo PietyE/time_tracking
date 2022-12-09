@@ -1,11 +1,14 @@
-import { type FC } from 'react';
+import { type FC, type MouseEvent } from 'react';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import BurgerButton from 'assets/svg/mainMenu/BurgerButton';
 import VilmateIcon from 'assets/svg/VilmateIcon';
 import { styles } from './styles';
 
 interface Props {
-  toggleDrawer: any;
+  toggleDrawer: (
+    event?: MouseEvent<HTMLButtonElement>,
+    reason?: 'backdropClick' | 'escapeKeyDown',
+  ) => void;
 }
 
 export const MainMenuBurgerMenuAppBar: FC<Props> = ({
@@ -16,7 +19,10 @@ export const MainMenuBurgerMenuAppBar: FC<Props> = ({
     color='inherit'
   >
     <Toolbar sx={styles}>
-      <IconButton onClick={toggleDrawer}>
+      <IconButton
+        onClick={toggleDrawer}
+        aria-label='menu'
+      >
         <BurgerButton />
       </IconButton>
       <Typography

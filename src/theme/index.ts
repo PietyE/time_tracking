@@ -151,8 +151,10 @@ export const theme = createTheme(basicTheme, {
       },
     },
     MuiAppBar: {
-      root: {
-        zIndex: basicTheme.zIndex.tooltip,
+      styleOverrides: {
+        root: {
+          zIndex: basicTheme.zIndex.tooltip,
+        },
       },
     },
     MuiOutlinedInput: {

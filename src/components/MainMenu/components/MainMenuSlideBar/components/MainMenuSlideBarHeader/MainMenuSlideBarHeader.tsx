@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Box } from '@mui/material';
-import { MainMenuHeaderLogo } from './components/MainMenuHeaderLogo';
+import { MainMenuHeaderLogo } from 'components/MainMenu/components/MainMenuHeaderLogo';
 import { MainMenuUserInfo } from 'components/MainMenu/components/MainMenuUserInfo';
 import { useDrawer } from 'hooks/useDrawer';
 import { createDynamicStyles } from './styles';
