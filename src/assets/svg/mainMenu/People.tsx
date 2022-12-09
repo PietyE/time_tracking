@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 
-const Vilmates: FC = (): JSX.Element => (
+const People: FC = (): JSX.Element => (
   <svg
     width='21'
     height='20'
@@ -27,4 +27,4 @@ const Vilmates: FC = (): JSX.Element => (
   </svg>
 );
 
-export default Vilmates;
+export default People;

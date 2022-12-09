@@ -12,15 +12,12 @@ const mainMenuSlice = createSlice({
   name: 'mainMenu',
   initialState,
   reducers: {
-    openDrawer: (state) => {
-      state.isOpenDrawer = true;
-    },
-    closeDrawer: (state) => {
-      state.isOpenDrawer = false;
+    toggleDrawer: (state) => {
+      state.isOpenDrawer = !state.isOpenDrawer;
     },
   },
 });
 
-export const { openDrawer, closeDrawer } = mainMenuSlice.actions;
+export const { toggleDrawer } = mainMenuSlice.actions;
 
 export default mainMenuSlice.reducer;
