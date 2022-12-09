@@ -1,1 +1,0 @@
-export { MainMenuHeader } from './MainMenuHeader';

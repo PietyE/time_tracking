@@ -1,6 +1,6 @@
 import { type FC, type ReactElement, type MouseEvent } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-import { useDrawer } from '../../../hooks/useDrawer';
+import { useDrawer } from 'hooks/useDrawer';
 import { ButtonsLabels } from 'components/MainMenu/components/MainMenuPanels/constants';
 import { createDynamicStyles } from './styles';
 
@@ -25,7 +25,7 @@ export const NavButton: FC<NavButtonProps> = (button) => {
       <Grid
         container
         alignItems='center'
-        justifyContent={isDrawerOpen ? 'start' : 'center'}
+        justifyContent={isDrawerOpen ? 'flex-start' : 'center'}
         sx={styles.buttonContentContainer}
       >
         <Grid item>{icon}</Grid>

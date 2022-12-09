@@ -1,0 +1,1 @@
+export { MainMenuFooter } from './MainMenuFooter';

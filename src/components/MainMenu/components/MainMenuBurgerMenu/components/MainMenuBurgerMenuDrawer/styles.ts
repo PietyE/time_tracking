@@ -1,11 +1,10 @@
 import type { SxProps, Theme } from '@mui/material';
 
 export const styles: SxProps<Theme> = {
-  position: 'relative',
-  pt: {
-    xs: 105,
-    sm: 35,
+  height: '100vh',
+  bgcolor: 'common.white',
+  opacity: 1,
+  '& .MuiDrawer-paper': {
+    top: 67,
   },
-  pl: 40,
-  m: 0,
 };

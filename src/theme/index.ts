@@ -150,6 +150,11 @@ export const theme = createTheme(basicTheme, {
         disableRipple: true,
       },
     },
+    MuiAppBar: {
+      root: {
+        zIndex: basicTheme.zIndex.tooltip,
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: sx({

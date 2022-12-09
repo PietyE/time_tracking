@@ -1,10 +1,12 @@
 import { type FC, memo } from 'react';
+import { Box } from '@mui/material';
 import { Navigate, Outlet } from 'react-router-dom';
 import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { MainContainer } from 'shared/UI/MainContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppShallowSelector } from 'hooks/redux';
 import MainMenu from 'components/MainMenu';
+import { styles } from './styles';
 
 const MainLayout: FC = () => {
   const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
@@ -18,12 +20,16 @@ const MainLayout: FC = () => {
     );
 
   return (
-    <div className='container'>
+    <Box
+      width={1}
+      height={1}
+      sx={styles}
+    >
       <MainMenu />
       <MainContainer>
         <Outlet />
       </MainContainer>
-    </div>
+    </Box>
   );
 };
 
