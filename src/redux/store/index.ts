@@ -8,6 +8,7 @@ import syncWithGoogleSheets from '../slices/syncWithGoogleSheets';
 import projectManagements from '../slices/projectManagements';
 import projectReport from '../slices/projectReport';
 import timereports from '../slices/timereports';
+import mainMenu from '../slices/mainMenu';
 
 const rootReducer = combineReducers({
   profile,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   projectManagements,
   projectReport,
   timereports,
+  mainMenu,
 });
 
 export const store = configureStore({
