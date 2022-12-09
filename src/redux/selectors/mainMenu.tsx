@@ -18,8 +18,8 @@ export const getIsOpenMainMenuDrawer = createTypedSelector<boolean>(
 );
 
 export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
-  [getProfilePermissionsSelector, getIsOpenMainMenuDrawer],
-  (permissions, isOpenMainMenuDrawer) => {
+  [getProfilePermissionsSelector],
+  (permissions) => {
     const tabs: Panel[] = [];
     tabs.push(
       {
@@ -31,13 +31,11 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
               {
                 icon: <Clock />,
                 label: ButtonsLabels.TIME_REPORT,
-                smallSize: isOpenMainMenuDrawer,
                 pathname: AppRoutes.timeReport,
               },
               {
                 icon: <People />,
                 label: ButtonsLabels.VILMATES,
-                smallSize: isOpenMainMenuDrawer,
                 pathname: AppRoutes.vilmates,
               },
             ]
@@ -45,7 +43,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
               {
                 icon: <Clock />,
                 label: ButtonsLabels.TIME_REPORT,
-                smallSize: isOpenMainMenuDrawer,
                 pathname: AppRoutes.timeReport,
               },
             ],
@@ -56,7 +53,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
           {
             icon: <Coin />,
             label: ButtonsLabels.PROJECT_REPORT,
-            smallSize: isOpenMainMenuDrawer,
             pathname: AppRoutes.projectReport,
           },
         ],
@@ -73,7 +69,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
           {
             icon: <FileCheck />,
             label: ButtonsLabels.PROJECT_MANAGEMENT,
-            smallSize: isOpenMainMenuDrawer,
             pathname: AppRoutes.projectManagement,
           },
         ],

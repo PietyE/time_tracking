@@ -1,19 +1,20 @@
 import { type FC, type ReactElement, type MouseEvent } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
+import { useDrawer } from '../../../hooks/useDrawer';
 import { ButtonsLabels } from 'components/MainMenu/components/MainMenuPanels/constants';
 import { createDynamicStyles } from './styles';
 
 export interface NavButtonProps {
   icon: ReactElement;
   label: ButtonsLabels;
-  smallSize: boolean;
   onClick?: (event?: MouseEvent<HTMLElement>) => void;
 }
 
 export const NavButton: FC<NavButtonProps> = (button) => {
-  const { smallSize, icon, label, onClick } = button;
+  const { isDrawerOpen } = useDrawer();
+  const { icon, label, onClick } = button;
 
-  const styles = createDynamicStyles(smallSize);
+  const styles = createDynamicStyles(isDrawerOpen);
 
   return (
     <Box
@@ -24,11 +25,11 @@ export const NavButton: FC<NavButtonProps> = (button) => {
       <Grid
         container
         alignItems='center'
-        justifyContent={smallSize ? 'start' : 'center'}
+        justifyContent={isDrawerOpen ? 'start' : 'center'}
         sx={styles.buttonContentContainer}
       >
         <Grid item>{icon}</Grid>
-        {smallSize && (
+        {isDrawerOpen && (
           <Grid item>
             <Typography>{label}</Typography>
           </Grid>
