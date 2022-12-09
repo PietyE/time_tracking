@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
-import { Divider, type SxProps, type Theme } from '@mui/material';
+import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { DrawerWidth, ToggleButtonPadding } from './contants';
+import { DrawerWidth } from './contants';
 import { useAppShallowSelector } from '../redux';
 import Logo from 'assets/svg/Logo';
 import VilmateIcon from 'assets/svg/VilmateIcon';
@@ -31,13 +31,6 @@ export const useDrawer = (): UseDrawerReturnType => {
 
   const MainMenuLogo: ReactElement = isDrawerOpen ? <Logo /> : <VilmateIcon />;
 
-  const toggleButtonStyles: SxProps<Theme> = {
-    pt: isDrawerOpen ? ToggleButtonPadding.DESKTOP : ToggleButtonPadding.LAPTOP,
-    '&:hover': {
-      background: 'none',
-    },
-  };
-
   return {
     isDrawerOpen,
     handleToggle,
@@ -45,6 +38,5 @@ export const useDrawer = (): UseDrawerReturnType => {
     LogoAndUserInfoSeparator,
     MainMenuLogo,
     LogoAndDrawerToggleButtonSeparator,
-    toggleButtonStyles,
   };
 };

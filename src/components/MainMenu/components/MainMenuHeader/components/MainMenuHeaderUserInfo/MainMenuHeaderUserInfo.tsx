@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
-import { getIsOpenMainMenuDrawer } from '../../../../../../redux/selectors/mainMenu';
+import { useDrawer } from 'hooks/useDrawer';
 import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
@@ -13,7 +13,7 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
   // TODO: change avatar prop name to imageUrl when it will be ready in BE
   const userName = useAppShallowSelector(getProfileUserNameSelector);
   const position = useAppShallowSelector(getProfileUserPositionSelector);
-  const isOpenDrawer = useAppShallowSelector(getIsOpenMainMenuDrawer);
+  const { isDrawerOpen } = useDrawer();
 
   return (
     <Grid
@@ -28,7 +28,7 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
           name={userName}
         />
       </Grid>
-      {isOpenDrawer && (
+      {isDrawerOpen && (
         <Grid item>
           <Stack>
             <Typography

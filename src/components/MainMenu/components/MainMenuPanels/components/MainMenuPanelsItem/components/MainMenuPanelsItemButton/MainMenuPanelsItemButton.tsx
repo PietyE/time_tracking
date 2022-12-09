@@ -11,7 +11,7 @@ interface Props {
 export const MainMenuPanelsItemButton: FC<Props> = ({
   button,
 }): JSX.Element => {
-  const { label, pathname, icon, smallSize = true } = button;
+  const { label, pathname, icon, smallSize } = button;
   const className: classNameWithIsActiveNavLink = ({ isActive }) =>
     isActive ? 'main_menu_link active' : 'main_menu_link';
 

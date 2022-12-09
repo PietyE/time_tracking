@@ -1,7 +1,7 @@
 import { type FC, type ReactElement, type MouseEvent } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { ButtonsLabels } from 'components/MainMenu/components/MainMenuPanels/constants';
-import { styles } from './styles';
+import { createDynamicStyles } from './styles';
 
 export interface NavButtonProps {
   icon: ReactElement;
@@ -12,6 +12,9 @@ export interface NavButtonProps {
 
 export const NavButton: FC<NavButtonProps> = (button) => {
   const { smallSize, icon, label, onClick } = button;
+
+  const styles = createDynamicStyles(smallSize);
+
   return (
     <Box
       sx={styles.buttonContainer}
@@ -21,6 +24,7 @@ export const NavButton: FC<NavButtonProps> = (button) => {
       <Grid
         container
         alignItems='center'
+        justifyContent={smallSize ? 'start' : 'center'}
         sx={styles.buttonContentContainer}
       >
         <Grid item>{icon}</Grid>

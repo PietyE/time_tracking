@@ -2,21 +2,21 @@ import { type FC } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import { useDrawer } from 'hooks/useDrawer';
 import BurgerButton from 'assets/svg/mainMenu/BurgerButton';
-import { styles } from './styles';
+import { createDynamicStyles, styles } from './styles';
 
 export const MainMenuHeaderLogo: FC = (): JSX.Element => {
   const {
     MainMenuLogo,
     handleToggle,
     LogoAndDrawerToggleButtonSeparator,
-    toggleButtonStyles,
+    isDrawerOpen,
   } = useDrawer();
 
   return (
     <Grid
       container
       alignItems='flex-start'
-      justifyContent='space-between'
+      justifyContent={isDrawerOpen ? 'space-between' : 'center'}
       position='relative'
       sx={styles}
     >
@@ -25,7 +25,7 @@ export const MainMenuHeaderLogo: FC = (): JSX.Element => {
       <Grid item>
         <IconButton
           onClick={handleToggle}
-          sx={toggleButtonStyles}
+          sx={createDynamicStyles(isDrawerOpen)}
         >
           <BurgerButton />
         </IconButton>

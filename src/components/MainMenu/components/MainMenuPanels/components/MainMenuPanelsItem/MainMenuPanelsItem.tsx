@@ -1,20 +1,19 @@
 import { type FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import { MainMenuPanelsItemButton } from './components/MainMenuPanelsItemButton';
-import { useAppShallowSelector } from '../../../../../../hooks/redux';
-import { getIsOpenMainMenuDrawer } from '../../../../../../redux/selectors/mainMenu';
+import { useDrawer } from 'hooks/useDrawer';
 import type { Panel } from 'components/MainMenu/components/MainMenuPanels/types';
-import { styles } from './styles';
+import { createDynamicStyles } from './styles';
 
 interface Props {
   panel: Panel;
 }
 
 export const MainMenuPanelsItem: FC<Props> = ({ panel }): JSX.Element => {
-  const isOpenDrawer = useAppShallowSelector(getIsOpenMainMenuDrawer);
+  const { isDrawerOpen } = useDrawer();
   return (
-    <Box sx={styles}>
-      {isOpenDrawer && (
+    <Box sx={createDynamicStyles(isDrawerOpen)}>
+      {isDrawerOpen && (
         <Typography
           variant='subtitle2'
           color='black.400'

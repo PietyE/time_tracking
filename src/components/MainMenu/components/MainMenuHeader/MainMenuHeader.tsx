@@ -3,12 +3,12 @@ import { Box } from '@mui/material';
 import { MainMenuHeaderLogo } from './components/MainMenuHeaderLogo';
 import { MainMenuHeaderUserInfo } from './components/MainMenuHeaderUserInfo';
 import { useDrawer } from 'hooks/useDrawer';
-import { styles } from './styles';
+import { createDynamicStyles } from './styles';
 
 export const MainMenuHeader: FC = (): JSX.Element => {
-  const { LogoAndUserInfoSeparator } = useDrawer();
+  const { LogoAndUserInfoSeparator, isDrawerOpen } = useDrawer();
   return (
-    <Box sx={styles}>
+    <Box sx={createDynamicStyles(isDrawerOpen)}>
       <MainMenuHeaderLogo />
       {LogoAndUserInfoSeparator}
       <MainMenuHeaderUserInfo />

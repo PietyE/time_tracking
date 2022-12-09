@@ -1,5 +1,4 @@
 import type { ReactElement } from 'react';
-import type { SxProps, Theme } from '@mui/material';
 
 export type DrawerToggleHandler = () => void;
 
@@ -12,6 +11,4 @@ export interface UseDrawerReturnType {
   MainMenuLogo: ReactElement;
 
   LogoAndDrawerToggleButtonSeparator: ReactElement | false;
-
-  toggleButtonStyles: SxProps<Theme>;
 }

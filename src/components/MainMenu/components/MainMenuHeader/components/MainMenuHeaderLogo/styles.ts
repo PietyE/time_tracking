@@ -1,4 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
+import { ToggleButtonPadding } from '../../../../../../hooks/useDrawer/contants';
 
 export const styles: SxProps<Theme> = {
   '& .MuiGrid-root.MuiGrid-item': {
@@ -8,3 +9,10 @@ export const styles: SxProps<Theme> = {
     },
   },
 };
+
+export const createDynamicStyles = (isDrawerOpen: boolean): SxProps<Theme> => ({
+  pt: isDrawerOpen ? ToggleButtonPadding.DESKTOP : ToggleButtonPadding.LAPTOP,
+  '&:hover': {
+    background: 'none',
+  },
+});
