@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { Stack } from '@mui/material';
 
-import GoogleSignIn from 'components/GoogleSignIn';
+import LoginSignInFormGoogleAuth from 'components/Login/components/LoginSignInForm/components/LoginSignInFormGoogleAuth';
 import { styles } from './styles';
 
-const SignInForm: FC = () => {
+export const LoginSignInForm: FC = () => {
   return (
     <Stack
       flexDirection='row'
@@ -16,9 +16,7 @@ const SignInForm: FC = () => {
       borderRadius={2.5}
       sx={styles}
     >
-      <GoogleSignIn />
+      <LoginSignInFormGoogleAuth />
     </Stack>
   );
 };
-
-export default SignInForm;
