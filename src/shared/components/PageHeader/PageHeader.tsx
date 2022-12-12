@@ -7,7 +7,10 @@ interface Props {
 }
 
 export const PageHeader: FC<Props> = ({ title }) => (
-  <Box sx={styles}>
+  <Box
+    sx={styles}
+    component='header'
+  >
     <Typography variant='h4'>{title}</Typography>
     <Divider />
   </Box>
