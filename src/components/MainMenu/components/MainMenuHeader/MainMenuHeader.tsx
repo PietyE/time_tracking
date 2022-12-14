@@ -4,11 +4,9 @@ import { MainMenuHeaderLogo } from './components/MainMenuHeaderLogo';
 import { MainMenuHeaderUserInfo } from './components/MainMenuHeaderUserInfo';
 import { styles } from './styles';
 
-export const MainMenuHeader: FC = (): JSX.Element => {
-  return (
-    <Box sx={styles}>
-      <MainMenuHeaderLogo />
-      <MainMenuHeaderUserInfo />
-    </Box>
-  );
-};
+export const MainMenuHeader: FC = (): JSX.Element => (
+  <Box sx={styles}>
+    <MainMenuHeaderLogo />
+    <MainMenuHeaderUserInfo />
+  </Box>
+);

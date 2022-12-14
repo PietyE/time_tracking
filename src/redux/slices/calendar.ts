@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { createTypedSelector } from '../utils';
 import type { ChangeSelectedDate } from '../types/calendar';
 
 interface InitialState {
@@ -24,14 +23,6 @@ const calendarSlice = createSlice({
     },
   },
 });
-
-export const getCalendarMonth = createTypedSelector<number>(
-  (state) => state.calendar.month,
-);
-
-export const getCalendarYear = createTypedSelector<number>(
-  (state) => state.calendar.year,
-);
 
 export const { changeSelectedDate } = calendarSlice.actions;
 export default calendarSlice.reducer;

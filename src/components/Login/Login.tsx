@@ -2,10 +2,10 @@ import { type FC } from 'react';
 import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
+import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppShallowSelector } from 'hooks/redux';
-import { getIsAuthProfileSelector } from 'redux/slices/profile';
-import LogoSvg from 'shared/svg/Logo';
+import LogoSvg from 'assets/svg/Logo';
 import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {

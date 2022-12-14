@@ -1,10 +1,10 @@
 import { type FC, useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import { getIsLoadingProfileSelector } from '../redux/selectors/profile';
 import { routes } from 'routes';
 import Loading from 'shared/components/Loading';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import { getUserProfile } from 'redux/asyncActions/profile';
-import { getIsLoadingProfileSelector } from 'redux/slices/profile';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();

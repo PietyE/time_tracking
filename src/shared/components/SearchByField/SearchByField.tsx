@@ -1,6 +1,6 @@
 import { useRef, type FC, useEffect, type ChangeEvent } from 'react';
 import { TextField, type TextFieldProps } from '@mui/material';
-import SearchIcon from 'shared/svg/SearchIcon';
+import SearchIcon from 'assets/svg/SearchIcon';
 import { styles } from './styles';
 
 interface SearchFieldProps {

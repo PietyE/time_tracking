@@ -1,0 +1,1 @@
+export { MainMenuPanels } from './MainMenuPanels';

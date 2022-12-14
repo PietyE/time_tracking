@@ -1,15 +1,15 @@
 import { type FC } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
-import { useAppShallowSelector } from 'hooks/redux';
 import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
-} from 'redux/slices/profile';
+} from 'redux/selectors/profile';
+import { useAppShallowSelector } from 'hooks/redux';
 import { Avatar } from 'shared/components/Avatar';
 import { styles } from './styles';
 
 export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
-  // TODO: change avatar with imageUrl when it will be ready in BE
+  // TODO: change avatar prop name to imageUrl when it will be ready in BE
   const userName = useAppShallowSelector(getProfileUserNameSelector);
   const position = useAppShallowSelector(getProfileUserPositionSelector);
   return (
@@ -24,7 +24,6 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
           size='small'
           name={userName}
         />
-        {position}
       </Grid>
       <Grid item>
         <Stack>
@@ -32,7 +31,7 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
             variant='subtitle2'
             color='black.300'
           >
-            {position || 'position'}
+            {position || 'User'}
           </Typography>
           <Typography variant='h6'>{userName}</Typography>
         </Stack>

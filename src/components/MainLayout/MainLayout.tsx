@@ -1,9 +1,9 @@
 import { type FC, memo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { MainContainer } from 'shared/UI/MainContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppShallowSelector } from 'hooks/redux';
-import { getIsAuthProfileSelector } from 'redux/slices/profile';
 import MainMenu from 'components/MainMenu';
 
 const MainLayout: FC = () => {

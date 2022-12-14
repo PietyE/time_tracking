@@ -4,13 +4,12 @@ import {
   getSelectedUser,
   getUserComments,
 } from '../asyncActions/vilmateSinglePage';
-import { createTypedSelector } from '../utils';
 import type { CommentItem } from 'api/models/comments';
-import type { User } from 'api/models/users';
 import type {
   DeveloperProject,
   DeveloperProjects,
 } from 'api/models/developerProjects';
+import type { User } from 'api/models/users';
 
 interface InitialState {
   isLoading: boolean;
@@ -63,21 +62,5 @@ const vilmateSinglePage = createSlice({
     );
   },
 });
-
-export const getIsLoadingVilmateSinglePage = createTypedSelector<boolean>(
-  (state) => state.vilmateSinglePage.isLoading,
-);
-
-export const getSelectedUserVilmateSinglePage = createTypedSelector<
-  User | Record<string, never>
->((state) => state.vilmateSinglePage.selectedUser);
-
-export const getCommentsVilmateSinglePage = createTypedSelector<CommentItem[]>(
-  (state) => state.vilmateSinglePage.comments,
-);
-
-export const getDeveloperProjectsVilmateSinglePage = createTypedSelector<
-  DeveloperProject[]
->((state) => state.vilmateSinglePage.developerProjects);
 
 export default vilmateSinglePage.reducer;
