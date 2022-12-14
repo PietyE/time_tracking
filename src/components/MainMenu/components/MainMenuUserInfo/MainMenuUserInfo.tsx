@@ -9,7 +9,7 @@ import { useAppShallowSelector } from 'hooks/redux';
 import { Avatar } from 'shared/components/Avatar';
 import { styles } from './styles';
 
-export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
+export const MainMenuUserInfo: FC = (): JSX.Element => {
   // TODO: change avatar prop name to imageUrl when it will be ready in BE
   const userName = useAppShallowSelector(getProfileUserNameSelector);
   const position = useAppShallowSelector(getProfileUserPositionSelector);

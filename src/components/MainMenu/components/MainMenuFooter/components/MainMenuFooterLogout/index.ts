@@ -1,0 +1,1 @@
+export { MainMenuFooterLogout } from './MainMenuFooterLogout';

@@ -1,0 +1,1 @@
+export { MainMenuUserInfo } from './MainMenuUserInfo';
