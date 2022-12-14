@@ -1,17 +1,21 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getProfilePermissionsSelector } from './profile';
+import { createTypedSelector, type CallBackT } from '../utils';
 import Clock from 'assets/svg/mainMenu/Clock';
 import Coin from 'assets/svg/mainMenu/Coin';
 import FileCheck from 'assets/svg/mainMenu/FileCheck';
-import Vilmates from 'assets/svg/mainMenu/Vilmates';
+import People from 'assets/svg/mainMenu/People';
 import {
   ButtonsLabels,
   PanelsNames,
 } from 'components/MainMenu/components/MainMenuPanels/constants';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { PagesViewPermissions } from 'constants/permissions';
-import type { CallBackT } from '../utils';
 import type { Panel } from 'components/MainMenu/components/MainMenuPanels/types';
+
+export const getIsOpenMainMenuDrawer = createTypedSelector<boolean>(
+  (state) => state.mainMenu.isOpenDrawer,
+);
 
 export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
   [getProfilePermissionsSelector],
@@ -27,13 +31,11 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
               {
                 icon: <Clock />,
                 label: ButtonsLabels.TIME_REPORT,
-                smallSize: true,
                 pathname: AppRoutes.timeReport,
               },
               {
-                icon: <Vilmates />,
+                icon: <People />,
                 label: ButtonsLabels.VILMATES,
-                smallSize: true,
                 pathname: AppRoutes.vilmates,
               },
             ]
@@ -41,7 +43,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
               {
                 icon: <Clock />,
                 label: ButtonsLabels.TIME_REPORT,
-                smallSize: true,
                 pathname: AppRoutes.timeReport,
               },
             ],
@@ -52,7 +53,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
           {
             icon: <Coin />,
             label: ButtonsLabels.PROJECT_REPORT,
-            smallSize: true,
             pathname: AppRoutes.projectReport,
           },
         ],
@@ -69,7 +69,6 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
           {
             icon: <FileCheck />,
             label: ButtonsLabels.PROJECT_MANAGEMENT,
-            smallSize: true,
             pathname: AppRoutes.projectManagement,
           },
         ],

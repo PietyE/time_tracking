@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { Grid, Stack, Typography } from '@mui/material';
+import { useDrawer } from 'hooks/useDrawer';
 import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
@@ -12,6 +13,8 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
   // TODO: change avatar prop name to imageUrl when it will be ready in BE
   const userName = useAppShallowSelector(getProfileUserNameSelector);
   const position = useAppShallowSelector(getProfileUserPositionSelector);
+  const { isDrawerOpen } = useDrawer();
+
   return (
     <Grid
       container
@@ -25,17 +28,19 @@ export const MainMenuHeaderUserInfo: FC = (): JSX.Element => {
           name={userName}
         />
       </Grid>
-      <Grid item>
-        <Stack>
-          <Typography
-            variant='subtitle2'
-            color='black.300'
-          >
-            {position || 'User'}
-          </Typography>
-          <Typography variant='h6'>{userName}</Typography>
-        </Stack>
-      </Grid>
+      {isDrawerOpen && (
+        <Grid item>
+          <Stack>
+            <Typography
+              variant='subtitle2'
+              color='black.300'
+            >
+              {position || 'User'}
+            </Typography>
+            <Typography variant='h6'>{userName}</Typography>
+          </Stack>
+        </Grid>
+      )}
     </Grid>
   );
 };

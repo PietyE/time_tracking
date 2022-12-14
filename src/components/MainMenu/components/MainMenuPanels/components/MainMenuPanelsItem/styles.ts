@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
 
-export const styles: SxProps<Theme> = {
-  mb: 25,
+export const createDynamicStyles = (isDrawerOpen: boolean): SxProps<Theme> => ({
+  mb: isDrawerOpen ? 25 : 0,
   '&:last-child': {
     mb: 0,
   },
@@ -9,4 +9,4 @@ export const styles: SxProps<Theme> = {
     ml: 20,
     mb: 10,
   },
-};
+});

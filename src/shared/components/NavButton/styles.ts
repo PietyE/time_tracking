@@ -1,8 +1,17 @@
 import type { SxProps, Theme } from '@mui/material';
 
-export const styles: Record<string, SxProps<Theme>> = {
+export const createDynamicStyles = (
+  isDrawerOpen: boolean,
+): Record<string, SxProps<Theme>> => ({
+  buttonContentContainer: {
+    p: (theme) => theme.spacing(10, 20),
+    '& .MuiGrid-item svg': {
+      mr: isDrawerOpen ? 14 : 0,
+    },
+  },
   buttonContainer: (theme) => ({
     cursor: 'pointer',
+    mb: isDrawerOpen ? 0 : 6,
     '&:hover': {
       bgcolor: 'background.lightGreen',
       '& .MuiGrid-container .MuiGrid-item': {
@@ -27,10 +36,4 @@ export const styles: Record<string, SxProps<Theme>> = {
       },
     },
   }),
-  buttonContentContainer: {
-    p: (theme) => theme.spacing(10, 20),
-    '& .MuiGrid-item svg': {
-      mr: 14,
-    },
-  },
-};
+});

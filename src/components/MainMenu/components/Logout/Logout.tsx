@@ -1,9 +1,9 @@
 import { type FC } from 'react';
 import { ButtonsLabels } from '../MainMenuPanels/constants';
-import { logout } from 'redux/asyncActions/profile';
-import { useAppDispatch } from 'hooks/redux';
-import { NavButton } from 'shared/components/NavButton/NavButton';
 import Door from 'assets/svg/mainMenu/Door';
+import { useAppDispatch } from 'hooks/redux';
+import { logout } from 'redux/asyncActions/profile';
+import { NavButton } from 'shared/components/NavButton/NavButton';
 
 export const Logout: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
