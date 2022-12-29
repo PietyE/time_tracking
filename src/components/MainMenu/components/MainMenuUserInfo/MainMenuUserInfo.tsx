@@ -5,14 +5,14 @@ import {
   getProfileUserNameSelector,
   getProfileUserPositionSelector,
 } from 'redux/selectors/profile';
-import { useAppShallowSelector } from 'hooks/redux';
+import { useAppSelector } from 'hooks/redux';
 import { Avatar } from 'shared/components/Avatar';
 import { styles } from './styles';
 
 export const MainMenuUserInfo: FC = (): JSX.Element => {
   // TODO: change avatar prop name to imageUrl when it will be ready in BE
-  const userName = useAppShallowSelector(getProfileUserNameSelector);
-  const position = useAppShallowSelector(getProfileUserPositionSelector);
+  const userName = useAppSelector(getProfileUserNameSelector);
+  const position = useAppSelector(getProfileUserPositionSelector);
   const { isDrawerOpen } = useDrawer();
 
   return (

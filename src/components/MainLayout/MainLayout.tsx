@@ -4,12 +4,12 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { MainContainer } from 'shared/UI/MainContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
-import { useAppShallowSelector } from 'hooks/redux';
+import { useAppSelector } from 'hooks/redux';
 import MainMenu from 'components/MainMenu';
 import { styles } from './styles';
 
 const MainLayout: FC = () => {
-  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
+  const isAuth = useAppSelector(getIsAuthProfileSelector);
 
   if (!isAuth)
     return (
