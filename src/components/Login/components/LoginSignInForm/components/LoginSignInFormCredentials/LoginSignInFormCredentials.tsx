@@ -1,32 +1,24 @@
 import { type FC } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { loginValidationSchema } from 'shared/validationSchema';
 import { ValidationErrorMessage } from 'shared/components/ValidationErrorMessage';
+import type { LoginSingInFormCredentialsFields } from './types';
 import { styles } from './styles';
-
-interface InputFields {
-  email: string;
-  password: string;
-}
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email().min(1).max(50).required('Email is required'),
-  password: Yup.string().min(1).max(30).required('Password is required'),
-});
 
 export const LoginSignInFormCredentials: FC = (): JSX.Element => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<InputFields>({
+  } = useForm<LoginSingInFormCredentialsFields>({
     mode: 'onChange',
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(loginValidationSchema),
   });
 
-  const onSubmit: SubmitHandler<InputFields> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginSingInFormCredentialsFields> = (data) =>
+    console.log(data);
 
   return (
     <Stack
@@ -35,20 +27,20 @@ export const LoginSignInFormCredentials: FC = (): JSX.Element => {
       sx={styles}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Box>
+      <Box position='relative'>
         <TextField
           placeholder='Your email address'
           fullWidth
-          {...register('email', { required: true })}
+          {...register('email')}
         />
         <ValidationErrorMessage>{errors.email?.message}</ValidationErrorMessage>
       </Box>
-      <Box>
+      <Box position='relative'>
         <TextField
           placeholder='Your password'
           type='password'
           fullWidth
-          {...register('password', { required: true })}
+          {...register('password')}
         />
         <ValidationErrorMessage>
           {errors.password?.message}

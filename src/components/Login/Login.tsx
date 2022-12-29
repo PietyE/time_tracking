@@ -23,7 +23,6 @@ export const Login: FC = (): JSX.Element => {
   return (
     <Stack
       component='section'
-      className='login-page'
       width='auto'
       height='100vh'
       alignItems='center'

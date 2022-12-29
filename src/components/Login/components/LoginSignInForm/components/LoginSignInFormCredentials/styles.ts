@@ -2,7 +2,6 @@ import type { SxProps, Theme } from '@mui/material';
 
 export const styles: SxProps<Theme> = {
   '& > .MuiBox-root': {
-    position: 'relative',
     mb: 35,
     '& .MuiTextField-root': {
       '& .MuiInputBase-root': {
