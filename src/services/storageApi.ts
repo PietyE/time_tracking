@@ -26,4 +26,10 @@ export { lsApi };
 export interface ProfileDataStorageI {
   key: string;
   userId: string;
+
+  date_create: Date;
+
+  expiration_timestamp: number;
+
+  imageUrl?: string;
 }

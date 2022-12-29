@@ -103,7 +103,14 @@
   },
   "overrides": [
     {
-      "files": ["src/constants/**", "src/theme/index.ts", "src/shared/components/Avatar/helpers/**", "src/**/contants.ts", "src/**/contants"],
+      "files": [
+        "src/constants/**",
+        "src/theme/index.ts",
+        "src/shared/components/Avatar/helpers/**",
+        "src/**/contants.ts",
+        "src/**/contants",
+        "src/shared/validationSchema/**"
+      ],
       "rules": {
         "id-length": "off",
         "no-magic-numbers": "off"

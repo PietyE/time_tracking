@@ -5,13 +5,13 @@ import GoogleLogin, {
   // type GoogleLoginResponseOffline,
 } from 'react-google-login';
 
-import SignInGoogleButton from 'components/SignInGoogleButton';
+import SignInGoogleButton from 'components/Login/components/SignInGoogleButton';
 import { userGoogleSignIn } from 'redux/asyncActions/profile';
 import { useAppDispatch } from 'hooks/redux';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
-const GoogleSignIn: FC = () => {
+const LoginSignInFormGoogleAuth: FC = () => {
   const dispatch = useAppDispatch();
 
   const handleClickGoogleLogin = (response: any): void => {
@@ -34,4 +34,4 @@ const GoogleSignIn: FC = () => {
   );
 };
 
-export default GoogleSignIn;
+export default LoginSignInFormGoogleAuth;
