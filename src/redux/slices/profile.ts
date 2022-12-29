@@ -71,7 +71,7 @@ const profileSlice = createSlice({
       state.profileData = initialState.profileData;
     });
     builder.addCase(loginWithCredentials.pending, (state) => {
-      state.isLoading = true;
+      state.isProfileFetching = true;
     });
     builder.addCase(
       loginWithCredentials.fulfilled,

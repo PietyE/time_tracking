@@ -4,6 +4,8 @@ import { Box, Button, Stack, TextField } from '@mui/material';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { loginValidationSchema } from 'shared/validationSchema';
 import { ValidationErrorMessage } from 'shared/components/ValidationErrorMessage';
+import { loginWithCredentials } from 'redux/asyncActions/profile';
+import { useAppDispatch } from 'hooks/redux';
 import type { LoginSingInFormCredentialsFields } from './types';
 import { styles } from './styles';
 
@@ -17,8 +19,10 @@ export const LoginSignInFormCredentials: FC = (): JSX.Element => {
     resolver: yupResolver(loginValidationSchema),
   });
 
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<LoginSingInFormCredentialsFields> = (data) =>
-    console.log(data);
+    dispatch(loginWithCredentials(data));
 
   return (
     <Stack
