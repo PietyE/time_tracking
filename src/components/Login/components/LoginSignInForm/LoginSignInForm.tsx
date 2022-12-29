@@ -12,7 +12,10 @@ export const LoginSignInForm: FC = () => (
     justifyContent='center'
     alignItems='center'
     width={1}
-    maxWidth={535}
+    maxWidth={{
+      xs: 345,
+      sm: 535,
+    }}
     border={1}
     borderColor='customGrey.STROKE_FORM_OPACITY_20'
     borderRadius={2.5}
