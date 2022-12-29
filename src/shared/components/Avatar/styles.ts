@@ -1,5 +1,4 @@
 import type { SxProps, Theme } from '@mui/material';
-import type { ReverseMap } from 'shared/types';
 import type { AvatarSize } from './types';
 
 export const styles: Record<ReverseMap<AvatarSize>, SxProps<Theme>> = {
