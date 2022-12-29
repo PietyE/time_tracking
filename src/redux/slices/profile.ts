@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
   getUserProfile,
+  loginWithCredentials,
   logout,
   userGoogleSignIn,
 } from '../asyncActions/profile';
@@ -68,6 +69,21 @@ const profileSlice = createSlice({
     builder.addCase(logout.fulfilled, (state) => {
       state.isAuth = false;
       state.profileData = initialState.profileData;
+    });
+    builder.addCase(loginWithCredentials.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      loginWithCredentials.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.isProfileFetching = false;
+        state.isAuth = true;
+        state.profileData = action.payload;
+      },
+    );
+    builder.addCase(loginWithCredentials.rejected, (state) => {
+      state.isProfileFetching = false;
+      state.isAuth = false;
     });
   },
 });
