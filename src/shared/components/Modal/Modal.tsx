@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { ModalActions } from './components/ModalActions';
 import { ModalHeader } from './components/ModalHeader';
-import Close from 'assets/svg/Close';
+import Close from 'shared/components/svg/Close';
 import type { SingleActionButton, TwoActionsButton } from './types';
 import { styles } from './styles';
 

@@ -12,3 +12,10 @@ export enum ButtonsLabels {
 
   LOGOUT = 'Logout',
 }
+
+export enum ButtonNames {
+  CLOCK = 'clock',
+  PEOPLE = 'people',
+  COIN = 'coin',
+  FILE_CHECK = 'fileCheck',
+}

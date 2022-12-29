@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import { useDrawer } from 'hooks/useDrawer';
-import BurgerButton from 'assets/svg/mainMenu/BurgerButton';
+import BurgerButton from 'shared/components/svg/mainMenu/BurgerButton';
 import { createDynamicStyles, styles } from './styles';
 
 export const MainMenuHeaderLogo: FC = (): JSX.Element => {
