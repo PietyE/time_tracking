@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from 'api';
 
 import { lsApi, type ProfileDataStorageI } from 'services/storageApi';
-import type { GoogleAuthData, User } from 'api/models/users';
+import type { UserLoginData, GoogleAuthData, User } from 'api/models/users';
 
 export const userGoogleSignIn = createAsyncThunk<User, GoogleAuthData>(
   'profile/userGoogleSignIn',
@@ -14,6 +14,8 @@ export const userGoogleSignIn = createAsyncThunk<User, GoogleAuthData>(
       const userData: ProfileDataStorageI = {
         key: data.token.key,
         userId: data.token.user,
+        expiration_timestamp: Number(data.token.expiration_timestamp),
+        date_create: data.token.date_create,
       };
 
       api.setToken(data.token.key);
@@ -40,6 +42,28 @@ export const getUserProfile = createAsyncThunk<User>(
     } catch (error) {
       /// to do
       return rejectWithValue('error get profile');
+    }
+  },
+);
+
+export const loginWithCredentials = createAsyncThunk<User, UserLoginData>(
+  'profile/loginWithCredentials',
+  async (userCredentials, { rejectWithValue }) => {
+    try {
+      const { data } = await api.users.login(userCredentials);
+
+      const userData: ProfileDataStorageI = {
+        ...data.token,
+        userId: data.token.user,
+        expiration_timestamp: Number(data.token.expiration_timestamp),
+      };
+
+      api.setToken(data.token.key);
+      lsApi.set('profileData', userData);
+
+      return data.user;
+    } catch (error) {
+      return rejectWithValue('error log in');
     }
   },
 );

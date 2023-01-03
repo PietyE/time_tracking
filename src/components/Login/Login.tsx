@@ -1,7 +1,7 @@
 import { type FC } from 'react';
 import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
-import SignInForm from './components/SignInForm';
+import { LoginSignInForm } from './components/LoginSignInForm';
 import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppShallowSelector } from 'hooks/redux';
@@ -23,14 +23,13 @@ export const Login: FC = (): JSX.Element => {
   return (
     <Stack
       component='section'
-      className='login-page'
       width='auto'
       height='100vh'
       alignItems='center'
       sx={styles.container}
     >
       <LogoSvg />
-      <SignInForm />
+      <LoginSignInForm />
     </Stack>
   );
 };
