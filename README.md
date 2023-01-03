@@ -151,10 +151,6 @@ See more about branch names and installed packages:
         Put here components that can be reusable in design 
     * svg:
         Put here svg components
-    * types:
-        Put here global util types ( Reverse Map, Some Generic Utils types etc) 
-        Put here types that can be shared into other components
-        Pay attention that other folders can have their global types related to them ( don`t put here redux global types, api models etc ) 
     * UI:
         UI components suck as containers :)
     * utils:
@@ -164,8 +160,24 @@ See more about branch names and installed packages:
     * theme:
         Material UI theme
 
+### **global-types.d.ts:**
+    * types:
+        Put here global types without export
+        They can be used without imports either in all project folders
+
 ### **Component folder structure:**
-    Base component
+    Base componentcomponents:
+        Put here components that can be reusable in design 
+    * svg:
+        Put here svg components
+    * UI:
+        UI components suck as containers :)
+    * utils:
+        Helpful global functions that we use in other places ( sorting , file downloading ) 
+    * styles:
+        Global or main scss styles
+    * theme:
+        Material UI theme
     index.tsx 
     styles.ts
     constants ( if you will use them only in your component scope , otherwise move it to constants folder )
