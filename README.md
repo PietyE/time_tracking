@@ -166,7 +166,7 @@ See more about branch names and installed packages:
 
 ### **Component folder structure:**
     Base component
-    index.ts 
+    index.tsx 
     styles.ts
     constants ( if you will use them only in your component scope , otherwise move it to constants folder )
     helpers ( if you need some functions with logic that can be separated from base UI  )

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ButtonsLabels } from 'components/MainMenu/components/MainMenuPanels/constants';
-import Door from 'assets/svg/mainMenu/Door';
+import Door from 'shared/components/svg/mainMenu/Door';
 import { useAppDispatch } from 'hooks/redux';
 import { logout } from 'redux/asyncActions/profile';
 import { NavButton } from 'shared/components/NavButton/NavButton';

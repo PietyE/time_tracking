@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAppSelector, useAppShallowSelector } from 'hooks/redux';
+import { AppRoutes } from 'constants/appRoutesConstants';
 import {
   getIsAuthProfileSelector,
   getProfilePermissionsSelector,
 } from 'redux/selectors/profile';
 import { isArrayHaveEveryElement } from 'shared/utils/isArrayHaveEveryElement';
-import { useAppShallowSelector } from 'hooks/redux';
-import { AppRoutes } from 'constants/appRoutesConstants';
 import type { Permissions } from 'constants/permissions';
 
 interface PrivateRouteProps {
@@ -20,7 +20,7 @@ const RequireAuth: React.FC<PrivateRouteProps> = ({
   permissions,
   navigateTo = AppRoutes.timeReport,
 }) => {
-  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
+  const isAuth = useAppSelector(getIsAuthProfileSelector);
   const profilePermissions = useAppShallowSelector(
     getProfilePermissionsSelector,
   );

@@ -7,7 +7,6 @@ import {
   OtherColors,
 } from 'constants/colors';
 import type { Color, Shadows } from '@mui/material';
-import type { ReverseMap } from 'shared/types';
 
 type GreyColorsValues = ReverseMap<typeof GreyColors>;
 type GreyColorsKeys = keyof typeof GreyColors;

@@ -1,7 +1,10 @@
 import type { SxProps, Theme } from '@mui/material';
 
 export const styles: SxProps<Theme> = {
-  p: (theme) => theme.spacing(45, 60),
+  p: (theme) => ({
+    xs: theme.spacing(25, 16),
+    sm: theme.spacing(45, 60),
+  }),
   '& .MuiDivider-root': {
     my: 15,
     '&::before, &::after': {

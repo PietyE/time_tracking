@@ -1,11 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getProfilePermissionsSelector } from './profile';
 import { createTypedSelector, type CallBackT } from '../utils';
-import Clock from 'assets/svg/mainMenu/Clock';
-import Coin from 'assets/svg/mainMenu/Coin';
-import FileCheck from 'assets/svg/mainMenu/FileCheck';
-import People from 'assets/svg/mainMenu/People';
 import {
+  ButtonNames,
   ButtonsLabels,
   PanelsNames,
 } from 'components/MainMenu/components/MainMenuPanels/constants';
@@ -29,19 +26,19 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
         )
           ? [
               {
-                icon: <Clock />,
+                icon: ButtonNames.CLOCK,
                 label: ButtonsLabels.TIME_REPORT,
                 pathname: AppRoutes.timeReport,
               },
               {
-                icon: <People />,
+                icon: ButtonNames.PEOPLE,
                 label: ButtonsLabels.VILMATES,
                 pathname: AppRoutes.vilmates,
               },
             ]
           : [
               {
-                icon: <Clock />,
+                icon: ButtonNames.CLOCK,
                 label: ButtonsLabels.TIME_REPORT,
                 pathname: AppRoutes.timeReport,
               },
@@ -51,7 +48,7 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
         panelName: PanelsNames.ACCOUNTING,
         buttons: [
           {
-            icon: <Coin />,
+            icon: ButtonNames.COIN,
             label: ButtonsLabels.PROJECT_REPORT,
             pathname: AppRoutes.projectReport,
           },
@@ -67,7 +64,7 @@ export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
         panelName: PanelsNames.MANAGEMENT,
         buttons: [
           {
-            icon: <FileCheck />,
+            icon: ButtonNames.FILE_CHECK,
             label: ButtonsLabels.PROJECT_MANAGEMENT,
             pathname: AppRoutes.projectManagement,
           },

@@ -3,12 +3,12 @@ import { RouterProvider } from 'react-router-dom';
 import { getIsLoadingProfileSelector } from '../redux/selectors/profile';
 import { routes } from 'routes';
 import Loading from 'shared/components/Loading';
-import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { getUserProfile } from 'redux/asyncActions/profile';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const isLoading = useAppShallowSelector(getIsLoadingProfileSelector);
+  const isLoading = useAppSelector(getIsLoadingProfileSelector);
 
   useEffect(() => {
     void dispatch(getUserProfile());

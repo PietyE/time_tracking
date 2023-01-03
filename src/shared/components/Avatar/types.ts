@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { ReverseMap } from 'shared/types';
 import type { SxProps, Theme } from '@mui/material';
 
 export interface AvatarSize {

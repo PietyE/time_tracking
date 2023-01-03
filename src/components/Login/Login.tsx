@@ -4,12 +4,12 @@ import { Navigate } from 'react-router-dom';
 import { LoginSignInForm } from './components/LoginSignInForm';
 import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
-import { useAppShallowSelector } from 'hooks/redux';
-import LogoSvg from 'assets/svg/Logo';
+import { useAppSelector } from 'hooks/redux';
+import LogoSvg from 'shared/components/svg/Logo';
 import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {
-  const isAuth = useAppShallowSelector(getIsAuthProfileSelector);
+  const isAuth = useAppSelector(getIsAuthProfileSelector);
 
   if (isAuth) {
     return (

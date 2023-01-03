@@ -1,7 +1,7 @@
 import { type FC, type MouseEvent } from 'react';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
-import BurgerButton from 'assets/svg/mainMenu/BurgerButton';
-import VilmateIcon from 'assets/svg/VilmateIcon';
+import BurgerButton from 'shared/components/svg/mainMenu/BurgerButton';
+import VilmateIcon from 'shared/components/svg/VilmateIcon';
 import { styles } from './styles';
 
 interface Props {
