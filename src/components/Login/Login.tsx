@@ -1,7 +1,8 @@
-import { type FC } from 'react';
-import { Stack } from '@mui/material';
+import { type FC, useState } from 'react';
+import { Stack, TextField } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import { LoginSignInForm } from './components/LoginSignInForm';
+import { Autocomplete } from '../../shared/components/Autocomplete';
 import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppSelector } from 'hooks/redux';
@@ -10,6 +11,7 @@ import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
+  const [value, setValue] = useState('1');
 
   if (isAuth) {
     return (
@@ -30,6 +32,23 @@ export const Login: FC = (): JSX.Element => {
     >
       <LogoSvg />
       <LoginSignInForm />
+      <Autocomplete
+        options={['1', '2', '3']}
+        value={value}
+        renderInput={(params) => (
+          // @ts-expect-error
+          <TextField
+            {...params}
+            label='Search input'
+            InputProps={{ ...params.InputProps }}
+            variant='outlined'
+          />
+        )}
+        onChange={(newValue) => {
+          setValue(newValue);
+          console.log(event);
+        }}
+      />
     </Stack>
   );
 };

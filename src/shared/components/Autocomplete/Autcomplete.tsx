@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import type { NecessaryProps } from './types';
 
-type Props<T extends {} = {}> = MUIAutocompleteProps<
+type Props<T extends string = string> = MUIAutocompleteProps<
   T,
   boolean,
   boolean,
@@ -18,20 +18,18 @@ export const Autocomplete: React.FC<Props> = ({
   value,
   onChange,
   noOptionsText,
-  ...rest
-}) => {
-  return (
-    <MUIAutocomplete
-      options={options}
-      value={value}
-      onChange={onChange}
-      fullWidth
-      autoComplete
-      autoHighlight
-      disablePortal
-      blurOnSelect
-      noOptionsText={noOptionsText}
-      {...rest}
-    />
-  );
-};
+  ...props
+}) => (
+  <MUIAutocomplete
+    options={options}
+    value={value}
+    onChange={onChange}
+    fullWidth
+    autoComplete
+    autoHighlight
+    disablePortal
+    blurOnSelect
+    noOptionsText={noOptionsText}
+    {...props}
+  />
+);

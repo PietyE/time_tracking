@@ -5,14 +5,19 @@ import type {
   AutocompleteValue,
 } from '@mui/base/AutocompleteUnstyled/useAutocomplete';
 
-type OnChange<T extends {} = {}> = (
-  event: React.SyntheticEvent,
+type OnChange<T extends string = string> = (
   value: AutocompleteValue<T, boolean, boolean, boolean>,
-  reason: AutocompleteChangeReason,
+  reason?: AutocompleteChangeReason,
+  event?: React.SyntheticEvent,
   details?: AutocompleteChangeDetails<T>,
 ) => void;
 
-type Value<T extends {} = {}> = AutocompleteValue<T, boolean, boolean, boolean>;
+type Value<T extends string = string> = AutocompleteValue<
+  T,
+  boolean,
+  boolean,
+  boolean
+>;
 
 export interface NecessaryProps {
   onChange: OnChange;
