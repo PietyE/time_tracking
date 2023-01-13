@@ -2,9 +2,9 @@ import { type FC } from 'react';
 import { Stack } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import { LoginSignInForm } from './components/LoginSignInForm';
-import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppSelector } from 'hooks/redux';
+import { getIsAuthProfileSelector } from 'redux/selectors/profile';
 import LogoSvg from 'shared/components/svg/Logo';
 import { styles } from './styles';
 
