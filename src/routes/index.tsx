@@ -8,7 +8,7 @@ import {
   UsersPermissions,
 } from 'constants/permissions';
 import LoginPage from 'pages/LoginPage';
-import ProjectsReportPage from 'pages/ProjectsReportPage';
+import { ProjectsReportPage } from 'pages/ProjectsReportPage';
 
 export const routes = createBrowserRouter([
   {

@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-const ProjectsReportPage: FC = () => {
+export const ProjectsReportPage: FC = (): JSX.Element => {
   return <div>hi code</div>;
 };
-
-export default ProjectsReportPage;
