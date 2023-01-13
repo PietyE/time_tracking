@@ -6,9 +6,9 @@ import type {
 } from '@mui/base/AutocompleteUnstyled/useAutocomplete';
 
 type OnChange<T extends string = string> = (
+  event: React.SyntheticEvent,
   value: AutocompleteValue<T, boolean, boolean, boolean>,
   reason?: AutocompleteChangeReason,
-  event?: React.SyntheticEvent,
   details?: AutocompleteChangeDetails<T>,
 ) => void;
 

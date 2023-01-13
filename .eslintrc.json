@@ -109,7 +109,8 @@
         "src/shared/components/Avatar/helpers/**",
         "src/**/contants.ts",
         "src/**/contants",
-        "src/shared/validationSchema/**"
+        "src/shared/validationSchema/**",
+        "src/shared/utils/sortArrayAlphabetically.ts"
       ],
       "rules": {
         "id-length": "off",
