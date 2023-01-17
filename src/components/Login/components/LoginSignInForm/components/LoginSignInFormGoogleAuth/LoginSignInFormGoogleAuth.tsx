@@ -1,37 +1,11 @@
 import type { FC } from 'react';
-
-import GoogleLogin, {
-  type GoogleLoginResponse,
-  // type GoogleLoginResponseOffline,
-} from 'react-google-login';
-
 import SignInGoogleButton from 'components/Login/components/SignInGoogleButton';
-import { userGoogleSignIn } from 'redux/asyncActions/profile';
-import { useAppDispatch } from 'hooks/redux';
-
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+// import { useAppDispatch } from 'hooks/redux';
 
 const LoginSignInFormGoogleAuth: FC = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const handleClickGoogleLogin = (response: any): void => {
-    const _response = response as GoogleLoginResponse;
-    if (_response.tokenId) {
-      void dispatch(userGoogleSignIn({ token: _response.tokenId }));
-    }
-  };
-
-  return (
-    <GoogleLogin
-      clientId={clientId}
-      render={(props) => <SignInGoogleButton {...props} />}
-      onSuccess={handleClickGoogleLogin}
-      onFailure={() => {
-        console.log('error');
-      }}
-      cookiePolicy={'single_host_origin'}
-    />
-  );
+  return <SignInGoogleButton onClick={() => console.log('click')} />;
 };
 
 export default LoginSignInFormGoogleAuth;
