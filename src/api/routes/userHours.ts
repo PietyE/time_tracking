@@ -1,15 +1,10 @@
 import CRUD from '../base';
 import { UserHoursEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
-
-import type {
-  createTokenData,
-  AuthUrlResponse,
-  SyncWithGoogleSheetsData,
-} from '../models/userHours';
+import type { SyncWithGoogleSheetsData } from '../models/userHours';
 
 export class UserHoursApi extends CRUD {
-  createToken(data: createTokenData): AxiosPromise {
+  createToken(data: GoogleAuthCallbackUrlData): AxiosPromise {
     return this.request({
       url: `${this.url}${UserHoursEndpoints.CREATE_TOKEN}`,
       method: 'POST',
@@ -17,7 +12,7 @@ export class UserHoursApi extends CRUD {
     });
   }
 
-  getAuthUrl(data?: unknown): AxiosPromise<AuthUrlResponse> {
+  getAuthUrl(data?: unknown): AxiosPromise<GoogleAuthRedirectUrlResponse> {
     return this.request({
       url: `${this.url}${UserHoursEndpoints.GET_AUTH_URL}`,
       method: 'POST',
