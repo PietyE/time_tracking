@@ -3,11 +3,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from 'api';
 
 import { lsApi, type ProfileDataStorageI } from 'services/storageApi';
-import type { UserLoginData, GoogleAuthData, User } from 'api/models/users';
+import type { UserLoginData, User } from 'api/models/users';
 
-export const userGoogleSignIn = createAsyncThunk<User, GoogleAuthData>(
+export const userGoogleSignIn = createAsyncThunk<User, GoogleAuthToken>(
   'profile/userGoogleSignIn',
-  async (body: GoogleAuthData, { rejectWithValue }) => {
+  async (body, { rejectWithValue }) => {
     try {
       const { data } = await api.users.googleAuth(body);
 
