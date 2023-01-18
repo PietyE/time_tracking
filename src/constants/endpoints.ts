@@ -24,6 +24,8 @@ export enum UserHoursEndpoints {
 export enum UsersEndpoints {
   USERS = '/users/',
   LOGOUT = 'auth/logout/',
+  GET_GOOGLE_AUTH_REDIRECT_URL = 'auth/social/google/get-auth/',
+  CREATE_GOOGLE_AUTH_TOKEN = 'auth/social/google/callback/',
   LOGIN_WITH_GOOGLE_AUTH = 'auth/social/google/authorize/',
   CONSOLIDATE_REPORT = 'consolidated-report/',
   LOGIN = 'login/',

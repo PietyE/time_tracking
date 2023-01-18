@@ -1,11 +1,16 @@
 import type { FC } from 'react';
+import { userGoogleSingInGetRedirectUrl } from 'redux/asyncActions/profile';
 import SignInGoogleButton from 'components/Login/components/SignInGoogleButton';
-// import { useAppDispatch } from 'hooks/redux';
+import { useAppDispatch } from 'hooks/redux';
 
 const LoginSignInFormGoogleAuth: FC = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  return <SignInGoogleButton onClick={() => console.log('click')} />;
+  const handleRedirectToGoogleAuth = (): void => {
+    void dispatch(userGoogleSingInGetRedirectUrl());
+  };
+
+  return <SignInGoogleButton onClick={handleRedirectToGoogleAuth} />;
 };
 
 export default LoginSignInFormGoogleAuth;
