@@ -4,6 +4,7 @@ import {
   loginWithCredentials,
   logout,
   userGoogleSignIn,
+  userGoogleSingInGetRedirectUrl,
 } from '../asyncActions/profile';
 import { Role } from 'constants/profileRoleConstants';
 import type { User } from 'api/models/users';
@@ -82,6 +83,13 @@ const profileSlice = createSlice({
       },
     );
     builder.addCase(loginWithCredentials.rejected, (state) => {
+      state.isProfileFetching = false;
+      state.isAuth = false;
+    });
+    builder.addCase(userGoogleSingInGetRedirectUrl.pending, (state) => {
+      state.isProfileFetching = true;
+    });
+    builder.addCase(userGoogleSingInGetRedirectUrl.rejected, (state) => {
       state.isProfileFetching = false;
       state.isAuth = false;
     });

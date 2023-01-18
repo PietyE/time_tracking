@@ -71,6 +71,13 @@ export class UsersApi extends CRUD {
     });
   }
 
+  getGoogleAuthRedirectUrl(): AxiosPromise<GoogleAuthRedirectUrlResponse> {
+    return this.request({
+      url: `${this.url}${UsersEndpoints.GET_GOOGLE_AUTH_REDIRECT_URL}`,
+      method: 'GET',
+    });
+  }
+
   googleAuth(data: GoogleAuthToken): AxiosPromise<UserLoginResponse> {
     return this.request({
       url: `${this.url}${UsersEndpoints.LOGIN_WITH_GOOGLE_AUTH}`,
