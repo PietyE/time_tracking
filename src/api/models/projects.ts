@@ -21,6 +21,7 @@ export interface Project {
   description: string;
   logo: string;
   is_archived: boolean;
+  owner: OwnerId;
 }
 
 export type Projects = Project[];

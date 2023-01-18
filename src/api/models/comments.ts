@@ -8,7 +8,7 @@ export interface CommentsQueryParams {
 
 export interface CommentItem {
   id: string;
-  user: string;
+  user: UserId;
   text: string;
   reply: string;
   initiator: Pick<User, 'id' | 'name' | 'email'>;
