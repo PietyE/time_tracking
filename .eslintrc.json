@@ -108,8 +108,8 @@
         "src/constants/**",
         "src/theme/index.ts",
         "src/shared/components/Avatar/helpers/**",
-        "src/**/contants.ts",
-        "src/**/contants",
+        "src/**/constants.ts",
+        "src/**/constants",
         "src/shared/validationSchema/**",
         "src/shared/utils/sortArrayAlphabetically.ts"
       ],
