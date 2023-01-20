@@ -22,6 +22,8 @@ export const userGoogleSignIn = createAsyncThunk<
   GoogleAuthCallbackUrlData
 >('profile/userGoogleSignIn', async (data, { rejectWithValue }) => {
   try {
+    api.setToken(null);
+    lsApi.removeItem('profileData');
     const { data: googleToken } = await api.users.getGoogleAuthToken(data);
 
     const { data: profileDate } = await api.users.googleAuth(googleToken);
@@ -48,7 +50,13 @@ export const getUserProfile = createAsyncThunk<User>(
     try {
       const profileData = lsApi.get<ProfileDataStorageI>('profileData');
 
-      if (profileData?.key && profileData.userId) {
+      const nowTime: number = Math.floor(new Date().getTime() / 1000);
+
+      if (
+        profileData?.key &&
+        profileData.userId &&
+        nowTime < profileData.expiration_timestamp
+      ) {
         api.setToken(profileData.key);
         const { data } = await api.users.getUsersById(profileData.userId);
         return data;

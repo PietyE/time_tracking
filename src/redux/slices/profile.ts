@@ -12,6 +12,7 @@ import type { User } from 'api/models/users';
 export interface IProfile {
   isAuth: boolean;
   isLoading: boolean;
+  isGoogleAuthAccessDenied: boolean;
   isProfileFetching: boolean;
   profileData: User & { imageUrl?: string }; // refactor to do
 }
@@ -20,6 +21,7 @@ const initialState: IProfile = {
   isAuth: false,
   isLoading: true,
   isProfileFetching: false,
+  isGoogleAuthAccessDenied: false,
   profileData: {
     id: '',
     name: '',
@@ -43,6 +45,7 @@ const profileSlice = createSlice({
     builder.addCase(userGoogleSignIn.pending, (state) => {
       state.isProfileFetching = true;
       state.isAuth = false;
+      state.isGoogleAuthAccessDenied = false;
     });
     builder.addCase(
       userGoogleSignIn.fulfilled,
@@ -55,6 +58,7 @@ const profileSlice = createSlice({
     builder.addCase(userGoogleSignIn.rejected, (state) => {
       state.isProfileFetching = false;
       state.isAuth = false;
+      state.isGoogleAuthAccessDenied = true;
     });
     builder.addCase(
       getUserProfile.fulfilled,
