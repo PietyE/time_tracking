@@ -4,6 +4,10 @@ import type { Permissions } from 'constants/permissions';
 export const getIsAuthProfileSelector = createTypedSelector<boolean>(
   (state) => state.profile.isAuth,
 );
+
+export const getIsProfileFetchingSelector = createTypedSelector<boolean>(
+  (state) => state.profile.isProfileFetching,
+);
 export const getIsLoadingProfileSelector = createTypedSelector<boolean>(
   (state) => state.profile.isLoading,
 );
@@ -19,4 +23,8 @@ export const getProfileUserPositionSelector = createTypedSelector<string>(
 
 export const getProfileUserIdSelector = createTypedSelector<string>(
   (state) => state.profile.profileData.id,
+);
+
+export const getProfileGoogleAuthAccessDenied = createTypedSelector<boolean>(
+  (state) => state.profile.isGoogleAuthAccessDenied,
 );

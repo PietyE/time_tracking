@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
-import { AppRoutes } from 'constants/appRoutesConstants';
+import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
 import MainLayout from 'components/MainLayout';
+import { AppRoutes } from 'constants/appRoutesConstants';
 import {
   PagesViewPermissions,
   SyncWithGoogleSheetsPermissions,
@@ -84,6 +85,10 @@ export const routes = createBrowserRouter([
   {
     path: AppRoutes.auth,
     element: <LoginPage />,
+  },
+  {
+    path: AppRoutes.loginWithGoogleAuthRedirect,
+    element: <GoogleLoginRedirectPage />,
   },
   {
     path: '*',

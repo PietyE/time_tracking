@@ -47,10 +47,6 @@ export interface CreateUserData {
   phone?: string;
 }
 
-export interface GoogleAuthData {
-  token: string;
-}
-
 export interface DeveloperProject {
   id: string;
   name: string;

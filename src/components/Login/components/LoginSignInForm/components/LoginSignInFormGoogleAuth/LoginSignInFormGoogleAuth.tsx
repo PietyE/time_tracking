@@ -1,37 +1,16 @@
 import type { FC } from 'react';
-
-import GoogleLogin, {
-  type GoogleLoginResponse,
-  // type GoogleLoginResponseOffline,
-} from 'react-google-login';
-
+import { userGoogleSingInGetRedirectUrl } from 'redux/asyncActions/profile';
 import SignInGoogleButton from 'components/Login/components/SignInGoogleButton';
-import { userGoogleSignIn } from 'redux/asyncActions/profile';
 import { useAppDispatch } from 'hooks/redux';
-
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
 const LoginSignInFormGoogleAuth: FC = () => {
   const dispatch = useAppDispatch();
 
-  const handleClickGoogleLogin = (response: any): void => {
-    const _response = response as GoogleLoginResponse;
-    if (_response.tokenId) {
-      void dispatch(userGoogleSignIn({ token: _response.tokenId }));
-    }
+  const handleRedirectToGoogleAuth = (): void => {
+    void dispatch(userGoogleSingInGetRedirectUrl());
   };
 
-  return (
-    <GoogleLogin
-      clientId={clientId}
-      render={(props) => <SignInGoogleButton {...props} />}
-      onSuccess={handleClickGoogleLogin}
-      onFailure={() => {
-        console.log('error');
-      }}
-      cookiePolicy={'single_host_origin'}
-    />
-  );
+  return <SignInGoogleButton onClick={handleRedirectToGoogleAuth} />;
 };
 
 export default LoginSignInFormGoogleAuth;

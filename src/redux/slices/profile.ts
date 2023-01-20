@@ -4,6 +4,7 @@ import {
   loginWithCredentials,
   logout,
   userGoogleSignIn,
+  userGoogleSingInGetRedirectUrl,
 } from '../asyncActions/profile';
 import { Role } from 'constants/profileRoleConstants';
 import type { User } from 'api/models/users';
@@ -11,6 +12,7 @@ import type { User } from 'api/models/users';
 export interface IProfile {
   isAuth: boolean;
   isLoading: boolean;
+  isGoogleAuthAccessDenied: boolean;
   isProfileFetching: boolean;
   profileData: User & { imageUrl?: string }; // refactor to do
 }
@@ -19,6 +21,7 @@ const initialState: IProfile = {
   isAuth: false,
   isLoading: true,
   isProfileFetching: false,
+  isGoogleAuthAccessDenied: false,
   profileData: {
     id: '',
     name: '',
@@ -41,6 +44,8 @@ const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(userGoogleSignIn.pending, (state) => {
       state.isProfileFetching = true;
+      state.isAuth = false;
+      state.isGoogleAuthAccessDenied = false;
     });
     builder.addCase(
       userGoogleSignIn.fulfilled,
@@ -53,6 +58,7 @@ const profileSlice = createSlice({
     builder.addCase(userGoogleSignIn.rejected, (state) => {
       state.isProfileFetching = false;
       state.isAuth = false;
+      state.isGoogleAuthAccessDenied = true;
     });
     builder.addCase(
       getUserProfile.fulfilled,
@@ -82,6 +88,13 @@ const profileSlice = createSlice({
       },
     );
     builder.addCase(loginWithCredentials.rejected, (state) => {
+      state.isProfileFetching = false;
+      state.isAuth = false;
+    });
+    builder.addCase(userGoogleSingInGetRedirectUrl.pending, (state) => {
+      state.isProfileFetching = true;
+    });
+    builder.addCase(userGoogleSingInGetRedirectUrl.rejected, (state) => {
       state.isProfileFetching = false;
       state.isAuth = false;
     });

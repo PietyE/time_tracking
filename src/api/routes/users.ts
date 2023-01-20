@@ -7,7 +7,6 @@ import type {
   Users,
   User,
   CreateUserData,
-  GoogleAuthData,
   ConsolidatedReportPathQueryParams,
   ConsolidatedReport,
   UserLoginData,
@@ -72,7 +71,24 @@ export class UsersApi extends CRUD {
     });
   }
 
-  googleAuth(data: GoogleAuthData): AxiosPromise<UserLoginResponse> {
+  getGoogleAuthRedirectUrl(): AxiosPromise<GoogleAuthRedirectUrlResponse> {
+    return this.request({
+      url: `${this.url}${UsersEndpoints.GET_GOOGLE_AUTH_REDIRECT_URL}`,
+      method: 'POST',
+    });
+  }
+
+  getGoogleAuthToken(
+    data: GoogleAuthCallbackUrlData,
+  ): AxiosPromise<GoogleAuthToken> {
+    return this.request({
+      url: `${this.url}${UsersEndpoints.CREATE_GOOGLE_AUTH_TOKEN}`,
+      method: 'POST',
+      data,
+    });
+  }
+
+  googleAuth(data: GoogleAuthToken): AxiosPromise<UserLoginResponse> {
     return this.request({
       url: `${this.url}${UsersEndpoints.LOGIN_WITH_GOOGLE_AUTH}`,
       method: 'POST',

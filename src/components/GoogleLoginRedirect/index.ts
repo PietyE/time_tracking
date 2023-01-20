@@ -1,0 +1,1 @@
+export { GoogleLoginRedirect } from './GoogleLoginRedirect';
