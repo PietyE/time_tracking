@@ -7,4 +7,5 @@ export enum AppRoutes {
   vilmates = 'vilmates',
   singlePage = '/user',
   syncWithGoogleSheets = 'gsheets/auth-success',
+  loginWithGoogleAuthRedirect = 'api/v1/users/auth/social/google/callback',
 }

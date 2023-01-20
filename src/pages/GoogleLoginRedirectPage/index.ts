@@ -1,0 +1,1 @@
+export { GoogleLoginRedirectPage } from './GoogleLoginRedirectPage';

@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { Stack } from '@mui/material';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { LoginSignInForm } from './components/LoginSignInForm';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { useAppSelector } from 'hooks/redux';
@@ -10,6 +10,9 @@ import { styles } from './styles';
 
 export const Login: FC = (): JSX.Element => {
   const isAuth = useAppSelector(getIsAuthProfileSelector);
+  const location = useLocation();
+
+  console.log(location);
 
   if (isAuth) {
     return (
