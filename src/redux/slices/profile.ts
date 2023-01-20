@@ -42,6 +42,7 @@ const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(userGoogleSignIn.pending, (state) => {
       state.isProfileFetching = true;
+      state.isAuth = false;
     });
     builder.addCase(
       userGoogleSignIn.fulfilled,
