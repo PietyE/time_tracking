@@ -1,12 +1,11 @@
-import { type FC } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 import { Grid } from '@mui/material';
 import { FilterTableHeader } from './components/FilterTableHeader';
-import { FilterTableList } from './components/FilterTableList';
 import { styles } from './styles';
 
-const columns: number[] = [1, 2, 3];
-
-export const FilterTable: FC = (): JSX.Element => (
+export const FilterTable: FC<PropsWithChildren> = ({
+  children,
+}): JSX.Element => (
   <Grid
     container
     flexDirection='column'
@@ -18,13 +17,6 @@ export const FilterTable: FC = (): JSX.Element => (
     <Grid item>
       <FilterTableHeader />
     </Grid>
-    <Grid item>
-      {columns.map((column) => (
-        <FilterTableList
-          key={column}
-          column={column}
-        />
-      ))}
-    </Grid>
+    <Grid item>{children}</Grid>
   </Grid>
 );

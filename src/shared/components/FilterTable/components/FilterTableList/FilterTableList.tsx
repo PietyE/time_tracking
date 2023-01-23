@@ -6,6 +6,8 @@ interface Props {
   column: number;
 }
 
+// todo: make component shared and separate from filter table UI
+
 export const FilterTableList: FC<Props> = ({ column }): JSX.Element => (
   <Grid
     container

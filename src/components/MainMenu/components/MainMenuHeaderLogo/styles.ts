@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material';
-import { ToggleButtonPadding } from 'hooks/useDrawer/contants';
+import { ToggleButtonPadding } from 'hooks/useDrawer/constants';
 
 export const styles: SxProps<Theme> = {
   '& .MuiGrid-root.MuiGrid-item': {

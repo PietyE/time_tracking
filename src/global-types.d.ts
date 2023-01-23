@@ -6,6 +6,12 @@ type ClassNameWithIsActiveNavLink = ({
   isActive: boolean;
 }) => string;
 
+type SortingOrder = 'asc' | 'desc';
+
+type OwnerId = string;
+
+type UserId = string;
+
 interface GoogleAuthCallbackUrlData {
   state: string;
   callback_url: string;

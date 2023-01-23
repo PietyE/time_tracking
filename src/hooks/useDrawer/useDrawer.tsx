@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { DrawerWidth } from './contants';
+import { DrawerWidth } from './constants';
 import { useAppSelector } from '../redux';
 import Logo from 'shared/components/svg/Logo';
 import VilmateIcon from 'shared/components/svg/VilmateIcon';
