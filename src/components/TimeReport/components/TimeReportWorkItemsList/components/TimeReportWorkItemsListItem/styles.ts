@@ -10,4 +10,11 @@ export const styles: Record<string, SxProps<Theme>> = {
     p: 12,
     '& svg': { color: 'common.white' },
   },
+  container: {
+    p: (theme) => theme.spacing(16, 30, 16, 6),
+    m: (theme) => theme.spacing(0, 0, 16),
+    '&:last-child': {
+      m: 0,
+    },
+  },
 };
