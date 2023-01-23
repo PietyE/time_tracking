@@ -1,14 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { ChangeSelectedDate } from '../types/calendar';
 
-interface InitialState {
-  month: number;
-  year: number;
-}
-
 const todayDate: Date = new Date();
 
-const initialState: InitialState = {
+const initialState: CalendarValues = {
   month: todayDate.getMonth(),
   year: todayDate.getFullYear(),
 };

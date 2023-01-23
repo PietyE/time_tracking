@@ -25,3 +25,8 @@ interface GoogleAuthRedirectUrlResponse {
 interface GoogleAuthToken {
   token: string;
 }
+
+interface CalendarValues {
+  month: number;
+  year: number;
+}

@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
+import { TimeReportPage } from '../pages/TimeReportPage';
 import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
 import MainLayout from 'components/MainLayout';
 import { AppRoutes } from 'constants/appRoutesConstants';
@@ -27,7 +28,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: AppRoutes.timeReport,
-        element: <h1>Time report</h1>,
+        element: <TimeReportPage />,
       },
       {
         path: AppRoutes.projectReport,
