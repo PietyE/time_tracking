@@ -25,9 +25,3 @@ interface GoogleAuthRedirectUrlResponse {
 interface GoogleAuthToken {
   token: string;
 }
-
-type SortingOrder = 'asc' | 'desc';
-
-type OwnerId = string;
-
-type UserId = string;
