@@ -1,15 +1,18 @@
 import type { ChangeEventHandler, FC, FocusEventHandler } from 'react';
 import { TextField } from '@mui/material';
 import InputMask, { type Props as InputMaskProps } from 'react-input-mask';
+import type { RefCallBack } from 'react-hook-form';
 
 interface Props {
   placeholder: string;
-  maskPlaceholder: string;
+  maskChar: string;
   mask: string;
   value: string | number;
   onFocus?: (event?: FocusEventHandler<HTMLInputElement>) => void;
   onBlur?: (event?: FocusEventHandler<HTMLInputElement>) => void;
   onChange?: (event?: ChangeEventHandler<HTMLInputElement>) => void;
+
+  ref?: RefCallBack;
 
   error: boolean;
 }
@@ -17,7 +20,7 @@ interface Props {
 export const TimeInput: FC<Props & InputMaskProps> = ({
   placeholder,
   mask,
-  maskPlaceholder,
+  maskChar,
   value,
   onBlur,
   onChange,
@@ -27,7 +30,7 @@ export const TimeInput: FC<Props & InputMaskProps> = ({
 }): JSX.Element => (
   <InputMask
     placeholder={placeholder}
-    maskPlaceholder={maskPlaceholder}
+    maskChar={maskChar}
     value={value}
     onChange={onChange}
     mask={mask}
