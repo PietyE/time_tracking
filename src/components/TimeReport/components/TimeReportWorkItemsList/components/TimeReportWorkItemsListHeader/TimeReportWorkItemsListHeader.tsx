@@ -6,14 +6,16 @@ export const TimeReportWorkItemsListHeader: FC = (): JSX.Element => (
     container
     alignItems='center'
     justifyContent='space-between'
+    mb={24}
+    px={30}
   >
-    <TimeReportWorkItemsListHeaderItem xs={4}>
+    <TimeReportWorkItemsListHeaderItem xs={3}>
       date
     </TimeReportWorkItemsListHeaderItem>
-    <TimeReportWorkItemsListHeaderItem xs={6}>
+    <TimeReportWorkItemsListHeaderItem xs={7}>
       tasks
     </TimeReportWorkItemsListHeaderItem>
-    <TimeReportWorkItemsListHeaderItem xs={2}>
+    <TimeReportWorkItemsListHeaderItem xs={1.7}>
       hours
     </TimeReportWorkItemsListHeaderItem>
   </Grid>
