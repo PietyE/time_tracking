@@ -1,9 +1,13 @@
 import { useCallback, useState } from 'react';
-import { orderBy } from 'lodash';
-import { isTotalMinutes } from './helpers';
+import orderBy from 'lodash/orderBy';
 import { ASCEND, DESCEND } from 'constants/sortingOrder';
 
-type SortingParam<F extends string> = Record<F, SortingOrder>;
+interface SortingParamValues {
+  order: SortingOrder;
+  isAscByDefault: boolean;
+}
+
+type SortingParam<F extends string> = Record<F, SortingParamValues>;
 
 interface ReturnType<F extends string, T> {
   sorting: T[];
@@ -22,24 +26,24 @@ export const useSorting = <F extends string, T>(
     useState<SortingParam<F>>(defaultSorting);
 
   const toggleSortingParameter = (sortKey: F): void => {
-    switch (sortingParameter[sortKey]) {
+    switch (sortingParameter[sortKey].order) {
       case DESCEND:
         setSortingParameters({
-          [sortKey]: ASCEND,
+          [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
         } as SortingParam<F>);
         return;
       case ASCEND:
         setSortingParameters({
-          [sortKey]: DESCEND,
+          [sortKey]: { ...sortingParameter[sortKey], order: DESCEND },
         } as SortingParam<F>);
         return;
       default:
-        isTotalMinutes(sortKey)
+        sortingParameter[sortKey].isAscByDefault
           ? setSortingParameters({
-              [sortKey]: DESCEND,
+              [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
             } as SortingParam<F>)
           : setSortingParameters({
-              [sortKey]: ASCEND,
+              [sortKey]: { ...sortingParameter[sortKey], order: DESCEND },
             } as SortingParam<F>);
     }
   };
@@ -49,7 +53,10 @@ export const useSorting = <F extends string, T>(
       const keys = Object.keys(sortingParameter) as Array<
         keyof typeof sortingParameter
       >;
-      const sortOrders = Object.values<SortingOrder>(sortingParameter);
+      const sortOrders = Object.values<SortingParamValues>(
+        sortingParameter,
+      ).map((sortParameter) => sortParameter.order);
+
       setSorting(() => orderBy(data, keys, sortOrders));
     },
     [sortingParameter],
