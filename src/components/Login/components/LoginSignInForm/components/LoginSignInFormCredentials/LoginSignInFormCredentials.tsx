@@ -20,7 +20,6 @@ export const LoginSignInFormCredentials: FC = (): JSX.Element => {
   });
 
   const dispatch = useAppDispatch();
-
   const onSubmit: SubmitHandler<LoginSingInFormCredentialsFields> = (data) =>
     dispatch(loginWithCredentials(data));
 

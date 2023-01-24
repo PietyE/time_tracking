@@ -1,9 +1,12 @@
 import { type FC } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { IconButton, Grid, TextField, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
 import { TimeInput } from 'shared/components/TimeInput';
-import { styles } from './styles';
+import { workItemValidationSchema } from 'shared/validationSchema';
+import { ValidationErrorMessage } from 'shared/components/ValidationErrorMessage';
+import { createStyles } from './styles';
 
 interface Fields {
   reportText: string;
@@ -11,9 +14,24 @@ interface Fields {
 }
 
 export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
-  const { register, control, handleSubmit } = useForm<Fields>();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isDirty },
+  } = useForm<Fields>({
+    mode: 'onChange',
+    resolver: yupResolver(workItemValidationSchema),
+    defaultValues: {
+      reportText: '',
+      time: '0:00',
+    },
+  });
 
   const onSubmit: SubmitHandler<Fields> = (data) => console.log(data);
+
+  const validationError: boolean =
+    !!errors.reportText?.message || !!errors.time?.message;
 
   return (
     <Grid
@@ -24,7 +42,7 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
       alignItems='center'
       maxWidth={971}
       borderRadius={1.5}
-      sx={styles.container}
+      sx={createStyles(validationError).container}
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid
@@ -37,33 +55,44 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
       <Grid
         item
         xs={7}
+        position='relative'
       >
         <TextField
+          maxLength={100}
+          maxRows='8'
+          inputProps={{
+            maxLength: 1001,
+          }}
           multiline
           fullWidth
-          {...register('reportText')}
+          error={!!errors.reportText?.message}
+          {...register('reportText', { maxLength: 1000 })}
         />
+        <ValidationErrorMessage>
+          {errors.reportText?.message}
+        </ValidationErrorMessage>
       </Grid>
       <Grid
         item
         xs={1.1}
+        position='relative'
       >
         <Controller
-          render={({ field: { onChange, onBlur, value, ref } }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <TimeInput
               onChange={onChange}
               onBlur={onBlur}
               value={value}
-              ref={ref}
               mask='9:99'
               placeholder='0:00'
               maskChar='0'
-              error={false}
+              error={!!errors.time?.message}
             />
           )}
           control={control}
           name='time'
         />
+        <ValidationErrorMessage>{errors.time?.message}</ValidationErrorMessage>
       </Grid>
       <Grid
         item
@@ -71,7 +100,7 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
       >
         <IconButton
           type='submit'
-          sx={styles.button}
+          sx={createStyles(!isDirty || validationError).button}
         >
           <CheckIcon />
         </IconButton>

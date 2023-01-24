@@ -1,20 +1,25 @@
 import type { SxProps, Theme } from '@mui/material';
 
-export const styles: Record<string, SxProps<Theme>> = {
+export const createStyles = (
+  reportValueInputError: boolean,
+): Record<string, SxProps<Theme>> => ({
   button: {
     '&: hover': {
-      bgcolor: 'primary.dark',
+      bgcolor: reportValueInputError ? 'primary.light' : 'primary.dark',
     },
     borderRadius: 1.5,
-    bgcolor: 'primary.main',
+    bgcolor: reportValueInputError ? 'primary.light' : 'primary.main',
     p: 12,
     '& svg': { color: 'common.white' },
   },
   container: {
-    p: (theme) => theme.spacing(16, 30, 16, 6),
+    p: (theme) => theme.spacing(16, 30, reportValueInputError ? 50 : 16, 6),
     m: (theme) => theme.spacing(0, 0, 16),
     '&:last-child': {
       m: 0,
     },
+    '& .MuiGrid-item .MuiInputBase-root.Mui-error fieldset': {
+      borderColor: 'error.main',
+    },
   },
-};
+});
