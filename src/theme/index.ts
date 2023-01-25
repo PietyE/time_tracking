@@ -20,7 +20,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     customGrey: Partial<CustomGreyColor>;
-    black: Partial<Color & { 450: BlackColors.MAIN_OPACITY_45 }>;
+    black: Partial<
+      Color & { 450: BlackColors.MAIN_OPACITY_45; main: BlackColors.MAIN }
+    >;
   }
   interface TypeBackground {
     grey: TypeBackground['paper'];
@@ -31,6 +33,12 @@ declare module '@mui/material/styles' {
   }
   interface TypeText {
     link: OtherColors.LINK;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    black: true;
   }
 }
 
@@ -81,6 +89,7 @@ const basicTheme = createTheme({
       300: BlackColors.MAIN_OPACITY_30,
       400: BlackColors.MAIN_OPACITY_40,
       450: BlackColors.MAIN_OPACITY_45,
+      main: BlackColors.MAIN,
     },
   },
   shadows: [
