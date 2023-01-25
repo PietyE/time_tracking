@@ -14,12 +14,14 @@ export const createStyles = (
   },
   container: {
     p: (theme) => theme.spacing(16, 30, reportValueInputError ? 50 : 16, 6),
+    '& .MuiGrid-item .MuiInputBase-root.Mui-error fieldset': {
+      borderColor: 'error.main',
+    },
+  },
+  wrapper: {
     m: (theme) => theme.spacing(0, 0, 16),
     '&:last-child': {
       m: 0,
-    },
-    '& .MuiGrid-item .MuiInputBase-root.Mui-error fieldset': {
-      borderColor: 'error.main',
     },
   },
 });

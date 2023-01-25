@@ -29,6 +29,9 @@ declare module '@mui/material/styles' {
     greyGreen: TypeBackground['paper'];
     lightGreen: TypeBackground['paper'];
   }
+  interface TypeText {
+    link: OtherColors.LINK;
+  }
 }
 
 declare module '@mui/material/styles/createTypography' {
@@ -63,6 +66,7 @@ const basicTheme = createTheme({
     },
     text: {
       disabled: GreyColors.DISABLED,
+      link: OtherColors.LINK,
     },
     customGrey: {
       MAIN_TEXT: GreyColors.MAIN_TEXT,
