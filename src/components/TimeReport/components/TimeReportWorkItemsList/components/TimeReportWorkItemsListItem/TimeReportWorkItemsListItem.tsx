@@ -7,8 +7,8 @@ import { TimeReportWorkItemsListItemReport } from './components/TimeReportWorkIt
 import { TimeReportWorkItemsListItemReportsList } from './components/TimeReportWorkItemsListItemReportsList';
 import { TimeReportWorkItemsListItemTime } from './components/TimeReportWorkItemsListItemTime';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
-import { getWorkItems } from 'redux/selectors/timereports';
-import { getWorkItems as requestWorkItems } from 'redux/asyncActions/timereports';
+import { getWorkItems as getWorkItemsSelector } from 'redux/selectors/timereports';
+import { getWorkItems } from 'redux/asyncActions/timereports';
 import { workItemValidationSchema } from 'shared/validationSchema';
 import { createStyles } from './styles';
 
@@ -36,14 +36,14 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<Fields> = (data) => console.log(data);
 
-  const workItems = useAppShallowSelector(getWorkItems);
+  const workItems = useAppShallowSelector(getWorkItemsSelector);
   const dispatch = useAppDispatch();
 
   console.log(workItems);
 
   useEffect(() => {
     void dispatch(
-      requestWorkItems({
+      getWorkItems({
         developer_project: '5af98ca0-8863-4e9a-b6d4-7c12d887b7a2',
         year: 2023,
         month: 1,

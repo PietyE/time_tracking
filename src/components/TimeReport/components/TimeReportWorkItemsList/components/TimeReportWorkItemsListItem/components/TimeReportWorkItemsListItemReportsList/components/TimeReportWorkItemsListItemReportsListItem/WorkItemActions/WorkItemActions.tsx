@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { Button, Popover, type PopoverProps, Stack } from '@mui/material';
 import { Edit, SwapHoriz, Delete } from '@mui/icons-material';
+import { styles } from '../styles';
 interface Props {
   anchorEl: Element | ((element: Element) => Element) | null;
 
@@ -29,11 +30,7 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
   >
     <Stack
       p={8}
-      sx={{
-        '& > button': {
-          justifyContent: 'flex-start',
-        },
-      }}
+      sx={styles.popup}
     >
       <Button
         startIcon={<Edit />}

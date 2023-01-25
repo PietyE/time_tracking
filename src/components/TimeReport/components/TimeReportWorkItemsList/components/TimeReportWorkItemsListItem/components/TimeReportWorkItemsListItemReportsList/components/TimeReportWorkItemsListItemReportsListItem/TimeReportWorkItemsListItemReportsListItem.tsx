@@ -3,6 +3,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, IconButton, Typography } from '@mui/material';
 import Linkify from 'linkify-react';
 import { WorkItemActions } from './WorkItemActions';
+import { styles } from './styles';
 
 export const TimeReportWorkItemsListItemReportsListItem: FC =
   (): JSX.Element => {
@@ -31,11 +32,7 @@ export const TimeReportWorkItemsListItemReportsListItem: FC =
           <Grid
             item
             xs={7.3}
-            sx={{
-              '& a': {
-                color: 'text.link',
-              },
-            }}
+            sx={styles.link}
           >
             <Linkify options={{ target: '_blank' }}>
               work item text: google.com
