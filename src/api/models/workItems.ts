@@ -32,9 +32,14 @@ export interface CreateWorkItemData
   is_active?: boolean;
 }
 
-export interface CreateWorkItemResponse extends CreateWorkItemData {
-  id: string;
+export interface DeleteWorkItemResponse extends Omit<WorkItem, 'is_active'> {
+  is_active: false;
 }
+
+export type UpdateWorkItemData = Pick<
+  WorkItem,
+  'title' | 'duration' | 'date' | 'id'
+>;
 
 export interface WorkItemHistory {
   id: string;

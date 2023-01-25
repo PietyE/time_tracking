@@ -6,9 +6,10 @@ import type {
   WorkItemsQueryParams,
   WorkItemsResponse,
   CreateWorkItemData,
-  CreateWorkItemResponse,
   WorkItem,
   WorkItemHistory,
+  DeleteWorkItemResponse,
+  UpdateWorkItemData,
 } from '../models/workItems';
 
 export class WorkItemsApi extends CRUD {
@@ -19,9 +20,7 @@ export class WorkItemsApi extends CRUD {
     });
   }
 
-  createWorkItems(
-    data: CreateWorkItemData,
-  ): AxiosPromise<CreateWorkItemResponse> {
+  createWorkItems(data: CreateWorkItemData): AxiosPromise<WorkItem> {
     return this.request({
       url: this.url,
       method: 'POST',
@@ -35,10 +34,18 @@ export class WorkItemsApi extends CRUD {
     });
   }
 
-  updateWorkItem(
+  updateWorkItem({ id, ...data }: UpdateWorkItemData): AxiosPromise<WorkItem> {
+    return this.request({
+      url: `${this.url}${id}/`,
+      method: 'PATCH',
+      data,
+    });
+  }
+
+  deleteWorkItem(
     id: string,
-    data: Partial<CreateWorkItemData>,
-  ): AxiosPromise<WorkItem> {
+    data: { is_active: false },
+  ): AxiosPromise<DeleteWorkItemResponse> {
     return this.request({
       url: `${this.url}${id}/`,
       method: 'PATCH',

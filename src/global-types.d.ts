@@ -12,6 +12,8 @@ type OwnerId = string;
 
 type UserId = string;
 
+type WorkItemId = string;
+
 interface GoogleAuthCallbackUrlData {
   state: string;
   callback_url: string;

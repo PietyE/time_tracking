@@ -14,6 +14,7 @@ export const TimeReportWorkItemsListItemReport: FC = (): JSX.Element => {
       <TextField
         maxLength={100}
         maxRows='8'
+        placeholder='What did you work on ?'
         inputProps={{
           maxLength: 1001,
         }}
