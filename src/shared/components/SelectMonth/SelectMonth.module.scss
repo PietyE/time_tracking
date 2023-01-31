@@ -1,0 +1,32 @@
+@import '../src/styles/variables';
+.day_button {
+  width: 30%;
+  font-size: 12px;
+  padding: 0 5px;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: unset;
+  outline: none;
+  background-color: $whiteColor;
+  cursor: pointer;
+  line-height: 25px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  &:hover {
+    background-color: $disabled;
+    transition: 0.3s;
+  }
+  &.active {
+    background-color: $mainGreen;
+    color: $whiteColor;
+  }
+  &.disabled {
+    color: #ccc;
+    cursor: default;
+    &:hover {
+      background-color: $whiteColor;
+    }
+  }
+}

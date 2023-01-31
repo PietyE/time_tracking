@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { ChangeSelectedDate } from '../types/calendar';
 
 const todayDate: Date = new Date();
 
@@ -12,10 +11,10 @@ const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    changeSelectedDate: (state, action: PayloadAction<ChangeSelectedDate>) => {
-      state.month = action.payload.month;
-      state.year = action.payload.year;
-    },
+    changeSelectedDate: (
+      state,
+      action: PayloadAction<Partial<CalendarValues>>,
+    ) => ({ ...state, ...action.payload }),
   },
 });
 
