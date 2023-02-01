@@ -51,6 +51,8 @@ export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
     return className;
   };
 
+  const borderColor: string = isOpenPicker ? 'primary.main' : 'text.disabled';
+
   return (
     <ClickAwayListener onClickAway={handleClose}>
       <Box
@@ -58,9 +60,9 @@ export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
         justifyContent='space-between'
         alignItems='stretch'
         minWidth={248}
-        height={50}
+        height={42}
         border={1}
-        borderColor='text.disabled'
+        borderColor={borderColor}
         borderRadius={1}
         bgcolor='common.white'
         position='relative'
@@ -109,7 +111,7 @@ export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
             zIndex='tooltip'
             overflow='hidden'
             border={1}
-            borderColor='text.disabled'
+            borderColor={borderColor}
           >
             <Box
               width={1}
@@ -118,7 +120,7 @@ export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
               alignItems='stretch'
               mb={10}
               borderBottom={1}
-              borderColor='text.disabled'
+              borderColor={borderColor}
             >
               <IconButton
                 disabled={disabledPrevYearButton}
