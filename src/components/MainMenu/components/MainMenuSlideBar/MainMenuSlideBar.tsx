@@ -13,6 +13,7 @@ export const MainMenuSlideBar: FC = (): JSX.Element => {
     <Box
       component='nav'
       width={1}
+      height='100vh'
       maxWidth={drawerWidth}
       bgcolor='primary.contrastText'
       sx={styles}

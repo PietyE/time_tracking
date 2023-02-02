@@ -1,24 +1,39 @@
-import { type FC, useEffect } from 'react';
+import { type FC } from 'react';
+import { Box, Divider, Grid } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid, Typography, Box, Divider } from '@mui/material';
-import { useForm, type SubmitHandler, FormProvider } from 'react-hook-form';
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 import { TimeReportWorkItemsListItemButton } from './components/TimeReportWorkItemsListItemButton';
+import { TimeReportWorkItemsListItemDate } from './components/TimeReportWorkItemsListItemDate';
 import { TimeReportWorkItemsListItemReport } from './components/TimeReportWorkItemsListItemReport';
 import { TimeReportWorkItemsListItemReportsList } from './components/TimeReportWorkItemsListItemReportsList';
 import { TimeReportWorkItemsListItemTime } from './components/TimeReportWorkItemsListItemTime';
-import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
-import { getWorkItems as getWorkItemsSelector } from 'redux/selectors/timereports';
-import { getWorkItems } from 'redux/asyncActions/timereports';
+import { useDays } from './helpers';
 import { workItemValidationSchema } from 'shared/validationSchema';
+import { formatTimeToMinutes } from 'shared/utils/dateOperations';
+import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
+import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import { getSelectedDeveloperProject } from 'redux/selectors/timereports';
+import { addWorkItem } from 'redux/asyncActions/timereports';
+import type { WorkItem } from 'api/models/workItems';
 import { createStyles } from './styles';
 
 interface Fields {
   reportText: string;
-  time: string | number;
+  time: string;
 }
 
-export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
-  const methods = useForm({
+interface Props {
+  currentDayOrdinalNumber: number;
+  currentDayWorkItems: WorkItem[];
+  isCurrentDay: boolean;
+}
+
+export const TimeReportWorkItemsListItem: FC<Props> = ({
+  currentDayOrdinalNumber,
+  currentDayWorkItems,
+  isCurrentDay,
+}): JSX.Element => {
+  const methods = useForm<Fields>({
     mode: 'onChange',
     resolver: yupResolver(workItemValidationSchema),
     defaultValues: {
@@ -26,35 +41,43 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
       time: '0:00',
     },
   });
+
   const {
     handleSubmit,
+    reset,
     formState: { errors },
   } = methods;
+
+  const { debouncedYear: year, debouncedMonth: month } = useDebouncedMonths();
+  const { id: developerProjectId } = useAppShallowSelector(
+    getSelectedDeveloperProject,
+  );
+  const dispatch = useAppDispatch();
+  const { isWeekend, dayTitle } = useDays(year, month, currentDayOrdinalNumber);
 
   const isValidationError: boolean =
     !!errors.reportText?.message || !!errors.time?.message;
 
-  const onSubmit: SubmitHandler<Fields> = (data) => console.log(data);
-
-  const workItems = useAppShallowSelector(getWorkItemsSelector);
-  const dispatch = useAppDispatch();
-
-  console.log(workItems);
-
-  useEffect(() => {
+  const onSubmit: SubmitHandler<Fields> = (data) => {
+    if (!developerProjectId) return;
     void dispatch(
-      getWorkItems({
-        developer_project: '5af98ca0-8863-4e9a-b6d4-7c12d887b7a2',
-        year: 2023,
-        month: 1,
+      addWorkItem({
+        is_active: true,
+        duration: formatTimeToMinutes(data.time),
+        title: data.reportText,
+        developer_project: developerProjectId,
+        date: `${year}-${month + 1}-${currentDayOrdinalNumber}`,
       }),
     );
-  }, []);
+    reset({ reportText: '', time: '' });
+  };
 
   return (
     <Box
       sx={createStyles(isValidationError).wrapper}
       bgcolor='common.white'
+      border={isCurrentDay ? 1 : 0}
+      borderColor={isCurrentDay ? 'primary.main' : 'inherit'}
       borderRadius={1.5}
     >
       <FormProvider {...methods}>
@@ -73,7 +96,10 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
             xs={3}
             p={0}
           >
-            <Typography variant='subtitle1'>Monday, 29</Typography>
+            <TimeReportWorkItemsListItemDate
+              dayTitle={dayTitle}
+              isWeekend={isWeekend}
+            />
           </Grid>
           <Grid
             item
@@ -98,7 +124,11 @@ export const TimeReportWorkItemsListItem: FC = (): JSX.Element => {
         </Grid>
       </FormProvider>
       <Divider />
-      <TimeReportWorkItemsListItemReportsList />
+      {!!currentDayWorkItems.length && (
+        <TimeReportWorkItemsListItemReportsList
+          currentDayWorkItems={currentDayWorkItems}
+        />
+      )}
     </Box>
   );
 };

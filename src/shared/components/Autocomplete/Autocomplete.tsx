@@ -1,4 +1,4 @@
-import { type FC, useState, type SyntheticEvent } from 'react';
+import { type FC, useState, type SyntheticEvent, useEffect } from 'react';
 import { TextField, Autocomplete as MUIAutocomplete } from '@mui/material';
 import get from 'lodash/get';
 import { createSortingNames, isEqual } from './helpers';
@@ -8,10 +8,9 @@ interface CustomProps {
   keysToName: string[];
   keysToId: string[];
 
-  onChange: (id: string) => void;
+  onChange: (option: object) => void;
 
   label?: string;
-  selectedProject?: object;
   selectAll?: boolean;
 }
 
@@ -24,16 +23,19 @@ export const Autocomplete: FC<Props> = ({
   keysToName,
   keysToId,
   onChange,
-  selectedProject,
   selectAll = true,
   label = 'Select',
 }): JSX.Element => {
-  const [value, setValue] = useState(() => options[0]);
+  const [value, setValue] = useState(options[0]);
 
   const handleChange = (_event: SyntheticEvent, newValue: object): void => {
     setValue(newValue);
-    onChange(get(newValue, keysToId));
+    onChange(newValue);
   };
+
+  useEffect(() => {
+    onChange(value || options[0]);
+  }, []);
 
   return (
     <MUIAutocomplete
@@ -51,7 +53,7 @@ export const Autocomplete: FC<Props> = ({
         createSortingNames(options, state, keysToName, selectAll)
       }
       onChange={handleChange}
-      value={selectedProject ?? (value || options[0])}
+      value={value || options[0]}
       renderInput={(params) => (
         // @ts-expect-error
         <TextField

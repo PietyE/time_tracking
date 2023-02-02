@@ -36,7 +36,13 @@ const TimeReportWorkItemsListHeaderItem: FC<
   </Grid>
 );
 
-export const TimeReportWorkItemsListHeader: FC = (): JSX.Element => (
+interface Props {
+  hoursWorked: string;
+}
+
+export const TimeReportWorkItemsListHeader: FC<Props> = ({
+  hoursWorked,
+}): JSX.Element => (
   <Grid
     container
     alignItems='center'
@@ -46,16 +52,16 @@ export const TimeReportWorkItemsListHeader: FC = (): JSX.Element => (
   >
     <TimeReportWorkItemsListHeaderItem
       title='date'
-      xs={3}
+      xs={2.5}
     />
     <TimeReportWorkItemsListHeaderItem
       title='tasks'
-      xs={7}
+      xs={6}
     />
     <TimeReportWorkItemsListHeaderItem
       title='hours'
-      xs={1.7}
-      hoursWorked='24h'
+      xs={2}
+      hoursWorked={hoursWorked}
     />
   </Grid>
 );

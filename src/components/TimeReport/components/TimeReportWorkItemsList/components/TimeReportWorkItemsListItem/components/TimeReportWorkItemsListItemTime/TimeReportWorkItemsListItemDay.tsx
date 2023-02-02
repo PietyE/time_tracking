@@ -1,7 +1,6 @@
 import { type FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { TimeInput } from 'shared/components/TimeInput';
-import { ValidationErrorMessage } from 'shared/components/ValidationErrorMessage';
 
 export const TimeReportWorkItemsListItemTime: FC = (): JSX.Element => {
   const {
@@ -25,9 +24,6 @@ export const TimeReportWorkItemsListItemTime: FC = (): JSX.Element => {
         control={control}
         name='time'
       />
-      <ValidationErrorMessage>
-        {errors.time?.message as string}
-      </ValidationErrorMessage>
     </>
   );
 };

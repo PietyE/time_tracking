@@ -1,10 +1,12 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
+import { makeStyles } from '@mui/styles';
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   type SelectChangeEvent,
+  type Theme,
 } from '@mui/material';
 import type {
   DeveloperProject,
@@ -14,23 +16,32 @@ import type {
 interface Props {
   developerProjects: DeveloperProjects;
 
-  onChange: (id: string) => void;
+  onChange: (developerProject: DeveloperProject) => void;
 
   label?: string;
-
-  selectedProject?: DeveloperProject;
 }
+
+const useStyles = makeStyles((theme: Theme) => ({
+  menuPaper: {
+    maxHeight: theme.typography.pxToRem(150),
+    maxWidth: theme.typography.pxToRem(200),
+  },
+}));
 
 export const SelectProjectFilter: FC<Props> = ({
   developerProjects,
   onChange,
   label = 'Select',
-  selectedProject,
 }): JSX.Element => {
-  const [value, setValue] = useState(() => developerProjects[0]);
+  const classes = useStyles();
+  const [value, setValue] = useState(developerProjects[0]);
+
+  useEffect(() => {
+    onChange(value || developerProjects[0]);
+  }, []);
   const handleChange = (event: SelectChangeEvent): void => {
     setValue(JSON.parse(event.target.value));
-    onChange(JSON.parse(event.target.value).id);
+    onChange(JSON.parse(event.target.value));
   };
 
   return (
@@ -38,11 +49,10 @@ export const SelectProjectFilter: FC<Props> = ({
       <InputLabel>{label}</InputLabel>
       <Select
         onChange={handleChange}
-        value={JSON.stringify(
-          selectedProject ?? (value || developerProjects[0]),
-        )}
+        value={JSON.stringify(value || developerProjects[0])}
         label={label}
         sx={{ py: 10 }}
+        MenuProps={{ classes: { paper: classes.menuPaper } }}
       >
         {developerProjects.map((developerProject) => (
           <MenuItem

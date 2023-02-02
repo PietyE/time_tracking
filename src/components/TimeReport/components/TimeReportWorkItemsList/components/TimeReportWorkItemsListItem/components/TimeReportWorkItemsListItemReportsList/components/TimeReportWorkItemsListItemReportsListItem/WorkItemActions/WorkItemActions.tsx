@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, type MouseEvent } from 'react';
 import { Button, Popover, type PopoverProps, Stack } from '@mui/material';
 import { Edit, SwapHoriz, Delete } from '@mui/icons-material';
 import { styles } from '../styles';
@@ -6,6 +6,8 @@ interface Props {
   anchorEl: Element | ((element: Element) => Element) | null;
 
   onClose: (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void;
+
+  onDeleteWorkItem: (_event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const WorkItemActions: FC<PopoverProps & Props> = ({
@@ -13,6 +15,7 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
   open,
   anchorEl,
   onClose,
+  onDeleteWorkItem,
   anchorOrigin = {
     vertical: 'bottom',
     horizontal: 'left',
@@ -50,6 +53,7 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
         startIcon={<Delete />}
         color='black'
         fullWidth
+        onClick={onDeleteWorkItem}
       >
         Delete the report
       </Button>
