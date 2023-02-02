@@ -139,10 +139,10 @@ export const theme = createTheme(basicTheme, {
             boxShadow: 'none',
           },
           '&.MuiButton-containedPrimary:hover': {
-            backgroundColor: basicTheme.palette.primary.light,
+            backgroundColor: basicTheme.palette.primary.dark,
           },
           '&.MuiButton-containedSecondary:hover': {
-            backgroundColor: basicTheme.palette.secondary.light,
+            backgroundColor: basicTheme.palette.secondary.dark,
           },
         },
         contained: {

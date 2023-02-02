@@ -1,31 +1,53 @@
-import { type FC, type MouseEvent } from 'react';
+import { type FC } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, IconButton, Typography } from '@mui/material';
 import Linkify from 'linkify-react';
+import { EditingWorkItemForm } from './EditingWorkItemForm';
 import { WorkItemActions } from './WorkItemActions';
-import { useAppDispatch } from 'hooks/redux';
-import { deleteWorkItem } from 'redux/asyncActions/timereports';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { usePopover } from 'hooks/usePopover';
+import { deleteWorkItem, updateWorkItem } from 'redux/asyncActions/timereports';
+import { getIsEditingWorkItem } from 'redux/selectors/timereports';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
-import type { WorkItem } from 'api/models/workItems';
+import type { UpdateWorkItemData, WorkItem } from 'api/models/workItems';
 import { styles } from './styles';
 
 interface Props {
   currentDayWorkItem: WorkItem;
+  currentDayOrdinalNumber: number;
 }
 
 export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
   currentDayWorkItem,
+  currentDayOrdinalNumber,
 }): JSX.Element => {
   const { id, open, handleClick, handleClose, anchorEl } = usePopover();
   const dispatch = useAppDispatch();
-
-  const onDeleteWorkItem = (_event: MouseEvent<HTMLButtonElement>): void => {
+  const isEditingWorkItem = useAppSelector(getIsEditingWorkItem);
+  const onDeleteWorkItem = (): void => {
     void dispatch(deleteWorkItem(currentDayWorkItem.id));
-    handleClose();
   };
 
-  return (
+  const onUpdateWorkItem = (
+    updatedWorkItemFields: UpdateWorkItemData,
+  ): void => {
+    void dispatch(
+      updateWorkItem({ id: currentDayWorkItem.id, ...updatedWorkItemFields }),
+    );
+  };
+
+  const parsedDurationToHoursAndMin = parseMinToHoursAndMin(
+    currentDayWorkItem.duration,
+  );
+
+  return isEditingWorkItem ? (
+    <EditingWorkItemForm
+      title={currentDayWorkItem.title}
+      duration={parsedDurationToHoursAndMin}
+      currentDayOrdinalNumber={currentDayOrdinalNumber}
+      onUpdateWorkItem={onUpdateWorkItem}
+    />
+  ) : (
     <>
       <Grid
         container
@@ -66,6 +88,7 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
         anchorEl={anchorEl}
         onClose={handleClose}
         onDeleteWorkItem={onDeleteWorkItem}
+        onUpdateWorkItem={onUpdateWorkItem}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',

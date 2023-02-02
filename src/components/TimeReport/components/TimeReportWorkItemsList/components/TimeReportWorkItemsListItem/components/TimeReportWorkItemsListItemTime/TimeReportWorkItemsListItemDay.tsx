@@ -18,11 +18,11 @@ export const TimeReportWorkItemsListItemTime: FC = (): JSX.Element => {
             mask='9:99'
             placeholder='0:00'
             maskChar='0'
-            error={!!errors.time?.message}
+            error={!!errors.duration?.message}
           />
         )}
         control={control}
-        name='time'
+        name='duration'
       />
     </>
   );

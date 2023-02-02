@@ -8,6 +8,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
+  // todo: fix name
   developerProjects: [],
   isLoading: true,
 };

@@ -127,6 +127,7 @@ export const TimeReportWorkItemsListItem: FC<Props> = ({
       {!!currentDayWorkItems.length && (
         <TimeReportWorkItemsListItemReportsList
           currentDayWorkItems={currentDayWorkItems}
+          currentDayOrdinalNumber={currentDayOrdinalNumber}
         />
       )}
     </Box>

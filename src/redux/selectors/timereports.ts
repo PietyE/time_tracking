@@ -10,10 +10,6 @@ export const _getWorkItems = createTypedSelector<WorkItem[]>(
   (state) => state.timereports.workItems,
 );
 
-export const getWorkItems = createSelector([_getWorkItems], (workItems) =>
-  workItems.length ? workItems.filter((workItem) => workItem.is_active) : [],
-);
-
 export const getWorkItemsLoading = createTypedSelector<boolean>(
   (state) => state.timereports.isLoading,
 );
@@ -26,6 +22,14 @@ export const getSelectedDeveloperProject =
 export const getSelectedDeveloper = createTypedSelector<
   Omit<User, 'permissions'>
 >((state) => state.timereports.selectedDeveloper);
+
+export const getIsEditingWorkItem = createTypedSelector<boolean>(
+  (state) => state.timereports.isEditingWorkItem,
+);
+
+export const getWorkItems = createSelector([_getWorkItems], (workItems) =>
+  workItems.length ? workItems.filter((workItem) => workItem.is_active) : [],
+);
 
 export const getTimeReportDays = createSelector(
   [getCalendarMonth, getCalendarYear],

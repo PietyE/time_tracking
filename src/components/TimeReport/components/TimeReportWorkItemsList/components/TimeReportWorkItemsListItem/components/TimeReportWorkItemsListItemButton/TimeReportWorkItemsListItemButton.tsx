@@ -10,7 +10,7 @@ export const TimeReportWorkItemsListItemButton: FC = (): JSX.Element => {
   } = useFormContext();
 
   const isDisabledButton: boolean =
-    !isDirty || !!errors.reportText?.message || !!errors.time?.message;
+    !isDirty || !!errors.title?.message || !!errors.duraion?.message;
 
   return (
     <>

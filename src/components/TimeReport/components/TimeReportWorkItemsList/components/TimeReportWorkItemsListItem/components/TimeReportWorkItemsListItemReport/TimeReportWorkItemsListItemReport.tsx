@@ -19,11 +19,11 @@ export const TimeReportWorkItemsListItemReport: FC = (): JSX.Element => {
         }}
         multiline
         fullWidth
-        error={!!errors.reportText?.message}
-        {...register('reportText', { maxLength: 1000 })}
+        error={!!errors.title?.message}
+        {...register('title', { maxLength: 1000 })}
       />
       <ValidationErrorMessage>
-        {errors.reportText?.message as string}
+        {errors.title?.message as string}
       </ValidationErrorMessage>
     </>
   );

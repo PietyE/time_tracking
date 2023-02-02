@@ -6,10 +6,12 @@ import type { WorkItem } from 'api/models/workItems';
 
 interface Props {
   currentDayWorkItems: WorkItem[];
+  currentDayOrdinalNumber: number;
 }
 
 export const TimeReportWorkItemsListItemReportsList: FC<Props> = ({
   currentDayWorkItems,
+  currentDayOrdinalNumber,
 }): JSX.Element => {
   const currentDayTotalTime: number = currentDayWorkItems.reduce(
     (accumulator, nextValue) => accumulator + nextValue.duration,
@@ -21,6 +23,7 @@ export const TimeReportWorkItemsListItemReportsList: FC<Props> = ({
       {currentDayWorkItems.map((currentDayWorkItem) => (
         <TimeReportWorkItemsListItemReportsListItem
           currentDayWorkItem={currentDayWorkItem}
+          currentDayOrdinalNumber={currentDayOrdinalNumber}
           key={currentDayWorkItem.id}
         />
       ))}

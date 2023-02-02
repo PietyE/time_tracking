@@ -1,5 +1,6 @@
 import { type FC, useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
 import { selectDeveloper, selectProject } from 'redux/slices/timereports';
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import { SelectMonth } from 'shared/components/SelectMonth';
@@ -21,6 +22,7 @@ import {
 import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
 import { getSelectedDeveloper } from 'redux/selectors/timereports';
+import { getReportCsv } from 'redux/asyncActions/timereports';
 import type { DeveloperProject } from 'api/models/developerProjects';
 import type { User } from 'api/models/users';
 import { styles } from './styles';
@@ -44,6 +46,10 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
 
   const changeDeveloperProject = (developerProject: object): void => {
     dispatch(selectProject(developerProject as DeveloperProject));
+  };
+
+  const handleExportCsv = (): void => {
+    void dispatch(getReportCsv());
   };
 
   return (
@@ -99,6 +105,15 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
         xs={3}
       >
         <SelectMonth initialYear={2015} />
+      </Grid>
+      <Grid item>
+        <Button
+          variant='contained'
+          startIcon={<DownloadIcon />}
+          onClick={handleExportCsv}
+        >
+          Export in XLSX
+        </Button>
       </Grid>
     </Grid>
   );

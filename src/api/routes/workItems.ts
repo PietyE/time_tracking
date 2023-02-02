@@ -34,7 +34,10 @@ export class WorkItemsApi extends CRUD {
     });
   }
 
-  updateWorkItem({ id, ...data }: UpdateWorkItemData): AxiosPromise<WorkItem> {
+  updateWorkItem({
+    id,
+    ...data
+  }: UpdateWorkItemData & Pick<WorkItem, 'id'>): AxiosPromise<WorkItem> {
     return this.request({
       url: `${this.url}${id}/`,
       method: 'PATCH',
