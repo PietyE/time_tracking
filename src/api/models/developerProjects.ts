@@ -23,6 +23,7 @@ export interface DeveloperProject {
   is_full_time: string;
   is_project_manager: boolean;
   user: UserId;
+  is_active: boolean;
 }
 
 export interface UpdateDeveloperProjectData

@@ -100,7 +100,7 @@ export class UsersApi extends CRUD {
     year,
     month,
     ...params
-  }: ConsolidatedReportPathQueryParams): AxiosPromise<ConsolidatedReport> {
+  }: ConsolidatedReportPathQueryParams): AxiosPromise<ConsolidatedReport[]> {
     return this.request({
       url: `${this.url}${UsersEndpoints.CONSOLIDATE_REPORT}${year}/${month}/`,
       params,

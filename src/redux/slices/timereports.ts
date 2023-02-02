@@ -5,24 +5,40 @@ import {
   updateWorkItem,
   deleteWorkItem,
 } from '../asyncActions/timereports';
+import type { DeveloperProject } from 'api/models/developerProjects';
+import type { User } from 'api/models/users';
 import type { WorkItem, WorkItemsResponse } from 'api/models/workItems';
 
 interface InitialState {
   isLoading: boolean;
   totalHours: number | null;
   workItems: WorkItem[];
+  selectedProject: DeveloperProject;
+  selectedDeveloper: Omit<User, 'permissions'>;
 }
 
 const initialState: InitialState = {
   isLoading: true,
   totalHours: null,
   workItems: [],
+  selectedProject: {} as DeveloperProject,
+  selectedDeveloper: {} as Omit<User, 'permissions'>,
 };
 
 const timereports = createSlice({
   name: 'timereports',
   initialState,
-  reducers: {},
+  reducers: {
+    selectDeveloper: (
+      state,
+      action: PayloadAction<Omit<User, 'permissions'>>,
+    ) => {
+      state.selectedDeveloper = action.payload;
+    },
+    selectProject: (state, action: PayloadAction<DeveloperProject>) => {
+      state.selectedProject = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getWorkItems.pending, (state) => {
       state.isLoading = true;
@@ -73,7 +89,12 @@ const timereports = createSlice({
       deleteWorkItem.fulfilled,
       (state, action: PayloadAction<WorkItem>) => {
         state.isLoading = false;
-        state.workItems.filter((workItem) => workItem.id !== action.payload.id);
+        state.workItems.splice(
+          state.workItems.findIndex(
+            (workItem) => workItem.id === action.payload.id,
+          ),
+          1,
+        );
       },
     );
     builder.addCase(deleteWorkItem.rejected, (state) => {
@@ -81,5 +102,7 @@ const timereports = createSlice({
     });
   },
 });
+
+export const { selectDeveloper, selectProject } = timereports.actions;
 
 export default timereports.reducer;

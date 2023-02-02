@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getConsolidatedReport } from './consolidatedReport';
 import api from 'api';
+import type { RootState } from '../store';
 import type {
   WorkItemsQueryParams,
   WorkItemsResponse,
@@ -22,9 +24,16 @@ export const getWorkItems = createAsyncThunk<
 
 export const addWorkItem = createAsyncThunk<WorkItem, CreateWorkItemData>(
   'timereports/addWorkItems',
-  async (workItem, { rejectWithValue }) => {
+  async (workItem, { rejectWithValue, dispatch, getState }) => {
     try {
       const { data } = await api.workItems.createWorkItems(workItem);
+      const { calendar } = getState() as RootState;
+      void dispatch(
+        getConsolidatedReport({
+          month: calendar.month + 1,
+          year: calendar.year,
+        }),
+      );
       return data;
     } catch (error) {
       return rejectWithValue((error as Error).message);
@@ -34,9 +43,16 @@ export const addWorkItem = createAsyncThunk<WorkItem, CreateWorkItemData>(
 
 export const updateWorkItem = createAsyncThunk<WorkItem, UpdateWorkItemData>(
   'timereports/updateWorkItem',
-  async (workItem, { rejectWithValue }) => {
+  async (workItem, { rejectWithValue, dispatch, getState }) => {
     try {
       const { data } = await api.workItems.updateWorkItem(workItem);
+      const { calendar } = getState() as RootState;
+      void dispatch(
+        getConsolidatedReport({
+          month: calendar.month + 1,
+          year: calendar.year,
+        }),
+      );
       return data;
     } catch (error) {
       return rejectWithValue((error as Error).message);
@@ -46,11 +62,18 @@ export const updateWorkItem = createAsyncThunk<WorkItem, UpdateWorkItemData>(
 
 export const deleteWorkItem = createAsyncThunk<WorkItem, WorkItemId>(
   'timereports/deleteWorkItem',
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, dispatch, getState }) => {
     try {
       const { data } = await api.workItems.deleteWorkItem(id, {
         is_active: false,
       });
+      const { calendar } = getState() as RootState;
+      void dispatch(
+        getConsolidatedReport({
+          month: calendar.month + 1,
+          year: calendar.year,
+        }),
+      );
       return data;
     } catch (error) {
       return rejectWithValue((error as Error).message);
