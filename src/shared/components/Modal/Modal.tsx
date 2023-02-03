@@ -45,6 +45,7 @@ export const Modal: FC<Props> = ({
       onClose={onClose}
       disableAutoFocus
       disableEnforceFocus
+      className='MUI-Modal-Custom'
       sx={styles.modal}
       {...props}
     >

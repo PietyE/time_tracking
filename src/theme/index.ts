@@ -95,7 +95,7 @@ const basicTheme = createTheme({
   shadows: [
     'none',
     '10px 10px 35px rgba(0, 0, 0, 0.1)',
-    ...Array(19).fill('none'),
+    ...Array(23).fill('none'),
   ] as Shadows,
   typography: {
     fontWeightSemiBold: 600,
