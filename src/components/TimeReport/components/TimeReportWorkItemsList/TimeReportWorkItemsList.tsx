@@ -2,6 +2,7 @@ import { type FC, useEffect } from 'react';
 import { Stack } from '@mui/material';
 import { TimeReportWorkItemsListHeader } from './components/TimeReportWorkItemsListHeader';
 import { TimeReportWorkItemsListItem } from './components/TimeReportWorkItemsListItem';
+import { useScrollLock } from 'hooks/useScrollLock';
 import { getTotalHoursOfProject } from 'shared/utils/dateOperations';
 import Loading from 'shared/components/Loading';
 import { useDebounce } from 'hooks/useDebounce';
@@ -80,6 +81,7 @@ export const TimeReportWorkItemsList: FC = (): JSX.Element => {
 
 const Loader: FC = (): JSX.Element => {
   const isLoading = useAppSelector(getWorkItemsLoading);
+  useScrollLock(isLoading);
 
   return <>{isLoading && <Loading />}</>;
 };
