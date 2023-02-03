@@ -13,18 +13,20 @@ import Close from 'shared/components/svg/Close';
 import type { SingleActionButton, TwoActionsButton } from './types';
 import { styles } from './styles';
 
-interface ModalProps {
+interface CustomProps {
   open: boolean;
   onClose: (
     event: MouseEvent<HTMLElement>,
     reason?: 'backdropClick' | 'escapeKeyDown',
   ) => void;
+
+  className: string;
   isSingleButton?: boolean;
 }
 
 type ButtonActionVariant = SingleActionButton | TwoActionsButton;
 
-type Props = ModalProps & MUIModalProps & ButtonActionVariant & { sx?: never };
+type Props = CustomProps & MUIModalProps & ButtonActionVariant & { sx?: never };
 
 export const Modal: FC<Props> = ({
   children,
@@ -34,6 +36,7 @@ export const Modal: FC<Props> = ({
   singleButtonActionText = 'Button',
   leftButtonActionText = 'Left Button',
   rightButtonActionText = 'Right Button',
+  className,
   singleButtonAction = () => {},
   leftButtonAction = () => {},
   rightButtonAction = () => {},
@@ -45,7 +48,7 @@ export const Modal: FC<Props> = ({
       onClose={onClose}
       disableAutoFocus
       disableEnforceFocus
-      className='MUI-Modal-Custom'
+      className={className}
       sx={styles.modal}
       {...props}
     >
