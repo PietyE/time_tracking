@@ -79,7 +79,7 @@ const timereports = createSlice({
       updateWorkItem.fulfilled,
       (state, action: PayloadAction<WorkItem>) => {
         state.isLoading = false;
-        state.workItems.map((workItem) =>
+        state.workItems = state.workItems.map((workItem) =>
           workItem.id !== action.payload.id ? workItem : action.payload,
         );
       },

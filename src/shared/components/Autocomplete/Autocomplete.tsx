@@ -34,7 +34,7 @@ export const Autocomplete: FC<Props> = ({
   };
 
   useEffect(() => {
-    onChange(value || options[0]);
+    onChange(options[0]);
   }, []);
 
   return (

@@ -4,8 +4,6 @@ import { Button, Popover, type PopoverProps, Stack } from '@mui/material';
 import { DeleteModal } from './DeleteModal';
 import { SwapModal } from './SwapModal';
 import { styles } from '../styles';
-import { useAppDispatch } from 'hooks/redux';
-import { toggleEdit } from 'redux/slices/timereports';
 import type { UpdateWorkItemData } from 'api/models/workItems';
 
 interface Props {
@@ -15,6 +13,7 @@ interface Props {
 
   onDeleteWorkItem: () => void;
   onUpdateWorkItem: (updatedWorkItemFields: UpdateWorkItemData) => void;
+  toggleEditWorkItem: () => void;
 }
 
 export const WorkItemActions: FC<PopoverProps & Props> = ({
@@ -24,15 +23,15 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
   onClose,
   onDeleteWorkItem,
   onUpdateWorkItem,
+  toggleEditWorkItem,
   anchorOrigin = {
     vertical: 'bottom',
     horizontal: 'left',
   },
   ...props
 }): JSX.Element => {
-  const dispatch = useAppDispatch();
-  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
-  const [isOpenSwapDialog, setIsOpenSwapDialog] = useState(false);
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false);
+  const [isOpenSwapDialog, setIsOpenSwapDialog] = useState<boolean>(false);
 
   const handleClickOpenDeleteDialog = (): void => {
     onClose();
@@ -46,7 +45,7 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
 
   const handleClickOpenEditDialog = (): void => {
     onClose();
-    void dispatch(toggleEdit());
+    toggleEditWorkItem();
   };
 
   const handleCloseDeleteDialog = (): void => setIsOpenDeleteDialog(false);

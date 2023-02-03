@@ -1,5 +1,3 @@
-//todo: configure paths for shared nested folders in future
-
 {
   "compilerOptions": {
     "target": "es5",

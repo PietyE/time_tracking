@@ -50,15 +50,24 @@ export const updateWorkItem = createAsyncThunk<
   async (workItem, { rejectWithValue, dispatch, getState }) => {
     try {
       const { data } = await api.workItems.updateWorkItem(workItem);
-      const { calendar } = getState() as RootState;
-      const { timereports } = getState() as RootState;
-      void dispatch(
-        getWorkItems({ developer_project: timereports.selectedProject.id }),
-      );
+      const state = getState() as RootState;
+      // check if workItem have field developer project (id) in payload
+      // if true that is mean that we are trying to swap project
+      // from selected and move to developer project in payload
+      // after call work items with selected developer project (id) to update UI
+      if (workItem?.developer_project) {
+        void dispatch(
+          getWorkItems({
+            developer_project: state.timereports.selectedProject.id,
+            month: state.calendar.month + 1,
+            year: state.calendar.year,
+          }),
+        );
+      }
       void dispatch(
         getConsolidatedReport({
-          month: calendar.month + 1,
-          year: calendar.year,
+          month: state.calendar.month + 1,
+          year: state.calendar.year,
         }),
       );
       return data;

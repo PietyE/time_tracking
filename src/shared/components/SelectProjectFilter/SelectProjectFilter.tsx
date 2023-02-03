@@ -34,10 +34,10 @@ export const SelectProjectFilter: FC<Props> = ({
   label = 'Select',
 }): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = useState(developerProjects[0]);
+  const [value, setValue] = useState<DeveloperProject>(developerProjects[0]);
 
   useEffect(() => {
-    onChange(value || developerProjects[0]);
+    onChange(developerProjects[0]);
   }, []);
   const handleChange = (event: SelectChangeEvent): void => {
     setValue(JSON.parse(event.target.value));

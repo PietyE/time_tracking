@@ -3,12 +3,12 @@ import { getUsers } from '../asyncActions/users';
 import type { Users } from 'api/models/users';
 
 interface InitialState {
-  users: Users;
+  data: Users;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
-  users: [],
+  data: [],
   isLoading: true,
 };
 
@@ -24,7 +24,7 @@ const usersSlice = createSlice({
       getUsers.fulfilled,
       (state, action: PayloadAction<Users>) => {
         state.isLoading = false;
-        state.users = action.payload;
+        state.data = action.payload;
       },
     );
     builder.addCase(getUsers.rejected, (state) => {

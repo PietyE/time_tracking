@@ -3,13 +3,12 @@ import { getDeveloperProjects } from '../asyncActions/developerProjects';
 import type { DeveloperProjects } from 'api/models/developerProjects';
 
 interface InitialState {
-  developerProjects: DeveloperProjects;
+  data: DeveloperProjects;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
-  // todo: fix name
-  developerProjects: [],
+  data: [],
   isLoading: true,
 };
 
@@ -24,7 +23,7 @@ const developerProjects = createSlice({
     builder.addCase(
       getDeveloperProjects.fulfilled,
       (state, action: PayloadAction<DeveloperProjects>) => {
-        state.developerProjects = action.payload;
+        state.data = action.payload;
         state.isLoading = false;
       },
     );

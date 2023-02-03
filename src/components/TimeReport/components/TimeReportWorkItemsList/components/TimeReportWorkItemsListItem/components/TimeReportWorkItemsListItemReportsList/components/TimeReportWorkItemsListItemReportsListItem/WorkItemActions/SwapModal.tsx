@@ -18,6 +18,7 @@ import { getSelectedDeveloperProject } from 'redux/selectors/timereports';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter';
 import type { DeveloperProject } from 'api/models/developerProjects';
 import type { UpdateWorkItemData, WorkItem } from 'api/models/workItems';
+import { styles } from './styles';
 
 interface Props {
   isOpenSwapDialog: boolean;
@@ -61,16 +62,7 @@ export const SwapModal: FC<Props> = ({
         onClose={onClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
-        sx={{
-          '& .MuiPaper-root': {
-            py: 20,
-            px: 100,
-            borderRadius: 5,
-          },
-          '& .MuiBackdrop-root': {
-            backdropFilter: 'blur(5px)',
-          },
-        }}
+        sx={styles.dialogContainer}
       >
         <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
         <DialogContent>
@@ -86,7 +78,7 @@ export const SwapModal: FC<Props> = ({
                   value={developerProject.project.name}
                   fullWidth
                   label='Current project'
-                  sx={{ py: 0, '& .MuiInputBase-root': { py: 10 } }}
+                  sx={styles.swapDialogSelectedProject}
                 />
               </Box>
               <SwapVertIcon />
@@ -103,12 +95,7 @@ export const SwapModal: FC<Props> = ({
             </Stack>
           </DialogContentText>
         </DialogContent>
-        <DialogActions
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-        >
+        <DialogActions sx={styles.dialogActions}>
           <Button
             onClick={onClose}
             variant='contained'

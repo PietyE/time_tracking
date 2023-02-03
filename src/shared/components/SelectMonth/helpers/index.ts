@@ -33,7 +33,7 @@ export const useCalendar = (
   const currentMonth = useAppSelector(getCalendarMonth);
   const currentYear = useAppSelector(getCalendarYear);
   const dispatch = useAppDispatch();
-  const [isOpenPicker, setIsOpenPicker] = useState(false);
+  const [isOpenPicker, setIsOpenPicker] = useState<boolean>(false);
 
   const handleClose = (_event?: MouseEvent | TouchEvent): void =>
     setIsOpenPicker(false);

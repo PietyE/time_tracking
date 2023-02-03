@@ -1,13 +1,12 @@
-import { type FC } from 'react';
+import { type FC, useState } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, IconButton, Typography } from '@mui/material';
 import Linkify from 'linkify-react';
 import { EditingWorkItemForm } from './EditingWorkItemForm';
 import { WorkItemActions } from './WorkItemActions';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useAppDispatch } from 'hooks/redux';
 import { usePopover } from 'hooks/usePopover';
 import { deleteWorkItem, updateWorkItem } from 'redux/asyncActions/timereports';
-import { getIsEditingWorkItem } from 'redux/selectors/timereports';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
 import type { UpdateWorkItemData, WorkItem } from 'api/models/workItems';
 import { styles } from './styles';
@@ -23,7 +22,7 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
 }): JSX.Element => {
   const { id, open, handleClick, handleClose, anchorEl } = usePopover();
   const dispatch = useAppDispatch();
-  const isEditingWorkItem = useAppSelector(getIsEditingWorkItem);
+  const [isEditingWorkItem, setIsEditingWorkItem] = useState<boolean>(false);
   const onDeleteWorkItem = (): void => {
     void dispatch(deleteWorkItem(currentDayWorkItem.id));
   };
@@ -36,6 +35,9 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
     );
   };
 
+  const toggleEditWorkItem = (): void =>
+    setIsEditingWorkItem(!isEditingWorkItem);
+
   const parsedDurationToHoursAndMin = parseMinToHoursAndMin(
     currentDayWorkItem.duration,
   );
@@ -46,6 +48,7 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
       duration={parsedDurationToHoursAndMin}
       currentDayOrdinalNumber={currentDayOrdinalNumber}
       onUpdateWorkItem={onUpdateWorkItem}
+      toggleEditWorkItem={toggleEditWorkItem}
     />
   ) : (
     <>
@@ -89,6 +92,7 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
         onClose={handleClose}
         onDeleteWorkItem={onDeleteWorkItem}
         onUpdateWorkItem={onUpdateWorkItem}
+        toggleEditWorkItem={toggleEditWorkItem}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',

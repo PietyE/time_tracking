@@ -1,13 +1,11 @@
 import { type FC } from 'react';
-import { Box, Divider, Grid } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
-import { TimeReportWorkItemsListItemButton } from './components/TimeReportWorkItemsListItemButton';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { TimeReportWorkItemsListItemDate } from './components/TimeReportWorkItemsListItemDate';
-import { TimeReportWorkItemsListItemReport } from './components/TimeReportWorkItemsListItemReport';
 import { TimeReportWorkItemsListItemReportsList } from './components/TimeReportWorkItemsListItemReportsList';
-import { TimeReportWorkItemsListItemTime } from './components/TimeReportWorkItemsListItemTime';
 import { useDays } from './helpers';
+import { WorkItemForm } from 'shared/components/WorkItemForm';
 import { workItemValidationSchema } from 'shared/validationSchema';
 import { formatTimeToMinutes } from 'shared/utils/dateOperations';
 import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
@@ -15,11 +13,11 @@ import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import { getSelectedDeveloperProject } from 'redux/selectors/timereports';
 import { addWorkItem } from 'redux/asyncActions/timereports';
 import type { WorkItem } from 'api/models/workItems';
-import { createStyles } from './styles';
+import { styles } from './styles';
 
 interface Fields {
-  reportText: string;
-  time: string;
+  title: string;
+  duration: string;
 }
 
 interface Props {
@@ -37,8 +35,8 @@ export const TimeReportWorkItemsListItem: FC<Props> = ({
     mode: 'onChange',
     resolver: yupResolver(workItemValidationSchema),
     defaultValues: {
-      reportText: '',
-      time: '0:00',
+      title: '',
+      duration: '0:00',
     },
   });
 
@@ -56,73 +54,40 @@ export const TimeReportWorkItemsListItem: FC<Props> = ({
   const { isWeekend, dayTitle } = useDays(year, month, currentDayOrdinalNumber);
 
   const isValidationError: boolean =
-    !!errors.reportText?.message || !!errors.time?.message;
+    !!errors.title?.message || !!errors.duration?.message;
 
   const onSubmit: SubmitHandler<Fields> = (data) => {
     if (!developerProjectId) return;
     void dispatch(
       addWorkItem({
         is_active: true,
-        duration: formatTimeToMinutes(data.time),
-        title: data.reportText,
+        duration: formatTimeToMinutes(data.duration),
+        title: data.title,
         developer_project: developerProjectId,
         date: `${year}-${month + 1}-${currentDayOrdinalNumber}`,
       }),
     );
-    reset({ reportText: '', time: '' });
+    reset({ title: '', duration: '' });
   };
 
   return (
     <Box
-      sx={createStyles(isValidationError).wrapper}
+      sx={styles}
       bgcolor='common.white'
       border={isCurrentDay ? 1 : 0}
       borderColor={isCurrentDay ? 'primary.main' : 'inherit'}
       borderRadius={1.5}
     >
-      <FormProvider {...methods}>
-        <Grid
-          container
-          component='form'
-          columnSpacing={24}
-          alignItems='center'
-          maxWidth={971}
-          sx={createStyles(isValidationError).container}
-          onSubmit={handleSubmit(onSubmit)}
-          ml={0}
-        >
-          <Grid
-            item
-            xs={3}
-            p={0}
-          >
-            <TimeReportWorkItemsListItemDate
-              dayTitle={dayTitle}
-              isWeekend={isWeekend}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={7}
-            position='relative'
-          >
-            <TimeReportWorkItemsListItemReport />
-          </Grid>
-          <Grid
-            item
-            xs={1.1}
-            position='relative'
-          >
-            <TimeReportWorkItemsListItemTime />
-          </Grid>
-          <Grid
-            item
-            xs={0.9}
-          >
-            <TimeReportWorkItemsListItemButton />
-          </Grid>
-        </Grid>
-      </FormProvider>
+      <WorkItemForm
+        onSubmit={handleSubmit(onSubmit)}
+        isValidationError={isValidationError}
+        methods={methods}
+      >
+        <TimeReportWorkItemsListItemDate
+          dayTitle={dayTitle}
+          isWeekend={isWeekend}
+        />
+      </WorkItemForm>
       <Divider />
       {!!currentDayWorkItems.length && (
         <TimeReportWorkItemsListItemReportsList

@@ -1,5 +1,6 @@
 import { type FC, type MouseEvent } from 'react';
 import { Dialog, DialogActions, DialogTitle, Button } from '@mui/material';
+import { styles } from './styles';
 
 interface Props {
   isOpenDeleteDialog: boolean;
@@ -29,24 +30,10 @@ export const DeleteModal: FC<Props> = ({
       onClose={onClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
-      sx={{
-        '& .MuiPaper-root': {
-          py: 20,
-          px: 100,
-          borderRadius: 5,
-        },
-        '& .MuiBackdrop-root': {
-          backdropFilter: 'blur(5px)',
-        },
-      }}
+      sx={styles.dialogContainer}
     >
       <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
-      <DialogActions
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
+      <DialogActions sx={styles.dialogActions}>
         {/* @ts-expect-error */}
         <Button
           onClick={handleDelete}
