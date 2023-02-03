@@ -72,7 +72,12 @@ export const SwapModal: FC<Props> = ({
                 mb={24}
                 width={1}
               >
-                <Typography mb={15}>From</Typography>
+                <Typography
+                  mb={15}
+                  component='p'
+                >
+                  From
+                </Typography>
                 <TextField
                   disabled
                   value={developerProject.project.name}
@@ -86,7 +91,12 @@ export const SwapModal: FC<Props> = ({
                 mt={24}
                 width={1}
               >
-                <Typography mb={15}>To</Typography>
+                <Typography
+                  mb={15}
+                  component='p'
+                >
+                  To
+                </Typography>
                 <SelectProjectFilter
                   developerProjects={developerProjects}
                   onChange={onSelectProjectToSwap}
