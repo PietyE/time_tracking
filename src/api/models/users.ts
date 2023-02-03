@@ -29,7 +29,6 @@ export interface User {
   position: string;
   role: Role;
   permissions: Permissions[];
-  slack: string;
   date_of_birth: string;
   phone: string;
   is_active: boolean;

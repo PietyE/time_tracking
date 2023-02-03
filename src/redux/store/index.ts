@@ -9,6 +9,9 @@ import projectManagements from '../slices/projectManagements';
 import projectReport from '../slices/projectReport';
 import timereports from '../slices/timereports';
 import mainMenu from '../slices/mainMenu';
+import users from '../slices/users';
+import developerProjects from '../slices/developerProjects';
+import consolidatedReport from '../slices/consolidatedReport';
 
 const rootReducer = combineReducers({
   profile,
@@ -20,6 +23,9 @@ const rootReducer = combineReducers({
   projectReport,
   timereports,
   mainMenu,
+  users,
+  developerProjects,
+  consolidatedReport,
 });
 
 export const store = configureStore({

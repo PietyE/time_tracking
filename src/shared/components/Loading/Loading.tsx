@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { Stack } from '@mui/material';
 import Spinner from 'shared/UI/Spinner';
-import { styles } from './styles';
 
 const Loading: FC = () => {
   return (
@@ -10,8 +9,14 @@ const Loading: FC = () => {
       flexDirection='row'
       alignItems='center'
       justifyContent='center'
-      bgcolor='background.grey'
-      sx={styles}
+      width={1}
+      height={1}
+      top={0}
+      left={0}
+      zIndex='10000000'
+      sx={{
+        backdropFilter: 'blur(15px)',
+      }}
     >
       <Spinner
         size={60}

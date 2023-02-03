@@ -20,7 +20,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     customGrey: Partial<CustomGreyColor>;
-    black: Partial<Color & { 450: BlackColors.MAIN_OPACITY_45 }>;
+    black: Partial<
+      Color & { 450: BlackColors.MAIN_OPACITY_45; main: BlackColors.MAIN }
+    >;
   }
   interface TypeBackground {
     grey: TypeBackground['paper'];
@@ -28,6 +30,15 @@ declare module '@mui/material/styles' {
     gradient: TypeBackground['paper'];
     greyGreen: TypeBackground['paper'];
     lightGreen: TypeBackground['paper'];
+  }
+  interface TypeText {
+    link: OtherColors.LINK;
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    black: true;
   }
 }
 
@@ -63,6 +74,7 @@ const basicTheme = createTheme({
     },
     text: {
       disabled: GreyColors.DISABLED,
+      link: OtherColors.LINK,
     },
     customGrey: {
       MAIN_TEXT: GreyColors.MAIN_TEXT,
@@ -77,6 +89,7 @@ const basicTheme = createTheme({
       300: BlackColors.MAIN_OPACITY_30,
       400: BlackColors.MAIN_OPACITY_40,
       450: BlackColors.MAIN_OPACITY_45,
+      main: BlackColors.MAIN,
     },
   },
   shadows: [
@@ -126,10 +139,10 @@ export const theme = createTheme(basicTheme, {
             boxShadow: 'none',
           },
           '&.MuiButton-containedPrimary:hover': {
-            backgroundColor: basicTheme.palette.primary.light,
+            backgroundColor: basicTheme.palette.primary.dark,
           },
           '&.MuiButton-containedSecondary:hover': {
-            backgroundColor: basicTheme.palette.secondary.light,
+            backgroundColor: basicTheme.palette.secondary.dark,
           },
         },
         contained: {

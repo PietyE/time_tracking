@@ -14,5 +14,8 @@ export const styles: SxProps<Theme> = {
     textTransform: 'uppercase',
     fontSize: (theme) => theme.typography.pxToRem(18),
     fontWeight: (theme) => theme.typography.fontWeightSemiBold,
+    '&.MuiButton-root:hover': {
+      bgcolor: 'primary.dark',
+    },
   },
 };

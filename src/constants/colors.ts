@@ -31,6 +31,7 @@ export enum OtherColors {
   ERROR = '#F84242CC',
   LINEAR_GRADIENT = '180deg, #E1A140 0%, #F84242 28.13%, #1864D6 65.1%, #C416C8 100%',
   WHITE = '#FFFFFF',
+  LINK = '#007bff',
 }
 
 export enum BackgroundColors {
