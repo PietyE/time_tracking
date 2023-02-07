@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import api from 'api';
 import { lsApi, type ProfileDataStorageI } from 'services/storageApi';
+import type { AxiosError } from 'axios';
 import type { UserLoginData, User } from 'api/models/users';
 
 export const userGoogleSingInGetRedirectUrl = createAsyncThunk(
@@ -12,6 +14,9 @@ export const userGoogleSingInGetRedirectUrl = createAsyncThunk(
       else
         throw new Error('You can not be redirect to google login. Try later.');
     } catch (error) {
+      toast.error(
+        (error as Error).message || 'Something went wrong... Try again',
+      );
       rejectWithValue('Something went wrong... Try again');
     }
   },
@@ -40,6 +45,7 @@ export const userGoogleSignIn = createAsyncThunk<
 
     return profileDate.user;
   } catch (error) {
+    toast.error((error as AxiosError)?.message || 'Access denied');
     return rejectWithValue('Access denied');
   }
 });
@@ -60,8 +66,12 @@ export const getUserProfile = createAsyncThunk<User>(
         api.setToken(profileData.key);
         const { data } = await api.users.getUsersById(profileData.userId);
         return data;
-      } else return rejectWithValue('token not found');
+      } else {
+        toast.error('Token not found');
+        return rejectWithValue('token not found');
+      }
     } catch (error) {
+      toast.error((error as AxiosError)?.message || 'Error get profile');
       return rejectWithValue('error get profile');
     }
   },
@@ -84,6 +94,13 @@ export const loginWithCredentials = createAsyncThunk<User, UserLoginData>(
 
       return data.user;
     } catch (error) {
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Error log in',
+      );
       return rejectWithValue('error log in');
     }
   },

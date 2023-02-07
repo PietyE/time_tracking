@@ -68,3 +68,20 @@ a {
     }
   }
 }
+
+.toaster {
+  .Toastify__toast {
+    min-height: 80px;
+  }
+  .Toastify__toast--success {
+    font-weight: 600;
+    .Toastify__toast-icon {
+      svg {
+        fill: $mainGreen;
+      }
+    }
+    .Toastify__progress-bar {
+      background: $mainGreen;
+    }
+  }
+}
