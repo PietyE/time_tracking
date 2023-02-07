@@ -17,7 +17,7 @@ export const PageHeader: FC<PropsWithChildren<Props>> = ({
     <Box
       display='flex'
       justifyContent='space-between'
-      alignItems='center'
+      alignItems='flex-start'
     >
       <Typography
         variant='h4'

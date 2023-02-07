@@ -12,6 +12,7 @@ import mainMenu from '../slices/mainMenu';
 import users from '../slices/users';
 import developerProjects from '../slices/developerProjects';
 import consolidatedReport from '../slices/consolidatedReport';
+import projects from '../slices/projects';
 
 const rootReducer = combineReducers({
   profile,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   users,
   developerProjects,
   consolidatedReport,
+  projects,
 });
 
 export const store = configureStore({

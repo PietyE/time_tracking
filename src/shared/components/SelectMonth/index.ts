@@ -1,1 +1,1 @@
-export { SelectMonth } from './SelectMonth';
+export { SelectMonthMemoized } from './SelectMonth';

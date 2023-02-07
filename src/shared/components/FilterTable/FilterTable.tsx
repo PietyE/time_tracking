@@ -3,8 +3,13 @@ import { Grid } from '@mui/material';
 import { FilterTableHeader } from './components/FilterTableHeader';
 import { styles } from './styles';
 
-export const FilterTable: FC<PropsWithChildren> = ({
+interface Props {
+  rows: any[];
+}
+
+export const FilterTable: FC<PropsWithChildren<Props>> = ({
   children,
+  rows,
 }): JSX.Element => (
   <Grid
     container
@@ -17,6 +22,13 @@ export const FilterTable: FC<PropsWithChildren> = ({
     <Grid item>
       <FilterTableHeader />
     </Grid>
-    <Grid item>{children}</Grid>
+    {rows.map((row) => (
+      <Grid
+        item
+        key={row}
+      >
+        {children}
+      </Grid>
+    ))}
   </Grid>
 );

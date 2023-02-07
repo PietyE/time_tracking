@@ -15,7 +15,6 @@ interface InitialState {
   workItems: WorkItem[];
   selectedProject: DeveloperProject;
   selectedDeveloper: Omit<User, 'permissions'>;
-  isEditingWorkItem: boolean;
 }
 
 const initialState: InitialState = {
@@ -24,7 +23,6 @@ const initialState: InitialState = {
   workItems: [],
   selectedProject: {} as DeveloperProject,
   selectedDeveloper: {} as Omit<User, 'permissions'>,
-  isEditingWorkItem: false,
 };
 
 const timereports = createSlice({
@@ -39,9 +37,6 @@ const timereports = createSlice({
     },
     selectProject: (state, action: PayloadAction<DeveloperProject>) => {
       state.selectedProject = action.payload;
-    },
-    toggleEdit: (state) => {
-      state.isEditingWorkItem = !state.isEditingWorkItem;
     },
   },
   extraReducers: (builder) => {
@@ -108,7 +103,6 @@ const timereports = createSlice({
   },
 });
 
-export const { selectDeveloper, selectProject, toggleEdit } =
-  timereports.actions;
+export const { selectDeveloper, selectProject } = timereports.actions;
 
 export default timereports.reducer;
