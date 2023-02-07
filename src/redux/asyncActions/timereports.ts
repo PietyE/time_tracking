@@ -1,4 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 import { getConsolidatedReport } from './consolidatedReport';
 import { downloadFile } from 'shared/utils/downloadFile';
 import api from 'api';
@@ -19,6 +21,7 @@ export const getWorkItems = createAsyncThunk<
     const { data } = await api.workItems.getWorkItems(params);
     return data;
   } catch (error) {
+    toast.error((error as AxiosError)?.message || 'Something went wrong');
     return rejectWithValue((error as Error).message);
   }
 });
@@ -29,6 +32,7 @@ export const addWorkItem = createAsyncThunk<WorkItem, CreateWorkItemData>(
     try {
       const { data } = await api.workItems.createWorkItems(workItem);
       const { calendar } = getState() as RootState;
+      toast.success('Work item has been added');
       void dispatch(
         getConsolidatedReport({
           month: calendar.month + 1,
@@ -37,6 +41,9 @@ export const addWorkItem = createAsyncThunk<WorkItem, CreateWorkItemData>(
       );
       return data;
     } catch (error) {
+      toast.error(
+        (error as AxiosError)?.message || 'Work item has not been added',
+      );
       return rejectWithValue((error as Error).message);
     }
   },
@@ -64,6 +71,7 @@ export const updateWorkItem = createAsyncThunk<
           }),
         );
       }
+      toast.success('Work item has been successfully updated');
       void dispatch(
         getConsolidatedReport({
           month: state.calendar.month + 1,
@@ -72,6 +80,9 @@ export const updateWorkItem = createAsyncThunk<
       );
       return data;
     } catch (error) {
+      toast.error(
+        (error as AxiosError)?.message || 'Work item has not been added',
+      );
       return rejectWithValue((error as Error).message);
     }
   },
@@ -85,6 +96,7 @@ export const deleteWorkItem = createAsyncThunk<WorkItem, WorkItemId>(
         is_active: false,
       });
       const { calendar } = getState() as RootState;
+      toast.success('Work item has been successfully deleted');
       void dispatch(
         getConsolidatedReport({
           month: calendar.month + 1,
@@ -93,6 +105,9 @@ export const deleteWorkItem = createAsyncThunk<WorkItem, WorkItemId>(
       );
       return data;
     } catch (error) {
+      toast.error(
+        (error as AxiosError)?.message || 'Work item has not been deleted',
+      );
       return rejectWithValue((error as Error).message);
     }
   },
@@ -113,6 +128,7 @@ export const getReportCsv = createAsyncThunk(
         downloadFile(response.data, fileName);
       }
     } catch (error) {
+      toast.error((error as AxiosError)?.message || 'Something went wrong');
       return rejectWithValue((error as Error).message);
     }
   },
