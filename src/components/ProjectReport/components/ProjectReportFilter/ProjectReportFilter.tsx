@@ -48,6 +48,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
       container
       justifyContent='space-between'
       alignItems='center'
+      mb={40}
     >
       <Grid
         item

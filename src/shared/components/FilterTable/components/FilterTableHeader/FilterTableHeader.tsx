@@ -1,16 +1,27 @@
-import type { FC } from 'react';
+import { type FC, memo } from 'react';
 import { Grid } from '@mui/material';
 import { FilterTableHeaderItem } from './components/FilterTableHeaderItem';
 import { styles } from '../../styles';
+import type { TableTitle } from '../../FilterTable';
 
-export const FilterTableHeader: FC = (): JSX.Element => (
+interface Props {
+  titles: TableTitle[];
+}
+
+const FilterTableHeader: FC<Props> = ({ titles }): JSX.Element => (
   <Grid
     container
     justifyContent='space-between'
     alignItems='center'
     sx={styles.header}
   >
-    <FilterTableHeaderItem title='Project name' />
-    <FilterTableHeaderItem title='Hours worked' />
+    {titles.map((title) => (
+      <FilterTableHeaderItem
+        title={title}
+        key={title.id}
+      />
+    ))}
   </Grid>
 );
+
+export const FilterTableHeaderMemoized = memo(FilterTableHeader);

@@ -1,0 +1,1 @@
+export { FilterTableContentItem } from './FilterTableContentItem';

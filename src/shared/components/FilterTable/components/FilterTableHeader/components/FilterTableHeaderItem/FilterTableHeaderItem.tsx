@@ -1,13 +1,17 @@
 import { type FC } from 'react';
 import { ArrowDropUp } from '@mui/icons-material';
 import { Grid, Stack, Typography } from '@mui/material';
+import type { TableTitle } from '../../../../FilterTable';
 
 interface Props {
-  title: string;
+  title: TableTitle;
 }
 
 export const FilterTableHeaderItem: FC<Props> = ({ title }): JSX.Element => (
-  <Grid item>
+  <Grid
+    item
+    xs={title.size}
+  >
     <Grid
       container
       justifyContent='flex-start'
@@ -18,12 +22,14 @@ export const FilterTableHeaderItem: FC<Props> = ({ title }): JSX.Element => (
         color='black.300'
         fontWeight='fontWeightBold'
       >
-        {title}
+        {title.title}
       </Typography>
-      <Stack>
-        <ArrowDropUp />
-        <ArrowDropUp />
-      </Stack>
+      {title.shouldSort && (
+        <Stack>
+          <ArrowDropUp />
+          <ArrowDropUp />
+        </Stack>
+      )}
     </Grid>
   </Grid>
 );
