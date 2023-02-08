@@ -1,4 +1,5 @@
 import { type FC, useEffect } from 'react';
+import { titles } from './constants';
 import { useScrollLock } from 'hooks/useScrollLock';
 import Loading from 'shared/components/Loading';
 import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
@@ -17,28 +18,6 @@ import {
   getConsolidatedReport as getConsolidatedReportSelector,
   getConsolidatedReportLoading,
 } from 'redux/selectors/consolidatedReport';
-import type { TableTitle } from 'shared/components/FilterTable/FilterTable';
-
-const titles: TableTitle[] = [
-  {
-    title: 'Name',
-    shouldSort: true,
-    size: 3.5,
-    id: '1',
-  },
-  {
-    title: 'Project',
-    shouldSort: false,
-    size: 6,
-    id: '2',
-  },
-  {
-    title: 'Hours worked',
-    shouldSort: false,
-    size: 2.5,
-    id: '3',
-  },
-];
 
 export const ProjectReportTable: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -50,42 +29,18 @@ export const ProjectReportTable: FC = (): JSX.Element => {
   const { debouncedMonth: month, debouncedYear: year } = useDebouncedMonths();
 
   useEffect(() => {
-    if (selectedDeveloper.id === 'Select All') {
-      void dispatch(
-        getConsolidatedReport({ search: '', month: month + 1, year }),
-      );
-      return;
-    }
-    if (selectedProject.id === 'Select All') {
-      void dispatch(
-        getConsolidatedReport({ search: '', month: month + 1, year }),
-      );
-      return;
-    }
-    if (selectedDeveloper.id) {
+    if (selectedDeveloper.id && selectedProject.id)
       void dispatch(
         getConsolidatedReport({
-          search: selectedDeveloper.email,
           month: month + 1,
           year,
         }),
       );
-      return;
-    }
-    if (selectedProject.id) {
-      void dispatch(
-        getConsolidatedReport({
-          project_id: selectedProject.id,
-          month: month + 1,
-          year,
-        }),
-      );
-    }
   }, [month, year, selectedProject, selectedDeveloper, dispatch]);
 
   return (
     <>
-      <Loader />
+      <LoaderProjectReport />
       <FilterTable
         rows={consolidateReports}
         keyToId={['id']}
@@ -103,7 +58,7 @@ export const ProjectReportTable: FC = (): JSX.Element => {
   );
 };
 
-const Loader = (): JSX.Element => {
+const LoaderProjectReport = (): JSX.Element => {
   const isLoading = useAppSelector(getConsolidatedReportLoading);
 
   useScrollLock(isLoading);

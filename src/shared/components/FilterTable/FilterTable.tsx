@@ -42,6 +42,8 @@ type BaseTable = BaseProps & {
 
 type Props = DropDownTable | BaseTable;
 
+// TODO: Check memo
+
 export const FilterTable: FC<Props> = ({
   rows,
   titles,

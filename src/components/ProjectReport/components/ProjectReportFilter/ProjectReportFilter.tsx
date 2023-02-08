@@ -19,6 +19,10 @@ import {
 import { getProjects } from 'redux/asyncActions/projects';
 import { getUsers } from 'redux/asyncActions/users';
 import { selectDeveloper, selectProject } from 'redux/slices/projectReport';
+import {
+  getSelectedDeveloper,
+  getSelectedProject,
+} from 'redux/selectors/projectReport';
 import type { Project } from 'api/models/projects';
 import type { User } from 'api/models/users';
 import { styles } from './styles';
@@ -27,6 +31,9 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const users = useAppShallowSelector(getUsersSelector);
   const projects = useAppShallowSelector(getProjectsSelector);
+  const { id: selectedProjectId } = useAppShallowSelector(getSelectedProject);
+  const { id: selectedDeveloperId } =
+    useAppShallowSelector(getSelectedDeveloper);
   const isUsersLoading = useAppSelector(getUsersLoading);
   const isProjectsLoading = useAppSelector(getIsProjectsLoading);
 
@@ -42,6 +49,18 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
     if (!projects?.length) void dispatch(getProjects());
     if (!users?.length) void dispatch(getUsers());
   }, []);
+
+  // I don`t know what is this condition it, but it is works only this way for disabling right way
+  const isDisabledPeopleFilter: boolean =
+    (selectedProjectId !== 'Select All' &&
+      selectedDeveloperId !== 'Select All') ||
+    selectedProjectId !== 'Select All';
+
+  // I don`t know what is this condition it, but it is works only this way for disabling right way
+  const isDisabledProjectFilter: boolean =
+    (selectedProjectId !== 'Select All' &&
+      selectedDeveloperId !== 'Select All') ||
+    selectedDeveloperId !== 'Select All';
 
   return (
     <Grid
@@ -76,6 +95,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   keysToId={['id']}
                   onChange={changeUser}
                   selectAll
+                  disabled={isDisabledPeopleFilter}
                 />
               )}
             </SkeletonWrapper>
@@ -104,6 +124,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   keysToId={['id']}
                   onChange={changeDeveloperProject}
                   selectAll
+                  disabled={isDisabledProjectFilter}
                 />
               )}
             </SkeletonWrapper>
