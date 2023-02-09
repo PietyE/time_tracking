@@ -32,3 +32,5 @@ interface CalendarValues {
   month: number;
   year: number;
 }
+
+type UnpackedArray<T> = T extends Array<infer U> ? U : T;

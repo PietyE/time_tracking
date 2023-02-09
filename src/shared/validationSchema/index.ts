@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import { required, maxSymbols, minSymbols } from './utils';
 
+const REGEXP_FOR_GOOGLE_SHEET = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
+
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
@@ -20,4 +22,10 @@ export const workItemValidationSchema = Yup.object().shape({
     const takeTime = hour ? +hour * 60 + +min : +min;
     return !(!value || value === '0:00' || takeTime > 480 || Number(min) > 59);
   }),
+});
+
+export const googleSyncWithDriveSchema = Yup.object().shape({
+  googleSheetLink: Yup.string()
+    .required(required('Google sheet link'))
+    .matches(REGEXP_FOR_GOOGLE_SHEET, 'Paste valid link to google sheet'),
 });

@@ -1,8 +1,10 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import get from 'lodash/get';
 import { FilterTableContentItem } from './components/FilterTableContent/components/FilterTableContentItem';
 import { FilterTableHeaderMemoized } from './components/FilterTableHeader';
+import { useTableSorting } from './helpers';
+import { useSorting } from 'hooks/useSorting';
 import { styles } from './styles';
 
 export interface TableTitle {
@@ -10,6 +12,8 @@ export interface TableTitle {
   shouldSort: boolean;
   size: number;
   id: string;
+  sortingParamName: string;
+  sortParamOrder: 'asc' | 'desc';
 }
 
 interface BaseProps {
@@ -56,33 +60,52 @@ export const FilterTable: FC<Props> = ({
   keyToDropDownValueName = [],
   keyToDropDownValueTime = [],
   isHaveDropDown,
-}): JSX.Element => (
-  <Grid
-    container
-    flexDirection='column'
-    maxWidth={1}
-    justifyContent='flex-start'
-    alignItems='flex-start'
-    sx={styles.mainContainer}
-  >
-    <Grid item>
-      <FilterTableHeaderMemoized titles={titles} />
-    </Grid>
-    {!!rows?.length &&
-      rows.map((row) => (
-        <FilterTableContentItem
-          key={get(row, keyToId)}
-          row={row}
-          isHaveDropDown={isHaveDropDown}
-          keyToId={keyToId}
-          keyToName={keyToName}
-          keyToTime={keyToTime}
-          keyToMail={keyToMail}
-          keyToDropDownValueId={keyToDropDownValueId}
-          keyToDropDownValueName={keyToDropDownValueName}
-          keyToDropDownValues={keyToDropDownValues}
-          keyToDropDownValueTime={keyToDropDownValueTime}
+}): JSX.Element => {
+  const { sortingKeys, sortingObject } = useTableSorting(titles);
+  const {
+    sorting,
+    sortingParameter,
+    toggleSortingParameter,
+    handleSortingChange,
+  } = useSorting<UnpackedArray<typeof sortingKeys>, UnpackedArray<typeof rows>>(
+    sortingObject,
+  );
+
+  useEffect(() => {
+    handleSortingChange(rows);
+  }, [sortingParameter, handleSortingChange, rows]);
+
+  return (
+    <Grid
+      container
+      flexDirection='column'
+      maxWidth={1}
+      justifyContent='flex-start'
+      alignItems='flex-start'
+      sx={styles.mainContainer}
+    >
+      <Grid item>
+        <FilterTableHeaderMemoized
+          titles={titles}
+          toggleSortingParameter={toggleSortingParameter}
         />
-      ))}
-  </Grid>
-);
+      </Grid>
+      {!!sorting?.length &&
+        sorting.map((row) => (
+          <FilterTableContentItem
+            key={get(row, keyToId)}
+            row={row}
+            isHaveDropDown={isHaveDropDown}
+            keyToId={keyToId}
+            keyToName={keyToName}
+            keyToTime={keyToTime}
+            keyToMail={keyToMail}
+            keyToDropDownValueId={keyToDropDownValueId}
+            keyToDropDownValueName={keyToDropDownValueName}
+            keyToDropDownValues={keyToDropDownValues}
+            keyToDropDownValueTime={keyToDropDownValueTime}
+          />
+        ))}
+    </Grid>
+  );
+};

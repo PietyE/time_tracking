@@ -6,9 +6,13 @@ import type { TableTitle } from '../../FilterTable';
 
 interface Props {
   titles: TableTitle[];
+  toggleSortingParameter: (sortKey: string) => void;
 }
 
-const FilterTableHeader: FC<Props> = ({ titles }): JSX.Element => (
+const FilterTableHeader: FC<Props> = ({
+  titles,
+  toggleSortingParameter,
+}): JSX.Element => (
   <Grid
     container
     justifyContent='space-between'
@@ -18,6 +22,7 @@ const FilterTableHeader: FC<Props> = ({ titles }): JSX.Element => (
     {titles.map((title) => (
       <FilterTableHeaderItem
         title={title}
+        toggleSortingParameter={toggleSortingParameter}
         key={title.id}
       />
     ))}

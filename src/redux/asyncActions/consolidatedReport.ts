@@ -15,7 +15,6 @@ export const getConsolidatedReport = createAsyncThunk<
     try {
       // Check after request do we select project or developer to make request based on these filters , can be improved in future
       const { projectReport } = getState() as RootState;
-      console.log(projectReport);
       if (
         projectReport.selectedDeveloper.id &&
         projectReport.selectedDeveloper.id !== 'Select All'

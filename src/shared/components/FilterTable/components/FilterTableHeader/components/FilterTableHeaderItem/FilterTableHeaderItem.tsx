@@ -5,31 +5,39 @@ import type { TableTitle } from '../../../../FilterTable';
 
 interface Props {
   title: TableTitle;
+  toggleSortingParameter: (sortKey: string) => void;
 }
 
-export const FilterTableHeaderItem: FC<Props> = ({ title }): JSX.Element => (
-  <Grid
-    item
-    xs={title.size}
-  >
+export const FilterTableHeaderItem: FC<Props> = ({
+  title,
+  toggleSortingParameter,
+}): JSX.Element => {
+  const toggleSort = (): void => toggleSortingParameter(title.sortingParamName);
+  return (
     <Grid
-      container
-      justifyContent='flex-start'
-      alignItems='center'
+      item
+      xs={title.size}
     >
-      <Typography
-        variant='subtitle2'
-        color='black.300'
-        fontWeight='fontWeightBold'
+      <Grid
+        container
+        justifyContent='flex-start'
+        alignItems='center'
       >
-        {title.title}
-      </Typography>
-      {title.shouldSort && (
-        <Stack>
-          <ArrowDropUp />
-          <ArrowDropUp />
-        </Stack>
-      )}
+        <Typography
+          variant='subtitle2'
+          color='black.300'
+          fontWeight='fontWeightBold'
+          onClick={toggleSort}
+        >
+          {title.title}
+        </Typography>
+        {title.shouldSort && (
+          <Stack>
+            <ArrowDropUp />
+            <ArrowDropUp />
+          </Stack>
+        )}
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
