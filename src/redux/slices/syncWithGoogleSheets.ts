@@ -4,35 +4,21 @@ import {
   syncWithGoogleSheetsCreateToken,
 } from '../asyncActions/syncWithGoogleSheets';
 
-const todayDate: Date = new Date();
-
 interface InitialState {
   isLoading: boolean;
-  googleSheetLink: string;
   isOpenErrorList: boolean;
   users: {
     in_db: string[];
     in_sheet: string[];
   };
-  accessError: false;
-  selectedDate: {
-    month: number;
-    year: number;
-  };
 }
 
 const initialState: InitialState = {
   isLoading: false,
-  googleSheetLink: '',
   isOpenErrorList: false,
   users: {
     in_db: [],
     in_sheet: [],
-  },
-  accessError: false,
-  selectedDate: {
-    month: todayDate.getMonth(),
-    year: todayDate.getFullYear(),
   },
 };
 
@@ -44,7 +30,7 @@ interface GoogleSyncError {
   otherError: string;
 }
 
-interface DifferenceNamesError extends GoogleSyncError {
+export interface DifferenceNamesError extends GoogleSyncError {
   users: {
     in_db: string[];
     in_sheet: string[];
@@ -57,7 +43,7 @@ interface OtherError extends GoogleSyncError {
 
 const isDifferenceInDbError = (
   action: PayloadAction<GoogleSyncError>,
-): action is PayloadAction<DifferenceNamesError> => !!action.payload.users;
+): action is PayloadAction<DifferenceNamesError> => !!action.payload;
 
 const isOtherError = (
   action: PayloadAction<OtherError>,
@@ -71,17 +57,10 @@ const syncWithGoogleSheetsSlice = createSlice({
     toggleModal: (state) => {
       state.isOpenErrorList = !state.isOpenErrorList;
     },
-    changeDate: (
-      state,
-      action: PayloadAction<{ month: number } | { year: number }>,
-    ) => {
-      state.selectedDate = { ...state.selectedDate, ...action.payload };
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(syncWithGoogleSheetsCreateToken.pending, (state) => {
       state.isLoading = true;
-      state.accessError = false;
     });
     builder.addCase(syncWithGoogleSheetsCreateToken.fulfilled, (state) => {
       state.isLoading = false;
@@ -112,6 +91,6 @@ const syncWithGoogleSheetsSlice = createSlice({
   },
 });
 
-export const { toggleModal, changeDate } = syncWithGoogleSheetsSlice.actions;
+export const { toggleModal } = syncWithGoogleSheetsSlice.actions;
 
 export default syncWithGoogleSheetsSlice.reducer;

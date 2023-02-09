@@ -2,7 +2,7 @@ import { type FC, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
 import { PageNames } from 'constants/pageNames';
-import { PageHeader } from 'shared/components/PageHeader';
+import { MemoizedPageHeader } from 'shared/components/PageHeader';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   getConsolidatedReportLoading,
@@ -27,7 +27,7 @@ export const TimeReportHeader: FC = (): JSX.Element => {
   }, [dispatch, month, year]);
 
   return (
-    <PageHeader title={PageNames.TIME_REPORT}>
+    <MemoizedPageHeader title={PageNames.TIME_REPORT}>
       <SkeletonWrapper
         isLoading={isLoading}
         width={300}
@@ -41,6 +41,6 @@ export const TimeReportHeader: FC = (): JSX.Element => {
           {`Total hours spend this month: ${parsedMonthWorkedTime}`}
         </Typography>
       </SkeletonWrapper>
-    </PageHeader>
+    </MemoizedPageHeader>
   );
 };

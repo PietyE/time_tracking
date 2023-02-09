@@ -37,6 +37,24 @@ a {
   width: 100%;
   min-height: 100vh;
   background: $background;
+  .toaster {
+    z-index: 9999999999999;
+    .Toastify__toast {
+      min-height: 80px;
+    }
+    .Toastify__toast--success {
+      font-weight: 600;
+      .Toastify__toast-icon {
+        svg {
+          fill: $mainGreen;
+        }
+      }
+      .Toastify__progress-bar {
+        background: $mainGreen;
+      }
+    }
+  }
+
 }
 
 .main_menu_link {
@@ -63,25 +81,8 @@ a {
         bottom: 0;
         width: 4px;
         background-color: $mainGreenDark;
-        content: '';
+        content: "''";
       }
-    }
-  }
-}
-
-.toaster {
-  .Toastify__toast {
-    min-height: 80px;
-  }
-  .Toastify__toast--success {
-    font-weight: 600;
-    .Toastify__toast-icon {
-      svg {
-        fill: $mainGreen;
-      }
-    }
-    .Toastify__progress-bar {
-      background: $mainGreen;
     }
   }
 }

@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react';
+import { type FC, type PropsWithChildren, memo } from 'react';
 import { Divider, Typography, Box } from '@mui/material';
 import { styles } from './styles';
 
@@ -6,10 +6,7 @@ interface Props {
   title: string;
 }
 
-export const PageHeader: FC<PropsWithChildren<Props>> = ({
-  title,
-  children,
-}) => (
+const PageHeader: FC<PropsWithChildren<Props>> = ({ title, children }) => (
   <Box
     sx={styles}
     component='header'
@@ -30,3 +27,5 @@ export const PageHeader: FC<PropsWithChildren<Props>> = ({
     <Divider />
   </Box>
 );
+
+export const MemoizedPageHeader = memo(PageHeader);

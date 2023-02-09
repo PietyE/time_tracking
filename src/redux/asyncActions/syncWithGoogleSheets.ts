@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import isEmpty from 'lodash/isEmpty';
 import { toggleModal } from '../slices/syncWithGoogleSheets';
@@ -47,26 +47,37 @@ export const syncWithGoogleSheets = createAsyncThunk<
   async (data, { rejectWithValue, getState, dispatch }) => {
     try {
       const { calendar } = getState() as RootState;
-      const { data: users } = await api.userHours.syncWithGoogleSheets({
+      await api.userHours.syncWithGoogleSheets({
         ...data,
         month: calendar.month + 1,
         year: calendar.year,
       });
+      toast.success('You successfully has been synced with google sheet');
+    } catch (error: AxiosError | unknown) {
+      if (axios.isAxiosError(error)) {
+        // users.error it`s a field throwing from BE if we have difference in names
+        const differentUsersError = (
+          error.response?.data as {
+            errors: { in_db: string[]; in_sheet: string[] };
+          }
+        ).errors;
 
-      // users.error it`s a field throwing from BE if we have difference in names
-      if (!isEmpty(users?.errors)) {
-        dispatch(toggleModal());
-        toast.warning('You have difference in database and google sheet');
-        return rejectWithValue(users?.errors);
+        // non field error its BE error throwing for checking if we have empty name in google sheet
+        const emptyFieldsError = (
+          error.response?.data as {
+            non_field_errors: string;
+          }
+        ).non_field_errors;
+        if (!isEmpty(differentUsersError)) {
+          dispatch(toggleModal());
+          toast.warning('You have difference in database and google sheet');
+          return rejectWithValue(differentUsersError);
+        }
+        if (!isEmpty(emptyFieldsError)) {
+          toast.warning('Check google sheet for an empty fields');
+          return rejectWithValue('Check google sheet for an empty fields');
+        }
       }
-
-      // non field error its BE error throwing for checking if we have empty name in google sheet
-      if (!isEmpty(users?.non_field_errors)) {
-        toast.warning('Check google sheet for an empty fields');
-        return rejectWithValue('Check google sheet for an empty fields');
-      }
-      toast.success('Successfully synced with Google Drive');
-    } catch (error) {
       toast.error((error as AxiosError)?.message || 'Something went wrong');
       return rejectWithValue('Something went wrong');
     }
