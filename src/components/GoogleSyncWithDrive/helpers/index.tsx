@@ -22,7 +22,7 @@ export const useGoogleDriveSync = (): ReturnType => {
       void dispatch(
         syncWithGoogleSheetsCreateToken({
           state,
-          callback_url: window.location.href.replace('http', 'https'),
+          callback_url: window.location.href,
         }),
       )
         .unwrap()
