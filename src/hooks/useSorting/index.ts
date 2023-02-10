@@ -2,9 +2,8 @@ import { useCallback, useState } from 'react';
 import orderBy from 'lodash/orderBy';
 import { ASCEND, DESCEND } from 'constants/sortingOrder';
 
-interface SortingParamValues {
+export interface SortingParamValues {
   order: SortingOrder;
-  isAscByDefault: boolean;
 }
 
 type SortingParam<F extends string> = Record<F, SortingParamValues>;
@@ -25,28 +24,28 @@ export const useSorting = <F extends string, T>(
   const [sortingParameter, setSortingParameters] =
     useState<SortingParam<F>>(defaultSorting);
 
-  const toggleSortingParameter = (sortKey: F): void => {
-    switch (sortingParameter[sortKey].order) {
-      case DESCEND:
-        setSortingParameters({
-          [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
-        } as SortingParam<F>);
-        return;
-      case ASCEND:
-        setSortingParameters({
-          [sortKey]: { ...sortingParameter[sortKey], order: DESCEND },
-        } as SortingParam<F>);
-        return;
-      default:
-        sortingParameter[sortKey].isAscByDefault
-          ? setSortingParameters({
-              [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
-            } as SortingParam<F>)
-          : setSortingParameters({
-              [sortKey]: { ...sortingParameter[sortKey], order: DESCEND },
-            } as SortingParam<F>);
-    }
-  };
+  const toggleSortingParameter = useCallback(
+    (sortKey: F) => {
+      switch (sortingParameter[sortKey]?.order) {
+        case DESCEND:
+          setSortingParameters({
+            ...sortingParameter,
+            [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
+          } as SortingParam<F>);
+          break;
+        case ASCEND:
+          setSortingParameters({
+            ...sortingParameter,
+            [sortKey]: {
+              ...sortingParameter[sortKey],
+              order: DESCEND,
+            },
+          } as SortingParam<F>);
+          break;
+      }
+    },
+    [sortingParameter],
+  );
 
   const handleSortingChange = useCallback(
     (data: T[]): void => {

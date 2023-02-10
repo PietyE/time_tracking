@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import { ArrowBackIos, ArrowLeft, CalendarMonth } from '@mui/icons-material';
 import {
   Box,
@@ -16,7 +16,7 @@ interface Props {
   initialYear: number;
 }
 
-export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
+const SelectMonth: React.FC<Props & { showYear?: never }> = ({
   showYear = true,
   initialYear = 2013,
 }): JSX.Element => {
@@ -170,3 +170,5 @@ export const SelectMonth: React.FC<Props & { showYear?: never }> = ({
     </ClickAwayListener>
   );
 };
+
+export const SelectMonthMemoized = memo(SelectMonth);

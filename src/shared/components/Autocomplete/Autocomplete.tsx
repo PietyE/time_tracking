@@ -12,6 +12,7 @@ interface CustomProps {
 
   label?: string;
   selectAll?: boolean;
+  disabled?: boolean;
 }
 
 type Props = CustomProps & {
@@ -25,8 +26,11 @@ export const Autocomplete: FC<Props> = ({
   onChange,
   selectAll = true,
   label = 'Select',
+  disabled = false,
 }): JSX.Element => {
-  const [value, setValue] = useState(options[0]);
+  const [value, setValue] = useState(() =>
+    selectAll ? { name: 'Select All', id: 'Select All' } : options[0],
+  );
 
   const handleChange = (_event: SyntheticEvent, newValue: object): void => {
     setValue(newValue);
@@ -34,7 +38,7 @@ export const Autocomplete: FC<Props> = ({
   };
 
   useEffect(() => {
-    onChange(options[0]);
+    onChange(selectAll ? { name: 'Select All', id: 'Select All' } : options[0]);
   }, []);
 
   return (
@@ -47,6 +51,7 @@ export const Autocomplete: FC<Props> = ({
       blurOnSelect
       disableClearable
       options={options}
+      disabled={disabled}
       isOptionEqualToValue={(option, value) => isEqual(option, value, keysToId)}
       getOptionLabel={(users) => get(users, keysToName)}
       filterOptions={(options, state) =>

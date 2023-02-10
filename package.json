@@ -65,6 +65,9 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.4.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.7.5",

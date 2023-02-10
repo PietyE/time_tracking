@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
-import { TimeReportPage } from '../pages/TimeReportPage';
+import { GoogleSyncWithDrivePage } from 'pages/GoogleSyncWithDrivePage';
+import { TimeReportPage } from 'pages/TimeReportPage';
 import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
 import MainLayout from 'components/MainLayout';
 import { AppRoutes } from 'constants/appRoutesConstants';
@@ -77,7 +78,7 @@ export const routes = createBrowserRouter([
               UsersPermissions.users_add_user,
             ]}
           >
-            <h1>Sync with gsheets</h1>
+            <GoogleSyncWithDrivePage />
           </RequireAuth>
         ),
       },

@@ -4,8 +4,6 @@ export const styles: SxProps<Theme> = {
   position: 'relative',
   '&.MuiButton-text': {
     fontSize: '0.875rem',
-    lineHeight: '1.5rem',
-    letterSpacing: '0.03rem',
     color: 'secondary.contrastText',
     textTransform: 'initial',
   },
@@ -20,5 +18,8 @@ export const styles: SxProps<Theme> = {
   },
   '&:hover': {
     bgcolor: 'background.grey',
+  },
+  '& svg': {
+    mr: 5,
   },
 };

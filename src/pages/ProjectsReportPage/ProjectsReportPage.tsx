@@ -1,6 +1,4 @@
 import type { FC } from 'react';
-import { FilterTable } from 'shared/components/FilterTable';
+import { ProjectReport } from 'components/ProjectReport';
 
-export const ProjectsReportPage: FC = (): JSX.Element => {
-  return <FilterTable />;
-};
+export const ProjectsReportPage: FC = (): JSX.Element => <ProjectReport />;

@@ -1,1 +1,1 @@
-export { FilterTableHeader } from './FilterTableHeader';
+export { FilterTableHeaderMemoized } from './FilterTableHeader';

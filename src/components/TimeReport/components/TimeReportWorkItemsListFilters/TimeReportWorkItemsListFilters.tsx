@@ -3,7 +3,7 @@ import { Button, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { selectDeveloper, selectProject } from 'redux/slices/timereports';
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
-import { SelectMonth } from 'shared/components/SelectMonth';
+import { SelectMonthMemoized } from 'shared/components/SelectMonth';
 import { Autocomplete } from 'shared/components/Autocomplete';
 import {
   useAppDispatch,
@@ -104,7 +104,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
         item
         xs={3}
       >
-        <SelectMonth initialYear={2015} />
+        <SelectMonthMemoized initialYear={2015} />
       </Grid>
       <Grid item>
         <Button
