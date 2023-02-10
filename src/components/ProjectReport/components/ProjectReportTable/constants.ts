@@ -19,7 +19,7 @@ export const titles: TableTitle[] = [
   },
   {
     title: 'Hours worked',
-    shouldSort: true,
+    shouldSort: false,
     size: 2.5,
     id: '3',
     sortingParamName: 'total_minutes',

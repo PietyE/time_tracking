@@ -67,11 +67,10 @@ export const getUserProfile = createAsyncThunk<User>(
         const { data } = await api.users.getUsersById(profileData.userId);
         return data;
       } else {
-        toast.error('Token not found');
-        return rejectWithValue('token not found');
+        return rejectWithValue('error get profile');
       }
     } catch (error) {
-      toast.error((error as AxiosError)?.message || 'Error get profile');
+      toast.error((error as AxiosError)?.message || 'Token not found');
       return rejectWithValue('error get profile');
     }
   },

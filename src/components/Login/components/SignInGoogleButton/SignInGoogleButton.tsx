@@ -1,10 +1,7 @@
 import type { FC } from 'react';
 import Button, { type ButtonProps } from '@mui/material/Button';
-
-import GoogleLogo from 'shared/components/svg/GoogleLogo';
+import VilmateIcon from 'shared/components/svg/VilmateIcon';
 import { styles } from './styles';
-
-// readonly render?: (props: { onClick: () => void, disabled?: boolean }) => JSX.Element;
 
 interface ISignInGoogleButtonProps extends ButtonProps {
   onClick: () => void;
@@ -14,12 +11,12 @@ interface ISignInGoogleButtonProps extends ButtonProps {
 const SignInGoogleButton: FC<ISignInGoogleButtonProps> = (props) => {
   return (
     <Button
-      startIcon={<GoogleLogo />}
+      startIcon={<VilmateIcon />}
       fullWidth
       sx={styles}
       {...props}
     >
-      Login with Google
+      Sign in Vilmate account
     </Button>
   );
 };
