@@ -1,6 +1,9 @@
-import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
+import { VilmatesPage } from '../pages/VailmatesPage';
+import { GoogleSyncWithDrivePage } from 'pages/GoogleSyncWithDrivePage';
+import { TimeReportPage } from 'pages/TimeReportPage';
+import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
 import MainLayout from 'components/MainLayout';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import {
@@ -8,23 +11,8 @@ import {
   SyncWithGoogleSheetsPermissions,
   UsersPermissions,
 } from 'constants/permissions';
-
-const GoogleSyncWithDrivePage = lazy(
-  () => import('pages/GoogleSyncWithDrivePage/GoogleSyncWithDrivePage'),
-);
-const TimeReportPage = lazy(
-  () => import('pages/TimeReportPage/TimeReportPage'),
-);
-const GoogleLoginRedirectPage = lazy(
-  () => import('pages/GoogleLoginRedirectPage/GoogleLoginRedirectPage'),
-);
-const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
-const ProjectsReportPage = lazy(
-  () => import('pages/ProjectsReportPage/ProjectsReportPage'),
-);
-const ProjectManagementPage = lazy(
-  () => import('pages/ProjectManagementPage/ProjectManagementPage'),
-);
+import LoginPage from 'pages/LoginPage';
+import { ProjectsReportPage } from 'pages/ProjectsReportPage';
 
 export const routes = createBrowserRouter([
   {
@@ -56,7 +44,7 @@ export const routes = createBrowserRouter([
               PagesViewPermissions.users_can_view_projectmanagement,
             ]}
           >
-            <ProjectManagementPage />
+            <h1>Project Management</h1>
           </RequireAuth>
         ),
       },
@@ -66,7 +54,7 @@ export const routes = createBrowserRouter([
           <RequireAuth
             permissions={[PagesViewPermissions.users_can_view_vilmates]}
           >
-            <h1>Vilmates</h1>
+            <VilmatesPage />
           </RequireAuth>
         ),
       },
