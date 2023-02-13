@@ -1,0 +1,1 @@
+export { VilmatesUser } from './VilmatesUser';

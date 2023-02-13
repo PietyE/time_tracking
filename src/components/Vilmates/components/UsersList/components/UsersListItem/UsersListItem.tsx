@@ -3,6 +3,7 @@ import { Card } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { UsersListItemContent } from './components/UsersListItemContent';
 import { UsersListItemHeader } from './components/UsersListItemHeader';
+import { SizingContainer } from 'shared/UI/SizingContainer';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import type { User } from 'api/models/users';
 import { styles } from './styles';
@@ -16,18 +17,20 @@ export const UsersListItem: FC<Props> = ({ user }): JSX.Element => {
   const navigate = useNavigate();
 
   const onUserClick = (): void =>
-    navigate(`/{${AppRoutes.vilmates}${AppRoutes.singlePage}/${id}`);
+    navigate(`/${AppRoutes.vilmates}${AppRoutes.singlePage}/${id}`);
 
   return (
-    <Card
-      onClick={onUserClick}
-      sx={styles}
-    >
-      <UsersListItemHeader name={name} />
-      <UsersListItemContent
-        name={name}
-        email={email}
-      />
-    </Card>
+    <SizingContainer size='extraSmall'>
+      <Card
+        onClick={onUserClick}
+        sx={styles}
+      >
+        <UsersListItemHeader name={name} />
+        <UsersListItemContent
+          name={name}
+          email={email}
+        />
+      </Card>
+    </SizingContainer>
   );
 };
