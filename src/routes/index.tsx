@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
+import { VilmatesPage } from '../pages/VailmatesPage';
 import { GoogleSyncWithDrivePage } from 'pages/GoogleSyncWithDrivePage';
 import { TimeReportPage } from 'pages/TimeReportPage';
 import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
@@ -53,7 +54,7 @@ export const routes = createBrowserRouter([
           <RequireAuth
             permissions={[PagesViewPermissions.users_can_view_vilmates]}
           >
-            <h1>Vilmates</h1>
+            <VilmatesPage />
           </RequireAuth>
         ),
       },
