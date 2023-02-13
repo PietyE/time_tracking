@@ -4,12 +4,13 @@ import { Box, Link, Typography } from '@mui/material';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { styles } from './styles';
 
-export const VilmateUserGoBackButton: FC = (): JSX.Element => (
+export const VilmatesUserGoBackButton: FC = (): JSX.Element => (
   <Link
     href={`/${AppRoutes.vilmates}`}
     maxWidth={170}
     display='block'
     underline='none'
+    mb={16}
   >
     <Box
       display='flex'

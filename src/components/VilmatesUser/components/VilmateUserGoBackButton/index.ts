@@ -1,1 +1,0 @@
-export { VilmateUserGoBackButton } from './VilmateUserGoBackButton';
