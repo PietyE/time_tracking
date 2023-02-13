@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
 import { VilmatesUserPage } from '../pages/VilmatesUserPage/VilmatesUserPage';
 import { VilmatesPage } from '../pages/VailmatesPage';
+import { ProjectManagementPage } from '../pages/ProjectManagementPage';
 import { GoogleSyncWithDrivePage } from 'pages/GoogleSyncWithDrivePage';
 import { TimeReportPage } from 'pages/TimeReportPage';
 import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
@@ -45,7 +46,7 @@ export const routes = createBrowserRouter([
               PagesViewPermissions.users_can_view_projectmanagement,
             ]}
           >
-            <h1>Project Management</h1>
+            <ProjectManagementPage />
           </RequireAuth>
         ),
       },
