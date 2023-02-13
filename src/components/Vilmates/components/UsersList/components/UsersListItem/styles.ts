@@ -5,7 +5,6 @@ export const styles: SxProps<Theme> = {
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
-  width: 210,
   height: 220,
   p: 24,
   boxShadow: 1,
