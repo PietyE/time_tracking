@@ -1,10 +1,9 @@
 import CRUD from '../base';
 import { UsersEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
-
 import type {
+  UserResponse,
   UsersQueryParams,
-  Users,
   User,
   CreateUserData,
   ConsolidatedReportPathQueryParams,
@@ -16,7 +15,7 @@ import type {
 } from '../models/users';
 
 export class UsersApi extends CRUD {
-  getUsers(params?: UsersQueryParams): AxiosPromise<Users> {
+  getUsers(params?: UsersQueryParams): AxiosPromise<UserResponse> {
     return this.request({
       url: this.url,
       params,

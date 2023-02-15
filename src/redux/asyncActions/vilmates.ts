@@ -7,7 +7,7 @@ export const getVilmatesUsers = createAsyncThunk<Users>(
   async (__, { rejectWithValue }) => {
     try {
       const { data } = await api.users.getUsers();
-      return data;
+      return data.items;
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
