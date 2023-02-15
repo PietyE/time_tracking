@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from 'api';
-import type { Users, UsersQueryParams } from 'api/models/users';
+import type { Users } from 'api/models/users';
 
-export const getUsers = createAsyncThunk<Users, UsersQueryParams | undefined>(
+export const getUsers = createAsyncThunk<Users>(
   'users/getUsers',
-  async (params, { rejectWithValue }) => {
+  async (__, { rejectWithValue }) => {
     try {
-      const { data } = await api.users.getUsers(params);
-      return data;
+      const { data } = await api.users.getUsers();
+      return data.items;
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }

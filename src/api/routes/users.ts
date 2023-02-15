@@ -1,8 +1,8 @@
 import CRUD from '../base';
 import { UsersEndpoints } from 'constants/endpoints';
 import type { AxiosInstance, AxiosPromise } from 'axios';
-
 import type {
+  UserResponse,
   UsersQueryParams,
   User,
   CreateUserData,

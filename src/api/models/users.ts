@@ -5,8 +5,6 @@ export interface UsersQueryParams {
   ordering?: string;
   search?: string;
   is_active?: string | boolean;
-  page?: number;
-  page_size?: number;
 }
 
 export interface ConsolidatedReportPathQueryParams {
@@ -39,11 +37,11 @@ export interface User {
 export type Users = Array<Omit<User, 'permissions'>>;
 
 export interface UserResponse {
-  count_pages: number;
-  count_results: number;
   items: Users;
   page: number;
   page_size: number;
+  count_pages: number;
+  count_results: number;
 }
 
 export interface CreateUserData {
