@@ -36,6 +36,14 @@ export interface User {
 
 export type Users = Array<Omit<User, 'permissions'>>;
 
+export interface UserResponse {
+  items: Users;
+  page: number;
+  page_size: number;
+  count_pages: number;
+  count_results: number;
+}
+
 export interface CreateUserData {
   email: string;
   password: string;
