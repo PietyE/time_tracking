@@ -1,4 +1,4 @@
-import { createTheme, experimental_sx as sx } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import {
   BackgroundColors,
   BlackColors,
@@ -123,7 +123,7 @@ export const theme = createTheme(basicTheme, {
         elevation1: {
           boxShadow: 'none',
         },
-        rounded: sx({
+        rounded: basicTheme.unstable_sx({
           borderRadius: 2,
         }),
       },
@@ -178,7 +178,7 @@ export const theme = createTheme(basicTheme, {
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: sx({
+        root: basicTheme.unstable_sx({
           boxSizing: 'border-box',
           padding: 12,
           minHeight: 42,

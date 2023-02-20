@@ -33,6 +33,7 @@ const initialState: IProfile = {
     imageUrl: '',
     date_of_birth: '',
     phone: '',
+    reports_to: '',
   },
 };
 

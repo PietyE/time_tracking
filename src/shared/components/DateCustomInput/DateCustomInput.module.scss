@@ -1,0 +1,20 @@
+.information_textField {
+  flex: 1 1 1000px;
+  & :global .MuiOutlinedInput-root {
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
+  }
+  fieldset {
+    border-style: none;
+  }
+  & :global .MuiOutlinedInput-root.Mui-focused {
+    fieldset {
+      border: 1px green solid;
+    }
+    input {
+      cursor: text;
+    }
+  }
+}
