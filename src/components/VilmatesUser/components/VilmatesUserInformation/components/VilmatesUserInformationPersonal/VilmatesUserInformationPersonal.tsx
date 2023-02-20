@@ -67,6 +67,7 @@ export const VilmatesUserInformationPersonal: FC<Props> = ({
 }): JSX.Element => {
   const { register, getValues, setValue } = useForm<InputField>({
     defaultValues: fields,
+    mode: 'onChange',
   });
   const permissions = useAppShallowSelector(getProfilePermissionsSelector);
   const users = useAppShallowSelector(getVilmateUsersSelector);
@@ -241,6 +242,7 @@ export const VilmatesUserInformationPersonal: FC<Props> = ({
       <ListItem
         key={information.text}
         className={styles.list_item}
+        component='form'
       >
         <ListItemAvatar className={styles.avatar}>
           {information.icon}
