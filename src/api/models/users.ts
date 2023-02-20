@@ -32,6 +32,7 @@ export interface User {
   date_of_birth: string;
   phone: string;
   is_active: boolean;
+  reports_to: string;
 }
 
 export type Users = Array<Omit<User, 'permissions'>>;
@@ -52,6 +53,7 @@ export interface CreateUserData {
   slack?: string;
   date_of_birth?: string;
   phone?: string;
+  reports_to?: string;
 }
 
 export interface DeveloperProject {

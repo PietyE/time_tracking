@@ -20,7 +20,7 @@ export interface DeveloperProjectPathParams {
 export interface DeveloperProject {
   id: string;
   project: Project;
-  is_full_time: string;
+  is_full_time: boolean;
   is_project_manager: boolean;
   user: UserId;
   is_active: boolean;
@@ -52,7 +52,7 @@ export interface User {
 
 export interface CreateListData {
   project: string;
-  users: User[];
+  users: Array<Partial<User>>;
 }
 
 export interface UserReport {

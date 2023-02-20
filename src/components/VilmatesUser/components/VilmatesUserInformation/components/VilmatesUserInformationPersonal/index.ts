@@ -1,0 +1,1 @@
+export { VilmatesUserInformationPersonal } from './VilmatesUserInformationPersonal';

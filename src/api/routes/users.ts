@@ -29,7 +29,7 @@ export class UsersApi extends CRUD {
     });
   }
 
-  createUser(data: CreateUserData): AxiosPromise<User> {
+  createUser(data: CreateUserData): AxiosPromise<Omit<User, 'permissions'>> {
     return this.request({
       url: this.url,
       method: 'POST',
@@ -37,7 +37,10 @@ export class UsersApi extends CRUD {
     });
   }
 
-  updateUser(id: string, data: CreateUserData): AxiosPromise<User> {
+  updateUser(
+    id: string,
+    data: CreateUserData,
+  ): AxiosPromise<Omit<User, 'permissions'>> {
     return this.request({
       url: `${this.url}${id}/`,
       method: 'PUT',
@@ -48,7 +51,7 @@ export class UsersApi extends CRUD {
   updateUserPartial(
     id: string,
     data: Partial<CreateUserData>,
-  ): AxiosPromise<User> {
+  ): AxiosPromise<Omit<User, 'permissions'>> {
     return this.request({
       url: `${this.url}${id}/`,
       method: 'PATCH',

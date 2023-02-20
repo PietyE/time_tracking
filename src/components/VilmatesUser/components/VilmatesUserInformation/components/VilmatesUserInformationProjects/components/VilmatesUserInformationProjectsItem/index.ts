@@ -1,0 +1,1 @@
+export { VilmatesUserInformationProjectsItem } from './VilmatesUserInformationProjectsItem';

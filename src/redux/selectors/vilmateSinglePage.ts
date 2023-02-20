@@ -7,7 +7,7 @@ export const getIsLoadingVilmateSinglePage = createTypedSelector<boolean>(
   (state) => state.vilmateSinglePage.isLoading,
 );
 export const getSelectedUserVilmateSinglePage = createTypedSelector<
-  User | Record<string, never>
+  Omit<User, 'permissions'>
 >((state) => state.vilmateSinglePage.selectedUser);
 export const getCommentsVilmateSinglePage = createTypedSelector<CommentItem[]>(
   (state) => state.vilmateSinglePage.comments,

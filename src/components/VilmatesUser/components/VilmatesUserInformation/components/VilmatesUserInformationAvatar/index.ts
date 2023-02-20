@@ -1,0 +1,1 @@
+export { VilmatesUserInformationAvatar } from './VilmatesUserInformationAvatar';
