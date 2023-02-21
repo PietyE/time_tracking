@@ -88,7 +88,7 @@ export const FilterTableContentItem: FC<Props> = ({
           <Typography>
             {get(row, keyToTime)
               ? parseMinToHoursAndMin(get(row, keyToTime))
-              : 'Salary'}
+              : '0:00'}
           </Typography>
         </Grid>
         <Grid
@@ -103,12 +103,23 @@ export const FilterTableContentItem: FC<Props> = ({
         </Grid>
       </>
     ) : (
-      <>
+      <Grid
+        container
+        alignItems='center'
+        justifyContent='space-between'
+        py={10}
+      >
         <Grid item>
-          <Typography>{get(row, keyToName)}</Typography>
+          <Typography variant='subtitle1'>{get(row, keyToName)}</Typography>
         </Grid>
-        <Grid item>{parseMinToHoursAndMin(get(row, keyToTime))}</Grid>
-      </>
+        <Grid item>
+          <Typography variant='body1'>
+            {get(row, keyToTime)
+              ? parseMinToHoursAndMin(get(row, keyToTime))
+              : '0:00'}
+          </Typography>
+        </Grid>
+      </Grid>
     );
 
   return (

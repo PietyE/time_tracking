@@ -22,7 +22,7 @@ import {
 import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
 import { getSelectedDeveloper } from 'redux/selectors/timereports';
-import { getReportCsv } from 'redux/asyncActions/timereports';
+import { getReportExcel } from 'redux/asyncActions/timereports';
 import type { DeveloperProject } from 'api/models/developerProjects';
 import type { User } from 'api/models/users';
 import { styles } from './styles';
@@ -49,7 +49,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
   };
 
   const handleExportCsv = (): void => {
-    void dispatch(getReportCsv());
+    void dispatch(getReportExcel());
   };
 
   return (

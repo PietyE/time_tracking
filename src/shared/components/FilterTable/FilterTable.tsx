@@ -20,7 +20,6 @@ interface BaseProps {
   rows: object[];
 
   keyToName: string[];
-  keyToMail: string[];
 
   keyToTime: string[];
   keyToId: string[];
@@ -34,6 +33,7 @@ type DropDownTable = BaseProps & {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToMail: string[];
 };
 
 type BaseTable = BaseProps & {
@@ -42,6 +42,7 @@ type BaseTable = BaseProps & {
   keyToDropDownValueId?: never;
   keyToDropDownValueName?: never;
   keyToDropDownValueTime?: never;
+  keyToMail?: never;
 };
 
 type Props = DropDownTable | BaseTable;
@@ -53,7 +54,7 @@ export const FilterTable: FC<Props> = ({
   titles,
   keyToId,
   keyToName,
-  keyToMail,
+  keyToMail = [],
   keyToTime,
   keyToDropDownValues = [],
   keyToDropDownValueId = [],

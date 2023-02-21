@@ -1,25 +1,37 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Project } from 'api/models/projects';
+import { getProjectManagementProject } from '../asyncActions/projectManagement';
+import type {
+  ProjectsWithTotalMinutes,
+  ProjectWithTotalMinutes,
+} from 'api/models/projects';
 import type { User } from 'api/models/users';
 
 interface InitialState {
   isLoading: boolean;
-  selectedProject: Project;
+  selectedProject: ProjectWithTotalMinutes;
 
   selectedDeveloper: Omit<User, 'permissions'>;
+  projects: ProjectsWithTotalMinutes;
 }
 
 const initialState: InitialState = {
   isLoading: true,
-  selectedProject: {} as Project,
-  selectedDeveloper: {} as Omit<User, 'permissions'>,
+  selectedProject: {
+    name: 'Select All',
+    id: 'Select All',
+  } as ProjectWithTotalMinutes,
+  selectedDeveloper: { name: 'Select All', id: 'Select All' } as Omit<
+    User,
+    'permissions'
+  >,
+  projects: [],
 };
 
 const projectManagements = createSlice({
   name: 'projectManagements',
   initialState,
   reducers: {
-    selectProject: (state, action: PayloadAction<Project>) => {
+    selectProject: (state, action: PayloadAction<ProjectWithTotalMinutes>) => {
       state.selectedProject = action.payload;
     },
     selectDeveloper: (
@@ -29,6 +41,23 @@ const projectManagements = createSlice({
       state.selectedDeveloper = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getProjectManagementProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getProjectManagementProject.fulfilled,
+      (state, action: PayloadAction<ProjectsWithTotalMinutes>) => {
+        state.isLoading = false;
+        state.projects = action.payload;
+      },
+    );
+    builder.addCase(getProjectManagementProject.rejected, (state) => {
+      state.isLoading = false;
+    });
+  },
 });
+
+export const { selectDeveloper, selectProject } = projectManagements.actions;
 
 export default projectManagements.reducer;

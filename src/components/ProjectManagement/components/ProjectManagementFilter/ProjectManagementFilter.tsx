@@ -1,8 +1,10 @@
 import { type FC, useEffect } from 'react';
-import { Box, Grid } from '@mui/material';
-import { getProjects } from 'redux/asyncActions/projects';
+import { Box, Divider, Grid } from '@mui/material';
 import { getUsers } from 'redux/asyncActions/users';
-import { selectDeveloper, selectProject } from 'redux/slices/projectReport';
+import {
+  selectDeveloper,
+  selectProject,
+} from 'redux/slices/projectManagements';
 import { SelectMonthMemoized } from 'shared/components/SelectMonth';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import {
@@ -11,18 +13,22 @@ import {
 } from 'redux/selectors/users';
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import {
-  getIsProjectsLoading,
-  getProjects as getProjectsSelector,
-} from 'redux/selectors/projects';
+  getProjectManagementLoading,
+  getProjectsWithTotalMinutes as getProjectsSelector,
+  getSelectedDeveloper,
+} from 'redux/selectors/projectManagement';
 import { Autocomplete } from 'shared/components/Autocomplete';
+import { getProjectManagementProject } from 'redux/asyncActions/projectManagement';
 import type { User } from 'api/models/users';
-import type { Project } from 'api/models/projects';
+import type { ProjectWithTotalMinutes } from 'api/models/projects';
+import { styles } from './styles';
 
 export const ProjectManagementFilter: FC = (): JSX.Element => {
   const users = useAppShallowSelector(getUsersSelector);
   const isUsersLoading = useAppShallowSelector(getUsersLoading);
   const projects = useAppShallowSelector(getProjectsSelector);
-  const isProjectsLoading = useAppShallowSelector(getIsProjectsLoading);
+  const isProjectsLoading = useAppShallowSelector(getProjectManagementLoading);
+  const selectedDeveloper = useAppShallowSelector(getSelectedDeveloper);
   const dispatch = useAppDispatch();
 
   const changeUser = (user: object): void => {
@@ -30,44 +36,84 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
   };
 
   const changeDeveloperProject = (developerProject: object): void => {
-    dispatch(selectProject(developerProject as Project));
+    dispatch(selectProject(developerProject as ProjectWithTotalMinutes));
   };
 
   useEffect(() => {
-    if (!projects?.length) void dispatch(getProjects());
+    void dispatch(
+      getProjectManagementProject({ user_id: selectedDeveloper.id }),
+    );
+
     if (!users?.length) void dispatch(getUsers());
-  }, [dispatch]);
+  }, [dispatch, selectedDeveloper.id]);
 
   return (
     <Grid
       container
       justifyContent='space-between'
       alignItems='center'
+      mb={40}
     >
-      <Grid item>
-        <Grid container>
-          <Grid item>
-            <SkeletonWrapper isLoading={isUsersLoading}>
+      <Grid
+        item
+        xs={5}
+      >
+        <Grid
+          container
+          alignItems='center'
+          justifyContent='flex-start'
+        >
+          <Grid
+            item
+            xs={5}
+          >
+            <SkeletonWrapper
+              isLoading={isUsersLoading}
+              width={170}
+              height={60}
+              animation='wave'
+            >
               {!!users.length && (
                 <Autocomplete
                   options={users}
-                  keysToName={['users']}
+                  keysToName={['name']}
                   keysToId={['id']}
+                  selectAll
                   onChange={changeUser}
                 />
               )}
             </SkeletonWrapper>
           </Grid>
-          <SkeletonWrapper isLoading={isProjectsLoading}>
-            <Grid item>
-              <Autocomplete
-                options={projects}
-                keysToName={['name']}
-                keysToId={['id']}
-                onChange={changeDeveloperProject}
-              />
-            </Grid>
-          </SkeletonWrapper>
+          <Grid
+            item
+            xs={1.5}
+            alignSelf='center'
+          >
+            <Divider sx={styles} />
+          </Grid>
+          <Grid
+            item
+            xs={5}
+          >
+            <SkeletonWrapper
+              isLoading={isProjectsLoading}
+              width={170}
+              height={60}
+              animation='wave'
+            >
+              <Grid item>
+                {!!projects.length && (
+                  <Autocomplete
+                    options={projects}
+                    keysToName={['name']}
+                    keysToId={['id']}
+                    selectAll
+                    onChange={changeDeveloperProject}
+                  />
+                )}
+              </Grid>
+            </SkeletonWrapper>
+          </Grid>
         </Grid>
       </Grid>
       <Grid item>
