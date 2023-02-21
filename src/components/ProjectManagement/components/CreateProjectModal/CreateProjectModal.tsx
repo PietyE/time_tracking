@@ -10,13 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { ValidationErrorMessage } from 'shared/components/ValidationErrorMessage';
-import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import { useAppDispatch } from 'hooks/redux';
 import { createNewProject } from 'redux/asyncActions/projectManagement';
 import Close from 'shared/components/svg/Close';
 import { createProjectSchema } from 'shared/validationSchema';
-import { getProjectsWithTotalMinutes } from 'redux/selectors/projectManagement';
 import { styles } from './styles';
 
 interface Props {
@@ -35,23 +33,15 @@ export const CreateProjectModal: FC<Props> = ({
   const {
     register,
     handleSubmit,
-    resetField,
     formState: { errors },
   } = useForm<Fields>({
     mode: 'onChange',
     resolver: yupResolver(createProjectSchema),
   });
   const dispatch = useAppDispatch();
-  const projects = useAppShallowSelector(getProjectsWithTotalMinutes);
 
   const onCreateNewProject: SubmitHandler<Fields> = ({ name }): void => {
-    const isProjectExist = projects.find((project) => project.name === name);
-    if (isProjectExist) {
-      toast.error('Project with this name is already exist');
-      return;
-    }
     void dispatch(createNewProject({ name }));
-    resetField('name');
     onClose();
   };
 
@@ -111,7 +101,6 @@ export const CreateProjectModal: FC<Props> = ({
             <TextField
               fullWidth
               placeholder='Project name'
-              autoComplete='off'
               label='Enter project name'
               error={!!errors.name?.message}
               {...register('name')}

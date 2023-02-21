@@ -1,5 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { getProjectManagementProject } from '../asyncActions/projectManagement';
+import {
+  createNewProject,
+  getProjectManagementProject,
+} from '../asyncActions/projectManagement';
 import type {
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
@@ -12,6 +15,7 @@ interface InitialState {
 
   selectedDeveloper: Omit<User, 'permissions'>;
   projects: ProjectsWithTotalMinutes;
+  isOpenModal: boolean;
 }
 
 const initialState: InitialState = {
@@ -25,6 +29,7 @@ const initialState: InitialState = {
     'permissions'
   >,
   projects: [],
+  isOpenModal: false,
 };
 
 const projectManagements = createSlice({
@@ -39,6 +44,12 @@ const projectManagements = createSlice({
       action: PayloadAction<Omit<User, 'permissions'>>,
     ) => {
       state.selectedDeveloper = action.payload;
+    },
+    openModal: (state) => {
+      state.isOpenModal = true;
+    },
+    closeModal: (state) => {
+      state.isOpenModal = false;
     },
   },
   extraReducers: (builder) => {
@@ -55,9 +66,23 @@ const projectManagements = createSlice({
     builder.addCase(getProjectManagementProject.rejected, (state) => {
       state.isLoading = false;
     });
+    builder.addCase(createNewProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      createNewProject.fulfilled,
+      (state, action: PayloadAction<ProjectWithTotalMinutes>) => {
+        state.isLoading = false;
+        state.projects.push(action.payload);
+      },
+    );
+    builder.addCase(createNewProject.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 
-export const { selectDeveloper, selectProject } = projectManagements.actions;
+export const { selectDeveloper, selectProject, openModal, closeModal } =
+  projectManagements.actions;
 
 export default projectManagements.reducer;

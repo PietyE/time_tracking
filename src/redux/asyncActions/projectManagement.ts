@@ -1,8 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import api from 'api';
 import type {
   ProjectsQueryParams,
   ProjectsWithTotalMinutes,
+  CreateProjectData,
+  ProjectWithTotalMinutes,
 } from 'api/models/projects';
 import type { RootState } from '../store';
 
@@ -30,6 +33,27 @@ export const getProjectManagementProject = createAsyncThunk<
       return data;
     } catch (error) {
       return rejectWithValue((error as Error).message);
+    }
+  },
+);
+
+export const createNewProject = createAsyncThunk<
+  ProjectWithTotalMinutes,
+  CreateProjectData
+>(
+  'projectManagement/createNewProject',
+  async (projectData, { rejectWithValue }) => {
+    try {
+      const { data } = await api.projects.createProject(projectData);
+      const newProject: ProjectWithTotalMinutes = {
+        ...data,
+        total_minutes: 0,
+      };
+      toast.success('Project successfully has been created');
+      return newProject;
+    } catch (error) {
+      toast.error('Project has not been created');
+      return rejectWithValue('Something went wrong');
     }
   },
 );
