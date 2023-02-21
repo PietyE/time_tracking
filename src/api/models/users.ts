@@ -5,6 +5,8 @@ export interface UsersQueryParams {
   ordering?: string;
   search?: string;
   is_active?: string | boolean;
+  page?: number;
+  page_size?: number;
 }
 
 export interface ConsolidatedReportPathQueryParams {

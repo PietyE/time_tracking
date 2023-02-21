@@ -6,7 +6,7 @@ export const getUsers = createAsyncThunk<Users>(
   'users/getUsers',
   async (__, { rejectWithValue }) => {
     try {
-      const { data } = await api.users.getUsers();
+      const { data } = await api.users.getUsers({ page_size: 200 });
       return data.items;
     } catch (error) {
       return rejectWithValue((error as Error).message);

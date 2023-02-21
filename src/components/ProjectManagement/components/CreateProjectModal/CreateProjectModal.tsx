@@ -111,6 +111,7 @@ export const CreateProjectModal: FC<Props> = ({
             <TextField
               fullWidth
               placeholder='Project name'
+              autoComplete='off'
               label='Enter project name'
               error={!!errors.name?.message}
               {...register('name')}
