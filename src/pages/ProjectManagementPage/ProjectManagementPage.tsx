@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { ProjectManagement } from 'components/ProjectManagement';
 
-export const ProjectManagementPage: FC = (): JSX.Element => (
-  <ProjectManagement />
-);
+const ProjectManagementPage: FC = (): JSX.Element => <ProjectManagement />;
+
+export default ProjectManagementPage;
