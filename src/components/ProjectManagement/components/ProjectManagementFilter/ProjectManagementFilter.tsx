@@ -13,12 +13,16 @@ import {
 } from 'redux/selectors/users';
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import {
+  getProjectAndArchivedProjects,
   getProjectManagementLoading,
-  getProjectsWithTotalMinutes as getProjectsSelector,
   getSelectedDeveloper,
+  getSelectedProject as getSelectedProjectSelector,
 } from 'redux/selectors/projectManagement';
 import { Autocomplete } from 'shared/components/Autocomplete';
-import { getProjectManagementProject } from 'redux/asyncActions/projectManagement';
+import {
+  getProjectManagementProject,
+  getSelectedProjectInModal,
+} from 'redux/asyncActions/projectManagement';
 import type { User } from 'api/models/users';
 import type { ProjectWithTotalMinutes } from 'api/models/projects';
 import { styles } from './styles';
@@ -26,14 +30,23 @@ import { styles } from './styles';
 export const ProjectManagementFilter: FC = (): JSX.Element => {
   const users = useAppShallowSelector(getUsersSelector);
   const isUsersLoading = useAppShallowSelector(getUsersLoading);
-  const projects = useAppShallowSelector(getProjectsSelector);
+  const projects = useAppShallowSelector(getProjectAndArchivedProjects);
   const isProjectsLoading = useAppShallowSelector(getProjectManagementLoading);
   const selectedDeveloper = useAppShallowSelector(getSelectedDeveloper);
+  const selectedProject = useAppShallowSelector(getSelectedProjectSelector);
   const dispatch = useAppDispatch();
 
   const changeUser = (user: object): void => {
     dispatch(selectDeveloper(user as Omit<User, 'permissions'>));
   };
+
+  useEffect(() => {
+    void dispatch(
+      getSelectedProjectInModal({
+        project_id: selectedProject.id,
+      }),
+    );
+  }, [selectedProject.id]);
 
   const changeDeveloperProject = (developerProject: object): void => {
     dispatch(selectProject(developerProject as ProjectWithTotalMinutes));
@@ -102,9 +115,9 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
               animation='wave'
             >
               <Grid item>
-                {!!projects.length && (
+                {!!projects[0].length && (
                   <Autocomplete
-                    options={projects}
+                    options={projects[0]}
                     keysToName={['name']}
                     keysToId={['id']}
                     selectAll

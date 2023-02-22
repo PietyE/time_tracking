@@ -1,8 +1,11 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAllOf, type PayloadAction } from '@reduxjs/toolkit';
+import get from 'lodash/get';
 import {
   createNewProject,
   getProjectManagementProject,
+  getSelectedProjectInModal,
 } from '../asyncActions/projectManagement';
+import type { DeveloperProjectsReport } from 'api/models/developerProjects';
 import type {
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
@@ -16,6 +19,7 @@ interface InitialState {
   selectedDeveloper: Omit<User, 'permissions'>;
   projects: ProjectsWithTotalMinutes;
   isOpenModal: boolean;
+  selectedProjectInModal: DeveloperProjectsReport;
 }
 
 const initialState: InitialState = {
@@ -30,7 +34,20 @@ const initialState: InitialState = {
   >,
   projects: [],
   isOpenModal: false,
+  selectedProjectInModal: {} as DeveloperProjectsReport,
 };
+
+function isProjectWithTotalMinutes(
+  action: PayloadAction<DeveloperProjectsReport | ProjectsWithTotalMinutes>,
+): action is PayloadAction<ProjectsWithTotalMinutes> {
+  return get(action.payload, ['overtime_minutes']);
+}
+
+function isDeveloperProjectsReport(
+  action: PayloadAction<ProjectsWithTotalMinutes | DeveloperProjectsReport>,
+): action is PayloadAction<DeveloperProjectsReport> {
+  return get(action.payload, ['overtime_minutes']);
+}
 
 const projectManagements = createSlice({
   name: 'projectManagements',
@@ -79,6 +96,29 @@ const projectManagements = createSlice({
     builder.addCase(createNewProject.rejected, (state) => {
       state.isLoading = false;
     });
+    builder.addCase(getSelectedProjectInModal.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(getSelectedProjectInModal.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    builder.addMatcher(
+      isAllOf(getSelectedProjectInModal.fulfilled, isProjectWithTotalMinutes),
+      (state, action) => {
+        state.isLoading = false;
+        state.projects = action.payload;
+      },
+    );
+    builder.addMatcher(
+      isAllOf(getSelectedProjectInModal.fulfilled, isDeveloperProjectsReport),
+      (state, action) => {
+        state.isLoading = false;
+        state.selectedProjectInModal = action.payload;
+        state.projects = [action.payload.project] as ProjectsWithTotalMinutes;
+      },
+    );
   },
 });
 
