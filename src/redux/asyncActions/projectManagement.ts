@@ -2,9 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import api from 'api';
 import type {
+  DeveloperProjectsReport,
+  DeveloperProjectsReportQueryParams,
+} from 'api/models/developerProjects';
+import type {
+  CreateProjectData,
   ProjectsQueryParams,
   ProjectsWithTotalMinutes,
-  CreateProjectData,
   ProjectWithTotalMinutes,
 } from 'api/models/projects';
 import type { RootState } from '../store';
@@ -53,6 +57,37 @@ export const createNewProject = createAsyncThunk<
       return newProject;
     } catch (error) {
       toast.error('Project has not been created');
+      return rejectWithValue('Something went wrong');
+    }
+  },
+);
+
+export const getSelectedProjectInModal = createAsyncThunk<
+  DeveloperProjectsReport | ProjectsWithTotalMinutes,
+  Pick<DeveloperProjectsReportQueryParams, 'project_id'>
+>(
+  'projectManagement/getSelectedProjectInModal',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  async ({ project_id }, { rejectWithValue, getState }) => {
+    try {
+      const { calendar } = getState() as RootState;
+
+      if (project_id === 'Select All') {
+        const { data } = await api.projects.getTotalMinutes({
+          month: calendar.month + 1,
+          year: calendar.year,
+        });
+        return data;
+      }
+
+      const { data } = await api.developerProjects.getReport({
+        year: calendar.year,
+        month: calendar.month + 1,
+        project_id: project_id as string,
+      });
+      return data.reports[0];
+    } catch (error) {
+      toast.error('Something went wrong');
       return rejectWithValue('Something went wrong');
     }
   },
