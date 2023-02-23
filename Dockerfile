@@ -1,7 +1,6 @@
 FROM node:18
 
-ARG MAX_OLD_SPACE_SIZE=8192
-ENV NODE_OPTIONS=--max-old-space-size=$(MAX_OLD_SPACE_SIZE)
+ENV NODE_OPTIONS=--max-old-space-size=8192
 
 COPY . /app
 
