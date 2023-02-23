@@ -28,8 +28,8 @@ export const ProjectManagementArchivedProjects: FC<Props> = ({
     {!!archivedProjects.length &&
       archivedProjects.map((archivedProject) => (
         <Grid
-          item
-          py={15}
+          container
+          py={25}
           px={30}
           bgcolor='common.white'
           border={1}
@@ -37,6 +37,8 @@ export const ProjectManagementArchivedProjects: FC<Props> = ({
           borderColor='text.disabled'
           mb={15}
           key={archivedProject.id}
+          alignItems='center'
+          justifyContent='space-between'
         >
           <Grid item>
             <Typography

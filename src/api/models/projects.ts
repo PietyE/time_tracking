@@ -23,11 +23,7 @@ export interface Project {
   description: string;
   logo: string;
   is_archived: boolean;
-  owner: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  owner: Owner;
 }
 
 export type Projects = Project[];
@@ -36,6 +32,8 @@ export interface CreateProjectData {
   name?: string;
   description?: string;
   is_archived?: boolean;
+
+  owner_id?: string;
 }
 
 export interface ProjectWithTotalMinutes extends Project {

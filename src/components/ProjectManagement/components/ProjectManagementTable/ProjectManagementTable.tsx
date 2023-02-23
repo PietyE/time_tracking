@@ -1,17 +1,29 @@
-import { type FC } from 'react';
+import { type FC, useCallback } from 'react';
 import { titles } from '../mocks';
 import { ProjectManagementArchivedProjects } from '../ProjectManagementArchivedProjects';
-import { FilterTable } from 'shared/components/FilterTable';
-import { useAppSelector, useAppShallowSelector } from 'hooks/redux';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useAppShallowSelector,
+} from 'hooks/redux';
+import { useScrollLock } from 'hooks/useScrollLock';
 import {
   getProjectAndArchivedProjects,
   getProjectManagementLoading,
 } from 'redux/selectors/projectManagement';
-import { useScrollLock } from 'hooks/useScrollLock';
+import { openModal } from 'redux/slices/projectManagements';
+import { FilterTable } from 'shared/components/FilterTable';
 import Loading from 'shared/components/Loading';
+import { getSelectedModelManageProject } from 'redux/asyncActions/projectManagement';
 
 export const ProjectManagementTable: FC = (): JSX.Element => {
   const projects = useAppShallowSelector(getProjectAndArchivedProjects);
+  const dispatch = useAppDispatch();
+
+  const handleOpenProject = useCallback((id: string) => {
+    void dispatch(getSelectedModelManageProject(id));
+    dispatch(openModal());
+  }, []);
 
   return (
     <>
@@ -23,6 +35,7 @@ export const ProjectManagementTable: FC = (): JSX.Element => {
         keyToId={['id']}
         titles={titles}
         isHaveDropDown={false}
+        onClick={handleOpenProject}
       />
       <ProjectManagementArchivedProjects archivedProjects={projects[1]} />
     </>
