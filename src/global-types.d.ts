@@ -8,11 +8,11 @@ type ClassNameWithIsActiveNavLink = ({
 
 type SortingOrder = 'asc' | 'desc';
 
-type OwnerId = string;
-
 type UserId = string;
 
 type WorkItemId = string;
+
+type ProjectId = string;
 
 interface GoogleAuthCallbackUrlData {
   state: string;

@@ -1,0 +1,1 @@
+export { ManageProjectModalGeneralInformation } from './ManageProjectModalGeneralInformation';

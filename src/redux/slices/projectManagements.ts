@@ -1,14 +1,16 @@
 import { createSlice, isAllOf, type PayloadAction } from '@reduxjs/toolkit';
 import get from 'lodash/get';
 import {
+  archiveProject,
   createNewProject,
   getProjectManagementProject,
   getSelectedProjectInModal,
 } from '../asyncActions/projectManagement';
-import type { DeveloperProjectsReport } from 'api/models/developerProjects';
+
 import type {
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
+  ProjectInModalManage,
 } from 'api/models/projects';
 import type { User } from 'api/models/users';
 
@@ -18,8 +20,9 @@ interface InitialState {
 
   selectedDeveloper: Omit<User, 'permissions'>;
   projects: ProjectsWithTotalMinutes;
-  isOpenModal: boolean;
-  selectedProjectInModal: DeveloperProjectsReport;
+  isOpenManageModal: boolean;
+
+  selectedProjectInManageModal: ProjectInModalManage;
 }
 
 const initialState: InitialState = {
@@ -33,20 +36,20 @@ const initialState: InitialState = {
     'permissions'
   >,
   projects: [],
-  isOpenModal: false,
-  selectedProjectInModal: {} as DeveloperProjectsReport,
+  isOpenManageModal: true,
+  selectedProjectInManageModal: {} as ProjectInModalManage,
 };
 
 function isProjectWithTotalMinutes(
-  action: PayloadAction<DeveloperProjectsReport | ProjectsWithTotalMinutes>,
+  action: PayloadAction<ProjectInModalManage | ProjectsWithTotalMinutes>,
 ): action is PayloadAction<ProjectsWithTotalMinutes> {
-  return get(action.payload, ['overtime_minutes']);
+  return Array.isArray(action.payload);
 }
 
-function isDeveloperProjectsReport(
-  action: PayloadAction<ProjectsWithTotalMinutes | DeveloperProjectsReport>,
-): action is PayloadAction<DeveloperProjectsReport> {
-  return get(action.payload, ['overtime_minutes']);
+function isProjectInModalManage(
+  action: PayloadAction<ProjectsWithTotalMinutes | ProjectInModalManage>,
+): action is PayloadAction<ProjectInModalManage> {
+  return get(action.payload, ['projectInfo']);
 }
 
 const projectManagements = createSlice({
@@ -63,10 +66,10 @@ const projectManagements = createSlice({
       state.selectedDeveloper = action.payload;
     },
     openModal: (state) => {
-      state.isOpenModal = true;
+      state.isOpenManageModal = true;
     },
     closeModal: (state) => {
-      state.isOpenModal = false;
+      state.isOpenManageModal = false;
     },
   },
   extraReducers: (builder) => {
@@ -103,7 +106,20 @@ const projectManagements = createSlice({
     builder.addCase(getSelectedProjectInModal.rejected, (state) => {
       state.isLoading = false;
     });
-
+    builder.addCase(archiveProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      archiveProject.fulfilled,
+      (state, action: PayloadAction<ProjectWithTotalMinutes>) => {
+        state.projects = state.projects.map((project) =>
+          project.id === action.payload.id ? action.payload : project,
+        );
+      },
+    );
+    builder.addCase(archiveProject.rejected, (state) => {
+      state.isLoading = false;
+    });
     builder.addMatcher(
       isAllOf(getSelectedProjectInModal.fulfilled, isProjectWithTotalMinutes),
       (state, action) => {
@@ -112,11 +128,19 @@ const projectManagements = createSlice({
       },
     );
     builder.addMatcher(
-      isAllOf(getSelectedProjectInModal.fulfilled, isDeveloperProjectsReport),
+      isAllOf(getSelectedProjectInModal.fulfilled, isProjectInModalManage),
       (state, action) => {
         state.isLoading = false;
-        state.selectedProjectInModal = action.payload;
-        state.projects = [action.payload.project] as ProjectsWithTotalMinutes;
+        state.selectedProjectInManageModal = action.payload;
+        const currentDeveloperProject = action.payload.reports.find(
+          (developerProject) =>
+            developerProject.project.id === action.payload.projectInfo.id,
+        );
+        const projectWithTotalMinutes = {
+          ...action.payload.projectInfo,
+          total_minutes: currentDeveloperProject?.total_minutes,
+        } as ProjectWithTotalMinutes;
+        state.projects = [projectWithTotalMinutes];
       },
     );
   },

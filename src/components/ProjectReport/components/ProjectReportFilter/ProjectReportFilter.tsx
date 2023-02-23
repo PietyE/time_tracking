@@ -32,10 +32,15 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
   const users = useAppShallowSelector(getUsersSelector);
   const projects = useAppShallowSelector(getProjectsSelector);
   const { id: selectedProjectId } = useAppShallowSelector(getSelectedProject);
+  const selectedProject = useAppShallowSelector(getSelectedProject);
   const { id: selectedDeveloperId } =
     useAppShallowSelector(getSelectedDeveloper);
+  const selectedDeveloper = useAppShallowSelector(getSelectedDeveloper);
   const isUsersLoading = useAppSelector(getUsersLoading);
   const isProjectsLoading = useAppSelector(getIsProjectsLoading);
+
+  console.log(selectedProjectId);
+  console.log(selectedDeveloperId);
 
   const changeUser = (user: object): void => {
     dispatch(selectDeveloper(user as Omit<User, 'permissions'>));
@@ -96,6 +101,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   onChange={changeUser}
                   selectAll
                   disabled={isDisabledPeopleFilter}
+                  selectedValue={selectedDeveloper}
                 />
               )}
             </SkeletonWrapper>
@@ -125,6 +131,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   onChange={changeDeveloperProject}
                   selectAll
                   disabled={isDisabledProjectFilter}
+                  selectedValue={selectedProject}
                 />
               )}
             </SkeletonWrapper>

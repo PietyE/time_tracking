@@ -1,8 +1,8 @@
 import type { Project } from './projects';
 
 export interface DeveloperProjectsQueryParams {
-  user_id: string;
-  project_id: string;
+  user_id?: string;
+  project_id?: string;
 }
 
 export interface DeveloperProjectsReportQueryParams
