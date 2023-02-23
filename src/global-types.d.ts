@@ -22,6 +22,8 @@ type DeveloperProjectId = string;
 
 type WorkItemId = string;
 
+type ProjectId = string;
+
 interface GoogleAuthCallbackUrlData {
   state: string;
   callback_url: string;

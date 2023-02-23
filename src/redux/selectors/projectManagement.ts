@@ -24,6 +24,10 @@ export const getProjectManagementLoading = createTypedSelector<boolean>(
 
 type ProjectsArray = [ProjectsWithTotalMinutes, ProjectsWithTotalMinutes];
 
+export const getProjectManageModalIsOpen = createTypedSelector<boolean>(
+  (state) => state.projectManagements.isOpenManageModal,
+);
+
 export const getProjectAndArchivedProjects: CallBack<ProjectsArray> =
   createSelector([getProjectsWithTotalMinutes], (projects) =>
     projects.length

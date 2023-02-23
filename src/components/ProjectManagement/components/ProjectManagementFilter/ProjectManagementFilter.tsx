@@ -14,7 +14,7 @@ import {
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import {
   getProjectAndArchivedProjects,
-  getProjectManagementLoading,
+  // getProjectManagementLoading,
   getSelectedDeveloper,
   getSelectedProject as getSelectedProjectSelector,
 } from 'redux/selectors/projectManagement';
@@ -31,7 +31,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
   const users = useAppShallowSelector(getUsersSelector);
   const isUsersLoading = useAppShallowSelector(getUsersLoading);
   const projects = useAppShallowSelector(getProjectAndArchivedProjects);
-  const isProjectsLoading = useAppShallowSelector(getProjectManagementLoading);
+  // const isProjectsLoading = useAppShallowSelector(getProjectManagementLoading);
   const selectedDeveloper = useAppShallowSelector(getSelectedDeveloper);
   const selectedProject = useAppShallowSelector(getSelectedProjectSelector);
   const dispatch = useAppDispatch();
@@ -93,6 +93,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
                   keysToId={['id']}
                   selectAll
                   onChange={changeUser}
+                  selectedValue={selectedDeveloper}
                 />
               )}
             </SkeletonWrapper>
@@ -108,24 +109,18 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
             item
             xs={5}
           >
-            <SkeletonWrapper
-              isLoading={isProjectsLoading}
-              width={170}
-              height={60}
-              animation='wave'
-            >
-              <Grid item>
-                {!!projects[0].length && (
-                  <Autocomplete
-                    options={projects[0]}
-                    keysToName={['name']}
-                    keysToId={['id']}
-                    selectAll
-                    onChange={changeDeveloperProject}
-                  />
-                )}
-              </Grid>
-            </SkeletonWrapper>
+            <Grid item>
+              {!!projects[0].length && (
+                <Autocomplete
+                  options={projects[0]}
+                  keysToName={['name']}
+                  keysToId={['id']}
+                  selectAll
+                  onChange={changeDeveloperProject}
+                  selectedValue={selectedProject}
+                />
+              )}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

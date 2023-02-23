@@ -5,17 +5,15 @@ import { toast } from 'react-toastify';
 import api from 'api';
 import { Archive } from 'shared/components/svg/Archive';
 import { Export } from 'shared/components/svg/Export';
-import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import { useAppDispatch } from 'hooks/redux';
 import { archiveProject } from 'redux/asyncActions/projectManagement';
 import { closeModal } from 'redux/slices/projectManagements';
 import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
 import { downloadFile } from 'shared/utils/downloadFile';
-import { getManageModalProjectInfo } from 'redux/selectors/projectManagement';
 
 export const ManageProjectModalHeader: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { debouncedYear, debouncedMonth } = useDebouncedMonths();
-  const project = useAppShallowSelector(getManageModalProjectInfo);
 
   const handleArchive = (id: string): void => {
     void dispatch(archiveProject(id));
@@ -30,8 +28,8 @@ export const ManageProjectModalHeader: FC = (): JSX.Element => {
     try {
       const response = await api.projects.getProjectsReport({
         month: debouncedMonth + 1,
-        year: debouncedYear,
-        id: project.id,
+        year: debouncedYear + 1,
+        id: 'asdasd',
       });
       const fileName = response.headers['content-disposition'].split('"')[1];
       if (response && response.data instanceof Blob) {
@@ -49,7 +47,7 @@ export const ManageProjectModalHeader: FC = (): JSX.Element => {
       justifyContent='space-between'
       p={24}
     >
-      <Typography variant='h5'>{project?.name}</Typography>
+      <Typography variant='h5'>Vilmate Internal</Typography>
       <Box
         display='flex'
         alignItems='center'
@@ -66,7 +64,7 @@ export const ManageProjectModalHeader: FC = (): JSX.Element => {
         <IconButton onClick={exportCsv}>
           <Export />
         </IconButton>
-        <IconButton onClick={() => handleArchive(project?.id)}>
+        <IconButton onClick={() => handleArchive('asdad')}>
           <Archive />
         </IconButton>
         <Divider
