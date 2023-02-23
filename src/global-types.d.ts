@@ -24,6 +24,12 @@ type WorkItemId = string;
 
 type ProjectId = string;
 
+interface Owner {
+  id: string;
+  name: string;
+  email: string;
+}
+
 interface GoogleAuthCallbackUrlData {
   state: string;
   callback_url: string;

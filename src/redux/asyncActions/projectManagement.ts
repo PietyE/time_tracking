@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { closeModal, openModal } from '../slices/projectManagements';
 import api from 'api';
 import type { DeveloperProjectsReportQueryParams } from 'api/models/developerProjects';
 import type {
@@ -71,7 +72,7 @@ export const getSelectedProjectInModal = createAsyncThunk<
 >(
   'projectManagement/getSelectedProjectInModal',
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  async ({ project_id }, { rejectWithValue, getState }) => {
+  async ({ project_id }, { rejectWithValue, getState, dispatch }) => {
     try {
       const { calendar } = getState() as RootState;
 
@@ -85,6 +86,7 @@ export const getSelectedProjectInModal = createAsyncThunk<
           month: calendar.month + 1,
           year: calendar.year,
         });
+        closeModal();
         return data;
       }
 
@@ -96,6 +98,7 @@ export const getSelectedProjectInModal = createAsyncThunk<
         month: calendar.month + 1,
         project_id,
       });
+      dispatch(openModal());
       return {
         projectInfo: data,
         reports,
@@ -148,6 +151,34 @@ export const updateProject = createAsyncThunk<
     } catch (error) {
       toast.success('You have not updated the project');
       return rejectWithValue('Error');
+    }
+  },
+);
+
+export const getSelectedModelManageProject = createAsyncThunk<
+  ProjectInModalManage,
+  ProjectId
+>(
+  'projectManagement/getSelectedModelManageProject',
+  async (projectId, { rejectWithValue, getState }) => {
+    try {
+      const { calendar } = getState() as RootState;
+
+      const { data } = await api.projects.getProjectById(projectId);
+      const {
+        data: { reports },
+      } = await api.developerProjects.getReport({
+        year: calendar.year,
+        month: calendar.month + 1,
+        project_id: projectId,
+      });
+      return {
+        projectInfo: data,
+        reports,
+      };
+    } catch (error) {
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   },
 );

@@ -7,31 +7,76 @@ import {
   Typography,
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { useAppShallowSelector } from 'hooks/redux';
+import { updateProject } from 'redux/asyncActions/projectManagement';
+import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import { getUsers } from 'redux/selectors/users';
 import {
   createSortingNames,
   isEqual,
 } from 'shared/components/Autocomplete/helpers';
+import {
+  getManageModalProject,
+  // getProjectAndArchivedProjects,
+} from 'redux/selectors/projectManagement';
+import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
+import type { CreateProjectData } from 'api/models/projects';
 import type { User } from 'api/models/users';
 
 interface Fields {
   projectName: string;
+
   projectDescription: string;
 }
 
 // Make fields as object and general in the future
 export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
-  const { control } = useForm<Fields>();
+  const projectData = useAppShallowSelector(getManageModalProject);
+  // const projects = useAppShallowSelector(getProjectAndArchivedProjects);
+  const { control } = useForm<Fields>({
+    defaultValues: {
+      projectName: projectData.projectInfo?.name,
+      projectDescription: projectData.projectInfo?.description,
+    },
+  });
   const users = useAppShallowSelector(getUsers);
-  const [user, setUser] = useState<Omit<User, 'permissions'>>(users[0]);
+  const dispatch = useAppDispatch();
+  const [user, setUser] = useState<Omit<User, 'permissions'> | Owner>(
+    projectData.projectInfo?.owner || {
+      id: 'No Owner',
+      name: 'No Owner',
+      email: 'No Owner',
+    },
+  );
+
+  const totalMinutesOnProject = projectData.reports.reduce(
+    (acc, nextProject) => acc + nextProject?.total_minutes,
+    0,
+  );
+
+  const handleUpdateName = (updatedProject: CreateProjectData): void => {
+    void dispatch(
+      updateProject({ id: projectData.projectInfo.id, updatedProject }),
+    );
+  };
+
+  const handleUpdateDescription = (updatedProject: CreateProjectData): void => {
+    void dispatch(
+      updateProject({ id: projectData.projectInfo.id, updatedProject }),
+    );
+  };
 
   const handleChange = (
     _event: ChangeEvent<{}>,
-    newUser: Omit<User, 'permissions'> | null,
+    newUser: Omit<User, 'permissions'> | null | Owner,
   ): void => {
     if (newUser) {
       setUser(newUser);
+      void dispatch(
+        updateProject({
+          id: projectData.projectInfo.id,
+          updatedProject: { owner_id: newUser.id },
+        }),
+      );
     }
   };
 
@@ -60,9 +105,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
                 fullWidth
                 onChange={(e) => field.onChange(e.target.value)}
                 onBlur={(_e) => {
-                  console.log(_e);
-                  field.onBlur();
-                  console.log(field);
+                  handleUpdateName({ name: field.value });
                 }}
               />
             )}
@@ -126,7 +169,9 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
         mb={16}
       >
         <Typography variant='subtitle2'>HOURS WORKED</Typography>
-        <Typography flex='0 0 58%'>130h</Typography>
+        <Typography flex='0 0 58%'>
+          {parseMinToHoursAndMin(totalMinutesOnProject)}
+        </Typography>
       </Box>
       <Controller
         name='projectDescription'
@@ -141,9 +186,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
             value={field.value}
             onChange={(e) => field.onChange(e.target.value)}
             onBlur={(_e) => {
-              console.log(_e);
-              field.onBlur();
-              console.log(field);
+              handleUpdateDescription({ description: field.value });
             }}
           />
         )}

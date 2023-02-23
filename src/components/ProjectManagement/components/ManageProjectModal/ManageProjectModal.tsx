@@ -2,13 +2,18 @@ import { type FC } from 'react';
 import { Box, Divider, Modal } from '@mui/material';
 import { ManageProjectModalGeneralInformation } from './components/ManageProjectModalGeneralInformation';
 import { ManageProjectModalHeader } from './components/ManageProjectModalHeader';
+import { SkeletonWrapper } from '../../../../shared/components/SkeletonWrapper';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { getProjectManageModalIsOpen } from 'redux/selectors/projectManagement';
+import {
+  getProjectManagementLoading,
+  getProjectManageModalIsOpen,
+} from 'redux/selectors/projectManagement';
 import { closeModal } from 'redux/slices/projectManagements';
 
 export const ManageProjectModal: FC = (): JSX.Element => {
   const isOpen = useAppSelector(getProjectManageModalIsOpen);
   const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(getProjectManagementLoading);
 
   const handleClose = (): void => {
     dispatch(closeModal());
@@ -36,9 +41,16 @@ export const ManageProjectModal: FC = (): JSX.Element => {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <ManageProjectModalHeader />
-        <Divider />
-        <ManageProjectModalGeneralInformation />
+        <SkeletonWrapper
+          isLoading={isLoading}
+          width={1}
+          height={550}
+          animation='wave'
+        >
+          <ManageProjectModalHeader />
+          <Divider />
+          <ManageProjectModalGeneralInformation />
+        </SkeletonWrapper>
       </Box>
     </Modal>
   );

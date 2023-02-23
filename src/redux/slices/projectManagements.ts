@@ -1,16 +1,18 @@
 import { createSlice, isAllOf, type PayloadAction } from '@reduxjs/toolkit';
+
 import get from 'lodash/get';
 import {
   archiveProject,
   createNewProject,
   getProjectManagementProject,
+  getSelectedModelManageProject,
   getSelectedProjectInModal,
+  updateProject,
 } from '../asyncActions/projectManagement';
-
 import type {
+  ProjectInModalManage,
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
-  ProjectInModalManage,
 } from 'api/models/projects';
 import type { User } from 'api/models/users';
 
@@ -36,7 +38,7 @@ const initialState: InitialState = {
     'permissions'
   >,
   projects: [],
-  isOpenManageModal: true,
+  isOpenManageModal: false,
   selectedProjectInManageModal: {} as ProjectInModalManage,
 };
 
@@ -115,9 +117,41 @@ const projectManagements = createSlice({
         state.projects = state.projects.map((project) =>
           project.id === action.payload.id ? action.payload : project,
         );
+        state.isLoading = false;
       },
     );
     builder.addCase(archiveProject.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getSelectedModelManageProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getSelectedModelManageProject.fulfilled,
+      (state, action: PayloadAction<ProjectInModalManage>) => {
+        state.isLoading = false;
+        state.selectedProjectInManageModal = action.payload;
+      },
+    );
+    builder.addCase(getSelectedModelManageProject.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(updateProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      updateProject.fulfilled,
+      (state, action: PayloadAction<ProjectInModalManage['projectInfo']>) => {
+        state.isLoading = false;
+        state.selectedProjectInManageModal.projectInfo = action.payload;
+        state.projects = state.projects.map((project) =>
+          project.id !== action.payload.id
+            ? project
+            : { ...project, ...action.payload },
+        );
+      },
+    );
+    builder.addCase(updateProject.rejected, (state) => {
       state.isLoading = false;
     });
     builder.addMatcher(

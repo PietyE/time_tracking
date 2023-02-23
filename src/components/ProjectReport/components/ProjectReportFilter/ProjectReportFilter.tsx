@@ -39,9 +39,6 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
   const isUsersLoading = useAppSelector(getUsersLoading);
   const isProjectsLoading = useAppSelector(getIsProjectsLoading);
 
-  console.log(selectedProjectId);
-  console.log(selectedDeveloperId);
-
   const changeUser = (user: object): void => {
     dispatch(selectDeveloper(user as Omit<User, 'permissions'>));
   };
