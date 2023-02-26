@@ -29,6 +29,7 @@ interface Fields {
 }
 
 // Make fields as object and general in the future
+// TODO: refactor in future
 export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
   const projectData = useAppShallowSelector(getManageModalProject);
   // const projects = useAppShallowSelector(getProjectAndArchivedProjects);
