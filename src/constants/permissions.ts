@@ -42,17 +42,8 @@ export enum UsersPermissions {
 }
 
 export enum ProjectsPermissions {
-  projects_change_rate = 'projects.change_rate',
-  projects_change_workitem = 'projects.change_workitem',
   projects_change_project = 'projects.change_project',
-  projects_view_rate = 'projects.view_rate',
-  projects_delete_rate = 'projects.delete_rate',
-  projects_view_workitem = 'projects.view_workitem',
-  projects_add_rate = 'projects.add_rate',
-  projects_delete_workitem = 'projects.delete_workitem',
   projects_view_project = 'projects.view_project',
-  projects_add_workitem = 'projects.add_workitem',
-  projects_delete_project = 'projects.delete_project',
   projects_add_project = 'projects.add_project',
 }
 
@@ -84,20 +75,8 @@ export enum VilmatesCommentsPermissions {
 
 export enum WorkItemsPermissions {
   work_items_change_workitem = 'work_items.change_workitem',
-  work_items_change_workitemhistory = 'work_items.change_workitemhistory',
-  work_items_delete_comment = 'work_items.delete_comment',
-  work_items_add_workitemhistory = 'work_items.add_workitemhistory',
-  work_items_delete_workitemhistory = 'work_items.delete_workitemhistory',
-  work_items_change_processeduserflag = 'work_items.change_processeduserflag',
-  work_items_view_comment = 'work_items.view_comment',
-  work_items_delete_processeduserflag = 'work_items.delete_processeduserflag',
   work_items_add_workitem = 'work_items.add_workitem',
-  work_items_view_workitemhistory = 'work_items.view_workitemhistory',
   work_items_delete_workitem = 'work_items.delete_workitem',
-  work_items_change_comment = 'work_items.change_comment',
-  work_items_add_processeduserflag = 'work_items.add_processeduserflag',
-  work_items_view_processeduserflag = 'work_items.view_processeduserflag',
-  work_items_add_comment = 'work_items.add_comment',
   work_items_view_workitem = 'work_items.view_workitem',
 }
 

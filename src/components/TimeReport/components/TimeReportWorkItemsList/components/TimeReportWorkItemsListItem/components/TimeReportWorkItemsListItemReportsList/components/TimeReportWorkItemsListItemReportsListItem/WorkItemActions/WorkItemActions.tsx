@@ -4,6 +4,9 @@ import { Button, Popover, type PopoverProps, Stack } from '@mui/material';
 import { DeleteModal } from './DeleteModal';
 import { SwapModal } from './SwapModal';
 import { styles } from '../styles';
+import { WorkItemsPermissions } from 'constants/permissions';
+import { useAppShallowSelector } from 'hooks/redux';
+import { getProfilePermissionsSelector } from 'redux/selectors/profile';
 import type { UpdateWorkItemData } from 'api/models/workItems';
 
 interface Props {
@@ -32,6 +35,7 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
 }): JSX.Element => {
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState<boolean>(false);
   const [isOpenSwapDialog, setIsOpenSwapDialog] = useState<boolean>(false);
+  const permissions = useAppShallowSelector(getProfilePermissionsSelector);
 
   const handleClickOpenDeleteDialog = (): void => {
     onClose();
@@ -67,14 +71,18 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
           p={8}
           sx={styles.popup}
         >
-          <Button
-            startIcon={<Edit />}
-            color='black'
-            fullWidth
-            onClick={handleClickOpenEditDialog}
-          >
-            Edit the report
-          </Button>
+          {permissions?.includes(
+            WorkItemsPermissions.work_items_change_workitem,
+          ) && (
+            <Button
+              startIcon={<Edit />}
+              color='black'
+              fullWidth
+              onClick={handleClickOpenEditDialog}
+            >
+              Edit the report
+            </Button>
+          )}
           <Button
             startIcon={<SwapHoriz />}
             color='black'
@@ -83,14 +91,18 @@ export const WorkItemActions: FC<PopoverProps & Props> = ({
           >
             Swap to other project
           </Button>
-          <Button
-            startIcon={<Delete />}
-            color='black'
-            fullWidth
-            onClick={handleClickOpenDeleteDialog}
-          >
-            Delete the report
-          </Button>
+          {permissions?.includes(
+            WorkItemsPermissions.work_items_delete_workitem,
+          ) && (
+            <Button
+              startIcon={<Delete />}
+              color='black'
+              fullWidth
+              onClick={handleClickOpenDeleteDialog}
+            >
+              Delete the report
+            </Button>
+          )}
         </Stack>
       </Popover>
       <DeleteModal
