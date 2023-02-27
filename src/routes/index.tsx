@@ -1,10 +1,6 @@
+import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
-import { VilmatesUserPage } from '../pages/VilmatesUserPage/VilmatesUserPage';
-import { VilmatesPage } from '../pages/VailmatesPage';
-import { GoogleSyncWithDrivePage } from 'pages/GoogleSyncWithDrivePage';
-import { TimeReportPage } from 'pages/TimeReportPage';
-import { GoogleLoginRedirectPage } from 'pages/GoogleLoginRedirectPage';
 import MainLayout from 'components/MainLayout';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import {
@@ -12,8 +8,28 @@ import {
   SyncWithGoogleSheetsPermissions,
   UsersPermissions,
 } from 'constants/permissions';
-import LoginPage from 'pages/LoginPage';
-import { ProjectsReportPage } from 'pages/ProjectsReportPage';
+
+const GoogleSyncWithDrivePage = lazy(
+  () => import('pages/GoogleSyncWithDrivePage/GoogleSyncWithDrivePage'),
+);
+const TimeReportPage = lazy(
+  () => import('pages/TimeReportPage/TimeReportPage'),
+);
+const GoogleLoginRedirectPage = lazy(
+  () => import('pages/GoogleLoginRedirectPage/GoogleLoginRedirectPage'),
+);
+const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
+const ProjectsReportPage = lazy(
+  () => import('pages/ProjectsReportPage/ProjectsReportPage'),
+);
+const ProjectManagementPage = lazy(
+  () => import('pages/ProjectManagementPage/ProjectManagementPage'),
+);
+
+const VilmatesUserPage = lazy(
+  () => import('pages/VilmatesUserPage/VilmatesUserPage'),
+);
+const VilmatesPage = lazy(() => import('pages/VailmatesPage/VilmatesPage'));
 
 export const routes = createBrowserRouter([
   {
@@ -45,7 +61,7 @@ export const routes = createBrowserRouter([
               PagesViewPermissions.users_can_view_projectmanagement,
             ]}
           >
-            <h1>Project Management</h1>
+            <ProjectManagementPage />
           </RequireAuth>
         ),
       },

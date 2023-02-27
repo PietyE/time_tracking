@@ -1,3 +1,5 @@
+import type { DeveloperProjectsReport } from './developerProjects';
+
 export interface ProjectsQueryParams {
   ordering?: string;
   user_id?: string;
@@ -21,19 +23,26 @@ export interface Project {
   description: string;
   logo: string;
   is_archived: boolean;
-  owner: OwnerInformation;
+  owner: Owner;
 }
 
 export type Projects = Project[];
 
 export interface CreateProjectData {
-  name: string;
+  name?: string;
   description?: string;
   is_archived?: boolean;
+
+  owner_id?: string;
 }
 
 export interface ProjectWithTotalMinutes extends Project {
   total_minutes: number;
+}
+
+export interface ProjectInModalManage {
+  projectInfo: Project;
+  reports: DeveloperProjectsReport[];
 }
 
 export type ProjectsWithTotalMinutes = ProjectWithTotalMinutes[];

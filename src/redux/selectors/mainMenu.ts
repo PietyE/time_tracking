@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { getProfilePermissionsSelector } from './profile';
-import { createTypedSelector, type CallBackT } from '../utils';
+import { createTypedSelector, type CallBack } from '../utils';
 import {
   ButtonNames,
   ButtonsLabels,
@@ -14,7 +14,7 @@ export const getIsOpenMainMenuDrawer = createTypedSelector<boolean>(
   (state) => state.mainMenu.isOpenDrawer,
 );
 
-export const getMainMenuPanels: CallBackT<Panel[]> = createSelector(
+export const getMainMenuPanels: CallBack<Panel[]> = createSelector(
   [getProfilePermissionsSelector],
   (permissions) => {
     const tabs: Panel[] = [];

@@ -6,7 +6,11 @@ export const getUsers = createAsyncThunk<Users, UsersQueryParams | undefined>(
   'users/getUsers',
   async (params, { rejectWithValue }) => {
     try {
-      const { data } = await api.users.getUsers(params);
+      if (params) {
+        const { data } = await api.users.getUsers(params);
+        return data.items;
+      }
+      const { data } = await api.users.getUsers();
       return data.items;
     } catch (error) {
       return rejectWithValue((error as Error).message);

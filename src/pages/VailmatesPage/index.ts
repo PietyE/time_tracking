@@ -1,1 +1,0 @@
-export { VilmatesPage } from './VilmatesPage';

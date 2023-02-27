@@ -27,6 +27,8 @@
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/consistent-type-assertions": "warn",
+    "@typescript-eslint/restrict-template-expressions": "warn",
+    "@typescript-eslint/restrict-plus-operands": "warn",
     "prettier/prettier": "error",
     "import/order": [
       "error",
