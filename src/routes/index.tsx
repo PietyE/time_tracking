@@ -1,8 +1,6 @@
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RequireAuth from './RequireAuth';
-import { VilmatesUserPage } from '../pages/VilmatesUserPage/VilmatesUserPage';
-import { VilmatesPage } from '../pages/VailmatesPage';
 import MainLayout from 'components/MainLayout';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import {
@@ -27,6 +25,11 @@ const ProjectsReportPage = lazy(
 const ProjectManagementPage = lazy(
   () => import('pages/ProjectManagementPage/ProjectManagementPage'),
 );
+
+const VilmatesUserPage = lazy(
+  () => import('pages/VilmatesUserPage/VilmatesUserPage'),
+);
+const VilmatesPage = lazy(() => import('pages/VailmatesPage/VilmatesPage'));
 
 export const routes = createBrowserRouter([
   {
