@@ -1,11 +1,13 @@
 import { type FC, useEffect } from 'react';
-import { Grid } from '@mui/material';
 import get from 'lodash/get';
+import { Grid } from '@mui/material';
 import { FilterTableContentItem } from './components/FilterTableContent/components/FilterTableContentItem';
 import { FilterTableHeaderMemoized } from './components/FilterTableHeader';
 import { useTableSorting } from './helpers';
 import { useSorting } from 'hooks/useSorting';
 import { styles } from './styles';
+
+type OnClick = (id: string) => void;
 
 export interface TableTitle {
   title: string;
@@ -20,12 +22,13 @@ interface BaseProps {
   rows: object[];
 
   keyToName: string[];
-  keyToMail: string[];
 
   keyToTime: string[];
   keyToId: string[];
 
   titles: TableTitle[];
+
+  onClick?: OnClick;
 }
 
 type DropDownTable = BaseProps & {
@@ -34,6 +37,7 @@ type DropDownTable = BaseProps & {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToMail: string[];
 };
 
 type BaseTable = BaseProps & {
@@ -42,6 +46,7 @@ type BaseTable = BaseProps & {
   keyToDropDownValueId?: never;
   keyToDropDownValueName?: never;
   keyToDropDownValueTime?: never;
+  keyToMail?: never;
 };
 
 type Props = DropDownTable | BaseTable;
@@ -53,13 +58,14 @@ export const FilterTable: FC<Props> = ({
   titles,
   keyToId,
   keyToName,
-  keyToMail,
+  keyToMail = [],
   keyToTime,
   keyToDropDownValues = [],
   keyToDropDownValueId = [],
   keyToDropDownValueName = [],
   keyToDropDownValueTime = [],
   isHaveDropDown,
+  onClick = () => {},
 }): JSX.Element => {
   const { sortingKeys, sortingObject } = useTableSorting(titles);
   const {
@@ -70,7 +76,6 @@ export const FilterTable: FC<Props> = ({
   } = useSorting<UnpackedArray<typeof sortingKeys>, UnpackedArray<typeof rows>>(
     sortingObject,
   );
-
   useEffect(() => {
     handleSortingChange(rows);
   }, [sortingParameter, handleSortingChange, rows]);
@@ -104,6 +109,7 @@ export const FilterTable: FC<Props> = ({
             keyToDropDownValueName={keyToDropDownValueName}
             keyToDropDownValues={keyToDropDownValues}
             keyToDropDownValueTime={keyToDropDownValueTime}
+            onClick={onClick}
           />
         ))}
     </Grid>

@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import { ASCEND, DESCEND } from 'constants/sortingOrder';
 
@@ -29,19 +30,24 @@ export const useSorting = <F extends string, T>(
       switch (sortingParameter[sortKey]?.order) {
         case DESCEND:
           setSortingParameters({
-            ...sortingParameter,
             [sortKey]: { ...sortingParameter[sortKey], order: ASCEND },
           } as SortingParam<F>);
           break;
         case ASCEND:
           setSortingParameters({
-            ...sortingParameter,
             [sortKey]: {
               ...sortingParameter[sortKey],
               order: DESCEND,
             },
           } as SortingParam<F>);
           break;
+        default:
+          setSortingParameters({
+            ...sortingParameter,
+            [sortKey]: {
+              order: ASCEND,
+            },
+          });
       }
     },
     [sortingParameter],
@@ -56,7 +62,15 @@ export const useSorting = <F extends string, T>(
         sortingParameter,
       ).map((sortParameter) => sortParameter.order);
 
-      setSorting(() => orderBy(data, keys, sortOrders));
+      const customSorter = keys.map((key) =>
+        key === 'name'
+          ? (element: UnpackedArray<typeof data>) =>
+              (get(element, key) as string).toLowerCase()
+          : (element: UnpackedArray<typeof data>) =>
+              get(element, key) ? get(element, key) : 0,
+      );
+
+      setSorting(() => orderBy(data, customSorter, sortOrders));
     },
     [sortingParameter],
   );

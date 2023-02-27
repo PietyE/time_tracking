@@ -113,12 +113,12 @@ export const deleteWorkItem = createAsyncThunk<WorkItem, WorkItemId>(
   },
 );
 
-export const getReportCsv = createAsyncThunk(
-  'timereports/getReportCsv',
+export const getReportExcel = createAsyncThunk(
+  'timereports/getReportExcel',
   async (__, { rejectWithValue, getState }) => {
     try {
       const state = getState() as RootState;
-      const response = await api.developerProjects.getReportCsv({
+      const response = await api.developerProjects.getReportExcel({
         year: String(state.calendar.year),
         month: String(state.calendar.month + 1),
         id: state.timereports.selectedProject.id,

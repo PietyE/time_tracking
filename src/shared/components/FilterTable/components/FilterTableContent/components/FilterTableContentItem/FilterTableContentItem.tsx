@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, type MouseEvent, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import get from 'lodash/get';
@@ -18,6 +18,7 @@ interface Props {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  onClick?: (id: string) => void;
 }
 
 export const FilterTableContentItem: FC<Props> = ({
@@ -31,10 +32,15 @@ export const FilterTableContentItem: FC<Props> = ({
   keyToDropDownValueId,
   keyToDropDownValueName,
   keyToDropDownValueTime,
+  onClick,
 }): JSX.Element => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
 
   const toggleDropDown = (): void => setIsOpenDropDown(!isOpenDropDown);
+
+  const handleClick = (_event: MouseEvent<HTMLDivElement>): void => {
+    onClick?.(get(row, keyToId));
+  };
 
   const renderDeveloperProjectList = (): JSX.Element => (
     <Typography
@@ -88,7 +94,7 @@ export const FilterTableContentItem: FC<Props> = ({
           <Typography>
             {get(row, keyToTime)
               ? parseMinToHoursAndMin(get(row, keyToTime))
-              : 'Salary'}
+              : '0:00'}
           </Typography>
         </Grid>
         <Grid
@@ -103,12 +109,23 @@ export const FilterTableContentItem: FC<Props> = ({
         </Grid>
       </>
     ) : (
-      <>
+      <Grid
+        container
+        alignItems='center'
+        justifyContent='space-between'
+        py={10}
+      >
         <Grid item>
-          <Typography>{get(row, keyToName)}</Typography>
+          <Typography variant='subtitle1'>{get(row, keyToName)}</Typography>
         </Grid>
-        <Grid item>{parseMinToHoursAndMin(get(row, keyToTime))}</Grid>
-      </>
+        <Grid item>
+          <Typography variant='body1'>
+            {get(row, keyToTime)
+              ? parseMinToHoursAndMin(get(row, keyToTime))
+              : '0:00'}
+          </Typography>
+        </Grid>
+      </Grid>
     );
 
   return (
@@ -125,6 +142,13 @@ export const FilterTableContentItem: FC<Props> = ({
         borderRadius={1.5}
         borderColor={isOpenDropDown ? 'primary.main' : 'text.disabled'}
         mb={15}
+        onClick={handleClick}
+        sx={{
+          cursor: 'pointer',
+          '&:hover': {
+            bgcolor: 'text.disabled',
+          },
+        }}
       >
         <Grid
           container

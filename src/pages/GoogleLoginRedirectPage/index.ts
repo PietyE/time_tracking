@@ -1,1 +1,0 @@
-export { GoogleLoginRedirectPage } from './GoogleLoginRedirectPage';

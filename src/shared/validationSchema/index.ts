@@ -29,3 +29,9 @@ export const googleSyncWithDriveSchema = Yup.object().shape({
     .required(required('Google sheet link'))
     .matches(REGEXP_FOR_GOOGLE_SHEET, 'Paste valid link to google sheet'),
 });
+
+export const createProjectSchema = Yup.object().shape({
+  name: Yup.string()
+    .required(required('Project name'))
+    .min(3, minSymbols('Project', '3')),
+});

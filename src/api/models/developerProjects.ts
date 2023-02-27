@@ -1,8 +1,8 @@
 import type { Project } from './projects';
 
 export interface DeveloperProjectsQueryParams {
-  user_id: string;
-  project_id: string;
+  user_id?: string;
+  project_id?: string;
 }
 
 export interface DeveloperProjectsReportQueryParams
@@ -62,7 +62,7 @@ export interface UserReport {
 
 export interface DeveloperProjectsReport {
   id: string;
-  project: Pick<Project, 'id' | 'name'>;
+  project: Pick<Project, 'id' | 'name' | 'owner' | 'description'>;
   user: UserReport;
   total_minutes: number;
   overtime_minutes: number;
@@ -71,4 +71,7 @@ export interface DeveloperProjectsReport {
   is_full_time: string;
 }
 
-export type DeveloperProjectsReportResponse = DeveloperProjectsReport[];
+export interface DeveloperProjectsReportResponse {
+  reports: DeveloperProjectsReport[];
+  total_minutes: number;
+}

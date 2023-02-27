@@ -1,4 +1,6 @@
 import type { FC } from 'react';
 import { ProjectReport } from 'components/ProjectReport';
 
-export const ProjectsReportPage: FC = (): JSX.Element => <ProjectReport />;
+const ProjectsReportPage: FC = (): JSX.Element => <ProjectReport />;
+
+export default ProjectsReportPage;

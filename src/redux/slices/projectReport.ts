@@ -11,8 +11,11 @@ interface InitialState {
 
 const initialState: InitialState = {
   isLoading: true,
-  selectedProject: {} as Project,
-  selectedDeveloper: {} as Omit<User, 'permissions'>,
+  selectedProject: { name: 'Select All', id: 'Select All' } as Project,
+  selectedDeveloper: { name: 'Select All', id: 'Select All' } as Omit<
+    User,
+    'permissions'
+  >,
 };
 
 const projectReport = createSlice({

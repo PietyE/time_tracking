@@ -1,1 +1,1 @@
-export { Vilmates } from './Vilmates';
+export { Vilmates as People } from './Vilmates';

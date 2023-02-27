@@ -13,7 +13,6 @@
     ],
     "disallowed": [
       "master",
-      "dev",
       "stage"
     ],
     "separator": "/",

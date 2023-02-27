@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { type FC, Suspense, useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { getIsLoadingProfileSelector } from '../redux/selectors/profile';
 import { routes } from 'routes';
@@ -18,7 +18,11 @@ const App: FC = () => {
     return <Loading />;
   }
 
-  return <RouterProvider router={routes} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <RouterProvider router={routes} />
+    </Suspense>
+  );
 };
 
 export default App;

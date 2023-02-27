@@ -24,6 +24,7 @@ const MainLayout: FC = () => {
       width={1}
       minHeight='100vh'
       sx={styles}
+      position='relative'
     >
       <MainMenu />
       <MainContainer>

@@ -13,6 +13,7 @@ interface CustomProps {
   label?: string;
   selectAll?: boolean;
   disabled?: boolean;
+  selectedValue?: object;
 }
 
 type Props = CustomProps & {
@@ -27,10 +28,9 @@ export const Autocomplete: FC<Props> = ({
   selectAll = true,
   label = 'Select',
   disabled = false,
+  selectedValue,
 }): JSX.Element => {
-  const [value, setValue] = useState(() =>
-    selectAll ? { name: 'Select All', id: 'Select All' } : options[0],
-  );
+  const [value, setValue] = useState(() => selectedValue ?? options[0]);
 
   const handleChange = (_event: SyntheticEvent, newValue: object): void => {
     setValue(newValue);
@@ -38,7 +38,7 @@ export const Autocomplete: FC<Props> = ({
   };
 
   useEffect(() => {
-    onChange(selectAll ? { name: 'Select All', id: 'Select All' } : options[0]);
+    onChange(value || options[0]);
   }, []);
 
   return (

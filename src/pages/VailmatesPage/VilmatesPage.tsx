@@ -1,4 +1,6 @@
 import { type FC } from 'react';
-import { Vilmates } from 'components/Vilmates';
+import { People } from 'components/Vilmates';
 
-export const VilmatesPage: FC = (): JSX.Element => <Vilmates />;
+const VilmatesPage: FC = (): JSX.Element => <People />;
+
+export default VilmatesPage;
