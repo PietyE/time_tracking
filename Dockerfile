@@ -1,5 +1,7 @@
 FROM node:18
 
+ENV NODE_OPTIONS=--max-old-space-size=8192
+
 COPY . /app
 
 WORKDIR /app
