@@ -81,7 +81,7 @@ export const CreateProjectListItemForm: FC<Props3> = ({
     }
   }, [selectedProject]);
 
-  if (!filteredProjects || !filteredProjects.length) {
+  if (!filteredProjects?.length) {
     return <Loading />;
   }
 
