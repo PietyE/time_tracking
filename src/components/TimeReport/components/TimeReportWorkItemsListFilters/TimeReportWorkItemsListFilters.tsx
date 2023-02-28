@@ -22,6 +22,13 @@ import {
 import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
 import { getSelectedDeveloper } from 'redux/selectors/timereports';
+import {
+  DeveloperProjectsPermissions,
+  ProjectsPermissions,
+  UsersPermissions,
+  WorkItemsPermissions,
+} from 'constants/permissions';
+import { getProfilePermissionsSelector } from 'redux/selectors/profile';
 import { getReportExcel } from 'redux/asyncActions/timereports';
 import type { DeveloperProject } from 'api/models/developerProjects';
 import type { User } from 'api/models/users';
@@ -34,6 +41,14 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
   const developerProjects = useAppShallowSelector(getDeveloperProjectsSelector);
   const isDeveloperProjectsLoading = useAppSelector(getDeveloperProjectLoading);
   const { id: developerId } = useAppShallowSelector(getSelectedDeveloper);
+  const permissions = useAppShallowSelector(getProfilePermissionsSelector);
+  const isHaveAccessToViewAllWorkItems =
+    permissions?.includes(WorkItemsPermissions.work_items_view_workitem) &&
+    permissions?.includes(UsersPermissions.users_view_user) &&
+    permissions?.includes(ProjectsPermissions.projects_view_project) &&
+    permissions?.includes(
+      DeveloperProjectsPermissions.projects_view_developerproject,
+    );
 
   useEffect(() => {
     if (!users.length) void dispatch(getUsers());
@@ -65,22 +80,24 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
         item
         xs={2.5}
       >
-        <SkeletonWrapper
-          isLoading={isUsersLoading}
-          width={170}
-          height={60}
-          animation='wave'
-        >
-          {!!users?.length && (
-            <Autocomplete
-              options={users}
-              keysToId={['id']}
-              keysToName={['name']}
-              onChange={changeUser}
-              selectAll={false}
-            />
-          )}
-        </SkeletonWrapper>
+        {isHaveAccessToViewAllWorkItems && (
+          <SkeletonWrapper
+            isLoading={isUsersLoading}
+            width={170}
+            height={60}
+            animation='wave'
+          >
+            {!!users?.length && (
+              <Autocomplete
+                options={users}
+                keysToId={['id']}
+                keysToName={['name']}
+                onChange={changeUser}
+                selectAll={false}
+              />
+            )}
+          </SkeletonWrapper>
+        )}
       </Grid>
       <Grid
         item
