@@ -1,44 +1,44 @@
 import { type FC, useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import { selectDeveloper, selectProject } from 'redux/slices/timereports';
-import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
-import { SelectMonthMemoized } from 'shared/components/SelectMonth';
-import { Autocomplete } from 'shared/components/Autocomplete';
 import {
   useAppDispatch,
   useAppSelector,
   useAppShallowSelector,
 } from 'hooks/redux';
-import { getUsers } from 'redux/asyncActions/users';
-import {
-  getUsers as getUsersSelector,
-  getUsersLoading,
-} from 'redux/selectors/users';
-import {
-  getDeveloperProject as getDeveloperProjectsSelector,
-  getDeveloperProjectLoading,
-} from 'redux/selectors/developerProjects';
-import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
-import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
-import { getSelectedDeveloper } from 'redux/selectors/timereports';
 import {
   DeveloperProjectsPermissions,
   ProjectsPermissions,
   UsersPermissions,
   WorkItemsPermissions,
 } from 'constants/permissions';
-import { getProfilePermissionsSelector } from 'redux/selectors/profile';
+import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
 import { getReportExcel } from 'redux/asyncActions/timereports';
-import type { DeveloperProject } from 'api/models/developerProjects';
+import { getUsers } from 'redux/asyncActions/users';
+import {
+  getDeveloperProjectLoading,
+  getOnlyActiveProject,
+} from 'redux/selectors/developerProjects';
+import { getProfilePermissionsSelector } from 'redux/selectors/profile';
+import { getSelectedDeveloper } from 'redux/selectors/timereports';
+import {
+  getUsers as getUsersSelector,
+  getUsersLoading,
+} from 'redux/selectors/users';
+import { selectDeveloper, selectProject } from 'redux/slices/timereports';
+import { Autocomplete } from 'shared/components/Autocomplete';
+import { SelectMonthMemoized } from 'shared/components/SelectMonth';
+import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
+import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import type { User } from 'api/models/users';
+import type { DeveloperProject } from 'api/models/developerProjects';
 import { styles } from './styles';
 
 export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const users = useAppShallowSelector(getUsersSelector);
   const isUsersLoading = useAppSelector(getUsersLoading);
-  const developerProjects = useAppShallowSelector(getDeveloperProjectsSelector);
+  const developerProjects = useAppShallowSelector(getOnlyActiveProject);
   const isDeveloperProjectsLoading = useAppSelector(getDeveloperProjectLoading);
   const { id: developerId } = useAppShallowSelector(getSelectedDeveloper);
   const permissions = useAppShallowSelector(getProfilePermissionsSelector);

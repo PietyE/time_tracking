@@ -1,23 +1,23 @@
 import { type FC, type MouseEvent, useState } from 'react';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import {
+  Box,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Button,
   Stack,
-  Typography,
   TextField,
-  Box,
+  Typography,
 } from '@mui/material';
-import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { useAppShallowSelector } from 'hooks/redux';
-import { getDeveloperProject } from 'redux/selectors/developerProjects';
+import { getOnlyActiveProject } from 'redux/selectors/developerProjects';
 import { getSelectedDeveloperProject } from 'redux/selectors/timereports';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter';
-import type { DeveloperProject } from 'api/models/developerProjects';
 import type { UpdateWorkItemData, WorkItem } from 'api/models/workItems';
+import type { DeveloperProject } from 'api/models/developerProjects';
 import { styles } from './styles';
 
 interface Props {
@@ -36,7 +36,7 @@ export const SwapModal: FC<Props> = ({
   onClick,
   title,
 }): JSX.Element => {
-  const developerProjects = useAppShallowSelector(getDeveloperProject);
+  const developerProjects = useAppShallowSelector(getOnlyActiveProject);
   const developerProject = useAppShallowSelector(getSelectedDeveloperProject);
   const [swapProject, setSwapProject] =
     useState<DeveloperProject>(developerProject);
