@@ -47,7 +47,8 @@ export const ManageProjectModalHeader: FC = (): JSX.Element => {
       display='flex'
       alignItems='center'
       justifyContent='space-between'
-      p={24}
+      py={12}
+      px={24}
     >
       <Typography variant='h5'>{project?.name}</Typography>
       <Box

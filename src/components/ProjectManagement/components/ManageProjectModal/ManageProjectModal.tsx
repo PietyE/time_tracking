@@ -31,7 +31,7 @@ export const ManageProjectModal: FC = (): JSX.Element => {
     >
       <Box
         position='absolute'
-        top='45vh'
+        top='48vh'
         right='-14%'
         width={613}
         boxShadow={1}

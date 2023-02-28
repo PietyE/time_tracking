@@ -85,7 +85,7 @@ export const DeveloperList: FC<Props> = ({ handleClose }): JSX.Element => {
       height={370}
       bgcolor='common.white'
       sx={{
-        transform: 'translate(-105%, 60%)',
+        transform: 'translate(-105%, 30%)',
       }}
     >
       <TextField

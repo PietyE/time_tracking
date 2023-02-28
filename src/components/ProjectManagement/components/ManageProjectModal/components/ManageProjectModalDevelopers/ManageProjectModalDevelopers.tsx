@@ -27,6 +27,8 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
       {!!reports?.length && (
         <Box
           sx={{
+            height: 200,
+            overflowY: 'auto',
             '& .MuiFormGroup-root': {
               display: 'none',
             },
