@@ -57,7 +57,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
       getProjectManagementProject({ user_id: selectedDeveloper.id }),
     );
 
-    if (!users?.length) void dispatch(getUsers());
+    void dispatch(getUsers());
   }, [dispatch, selectedDeveloper.id]);
 
   return (

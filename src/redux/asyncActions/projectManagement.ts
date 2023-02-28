@@ -2,14 +2,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { closeModal, openModal } from '../slices/projectManagements';
 import api from 'api';
-import type { DeveloperProjectsReportQueryParams } from 'api/models/developerProjects';
+import type {
+  DeveloperProjectsReportQueryParams,
+  UpdateDeveloperProjectData,
+} from 'api/models/developerProjects';
 import type {
   CreateProjectData,
   Project,
+  ProjectInModalManage,
   ProjectsQueryParams,
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
-  ProjectInModalManage,
 } from 'api/models/projects';
 import type { RootState } from '../store';
 
@@ -179,6 +182,30 @@ export const getSelectedModelManageProject = createAsyncThunk<
     } catch (error) {
       toast.error('Something went wrong');
       return rejectWithValue('Something went wrong');
+    }
+  },
+);
+
+export const updateDeveloperProject = createAsyncThunk<
+  UpdateDeveloperProjectData & { id: string },
+  {
+    developerProjectId: string;
+    updatedData: UpdateDeveloperProjectData;
+  }
+>(
+  'projectManagement/updatedDeveloperProject',
+  async ({ developerProjectId, updatedData }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.developerProjects.updateDeveloperProject(
+        developerProjectId,
+        updatedData,
+      );
+      return {
+        ...data,
+        id: developerProjectId,
+      };
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
     }
   },
 );

@@ -8,6 +8,6 @@ export const useApiSearch = (value: string, delay: number): void => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void dispatch(getUsers({ search: searchWord }));
+    void dispatch(getUsers({ search: searchWord, page_size: 200 }));
   }, [searchWord, dispatch]);
 };

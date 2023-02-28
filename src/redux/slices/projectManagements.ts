@@ -7,8 +7,10 @@ import {
   getProjectManagementProject,
   getSelectedModelManageProject,
   getSelectedProjectInModal,
+  updateDeveloperProject,
   updateProject,
 } from '../asyncActions/projectManagement';
+import type { UpdateDeveloperProjectData } from 'api/models/developerProjects';
 import type {
   ProjectInModalManage,
   ProjectsWithTotalMinutes,
@@ -154,6 +156,28 @@ const projectManagements = createSlice({
     builder.addCase(updateProject.rejected, (state) => {
       state.isLoading = false;
     });
+    builder.addCase(updateDeveloperProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      updateDeveloperProject.fulfilled,
+      (
+        state,
+        action: PayloadAction<UpdateDeveloperProjectData & { id: string }>,
+      ) => {
+        state.isLoading = false;
+        state.selectedProjectInManageModal.reports =
+          state.selectedProjectInManageModal.reports.map((report) =>
+            report.id === action.payload.id
+              ? { ...report, ...action.payload }
+              : report,
+          );
+      },
+    );
+    builder.addCase(updateDeveloperProject.rejected, (state) => {
+      state.isLoading = false;
+    });
+
     builder.addMatcher(
       isAllOf(getSelectedProjectInModal.fulfilled, isProjectWithTotalMinutes),
       (state, action) => {

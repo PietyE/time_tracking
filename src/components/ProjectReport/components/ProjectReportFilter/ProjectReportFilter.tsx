@@ -49,7 +49,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
 
   useEffect(() => {
     void dispatch(getProjects());
-    if (!users?.length) void dispatch(getUsers());
+    void dispatch(getUsers());
   }, []);
 
   // I don`t know what is this condition it, but it is works only this way for disabling right way
