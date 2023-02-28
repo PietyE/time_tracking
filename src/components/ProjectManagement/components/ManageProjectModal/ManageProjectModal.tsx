@@ -1,8 +1,10 @@
 import { type FC } from 'react';
 import { Box, Divider, Modal } from '@mui/material';
+import { ManageProjectModalDevelopers } from './components/ManageProjectModalDevelopers';
 import { ManageProjectModalGeneralInformation } from './components/ManageProjectModalGeneralInformation';
 import { ManageProjectModalHeader } from './components/ManageProjectModalHeader';
-import { SkeletonWrapper } from '../../../../shared/components/SkeletonWrapper';
+import { ManageProjectModalListHeader } from './components/ManageProjectModalListHeader';
+import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   getProjectManagementLoading,
@@ -29,9 +31,9 @@ export const ManageProjectModal: FC = (): JSX.Element => {
     >
       <Box
         position='absolute'
-        top='45vh'
+        top='48vh'
         right='-14%'
-        width={530}
+        width={613}
         boxShadow={1}
         border={1}
         borderColor='text.disabled'
@@ -50,6 +52,9 @@ export const ManageProjectModal: FC = (): JSX.Element => {
           <ManageProjectModalHeader />
           <Divider />
           <ManageProjectModalGeneralInformation />
+          <ManageProjectModalListHeader />
+          <Divider />
+          <ManageProjectModalDevelopers />
         </SkeletonWrapper>
       </Box>
     </Modal>

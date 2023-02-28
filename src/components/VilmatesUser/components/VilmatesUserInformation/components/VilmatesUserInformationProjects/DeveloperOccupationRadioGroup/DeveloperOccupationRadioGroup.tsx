@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, useMemo } from 'react';
+import { type ChangeEvent, type FC, useState } from 'react';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { Occupation } from 'constants/occupation';
 import { styles } from './styles';
@@ -12,20 +12,22 @@ export const DeveloperOccupationRadioGroup: FC<Props> = ({
   onChange,
   isFullTime,
 }): JSX.Element => {
-  const occupationValue = useMemo(
-    () => (!isFullTime ? Occupation.PART_TIME : Occupation.FULL_TIME),
-    [isFullTime],
+  const [value, setValue] = useState<Occupation | string>(() =>
+    !isFullTime ? Occupation.PART_TIME : Occupation.FULL_TIME,
   );
+  console.log(value);
+  console.log(isFullTime);
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
     onChange(event.target.value === Occupation.FULL_TIME);
+    setValue(event.target.value);
   };
 
   return (
     <RadioGroup
       aria-label='occupation'
       name='occupation'
-      value={occupationValue}
+      value={value}
       onChange={changeHandler}
     >
       <FormControlLabel

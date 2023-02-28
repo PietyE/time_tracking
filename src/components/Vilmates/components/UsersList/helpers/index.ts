@@ -1,13 +1,22 @@
-import { useEffect } from 'react';
-import { getUsers } from 'redux/asyncActions/users';
+import { useEffect, useState } from 'react';
+import api from 'api';
 import { useDebounce } from 'hooks/useDebounce';
-import { useAppDispatch } from 'hooks/redux';
+import type { Users } from 'api/models/users';
 
-export const useApiSearch = (value: string, delay: number): void => {
+export const useApiSearch = (value: string, delay: number): Users => {
   const searchWord = useDebounce(value, delay);
-  const dispatch = useAppDispatch();
+  const [users, setUsers] = useState<Users>([]);
 
   useEffect(() => {
-    void dispatch(getUsers({ search: searchWord }));
-  }, [searchWord, dispatch]);
+    const getUsers = async (): Promise<void> => {
+      const { data } = await api.users.getUsers({
+        search: searchWord,
+        page_size: 200,
+      });
+      setUsers(data.items);
+    };
+    void getUsers();
+  }, [searchWord]);
+
+  return users;
 };

@@ -51,7 +51,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
     );
 
   useEffect(() => {
-    if (!users.length) void dispatch(getUsers());
+    if (!users?.length) void dispatch(getUsers());
     if (developerId) void dispatch(getDeveloperProjects(developerId));
   }, [dispatch, developerId]);
 

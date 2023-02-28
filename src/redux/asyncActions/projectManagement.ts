@@ -2,14 +2,19 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { closeModal, openModal } from '../slices/projectManagements';
 import api from 'api';
-import type { DeveloperProjectsReportQueryParams } from 'api/models/developerProjects';
+import type {
+  CreateListData,
+  DeveloperProject,
+  DeveloperProjectsReportQueryParams,
+  UpdateDeveloperProjectData,
+} from 'api/models/developerProjects';
 import type {
   CreateProjectData,
   Project,
+  ProjectInModalManage,
   ProjectsQueryParams,
   ProjectsWithTotalMinutes,
   ProjectWithTotalMinutes,
-  ProjectInModalManage,
 } from 'api/models/projects';
 import type { RootState } from '../store';
 
@@ -178,6 +183,52 @@ export const getSelectedModelManageProject = createAsyncThunk<
       };
     } catch (error) {
       toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
+    }
+  },
+);
+
+export const updateDeveloperProject = createAsyncThunk<
+  UpdateDeveloperProjectData & { id: string },
+  {
+    developerProjectId: string;
+    updatedData: UpdateDeveloperProjectData;
+  }
+>(
+  'projectManagement/updatedDeveloperProject',
+  async ({ developerProjectId, updatedData }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.developerProjects.updateDeveloperProject(
+        developerProjectId,
+        updatedData,
+      );
+      return {
+        ...data,
+        id: developerProjectId,
+      };
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  },
+);
+
+export const addDevelopersToProject = createAsyncThunk<
+  Array<DeveloperProject & { total_minutes: number; overtime_minutes: number }>,
+  CreateListData
+>(
+  'projectManagement/addDeveloperToProject',
+  async (creatListData, { rejectWithValue }) => {
+    try {
+      const { data } = await api.developerProjects.createList(creatListData);
+      toast.success('Developer has been added to the project');
+
+      return data.map((report) => ({
+        ...report,
+        total_minutes: 0,
+        overtime_minutes: 0,
+      }));
+    } catch (error) {
+      toast.error('Developer has not been added to the project');
       return rejectWithValue('Something went wrong');
     }
   },

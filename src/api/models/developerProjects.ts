@@ -22,7 +22,11 @@ export interface DeveloperProject {
   project: Project;
   is_full_time: boolean;
   is_project_manager: boolean;
-  user: UserId;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
   is_active: boolean;
 }
 
@@ -68,7 +72,7 @@ export interface DeveloperProjectsReport {
   overtime_minutes: number;
   is_active: boolean;
   is_project_manager: boolean;
-  is_full_time: string;
+  is_full_time: boolean;
 }
 
 export interface DeveloperProjectsReportResponse {
