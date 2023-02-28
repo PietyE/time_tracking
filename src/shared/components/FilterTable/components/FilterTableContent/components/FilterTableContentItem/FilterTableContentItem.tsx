@@ -48,8 +48,9 @@ export const FilterTableContentItem: FC<Props> = ({
       textAlign='left'
       width={450}
     >
-      {get(row, keyToDropDownValues).map((dropDownValue: any) =>
-        get(dropDownValue, keyToDropDownValueName),
+      {get(row, keyToDropDownValues).map(
+        (dropDownValue: any) =>
+          `${get(dropDownValue, keyToDropDownValueName)}, `,
       )}
     </Typography>
   );
