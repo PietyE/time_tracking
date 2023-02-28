@@ -112,7 +112,7 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                     flex='1 1 auto'
                   >
                     <Typography className='project_management_manage_modal_list_occupation_label'>
-                      Salary
+                      {report.is_full_time ? 'Salary' : ' Hourly payroll'}
                     </Typography>
                     <DeveloperOccupationRadioGroup
                       isFullTime={report.is_full_time}
