@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
+import { downloadFile } from '../../shared/utils/downloadFile';
 import { closeModal, openModal } from '../slices/projectManagements';
 import api from 'api';
 import type {
@@ -230,6 +232,28 @@ export const addDevelopersToProject = createAsyncThunk<
     } catch (error) {
       toast.error('Developer has not been added to the project');
       return rejectWithValue('Something went wrong');
+    }
+  },
+);
+
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+export const getReportExcel = createAsyncThunk<void, string>(
+  'projectManagement/getReportExcel',
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const response = await api.developerProjects.getReportExcel({
+        year: String(state.calendar.year),
+        month: String(state.calendar.month + 1),
+        id,
+      });
+      const fileName = response.headers['content-disposition'].split('"')[1];
+      if (response && response?.data instanceof Blob) {
+        downloadFile(response.data, fileName);
+      }
+    } catch (error) {
+      toast.error((error as AxiosError)?.message || 'Something went wrong');
+      return rejectWithValue((error as Error).message);
     }
   },
 );

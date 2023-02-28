@@ -5,7 +5,10 @@ import { AddDevelopers } from './AddDevelopers';
 import { DeveloperList } from './DeveloperList';
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
-import { updateDeveloperProject } from 'redux/asyncActions/projectManagement';
+import {
+  getReportExcel,
+  updateDeveloperProject,
+} from 'redux/asyncActions/projectManagement';
 import { getManageModalReports } from 'redux/selectors/projectManagement';
 import { Avatar } from 'shared/components/Avatar';
 import { Export } from 'shared/components/svg/Export';
@@ -27,7 +30,7 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
       {!!reports?.length && (
         <Box
           sx={{
-            height: 200,
+            maxHeight: 200,
             overflowY: 'auto',
             '& .MuiFormGroup-root': {
               display: 'none',
@@ -67,6 +70,10 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                     updatedData: { is_active: false },
                   }),
                 );
+              };
+
+              const exportExcel = (): void => {
+                void dispatch(getReportExcel(report.id));
               };
 
               return (
@@ -132,13 +139,10 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                         },
                       }}
                     >
-                      <IconButton>
-                        <Delete
-                          sx={{ mr: 10, display: 'none' }}
-                          onClick={onDeleteProject}
-                        />
+                      <IconButton onClick={onDeleteProject}>
+                        <Delete sx={{ mr: 10, display: 'none' }} />
                       </IconButton>
-                      <IconButton>
+                      <IconButton onClick={exportExcel}>
                         <Export />
                       </IconButton>
                     </Box>
