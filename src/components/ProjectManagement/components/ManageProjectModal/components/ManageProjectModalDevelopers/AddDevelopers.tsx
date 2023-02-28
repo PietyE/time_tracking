@@ -2,7 +2,11 @@ import { type FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import Add from '@mui/icons-material/Add';
 
-export const AddDevelopers: FC = (): JSX.Element => (
+interface Props {
+  handleOpen: VoidFunction;
+}
+
+export const AddDevelopers: FC<Props> = ({ handleOpen }): JSX.Element => (
   <Box bgcolor='customGrey.STROKE_OPACITY_40'>
     <Box
       display='flex'
@@ -10,6 +14,7 @@ export const AddDevelopers: FC = (): JSX.Element => (
       justifyContent='flex-start'
       color='primary.main'
       flexShrink={1}
+      onClick={handleOpen}
       py={18}
       px={24}
       sx={{

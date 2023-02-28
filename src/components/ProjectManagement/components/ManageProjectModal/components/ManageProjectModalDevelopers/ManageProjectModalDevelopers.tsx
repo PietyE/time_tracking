@@ -1,22 +1,29 @@
-import { type FC } from 'react';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { type FC, useState } from 'react';
 import Delete from '@mui/icons-material/Delete';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AddDevelopers } from './AddDevelopers';
-import { parseMinToHoursAndMin } from '../../../../../../shared/utils/dateOperations';
-import { updateDeveloperProject } from 'redux/asyncActions/projectManagement';
-// tak toje delat nelzya , eto drugoi modul :) , eh deadline, move it to shared component please
+import { DeveloperList } from './DeveloperList';
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
+import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import { updateDeveloperProject } from 'redux/asyncActions/projectManagement';
+import { getManageModalReports } from 'redux/selectors/projectManagement';
 import { Avatar } from 'shared/components/Avatar';
 import { Export } from 'shared/components/svg/Export';
-import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
-import { getManageModalReports } from 'redux/selectors/projectManagement';
+import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
+// tak toje delat nelzya , eto drugoi modul :) , eh deadline, move it to shared component please
 
 export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
   const reports = useAppShallowSelector(getManageModalReports);
   const dispatch = useAppDispatch();
 
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = (): void => setOpen(true);
+
+  const handleClose = (): void => setOpen(false);
+
   return (
-    <>
+    <Box position='relative'>
       {!!reports?.length && (
         <Box
           sx={{
@@ -43,7 +50,6 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
             .filter((report) => report.is_active)
             .map((report) => {
               const onChangeOccupation = (newOccupation: boolean): void => {
-                console.log('occ', newOccupation);
                 void dispatch(
                   updateDeveloperProject({
                     developerProjectId: report.id,
@@ -140,7 +146,8 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
             })}
         </Box>
       )}
-      <AddDevelopers />
-    </>
+      {open && <DeveloperList handleClose={handleClose} />}
+      <AddDevelopers handleOpen={handleOpen} />
+    </Box>
   );
 };

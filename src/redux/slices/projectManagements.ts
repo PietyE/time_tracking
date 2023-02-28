@@ -1,7 +1,7 @@
 import { createSlice, isAllOf, type PayloadAction } from '@reduxjs/toolkit';
-
 import get from 'lodash/get';
 import {
+  addDevelopersToProject,
   archiveProject,
   createNewProject,
   getProjectManagementProject,
@@ -10,7 +10,10 @@ import {
   updateDeveloperProject,
   updateProject,
 } from '../asyncActions/projectManagement';
-import type { UpdateDeveloperProjectData } from 'api/models/developerProjects';
+import type {
+  UpdateDeveloperProjectData,
+  DeveloperProject,
+} from 'api/models/developerProjects';
 import type {
   ProjectInModalManage,
   ProjectsWithTotalMinutes,
@@ -20,6 +23,7 @@ import type { User } from 'api/models/users';
 
 interface InitialState {
   isLoading: boolean;
+  updateAfterDelete: boolean;
   selectedProject: ProjectWithTotalMinutes;
 
   selectedDeveloper: Omit<User, 'permissions'>;
@@ -31,6 +35,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   isLoading: true,
+  updateAfterDelete: false,
   selectedProject: {
     name: 'Select All',
     id: 'Select All',
@@ -60,6 +65,9 @@ const projectManagements = createSlice({
   name: 'projectManagements',
   initialState,
   reducers: {
+    updateAfterDelete: (state) => {
+      state.updateAfterDelete = !state.updateAfterDelete;
+    },
     selectProject: (state, action: PayloadAction<ProjectWithTotalMinutes>) => {
       state.selectedProject = action.payload;
     },
@@ -177,6 +185,30 @@ const projectManagements = createSlice({
     builder.addCase(updateDeveloperProject.rejected, (state) => {
       state.isLoading = false;
     });
+    builder.addCase(addDevelopersToProject.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      addDevelopersToProject.fulfilled,
+      (
+        state,
+        action: PayloadAction<
+          Array<
+            DeveloperProject & {
+              total_minutes: number;
+              overtime_minutes: number;
+            }
+          >
+        >,
+      ) => {
+        state.isLoading = false;
+        state.selectedProjectInManageModal.reports =
+          state.selectedProjectInManageModal.reports.concat(action.payload);
+      },
+    );
+    builder.addCase(addDevelopersToProject.rejected, (state) => {
+      state.isLoading = false;
+    });
 
     builder.addMatcher(
       isAllOf(getSelectedProjectInModal.fulfilled, isProjectWithTotalMinutes),
@@ -204,7 +236,12 @@ const projectManagements = createSlice({
   },
 });
 
-export const { selectDeveloper, selectProject, openModal, closeModal } =
-  projectManagements.actions;
+export const {
+  selectDeveloper,
+  selectProject,
+  openModal,
+  closeModal,
+  updateAfterDelete,
+} = projectManagements.actions;
 
 export default projectManagements.reducer;

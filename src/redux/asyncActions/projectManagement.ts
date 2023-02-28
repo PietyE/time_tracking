@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import { closeModal, openModal } from '../slices/projectManagements';
 import api from 'api';
 import type {
+  CreateListData,
+  DeveloperProject,
   DeveloperProjectsReportQueryParams,
   UpdateDeveloperProjectData,
 } from 'api/models/developerProjects';
@@ -206,6 +208,28 @@ export const updateDeveloperProject = createAsyncThunk<
       };
     } catch (error) {
       return rejectWithValue((error as Error).message);
+    }
+  },
+);
+
+export const addDevelopersToProject = createAsyncThunk<
+  Array<DeveloperProject & { total_minutes: number; overtime_minutes: number }>,
+  CreateListData
+>(
+  'projectManagement/addDeveloperToProject',
+  async (creatListData, { rejectWithValue }) => {
+    try {
+      const { data } = await api.developerProjects.createList(creatListData);
+      toast.success('Developer has been added to the project');
+
+      return data.map((report) => ({
+        ...report,
+        total_minutes: 0,
+        overtime_minutes: 0,
+      }));
+    } catch (error) {
+      toast.error('Developer has not been added to the project');
+      return rejectWithValue('Something went wrong');
     }
   },
 );

@@ -22,7 +22,11 @@ export interface DeveloperProject {
   project: Project;
   is_full_time: boolean;
   is_project_manager: boolean;
-  user: UserId;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
   is_active: boolean;
 }
 

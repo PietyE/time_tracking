@@ -1,13 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
+import difference from 'lodash/differenceBy';
+import { getUsers } from './users';
 import { type CallBack, createTypedSelector } from '../utils';
 import type { DeveloperProjectsReport } from 'api/models/developerProjects';
 import type {
-  ProjectWithTotalMinutes,
-  ProjectsWithTotalMinutes,
-  ProjectInModalManage,
   Project,
+  ProjectInModalManage,
+  ProjectsWithTotalMinutes,
+  ProjectWithTotalMinutes,
 } from 'api/models/projects';
-import type { User } from 'api/models/users';
+import type { User, Users } from 'api/models/users';
 
 export const getSelectedProject = createTypedSelector<ProjectWithTotalMinutes>(
   (state) => state.projectManagements.selectedProject,
@@ -42,6 +44,16 @@ export const getManageModalProjectInfo = createTypedSelector<Project>(
 export const getManageModalReports = createTypedSelector<
   DeveloperProjectsReport[]
 >((state) => state.projectManagements.selectedProjectInManageModal.reports);
+
+export const getUserNotInTheProject: CallBack<Users> = createSelector(
+  [getUsers, getManageModalReports],
+  (users, reports) => {
+    const usersOnProject = reports
+      .filter((user) => user.is_active)
+      .map((report) => report.user);
+    return difference(users, usersOnProject, 'id');
+  },
+);
 
 export const getProjectAndArchivedProjects: CallBack<ProjectsArray> =
   createSelector([getProjectsWithTotalMinutes], (projects) =>

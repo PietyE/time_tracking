@@ -36,7 +36,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
   const { id: developerId } = useAppShallowSelector(getSelectedDeveloper);
 
   useEffect(() => {
-    void dispatch(getUsers());
+    if (!users?.length) void dispatch(getUsers());
     if (developerId) void dispatch(getDeveloperProjects(developerId));
   }, [dispatch, developerId]);
 
