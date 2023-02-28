@@ -8,6 +8,7 @@ interface Props {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToRate: string[];
 
   dropDownValue: object;
 }
@@ -17,47 +18,51 @@ export const FilterTableContentDropDownItem: FC<Props> = ({
   keyToDropDownValueId,
   keyToDropDownValueTime,
   keyToDropDownValueName,
-}): JSX.Element => (
-  <>
-    <Grid
-      item
-      key={get(dropDownValue, keyToDropDownValueId)}
-      py={15}
-      px={30}
-      zIndex={2}
-      sx={styles}
-    >
+  keyToRate,
+}): JSX.Element => {
+  const isFullTime = get(dropDownValue, keyToRate);
+  return (
+    <>
       <Grid
-        container
-        alignItems='center'
-        justifyContent='flex-end'
+        item
+        key={get(dropDownValue, keyToDropDownValueId)}
+        py={15}
+        px={30}
+        zIndex={2}
+        sx={styles}
       >
         <Grid
-          item
-          xs={3.5}
-        />
-        <Grid
-          item
-          xs={5}
+          container
+          alignItems='center'
+          justifyContent='flex-end'
         >
-          <Typography textAlign='left'>
-            {get(dropDownValue, keyToDropDownValueName)}
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          xs={3.5}
-        >
-          <Typography textAlign='center'>
-            {get(dropDownValue, keyToDropDownValueTime)
-              ? parseMinToHoursAndMin(
-                  get(dropDownValue, keyToDropDownValueTime),
-                )
-              : 'Salary'}
-          </Typography>
+          <Grid
+            item
+            xs={3.5}
+          />
+          <Grid
+            item
+            xs={5}
+          >
+            <Typography textAlign='left'>
+              {get(dropDownValue, keyToDropDownValueName)}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={3.5}
+          >
+            <Typography textAlign='center'>
+              {isFullTime
+                ? 'Salary'
+                : parseMinToHoursAndMin(
+                    get(dropDownValue, keyToDropDownValueTime),
+                  )}
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-    <Divider flexItem />
-  </>
-);
+      <Divider flexItem />
+    </>
+  );
+};

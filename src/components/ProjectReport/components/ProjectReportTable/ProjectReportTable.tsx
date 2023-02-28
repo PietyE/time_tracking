@@ -53,6 +53,7 @@ export const ProjectReportTable: FC = (): JSX.Element => {
         keyToDropDownValueTime={['total_minutes']}
         titles={titles}
         isHaveDropDown={true}
+        keyToRate={['is_full_time']}
       />
     </>
   );
