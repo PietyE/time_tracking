@@ -65,7 +65,9 @@ export const TimeReportWorkItemsListItemReportsListItem: FC<Props> = ({
           sx={styles.link}
         >
           <Linkify options={{ target: '_blank' }}>
-            {currentDayWorkItem.title}
+            <Typography sx={{ maxWidth: 510, lineBreak: 'anywhere' }}>
+              {currentDayWorkItem.title}
+            </Typography>
           </Linkify>
         </Grid>
         <Grid
