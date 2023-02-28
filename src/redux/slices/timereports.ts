@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { getConsolidatedReport } from '../asyncActions/consolidatedReport';
 import {
   addWorkItem,
   getWorkItems,
@@ -6,7 +7,7 @@ import {
   deleteWorkItem,
 } from '../asyncActions/timereports';
 import type { DeveloperProject } from 'api/models/developerProjects';
-import type { User } from 'api/models/users';
+import type { User, ConsolidatedReport } from 'api/models/users';
 import type { WorkItem, WorkItemsResponse } from 'api/models/workItems';
 
 interface InitialState {
@@ -15,6 +16,7 @@ interface InitialState {
   workItems: WorkItem[];
   selectedProject: DeveloperProject;
   selectedDeveloper: Omit<User, 'permissions'>;
+  consolidatedReports: ConsolidatedReport[];
 }
 
 const initialState: InitialState = {
@@ -23,6 +25,7 @@ const initialState: InitialState = {
   workItems: [],
   selectedProject: {} as DeveloperProject,
   selectedDeveloper: {} as Omit<User, 'permissions'>,
+  consolidatedReports: [],
 };
 
 const timereports = createSlice({
@@ -98,6 +101,19 @@ const timereports = createSlice({
       },
     );
     builder.addCase(deleteWorkItem.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getConsolidatedReport.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getConsolidatedReport.fulfilled,
+      (state, action: PayloadAction<ConsolidatedReport[]>) => {
+        state.consolidatedReports = action.payload;
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(getConsolidatedReport.rejected, (state) => {
       state.isLoading = false;
     });
   },

@@ -3,7 +3,7 @@ import { getCalendarMonth, getCalendarYear } from './calendar';
 import { createTypedSelector } from '../utils';
 import { getDaysInMonth } from 'shared/utils/dateOperations';
 import type { DeveloperProject } from 'api/models/developerProjects';
-import type { User } from 'api/models/users';
+import type { ConsolidatedReport, User } from 'api/models/users';
 import type { WorkItem } from 'api/models/workItems';
 
 export const _getWorkItems = createTypedSelector<WorkItem[]>(
@@ -25,6 +25,18 @@ export const getSelectedDeveloper = createTypedSelector<
 
 export const getWorkItems = createSelector([_getWorkItems], (workItems) =>
   workItems.length ? workItems.filter((workItem) => workItem.is_active) : [],
+);
+
+export const getConsolidatedReports = createTypedSelector<ConsolidatedReport[]>(
+  (state) => state.timereports.consolidatedReports,
+);
+
+export const getUserTotalMonthWorkedTime = createSelector(
+  [getConsolidatedReports, getSelectedDeveloper],
+  (consolidatedReport, developer) =>
+    consolidatedReport
+      ?.filter((report) => report.id === developer.id)
+      ?.map((userReport) => userReport.total_minutes)[0],
 );
 
 export const getTimeReportDays = createSelector(
