@@ -57,6 +57,7 @@ export const DeveloperList: FC<Props> = ({ handleClose }): JSX.Element => {
   };
 
   const addDevelopers = (): void => {
+    if (!checked.length) return;
     const addUsersPayload = checked.reduce(
       (users: Array<Partial<DevUser>>, nextU) => [
         ...users,

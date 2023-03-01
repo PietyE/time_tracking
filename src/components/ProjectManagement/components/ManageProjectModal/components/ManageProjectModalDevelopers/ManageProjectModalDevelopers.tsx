@@ -3,6 +3,7 @@ import Delete from '@mui/icons-material/Delete';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AddDevelopers } from './AddDevelopers';
 import { DeveloperList } from './DeveloperList';
+import { sortArrayAlphabetically } from '../../../../../../shared/utils/sortArrayAlphabetically';
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import {
@@ -53,6 +54,9 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
         >
           {reports
             .filter((report) => report.is_active)
+            .sort((report1, report2) =>
+              sortArrayAlphabetically(report1.user.name, report2.user.name),
+            )
             .map((report) => {
               const onChangeOccupation = (newOccupation: boolean): void => {
                 void dispatch(
