@@ -37,7 +37,10 @@ export const ProjectManagementTable: FC = (): JSX.Element => {
         isHaveDropDown={false}
         onClick={handleOpenProject}
       />
-      <ProjectManagementArchivedProjects archivedProjects={projects[1]} />
+      <ProjectManagementArchivedProjects
+        handleOpenProject={handleOpenProject}
+        archivedProjects={projects[1]}
+      />
     </>
   );
 };

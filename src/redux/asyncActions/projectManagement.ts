@@ -122,10 +122,13 @@ export const archiveProject = createAsyncThunk<
   ProjectId
 >(
   'projectManagement/archiveProject',
-  async (projectId, { rejectWithValue }) => {
+  async (projectId, { rejectWithValue, getState }) => {
     try {
+      const { projectManagements } = getState() as RootState;
       const { data } = await api.projects.updateProject(projectId, {
-        is_archived: true,
+        is_archived:
+          !projectManagements.selectedProjectInManageModal.projectInfo
+            .is_archived,
       });
       const archivedProject = {
         ...data,
