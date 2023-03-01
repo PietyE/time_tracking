@@ -23,6 +23,7 @@ import {
   getProjectManagementProject,
   getSelectedProjectInModal,
 } from 'redux/asyncActions/projectManagement';
+import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
 import type { User } from 'api/models/users';
 import type { ProjectWithTotalMinutes } from 'api/models/projects';
 import { styles } from './styles';
@@ -35,6 +36,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
   const selectedDeveloper = useAppShallowSelector(getSelectedDeveloper);
   const selectedProject = useAppShallowSelector(getSelectedProjectSelector);
   const dispatch = useAppDispatch();
+  const { debouncedYear, debouncedMonth } = useDebouncedMonths();
 
   const changeUser = (user: object): void => {
     dispatch(selectDeveloper(user as Omit<User, 'permissions'>));
@@ -58,7 +60,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
     );
 
     void dispatch(getUsers());
-  }, [dispatch, selectedDeveloper.id]);
+  }, [dispatch, selectedDeveloper.id, debouncedYear, debouncedMonth]);
 
   return (
     <Grid

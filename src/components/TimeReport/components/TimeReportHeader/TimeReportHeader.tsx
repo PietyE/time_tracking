@@ -4,13 +4,11 @@ import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
 import { PageNames } from 'constants/pageNames';
 import { MemoizedPageHeader } from 'shared/components/PageHeader';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import {
-  getConsolidatedReportLoading,
-  getUserTotalMonthWorkedTime,
-} from 'redux/selectors/consolidatedReport';
+import { getConsolidatedReportLoading } from 'redux/selectors/consolidatedReport';
 import { getConsolidatedReport } from 'redux/asyncActions/consolidatedReport';
 import { useDebouncedMonths } from 'hooks/useDebouncedMonths';
 import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
+import { getUserTotalMonthWorkedTime } from 'redux/selectors/timereports';
 
 export const TimeReportHeader: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();

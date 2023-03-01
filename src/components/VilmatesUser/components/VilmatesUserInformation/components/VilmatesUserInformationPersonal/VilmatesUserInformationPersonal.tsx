@@ -103,7 +103,6 @@ export const VilmatesUserInformationPersonal: FC<Props> = ({
   };
 
   useEffect(() => {
-    if (users.length) return;
     void dispatch(getVilmatesUsers());
   }, []);
 

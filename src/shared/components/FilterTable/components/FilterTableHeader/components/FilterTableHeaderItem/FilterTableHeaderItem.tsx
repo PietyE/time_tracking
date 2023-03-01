@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { ArrowDropUp } from '@mui/icons-material';
 import { Grid, Stack, Typography } from '@mui/material';
+import { styles } from '../../../../styles';
 import type { TableTitle } from '../../../../FilterTable';
 
 interface Props {
@@ -32,7 +33,7 @@ export const FilterTableHeaderItem: FC<Props> = ({
           {title.title}
         </Typography>
         {title.shouldSort && (
-          <Stack>
+          <Stack sx={styles.iconsContainer}>
             <ArrowDropUp />
             <ArrowDropUp />
           </Stack>

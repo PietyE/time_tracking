@@ -25,6 +25,7 @@ const MainLayout: FC = () => {
       minHeight='100vh'
       sx={styles}
       position='relative'
+      bgcolor='customGrey.MAIN'
     >
       <MainMenu />
       <MainContainer>

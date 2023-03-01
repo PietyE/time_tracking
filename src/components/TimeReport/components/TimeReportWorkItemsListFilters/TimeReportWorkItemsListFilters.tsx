@@ -1,54 +1,39 @@
 import { type FC, useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import { selectDeveloper, selectProject } from 'redux/slices/timereports';
-import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
-import { SelectMonthMemoized } from 'shared/components/SelectMonth';
-import { Autocomplete } from 'shared/components/Autocomplete';
 import {
   useAppDispatch,
   useAppSelector,
   useAppShallowSelector,
 } from 'hooks/redux';
+import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
+import { getReportExcel } from 'redux/asyncActions/timereports';
 import { getUsers } from 'redux/asyncActions/users';
+import {
+  getDeveloperProjectLoading,
+  getOnlyActiveProject,
+} from 'redux/selectors/developerProjects';
+import { getSelectedDeveloper } from 'redux/selectors/timereports';
 import {
   getUsers as getUsersSelector,
   getUsersLoading,
 } from 'redux/selectors/users';
-import {
-  getDeveloperProject as getDeveloperProjectsSelector,
-  getDeveloperProjectLoading,
-} from 'redux/selectors/developerProjects';
-import { getDeveloperProjects } from 'redux/asyncActions/developerProjects';
+import { selectDeveloper, selectProject } from 'redux/slices/timereports';
+import { Autocomplete } from 'shared/components/Autocomplete';
+import { SelectMonthMemoized } from 'shared/components/SelectMonth';
 import { SelectProjectFilter } from 'shared/components/SelectProjectFilter/SelectProjectFilter';
-import { getSelectedDeveloper } from 'redux/selectors/timereports';
-import {
-  DeveloperProjectsPermissions,
-  ProjectsPermissions,
-  UsersPermissions,
-  WorkItemsPermissions,
-} from 'constants/permissions';
-import { getProfilePermissionsSelector } from 'redux/selectors/profile';
-import { getReportExcel } from 'redux/asyncActions/timereports';
-import type { DeveloperProject } from 'api/models/developerProjects';
+import { SkeletonWrapper } from 'shared/components/SkeletonWrapper';
 import type { User } from 'api/models/users';
+import type { DeveloperProject } from 'api/models/developerProjects';
 import { styles } from './styles';
 
 export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const users = useAppShallowSelector(getUsersSelector);
   const isUsersLoading = useAppSelector(getUsersLoading);
-  const developerProjects = useAppShallowSelector(getDeveloperProjectsSelector);
+  const developerProjects = useAppShallowSelector(getOnlyActiveProject);
   const isDeveloperProjectsLoading = useAppSelector(getDeveloperProjectLoading);
   const { id: developerId } = useAppShallowSelector(getSelectedDeveloper);
-  const permissions = useAppShallowSelector(getProfilePermissionsSelector);
-  const isHaveAccessToViewAllWorkItems =
-    permissions?.includes(WorkItemsPermissions.work_items_view_workitem) &&
-    permissions?.includes(UsersPermissions.users_view_user) &&
-    permissions?.includes(ProjectsPermissions.projects_view_project) &&
-    permissions?.includes(
-      DeveloperProjectsPermissions.projects_view_developerproject,
-    );
 
   useEffect(() => {
     if (!users?.length) void dispatch(getUsers());
@@ -80,24 +65,22 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
         item
         xs={2.5}
       >
-        {isHaveAccessToViewAllWorkItems && (
-          <SkeletonWrapper
-            isLoading={isUsersLoading}
-            width={170}
-            height={60}
-            animation='wave'
-          >
-            {!!users?.length && (
-              <Autocomplete
-                options={users}
-                keysToId={['id']}
-                keysToName={['name']}
-                onChange={changeUser}
-                selectAll={false}
-              />
-            )}
-          </SkeletonWrapper>
-        )}
+        <SkeletonWrapper
+          isLoading={isUsersLoading}
+          width={170}
+          height={60}
+          animation='wave'
+        >
+          {!!users?.length && (
+            <Autocomplete
+              options={users}
+              keysToId={['id']}
+              keysToName={['name']}
+              onChange={changeUser}
+              selectAll={false}
+            />
+          )}
+        </SkeletonWrapper>
       </Grid>
       <Grid
         item

@@ -18,6 +18,7 @@ interface Props {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToRate: string[];
   onClick?: (id: string) => void;
 }
 
@@ -33,6 +34,7 @@ export const FilterTableContentItem: FC<Props> = ({
   keyToDropDownValueName,
   keyToDropDownValueTime,
   onClick,
+  keyToRate,
 }): JSX.Element => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
 
@@ -48,8 +50,9 @@ export const FilterTableContentItem: FC<Props> = ({
       textAlign='left'
       width={450}
     >
-      {get(row, keyToDropDownValues).map((dropDownValue: any) =>
-        get(dropDownValue, keyToDropDownValueName),
+      {get(row, keyToDropDownValues).map(
+        (dropDownValue: any) =>
+          `${get(dropDownValue, keyToDropDownValueName)}, `,
       )}
     </Typography>
   );
@@ -176,6 +179,7 @@ export const FilterTableContentItem: FC<Props> = ({
                 keyToDropDownValueId={keyToDropDownValueId}
                 keyToDropDownValueTime={keyToDropDownValueTime}
                 keyToDropDownValueName={keyToDropDownValueName}
+                keyToRate={keyToRate}
               />
             ))}
           </Box>

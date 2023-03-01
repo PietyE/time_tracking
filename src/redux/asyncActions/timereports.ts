@@ -1,17 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { getConsolidatedReport } from './consolidatedReport';
-import { downloadFile } from 'shared/utils/downloadFile';
 import api from 'api';
-import type { RootState } from '../store';
+
+import { downloadFile } from 'shared/utils/downloadFile';
 import type {
-  WorkItemsQueryParams,
-  WorkItemsResponse,
+  ConsolidatedReport,
+  ConsolidatedReportPathQueryParams,
+} from 'api/models/users';
+import type {
   CreateWorkItemData,
   UpdateWorkItemData,
   WorkItem,
+  WorkItemsQueryParams,
+  WorkItemsResponse,
 } from 'api/models/workItems';
+import type { RootState } from '../store';
+
+export const getConsolidatedReport = createAsyncThunk<
+  ConsolidatedReport[],
+  ConsolidatedReportPathQueryParams
+>('timereport/getConsolidatedReport', async (params, { rejectWithValue }) => {
+  try {
+    const { data } = await api.users.getConsolidatedReport(params);
+    return data;
+  } catch (error) {
+    return rejectWithValue((error as Error).message);
+  }
+});
 
 export const getWorkItems = createAsyncThunk<
   WorkItemsResponse,

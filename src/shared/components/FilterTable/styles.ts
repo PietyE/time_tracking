@@ -18,7 +18,9 @@ export const styles: Record<string, SxProps<Theme>> = {
         color: (theme) => theme.palette.primary.main,
       },
     },
-    '& div[class*=MuiStack-root] svg:last-child': {
+  },
+  iconsContainer: {
+    '& svg:last-of-type': {
       transform: 'rotate(180deg)',
     },
   },

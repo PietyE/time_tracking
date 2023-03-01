@@ -38,6 +38,7 @@ type DropDownTable = BaseProps & {
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
   keyToMail: string[];
+  keyToRate: string[];
 };
 
 type BaseTable = BaseProps & {
@@ -47,6 +48,7 @@ type BaseTable = BaseProps & {
   keyToDropDownValueName?: never;
   keyToDropDownValueTime?: never;
   keyToMail?: never;
+  keyToRate?: never;
 };
 
 type Props = DropDownTable | BaseTable;
@@ -66,6 +68,7 @@ export const FilterTable: FC<Props> = ({
   keyToDropDownValueTime = [],
   isHaveDropDown,
   onClick = () => {},
+  keyToRate = [],
 }): JSX.Element => {
   const { sortingKeys, sortingObject } = useTableSorting(titles);
   const {
@@ -109,6 +112,7 @@ export const FilterTable: FC<Props> = ({
             keyToDropDownValueName={keyToDropDownValueName}
             keyToDropDownValues={keyToDropDownValues}
             keyToDropDownValueTime={keyToDropDownValueTime}
+            keyToRate={keyToRate}
             onClick={onClick}
           />
         ))}

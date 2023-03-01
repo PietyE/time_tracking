@@ -5,7 +5,10 @@ import { AddDevelopers } from './AddDevelopers';
 import { DeveloperList } from './DeveloperList';
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
-import { updateDeveloperProject } from 'redux/asyncActions/projectManagement';
+import {
+  getReportExcel,
+  updateDeveloperProject,
+} from 'redux/asyncActions/projectManagement';
 import { getManageModalReports } from 'redux/selectors/projectManagement';
 import { Avatar } from 'shared/components/Avatar';
 import { Export } from 'shared/components/svg/Export';
@@ -27,7 +30,7 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
       {!!reports?.length && (
         <Box
           sx={{
-            height: 200,
+            maxHeight: 200,
             overflowY: 'auto',
             '& .MuiFormGroup-root': {
               display: 'none',
@@ -69,6 +72,10 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                 );
               };
 
+              const exportExcel = (): void => {
+                void dispatch(getReportExcel(report.id));
+              };
+
               return (
                 <Grid
                   container
@@ -105,7 +112,7 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                     flex='1 1 auto'
                   >
                     <Typography className='project_management_manage_modal_list_occupation_label'>
-                      Salary
+                      {report.is_full_time ? 'Salary' : ' Hourly payroll'}
                     </Typography>
                     <DeveloperOccupationRadioGroup
                       isFullTime={report.is_full_time}
@@ -132,13 +139,10 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                         },
                       }}
                     >
-                      <IconButton>
-                        <Delete
-                          sx={{ mr: 10, display: 'none' }}
-                          onClick={onDeleteProject}
-                        />
+                      <IconButton onClick={onDeleteProject}>
+                        <Delete sx={{ mr: 10, display: 'none' }} />
                       </IconButton>
-                      <IconButton>
+                      <IconButton onClick={exportExcel}>
                         <Export />
                       </IconButton>
                     </Box>
