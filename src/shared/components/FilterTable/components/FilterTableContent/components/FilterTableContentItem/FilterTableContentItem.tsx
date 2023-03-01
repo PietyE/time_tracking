@@ -18,6 +18,7 @@ interface Props {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToHourlyPayroll: string[];
   keyToRate: string[];
   onClick?: (id: string) => void;
 }
@@ -35,6 +36,7 @@ export const FilterTableContentItem: FC<Props> = ({
   keyToDropDownValueTime,
   onClick,
   keyToRate,
+  keyToHourlyPayroll,
 }): JSX.Element => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
 
@@ -95,8 +97,8 @@ export const FilterTableContentItem: FC<Props> = ({
           xs={1.7}
         >
           <Typography>
-            {get(row, keyToTime)
-              ? parseMinToHoursAndMin(get(row, keyToTime))
+            {get(row, keyToHourlyPayroll)
+              ? parseMinToHoursAndMin(get(row, keyToHourlyPayroll))
               : '0:00'}
           </Typography>
         </Grid>
