@@ -228,6 +228,7 @@ export const addDevelopersToProject = createAsyncThunk<
         ...report,
         total_minutes: 0,
         overtime_minutes: 0,
+        is_full_time: true,
       }));
     } catch (error) {
       toast.error('Developer has not been added to the project');
