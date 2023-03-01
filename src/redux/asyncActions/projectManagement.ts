@@ -156,7 +156,7 @@ export const updateProject = createAsyncThunk<
       toast.success('You have successfully updated the project');
       return data;
     } catch (error) {
-      toast.success('You have not updated the project');
+      toast.error('You have not updated the project');
       return rejectWithValue('Error');
     }
   },

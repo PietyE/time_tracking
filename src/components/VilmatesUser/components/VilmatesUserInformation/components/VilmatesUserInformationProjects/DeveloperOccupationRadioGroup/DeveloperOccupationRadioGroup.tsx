@@ -15,8 +15,6 @@ export const DeveloperOccupationRadioGroup: FC<Props> = ({
   const [value, setValue] = useState<Occupation | string>(() =>
     !isFullTime ? Occupation.PART_TIME : Occupation.FULL_TIME,
   );
-  console.log(value);
-  console.log(isFullTime);
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
     onChange(event.target.value === Occupation.FULL_TIME);
@@ -29,6 +27,15 @@ export const DeveloperOccupationRadioGroup: FC<Props> = ({
       name='occupation'
       value={value}
       onChange={changeHandler}
+      sx={{
+        '& label:last-of-type': {
+          pt: 2,
+        },
+        '& span': {
+          p: 0,
+          mr: 2,
+        },
+      }}
     >
       <FormControlLabel
         value={Occupation.FULL_TIME}
