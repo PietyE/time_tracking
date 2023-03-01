@@ -31,6 +31,10 @@ export const getConsolidatedReports = createTypedSelector<ConsolidatedReport[]>(
   (state) => state.timereports.consolidatedReports,
 );
 
+export const getConsolidatedReportsLoading = createTypedSelector<boolean>(
+  (state) => state.timereports.consolidatedReportsLoading,
+);
+
 export const getUserTotalMonthWorkedTime = createSelector(
   [getConsolidatedReports, getSelectedDeveloper],
   (consolidatedReport, developer) =>
