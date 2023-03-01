@@ -1,7 +1,7 @@
 import type { SxProps, Theme } from '@mui/material';
 
 export const styles: SxProps<Theme> = {
-  '& > svg': {
+  '& .MuiAvatar-root': {
     mr: 15,
   },
 };

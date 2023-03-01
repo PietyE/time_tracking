@@ -54,6 +54,7 @@ export const ProjectReportTable: FC = (): JSX.Element => {
         titles={titles}
         isHaveDropDown={true}
         keyToRate={['is_full_time']}
+        keyToHourlyPayroll={['overtime_minutes']}
       />
     </>
   );

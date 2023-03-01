@@ -3,8 +3,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import get from 'lodash/get';
 import { FilterTableContentDropDownItem } from '../FilterTableContentDropDownItem';
+import { Avatar } from 'shared/components/Avatar';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
-import Clock from 'shared/components/svg/mainMenu/Clock';
 import { styles } from './styles';
 
 interface Props {
@@ -18,6 +18,7 @@ interface Props {
   keyToDropDownValueId: string[];
   keyToDropDownValueName: string[];
   keyToDropDownValueTime: string[];
+  keyToHourlyPayroll: string[];
   keyToRate: string[];
   onClick?: (id: string) => void;
 }
@@ -35,6 +36,7 @@ export const FilterTableContentItem: FC<Props> = ({
   keyToDropDownValueTime,
   onClick,
   keyToRate,
+  keyToHourlyPayroll,
 }): JSX.Element => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false);
 
@@ -61,7 +63,13 @@ export const FilterTableContentItem: FC<Props> = ({
   // Table header is example
   const renderRow = (): JSX.Element =>
     isHaveDropDown ? (
-      <>
+      <Grid
+        container
+        onClick={toggleDropDown}
+        display='flex'
+        alignItems='center'
+        justifyContent='flex-start'
+      >
         <Grid
           item
           xs={3.5}
@@ -72,12 +80,16 @@ export const FilterTableContentItem: FC<Props> = ({
             alignItems='center'
             sx={styles}
           >
-            <Clock />
+            <Avatar
+              name={get(row, keyToName)}
+              size='extraSmall'
+            />
             <Stack>
-              <Typography>{get(row, keyToName)}</Typography>
+              <Typography variant='subtitle1'>{get(row, keyToName)}</Typography>
               <Typography
                 maxWidth={150}
                 noWrap
+                variant='body2'
               >
                 {get(row, keyToMail)}
               </Typography>
@@ -95,8 +107,8 @@ export const FilterTableContentItem: FC<Props> = ({
           xs={1.7}
         >
           <Typography>
-            {get(row, keyToTime)
-              ? parseMinToHoursAndMin(get(row, keyToTime))
+            {get(row, keyToHourlyPayroll)
+              ? parseMinToHoursAndMin(get(row, keyToHourlyPayroll))
               : '0:00'}
           </Typography>
         </Grid>
@@ -104,13 +116,13 @@ export const FilterTableContentItem: FC<Props> = ({
           item
           xs={0.3}
         >
-          <IconButton onClick={toggleDropDown}>
+          <IconButton>
             <KeyboardArrowDownIcon
               transform={isOpenDropDown ? 'rotate(180)' : 'rotate(0)'}
             />
           </IconButton>
         </Grid>
-      </>
+      </Grid>
     ) : (
       <Grid
         container
@@ -119,7 +131,13 @@ export const FilterTableContentItem: FC<Props> = ({
         py={10}
       >
         <Grid item>
-          <Typography variant='subtitle1'>{get(row, keyToName)}</Typography>
+          <Typography
+            variant='subtitle1'
+            noWrap
+            maxWidth={800}
+          >
+            {get(row, keyToName)}
+          </Typography>
         </Grid>
         <Grid item>
           <Typography variant='body1'>
@@ -148,9 +166,6 @@ export const FilterTableContentItem: FC<Props> = ({
         onClick={handleClick}
         sx={{
           cursor: 'pointer',
-          '&:hover': {
-            bgcolor: 'text.disabled',
-          },
         }}
       >
         <Grid
@@ -166,7 +181,7 @@ export const FilterTableContentItem: FC<Props> = ({
         get(row, keyToDropDownValues)?.length && (
           <Box
             borderRadius={1.5}
-            bgcolor='background.grey'
+            bgcolor='customGrey.TABLE_COLOR'
             position='relative'
             top={-15}
             border={1}

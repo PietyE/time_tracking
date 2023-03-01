@@ -39,6 +39,7 @@ type DropDownTable = BaseProps & {
   keyToDropDownValueTime: string[];
   keyToMail: string[];
   keyToRate: string[];
+  keyToHourlyPayroll: string[];
 };
 
 type BaseTable = BaseProps & {
@@ -49,6 +50,7 @@ type BaseTable = BaseProps & {
   keyToDropDownValueTime?: never;
   keyToMail?: never;
   keyToRate?: never;
+  keyToHourlyPayroll?: never;
 };
 
 type Props = DropDownTable | BaseTable;
@@ -69,6 +71,7 @@ export const FilterTable: FC<Props> = ({
   isHaveDropDown,
   onClick = () => {},
   keyToRate = [],
+  keyToHourlyPayroll = [],
 }): JSX.Element => {
   const { sortingKeys, sortingObject } = useTableSorting(titles);
   const {
@@ -114,6 +117,7 @@ export const FilterTable: FC<Props> = ({
             keyToDropDownValueTime={keyToDropDownValueTime}
             keyToRate={keyToRate}
             onClick={onClick}
+            keyToHourlyPayroll={keyToHourlyPayroll}
           />
         ))}
     </Grid>
