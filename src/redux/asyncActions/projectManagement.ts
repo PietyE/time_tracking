@@ -198,11 +198,20 @@ export const updateDeveloperProject = createAsyncThunk<
   }
 >(
   'projectManagement/updatedDeveloperProject',
-  async ({ developerProjectId, updatedData }, { rejectWithValue }) => {
+  async (
+    { developerProjectId, updatedData },
+    { rejectWithValue, getState },
+  ) => {
     try {
+      const { calendar } = getState() as RootState;
+      const newUpdatedData: UpdateDeveloperProjectData = {
+        ...updatedData,
+        month: calendar.month + 1,
+        year: calendar.year,
+      };
       const { data } = await api.developerProjects.updateDeveloperProject(
         developerProjectId,
-        updatedData,
+        newUpdatedData,
       );
       return {
         ...data,
