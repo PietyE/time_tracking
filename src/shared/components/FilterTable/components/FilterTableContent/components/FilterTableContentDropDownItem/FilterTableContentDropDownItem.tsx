@@ -44,7 +44,11 @@ export const FilterTableContentDropDownItem: FC<Props> = ({
             item
             xs={5}
           >
-            <Typography textAlign='left'>
+            <Typography
+              textAlign='left'
+              color='primary'
+              fontWeight='fontWeightSemiBold'
+            >
               {get(dropDownValue, keyToDropDownValueName)}
             </Typography>
           </Grid>

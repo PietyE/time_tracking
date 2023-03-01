@@ -14,6 +14,8 @@ export enum GreyColors {
   DISABLED_FORM = '#FAFAFA',
   LINE = '#EBEBEB',
   MAIN = '#F3F5F5',
+  TABLE_HOVER = '#E7E7E7',
+  TABLE_COLOR = '#F3F3F3',
 }
 
 export enum GreenColors {

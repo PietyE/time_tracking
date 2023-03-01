@@ -84,6 +84,8 @@ const basicTheme = createTheme({
       DISABLED_FORM: GreyColors.DISABLED_FORM,
       LINE: GreyColors.LINE,
       MAIN: GreyColors.MAIN,
+      TABLE_HOVER: GreyColors.TABLE_HOVER,
+      TABLE_COLOR: GreyColors.TABLE_COLOR,
     },
     black: {
       300: BlackColors.MAIN_OPACITY_30,
