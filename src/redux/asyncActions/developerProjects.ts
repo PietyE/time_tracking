@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { changeDeveloperProject } from '../slices/vilmateSinglePage';
 import api from 'api';
+import type { RootState } from '../store';
 import type {
   DeveloperProjects,
   UpdateDeveloperProjectData,
@@ -25,11 +26,12 @@ export const deleteDeveloperProject = createAsyncThunk<
   DeveloperProjectId
 >(
   'developerProjects/deleteDeveloperProject',
-  async (developerProjectId, { rejectWithValue, dispatch }) => {
+  async (developerProjectId, { rejectWithValue, dispatch, getState }) => {
     try {
+      const { calendar } = getState() as RootState;
       const { data } = await api.developerProjects.updateDeveloperProject(
         developerProjectId,
-        { is_active: false },
+        { is_active: false, year: calendar.year, month: calendar.month + 1 },
       );
       dispatch(
         changeDeveloperProject({
@@ -50,12 +52,18 @@ export const updateDeveloperProject = createAsyncThunk<
   'developerProjects/updatedDeveloperProject',
   async (
     { developerProjectId, updatedData },
-    { rejectWithValue, dispatch },
+    { rejectWithValue, dispatch, getState },
   ) => {
     try {
+      const { calendar } = getState() as RootState;
+      const newUpdatedData: UpdateDeveloperProjectData = {
+        ...updatedData,
+        month: calendar.month + 1,
+        year: calendar.year,
+      };
       const { data } = await api.developerProjects.updateDeveloperProject(
         developerProjectId,
-        updatedData,
+        newUpdatedData,
       );
       dispatch(
         changeDeveloperProject({

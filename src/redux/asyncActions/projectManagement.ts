@@ -156,7 +156,7 @@ export const updateProject = createAsyncThunk<
       toast.success('You have successfully updated the project');
       return data;
     } catch (error) {
-      toast.success('You have not updated the project');
+      toast.error('You have not updated the project');
       return rejectWithValue('Error');
     }
   },
@@ -198,11 +198,20 @@ export const updateDeveloperProject = createAsyncThunk<
   }
 >(
   'projectManagement/updatedDeveloperProject',
-  async ({ developerProjectId, updatedData }, { rejectWithValue }) => {
+  async (
+    { developerProjectId, updatedData },
+    { rejectWithValue, getState },
+  ) => {
     try {
+      const { calendar } = getState() as RootState;
+      const newUpdatedData: UpdateDeveloperProjectData = {
+        ...updatedData,
+        month: calendar.month + 1,
+        year: calendar.year,
+      };
       const { data } = await api.developerProjects.updateDeveloperProject(
         developerProjectId,
-        updatedData,
+        newUpdatedData,
       );
       return {
         ...data,
@@ -228,6 +237,7 @@ export const addDevelopersToProject = createAsyncThunk<
         ...report,
         total_minutes: 0,
         overtime_minutes: 0,
+        is_full_time: true,
       }));
     } catch (error) {
       toast.error('Developer has not been added to the project');

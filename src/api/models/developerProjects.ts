@@ -36,6 +36,8 @@ export interface UpdateDeveloperProjectData
   > {
   is_active?: boolean;
   date?: string;
+  month?: number;
+  year?: number;
 }
 
 export type DeveloperProjects = DeveloperProject[];

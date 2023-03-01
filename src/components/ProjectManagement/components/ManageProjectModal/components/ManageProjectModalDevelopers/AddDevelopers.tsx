@@ -7,7 +7,13 @@ interface Props {
 }
 
 export const AddDevelopers: FC<Props> = ({ handleOpen }): JSX.Element => (
-  <Box bgcolor='customGrey.STROKE_OPACITY_40'>
+  <Box
+    bgcolor='customGrey.STROKE_OPACITY_40'
+    sx={{
+      borderBottomLeftRadius: (theme) => 5 * theme.shape.borderRadius,
+      borderBottomRightRadius: (theme) => 5 * theme.shape.borderRadius,
+    }}
+  >
     <Box
       display='flex'
       alignItems='center'

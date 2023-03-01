@@ -48,6 +48,7 @@ export const FilterTableContentDropDownItem: FC<Props> = ({
               textAlign='left'
               color='primary'
               fontWeight='fontWeightSemiBold'
+              noWrap
             >
               {get(dropDownValue, keyToDropDownValueName)}
             </Typography>
