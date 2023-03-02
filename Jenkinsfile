@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/stage']], extensions: [], userRemoteConfigs:
-                [[credentialsId: 'jenkins', url: 'vilmate@vs-ssh.visualstudio.com:v3/vilmate/Time%20Tracking/Time%20Tracking']]])
+                [[credentialsId: 'jenkins', url: 'vilmate@vs-ssh.visualstudio.com:v3/vilmate/Vilmate%20Internal%20Portal/Vilmate%20Internal%20Portal']]])
             }
         }
 
