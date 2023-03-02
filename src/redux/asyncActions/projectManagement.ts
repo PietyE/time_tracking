@@ -28,6 +28,7 @@ export const getProjectManagementProject = createAsyncThunk<
   async (params, { rejectWithValue, getState }) => {
     try {
       // Check after request do we select project or developer to make request based on these filters , can be improved in future
+      console.log(params);
       const state = getState() as RootState;
       if (
         params.user_id &&
@@ -81,11 +82,24 @@ export const getSelectedProjectInModal = createAsyncThunk<
   // eslint-disable-next-line @typescript-eslint/naming-convention
   async ({ project_id }, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { calendar } = getState() as RootState;
+      const { calendar, projectManagements } = getState() as RootState;
 
       if (!project_id) {
         toast.error('Something went wrong');
         return rejectWithValue('Something went wrong');
+      }
+
+      if (
+        project_id === 'Select All' &&
+        projectManagements.selectedDeveloper.id &&
+        projectManagements.selectedDeveloper.id !== 'Select All'
+      ) {
+        const { data } = await api.projects.getTotalMinutes({
+          month: calendar.month + 1,
+          year: calendar.year,
+          user_id: projectManagements.selectedDeveloper.id,
+        });
+        return data;
       }
 
       if (project_id === 'Select All') {
@@ -122,10 +136,13 @@ export const archiveProject = createAsyncThunk<
   ProjectId
 >(
   'projectManagement/archiveProject',
-  async (projectId, { rejectWithValue }) => {
+  async (projectId, { rejectWithValue, getState }) => {
     try {
+      const { projectManagements } = getState() as RootState;
       const { data } = await api.projects.updateProject(projectId, {
-        is_archived: true,
+        is_archived:
+          !projectManagements.selectedProjectInManageModal.projectInfo
+            .is_archived,
       });
       const archivedProject = {
         ...data,

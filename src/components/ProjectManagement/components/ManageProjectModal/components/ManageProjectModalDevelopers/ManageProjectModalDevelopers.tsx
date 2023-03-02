@@ -3,25 +3,33 @@ import Delete from '@mui/icons-material/Delete';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AddDevelopers } from './AddDevelopers';
 import { DeveloperList } from './DeveloperList';
+import { sortArrayAlphabetically } from 'shared/utils/sortArrayAlphabetically';
+// tak toje delat nelzya , eto drugoi modul :) , eh deadline, move it to shared component please
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
 import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
 import {
   getReportExcel,
   updateDeveloperProject,
 } from 'redux/asyncActions/projectManagement';
-import { getManageModalReports } from 'redux/selectors/projectManagement';
+import {
+  getManageModalProjectInfo,
+  getManageModalReports,
+} from 'redux/selectors/projectManagement';
 import { Avatar } from 'shared/components/Avatar';
 import { Export } from 'shared/components/svg/Export';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
-// tak toje delat nelzya , eto drugoi modul :) , eh deadline, move it to shared component please
 
 export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
   const reports = useAppShallowSelector(getManageModalReports);
+  const projectInfo = useAppShallowSelector(getManageModalProjectInfo);
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleOpen = (): void => setOpen(true);
+  const handleOpen = (): void => {
+    if (projectInfo.is_archived) return;
+    setOpen(true);
+  };
 
   const handleClose = (): void => setOpen(false);
 
@@ -53,6 +61,9 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
         >
           {reports
             .filter((report) => report.is_active)
+            .sort((report1, report2) =>
+              sortArrayAlphabetically(report1.user.name, report2.user.name),
+            )
             .map((report) => {
               const onChangeOccupation = (newOccupation: boolean): void => {
                 void dispatch(
@@ -111,13 +122,24 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                     item
                     flex='1 1 auto'
                   >
-                    <Typography className='project_management_manage_modal_list_occupation_label'>
-                      {report.is_full_time ? 'Salary' : ' Hourly payroll'}
-                    </Typography>
-                    <DeveloperOccupationRadioGroup
-                      isFullTime={report.is_full_time}
-                      onChange={onChangeOccupation}
-                    />
+                    {!projectInfo.is_archived ? (
+                      <>
+                        <Typography className='project_management_manage_modal_list_occupation_label'>
+                          {report.is_full_time ? 'Salary' : ' Hourly payroll'}
+                        </Typography>
+                        <DeveloperOccupationRadioGroup
+                          isFullTime={report.is_full_time}
+                          onChange={onChangeOccupation}
+                        />
+                      </>
+                    ) : (
+                      <Typography
+                        textAlign='center'
+                        pr={100}
+                      >
+                        {report.is_full_time ? 'Salary' : ' Hourly payroll'}
+                      </Typography>
+                    )}
                   </Grid>
                   <Grid item>
                     <Typography>
@@ -126,7 +148,7 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                   </Grid>
                   <Grid
                     item
-                    xs={1.3}
+                    xs={projectInfo.is_archived ? 0.5 : 1.3}
                     ml={20}
                   >
                     <Box
@@ -139,9 +161,11 @@ export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
                         },
                       }}
                     >
-                      <IconButton onClick={onDeleteProject}>
-                        <Delete sx={{ mr: 10, display: 'none' }} />
-                      </IconButton>
+                      {!projectInfo.is_archived && (
+                        <IconButton onClick={onDeleteProject}>
+                          <Delete sx={{ mr: 10, display: 'none' }} />
+                        </IconButton>
+                      )}
                       <IconButton onClick={exportExcel}>
                         <Export />
                       </IconButton>

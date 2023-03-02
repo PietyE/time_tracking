@@ -25,6 +25,8 @@ export const ProjectManagementTable: FC = (): JSX.Element => {
     dispatch(openModal());
   }, []);
 
+  console.log(projects[0]);
+
   return (
     <>
       <ProjectManagementLoader />
@@ -37,7 +39,10 @@ export const ProjectManagementTable: FC = (): JSX.Element => {
         isHaveDropDown={false}
         onClick={handleOpenProject}
       />
-      <ProjectManagementArchivedProjects archivedProjects={projects[1]} />
+      <ProjectManagementArchivedProjects
+        handleOpenProject={handleOpenProject}
+        archivedProjects={projects[1]}
+      />
     </>
   );
 };

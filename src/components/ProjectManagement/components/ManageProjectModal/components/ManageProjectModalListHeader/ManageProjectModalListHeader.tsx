@@ -2,9 +2,12 @@ import { type FC } from 'react';
 import { Box, Grid, IconButton, Popover, Typography } from '@mui/material';
 import { usePopover } from 'hooks/usePopover';
 import { Info } from 'shared/components/svg/Info';
+import { useAppShallowSelector } from 'hooks/redux';
+import { getManageModalProjectInfo } from 'redux/selectors/projectManagement';
 
 export const ManageProjectModalListHeader: FC = (): JSX.Element => {
   const { handleClose, handleClick, anchorEl, id, open } = usePopover();
+  const projectInfo = useAppShallowSelector(getManageModalProjectInfo);
   return (
     <Grid
       container
@@ -76,7 +79,10 @@ export const ManageProjectModalListHeader: FC = (): JSX.Element => {
           </Box>
         </Box>
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        xs={!projectInfo.is_archived ? 3 : 2.1}
+      >
         <Typography>HOURS</Typography>
       </Grid>
     </Grid>

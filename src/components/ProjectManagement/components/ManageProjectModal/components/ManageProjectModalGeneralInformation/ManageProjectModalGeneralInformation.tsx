@@ -14,10 +14,7 @@ import {
   createSortingNames,
   isEqual,
 } from 'shared/components/Autocomplete/helpers';
-import {
-  getManageModalProject,
-  // getProjectAndArchivedProjects,
-} from 'redux/selectors/projectManagement';
+import { getManageModalProject } from 'redux/selectors/projectManagement';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
 import type { CreateProjectData } from 'api/models/projects';
 import type { User } from 'api/models/users';
@@ -31,7 +28,6 @@ interface Fields {
 // Make fields as object and general in the future
 export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
   const projectData = useAppShallowSelector(getManageModalProject);
-  // const projects = useAppShallowSelector(getProjectAndArchivedProjects);
   const { control } = useForm<Fields>({
     defaultValues: {
       projectName: projectData.projectInfo?.name,
@@ -103,6 +99,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
                 placeholder='Project name'
                 value={field.value}
                 fullWidth
+                disabled={projectData.projectInfo.is_archived}
                 onChange={(e) => field.onChange(e.target.value)}
                 onBlur={(_e) => {
                   handleUpdateName({ name: field.value });
@@ -136,6 +133,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
             autoHighlight
             disablePortal
             blurOnSelect
+            disabled={projectData.projectInfo.is_archived}
             disableClearable
             isOptionEqualToValue={(option, value) =>
               isEqual(option, value, ['id'])
@@ -151,6 +149,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
                 {...params}
                 label='Choose project owner'
                 variant='outlined'
+                disabled={projectData.projectInfo.is_archived}
               />
             )}
           />
@@ -182,6 +181,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
             placeholder='Project description'
             label='Enter description'
             fullWidth
+            disabled={projectData.projectInfo.is_archived}
             rows={4}
             value={field.value}
             onChange={(e) => field.onChange(e.target.value)}
