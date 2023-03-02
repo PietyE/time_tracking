@@ -6,11 +6,7 @@ COPY . /app
 
 WORKDIR /app
 
-RUN npm install && npm install && \
-
+RUN npm install && \
     npm run prettier && \
-
     npm run eslint && \
-
     npm run build:stage
-    
