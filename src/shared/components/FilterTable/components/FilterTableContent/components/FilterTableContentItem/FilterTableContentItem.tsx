@@ -161,11 +161,14 @@ export const FilterTableContentItem: FC<Props> = ({
         bgcolor='common.white'
         border={1}
         borderRadius={1.5}
-        borderColor={isOpenDropDown ? 'primary.main' : 'text.disabled'}
+        borderColor={isOpenDropDown ? 'primary.main' : 'white'}
         mb={15}
         onClick={handleClick}
         sx={{
           cursor: 'pointer',
+          borderBottom: 0,
+          borderBottomLeftRadius: isOpenDropDown ? 0 : 6,
+          borderBottomRightRadius: isOpenDropDown ? 0 : 6,
         }}
       >
         <Grid
@@ -186,6 +189,11 @@ export const FilterTableContentItem: FC<Props> = ({
             top={-15}
             border={1}
             borderColor={isOpenDropDown ? 'primary.main' : 'text.disabled'}
+            sx={{
+              borderTop: (theme) => `1px solid ${theme.palette.text.disabled}`,
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            }}
           >
             {get(row, keyToDropDownValues).map((dropDownValue: object) => (
               <FilterTableContentDropDownItem

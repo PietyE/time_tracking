@@ -9,6 +9,11 @@ interface Props {
 }
 
 export const AddDevelopers: FC<Props> = ({ handleOpen }): JSX.Element => {
+  const open = (): void => {
+    if (!projectInfo.owner) return;
+    handleOpen();
+  };
+
   const projectInfo = useAppShallowSelector(getManageModalProjectInfo);
   return (
     <Box
@@ -22,9 +27,13 @@ export const AddDevelopers: FC<Props> = ({ handleOpen }): JSX.Element => {
         display='flex'
         alignItems='center'
         justifyContent='flex-start'
-        color={projectInfo.is_archived ? 'text.disabled' : 'primary.main'}
+        color={
+          projectInfo.is_archived || !projectInfo.owner
+            ? 'text.disabled'
+            : 'primary.main'
+        }
         flexShrink={1}
-        onClick={handleOpen}
+        onClick={open}
         py={18}
         px={24}
         sx={{

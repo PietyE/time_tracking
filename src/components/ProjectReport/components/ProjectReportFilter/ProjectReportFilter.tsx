@@ -83,6 +83,19 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
           <Grid
             item
             xs={5}
+            sx={{
+              '& .MuiInputBase-root MuiOutlinedInput-root': {
+                cursor: !isDisabledPeopleFilter ? 'pointer' : 'not-allowed',
+              },
+              '& .MuiAutocomplete-root .MuiFormControl-root .MuiInputBase-root input':
+                {
+                  cursor: !isDisabledPeopleFilter ? 'pointer' : 'not-allowed',
+                },
+              '& .MuiAutocomplete-root .MuiFormControl-root .MuiInputBase-root .MuiAutocomplete-endAdornment .MuiButtonBase-root':
+                {
+                  cursor: !isDisabledPeopleFilter ? 'pointer' : 'not-allowed',
+                },
+            }}
           >
             <SkeletonWrapper
               isLoading={isUsersLoading}
@@ -99,6 +112,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   selectAll
                   disabled={isDisabledPeopleFilter}
                   selectedValue={selectedDeveloper}
+                  label='Select user'
                 />
               )}
             </SkeletonWrapper>
@@ -113,6 +127,19 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
           <Grid
             item
             xs={5}
+            sx={{
+              '& .MuiInputBase-root MuiOutlinedInput-root': {
+                cursor: !isDisabledProjectFilter ? 'pointer' : 'not-allowed',
+              },
+              '& .MuiAutocomplete-root .MuiFormControl-root .MuiInputBase-root input':
+                {
+                  cursor: !isDisabledProjectFilter ? 'pointer' : 'not-allowed',
+                },
+              '& .MuiAutocomplete-root .MuiFormControl-root .MuiInputBase-root .MuiAutocomplete-endAdornment .MuiButtonBase-root':
+                {
+                  cursor: !isDisabledProjectFilter ? 'pointer' : 'not-allowed',
+                },
+            }}
           >
             <SkeletonWrapper
               isLoading={isProjectsLoading}
@@ -129,6 +156,7 @@ export const ProjectReportFilter: FC = (): JSX.Element => {
                   selectAll
                   disabled={isDisabledProjectFilter}
                   selectedValue={selectedProject}
+                  label='Select project'
                 />
               )}
             </SkeletonWrapper>
