@@ -25,8 +25,6 @@ export const ProjectManagementTable: FC = (): JSX.Element => {
     dispatch(openModal());
   }, []);
 
-  console.log(projects[0]);
-
   return (
     <>
       <ProjectManagementLoader />

@@ -1,4 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 import { changeDeveloperProject } from '../slices/vilmateSinglePage';
 import api from 'api';
 import type { RootState } from '../store';
@@ -40,6 +42,13 @@ export const deleteDeveloperProject = createAsyncThunk<
         }),
       );
     } catch (error) {
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Something went wrong',
+      );
       return rejectWithValue((error as Error).message);
     }
   },
@@ -72,6 +81,13 @@ export const updateDeveloperProject = createAsyncThunk<
         }),
       );
     } catch (error) {
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Something went wrong',
+      );
       return rejectWithValue((error as Error).message);
     }
   },

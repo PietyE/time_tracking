@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import api from 'api';
 import type {
@@ -49,7 +50,13 @@ export const addDeveloperToProject = createAsyncThunk<
       toast.success('Developer has been add to project');
       return data[0];
     } catch (error) {
-      toast.error('Developer has not been added to project');
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Developer has not been added to project',
+      );
       return rejectWithValue('reject');
     }
   },
@@ -82,7 +89,13 @@ export const updateVilmateUser = createAsyncThunk<
       toast.success('User has been successfully updated');
       return data;
     } catch (error) {
-      toast.error('Choose other user');
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Choose other user',
+      );
       return rejectWithValue('reject');
     }
   },

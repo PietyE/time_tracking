@@ -1,10 +1,10 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { VilmatesUserInformationAvatar } from './components/VilmatesUserInformationAvatar';
 import { VilmatesUserInformationPersonal } from './components/VilmatesUserInformationPersonal';
 import { VilmatesUserInformationProjects } from './components/VilmatesUserInformationProjects';
-import { usePersonalInformation } from './helpers';
+import { useFetchUserDataById, usePersonalInformation } from './helpers';
 import { AppRoutes } from 'constants/appRoutesConstants';
 import { UsersPermissions } from 'constants/permissions';
 import {
@@ -12,10 +12,7 @@ import {
   getProfileUserIdSelector,
 } from 'redux/selectors/profile';
 import { getSelectedVilmatesUser } from 'redux/asyncActions/vilmateSinglePage';
-import {
-  getIsLoadingVilmateSinglePage,
-  getSelectedUserVilmateSinglePage,
-} from 'redux/selectors/vilmateSinglePage';
+import { getIsLoadingVilmateSinglePage } from 'redux/selectors/vilmateSinglePage';
 import { useScrollLock } from 'hooks/useScrollLock';
 import Loading from 'shared/components/Loading';
 import {
@@ -26,8 +23,9 @@ import {
 export const VilmatesUserInformation: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { id: userId } = useParams<{ id: string }>();
+  const [isUserUpdated, setIsUserUpdated] = useState<boolean>(false);
   const id = useAppSelector(getProfileUserIdSelector);
-  const currentUser = useAppShallowSelector(getSelectedUserVilmateSinglePage);
+  const currentUser = useFetchUserDataById(isUserUpdated);
   const permissions = useAppShallowSelector(getProfilePermissionsSelector);
   const navigate = useNavigate();
   const {
@@ -38,7 +36,7 @@ export const VilmatesUserInformation: FC = (): JSX.Element => {
     setIsEditingState,
     updateUserPersonalInformation,
     actualPersonalInformation,
-  } = usePersonalInformation(currentUser);
+  } = usePersonalInformation(currentUser, isUserUpdated, setIsUserUpdated);
 
   useEffect(() => {
     if (permissions?.includes(UsersPermissions.users_view_user)) {

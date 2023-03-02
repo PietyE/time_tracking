@@ -28,7 +28,6 @@ export const getProjectManagementProject = createAsyncThunk<
   async (params, { rejectWithValue, getState }) => {
     try {
       // Check after request do we select project or developer to make request based on these filters , can be improved in future
-      console.log(params);
       const state = getState() as RootState;
       if (
         params.user_id &&
@@ -257,7 +256,13 @@ export const addDevelopersToProject = createAsyncThunk<
         is_full_time: true,
       }));
     } catch (error) {
-      toast.error('Developer has not been added to the project');
+      toast.error(
+        (
+          (error as AxiosError)?.response?.data as {
+            non_field_errors: string[];
+          }
+        ).non_field_errors[0] || 'Developer has not been added to the project',
+      );
       return rejectWithValue('Something went wrong');
     }
   },

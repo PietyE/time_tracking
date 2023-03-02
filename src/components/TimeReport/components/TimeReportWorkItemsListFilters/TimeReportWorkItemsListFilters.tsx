@@ -78,6 +78,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
               keysToName={['name']}
               onChange={changeUser}
               selectAll={false}
+              label='Select user'
             />
           )}
         </SkeletonWrapper>
@@ -96,6 +97,7 @@ export const TimeReportWorkItemsListFilters: FC = (): JSX.Element => {
             <SelectProjectFilter
               developerProjects={developerProjects}
               onChange={changeDeveloperProject}
+              label='Select project'
             />
           )}
         </SkeletonWrapper>

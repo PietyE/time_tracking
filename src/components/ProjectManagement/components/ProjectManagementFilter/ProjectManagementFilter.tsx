@@ -96,6 +96,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
                   selectAll
                   onChange={changeUser}
                   selectedValue={selectedDeveloper}
+                  label='Select user'
                 />
               )}
             </SkeletonWrapper>
@@ -120,6 +121,7 @@ export const ProjectManagementFilter: FC = (): JSX.Element => {
                   selectAll
                   onChange={changeDeveloperProject}
                   selectedValue={selectedProject}
+                  label='Select project'
                 />
               )}
             </Grid>

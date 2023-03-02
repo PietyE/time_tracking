@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import Calendar from '@mui/icons-material/CalendarMonth';
 import format from 'date-fns/format';
+import { useParams } from 'react-router-dom';
+import { getSelectedUserVilmateSinglePage } from 'redux/selectors/vilmateSinglePage';
 import { Slack } from 'shared/components/svg/personalInformation/Slack';
 import { Email } from 'shared/components/svg/personalInformation/Email';
 import { Phone } from 'shared/components/svg/personalInformation/Phone';
-import { useAppDispatch } from 'hooks/redux';
-import { updateVilmateUser } from 'redux/asyncActions/vilmateSinglePage';
+import { useAppDispatch, useAppShallowSelector } from 'hooks/redux';
+import {
+  getSelectedVilmatesUser,
+  updateVilmateUser,
+} from 'redux/asyncActions/vilmateSinglePage';
 import type { User, CreateUserData } from 'api/models/users';
 
 const emailRegExp =
@@ -142,6 +147,8 @@ interface ReturnType {
 
 export const usePersonalInformation = (
   user: Omit<User, 'permissions'>,
+  isUserUpdated: boolean,
+  setIsUserUpdated: React.Dispatch<React.SetStateAction<boolean>>,
 ): ReturnType => {
   const dispatch = useAppDispatch();
   const actualPersonalInformation = updateInformation(
@@ -165,6 +172,7 @@ export const usePersonalInformation = (
         updatedUser: userInfo,
       }),
     );
+    setIsUserUpdated(!isUserUpdated);
   };
 
   return {
@@ -176,4 +184,18 @@ export const usePersonalInformation = (
     errorsState,
     setErrorsState,
   };
+};
+
+export const useFetchUserDataById = (
+  isUserUpdated: boolean,
+): Omit<User, 'permissions'> => {
+  const currentUser = useAppShallowSelector(getSelectedUserVilmateSinglePage);
+  const { id: userId } = useParams();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    void dispatch(getSelectedVilmatesUser(userId as string));
+  }, [userId, dispatch, isUserUpdated]);
+
+  return currentUser;
 };
