@@ -13,3 +13,4 @@ RUN npm install && npm install && \
     npm run eslint && \
 
     npm run build:stage
+    
