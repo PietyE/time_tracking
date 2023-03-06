@@ -65,7 +65,6 @@ export const VilmatesUserInformationPersonal: FC<Props> = ({
   errorsState,
   setErrorState,
 }): JSX.Element => {
-  console.log(fields);
   const { register, getValues, setValue } = useForm<InputField>({
     defaultValues: fields,
     mode: 'onChange',
