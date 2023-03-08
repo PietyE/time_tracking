@@ -1,8 +1,7 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, lazy } from 'react';
 import Delete from '@mui/icons-material/Delete';
 import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { AddDevelopers } from './AddDevelopers';
-import { DeveloperList } from './DeveloperList';
 import { sortArrayAlphabetically } from 'shared/utils/sortArrayAlphabetically';
 // tak toje delat nelzya , eto drugoi modul :) , eh deadline, move it to shared component please
 import { DeveloperOccupationRadioGroup } from 'components/VilmatesUser/components/VilmatesUserInformation/components/VilmatesUserInformationProjects/DeveloperOccupationRadioGroup';
@@ -18,6 +17,8 @@ import {
 import { Avatar } from 'shared/components/Avatar';
 import { Export } from 'shared/components/svg/Export';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
+
+const DeveloperList = lazy(() => import('./DeveloperList'));
 
 export const ManageProjectModalDevelopers: FC = (): JSX.Element => {
   const reports = useAppShallowSelector(getManageModalReports);
