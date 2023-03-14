@@ -10,7 +10,7 @@ export const getUsers = createAsyncThunk<Users, UsersQueryParams | undefined>(
         const { data } = await api.users.getUsers(params);
         return data.items;
       }
-      const { data } = await api.users.getUsers({ page_size: 200 });
+      const { data } = await api.users.getUsers({ page_size: 500 });
       return data.items;
     } catch (error) {
       return rejectWithValue((error as Error).message);
