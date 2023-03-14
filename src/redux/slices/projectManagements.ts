@@ -11,8 +11,8 @@ import {
   updateProject,
 } from '../asyncActions/projectManagement';
 import type {
-  UpdateDeveloperProjectData,
   DeveloperProject,
+  UpdateDeveloperProjectData,
 } from 'api/models/developerProjects';
 import type {
   ProjectInModalManage,
@@ -203,7 +203,12 @@ const projectManagements = createSlice({
       ) => {
         state.isLoading = false;
         state.selectedProjectInManageModal.reports =
-          state.selectedProjectInManageModal.reports.concat(action.payload);
+          state.selectedProjectInManageModal.reports.map((report) => {
+            const notActiveReport = action.payload.find(
+              (addedReport) => report.id === addedReport.id,
+            );
+            return notActiveReport ?? report;
+          });
       },
     );
     builder.addCase(addDevelopersToProject.rejected, (state) => {
