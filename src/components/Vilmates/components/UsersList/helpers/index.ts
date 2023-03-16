@@ -18,7 +18,7 @@ export const useApiSearch = (value: string, delay: number): ReturnType => {
       setIsLoading(true);
       const { data } = await api.users.getUsers({
         search: searchWord,
-        page_size: 300,
+        page_size: 500,
       });
       setUsers(data.items);
       setIsLoading(false);

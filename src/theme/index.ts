@@ -152,13 +152,6 @@ export const theme = createTheme(basicTheme, {
         },
       },
     },
-    MuiModal: {
-      styleOverrides: {
-        root: {
-          backdropFilter: 'blur(5px)',
-        },
-      },
-    },
     MuiBackdrop: {
       styleOverrides: {
         root: {
