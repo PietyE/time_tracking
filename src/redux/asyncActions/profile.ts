@@ -105,8 +105,8 @@ export const loginWithCredentials = createAsyncThunk<User, UserLoginData>(
   },
 );
 
-export const logout = createAsyncThunk('profile/logout', () => {
+export const logout = createAsyncThunk('profile/logout', async () => {
+  await api.users.logout();
   lsApi.removeItem('profileData');
   api.setToken(null);
-  void api.users.logout();
 });

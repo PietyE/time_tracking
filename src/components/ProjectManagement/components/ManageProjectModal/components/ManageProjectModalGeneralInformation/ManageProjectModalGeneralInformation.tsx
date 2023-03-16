@@ -44,7 +44,7 @@ export const ManageProjectModalGeneralInformation: FC = (): JSX.Element => {
     },
   );
 
-  const totalMinutesOnProject = projectData.reports.reduce(
+  const totalMinutesOnProject = projectData.reports?.reduce(
     (acc, nextProject) => acc + nextProject?.total_minutes,
     0,
   );

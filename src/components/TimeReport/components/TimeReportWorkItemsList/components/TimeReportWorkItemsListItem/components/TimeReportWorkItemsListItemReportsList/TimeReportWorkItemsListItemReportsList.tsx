@@ -13,7 +13,7 @@ export const TimeReportWorkItemsListItemReportsList: FC<Props> = ({
   currentDayWorkItems,
   currentDayOrdinalNumber,
 }): JSX.Element => {
-  const currentDayTotalTime: number = currentDayWorkItems.reduce(
+  const currentDayTotalTime: number = currentDayWorkItems?.reduce(
     (accumulator, nextValue) => accumulator + nextValue.duration,
     0,
   );

@@ -58,7 +58,7 @@ export const getUserNotInTheProject: CallBack<Users> = createSelector(
 export const getProjectAndArchivedProjects: CallBack<ProjectsArray> =
   createSelector([getProjectsWithTotalMinutes], (projects) =>
     projects.length
-      ? projects.reduce(
+      ? projects?.reduce(
           (projectsArray: ProjectsArray, project) => {
             if (!project.is_archived) projectsArray[0].push(project);
             else projectsArray[1].push(project);

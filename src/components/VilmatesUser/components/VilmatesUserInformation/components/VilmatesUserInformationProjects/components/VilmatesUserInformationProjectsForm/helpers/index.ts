@@ -19,7 +19,7 @@ export const getDeveloperProjectId = (
   project: Project,
   developerProjects: DeveloperProjects,
 ): string =>
-  developerProjects.reduce(
+  developerProjects?.reduce(
     (acc, developerProjectId) =>
       developerProjectId.project.id === project.id
         ? developerProjectId.id
