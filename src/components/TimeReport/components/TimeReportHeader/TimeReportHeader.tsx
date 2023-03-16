@@ -1,5 +1,5 @@
 import { type FC, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { parseMinToHoursAndMin } from 'shared/utils/dateOperations';
 import { PageNames } from 'constants/pageNames';
 import { MemoizedPageHeader } from 'shared/components/PageHeader';
@@ -28,19 +28,27 @@ export const TimeReportHeader: FC = (): JSX.Element => {
 
   return (
     <MemoizedPageHeader title={PageNames.TIME_REPORT}>
-      <SkeletonWrapper
-        isLoading={isLoading}
-        width={300}
-        height={50}
-        animation='wave'
+      <Box
+        display='flex'
+        alignItems='center'
       >
         <Typography
           variant='h6'
           color='customGrey.MAIN_TEXT'
+          display='flex'
+          alignItems='center'
         >
-          {`Total hours spend this month: ${parsedMonthWorkedTime}`}
+          Total hours spend this month:{' '}
+          <SkeletonWrapper
+            isLoading={isLoading}
+            height={30}
+            width={70}
+            animation='wave'
+          >
+            {parsedMonthWorkedTime}
+          </SkeletonWrapper>
         </Typography>
-      </SkeletonWrapper>
+      </Box>
     </MemoizedPageHeader>
   );
 };

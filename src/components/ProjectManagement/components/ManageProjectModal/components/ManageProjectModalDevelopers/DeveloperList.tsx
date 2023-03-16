@@ -26,7 +26,7 @@ interface Props {
   handleClose: VoidFunction;
 }
 
-export const DeveloperList: FC<Props> = ({ handleClose }): JSX.Element => {
+const DeveloperList: FC<Props> = ({ handleClose }): JSX.Element => {
   const [searchValue, setSearchValue] = useState('');
   const usersToAdd = useAppShallowSelector(getUserNotInTheProject);
   const [checked, setChecked] = useState<Users>([]);
@@ -173,3 +173,5 @@ export const DeveloperList: FC<Props> = ({ handleClose }): JSX.Element => {
     </Box>
   );
 };
+
+export default DeveloperList;
